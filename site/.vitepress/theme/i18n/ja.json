@@ -1,0 +1,67 @@
+{
+  "siteTitle": "超昂大戦 Wiki",
+  "characters": {
+    "title": "キャラクター一覧",
+    "searchPlaceholder": "名前で検索…",
+    "rarity": "レアリティ",
+    "all": "すべて",
+    "count": "{n} 件ヒット",
+    "sortDefault": "標準順",
+    "sortRarity": "レアリティ順",
+    "sortName": "名前順",
+    "empty": "該当するキャラクターがいません",
+    "detail": "詳細ページへ"
+  },
+  "modal": {
+    "loading": "読み込み中…",
+    "error": "データの読み込みに失敗しました",
+    "pin": "固定する",
+    "unpin": "固定を解除",
+    "close": "閉じる",
+    "dragHint": "ドラッグで移動",
+    "fullPage": "詳細ページを開く"
+  },
+  "meta": {
+    "sourceUpdated": "原文更新",
+    "synced": "同期",
+    "viewSource": "原文を見る",
+    "mt": "機械翻訳",
+    "reviewed": "校正済み",
+    "untranslated": "未翻訳"
+  },
+  "home": {
+    "heroTitle": "超昂大戦エスカレーションヒロインズ",
+    "heroTagline": "攻略 Wiki 日中バイリンガルミラー",
+    "recentUpdates": "最近の更新",
+    "categories": "カテゴリ",
+    "pages": "ページ",
+    "chars": "キャラクター",
+    "lastSync": "最終同期"
+  },
+  "glossary": {
+    "title": "日中用語対照表",
+    "filter": "絞り込み…",
+    "ja": "日本語",
+    "zh": "中国語",
+    "note": "備考"
+  },
+  "updates": {
+    "title": "更新履歴",
+    "lastRun": "最終チェック",
+    "watchPages": "監視ページ",
+    "changed": "変更検出",
+    "noChanges": "変更はありません",
+    "date": "日付",
+    "page": "ページ",
+    "status": "状態"
+  },
+  "sitemap": {
+    "title": "全ページ一覧",
+    "pages": "ページ"
+  },
+  "notFound": {
+    "title": "ページが見つかりません",
+    "desc": "お探しのページは存在しないか、移動しました。",
+    "home": "ホームへ戻る"
+  }
+}

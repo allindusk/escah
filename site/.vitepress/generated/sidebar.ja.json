@@ -1,0 +1,262 @@
+[
+ {
+  "text": "キャラクター",
+  "collapsed": false,
+  "items": [
+   {
+    "text": "キャラクター一覧",
+    "link": "/ja/characters"
+   }
+  ]
+ },
+ {
+  "text": "ゲームガイド",
+  "collapsed": true,
+  "items": [
+   {
+    "text": "序盤の手引き",
+    "link": "/ja/getting-started"
+   },
+   {
+    "text": "よくある質問",
+    "link": "/ja/faq"
+   },
+   {
+    "text": "小ネタ・小ワザ集",
+    "link": "/ja/tips-tricks"
+   },
+   {
+    "text": "ガチャ",
+    "link": "/ja/gacha"
+   }
+  ]
+ },
+ {
+  "text": "キャラクター",
+  "collapsed": true,
+  "items": [
+   {
+    "text": "キャラクター一覧",
+    "link": "/ja/characters-mirror"
+   },
+   {
+    "text": "必殺技一覧",
+    "link": "/ja/skills"
+   },
+   {
+    "text": "固有効果一覧",
+    "link": "/ja/unique-effects"
+   },
+   {
+    "text": "絞り込めるカテゴリ一覧",
+    "link": "/ja/special-attributes"
+   },
+   {
+    "text": "原画別索引",
+    "link": "/ja/artists"
+   },
+   {
+    "text": "CV一覧",
+    "link": "/ja/voice-actors"
+   },
+   {
+    "text": "実装履歴",
+    "link": "/ja/release-history"
+   },
+   {
+    "text": "SSR",
+    "link": "/ja/list-ssr"
+   },
+   {
+    "text": "SR",
+    "link": "/ja/list-sr"
+   },
+   {
+    "text": "R",
+    "link": "/ja/list-r"
+   },
+   {
+    "text": "サポーター",
+    "link": "/ja/list-supporter"
+   },
+   {
+    "text": "NPC",
+    "link": "/ja/list-npc"
+   },
+   {
+    "text": "寝室シーン一覧",
+    "link": "/ja/bedroom-scenes"
+   }
+  ]
+ },
+ {
+  "text": "システム",
+  "collapsed": true,
+  "items": [
+   {
+    "text": "戦闘",
+    "link": "/ja/battle"
+   },
+   {
+    "text": "レイド",
+    "link": "/ja/raid"
+   },
+   {
+    "text": "レイドおすすめキャラ",
+    "link": "/ja/raid-recommended"
+   },
+   {
+    "text": "バフ・デバフ能力キャラ　一覧まとめ",
+    "link": "/ja/raid-buff-debuff"
+   },
+   {
+    "text": "レイド用編成例",
+    "link": "/ja/raid-formations"
+   },
+   {
+    "text": "Bユニバース",
+    "link": "/ja/b-universe"
+   },
+   {
+    "text": "イベント50_広域戦",
+    "link": "/ja/wide-battle"
+   },
+   {
+    "text": "広域戦マップ/マップリスト",
+    "link": "/ja/map-list"
+   },
+   {
+    "text": "イベント86_殲滅戦",
+    "link": "/ja/annihilation"
+   },
+   {
+    "text": "限界突破",
+    "link": "/ja/limit-break"
+   },
+   {
+    "text": "覚醒強化",
+    "link": "/ja/awakening"
+   },
+   {
+    "text": "レベル上限UP",
+    "link": "/ja/level-cap"
+   },
+   {
+    "text": "宝箱",
+    "link": "/ja/treasure-box"
+   },
+   {
+    "text": "交換所",
+    "link": "/ja/exchange"
+   },
+   {
+    "text": "キャラクター交換所",
+    "link": "/ja/character-exchange"
+   },
+   {
+    "text": "コレクション",
+    "link": "/ja/collection"
+   },
+   {
+    "text": "ショップ",
+    "link": "/ja/shop"
+   }
+  ]
+ },
+ {
+  "text": "装備・アイテム",
+  "collapsed": true,
+  "items": [
+   {
+    "text": "装備一覧",
+    "link": "/ja/equipment"
+   },
+   {
+    "text": "超昂装備",
+    "link": "/ja/super-equipment"
+   },
+   {
+    "text": "アイテム一覧",
+    "link": "/ja/items"
+   },
+   {
+    "text": "SandBox/アイテム価値早見表",
+    "link": "/ja/item-value-guide"
+   }
+  ]
+ },
+ {
+  "text": "クエスト・ミッション",
+  "collapsed": true,
+  "items": [
+   {
+    "text": "メインストーリー",
+    "link": "/ja/main-story"
+   },
+   {
+    "text": "テーブル/全ストーリー実装順",
+    "link": "/ja/scenario-order"
+   },
+   {
+    "text": "メインクエスト",
+    "link": "/ja/main-quest"
+   },
+   {
+    "text": "デイリークエスト",
+    "link": "/ja/daily-quest"
+   },
+   {
+    "text": "ミッション一覧",
+    "link": "/ja/missions"
+   },
+   {
+    "text": "イベント一覧",
+    "link": "/ja/events"
+   }
+  ]
+ },
+ {
+  "text": "その他",
+  "collapsed": true,
+  "items": [
+   {
+    "text": "用語集",
+    "link": "/ja/glossary"
+   },
+   {
+    "text": "俗語集",
+    "link": "/ja/slang"
+   },
+   {
+    "text": "Tips一覧",
+    "link": "/ja/tips"
+   },
+   {
+    "text": "ゲーム外企画",
+    "link": "/ja/external-projects"
+   },
+   {
+    "text": "事前登録特典",
+    "link": "/ja/prereg-bonus"
+   }
+  ]
+ },
+ {
+  "text": "その他",
+  "collapsed": true,
+  "items": [
+   {
+    "text": "全ページ一覧",
+    "link": "/ja/sitemap"
+   },
+   {
+    "text": "日中用語対照表",
+    "link": "/ja/term-map"
+   },
+   {
+    "text": "更新履歴",
+    "link": "/ja/updates"
+   }
+  ]
+ }
+]

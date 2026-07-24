@@ -1,0 +1,1134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+<link rel="canonical" href="https://escalationheroines.wikiru.jp/?SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" /><!-- OGP -->
+<meta property="og:site_name" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:title" content="アイテム価値早見表">
+<meta property="og:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://escalationheroines.wikiru.jp/?SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8">
+<meta property="og:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="アイテム価値早見表">
+<meta name="twitter:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta name="twitter:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+ <meta http-equiv="content-style-type" content="text/css" />
+
+ <title>アイテム価値早見表 - 超昂大戦エスカレーションヒロインズ攻略 Wiki</title>
+
+ <link rel="SHORTCUT ICON" href="image/favicon.ico" />
+ <link rel="stylesheet" type="text/css" media="screen,print" href="skin/pukiwiki.css?222202020230911" />
+ <link rel="stylesheet" type="text/css" media="print" href="skin/pukiwiki.print.css" />
+ <link rel="alternate" type="application/rss+xml" title="RSS" href="./?cmd=rss" /> <script type="text/javascript" src="skin/default.js?1"></script>
+ <meta name="viewport" content="width=1024">
+
+
+ <meta http-equiv="Description" content="初心者のためにドロップアイテムの価値を簡単にまとめたページです。" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	var topBtn = $('#page-top');	
+	topBtn.hide();
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 100) {
+			topBtn.fadeIn();
+		} else {
+			topBtn.fadeOut();
+		}
+	});
+	//スクロールしてトップ
+    topBtn.click(function () {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 500);
+		return false;
+    });
+});
+
+// pcommentプラグイン用の名前空間を作成
+var PCommentPlugin = {
+    originalFormParents: {},
+    originalFormNextSiblings: {},
+
+    showCommentForm: function(event) {
+        console.log('PComment: showCommentForm');
+        var radio = event.target;
+        var commentId = radio.value;
+        var formId = radio.closest('.pcomment').id;
+        console.log('PComment: commentId: ' + commentId + ', formId: ' + formId);
+
+        var commentElement = document.querySelector('#' + formId + ' [data-comment-id="comment_' + commentId + '"]');
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        
+        if (!form) {
+            console.error('PComment: pcomment form not found for ' + formId);
+            return;
+        }
+
+        console.log('PComment: form: ' + form);
+
+        if (!this.originalFormParents[formId]) {
+            this.originalFormParents[formId] = form.parentNode;
+            this.originalFormNextSiblings[formId] = form.nextSibling;
+        }
+
+        var existingCancelLink = form.querySelector('.cancel-link');
+        if (existingCancelLink) {
+            existingCancelLink.remove();
+        }
+
+        var cancelLink = document.createElement('div');
+        cancelLink.className = 'cancel-link';
+        cancelLink.innerHTML = `
+            <a class="js-abonelink" style="cursor: pointer; color: #215dc6; background-color: inherit; text-decoration: none;" onclick="PCommentPlugin.cancelForm('${commentId}', '${formId}')">返信をキャンセル</a>
+        `;
+        form.insertBefore(cancelLink, form.firstChild);
+
+        ['digest', 'refer', 'page', 'nodate', 'dir', 'count'].forEach(function(name) {
+            var input = form.querySelector('input[name="' + name + '"]');
+            if (input) {
+                input.value = document.querySelector('#' + formId + ' input[name="' + name + '"]').value;
+            }
+        });
+
+        commentElement.parentNode.insertBefore(form, commentElement.nextSibling);
+
+        // フォームまで自動スクロール
+        //setTimeout(function() {
+        //    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        //}, 100);
+    },
+
+    cancelForm: function(commentId, formId) {
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        if (form && this.originalFormParents[formId]) {
+            var cancelLink = form.querySelector('.js-abonelink').parentNode;
+            if (cancelLink) {
+                cancelLink.remove();
+            }
+            this.originalFormParents[formId].insertBefore(form, this.originalFormNextSiblings[formId]);
+            var radio = document.querySelector('#' + formId + ' input[name="reply"][value="' + commentId + '"]');
+            if (radio) {
+                radio.checked = false;
+            }
+        }
+    },
+
+    init: function() {
+        var pcommentDivs = document.querySelectorAll('.pcomment');
+        pcommentDivs.forEach(function(div, index) {
+            if (!div.id) {
+                div.id = 'pcomment-' + index;
+            }
+            var radios = div.querySelectorAll('input[type="radio"][name="reply"]');
+            radios.forEach(function(radio) {
+                radio.addEventListener('change', function(event) {
+                    PCommentPlugin.showCommentForm(event);
+                });
+            });
+        });
+    }
+};
+
+// DOMContentLoadedイベントでpcommentプラグインの初期化
+document.addEventListener('DOMContentLoaded', function() {
+    PCommentPlugin.init();
+});
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S8SSE7XDQV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S8SSE7XDQV');
+</script>
+
+
+<!-- 外部リンクを別ウインドウで開く -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">  
+    jQuery(document).ready(function(){
+        jQuery('a[href^=http]')
+        .not('[href*="'+location.hostname+'"]')
+        .not('.exclude-icon')
+        .attr({target:"_blank"})
+        .append(' 🌐')
+    });
+</script> 
+
+<script async src="https://fundingchoicesmessages.google.com/i/pub-6756084042400545?ers=1" nonce="15dEpUr9AJY8eX0-XD7UvQ"></script><script nonce="15dEpUr9AJY8eX0-XD7UvQ">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
+
+<script>
+function getResolution() {
+  return screen.width + ' x ' + screen.height + 'px';
+}
+
+function getCookieId() {
+  var cookieId = document.cookie.replace(/(?:(?:^|.*;\s*)pukiwiki_cookie_id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (!cookieId) {
+    cookieId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    document.cookie = "pukiwiki_cookie_id=" + cookieId + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+  }
+  return cookieId;
+}
+
+document.cookie = "resolution=" + getResolution() + "; path=/";
+document.cookie = "cookie_id=" + getCookieId() + "; path=/";
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<!-- Geniee Wrapper Head Tag -->
+<script>
+  window.gnshbrequest = window.gnshbrequest || {cmd:[]};
+  window.gnshbrequest.cmd.push(function(){
+    window.gnshbrequest.registerPassback("1475070");
+    window.gnshbrequest.registerPassback("1536316");
+    window.gnshbrequest.registerPassback("1548387");
+    window.gnshbrequest.registerPassback("1551138");
+    window.gnshbrequest.registerPassback("1558324");
+    window.gnshbrequest.registerPassback("1558325");
+    window.gnshbrequest.forceInternalRequest();
+  });
+</script>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script async src="https://cpt.geniee.jp/hb/v1/179425/666/wrapper.min.js"></script>
+<!-- /Geniee Wrapper Head Tag -->
+</head>
+<body>
+
+<div id="header">
+ <a href="./"><img id="logo" src="image/pukiwiki.png" width="80" height="80" alt="[PukiWiki]" title="[PukiWiki]" /></a>
+
+ <h1 class="title"><a href="./?plugin=related&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8">SandBox/アイテム価値早見表</a> </h1>
+
+    <span class="small">
+   <span class="topicpath-top"><a href="./?%E8%B6%85%E6%98%82%E5%A4%A7%E6%88%A6%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%92%E3%83%AD%E3%82%A4%E3%83%B3%E3%82%BA%E6%94%BB%E7%95%A5+Wiki" title="超昂大戦エスカレーションヒロインズ攻略 Wiki" class="" data-mtime="">Top</a><span class="topicpath-slash"> / </span></span><a href="./?SandBox">SandBox</a><span class="topicpath-slash"> / </span>アイテム価値早見表   </span>
+ 
+</div>
+
+<div id="navigator">
+ [ <a href="./" >トップ</a> ] &nbsp;
+
+ [
+ 	<a href="./?cmd=edit&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" >編集</a> |
+<a href="./?cmd=guiedit&page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8">編集（GUI）</a> |
+			<a href="./?cmd=freeze&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" >凍結</a> |
+	  <a href="./?cmd=diff&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" >差分</a> 	| <a href="./?cmd=backup&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" >バックアップ</a>  	| <a href="./?plugin=attach&amp;pcmd=upload&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" >添付</a>  | <a href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" >リロード</a> ] &nbsp;
+
+ [
+ 	<a href="./?plugin=newpage&amp;refer=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" >新規</a> |
+    <a href="./?cmd=list" >一覧</a>  | <a href="./?cmd=search" >検索</a> | <a href="./?RecentChanges" >最終更新</a> | <a href="./?Help" >ヘルプ</a> ]
+
+</div>
+
+<hr class="full_hr" />
+<table border="0" style="width:100%">
+ <tr>
+  <td class="menubar">
+<a href="chgsp.php?rd=http://escalationheroines.wikiru.jp/?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" rel="nofollow">スマホ版表示に切り替える</a>
+<br><br>
+<br><br>
+<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'ja', includedLanguages: 'en,ko,zh-TW,ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, gaTrack: true, gaId: 'UA-48994870-1'}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- PC_300x250_menu_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="6243394662"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+   <div id="menubar"><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/escalationheroines.wikiru.jp\/?53616E64426F782FE382A2E382A4E38386E383A0E4BEA1E580A4E697A9E8A68BE8A1A8"},"url":"https:\/\/escalationheroines.wikiru.jp\/?53616E64426F782FE382A2E382A4E38386E383A0E4BEA1E580A4E697A9E8A68BE8A1A8","headline":"SandBox\/\u30a2\u30a4\u30c6\u30e0\u4fa1\u5024\u65e9\u898b\u8868 | \u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","author":{"@type":"Person","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki\u7ba1\u7406\u4eba"},"publisher":{"@type":"Organization","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki"},"datePublished":"2026-07-11T16:35:03+00:00","dateModified":"2026-07-11T16:35:03+00:00"}</script><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","item":"https:\/\/escalationheroines.wikiru.jp\/"},{"@type":"ListItem","position":2,"name":"SandBox","item":"https:\/\/escalationheroines.wikiru.jp\/?SandBox"},{"@type":"ListItem","position":3,"name":"\u30a2\u30a4\u30c6\u30e0\u4fa1\u5024\u65e9\u898b\u8868","item":"https:\/\/escalationheroines.wikiru.jp\/?SandBox\/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"}]}</script>
+<p>現在、<strong>145人</strong>が閲覧中です</p>
+<h2 id="content_4_0">サイト内検索</h2>
+<form action="./?cmd=search" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+ <div>
+  <input type="text"  name="word" value="" size="20" />
+  <label><input type="radio" name="type" value="AND"  checked="checked" /> AND検索</label>
+  <label><input type="radio" name="type" value="OR"  /> OR検索</label>
+  &nbsp;<input type="submit" value="検索" />
+ </div>
+
+</form>
+<hr class="full_hr" />
+<p><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><span style="color:red"><strong><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="" data-mtime="">イベント</a></strong></span></span></p>
+<ul class="list1 list-indent1"><li>開催中のイベントはありません。</li></ul>
+<p><strong>◆メインストーリー新章</strong><br />
+<a href="./?plugin=attach&amp;refer=img&amp;openfile=%E7%AC%AC3%E9%83%A8%E9%96%91%E8%A9%B11.jpg" title="第3部閑話1.jpg"><img src="attach2/696D67_E7ACAC33E983A8E99691E8A9B1312E6A7067.jpg" alt="第3部閑話1.jpg" title="第3部閑話1.jpg" width="265" height="149" /></a><br />
+07/22 メンテ後（16:00～）<br />
+<a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" class="" data-mtime="">メインストーリー</a>第3部 閑話1 追加</p>
+
+<div style="text-align:right"><a href="./?cmd=edit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="Edit イベント一覧/開催イベント"><img src="image/edit.png" width="20" height="20" alt="Edit" title="Edit イベント一覧/開催イベント" />EDIT</a></div>
+<hr class="full_hr" />
+<p><strong><span style="color:red">7/22新キャラ</span></strong><br />
+SSR「<a href="./?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" class="" data-mtime="">魔法少女ヒトミ</a>」<br />
+<strong><span style="color:red">7/15新キャラ</span></strong><br />
+SSR「<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB" class="" data-mtime="">真夏のセラフィール</a>」<br />
+SSR「<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%B0%E3%83%9F" class="" data-mtime="">真夏のメグミ</a>」<br />
+R「<a href="./?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%82%A2%E3%83%B3" class="" data-mtime="">魔女リアン</a>」<br />
+<strong><span style="color:red">6/24新キャラ</span></strong><br />
+SSR「<a href="./?%E6%B7%B1%E7%AA%93%E3%81%AE%E4%BB%A4%E5%AC%A2%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB" class="" data-mtime="">深窓の令嬢ステアール</a>」</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_1">お知らせ</h2>
+<p><span style="color:red"><strong>アップデート情報</strong></span><br />
+7月22日(水)<br />
+・メインストーリー第3部閑話1追加<br />
+・メインクエスト第3部Area29～30追加<br />
+<strong><span style="color:blue">・期間限定ミッション追加</span></strong><br />
+・ショップに商品追加</p>
+<p>・スキン交換所に<br />
+　ショップへ遷移するボタンを追加</p>
+
+<p><span style="color:red"><strong>キャンペーン</strong></span><br />
+<strong>メインクエスト追加記念キャンペーン</strong><br />
+<strong>7月22日 16:00 ～ 7月29日 9:59まで</strong></p>
+<p>■メインクエスト全難易度の初挑戦時、<br />
+　消費スタミナが半減（特殊戦は対象外）<br />
+■メインクエスト(難易度：NORMAL)第1部Area18-10まで、<br />
+　初挑戦時スタミナ消費無し（特殊戦は対象外）<br />
+■メインクエスト(難易度：NORMAL)第1部Area18-10まで、<br />
+　プレイヤーEXP入手量１．５倍<br />
+■メインクエスト全難易度において、<br />
+　ハニー系の出現率２倍　＆<br />
+　ハニー系がドロップする宝箱数５倍<br />
+■メインクエスト全難易度の<br />
+　パンドラボックス出現率＋１０％<br />
+■助っ人の基本利用回数２倍<br />
+■全クエストの<br />
+　『時短戦闘』使用時の時短チケット消費無し</p>
+
+<p><span style="color:red"><strong>シリアルコード配布</strong></span><br />
+◆<strong>超昂月間ブログ</strong><br />
+<span style="color:blue">プレミアムガチャチケット×1 (最下段記載）</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry003983.html" rel="nofollow">8月号</a> 8月17日 23:59まで</p>
+<p>◆<strong>アリスソフト放送局</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<span style="color:blue">※歯抜け有(動画内で英数字の発表)</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry003986.html" rel="nofollow">第50回</a> 7月23日 17:59まで</p>
+<p>◆<strong>1分でわかる！超昂大戦</strong><br />
+<span style="color:blue">単発ガチャチケット×1（コメント欄にコード有）</span><br />
+<a href="https://www.youtube.com/shorts/EMgbaMAEUXo" rel="nofollow">第21回</a></p>
+<p>◆<strong>BugBug.NEWS</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<a href="https://www.bugbug.news/b_game/265668/" rel="nofollow">7月17日付記事</a> 7月29日 23:59まで</p>
+<p><span style="color:red"><strong>SSRピックアップガチャ</strong></span><br />
+<strong>7月22日 16:00 ～ 7月29日 9:59</strong><br />
+◆<a href="./?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" class="" data-mtime="">魔法少女ヒトミ</a></p>
+<p><span style="color:red"><strong>商品追加</strong></span><br />
+<strong>7月22日 16:00 ～ 7月29日 09:59</strong><br />
+◆魔法少女ヒトミＰＵガチャチケットセット　4種<br />
+◆魔法少女ヒトミ参戦記念セット　3種<br />
+◆メイン追加記念ログインパス<br />
+◆メイン追加記念元気の原液セット</p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>メンテナンス情報</strong></span><br />
+毎週水曜日 10:00 ～ 16:00</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_2">掲示板</h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_4_3">交流用掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">雑談掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_4_4">攻略掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">質問掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E6%83%85%E5%A0%B1%E6%8F%90%E4%BE%9B%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">情報提供掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E3%83%90%E3%82%B0%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">バグ報告掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_4_5">管理掲示板</h3>
+<ul class="list1 list-indent1"><li><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E8%80%85%E7%94%A8%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">編集者用掲示板</a></li>
+<li><a href="./?Wiki%E7%AE%A1%E7%90%86%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">Wiki管理掲示板</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_6">はじめに</h2>
+<ul class="list1 list-indent1"><li><a href="./?Wiki%E5%88%A9%E7%94%A8%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">Wiki利用のガイドライン</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">編集のガイドライン</a></li>
+<li><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" class="" data-mtime="">コメント欄のNGID機能</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_7">ゲームガイド</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E5%BA%8F%E7%9B%A4%E3%81%AE%E6%89%8B%E5%BC%95%E3%81%8D" class="" data-mtime="">序盤の手引き</a></li>
+<li><a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F" class="" data-mtime="">よくある質問</a></li>
+<li><a href="./?%E5%B0%8F%E3%83%8D%E3%82%BF%E3%83%BB%E5%B0%8F%E3%83%AF%E3%82%B6%E9%9B%86" class="" data-mtime="">小ネタ・小ワザ集</a></li></ul>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AC%E3%83%81%E3%83%A3" class="" data-mtime="">ガチャ</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_8">キャラクター</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7" class="" data-mtime="">キャラクター一覧</a><br />
+├ <a href="./?SSR" class="" data-mtime="">SSR</a> | <a href="./?SR" class="" data-mtime="">SR</a> | <a href="./?R" class="" data-mtime="">R</a><br />
+├ <a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a><br />
+└ <a href="./?NPC" class="" data-mtime="">NPC</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%BF%85%E6%AE%BA%E6%8A%80%E4%B8%80%E8%A6%A7" class="" data-mtime="">必殺技一覧</a></li>
+<li><a href="./?%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C%E4%B8%80%E8%A6%A7" class="" data-mtime="">固有効果一覧</a></li>
+<li><a href="./?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7" title="絞り込めるカテゴリ一覧" class="" data-mtime="">特殊属性一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">寝室シーン一覧</a><span style="color:red">(R18)</span></li>
+<li><a href="./?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95" class="" data-mtime="">原画別索引</a></li>
+<li><a href="./?CV%E4%B8%80%E8%A6%A7" class="" data-mtime="">CV一覧</a></li>
+<li><a href="./?%E5%AE%9F%E8%A3%85%E5%B1%A5%E6%AD%B4" class="" data-mtime="">実装履歴</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_9">システム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E6%88%A6%E9%97%98" class="" data-mtime="">戦闘</a><br />
+├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a><br />
+│　├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9" class="" data-mtime="">レイドおすすめキャラ</a><br />
+│　├ <a href="./?%E3%83%90%E3%83%95%E3%83%BB%E3%83%87%E3%83%90%E3%83%95%E8%83%BD%E5%8A%9B%E3%82%AD%E3%83%A3%E3%83%A9%E3%80%80%E4%B8%80%E8%A6%A7%E3%81%BE%E3%81%A8%E3%82%81" title="バフ・デバフ能力キャラ　一覧まとめ" class="" data-mtime="">レイドバフ・デバフ別キャラ一覧</a><br />
+│　└ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E7%94%A8%E7%B7%A8%E6%88%90%E4%BE%8B" class="" data-mtime="">レイド用編成例</a><br />
+├ <a href="./?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" title="Bユニバース" class="" data-mtime="">Bユニバース（強敵戦）</a><br />
+├ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a><br />
+│　└ <a href="./?%E5%BA%83%E5%9F%9F%E6%88%A6%E3%83%9E%E3%83%83%E3%83%97/%E3%83%9E%E3%83%83%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88" title="広域戦マップ/マップリスト" class="" data-mtime="">マップリスト</a><br />
+└ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" title="イベント86_殲滅戦" class="" data-mtime="">殲滅戦</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a></li>
+<li><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a></li>
+<li><a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a></li>
+<li><a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a><br />
+└ <a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a></li>
+<li><a href="./?%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3" class="" data-mtime="">コレクション</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ショップ" class="" data-mtime="">ショップ（VIPランク）</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_10">装備･アイテム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7" class="" data-mtime="">装備一覧</a><br />
+└ <a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a></li>
+<li><a href="./?%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7" class="" data-mtime="">アイテム一覧</a><br />
+└ <a href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" title="SandBox/アイテム価値早見表" class="" data-mtime="">[初心者用]アイテム価値早見表</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_11">クエスト･ミッション</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" class="" data-mtime="">メインストーリー</a><br />
+└<a href="./?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86" title="テーブル/全ストーリー実装順" class="" data-mtime="">全シナリオ実装順</a></li>
+<li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">メインクエスト</a></li>
+<li><a href="./?%E3%83%87%E3%82%A4%E3%83%AA%E3%83%BC%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">デイリークエスト</a></li>
+<li><a href="./?%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">ミッション一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" class="" data-mtime="">イベント一覧</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_12">その他</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E7%94%A8%E8%AA%9E%E9%9B%86" class="" data-mtime="">用語集</a> / <a href="./?%E4%BF%97%E8%AA%9E%E9%9B%86" class="" data-mtime="">俗語集</a></li>
+<li><a href="./?Tips%E4%B8%80%E8%A6%A7" class="" data-mtime="">Tips一覧</a></li>
+<li><a href="./?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" class="" data-mtime="">ゲーム外企画</a></li>
+<li><a href="./?%E4%BA%8B%E5%89%8D%E7%99%BB%E9%8C%B2%E7%89%B9%E5%85%B8" class="" data-mtime="">事前登録特典</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_13">公式リンク</h2>
+<ul class="list1 list-indent1"><li><a href="https://pc-play.games.dmm.com/play/escalationheroines/" rel="nofollow">ゲーム開始URL</a></li>
+<li><a href="https://www.dmm.co.jp/netgame/community/-/commu/detail/=/id=5633/" rel="nofollow">公式コミュニティ(FANZA)</a></li>
+<li><a href="https://www.alicesoft.com/" rel="nofollow">アリスソフト公式サイト</a><br />
+├ <a href="https://www.alicesoft.com/escalationheroines/" rel="nofollow">超昂大戦公式サイト</a><br />
+└ <a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow">超昂大戦公式ニュース</a></li>
+<li><a href="https://twitter.com/EscaH_PR" rel="nofollow">公式X(Twitter)</a></li>
+<li><a href="https://prod.e-heroines.net/server/product/AppSub" rel="nofollow">おしらせ・ヘルプ</a></li>
+<li><a href="https://www.bugbug.news/tag/post_tag-7528/" rel="nofollow">超昂大戦特集(BugBug.NEWS)</a></li></ul>
+<p><a href="https://www.alicesoft.com/information/2022/entry003123.html" rel="nofollow"><img src="attach2/696D67_E8B685E69882E5A4A7E688A6E5889DE5BF83E88085E8AC9BE5BAA75F62616E6E65722E6A7067.jpg" alt="超昂大戦初心者講座_banner.jpg" title="超昂大戦初心者講座_banner.jpg" width="265" height="47" /><br class="spacer" />超昂大戦初心者講座</a><br />
+<a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow"><img src="attach2/696D67_E69C88E99693E38396E383ADE382B05FE383ADE382B42E706E67.png" alt="月間ブログ_ロゴ.png" title="月間ブログ_ロゴ.png" width="265" height="46" /><br class="spacer" />超昂大戦公式ニュース</a><br />
+<a href="https://www.alicesoft.com/escalationheroines/special/comic/" rel="nofollow"><img src="attach2/696D67_E38286E3828BE382ABE383AC5F62616E6E65722E706E67.png" alt="ゆるカレ_banner.png" title="ゆるカレ_banner.png" width="265" height="47" /><br class="spacer" />ゆるっとエスカレーション(公式4コマ漫画)</a><br />
+<a href="https://www.alicesoft.com/information/radio/" rel="nofollow"><img src="attach2/696D67_E382A2E383AAE382B9E382BDE38395E38388E694BEE98081E5B1805F62616E6E65722E706E67.png" alt="アリスソフト放送局_banner.png" title="アリスソフト放送局_banner.png" width="265" height="47" /><br class="spacer" />アリスソフト放送局(ネットラジオ)</a><br />
+<a href="https://www.youtube.com/watch?v=xFC3s77AV0I&amp;list=PLG0kE08S6G8TfS9alOQFTOYtPU5tJlTWO" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A65F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦_banner.png" title="1分でわかる！超昂大戦_banner.png" width="138" height="40" /><br class="spacer" />1分でわかる！超昂大戦（初心者動画）</a><br />
+<a href="https://www.youtube.com/playlist?list=PLG0kE08S6G8Rt_A7hvfsJoN0QYyFZXV4_" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A620E383A1E383A2E383A1E383A2E38380E382A4E3838AE383A25F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" title="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" width="139" height="50" /><br class="spacer" />1分でわかる！超昂大戦 メモメモダイナモ!!</a></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_14">編集者用ページ</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E9%9B%9B%E5%BD%A2" title="雛形" class="" data-mtime="">雛形一覧</a></li>
+<li><a href="./?img" title="img" class="" data-mtime="">共通画像保管庫</a></li>
+<li><a href="./?%E7%B7%B4%E7%BF%92%E7%94%A8%E3%81%8A%E7%A0%82%E5%A0%B4" class="" data-mtime="">練習用お砂場</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_15">更新履歴</h2>
+<h5>最新の30件</h5>
+<div><h5>30分以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" title="コメント/魔法少女ヒトミ ">コメント/魔法少女ヒトミ</a> </li>
+</ul><h5>3時間以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/雑談掲示板 ">コメント/雑談掲示板</a> </li>
+</ul><h5>1日以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/質問掲示板 ">コメント/質問掲示板</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" title="コメント/寝室シーン一覧 ">コメント/寝室シーン一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" title="ゲーム外企画 ">ゲーム外企画</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" title="魔法少女ヒトミ ">魔法少女ヒトミ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" title="超昂装備 ">超昂装備</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%BF%85%E6%AE%BA%E3%82%B2%E3%83%BC%E3%82%B8%E9%85%8D%E5%B8%83%E3%82%AD%E3%83%A3%E3%83%A9" title="テーブル/必殺ゲージ配布キャラ ">テーブル/必殺ゲージ配布キャラ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7" title="絞り込めるカテゴリ一覧 ">絞り込めるカテゴリ一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" title="メインストーリー ">メインストーリー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?MenuBar" title="MenuBar ">MenuBar</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86" title="テーブル/全ストーリー実装順 ">テーブル/全ストーリー実装順</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="イベント一覧/開催イベント ">イベント一覧/開催イベント</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%BF%BC%E7%AB%9C%E5%89%A3%E8%81%96%E3%82%A2%E3%82%AB%E3%83%8D" title="翼竜剣聖アカネ ">翼竜剣聖アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AB%E3%83%8D" title="ハロウィンアカネ ">ハロウィンアカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D" title="ビートドラグーン・アカネ ">ビートドラグーン・アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D" title="テーブル/キャラ/別衣装_ビートドラグーン・アカネ ">テーブル/キャラ/別衣装_ビートドラグーン・アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="体育祭のヤブルー ">体育祭のヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%90%E3%83%8B%E3%83%BC%E3%83%BB%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="リバースバニー・ヤブルー ">リバースバニー・ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="魔女ヤブルー ">魔女ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="テーブル/キャラ/別衣装_魔女ヤブルー ">テーブル/キャラ/別衣装_魔女ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="ハロウィンニコール ">ハロウィンニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="真夏のニコール ">真夏のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="戦車のニコール ">戦車のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="テーブル/キャラ/別衣装_戦車のニコール ">テーブル/キャラ/別衣装_戦車のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="真夏のイーイー ">真夏のイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="ブライド・イーイー ">ブライド・イーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="ハロウィンイーイー ">ハロウィンイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="運命のイーイー ">運命のイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="テーブル/キャラ/別衣装_運命のイーイー ">テーブル/キャラ/別衣装_運命のイーイー</a> </li>
+</ul></div>
+<hr class="full_hr" />
+<p><a href="./?%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4%E3%83%9A%E3%83%BC%E3%82%B8" title="更新履歴ページ" class="" data-mtime="">更新履歴をもっとみる</a></p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_4_16">カウンター</h2>
+<ul class="list1 list-indent1"><li>合計：5635</li>
+<li>今日：2</li>
+<li>昨日：14</li></ul>
+<hr class="full_hr" />
+<p><span style="font-size:11px;display:inline-block;line-height:130%;text-indent:0px">〔<a href="./?cmd=edit&amp;page=MenuBar" title="Edit MenuBar">MENU編集</a></span>〕</p>
+</div>
+<!-- 300x600_1枠目_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=AYAMQFxEEER31b4v8YZnKA"></script>
+<br>
+<h2>
+<span style="font-size:12px;display:inline-block;line-height:130%;text-indent:0px">Official Tweet</span>
+</h2>
+<a class="twitter-timeline" data-lang="ja" data-height="500" width="300" href="https://twitter.com/EscaH_PR" width="200">Tweets by EscaH_PR</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<div class="sticky-ads">
+
+<!-- 300x600_2枠目_wikiru汎用 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="4423084522"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<br>
+  <td valign="top">
+<!-- 728x90_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=YXamGc1aiYMf5oovCRZ3rg"></script>
+<br>
+<div id="boxArea" style="display:table;padding:0 0 0 2px;"><div style="width:74px;height:22px;float:left;"><a href="https://twitter.com/share" class="twitter-share-button"{count} data-lang="ja" data-hashtags="エスカレーションヒロインズ"data-dnt="true">ツイート</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div>
+<br>
+      <div id="body">
+
+<p><a href="./?%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7" class="" data-mtime="">アイテム一覧</a> &gt; <strong>アイテム価値早見表</strong></p>
+<hr class="full_hr" />
+<h2 id="content_1_0">アイテム価値早見表  <a class="anchor_super" id="j2e3fdc1" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#j2e3fdc1" title="j2e3fdc1">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=j2e3fdc1" title="Edit #j2e3fdc1"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #j2e3fdc1" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=1" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p>手元にドロップしたアイテムの価値や役割が分からない。<br />
+という場合の初心者向けの簡単な見分け表です。</p>
+<ul class="list1 list-indent1"><li><strong>このページの内容を全て把握しておく必要はありません</strong>。<br />
+知りたい部分のみを拾い読みする形でご利用ください。</li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_1">超貴重アイテム  <a class="anchor_super" id="rb2cc22a" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#rb2cc22a" title="rb2cc22a">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=rb2cc22a" title="Edit #rb2cc22a"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #rb2cc22a" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=2" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>入手機会が非常に限られており、有用性・重要性とも極めて高いアイテム。<br />
+イベント報酬などで入手機会がある場合は必ず確保しておきたい。<br />
+（イベント報酬に並んでいる場合、入手難度はかなり低めに設定されている）</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th" style="width:150px;">名称</th><th class="style_th" style="width:250px;">使用目的</th><th class="style_th">有用性＆入手頻度</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%A3%81%E3%81%AB%E9%96%8B%E9%99%90%E3%83%BB%E8%B6%85%E6%98%82.png" title="壁に開限・超昂.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5A381E381ABE9968BE99990E383BBE8B685E698822E706E67.png" alt="壁に開限・超昂.png" title="壁に開限・超昂.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">壁に開限・超昂</th><td class="style_td" style="width:250px;">レベル上限アップに使用する。<br class="spacer" />関連リンク：<a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a></td><td class="style_td">キャラクターのレベル上限を150に上昇させるアイテム。<br class="spacer" />ゲーム内では、アニバーサリーイベント限定で配布される超貴重品。<br class="spacer" />入手機会は限定され、かつ効果も絶大であるため、使用に際しては慎重の上にも慎重を期したい。<br class="spacer" />主な入手先：アニバーサリーイベント(5月と11月)</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E6%A0%84%E7%9F%B3.png" title="栄石.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E6A084E79FB32E706E67.png" alt="栄石.png" title="栄石.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">栄石</th><td class="style_td" style="width:250px;">超昂装備の入手と強化に使用する。<br class="spacer" />関連リンク：<a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a></td><td class="style_td"><a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>と呼ばれる高性能装備を入手および強化するための素材。<br class="spacer" />プレイヤーの間ではA石と呼ばれる事もある。<br class="spacer" />ゲーム序盤での使用機会は少ないが、重要度は非常に高い。<br class="spacer" />入手機会は極めて限られているため、イベント報酬などに設定されている場合は最優先で確保しておきたい。<br class="spacer" />主な入手先：<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" title="イベント86_殲滅戦" class="" data-mtime="">殲滅戦</a>(3～5ヶ月に1回開催)</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_2">最重要アイテム  <a class="anchor_super" id="q1b93565" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#q1b93565" title="q1b93565">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=q1b93565" title="Edit #q1b93565"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #q1b93565" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=3" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>ガチャや石といった特に課金にまつわる重要アイテム。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th" style="width:150px;">名称</th><th class="style_th" style="width:250px;">使用目的</th><th class="style_th">有用性＆入手頻度</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E8%9D%B6%E9%89%B1%E7%9F%B3.png" title="蝶鉱石.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E89DB6E989B1E79FB32E706E67.png" alt="蝶鉱石.png" title="蝶鉱石.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">蝶鉱石</th><td class="style_td" style="width:250px;">主にガチャで消費する。<br class="spacer" />いわゆる石。</td><td class="style_td">ガチャを回すための原資であり、言うまでもなく最も重要なアイテムの1つ。<br class="spacer" />課金以外でも、<a href="./?%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E4%B8%80%E8%A6%A7" title="ミッション一覧" class="" data-mtime="">ミッション</a>や<a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">メインクエスト</a>の進行やシナリオの閲覧、<a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a>の開封など、入手機会は多い。<br class="spacer" />石で10連ガチャを回した場合にも、下記の「昂ぶるつぼみ」が入手できる。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E6%98%82%E3%82%8B%E3%81%A4%E3%81%BC%E3%81%BF.png" title="昂るつぼみ.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E69882E3828BE381A4E381BCE381BF2E706E67.png" alt="昂るつぼみ.png" title="昂るつぼみ.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">昂るつぼみ</th><td class="style_td" style="width:250px;">キャラクター交換用アイテム。<br class="spacer" />（ガチャの天井アイテムに相当する）<br class="spacer" /><a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a>の入手と育成にも消費する。</td><td class="style_td">1000個集めると、開催中のガチャで提供されている<strong>任意のキャラと交換できる</strong>。<br class="spacer" />超昂フェス、期間限定、ピックアップのガチャの提供内容が交換対象。課金限定アイテムで回すガチャは対象外。<br class="spacer" />つぼみさえ貯めておけば新キャラでも復刻キャラでも恒常キャラでも確実に入手できる。<br class="spacer" />ガチャ・ログボ・<a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">メインクエスト</a>進行・ストーリー閲覧・<a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a>の開封 など様々な入手方法があり、無課金プレイでも交換分を貯めていける。<br class="spacer" />有効期限や所持上限はなく、好きなだけ貯めて好きな時に使える。<br class="spacer" />未読ストーリーが大量にあるゲーム序盤は特に貯まりやすいが、ストーリーを掘り切ったらしばらく入手が緩やかになるのでご利用は計画的に。<br class="spacer" />キャラクターの<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a>にも使用できるが非推奨。（つぼみがあり余っている廃課金が自己判断で使う事もある程度）<br class="spacer" /><a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a>の入手や育成にも消費されるが、初心者の段階では気にする必要はない。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#m19c29d0" title="よくある質問" class="" data-mtime="">サポーターとは？</a></td></tr>
+<tr><th class="style_th" colspan="4" style="background-color:#DEDEF0;">ガチャチケット</th></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2%E3%83%A0%E3%82%AC%E3%83%81%E3%83%A3%E3%83%81%E3%82%B1%E3%83%83%E3%83%8810%E9%80%A3_3.png" title="プレミアムガチャチケット10連_3.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38397E383ACE3839FE382A2E383A0E382ACE38381E383A3E38381E382B1E38383E383883130E980A35F332E706E67.png" alt="プレミアムガチャチケット10連_3.png" title="プレミアムガチャチケット10連_3.png" width="65" height="52" /></a></td><th class="style_th" style="width:150px;">プレミアムガチャチケット10連</th><td class="style_td" rowspan="2" style="width:250px;">無料でガチャを回せるチケット。</td><td class="style_td" rowspan="2"><strong>限定キャラ</strong> や <strong>フェスキャラ</strong> の出るガチャも回せる貴重なガチャチケット。<br class="spacer" />有効期限や所持上限はないので、自分のお気に入りキャラがガチャに来るまで温存したい。<br class="spacer" />スタンダードガチャしか回せないチケットは別途「単発ガチャチケット」や「10連ガチャチケット」として存在する。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#i31b8766" title="よくある質問" class="" data-mtime="">ガチャチケットについて</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2%E3%83%A0%E3%82%AC%E3%83%81%E3%83%A3%E3%83%81%E3%82%B1%E3%83%83%E3%83%88.png" title="プレミアムガチャチケット.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38397E383ACE3839FE382A2E383A0E382ACE38381E383A3E38381E382B1E38383E383882E706E67.png" alt="プレミアムガチャチケット.png" title="プレミアムガチャチケット.png" width="65" height="53" /></a></td><th class="style_th" style="width:150px;">プレミアムガチャチケット</th></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=SSR%E7%A2%BA%E5%AE%9A%E3%83%81%E3%82%B1%E3%83%83%E3%83%88.png" title="SSR確定チケット.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_535352E7A2BAE5AE9AE38381E382B1E38383E383882E706E67.png" alt="SSR確定チケット.png" title="SSR確定チケット.png" width="65" height="55" /></a></td><th class="style_th" style="width:150px;">SSR確定チケット</th><td class="style_td" style="width:250px;">必ずSSRキャラが出るチケット。<br class="spacer" />関連リンク：<a href="./?SSR" title="SSR" class="" data-mtime="">SSRキャラ一覧</a></td><td class="style_td">回せば確定で<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#w24e7485" title="よくある質問" class="" data-mtime="">SSRキャラ</a>が出るチケット。<br class="spacer" />入手機会は非常に少ない貴重品。<br class="spacer" />ただし、排出されるのは恒常キャラのみであり、限定キャラやフェスキャラは対象外であるため、入手後即使用して問題ない。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#i31b8766" title="よくある質問" class="" data-mtime="">ガチャチケットについて</a></td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_3">重要アイテム  <a class="anchor_super" id="gdcfd73e" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#gdcfd73e" title="gdcfd73e">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=gdcfd73e" title="Edit #gdcfd73e"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #gdcfd73e" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=4" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>キャラクターの育成に関わる重要アイテム。<br />
+ゲーム内での入手機会が限られるため、無闇に消費しないほうがよい物。<br />
+イベント報酬などで入手機会がある場合は必ず確保しておきたい。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th" style="width:150px;">名称</th><th class="style_th" style="width:250px;">使用目的</th><th class="style_th">有用性＆入手頻度</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E9%87%91%E3%81%AE%E5%B7%AB%E5%A5%B3%E7%B5%B5%E9%A6%AC.png" title="金の巫女絵馬.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E98791E381AEE5B7ABE5A5B3E7B5B5E9A6AC2E706E67.png" alt="金の巫女絵馬.png" title="金の巫女絵馬.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">金の巫女絵馬</th><td class="style_td" style="width:250px;"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" title="限界突破" class="" data-mtime="">突破ポイント</a>を150p獲得する。</td><td class="style_td" rowspan="2"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a>用アイテム。<br class="spacer" />キャラクターの育成・強化に使用する。<br class="spacer" />需要に対して供給が圧倒的に少ない貴重品であるため、ゲームシステムを把握するまでは温存しておいたほうがよい。<br class="spacer" />主な入手機会は<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="" data-mtime="">イベント</a>報酬。見かけた際は最優先で確保しておきたい。<br class="spacer" />関連リンク：<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E9%8A%80%E3%81%AE%E5%B7%AB%E5%A5%B3%E7%B5%B5%E9%A6%AC.png" title="銀の巫女絵馬.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E98A80E381AEE5B7ABE5A5B3E7B5B5E9A6AC2E706E67.png" alt="銀の巫女絵馬.png" title="銀の巫女絵馬.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">銀の巫女絵馬</th><td class="style_td" style="width:250px;"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" title="限界突破" class="" data-mtime="">突破ポイント</a>を25p獲得する。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%B7%AB%E5%A5%B3%E7%B5%B5%E9%A6%AC.png" title="巫女絵馬.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5B7ABE5A5B3E7B5B5E9A6AC2E706E67.png" alt="巫女絵馬.png" title="巫女絵馬.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">巫女絵馬</th><td class="style_td" style="width:250px;"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" title="限界突破" class="" data-mtime="">突破ポイント</a>を5p獲得する。</td><td class="style_td" rowspan="2"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a>用アイテム。<br class="spacer" />キャラクターの育成・強化に使用する。<br class="spacer" />重要性に関しては上記の金絵馬・銀絵馬と同様だが、得られるポイントが小さい分獲得の機会は多い。<br class="spacer" />巫女絵馬は優先的に確保しておきたい。えま絵馬は交換レートが良い時と悪い時があるので注意。<br class="spacer" />えま絵馬のレートが良い時は交換上限あり。できれば全部確保したい。悪い時は交換上限なし。この場合の交換は非推奨。<br class="spacer" />関連リンク：<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%81%88%E3%81%BE%E7%B5%B5%E9%A6%AC.png" title="えま絵馬.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38188E381BEE7B5B5E9A6AC2E706E67.png" alt="えま絵馬.png" title="えま絵馬.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">えま絵馬</th><td class="style_td" style="width:250px;"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" title="限界突破" class="" data-mtime="">突破ポイント</a>を1p獲得する。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%AB%E3%82%AF%E3%82%BB%E3%82%A4%E3%81%AE%E6%9C%A8%E3%83%BB%E4%B8%AD.png" title="カクセイの木・中.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382ABE382AFE382BBE382A4E381AEE69CA8E383BBE4B8AD2E706E67.png" alt="カクセイの木・中.png" title="カクセイの木・中.png" width="65" height="53" /></a></td><th class="style_th" style="width:150px;">カクセイの木・中</th><td class="style_td" style="width:250px;"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" title="覚醒強化" class="" data-mtime="">覚醒ポイント</a>を50p獲得する。</td><td class="style_td" rowspan="2"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a>用アイテム。<br class="spacer" />キャラクターの育成・強化に使用する。<br class="spacer" />需要に対して供給が圧倒的に少ない貴重品であるため、ゲームシステムを把握するまでは温存しておいたほうがよい。<br class="spacer" />主な入手機会は<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="" data-mtime="">イベント</a>報酬。見かけた際は最優先で確保しておきたい。<br class="spacer" />関連リンク：<a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%AB%E3%82%AF%E3%82%BB%E3%82%A4%E3%81%AE%E6%9C%A8%E3%83%BB%E5%B0%8F.png" title="カクセイの木・小.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382ABE382AFE382BBE382A4E381AEE69CA8E383BBE5B08F2E706E67.png" alt="カクセイの木・小.png" title="カクセイの木・小.png" width="65" height="52" /></a></td><th class="style_th" style="width:150px;">カクセイの木・小</th><td class="style_td" style="width:250px;"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" title="覚醒強化" class="" data-mtime="">覚醒ポイント</a>を10p獲得する。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%A3%81%E3%81%AB%E9%96%8B%E9%99%90%E3%83%BB%E9%87%91.png" title="壁に開限・金.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5A381E381ABE9968BE99990E383BBE987912E706E67.png" alt="壁に開限・金.png" title="壁に開限・金.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">壁に開限・金</th><td class="style_td" rowspan="2" style="width:250px;">レベル上限アップに使用する。<br class="spacer" />関連リンク：<a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a></td><td class="style_td" rowspan="2">キャラクターのレベル上限を111以上に上昇させるアイテム。<br class="spacer" />入手機会の少ない重要アイテム。イベント報酬などに設定されている場合は必ず確保しておきたい。<br class="spacer" />「壁に開限・金」については特に貴重品であるため、使用するキャラは厳選したい。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%A3%81%E3%81%AB%E9%96%8B%E9%99%90%E3%83%BB%E9%8A%80.png" title="壁に開限・銀.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5A381E381ABE9968BE99990E383BBE98A802E706E67.png" alt="壁に開限・銀.png" title="壁に開限・銀.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">壁に開限・銀</th></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E6%98%82%E3%82%8B%E3%81%A4%E3%81%BC%E3%81%BF%E3%83%BB%E6%9D%9F%E7%B8%9B.png" title="昂るつぼみ・束縛.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E69882E3828BE381A4E381BCE381BFE383BBE69D9FE7B89B2E706E67.png" alt="昂るつぼみ・束縛.png" title="昂るつぼみ・束縛.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">昂るつぼみ・束縛</th><td class="style_td" style="width:250px;">イベント報酬キャラの入手と強化。</td><td class="style_td">イベント開催中専用アイテム。一定数溜まると自動でイベント報酬キャラを獲得し、以後は突破ポイントとして自動で加算されていく。<br class="spacer" />キャラ入手までなら交換レートも低いので確実に手に入れよう。<br class="spacer" />できれば<a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96#idf7c8bd" title="覚醒強化" class="" data-mtime="">必殺技と固有効果を強化</a>できる<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a>☆3や、Rキャラなら交換上限の☆5まで目指したいが、後半ほど交換レートが高くなり負担が重い。<br class="spacer" />昂るつぼみ・束縛を上限まで交換するのは必須ではなく、他のアイテム（絵馬・カクセイの木・元気の原液など）を優先してもいい。<br class="spacer" />復刻イベントだと、初回開催時よりも何倍も楽に集められるようになっている。初心者には特に狙い目。<br class="spacer" />関連リンク：<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4#l085bcc2" title="限界突破" class="" data-mtime="">低コストで☆5キャラを入手する</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%AE%9D%E7%AE%B1.png" title="宝箱.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5AE9DE7AEB12E706E67.png" alt="宝箱.png" title="宝箱.png" width="65" height="51" /></a></td><th class="style_th" style="width:150px;">宝箱</th><td class="style_td" style="width:250px;">開封すると各種リソースを得る。<br class="spacer" />関連リンク：<a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a></td><td class="style_td">石やつぼみ、<a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7" title="装備一覧" class="" data-mtime="">装備</a>各種といった有用なリソースがドロップするため非常に重要。<br class="spacer" />ゲームにおける主要収入源であり、入手量は多ければ多いほど良い。<br class="spacer" />イベント報酬として交換個数に制限付きの物が設定されている場合はできるだけ回収したい（交換個数に制限のないタイプの物はレートが悪いため回収する必要はない）<br class="spacer" />参考リンク：<a href="./?%E5%AE%9D%E7%AE%B1#n14d146d" title="宝箱" class="" data-mtime="">宝箱の入手方法</a></td></tr>
+<tr><th class="style_th" colspan="4" style="background-color:#DEDEF0;">ガチャチケット</th></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=10%E9%80%A3%E3%82%AC%E3%83%81%E3%83%A3%E3%83%81%E3%82%B1%E3%83%83%E3%83%88.png" title="10連ガチャチケット.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_3130E980A3E382ACE38381E383A3E38381E382B1E38383E383882E706E67.png" alt="10連ガチャチケット.png" title="10連ガチャチケット.png" width="65" height="55" /></a></td><th class="style_th" style="width:150px;">10連ガチャチケット</th><td class="style_td" rowspan="2" style="width:250px;">無料でガチャを回せるチケット。</td><td class="style_td" rowspan="2">スタンダードガチャを回せるチケット。使用する時はスタンダードのタブではなくチケットのタブから。<br class="spacer" />フェス、限定、ピックアップのガチャは回せない。温存しておく必要はないので、入手したら即使用して問題ない。<br class="spacer" />ガチャでキャラが被ると自動的に当該キャラの強化リソースに変換される。<br class="spacer" />完凸後は「昂ぶるつぼみ」を獲得できるため、経験者にも嬉しいチケット。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#i31b8766" title="よくある質問" class="" data-mtime="">ガチャチケットについて</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%8D%98%E7%99%BA%E3%82%AC%E3%83%81%E3%83%A3%E3%83%81%E3%82%B1%E3%83%83%E3%83%88.png" title="単発ガチャチケット.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E58D98E799BAE382ACE38381E383A3E38381E382B1E38383E383882E706E67.png" alt="単発ガチャチケット.png" title="単発ガチャチケット.png" width="65" height="55" /></a></td><th class="style_th" style="width:150px;">単発ガチャチケット</th></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_4">準重要アイテム  <a class="anchor_super" id="cf8b8bd1" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#cf8b8bd1" title="cf8b8bd1">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=cf8b8bd1" title="Edit #cf8b8bd1"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #cf8b8bd1" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=5" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>キャラクターの育成に関わるアイテムだが、上記の重要アイテムよりは一段階下の価値になるもの。<br />
+ただし、価値は一段階下がるとはいえ有用で入手機会も限られるため濫用は避けたい。<br />
+ST不足などでイベント報酬が取りきれない場合は上段の<a href="#gdcfd73e">重要アイテム</a>の取得が優先される。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th" style="width:150px;">名称</th><th class="style_th" style="width:250px;">使用目的</th><th class="style_th">有用性＆入手頻度</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E9%8A%80%E3%81%AE%E5%B7%AB%E5%A5%B3%E7%B5%B5%E9%A6%ACSR.png" title="銀の巫女絵馬SR.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E98A80E381AEE5B7ABE5A5B3E7B5B5E9A6AC53522E706E67.png" alt="銀の巫女絵馬SR.png" title="銀の巫女絵馬SR.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">銀の巫女絵馬SR</th><td class="style_td" style="width:250px;"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" title="限界突破" class="" data-mtime="">突破ポイント</a>を25p獲得する。<br class="spacer" />SRキャラ専用</td><td class="style_td" rowspan="2"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4#rd535253" class="" data-mtime="">限界突破</a>用アイテム。<br class="spacer" />上記無印の絵馬と異なり、レアリティSRのキャラに対してのみ使用可能。<br class="spacer" />貴重な無印絵馬を消費せずにSRキャラの限界突破を行える。<br class="spacer" />主にイベント配布のSRキャラや<a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a>・ガチャ産のSRキャラに使用する。<br class="spacer" />交換レートは無印より安いが配布頻度は無印より少ないので、誰に使うかはちゃんと考えよう。<br class="spacer" />参考リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#w24e7485" title="よくある質問" class="" data-mtime="">キャラクターのレアリティは？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%B7%AB%E5%A5%B3%E7%B5%B5%E9%A6%ACSR.png" title="巫女絵馬SR.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5B7ABE5A5B3E7B5B5E9A6AC53522E706E67.png" alt="巫女絵馬SR.png" title="巫女絵馬SR.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">巫女絵馬SR</th><td class="style_td" style="width:250px;"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" title="限界突破" class="" data-mtime="">突破ポイント</a>を5p獲得する。<br class="spacer" />SRキャラ専用</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%AB%E3%82%AF%E3%82%BB%E3%82%A4%E3%81%AE%E6%9C%A8SR%E3%83%BB%E4%B8%AD.png" title="カクセイの木SR・中.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382ABE382AFE382BBE382A4E381AEE69CA85352E383BBE4B8AD2E706E67.png" alt="カクセイの木SR・中.png" title="カクセイの木SR・中.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">カクセイの木SR・中</th><td class="style_td" style="width:250px;"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" title="覚醒強化" class="" data-mtime="">覚醒ポイント</a>を50p獲得する。<br class="spacer" />SRキャラ専用</td><td class="style_td" rowspan="2"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a>用アイテム。<br class="spacer" />上記無印のカクセイの木と異なり、レアリティSRのキャラに対してのみ使用可能。<br class="spacer" />貴重な無印カクセイの木を消費せずにSRキャラの覚醒強化を行える。<br class="spacer" />主にイベント配布のSRキャラや<a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a>・ガチャ産のSRキャラに使用する。<br class="spacer" />交換レートは無印より安いが配布量は無印より少ないので、誰に使うかはちゃんと考えよう。<br class="spacer" />参考リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#w24e7485" title="よくある質問" class="" data-mtime="">キャラクターのレアリティは？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%AB%E3%82%AF%E3%82%BB%E3%82%A4%E3%81%AE%E6%9C%A8SR%E3%83%BB%E5%B0%8F.png" title="カクセイの木SR・小.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382ABE382AFE382BBE382A4E381AEE69CA85352E383BBE5B08F2E706E67.png" alt="カクセイの木SR・小.png" title="カクセイの木SR・小.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">カクセイの木SR・小</th><td class="style_td" style="width:250px;"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" title="覚醒強化" class="" data-mtime="">覚醒ポイント</a>を10p獲得する。<br class="spacer" />SRキャラ専用</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%AB%E3%82%AF%E3%82%BB%E3%82%A4%E3%81%AE%E6%9C%A8R%E3%83%BB%E4%B8%AD.png" title="カクセイの木R・中.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382ABE382AFE382BBE382A4E381AEE69CA852E383BBE4B8AD2E706E67.png" alt="カクセイの木R・中.png" title="カクセイの木R・中.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">カクセイの木R・中</th><td class="style_td" style="width:250px;"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" title="覚醒強化" class="" data-mtime="">覚醒ポイント</a>を50p獲得する。<br class="spacer" />Rキャラ専用</td><td class="style_td" rowspan="2"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a>用アイテム。<br class="spacer" />上記無印のカクセイの木と異なり、レアリティRのキャラに対してのみ使用可能。<br class="spacer" />貴重な無印カクセイの木を消費せずにRキャラの覚醒強化を行える。<br class="spacer" />主にイベント配布のRキャラや<a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a>・ガチャ産のRキャラに使用する。<br class="spacer" />イベントのたびにたくさん交換できるので気軽に使っていい。<br class="spacer" />参考リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#w24e7485" title="よくある質問" class="" data-mtime="">キャラクターのレアリティは？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%AB%E3%82%AF%E3%82%BB%E3%82%A4%E3%81%AE%E6%9C%A8R%E3%83%BB%E5%B0%8F.png" title="カクセイの木R・小.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382ABE382AFE382BBE382A4E381AEE69CA852E383BBE5B08F2E706E67.png" alt="カクセイの木R・小.png" title="カクセイの木R・小.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">カクセイの木R・小</th><td class="style_td" style="width:250px;"><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" title="覚醒強化" class="" data-mtime="">覚醒ポイント</a>を10p獲得する。<br class="spacer" />Rキャラ専用</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%AB%E3%82%AF%E3%82%BB%E3%82%A4%E3%81%AE%E6%9C%A8%E3%83%BB%E5%BF%85%E6%AE%BA.png" title="カクセイの木・必殺.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382ABE382AFE382BBE382A4E381AEE69CA8E383BBE5BF85E6AEBA2E706E67.png" alt="カクセイの木・必殺.png" title="カクセイの木・必殺.png" width="65" height="52" /></a></td><th class="style_th" style="width:150px;">カクセイの木・必殺</th><td class="style_td" style="width:250px;"><a href="./?%E6%88%A6%E9%97%98#i630b518" title="戦闘" class="" data-mtime="">必殺技</a>の強化に使用する。</td><td class="style_td" rowspan="2"><a href="./?%E6%88%A6%E9%97%98#i630b518" title="戦闘" class="" data-mtime="">必殺技と固有効果</a>の強化用アイテム。<br class="spacer" />ゲーム序盤のうちは不足するが、長期的には余るようになる。<br class="spacer" />宝箱などからもドロップするため、すぐに使う予定がない場合イベントでの取得は後回しにする選択肢もある。<br class="spacer" /><strong>消費する際は必ず10本単位</strong>となるため注意（使用回数は1キャラにつき各1回のみ）<br class="spacer" />関連リンク：<a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96#idf7c8bd" title="覚醒強化" class="" data-mtime="">必殺技と固有効果の強化</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%AB%E3%82%AF%E3%82%BB%E3%82%A4%E3%81%AE%E6%9C%A8%E3%83%BB%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C.png" title="カクセイの木・固有効果.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382ABE382AFE382BBE382A4E381AEE69CA8E383BBE59BBAE69C89E58AB9E69E9C2E706E67.png" alt="カクセイの木・固有効果.png" title="カクセイの木・固有効果.png" width="65" height="52" /></a></td><th class="style_th" style="width:150px;">カクセイの木・固有効果</th><td class="style_td" style="width:250px;"><a href="./?%E6%88%A6%E9%97%98#i630b518" title="戦闘" class="" data-mtime="">固有効果</a>の強化に使用する。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%A3%81%E3%81%AB%E9%96%8B%E9%99%90%E3%83%BB%E9%8A%85.png" title="壁に開限・銅.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5A381E381ABE9968BE99990E383BBE98A852E706E67.png" alt="壁に開限・銅.png" title="壁に開限・銅.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">壁に開限・銅</th><td class="style_td" rowspan="2" style="width:250px;">レベル上限アップに使用する。<br class="spacer" />関連リンク：<a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a></td><td class="style_td" rowspan="2">キャラクターのレベル上限を101以上に上昇させるアイテム。<br class="spacer" />レベル100未満でも上限が永続的に上がるため、いつ使っても損はなく効果も強力。<br class="spacer" />ゲーム序盤の段階では入手機会は限られるため、使用するキャラは選ぶようにしたい。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%A3%81%E3%81%AB%E9%96%8B%E9%99%90.png" title="壁に開限.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5A381E381ABE9968BE999902E706E67.png" alt="壁に開限.png" title="壁に開限.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">壁に開限</th></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E7%BE%8E%E9%8A%85%E7%9F%B3.png" title="美銅石.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E7BE8EE98A85E79FB32E706E67.png" alt="美銅石.png" title="美銅石.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">美銅石</th><td class="style_td" style="width:250px;">超昂装備の強化に使用する。<br class="spacer" />関連リンク：<a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a></td><td class="style_td"><a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>と呼ばれる高性能装備の強化用素材。<br class="spacer" />プレイヤーの間ではB石と呼ばれる事もある。<br class="spacer" /><a href="#rb2cc22a">栄石</a>とセットで使用するアイテムだが、入手量に対する消費の比重が栄石に偏っているため、美鉱石は基本的に余る。<br class="spacer" />ただし、課金ショップで栄石が販売されるたびに毎回買い足す予定があるなら、美鉱石もしっかり集めないと足りなくなる。</td></tr>
+<tr><th class="style_th" colspan="4" style="background-color:#DEDEF0;">ガチャチケット</th></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=SR%E7%A2%BA%E5%AE%9A%E3%83%81%E3%82%B1%E3%83%83%E3%83%88.png" title="SR確定チケット.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_5352E7A2BAE5AE9AE38381E382B1E38383E383882E706E67.png" alt="SR確定チケット.png" title="SR確定チケット.png" width="65" height="55" /></a></td><th class="style_th" style="width:150px;">SR確定チケット</th><td class="style_td" style="width:250px;">必ずSRキャラが出るチケット。<br class="spacer" />関連リンク：<a href="./?SR" title="SR" class="" data-mtime="">SRキャラ一覧</a></td><td class="style_td">回せば確定で<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#w24e7485" title="よくある質問" class="" data-mtime="">SRキャラ</a>が出るチケット。SSRキャラは出ない。<br class="spacer" />入手機会も多く、温存する必要もないため即使用して問題ない。<br class="spacer" />SRキャラは実装数が少なく全員の☆5<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a>が比較的容易であるため、入手機会の多さと相まってゆくゆくは「昂ぶるつぼみ」の供給源として有用なチケットになる。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#i31b8766" title="よくある質問" class="" data-mtime="">ガチャチケットについて</a></td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_5">有用なアイテム  <a class="anchor_super" id="i663e680" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#i663e680" title="i663e680">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=i663e680" title="Edit #i663e680"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #i663e680" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=6" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>入手機会は比較的多いが有用なアイテム。<br />
+無理に節約する必要はないが、無駄使いも避けたい。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th" style="width:150px;">名称</th><th class="style_th" style="width:250px;">使用目的</th><th class="style_th">有用性＆入手頻度</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=G%E6%84%9B%E6%83%85.png" title="G愛情.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_47E6849BE683852E706E67.png" alt="G愛情.png" title="G愛情.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">G・愛・情</th><td class="style_td" style="width:250px;">キャラクターの好感度を5上昇させる。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#z512c716" title="よくある質問" class="" data-mtime="">好感度にはどのような意味が？</a></td><td class="style_td">好感度はキャラストの解放以外にも全裸立ち絵解放や<a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96#" class="" data-mtime="">覚醒強化</a>のリソースとしても利用できるため極めて有用。<br class="spacer" />入手機会は、ログボやイベント報酬など比較的多く、<a href="./?%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" title="寝室シーン一覧" class="" data-mtime="">寝室シーン</a>を解放するだけなら十分足りるため、濫用は禁物だが無理に節約する必要はない。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%A5%BD%E6%84%9F%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AB.png" title="好感エンジェル.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5A5BDE6849FE382A8E383B3E382B8E382A7E383AB2E706E67.png" alt="好感エンジェル.png" title="好感エンジェル.png" width="65" height="53" /></a></td><th class="style_th" style="width:150px;">好感エンジェル</th><td class="style_td" style="width:250px;">キャラクターの好感度を30上昇させる。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#z512c716" title="よくある質問" class="" data-mtime="">好感度にはどのような意味が？</a></td><td class="style_td">ゲーム内での入手機会は非常に少ない貴重品。<br class="spacer" />ただし、このアイテムならではの独自効果のような物は存在しないので、それほど気にする必要はない。<br class="spacer" />アイテムとしての価値は「G・愛・情」6個分と等価である。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=4%E5%9B%9E%E8%BB%A2%E3%82%A8%E3%83%86%E5%85%AC.png" title="4回転エテ公.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_34E59B9EE8BBA2E382A8E38386E585AC2E706E67.png" alt="4回転エテ公.png" title="4回転エテ公.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">4回転エテ公</th><td class="style_td" style="width:250px;">戦闘時に助っ人を呼び出す。</td><td class="style_td" rowspan="2">ゲーム序盤、特にメインクエストやイベントでの戦闘に苦戦する場面では、積極的な使用がおすすめ。<br class="spacer" />味方戦力が充実するに従って、これらアイテムに頼る場面は自然となくなっていく。<br class="spacer" />ただし、<a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a>でトークンと交換できるため、戦闘での出番がなくなった後も<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#s7664c87" title="よくある質問" class="" data-mtime="">トークン</a>入手用のリソースとして価値が高い。<br class="spacer" />ログボやイベント報酬など入手機会は比較的多いが、できるだけ取り逃さないようにしたい。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#s7664c87" title="よくある質問" class="" data-mtime="">トークンとは何ですか？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%81%E3%82%A7%E3%83%BC%E3%82%A4%E3%83%B3%E3%82%B0%E3%82%AC%E3%83%A0.png" title="チェーイングガム.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38381E382A7E383BCE382A4E383B3E382B0E382ACE383A02E706E67.png" alt="チェーイングガム.png" title="チェーイングガム.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">チェーイングガム</th><td class="style_td" style="width:250px;">味方キャラクターの属性を入れ替える。<br class="spacer" />関連リンク：<a href="./?%E6%88%A6%E9%97%98#mfefa30d" title="戦闘" class="" data-mtime="">属性とは？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%AA%E3%82%BB%E3%83%83%E3%83%88%E3%82%B9%E3%83%88%E3%83%A9%E3%83%83%E3%83%97.png" title="リセットストラップ.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E383AAE382BBE38383E38388E382B9E38388E383A9E38383E383972E706E67.png" alt="リセットストラップ.png" title="リセットストラップ.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">リセットストラップ</th><td class="style_td" style="width:250px;">デイリークエスト等、回数制限のあるクエストの挑戦回数を復活させる。</td><td class="style_td">極めて有用。STを消費せずに各種有用リソースを入手できる。<br class="spacer" />主にデイリークエストと<a href="./?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" class="" data-mtime="">Bユニバース</a>の挑戦権を回復させるために使用する。<br class="spacer" />入手機会は多いが、価値が分かるまでは無闇に濫用しない方がよい。<br class="spacer" />後述のトークンと交換できるが、交換するより消費した方が価値は高いためトークンには交換しないほうがいい。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E9%80%9E%E3%81%97%E3%81%8D%E3%83%89%E3%83%AD%E3%83%83%E3%83%97.png" title="逞しきドロップ.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E9809EE38197E3818DE38389E383ADE38383E383972E706E67.png" alt="逞しきドロップ.png" title="逞しきドロップ.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">逞しきドロップ</th><td class="style_td" style="width:250px;"><a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a>のドロップ量を増加させる。</td><td class="style_td">極めて有用。<br class="spacer" />超昂大戦においては、石やつぼみ、<a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7" title="装備一覧" class="" data-mtime="">装備</a>各種といった有用なリソースは、全て宝箱からドロップする。<br class="spacer" />宝箱（ゲーム内における主要収入源）を増加させるその価値は極めて高い。<br class="spacer" />入手機会は比較的多いが、利用の際には無駄使いをしないようにしたい。<br class="spacer" />後述のトークンとも交換できるが、交換するより消費した方が価値は高いためトークンには交換しないほうがいい。<br class="spacer" />参考リンク：<a href="./?%E5%AE%9D%E7%AE%B1#n14d146d" title="宝箱" class="" data-mtime="">宝箱の入手方法</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E6%98%82%E3%82%8B%E7%A8%AE.png" title="昂る種.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E69882E3828BE7A8AE2E706E67.png" alt="昂る種.png" title="昂る種.png" width="65" height="55" /></a></td><th class="style_th" style="width:150px;">昂る種</th><td class="style_td" style="width:250px;">キャラクター交換用アイテム。</td><td class="style_td"><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a>から、キャラを入手する為のリソース。<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a>にも使用する。<br class="spacer" />自軍の主力となるキャラクターを無料で入手、および強化できるため非常に有用。<br class="spacer" />昂ぶる種は、<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7/%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="イベント一覧/開催イベント" class="" data-mtime="">開催中のイベント</a>の交換所で入手できる。<br class="spacer" />貴重品ではないので気軽に使用して問題ない。<br class="spacer" />関連リンク：<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4#l085bcc2" title="限界突破" class="" data-mtime="">低コストで☆5キャラを入手する</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%85%83%E6%B0%97%E3%81%AE%E5%8E%9F%E6%B6%B2%E8%B6%85%E7%B4%94%E5%BA%A6.png" title="元気の原液超純度.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E58583E6B097E381AEE58E9FE6B6B2E8B685E7B494E5BAA62E706E67.png" alt="元気の原液超純度.png" title="元気の原液超純度.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">元気の原液・超純度</th><td class="style_td" style="width:250px;">スタミナ回復アイテム。<br class="spacer" />STを200回復する。</td><td class="style_td" rowspan="3">極めて有用。<br class="spacer" />使用したい時は画面上のSTゲージ右にある「＋」ボタンをクリック。<br class="spacer" />入手機会は比較的多いため、無理に節約する必要はない。<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="" data-mtime="">イベント</a>報酬を取りきりたい、<a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">メインクエスト</a>を一気に進めたい、といった目的がある場合はまとめて消費してしまっても問題はない。<br class="spacer" /><a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a>における討伐報酬を上限値まで取得したい場合は、一定数をストックしておく必要があるが初心者の段階では気にする必要はない。⇒ 参考リンク：<a href="./?%E3%83%AC%E3%82%A4%E3%83%89#nf0d0584" title="レイド" class="" data-mtime="">[レイド] 周回数について</a><br class="spacer" />高濃度や超純度といった上位版は入手機会が少ない貴重品だが、回復できるST値が高いだけで独自の性能があるわけではないので、それほど気にする必要はない。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%85%83%E6%B0%97%E3%81%AE%E5%8E%9F%E6%B6%B2%E9%AB%98%E6%BF%83%E5%BA%A6.png" title="元気の原液高濃度.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E58583E6B097E381AEE58E9FE6B6B2E9AB98E6BF83E5BAA62E706E67.png" alt="元気の原液高濃度.png" title="元気の原液高濃度.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">元気の原液・高濃度</th><td class="style_td" style="width:250px;">スタミナ回復アイテム。<br class="spacer" />STを100回復する。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%85%83%E6%B0%97%E3%81%AE%E5%8E%9F%E6%B6%B2.png" title="元気の原液.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E58583E6B097E381AEE58E9FE6B6B22E706E67.png" alt="元気の原液.png" title="元気の原液.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">元気の原液</th><td class="style_td" style="width:250px;">スタミナ回復アイテム。<br class="spacer" />STを50回復する。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%BD%E3%82%A6%E3%82%B7%E3%83%B3%E3%83%81%E3%83%A5%E3%82%A6.png" title="ソウシンチュウ.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382BDE382A6E382B7E383B3E38381E383A5E382A62E706E67.png" alt="ソウシンチュウ.png" title="ソウシンチュウ.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">ソウシンチュウ</th><td class="style_td" style="width:250px;">エロコマンダーを呼び出す。</td><td class="style_td">使用すると即座にエロコマンダーが出現する。その後の戦闘で指定キャラのスタミナを0にすると敗北寝室が解放される。<br class="spacer" />エロコマンダーに捕獲されると、追加の<a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" title="覚醒強化" class="" data-mtime="">覚醒ポイント</a>が得られるため、有用度の高い貴重品。<br class="spacer" />各キャラクター毎に再捕獲までにインターバルが存在するため、1キャラに一気に集中して投入するといった運用はできない。<br class="spacer" />外部リンク：<a href="https://www.youtube.com/shorts/atp0Gjd8rlQ" rel="nofollow">公式動画：ソウシンチュウについて</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%85%A8%E7%9F%A5%E5%85%A8%E8%83%BD%E3%81%AE%E7%99%BD%E9%AF%A8.png" title="全知全能の白鯨.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E585A8E79FA5E585A8E883BDE381AEE799BDE9AFA82E706E67.png" alt="全知全能の白鯨.png" title="全知全能の白鯨.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">全知全能の白鯨</th><td class="style_td" style="width:250px;">強化ポイントに変換される。</td><td class="style_td">入手後に即使用して問題ない（特に温存する必要もない）。<br class="spacer" />強化ポイントはキャラクターのレベルアップや<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#x3a2a31a" title="よくある質問" class="" data-mtime="">サブ装備スロット</a>の開放に際して大量に消費される。<br class="spacer" />入手機会は少ないが、機能は後述の「なにになるやら」や「強化P詰め合わせ」でも代用できるため、イベント報酬などに並んでいる場合も取得優先度はそこまで高くはない。</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_6">通貨系アイテム  <a class="anchor_super" id="z295aed4" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#z295aed4" title="z295aed4">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=z295aed4" title="Edit #z295aed4"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #z295aed4" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=7" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>各種リソースの購入や倉庫の拡張などに使用する。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th" style="width:150px;">名称</th><th class="style_th" style="width:250px;">使用目的</th><th class="style_th">有用性＆入手頻度</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%93%E3%83%93%E3%83%93%E3%83%83%E3%81%A8%E3%82%B3%E3%82%A4%E3%83%B3.png" title="ビビビッとコイン.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38393E38393E38393E38383E381A8E382B3E382A4E383B32E706E67.png" alt="ビビビッとコイン.png" title="ビビビッとコイン.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">ビビビッとコイン</th><td class="style_td" style="width:250px;">ゲーム内の標準通貨。<br class="spacer" />資金という名称で言及される。</td><td class="style_td">いわゆるお金。ゲーム内通貨。主に<br class="spacer" />　・<a href="./?%E5%AE%9D%E7%AE%B1" title="宝箱" class="" data-mtime="">テトリス</a>の回転<br class="spacer" />　・キャラクターの<a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a><br class="spacer" />　・<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#s7664c87" title="よくある質問" class="" data-mtime="">トークン</a>への変換（月上限あり）<br class="spacer" />　・倉庫の拡張<br class="spacer" />に際して消費される。この資金を消費して装備や消費財を直接購入する場面はない。<br class="spacer" />入手機会は多く、特に稼ぎを意識する必要は無い。また、ゲーム序盤を除けば資金に困る場面は出てこない。<br class="spacer" />ただし、アイテム倉庫の拡張には膨大な金額が必要になるため、主に倉庫拡張がメイン用途となる。<br class="spacer" />手元に30万ほど（限界突破とトークン変換用途）を確保しておけば、残りは全てテトリスと倉庫拡張に回しても大丈夫だろう。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=D2P.png" title="D2P.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_4432502E706E67.png" alt="D2P.png" title="D2P.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">D2P<br class="spacer" />（ドキドキポイント）</th><td class="style_td" style="width:250px;">D2Pガチャを回すために使用する。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#k12997a0" title="よくある質問" class="" data-mtime="">D2Pガチャとは？</a></td><td class="style_td"><a href="./?%E3%82%AC%E3%83%81%E3%83%A3#m3a22b54" title="ガチャ" class="" data-mtime="">D2Pガチャ</a> を回すための専用通貨。<a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7" title="装備一覧" class="" data-mtime="">装備</a>や<a href="#i663e680">消耗品</a>を入手できる。<br class="spacer" />ゲームを進めるほど入手量は増えていくため、気軽にD2Pガチャを回そう（特に温存しておく必要は無い）<br class="spacer" />D2Pガチャからしか入手できない<a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7#tffa40da" title="装備一覧" class="" data-mtime="">特別な装備（逸品装備）</a>等も存在する。<br class="spacer" />イベント報酬に設定されている場合もあるが、交換レートはあまり良くないので取得の優先度は低くなる。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#z101367e" title="よくある質問" class="" data-mtime="">D2Pを効率よく稼ぐには？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3.png" title="トークン.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38388E383BCE382AFE383B32E706E67.png" alt="トークン.png" title="トークン.png" width="65" height="57" /></a></td><th class="style_th" style="width:150px;">トークン</th><td class="style_td" rowspan="2" style="width:250px;">キャラ強化用アイテムの購入に使用する。<br class="spacer" />関連リンク：<a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a></td><td class="style_td">通貨の一種。<br class="spacer" />キャラクターを育成するための各種アイテムを購入する際に使用する。<br class="spacer" />主な入手先と使用先は<a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a>（入手・使用とも交換所内で完結する）<br class="spacer" />資金は貯めやすいアイテムなので、毎月必ず上限額（10万資金）までをトークンに変換しておくのがおすすめ。<br class="spacer" />序盤のうちは必要量を確保するのに苦労するが、ゲームの進行とともに「4回転エテ公」や「チェーイングガム」からの変換で賄えるようになる。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#s7664c87" title="よくある質問" class="" data-mtime="">トークンとは何ですか？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%83%BB%E9%BB%92.png" title="トークン・黒.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38388E383BCE382AFE383B3E383BBE9BB922E706E67.png" alt="トークン・黒.png" title="トークン・黒.png" width="65" height="57" /></a></td><th class="style_th" style="width:150px;">トークン・黒</th><td class="style_td">トークンの上位版。<br class="spacer" />交換レートは、通常トークン30個に対してトークン・黒が1個と極めて高価。さらに交換個数には月上限（10個）が設定されている。<br class="spacer" />入手のための負担も大きいが、購入できるアイテムも高性能な物となっている。<br class="spacer" />確保のペースとしては、おおよそ6ヶ月で100個ほど準備できれば、交換所の主要なアイテムは概ね回収できる。<br class="spacer" />トークン・黒がイベント報酬に設定されている場合、余裕があれば回収したい。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#s7664c87" title="よくある質問" class="" data-mtime="">トークンとは何ですか？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%83%BB%E9%BB%84.png" title="トークン・黄.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38388E383BCE382AFE383B3E383BBE9BB842E706E67.png" alt="トークン・黄.png" title="トークン・黄.png" width="65" height="57" /></a></td><th class="style_th" style="width:150px;">トークン・黄</th><td class="style_td" style="width:250px;">昂ぶる種 と 宝箱 の購入に使用する。<br class="spacer" /><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a>の報酬。</td><td class="style_td"><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a>への参加で獲得できる専用トークン。<br class="spacer" />上記2種トークンより用途は大幅に限定されている。<br class="spacer" />使用場所は<a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a>。主に「昂る種」と「宝箱」の購入に用いる。<br class="spacer" /><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" title="キャラクター交換所" class="" data-mtime="">キャラクター交換</a>に必要となる、昂る種の入手手段としては非常に効率がいい。<br class="spacer" />希少性はそれほど高くないため、気軽に使用して問題ない。</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_7">相対的に価値の低いアイテム  <a class="anchor_super" id="t4eaa079" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#t4eaa079" title="t4eaa079">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=t4eaa079" title="Edit #t4eaa079"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #t4eaa079" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=8" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th" style="width:150px;">名称</th><th class="style_th" style="width:250px;">使用目的</th><th class="style_th">有用性＆入手頻度</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E6%99%82%E7%9F%AD%E3%83%81%E3%82%B1%E3%83%83%E3%83%88.png" title="時短チケット.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E69982E79FADE38381E382B1E38383E383882E706E67.png" alt="時短チケット.png" title="時短チケット.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">時短チケット</th><td class="style_td" style="width:250px;">クリア済のバトルをショートカットする。</td><td class="style_td">入手機会が多く、ゲームを進めていくと余るようになるため節約する必要はない。<br class="spacer" /><a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a>でトークン1個につき時短チケット20枚と引き換えられるため、万が一不足してもすぐ補充できる。<br class="spacer" />逆に時短チケットからトークンへのレートは非常に悪い。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#s7664c87" title="よくある質問" class="" data-mtime="">トークンとは何ですか？</a></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%81%AA%E3%81%AB%E3%81%AB%E3%81%AA%E3%82%8B%E3%82%84%E3%82%89.png" title="なにになるやら.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E381AAE381ABE381ABE381AAE3828BE38284E382892E706E67.png" alt="なにになるやら.png" title="なにになるやら.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">なにになるやら</th><td class="style_td" rowspan="2" style="width:250px;">強化ポイントに変換される。</td><td class="style_td" rowspan="2">入手機会が多く、手に入れたらすぐ使っていいアイテム。<br class="spacer" />強化ポイントはキャラクターのレベルアップや上限解放の他にも、<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#x3a2a31a" title="よくある質問" class="" data-mtime="">サブ装備スロット</a>の開放で大量に消費されるため、あればあるだけ嬉しい。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%BC%B7%E5%8C%96P%E8%A9%B0%E5%90%88%E3%81%9B.png" title="強化P詰合せ.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E5BCB7E58C9650E8A9B0E59088E3819B2E706E67.png" alt="強化P詰合せ.png" title="強化P詰合せ.png" width="65" height="54" /></a></td><th class="style_th" style="width:150px;">強化P詰合せ</th></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%9B%9B%E5%86%86%E7%8E%89%E3%83%BB%E9%87%91.png" title="四円玉・金.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E59B9BE58686E78E89E383BBE987912E706E67.png" alt="四円玉・金.png" title="四円玉・金.png" width="65" height="65" /></a></td><th class="style_th" style="width:150px;">四円玉・金</th><td class="style_td" rowspan="3" style="width:250px;">サポーターの強化に使用する。<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#l7a12371" title="よくある質問" class="" data-mtime="">サポーターとは何ですか？</a></td><td class="style_td" rowspan="3">初心者の段階では気にしなくていいアイテム。<br class="spacer" /><a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a>の強化に使用されるが、サポーターを入手・強化する場面が少ないため入手量に対して常に余り気味になる。<br class="spacer" />トークンなどを消費してこのアイテムを集める必要はない。</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%9B%9B%E5%86%86%E7%8E%89%E3%83%BB%E9%8A%80.png" title="四円玉・銀.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E59B9BE58686E78E89E383BBE98A802E706E67.png" alt="四円玉・銀.png" title="四円玉・銀.png" width="65" height="65" /></a></td><th class="style_th" style="width:150px;">四円玉・銀</th></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E5%9B%9B%E5%86%86%E7%8E%89%E3%83%BB%E9%8A%85.png" title="四円玉・銅.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E59B9BE58686E78E89E383BBE98A852E706E67.png" alt="四円玉・銅.png" title="四円玉・銅.png" width="65" height="65" /></a></td><th class="style_th" style="width:150px;">四円玉・銅</th></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_8">初心者の段階では気にしなくていいアイテム  <a class="anchor_super" id="nd244d8f" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#nd244d8f" title="nd244d8f">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=nd244d8f" title="Edit #nd244d8f"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #nd244d8f" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=9" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th" style="width:150px;">名称</th><th class="style_th" style="width:250px;">使用目的</th><th class="style_th">有用性＆入手頻度</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E3%82%B5%E3%83%97%E3%83%AA.png" title="サポートサプリ.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382B5E3839DE383BCE38388E382B5E38397E383AA2E706E67.png" alt="サポートサプリ.png" title="サポートサプリ.png" width="65" height="65" /></a></td><th class="style_th" style="width:150px;">サポートサプリ</th><td class="style_td" style="width:250px;">SPを回復する<br class="spacer" />関連リンク：<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#l7a12371" title="よくある質問" class="" data-mtime="">サポーターとは何ですか？</a></td><td class="style_td">初心者の段階では気にしなくていいアイテム。<br class="spacer" /><a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" title="サポーター" class="" data-mtime="">アクティブサポーター</a>の消費するSPを回復できる。<br class="spacer" />レイドでハイスコアを競う上位ランカー向けの消費アイテムとなる。<br class="spacer" />入手機会は非常に少ない貴重品だが、現状ではサポーターを使用せずともレイドの全報酬をコンプリート可能であり、またランキングに伴う特別な報酬も存在しないため、温存しておくのがおすすめ。</td></tr>
+</tbody></table></div>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_9">コメントフォーム  <a class="anchor_super" id="u340abdb" href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8#u340abdb" title="u340abdb">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=u340abdb" title="Edit #u340abdb"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #u340abdb" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=SandBox%2F%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8&amp;id=10" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<script>
+// 折りたたみ切り替え関数
+function tglRgn(button) {
+    var container = button.closest('.rgn-container');
+    var description = container.querySelector('.rgn-description');
+    var content = container.querySelector('.rgn-content');
+    var plusIcon = button.querySelector('.plus-icon');
+    var minusIcon = button.querySelector('.minus-icon');
+    var isCollapsed = description.style.display != 'none';
+    
+    description.style.display = isCollapsed ? 'none' : 'block';
+    content.style.display = isCollapsed ? 'block' : 'none';
+    plusIcon.style.display = isCollapsed ? 'none' : 'block';
+    minusIcon.style.display = isCollapsed ? 'block' : 'none';
+    
+    if (isCollapsed) {
+        // 展開時、内容が空の場合のみ全角スペースを追加
+        if (content.innerHTML.trim() === '') {
+            content.innerHTML = '　';
+        }
+    } else {
+        // 折りたたみ時、内容が全角スペースのみの場合、それを削除
+        if (content.innerHTML === '　') {
+            content.innerHTML = '';
+        }
+    }
+}
+
+// ハッシュ変更時の処理
+function openAllParentRegions(element) {
+    let currentElement = element;
+    const openedRegions = [];
+    
+    // 親方向に向かってすべてのregionを探索
+    while (currentElement) {
+        const regionContainer = currentElement.closest('.rgn-container');
+        if (!regionContainer) break;
+        
+        const content = regionContainer.querySelector('.rgn-content');
+        const button = regionContainer.querySelector('.rgn-button');
+        
+        if (content && content.style.display === 'none') {
+            tglRgn(button);
+            openedRegions.push(regionContainer);
+        }
+        
+        // 次の親要素の探索のため、現在のregionの外側から検索を開始
+        currentElement = regionContainer.parentElement;
+    }
+    
+    return openedRegions;
+}
+
+function handleHashChange() {
+    if (location.hash) {
+        const targetId = location.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+            // すべての親regionを開く
+            const openedRegions = openAllParentRegions(targetElement);
+            
+            // アニメーションが完了してから要素までスクロール
+            if (openedRegions.length > 0) {
+                setTimeout(function() {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }, 100 * openedRegions.length); // regionの数に応じて待ち時間を調整
+            } else {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+}
+
+// イベントリスナーの設定
+window.addEventListener('hashchange', handleHashChange);
+window.addEventListener('load', handleHashChange);
+</script>
+<style>
+.plus-icon, .minus-icon {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: -3px;
+}
+.rgn-container {
+    transition: all 0.3s ease-in-out;
+}
+.rgn-content {
+    transition: display 0.3s ease-in-out;
+}
+</style><div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>クリックで過去ログ一覧を開く</p>
+</div><div class="rgn-content" style="display: none">
+<p>末尾の番号が若いほど、古いログになります。</p>
+<p>'コメント/SandBox/アイテム価値早見表/' には、下位層のページがありません。</p>
+</div></div>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="2456832941"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br>
+<div class="pcomment">
+<p> 最新の20件を表示しています。 <a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" title="コメント/SandBox/アイテム価値早見表" class="" data-mtime="">コメントページを参照</a> </p>
+		<form action="./" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+
+		<ul class="list1 list-indent1"><li class="pcmt" data-comment-id="comment_b6e800d4726127010e4258909d5b252f"><input class="pcmt" type="radio" name="reply" value="b6e800d4726127010e4258909d5b252f" tabindex="5" />このページに飛ぶリンクがほぼないみたいですが、埋もれさせるには勿体ないくらい良い情報なので、序盤の手引きとかにリンク張った方がいいと思います -- [wfLj2vKL3vE] <span class="comment_date">2026-01-19 (月) 11:56:33<span class="__plugin_new" data-mtime="2026-01-19T11:56:33+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_92ac39a1432c2352c9e750f1dc3b2575"><input class="pcmt" type="radio" name="reply" value="92ac39a1432c2352c9e750f1dc3b2575" tabindex="4" />自分用のメモか、他人にあーだこーだ言われたくないか、維持メンテする気がないとか、何かしら理由があって砂箱に置いてるんやろ。本人以外が触るもんじゃない -- [bqeVO0CMhG2] <span class="comment_date">2026-01-19 (月) 13:04:44<span class="__plugin_new" data-mtime="2026-01-19T13:04:44+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_8ad5b3c5c517f3e98570cc3ebf4e3a57"><input class="pcmt" type="radio" name="reply" value="8ad5b3c5c517f3e98570cc3ebf4e3a57" tabindex="3" />手元にドロップしたアイテムの価値や役割が分からない。 <br class="spacer" />という場合の初心者の向けの簡単な見分け表です。 <br class="spacer" />→上記の通りなら将来的に編集者がリンク貼るんじゃない。今は未完だから貼ってないとか -- [f73zse/nf2I] <span class="comment_date">2026-01-19 (月) 15:14:34<span class="__plugin_new" data-mtime="2026-01-19T15:14:34+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_bb15a773c371682e83ece33786615ec0"><input class="pcmt" type="radio" name="reply" value="bb15a773c371682e83ece33786615ec0" tabindex="2" />すみません作ったのは自分です <br class="spacer" />最近サブで別ゲーを始めたのですが、沢山のドロップアイテムが手に入るのですが、wiki等で調べても価値が全く分からなくてかなり困ったので、超昂を始めたばかりの初心者の人も同じかなと思って作ってみました <br class="spacer" />既存の別ページに勝手にリンクを追加したら、ちょっと迷惑かなと思ったので自粛したのですが、もしリンクして使っていただけるのなら歓迎です <br class="spacer" />このページの内容も間違っていたり、人によって意見の違う部分もあると思うので、自由に編集していただければと思います <br class="spacer" />ただ初心者向けの内容のつもりなので、 <br class="spacer" />・初めて読んだ人がその場で知りたい事だけをまとめる（あまり詳しい事までは書きすぎない） <br class="spacer" />・悪口的な事は書かない。初めて読んだ人が気分が悪くなるような表現はしない <br class="spacer" />という部分だけは気をつけています -- [E0cqpaQGJXw] <span class="comment_date">2026-01-19 (月) 17:28:55<span class="__plugin_new" data-mtime="2026-01-19T17:28:55+09:00"></span></span>
+<ul class="list3 list-indent1"><li>すんばらしい -- [I7QNPkcZYic] <span class="comment_date">2026-01-20 (火) 15:56:37<span class="__plugin_new" data-mtime="2026-01-20T15:56:37+09:00"></span></span></li>
+<li>とても助かっています。良いページをありがとうございます。 -- [jRlfYonH8Tk] <span class="comment_date">2026-03-09 (月) 15:53:13<span class="__plugin_new" data-mtime="2026-03-09T15:53:13+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_edfede55c48c130f8c34dce896921eb6"><input class="pcmt" type="radio" name="reply" value="edfede55c48c130f8c34dce896921eb6" tabindex="1" />N倍で数えるだけの原液/絵馬/カクセイ木/開限銅銀金は分ける必要ないですよ。 <br class="spacer" />原液だけ更新されてますが誰が編集してるのかわからんのでコメントしておきます。 -- [48HMXBkSv4.] <span class="comment_date">2026-01-20 (火) 16:47:21<span class="__plugin_new" data-mtime="2026-01-20T16:47:21+09:00"></span></span></li></ul>
+
+		<style>
+/* 基本入力スタイル */
+.pcmt-name,.pcmt-msg{padding:5px 8px;border:1px solid #ccc;border-radius:4px;font-size:13px;outline:none;box-sizing:border-box}
+.pcmt-name:focus,.pcmt-msg:focus{border-color:#4a90d9}
+.pcmt-input-area{display:inline-block;vertical-align:top}
+.pcmt-msg-wrap{position:relative;display:inline-block;vertical-align:top}
+.pcmt-msg-wrap .pcmt-msg{padding-right:30px}
+.pcmt-msg-wrap-ta{display:flex}
+.pcmt-msg-wrap-ta .pcmt-msg{min-height:50px;resize:both}
+
+/* 絵文字ボタン */
+.pcmt-emoji-btn{position:absolute;right:3px;top:3px;width:24px;height:24px;padding:0;background:none;border:none;border-radius:4px;cursor:pointer;font-size:14px;opacity:.6}
+.pcmt-emoji-btn:hover{opacity:1;background:#f0f0f0}
+
+/* 絵文字ピッカー */
+.pcmt-emoji-picker{display:none;position:absolute;left:0;top:100%;margin-top:4px;width:340px;background:#fff;border:1px solid #ccc;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:9999}
+.pcmt-emoji-picker.show{display:block}
+.pcmt-ep-head{display:flex;padding:10px;gap:6px;border-bottom:1px solid #eee}
+.pcmt-ep-search{flex:1;padding:6px 10px;border:1px solid #ddd;border-radius:4px;font-size:14px;outline:none}
+.pcmt-ep-close{width:30px;height:30px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:16px;color:#666}
+.pcmt-ep-close:hover{background:#eee}
+.pcmt-ep-cats{display:flex;padding:8px;gap:4px;border-bottom:1px solid #eee;overflow-x:auto}
+.pcmt-ep-cat{padding:6px 8px;border:none;background:none;border-radius:4px;cursor:pointer;font-size:18px}
+.pcmt-ep-cat:hover{background:#f0f0f0}
+.pcmt-ep-cat.active{background:#e3f2fd}
+.pcmt-ep-list{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:10px;max-height:200px;overflow-y:auto}
+.pcmt-ep-item{width:38px;height:38px;border:none;background:none;border-radius:6px;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center}
+.pcmt-ep-item:hover{background:#f0f0f0;transform:scale(1.1)}
+.pcmt-ep-recent-wrap{padding:8px 10px 10px;border-top:1px solid #eee;display:none}
+.pcmt-ep-recent-wrap.show{display:block}
+.pcmt-ep-recent-title{font-size:12px;color:#888;margin-bottom:6px}
+.pcmt-ep-recent{display:flex;flex-wrap:wrap;gap:4px}
+
+/* ツールバー */
+.pcmt-toolbar{display:flex;gap:4px;margin-top:6px;position:relative}
+.pcmt-tb-btn.uploading svg{display:none}
+.pcmt-tb-btn.uploading::after{content:"";display:block;width:13px;height:13px;border:2px solid #ccc;border-top-color:#4a90d9;border-radius:50%;animation:pcmt-spin .8s linear infinite;margin:auto}
+@keyframes pcmt-spin{to{transform:rotate(360deg)}}
+.pcmt-terms-ov{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center}
+.pcmt-terms-box{background:#fff;border-radius:10px;max-width:420px;width:90%;padding:20px 22px;font-size:14px;line-height:1.8;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.pcmt-terms-box a{color:#3949ab;font-weight:bold}
+.pcmt-terms-btns{text-align:right;margin-top:14px}
+.pcmt-terms-btns button{margin-left:8px;padding:7px 16px;border:none;border-radius:6px;cursor:pointer;font-size:13px}
+.pcmt-terms-ok{background:#5a6acf;color:#fff}
+.pcmt-terms-cancel{background:#e0e0e0;color:#333}
+.pcmt-img-chips{display:none;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pcmt-img-chip{display:inline-flex;align-items:center;gap:4px;background:#eef1fb;border:1px solid #c5cae9;border-radius:14px;padding:2px 6px 2px 10px;font-size:12px;max-width:260px}
+.pcmt-img-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcmt-img-chip-x{border:none;background:none;color:#5a6acf;font-size:15px;cursor:pointer;padding:0 4px;line-height:1}
+.pcmt-tb-btn{width:32px;height:32px;padding:0;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#555;transition:all .15s}
+.pcmt-tb-btn:hover{background:#f5f5f5;border-color:#bbb}
+.pcmt-tb-btn.active{background:#e3f2fd;border-color:#4a90d9;color:#1976d2}
+
+/* カラーピッカー */
+.pcmt-color-picker{display:none;position:absolute;left:0;top:100%;margin-top:4px;width:260px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:9999;overflow:hidden}
+.pcmt-color-picker.show{display:block}
+.pcmt-cp-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #eee}
+.pcmt-cp-title{font-size:13px;font-weight:600;color:#333}
+.pcmt-cp-close{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:14px;color:#666}
+.pcmt-cp-close:hover{background:#eee}
+.pcmt-cp-colors{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:12px}
+.pcmt-cp-color{width:32px;height:32px;border:1px solid #ddd;border-radius:6px;cursor:pointer;transition:transform .1s,border-color .1s,box-shadow .1s}
+.pcmt-cp-color:hover{transform:scale(1.1);border-color:#999}
+.pcmt-cp-color.selected{border-color:#333;box-shadow:0 0 0 2px #fff,0 0 0 4px #333}
+.pcmt-cp-custom{display:flex;align-items:center;gap:8px;padding:0 12px 10px}
+.pcmt-cp-hex{width:90px;padding:6px 8px;border:1px solid #ddd;border-radius:4px;font-size:13px;font-family:monospace}
+.pcmt-cp-preview{width:32px;height:32px;border-radius:6px;border:1px solid #ddd}
+.pcmt-cp-actions{padding:10px 12px;border-top:1px solid #eee;text-align:right}
+.pcmt-cp-apply{padding:6px 16px;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
+.pcmt-cp-apply:hover{background:#3a7bc8}
+
+/* 文字サイズピッカー */
+.pcmt-size-picker{display:none;position:absolute;left:36px;top:100%;margin-top:4px;width:200px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:9999;overflow:hidden}
+.pcmt-size-picker.show{display:block}
+.pcmt-sp-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #eee}
+.pcmt-sp-title{font-size:13px;font-weight:600;color:#333}
+.pcmt-sp-close{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:14px;color:#666}
+.pcmt-sp-close:hover{background:#eee}
+.pcmt-sp-sizes{display:flex;flex-wrap:wrap;gap:6px;padding:12px}
+.pcmt-sp-size{min-width:36px;padding:6px 10px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;font-size:13px;text-align:center;transition:all .1s}
+.pcmt-sp-size:hover{background:#f5f5f5;border-color:#bbb}
+.pcmt-sp-size.selected{background:#e3f2fd;border-color:#4a90d9;color:#1976d2}
+.pcmt-sp-custom{display:flex;align-items:center;gap:6px;padding:0 12px 10px}
+.pcmt-sp-input{width:60px;padding:6px 8px;border:1px solid #ddd;border-radius:4px;font-size:13px;text-align:center}
+.pcmt-sp-unit{font-size:13px;color:#666}
+.pcmt-sp-preview{margin:0 12px 10px;padding:10px;background:#f9f9f9;border-radius:6px;text-align:center;transition:font-size .15s}
+.pcmt-sp-actions{padding:10px 12px;border-top:1px solid #eee;text-align:right}
+.pcmt-sp-apply{padding:6px 16px;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
+.pcmt-sp-apply:hover{background:#3a7bc8}
+
+/* レスポンシブ */
+@media(max-width:600px){
+.pcmt-name,.pcmt-msg{font-size:13px}
+.pcmt-input-area{display:block;width:100%;margin:6px 0}
+.pcmt-msg-wrap{display:block;width:100%}
+.pcmt-msg-wrap .pcmt-msg{width:100%}
+.pcmt-emoji-picker,.pcmt-color-picker,.pcmt-size-picker{width:calc(100vw - 32px);max-width:340px;left:0}
+.pcmt-size-picker{left:0}
+}
+</style>
+  <div id="pcomment-form">
+  <input type="hidden" name="digest" value="1d3c8d767fea9d314c3e034a0bb2a678" />
+  <input type="hidden" name="plugin" value="pcomment" />
+  <input type="hidden" name="refer"  value="SandBox/アイテム価値早見表" />
+  <input type="hidden" name="page"   value="[[コメント/SandBox/アイテム価値早見表]]" />
+  <input type="hidden" name="nodate" value="" />
+  <input type="hidden" name="dir"    value="1" />
+  <input type="hidden" name="count"  value="20" />
+  <input type="radio" name="reply" value="0" tabindex="0" checked="checked" /> お名前:  <input type="text" name="name" size="15" class="pcmt-name" /> <div class="pcmt-input-area"><span class="pcmt-msg-wrap pcmt-msg-wrap-ta"><textarea name="msg" id="pcmt_cb18057a_msg" rows="2" cols="45" class="pcomment-textarea pcmt-msg" placeholder=""></textarea><button type="button" class="pcmt-emoji-btn" id="pcmt_cb18057a_emoji_btn" title="絵文字">😀</button><div class="pcmt-emoji-picker" id="pcmt_cb18057a_picker"><div class="pcmt-ep-head"><input type="text" class="pcmt-ep-search" id="pcmt_cb18057a_search" placeholder="検索"><button type="button" class="pcmt-ep-close" id="pcmt_cb18057a_close">×</button></div><div class="pcmt-ep-cats" id="pcmt_cb18057a_cats"></div><div class="pcmt-ep-list" id="pcmt_cb18057a_list"></div><div class="pcmt-ep-recent-wrap" id="pcmt_cb18057a_recent_wrap"><div class="pcmt-ep-recent-title">最近使った</div><div class="pcmt-ep-recent" id="pcmt_cb18057a_recent"></div></div></div></span><div class="pcmt-toolbar" id="pcmt_cb18057a_toolbar"><button type="button" class="pcmt-tb-btn" id="pcmt_cb18057a_color_btn" title="文字色"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L12 14L15 3"/><path d="M5 21h14" stroke-width="3" stroke="#e53935"/></svg></button><div class="pcmt-color-picker" id="pcmt_cb18057a_color_picker"><div class="pcmt-cp-head"><span class="pcmt-cp-title">文字色</span><button type="button" class="pcmt-cp-close" id="pcmt_cb18057a_color_close">×</button></div><div class="pcmt-cp-colors" id="pcmt_cb18057a_colors"></div><div class="pcmt-cp-custom"><input type="text" class="pcmt-cp-hex" id="pcmt_cb18057a_hex" placeholder="#000000" maxlength="7"><div class="pcmt-cp-preview" id="pcmt_cb18057a_preview"></div></div><div class="pcmt-cp-actions"><button type="button" class="pcmt-cp-apply" id="pcmt_cb18057a_color_apply">適用</button></div></div><button type="button" class="pcmt-tb-btn" id="pcmt_cb18057a_size_btn" title="文字サイズ"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><text x="3" y="17" font-size="14" font-weight="bold" fill="currentColor" stroke="none">T</text><text x="14" y="20" font-size="10" fill="currentColor" stroke="none">T</text></svg></button><div class="pcmt-size-picker" id="pcmt_cb18057a_size_picker"><div class="pcmt-sp-head"><span class="pcmt-sp-title">文字サイズ</span><button type="button" class="pcmt-sp-close" id="pcmt_cb18057a_size_close">×</button></div><div class="pcmt-sp-sizes" id="pcmt_cb18057a_sizes"></div><div class="pcmt-sp-custom"><input type="number" class="pcmt-sp-input" id="pcmt_cb18057a_size_input" placeholder="px" min="8" max="48" value="16"><span class="pcmt-sp-unit">px</span></div><div class="pcmt-sp-preview" id="pcmt_cb18057a_size_preview">サンプル</div><div class="pcmt-sp-actions"><button type="button" class="pcmt-sp-apply" id="pcmt_cb18057a_size_apply">適用</button></div></div><button type="button" class="pcmt-tb-btn" id="pcmt_cb18057a_bold_btn" title="太字"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h6c2.2 0 4 1.8 4 4 0 1.5-.8 2.7-2 3.4 1.5.7 2.5 2.2 2.5 4.1 0 2.5-2 4.5-4.5 4.5H6V4zm3 3v4h3c1.1 0 2-.9 2-2s-.9-2-2-2H9zm0 7v4h3.5c1.4 0 2.5-1.1 2.5-2.5S13.9 14 12.5 14H9z"/></svg></button><button type="button" class="pcmt-tb-btn pcmt-img-btn" id="pcmt_cb18057a_img_btn" title="画像・動画を添付"><svg width="18" height="18" viewBox="0 0 24 24"><defs><clipPath id="pcmt_cb18057a_imgclip"><rect x="2" y="2" width="20" height="20" rx="3"/></clipPath></defs><rect x="2" y="2" width="20" height="20" rx="3" fill="#dbeafe"/><g clip-path="url(#pcmt_cb18057a_imgclip)"><circle cx="15.5" cy="8" r="2.6" fill="#f59e0b"/><path d="M2 22L9.5 11l4.5 6 3-3.5L22 22z" fill="#22a06b"/><path d="M9.5 11l4.5 6-2.2 2.6L6 22H2z" fill="#1a8a55" opacity=".55"/></g><rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="#93c5fd" stroke-width="1.5"/></svg></button><input type="file" id="pcmt_cb18057a_img_file" accept="image/jpeg,image/png,image/gif,image/webp,video/webm,video/mp4" style="display:none"></div></div>
+  <input type="submit" value="コメントの挿入" />
+
+<script type="text/javascript" src="skin/assistant.js"></script>
+<script>
+(function(){
+var fid="pcmt_cb18057a";
+var emojis={
+"😀":["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔"],
+"😢":["😢","😭","😤","😠","😡","🤬","😈","👿","💀","☠️","😱","😨","😰","😥","😓","🤥","😶","😐","😑","😬","🙄","😯","😦","😧","😮","😲","🥱","😴","🤤"],
+"👍":["👍","👎","👊","✊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","✍️","💪","👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆"],
+"❤️":["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟","♥️","🩷","🩵","🩶","💋","💯","💢","💥","💫","💦"],
+"🐶":["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐔","🐧","🐦","🐤","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🦋","🐌"],
+"🍎":["🍎","🍏","🍐","🍑","🍒","🍓","🫐","🥝","🍅","🥥","🥑","🍆","🥔","🥕","🌽","🌶️","🥒","🥬","🥦","🍄","🥜","🌰","🍞","🥐","🍕","🍔","🍟","🌭","🍜","🍣"],
+"⚽":["⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉","🎱","🏓","🏸","🏒","🥅","⛳","🎯","🎮","🎲","🎰","🎳","🎪","🎭","🎨","🎬","🎤","🎧","🎼","🎹","🎷","🎺","🎻"],
+"⭐":["⭐","🌟","✨","💫","🔥","💥","❄️","🌈","☀️","🌤️","⛅","☁️","🌧️","⛈️","🌩️","❗","❓","💲","©️","®️","™️","🔴","🟠","🟡","🟢","🔵","🟣","⚫","⚪","🟤"],
+"🎉":["🎉","🎊","🎈","🎁","🎀","🏆","🥇","🥈","🥉","🏅","🎖️","📢","📣","🔔","🔕","🎵","🎶","💤","💭","💬","👁️‍🗨️","🗯️","💡","🔍","🔎","🔒","🔓","🔑","🗝️","💰"]
+};
+var cats=Object.keys(emojis);
+var recent=[];try{recent=JSON.parse(localStorage.getItem("pcmt_emoji_recent"))||[];}catch(e){}
+function $(id){return document.getElementById(id);}
+var btn=$(fid+"_emoji_btn"),picker=$(fid+"_picker"),msg=$(fid+"_msg"),search=$(fid+"_search"),catsEl=$(fid+"_cats"),list=$(fid+"_list"),recentEl=$(fid+"_recent"),recentWrap=$(fid+"_recent_wrap"),closeBtn=$(fid+"_close");
+if(!btn||!picker||!msg)return;
+var curCat=cats[0];
+catsEl.innerHTML=cats.map(function(c,i){return "<button type=\"button\" class=\"pcmt-ep-cat"+(i===0?" active":"")+"\" data-cat=\""+c+"\">"+c+"</button>";}).join("");
+function render(f){var html="",arr=f?[].concat.apply([],cats.map(function(c){return emojis[c];})):emojis[curCat];arr.forEach(function(e){html+="<button type=\"button\" class=\"pcmt-ep-item\" data-e=\""+e+"\">"+e+"</button>";});list.innerHTML=html;}
+function renderRecent(){if(!recent.length){recentWrap.classList.remove("show");return;}recentWrap.classList.add("show");recentEl.innerHTML=recent.map(function(e){return "<button type=\"button\" class=\"pcmt-ep-item\" data-e=\""+e+"\">"+e+"</button>";}).join("");}
+function insertText(t){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value;msg.value=v.substring(0,s)+t+v.substring(e);msg.selectionStart=msg.selectionEnd=s+t.length;msg.focus();}
+function insert(e){insertText(e);recent=recent.filter(function(x){return x!==e;});recent.unshift(e);if(recent.length>12)recent=recent.slice(0,12);try{localStorage.setItem("pcmt_emoji_recent",JSON.stringify(recent));}catch(x){}renderRecent();}
+btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=picker.classList.contains("show");if(!open){picker.classList.add("show");btn.classList.add("active");search.value="";render();renderRecent();}};
+closeBtn.onclick=function(){picker.classList.remove("show");btn.classList.remove("active");};
+catsEl.onclick=function(ev){var t=ev.target;if(!t.classList.contains("pcmt-ep-cat"))return;curCat=t.getAttribute("data-cat");catsEl.querySelectorAll(".pcmt-ep-cat").forEach(function(b){b.classList.remove("active");});t.classList.add("active");search.value="";render();};
+list.onclick=function(ev){var e=ev.target.getAttribute("data-e");if(e)insert(e);};
+recentEl.onclick=function(ev){var e=ev.target.getAttribute("data-e");if(e)insert(e);};
+search.oninput=function(){render(search.value);};
+render();renderRecent();
+
+// カラーピッカー
+var colors=["#000000","#434343","#666666","#999999","#cccccc","#ffffff","#e53935","#d81b60","#8e24aa","#5e35b1","#3949ab","#1e88e5","#039be5","#00acc1","#00897b","#43a047","#7cb342","#c0ca33","#fdd835","#ffb300","#fb8c00","#f4511e","#6d4c41","#757575"];
+var colorBtn=$(fid+"_color_btn"),colorPicker=$(fid+"_color_picker"),colorsEl=$(fid+"_colors"),hexInput=$(fid+"_hex"),preview=$(fid+"_preview"),colorClose=$(fid+"_color_close"),colorApply=$(fid+"_color_apply");
+var selectedColor="#000000";
+if(colorBtn&&colorPicker){
+colorsEl.innerHTML=colors.map(function(c){return "<button type=\"button\" class=\"pcmt-cp-color\" data-c=\""+c+"\" style=\"background:"+c+"\"></button>";}).join("");
+preview.style.background=selectedColor;
+colorBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=colorPicker.classList.contains("show");if(!open){colorPicker.classList.add("show");colorBtn.classList.add("active");}};
+colorClose.onclick=function(){colorPicker.classList.remove("show");colorBtn.classList.remove("active");};
+colorsEl.onclick=function(ev){var c=ev.target.getAttribute("data-c");if(c){selectedColor=c;hexInput.value=c;preview.style.background=c;colorsEl.querySelectorAll(".pcmt-cp-color").forEach(function(b){b.classList.remove("selected");});ev.target.classList.add("selected");}};
+hexInput.oninput=function(){var v=hexInput.value;if(/^#[0-9A-Fa-f]{6}$/.test(v)){selectedColor=v;preview.style.background=v;colorsEl.querySelectorAll(".pcmt-cp-color").forEach(function(b){b.classList.remove("selected");});}};
+colorApply.onclick=function(){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"&color("+selectedColor+"){"+sel+"};":"&color("+selectedColor+"){};";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+tag.length-2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();colorPicker.classList.remove("show");colorBtn.classList.remove("active");};
+}
+
+// 文字サイズピッカー
+var sizes=[10,12,14,16,18];
+var sizeBtn=$(fid+"_size_btn"),sizePicker=$(fid+"_size_picker"),sizesEl=$(fid+"_sizes"),sizeInput=$(fid+"_size_input"),sizePreview=$(fid+"_size_preview"),sizeClose=$(fid+"_size_close"),sizeApply=$(fid+"_size_apply");
+var selectedSize=16;
+if(sizeBtn&&sizePicker){
+sizesEl.innerHTML=sizes.map(function(s){return "<button type=\"button\" class=\"pcmt-sp-size"+(s===16?" selected":"")+"\" data-s=\""+s+"\">"+s+"</button>";}).join("");
+sizePreview.style.fontSize=selectedSize+"px";
+sizeBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=sizePicker.classList.contains("show");if(!open){sizePicker.classList.add("show");sizeBtn.classList.add("active");}};
+sizeClose.onclick=function(){sizePicker.classList.remove("show");sizeBtn.classList.remove("active");};
+sizesEl.onclick=function(ev){var s=ev.target.getAttribute("data-s");if(s){selectedSize=parseInt(s);sizeInput.value=selectedSize;sizePreview.style.fontSize=selectedSize+"px";sizesEl.querySelectorAll(".pcmt-sp-size").forEach(function(b){b.classList.remove("selected");});ev.target.classList.add("selected");}};
+sizeInput.oninput=function(){var v=parseInt(sizeInput.value);if(v>=8&&v<=48){selectedSize=v;sizePreview.style.fontSize=v+"px";sizesEl.querySelectorAll(".pcmt-sp-size").forEach(function(b){b.classList.remove("selected");});}};
+sizeApply.onclick=function(){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"&size("+selectedSize+"){"+sel+"};":"&size("+selectedSize+"){};";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+tag.length-2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();sizePicker.classList.remove("show");sizeBtn.classList.remove("active");};
+}
+
+// 太字ボタン
+var boldBtn=$(fid+"_bold_btn");
+if(boldBtn){
+boldBtn.onclick=function(ev){ev.preventDefault();var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"''"+sel+"''":"''''";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();};
+}
+
+// 画像添付ボタン(投稿時アップロード方式)
+var imgBtn=$(fid+"_img_btn"),imgFile=$(fid+"_img_file");
+var IMG_UPLOAD_URL="https://upload.wikiru-cdn.com";
+var IMG_MAX_COUNT=4;
+if(imgBtn&&imgFile){
+var pendingImgs=[];
+var imgSeq=0;
+var imgTb=imgBtn.parentNode;
+var chips=document.createElement("div");
+chips.className="pcmt-img-chips";
+imgTb.parentNode.insertBefore(chips,imgTb.nextSibling);
+function tokenOf(n,v){return v?"[添付予定動画"+n+"]":"[添付予定画像"+n+"]";}
+function renderChips(){
+chips.innerHTML="";
+for(var i=0;i<pendingImgs.length;i++){(function(p){
+var c=document.createElement("span");c.className="pcmt-img-chip";
+var t=document.createElement("span");t.textContent=(p.v?"動画":"画像")+p.n+": "+p.file.name;c.appendChild(t);
+var x=document.createElement("button");x.type="button";x.className="pcmt-img-chip-x";x.textContent="\u00d7";x.title="この画像を取り消す";
+x.onclick=function(){removePending(p.n);};
+c.appendChild(x);chips.appendChild(c);
+})(pendingImgs[i]);}
+chips.style.display=pendingImgs.length?"flex":"none";
+}
+function removePending(n){
+var tk="";
+for(var i=0;i<pendingImgs.length;i++){if(pendingImgs[i].n===n){tk=tokenOf(n,pendingImgs[i].v);break;}}
+pendingImgs=pendingImgs.filter(function(p){return p.n!==n;});
+if(tk)msg.value=msg.value.split(tk).join("");
+renderChips();
+}
+imgBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();showImgTerms();};
+function showImgTerms(){
+var ov=document.createElement("div");ov.className="pcmt-terms-ov";
+ov.innerHTML='<div class="pcmt-terms-box"><p style="margin:0"><a href="https://upload.wikiru-cdn.com/" target="_blank" rel="noopener">wikiru画像アップローダー利用規約</a>を必ず確認の上、画像・動画のアップロードを行ってください。<br><span style="font-size:12px;color:#888">ファイルはコメント投稿時にアップロードされます。</span></p><div class="pcmt-terms-btns"><button type="button" class="pcmt-terms-cancel">キャンセル</button><button type="button" class="pcmt-terms-ok">確認しました</button></div></div>';
+document.body.appendChild(ov);
+ov.querySelector(".pcmt-terms-ok").onclick=function(){document.body.removeChild(ov);imgFile.click();};
+ov.querySelector(".pcmt-terms-cancel").onclick=function(){document.body.removeChild(ov);};
+ov.onclick=function(e){if(e.target===ov)document.body.removeChild(ov);};
+}
+imgFile.onchange=function(){
+var f=imgFile.files[0];
+imgFile.value="";
+if(!f)return;
+if(pendingImgs.length>=IMG_MAX_COUNT){alert("1回のコメントに添付できる画像・動画はあわせて"+IMG_MAX_COUNT+"件までです");return;}
+var isV=(f.type.indexOf("video/")===0)||/\.(webm|mp4|mov)$/i.test(f.name);
+var maxSz=isV?20*1024*1024:10*1024*1024;
+if(f.size>maxSz){alert(isV?"動画は20MBまでです":"画像は10MBまでです");return;}
+imgSeq++;
+pendingImgs.push({n:imgSeq,file:f,v:isV});
+insertText(tokenOf(imgSeq,isV));
+renderChips();
+};
+// コメント送信時にまとめてアップロードし、仮タグをURLに置換してから投稿
+var imgForm=msg.form;
+var imgBypass=false;
+if(imgForm){
+imgForm.addEventListener("submit",function(ev){
+var targets=pendingImgs.filter(function(p){return msg.value.indexOf(tokenOf(p.n,p.v))!==-1;});
+if(imgBypass||targets.length===0)return;
+ev.preventDefault();
+var submitter=ev.submitter||imgForm.querySelector("input[type=submit],button[type=submit]");
+var subs=imgForm.querySelectorAll("input[type=submit],button[type=submit]");
+for(var i=0;i<subs.length;i++)subs[i].disabled=true;
+imgBtn.classList.add("uploading");imgBtn.disabled=true;
+var idx=0;
+function imgFail(m){
+alert("画像のアップロードに失敗したため、コメントは投稿されていません: "+m);
+for(var i=0;i<subs.length;i++)subs[i].disabled=false;
+imgBtn.classList.remove("uploading");imgBtn.disabled=false;
+}
+function imgNext(){
+if(idx>=targets.length){
+imgBtn.classList.remove("uploading");imgBtn.disabled=false;
+pendingImgs=[];renderChips();
+imgBypass=true;
+if(submitter){submitter.disabled=false;submitter.click();}else{imgForm.submit();}
+return;
+}
+var p=targets[idx];
+var fd=new FormData();fd.append("image",p.file);
+fetch(IMG_UPLOAD_URL,{method:"POST",body:fd})
+.then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
+.then(function(res){
+if(res.ok&&res.d&&res.d.url){
+msg.value=msg.value.split(tokenOf(p.n,p.v)).join((p.v?"[[添付動画>":"[[添付画像>")+res.d.url+"]]");
+idx++;imgNext();
+}else{imgFail((res.d&&res.d.error)||"不明なエラー");}
+})
+.catch(function(e){imgFail("通信エラー");});
+}
+imgNext();
+});
+}
+}
+
+
+
+
+// 全ピッカーを閉じる
+function closeAllPickers(){
+document.querySelectorAll(".pcmt-emoji-picker.show,.pcmt-color-picker.show,.pcmt-size-picker.show").forEach(function(p){p.classList.remove("show");});
+document.querySelectorAll(".pcmt-emoji-btn.active,.pcmt-tb-btn.active").forEach(function(b){b.classList.remove("active");});
+}
+
+// 外側クリックで閉じる
+document.addEventListener("click",function(ev){
+var isInside=ev.target.closest(".pcmt-emoji-picker,.pcmt-color-picker,.pcmt-size-picker,.pcmt-emoji-btn,.pcmt-tb-btn");
+if(!isInside)closeAllPickers();
+});
+})();
+</script></div>
+		</form>
+
+</div>
+</div>
+   <br>
+<div class="sticky-ads">
+<table>
+<tr>
+<td>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="1109012249"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+<td>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_2枠目_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="8922900187"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+</tr>
+</table>
+  </td>
+ </tr>
+</table>
+<p id="page-top"><a href="#wrap"><b><font size="7">↑</font></b></a></p>
+
+
+
+<hr class="full_hr" />
+<!-- Toolbar -->
+<div id="toolbar">
+ <a href="./"><img src="image/top.png" width="20" height="20" alt="トップ" title="トップ" /></a>
+ &nbsp;
+ 	<a href="./?cmd=edit&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/edit.png" width="20" height="20" alt="編集" title="編集" /></a>			<a href="./?cmd=freeze&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/freeze.png" width="20" height="20" alt="凍結" title="凍結" /></a>	  <a href="./?cmd=diff&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/diff.png" width="20" height="20" alt="差分" title="差分" /></a>	<a href="./?cmd=backup&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/backup.png" width="20" height="20" alt="バックアップ" title="バックアップ" /></a>			<a href="./?plugin=attach&amp;pcmd=upload&amp;page=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/file.png" width="20" height="20" alt="添付" title="添付" /></a>		<a href="./?plugin=template&amp;refer=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/copy.png" width="20" height="20" alt="複製" title="複製" /></a>	<a href="./?plugin=rename&amp;refer=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/rename.png" width="20" height="20" alt="名前変更" title="名前変更" /></a> <a href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/reload.png" width="20" height="20" alt="リロード" title="リロード" /></a> &nbsp;
+	<a href="./?plugin=newpage&amp;refer=SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8"><img src="image/new.png" width="20" height="20" alt="新規" title="新規" /></a> <a href="./?cmd=list"><img src="image/list.png" width="20" height="20" alt="一覧" title="一覧" /></a> <a href="./?cmd=search"><img src="image/search.png" width="20" height="20" alt="検索" title="検索" /></a> <a href="./?RecentChanges"><img src="image/recentchanges.png" width="20" height="20" alt="最終更新" title="最終更新" /></a> &nbsp; <a href="./?Help"><img src="image/help.png" width="20" height="20" alt="ヘルプ" title="ヘルプ" /></a> &nbsp; <a href="./?cmd=rss&amp;ver=1.0"><img src="image/rss.png" width="36" height="14" alt="最終更新のRSS" title="最終更新のRSS" /></a></div>
+
+<div id="lastmodified">Last-modified: 2026-07-12 (日) 01:35:03<span class="page_passage" data-mtime="2026-07-12T01:35:03+09:00"></span></div>
+
+
+<script>
+/* double post */
+$(function () { $("div.pcomment form").submit(function () { $(this).find(':submit').attr('disabled', 'disabled'); }); }); 
+</script>
+<div id="footer">
+運営中のwiki一覧: <a href="https://bungo.wikiru.jp/" class="exclude-icon">文豪とアルケミスト(文アル)攻略 Wiki</a> | <a href="https://otogi.wikiru.jp/" class="exclude-icon">オトギフロンティア(オトフロ)攻略 Wiki</a> | <a href="https://azurlane.wikiru.jp/" class="exclude-icon">アズールレーン(アズレン)攻略 Wiki</a> | <a href="https://taimanin-rpg.wikiru.jp/" class="exclude-icon">対魔忍RPG攻略 Wiki</a> | <a href="https://arknights.wikiru.jp/" class="exclude-icon">アークナイツ攻略 Wiki</a> | <a href="https://langrisser.wikiru.jp/" class="exclude-icon">ラングリッサーモバイル攻略 Wiki</a> | <a href="https://artwhirl.wikiru.jp/" class="exclude-icon">アートワール攻略 Wiki</a> | <a href="https://ayarabu.wikiru.jp/" class="exclude-icon">あやかしランブル！(あやらぶ)攻略 Wiki</a> | <a href="https://twst.wikiru.jp/" class="exclude-icon">ツイステッドワンダーランド(ツイステ)攻略 Wiki</a> | <a href="https://detarikiz.wikiru.jp/" class="exclude-icon">デタリキZ攻略 Wiki</a> | <a href="https://tonofura.wikiru.jp/" class="exclude-icon">Deep One 虚無と夢幻のフラグメント攻略Wiki</a> | <a href="https://bluearchive.wikiru.jp/" class="exclude-icon">ブルーアーカイブ（ブルアカ）攻略 Wiki</a> | <a href="https://misttraingirls.wikiru.jp/" class="exclude-icon">ミストトレインガールズ攻略 Wiki</a>  | <a href="https://escalationheroines.wikiru.jp/" class="exclude-icon">超昂大戦エスカレーションヒロインズ攻略 Wiki</a> | <a href="https://minashigo.wikiru.jp/" class="exclude-icon">ミナシゴノシゴト攻略 Wiki</a> | <a href="https://edensgrenze.wikiru.jp/" class="exclude-icon">エデンズリッターグレンツェ攻略 Wiki</a> | <a href="https://senkoi.wikiru.jp/" class="exclude-icon">戦国†恋姫オンライン～奥宴新史～攻略 Wiki</a> | <a href="https://umamusume.wikiru.jp/" class="exclude-icon">ウマ娘 プリティダービー 攻略 Wiki</a> | <a href="https://angelic.wikiru.jp/" class="exclude-icon">エンジェリックリンク（エンクリ）攻略 Wiki</a> | <a href="https://neural-cloud.wikiru.jp/" class="exclude-icon">ニューラルクラウド攻略 Wiki</a> | <a href="https://legeclo.wikiru.jp/" class="exclude-icon">れじぇくろ！ ～レジェンド・クローバー～攻略 Wiki</a> | <a href="https://tenkafuma.wikiru.jp/" class="exclude-icon">天下布魔攻略 Wiki</a> | <a href="https://sugarconflict.wikiru.jp/" class="exclude-icon">シュガーコンフリクト（シュガコン）攻略 Wiki</a> | <a href="https://monmusu-td.wikiru.jp/" class="exclude-icon">モンスター娘TD攻略 Wiki</a> | <a href="https://tenkei-paradox.wikiru.jp/" class="exclude-icon">天啓パラドクス(テンパラ)攻略 Wiki</a> | <a href="https://crimson-youmataisen.wikiru.jp/" class="exclude-icon">クリムゾン妖魔大戦攻略 Wiki</a> | <a href="https://arknights-endfield.wikiru.jp/" class="exclude-icon">アークナイツ エンドフィールド攻略 Wiki</a> | <a href="https://dollsfrontline2.wikiru.jp/" class="exclude-icon">ドールズフロントライン2：エクシリウム攻略 Wiki</a> | <a href="https://v-rising.wikiru.jp/" class="exclude-icon">V Rising日本語攻略 Wiki</a> | <a href="https://nikke.wikiru.jp/" class="exclude-icon">勝利の女神：NIKKE攻略 Wiki</a> | <a href="https://dolphin-wave.wikiru.jp/" class="exclude-icon">ドルフィンウェーブ（ドルウェブ）攻略Wiki</a> | <a href="https://jewel-reincarnation.wikiru.jp/" class="exclude-icon">宝石姫 Reincarnation攻略Wiki</a> | <a href="https://alliancesages.wikiru.jp/" class="exclude-icon">アライアンスセージ攻略Wiki</a> | <a href="https://cravesaga.wikiru.jp/" class="exclude-icon">クレイヴ・サーガ（クレサガ）攻略Wiki</a> | <a href="https://aethergazer.wikiru.jp/" class="exclude-icon">エーテルゲイザー攻略Wiki</a> | <a href="https://twinklestarknights.wikiru.jp/" class="exclude-icon">ティンクルスターナイツ（クルスタ）攻略Wiki</a> | <a href="https://reverse1999.wikiru.jp/" class="exclude-icon">リバース：1999攻略Wiki</a> | <a href="https://kfk.wikiru.jp/" class="exclude-icon">Kemono Friends：Kingdom Wiki</a> | <a href="https://snowbreak.wikiru.jp/" class="exclude-icon">スノウブレイク 攻略 Wiki</a> | <a href="https://honeycome.wikiru.jp/" class="exclude-icon">ハニカム 攻略wiki</a> | <a href="https://girlscreation.wikiru.jp/" class="exclude-icon">ガールズクリエイション（ガークリ）攻略 Wiki</a> | <a href="https://sweethomemaid.wikiru.jp/" class="exclude-icon">スイートホームメイド攻略 Wiki</a> | <a href="https://modernwarships.wikiru.jp/" class="exclude-icon">Modern Warships 攻略 Wiki</a> | <a href="https://ashechoes.wikiru.jp/" class="exclude-icon">アッシュエコーズ-白荊回廊-攻略 Wiki</a> | <a href="https://lilyange.wikiru.jp/" class="exclude-icon">りりぃあんじぇ（りりあん） 攻略Wiki</a> | <a href="https://unlightrevive.wikiru.jp/" class="exclude-icon">UNLIGHT：Revive 攻略Wiki</a> | <a href="https://azurpromilia.wikiru.jp/" class="exclude-icon">アズールプロミリア 有志Wiki</a> | <a href="https://sakurazimarpfer.wikiru.jp/" class="exclude-icon">桜島RPサーバーWiki</a> | <a href="https://madisland.wikiru.jp/" class="exclude-icon">Mad Island 攻略Wiki</a> | <a href="https://tenshoku-maou.wikiru.jp/" class="exclude-icon">転職魔王～リストラ勇者のお仕置きセレナーデ～ 攻略Wiki</a> | <a href="https://svs.wikiru.jp/" class="exclude-icon">サマバケ！すくらんぶる 攻略wiki</a> | <a href="https://orisries.wikiru.jp/" class="exclude-icon">オリスライズ 攻略wiki</a> | <a href="https://noctilucent.wikiru.jp/" class="exclude-icon">ノクティルセント：暁の前に 攻略Wiki</a> | <a href="https://suzuran.wikiru.jp/" class="exclude-icon">鈴蘭の剣攻略Wiki</a> | <a href="https://rebgil.wikiru.jp/" class="exclude-icon">リベリオン ギルガメッシュ（リベガメ）攻略Wiki</a> | <a href="https://donguri.wikiru.jp/" class="exclude-icon">5chどんぐり非公式まとめwiki</a> | <a href="https://mugenrou.wikiru.jp/" class="exclude-icon">夢幻楼と眠れぬ蝶 攻略Wiki</a> | <a href="https://resonance.wikiru.jp/" class="exclude-icon">レゾナンス：無限号列車 攻略 Wiki</a> | <a href="https://vtuber-database.wikiru.jp/" class="exclude-icon">Vtuber総合データベースwiki</a> | <a href="https://aigiscenario.wikiru.jp/" class="exclude-icon">千年戦争アイギスシナリオwiki</a> | <a href="https://angelica-aster.wikiru.jp/" class="exclude-icon">ANGELICA ASTER 攻略Wiki</a> | <a href="https://elins-inn.wikiru.jp/" class="exclude-icon">Elin 攻略有志wiki</a> | <a href="https://karin-lk.wikiru.jp/" class="exclude-icon">魔王カリンちゃんRPG ～恋姫建国奔走記～攻略 Wiki</a> | <a href="https://etechrore.wikiru.jp/" class="exclude-icon">エタクロニクル：Re攻略考察wiki</a> | <a href="https://touhou-dm.wikiru.jp/" class="exclude-icon">東方ダンジョンメーカー攻略wiki</a> | <a href="https://dnabyss.wikiru.jp/" class="exclude-icon">デュエットナイトアビス(二重螺旋)攻略 Wiki</a> | <a href="https://madodra.wikiru.jp/" class="exclude-icon">魔法少女まどか☆マギカ Magia Exedra（まどドラ）攻略有志Wiki</a> | <a href="https://touhounomeikyuu-tri.wikiru.jp/" class="exclude-icon">東方の迷宮Tri 夢見る乙女と神秘の宝珠 攻略有志Wiki</a> | <a href="https://siprj.wikiru.jp/" class="exclude-icon">STELLAR IDOL PROJECT（ステラP）攻略Wiki</a> | <a href="https://adult-seiyu.wikiru.jp/" class="exclude-icon">エロゲー・エロアニメ声優総合Wiki</a> | <a href="https://stellasora.wikiru.jp/" class="exclude-icon">ステラソラ攻略有志 Wiki</a> | <a href="https://muvluv-girls-garden.wikiru.jp/" class="exclude-icon">マブラヴ ガールズガーデン攻略 Wiki</a> | <a href="https://horizon-walker.wikiru.jp/" class="exclude-icon">ホライゾンウォーカー攻略 Wiki</a> | <a href="https://reet.wikiru.jp/" class="exclude-icon">エターナルツリー新生(REエタツリ)攻略 Wiki</a> | <a href="https://aicomi.wikiru.jp/" class="exclude-icon">アイコミ 攻略wiki</a> | <a href="https://kaiitoumetsutan-trpg.wikiru.jp/" class="exclude-icon">TRPG怪異討滅譚5版対応Wiki</a> | <a href="https://koihime-taisen.wikiru.jp/" class="exclude-icon">恋姫大戦 攻略Wiki</a> | <a href="https://techcronoss.wikiru.jp/" class="exclude-icon">テクロノス攻略 Wiki</a> | <a href="https://taimaninsquad.wikiru.jp/" class="exclude-icon">対魔忍スクワッド攻略 Wiki</a> | <a href="https://bloxd.wikiru.jp/" class="exclude-icon">bloxd攻略 Wiki</a> | <a href="https://rlyehshoujotai.wikiru.jp/" class="exclude-icon">邪神戦記ルルイエ少女隊攻略 Wiki</a> | <a href="https://killer-inn.wikiru.jp/" class="exclude-icon">キラーイン攻略 Wiki</a> | <a href="https://acacia.wikiru.jp/" class="exclude-icon">Acacia総合有志wiki</a> | <a href="https://drapline.wikiru.jp/" class="exclude-icon">DRAPLINE攻略 Wiki</a> | <a href="https://rezoriri.wikiru.jp/" class="exclude-icon">レゾナンスリリウム（レゾリリ）攻略 Wiki</a> | <a href="https://dotabyss.wikiru.jp/" class="exclude-icon">ドットアビスX攻略 Wiki</a> | <a href="https://astraeoratio.wikiru.jp/" class="exclude-icon">アストラエ・オラティオ（アスオラ）攻略 Wiki</a><br><br>
+ Site admin: <a href="https://escalationheroines.wikiru.jp/script/mailform/escalationheroines/">超昂大戦エスカレーションヒロインズ攻略 Wiki管理人</a><br>
+ <a href="https://wikiru.jp/">無料レンタルwiki by wikiru.jp</a><br>
+ <p>
+ <strong>PukiWiki 1.5.2</strong> &copy; 2001-2024 .
+ Powered by PHP 7.4.33. HTML convert time: 0.067 sec.
+ </p>
+<a href="https://greasyfork.org/ja/scripts/393034" class="exclude-icon">wikiru.jp コメントあぼーん</a> Copyright © 2017 Shikikan. License is <a href="https://www.apache.org/licenses/LICENSE-2.0" class="exclude-icon">Apache License 2.0</a><br>
+<a href="https://wikiru.jp/privacypolicy.html">wikiru.jpのプライバシーポリシー</a> | <a href="https://wikiru.jp/emergency_support.html">wikiru.jp運営の緊急サポートについて</a>
+</div>
+</div>
+<script type="text/javascript" src="skin/modalAnimation.js?1"></script>
+<script type="text/javascript" src="skin/modal.js?111"></script>
+</body>
+</html>

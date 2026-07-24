@@ -1,0 +1,65 @@
+<script setup lang="ts">
+import DefaultTheme from 'vitepress/theme'
+import { useData, withBase } from 'vitepress'
+import { onMounted, onUnmounted, ref } from 'vue'
+import CharHoverModal from './components/CharHoverModal.vue'
+import MetaBar from './components/MetaBar.vue'
+import { useI18n } from './i18n'
+
+const { Layout } = DefaultTheme
+const { t } = useI18n()
+const { lang } = useData()
+
+// 图片灯箱（镜像内容图片点击放大）
+const lbSrc = ref('')
+function onDocClick(e: MouseEvent) {
+  const img = (e.target as HTMLElement).closest?.('.mirror-content img') as HTMLImageElement | null
+  if (img) lbSrc.value = img.src
+}
+onMounted(() => document.addEventListener('click', onDocClick))
+onUnmounted(() => document.removeEventListener('click', onDocClick))
+
+const homeHref = () => withBase(lang.value.startsWith('zh') ? 'zh/' : 'ja/')
+</script>
+
+<template>
+  <Layout>
+    <template #doc-bottom>
+      <MetaBar />
+    </template>
+    <template #not-found>
+      <div class="escah-notfound">
+        <h1>404</h1>
+        <h2>{{ t('notFound.title') }}</h2>
+        <p>{{ t('notFound.desc') }}</p>
+        <a class="home-btn" :href="homeHref()">{{ t('notFound.home') }}</a>
+      </div>
+    </template>
+  </Layout>
+  <CharHoverModal />
+  <div v-if="lbSrc" class="lightbox-mask" @click="lbSrc = ''">
+    <img :src="lbSrc" alt="" />
+  </div>
+</template>
+
+<style scoped>
+.escah-notfound {
+  min-height: 60vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; text-align: center; padding: 40px 20px;
+}
+.escah-notfound h1 {
+  font-size: 72px; font-weight: 800; margin: 0;
+  background: var(--escah-grad);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.escah-notfound h2 { font-size: 20px; margin: 0; border: none; }
+.escah-notfound p { color: var(--vp-c-text-2); }
+.home-btn {
+  margin-top: 12px; padding: 10px 28px;
+  color: #fff; background: var(--escah-grad);
+  border-radius: 999px; font-weight: 600; text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.home-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(233, 30, 99, 0.35); }
+</style>

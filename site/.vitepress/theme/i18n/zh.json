@@ -1,0 +1,67 @@
+{
+  "siteTitle": "超昂大战 Wiki",
+  "characters": {
+    "title": "角色一览",
+    "searchPlaceholder": "按名字搜索…",
+    "rarity": "稀有度",
+    "all": "全部",
+    "count": "共 {n} 个结果",
+    "sortDefault": "默认排序",
+    "sortRarity": "按稀有度",
+    "sortName": "按名字",
+    "empty": "没有符合条件的角色",
+    "detail": "前往详情页"
+  },
+  "modal": {
+    "loading": "加载中…",
+    "error": "数据加载失败",
+    "pin": "固定浮窗",
+    "unpin": "取消固定",
+    "close": "关闭",
+    "dragHint": "按住此处拖动",
+    "fullPage": "打开完整详情页"
+  },
+  "meta": {
+    "sourceUpdated": "原文更新",
+    "synced": "本站同步",
+    "viewSource": "查看原页面",
+    "mt": "机器翻译",
+    "reviewed": "人工校对",
+    "untranslated": "未翻译"
+  },
+  "home": {
+    "heroTitle": "超昂大战 Escalation Heroines",
+    "heroTagline": "攻略 Wiki 中日双语镜像站",
+    "recentUpdates": "最近更新",
+    "categories": "内容分类",
+    "pages": "页面",
+    "chars": "角色",
+    "lastSync": "最近同步"
+  },
+  "glossary": {
+    "title": "日中术语对照表",
+    "filter": "筛选…",
+    "ja": "日文",
+    "zh": "中文",
+    "note": "备注"
+  },
+  "updates": {
+    "title": "更新记录",
+    "lastRun": "上次检查",
+    "watchPages": "观察页面",
+    "changed": "检测到变更",
+    "noChanges": "暂无变更",
+    "date": "日期",
+    "page": "页面",
+    "status": "状态"
+  },
+  "sitemap": {
+    "title": "全部页面",
+    "pages": "个页面"
+  },
+  "notFound": {
+    "title": "页面不存在",
+    "desc": "你要找的页面不存在或已被移动。",
+    "home": "返回首页"
+  }
+}

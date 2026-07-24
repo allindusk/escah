@@ -1,0 +1,1517 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+<link rel="canonical" href="https://escalationheroines.wikiru.jp/?%E4%BA%A4%E6%8F%9B%E6%89%80" /><!-- OGP -->
+<meta property="og:site_name" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:title" content="交換所">
+<meta property="og:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://escalationheroines.wikiru.jp/?%E4%BA%A4%E6%8F%9B%E6%89%80">
+<meta property="og:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="交換所">
+<meta name="twitter:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta name="twitter:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+ <meta http-equiv="content-style-type" content="text/css" />
+
+ <title>交換所 - 超昂大戦エスカレーションヒロインズ攻略 Wiki</title>
+
+ <link rel="SHORTCUT ICON" href="image/favicon.ico" />
+ <link rel="stylesheet" type="text/css" media="screen,print" href="skin/pukiwiki.css?222202020230911" />
+ <link rel="stylesheet" type="text/css" media="print" href="skin/pukiwiki.print.css" />
+ <link rel="alternate" type="application/rss+xml" title="RSS" href="./?cmd=rss" /> <script type="text/javascript" src="skin/default.js?1"></script>
+ <meta name="viewport" content="width=1024">
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	var topBtn = $('#page-top');	
+	topBtn.hide();
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 100) {
+			topBtn.fadeIn();
+		} else {
+			topBtn.fadeOut();
+		}
+	});
+	//スクロールしてトップ
+    topBtn.click(function () {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 500);
+		return false;
+    });
+});
+
+// pcommentプラグイン用の名前空間を作成
+var PCommentPlugin = {
+    originalFormParents: {},
+    originalFormNextSiblings: {},
+
+    showCommentForm: function(event) {
+        console.log('PComment: showCommentForm');
+        var radio = event.target;
+        var commentId = radio.value;
+        var formId = radio.closest('.pcomment').id;
+        console.log('PComment: commentId: ' + commentId + ', formId: ' + formId);
+
+        var commentElement = document.querySelector('#' + formId + ' [data-comment-id="comment_' + commentId + '"]');
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        
+        if (!form) {
+            console.error('PComment: pcomment form not found for ' + formId);
+            return;
+        }
+
+        console.log('PComment: form: ' + form);
+
+        if (!this.originalFormParents[formId]) {
+            this.originalFormParents[formId] = form.parentNode;
+            this.originalFormNextSiblings[formId] = form.nextSibling;
+        }
+
+        var existingCancelLink = form.querySelector('.cancel-link');
+        if (existingCancelLink) {
+            existingCancelLink.remove();
+        }
+
+        var cancelLink = document.createElement('div');
+        cancelLink.className = 'cancel-link';
+        cancelLink.innerHTML = `
+            <a class="js-abonelink" style="cursor: pointer; color: #215dc6; background-color: inherit; text-decoration: none;" onclick="PCommentPlugin.cancelForm('${commentId}', '${formId}')">返信をキャンセル</a>
+        `;
+        form.insertBefore(cancelLink, form.firstChild);
+
+        ['digest', 'refer', 'page', 'nodate', 'dir', 'count'].forEach(function(name) {
+            var input = form.querySelector('input[name="' + name + '"]');
+            if (input) {
+                input.value = document.querySelector('#' + formId + ' input[name="' + name + '"]').value;
+            }
+        });
+
+        commentElement.parentNode.insertBefore(form, commentElement.nextSibling);
+
+        // フォームまで自動スクロール
+        //setTimeout(function() {
+        //    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        //}, 100);
+    },
+
+    cancelForm: function(commentId, formId) {
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        if (form && this.originalFormParents[formId]) {
+            var cancelLink = form.querySelector('.js-abonelink').parentNode;
+            if (cancelLink) {
+                cancelLink.remove();
+            }
+            this.originalFormParents[formId].insertBefore(form, this.originalFormNextSiblings[formId]);
+            var radio = document.querySelector('#' + formId + ' input[name="reply"][value="' + commentId + '"]');
+            if (radio) {
+                radio.checked = false;
+            }
+        }
+    },
+
+    init: function() {
+        var pcommentDivs = document.querySelectorAll('.pcomment');
+        pcommentDivs.forEach(function(div, index) {
+            if (!div.id) {
+                div.id = 'pcomment-' + index;
+            }
+            var radios = div.querySelectorAll('input[type="radio"][name="reply"]');
+            radios.forEach(function(radio) {
+                radio.addEventListener('change', function(event) {
+                    PCommentPlugin.showCommentForm(event);
+                });
+            });
+        });
+    }
+};
+
+// DOMContentLoadedイベントでpcommentプラグインの初期化
+document.addEventListener('DOMContentLoaded', function() {
+    PCommentPlugin.init();
+});
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S8SSE7XDQV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S8SSE7XDQV');
+</script>
+
+
+<meta name="description" content=" 交換所について  開発ラボ  トークン一覧  売却所  取引所  セールについて  取引回数制限アイテムのリセット  期間限定交換品  スキン交換所  期間限定スキン  ハニ" />
+<!-- 外部リンクを別ウインドウで開く -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">  
+    jQuery(document).ready(function(){
+        jQuery('a[href^=http]')
+        .not('[href*="'+location.hostname+'"]')
+        .not('.exclude-icon')
+        .attr({target:"_blank"})
+        .append(' 🌐')
+    });
+</script> 
+
+<script async src="https://fundingchoicesmessages.google.com/i/pub-6756084042400545?ers=1" nonce="15dEpUr9AJY8eX0-XD7UvQ"></script><script nonce="15dEpUr9AJY8eX0-XD7UvQ">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
+
+<script>
+function getResolution() {
+  return screen.width + ' x ' + screen.height + 'px';
+}
+
+function getCookieId() {
+  var cookieId = document.cookie.replace(/(?:(?:^|.*;\s*)pukiwiki_cookie_id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (!cookieId) {
+    cookieId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    document.cookie = "pukiwiki_cookie_id=" + cookieId + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+  }
+  return cookieId;
+}
+
+document.cookie = "resolution=" + getResolution() + "; path=/";
+document.cookie = "cookie_id=" + getCookieId() + "; path=/";
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<!-- Geniee Wrapper Head Tag -->
+<script>
+  window.gnshbrequest = window.gnshbrequest || {cmd:[]};
+  window.gnshbrequest.cmd.push(function(){
+    window.gnshbrequest.registerPassback("1475070");
+    window.gnshbrequest.registerPassback("1536316");
+    window.gnshbrequest.registerPassback("1548387");
+    window.gnshbrequest.registerPassback("1551138");
+    window.gnshbrequest.registerPassback("1558324");
+    window.gnshbrequest.registerPassback("1558325");
+    window.gnshbrequest.forceInternalRequest();
+  });
+</script>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script async src="https://cpt.geniee.jp/hb/v1/179425/666/wrapper.min.js"></script>
+<!-- /Geniee Wrapper Head Tag -->
+</head>
+<body>
+
+<div id="header">
+ <a href="./"><img id="logo" src="image/pukiwiki.png" width="80" height="80" alt="[PukiWiki]" title="[PukiWiki]" /></a>
+
+ <h1 class="title"><a href="./?plugin=related&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80">交換所</a> </h1>
+
+    <span class="small">
+   <span class="topicpath-top"><a href="./?%E8%B6%85%E6%98%82%E5%A4%A7%E6%88%A6%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%92%E3%83%AD%E3%82%A4%E3%83%B3%E3%82%BA%E6%94%BB%E7%95%A5+Wiki" title="超昂大戦エスカレーションヒロインズ攻略 Wiki" class="" data-mtime="">Top</a><span class="topicpath-slash"> / </span></span>交換所   </span>
+ 
+</div>
+
+<div id="navigator">
+ [ <a href="./" >トップ</a> ] &nbsp;
+
+ [
+ 	<a href="./?cmd=edit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80" >編集</a> |
+<a href="./?cmd=guiedit&page=%E4%BA%A4%E6%8F%9B%E6%89%80">編集（GUI）</a> |
+			<a href="./?cmd=freeze&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80" >凍結</a> |
+	  <a href="./?cmd=diff&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80" >差分</a> 	| <a href="./?cmd=backup&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80" >バックアップ</a>  	| <a href="./?plugin=attach&amp;pcmd=upload&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80" >添付</a>  | <a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" >リロード</a> ] &nbsp;
+
+ [
+ 	<a href="./?plugin=newpage&amp;refer=%E4%BA%A4%E6%8F%9B%E6%89%80" >新規</a> |
+    <a href="./?cmd=list" >一覧</a>  | <a href="./?cmd=search" >検索</a> | <a href="./?RecentChanges" >最終更新</a> | <a href="./?Help" >ヘルプ</a> ]
+
+</div>
+
+<hr class="full_hr" />
+<table border="0" style="width:100%">
+ <tr>
+  <td class="menubar">
+<a href="chgsp.php?rd=http://escalationheroines.wikiru.jp/?%E4%BA%A4%E6%8F%9B%E6%89%80" rel="nofollow">スマホ版表示に切り替える</a>
+<br><br>
+<br><br>
+<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'ja', includedLanguages: 'en,ko,zh-TW,ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, gaTrack: true, gaId: 'UA-48994870-1'}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- PC_300x250_menu_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="6243394662"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+   <div id="menubar"><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/escalationheroines.wikiru.jp\/?E4BAA4E68F9BE68980"},"url":"https:\/\/escalationheroines.wikiru.jp\/?E4BAA4E68F9BE68980","headline":"\u4ea4\u63db\u6240 | \u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","author":{"@type":"Person","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki\u7ba1\u7406\u4eba"},"publisher":{"@type":"Organization","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki"},"datePublished":"2026-07-08T07:13:53+00:00","dateModified":"2026-07-08T07:13:53+00:00"}</script><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","item":"https:\/\/escalationheroines.wikiru.jp\/"},{"@type":"ListItem","position":2,"name":"\u4ea4\u63db\u6240","item":"https:\/\/escalationheroines.wikiru.jp\/?%E4%BA%A4%E6%8F%9B%E6%89%80"}]}</script>
+<p>現在、<strong>146人</strong>が閲覧中です</p>
+<h2 id="content_7_0">サイト内検索</h2>
+<form action="./?cmd=search" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+ <div>
+  <input type="text"  name="word" value="" size="20" />
+  <label><input type="radio" name="type" value="AND"  checked="checked" /> AND検索</label>
+  <label><input type="radio" name="type" value="OR"  /> OR検索</label>
+  &nbsp;<input type="submit" value="検索" />
+ </div>
+
+</form>
+<hr class="full_hr" />
+<p><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><span style="color:red"><strong><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="" data-mtime="">イベント</a></strong></span></span></p>
+<ul class="list1 list-indent1"><li>開催中のイベントはありません。</li></ul>
+<p><strong>◆メインストーリー新章</strong><br />
+<a href="./?plugin=attach&amp;refer=img&amp;openfile=%E7%AC%AC3%E9%83%A8%E9%96%91%E8%A9%B11.jpg" title="第3部閑話1.jpg"><img src="attach2/696D67_E7ACAC33E983A8E99691E8A9B1312E6A7067.jpg" alt="第3部閑話1.jpg" title="第3部閑話1.jpg" width="265" height="149" /></a><br />
+07/22 メンテ後（16:00～）<br />
+<a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" class="" data-mtime="">メインストーリー</a>第3部 閑話1 追加</p>
+
+<div style="text-align:right"><a href="./?cmd=edit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="Edit イベント一覧/開催イベント"><img src="image/edit.png" width="20" height="20" alt="Edit" title="Edit イベント一覧/開催イベント" />EDIT</a></div>
+<hr class="full_hr" />
+<p><strong><span style="color:red">7/22新キャラ</span></strong><br />
+SSR「<a href="./?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" class="" data-mtime="">魔法少女ヒトミ</a>」<br />
+<strong><span style="color:red">7/15新キャラ</span></strong><br />
+SSR「<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB" class="" data-mtime="">真夏のセラフィール</a>」<br />
+SSR「<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%B0%E3%83%9F" class="" data-mtime="">真夏のメグミ</a>」<br />
+R「<a href="./?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%82%A2%E3%83%B3" class="" data-mtime="">魔女リアン</a>」<br />
+<strong><span style="color:red">6/24新キャラ</span></strong><br />
+SSR「<a href="./?%E6%B7%B1%E7%AA%93%E3%81%AE%E4%BB%A4%E5%AC%A2%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB" class="" data-mtime="">深窓の令嬢ステアール</a>」</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_1">お知らせ</h2>
+<p><span style="color:red"><strong>アップデート情報</strong></span><br />
+7月22日(水)<br />
+・メインストーリー第3部閑話1追加<br />
+・メインクエスト第3部Area29～30追加<br />
+<strong><span style="color:blue">・期間限定ミッション追加</span></strong><br />
+・ショップに商品追加</p>
+<p>・スキン交換所に<br />
+　ショップへ遷移するボタンを追加</p>
+
+<p><span style="color:red"><strong>キャンペーン</strong></span><br />
+<strong>メインクエスト追加記念キャンペーン</strong><br />
+<strong>7月22日 16:00 ～ 7月29日 9:59まで</strong></p>
+<p>■メインクエスト全難易度の初挑戦時、<br />
+　消費スタミナが半減（特殊戦は対象外）<br />
+■メインクエスト(難易度：NORMAL)第1部Area18-10まで、<br />
+　初挑戦時スタミナ消費無し（特殊戦は対象外）<br />
+■メインクエスト(難易度：NORMAL)第1部Area18-10まで、<br />
+　プレイヤーEXP入手量１．５倍<br />
+■メインクエスト全難易度において、<br />
+　ハニー系の出現率２倍　＆<br />
+　ハニー系がドロップする宝箱数５倍<br />
+■メインクエスト全難易度の<br />
+　パンドラボックス出現率＋１０％<br />
+■助っ人の基本利用回数２倍<br />
+■全クエストの<br />
+　『時短戦闘』使用時の時短チケット消費無し</p>
+
+<p><span style="color:red"><strong>シリアルコード配布</strong></span><br />
+◆<strong>超昂月間ブログ</strong><br />
+<span style="color:blue">プレミアムガチャチケット×1 (最下段記載）</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry003983.html" rel="nofollow">8月号</a> 8月17日 23:59まで</p>
+<p>◆<strong>アリスソフト放送局</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<span style="color:blue">※歯抜け有(動画内で英数字の発表)</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry003986.html" rel="nofollow">第50回</a> 7月23日 17:59まで</p>
+<p>◆<strong>1分でわかる！超昂大戦</strong><br />
+<span style="color:blue">単発ガチャチケット×1（コメント欄にコード有）</span><br />
+<a href="https://www.youtube.com/shorts/EMgbaMAEUXo" rel="nofollow">第21回</a></p>
+<p>◆<strong>BugBug.NEWS</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<a href="https://www.bugbug.news/b_game/265668/" rel="nofollow">7月17日付記事</a> 7月29日 23:59まで</p>
+<p><span style="color:red"><strong>SSRピックアップガチャ</strong></span><br />
+<strong>7月22日 16:00 ～ 7月29日 9:59</strong><br />
+◆<a href="./?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" class="" data-mtime="">魔法少女ヒトミ</a></p>
+<p><span style="color:red"><strong>商品追加</strong></span><br />
+<strong>7月22日 16:00 ～ 7月29日 09:59</strong><br />
+◆魔法少女ヒトミＰＵガチャチケットセット　4種<br />
+◆魔法少女ヒトミ参戦記念セット　3種<br />
+◆メイン追加記念ログインパス<br />
+◆メイン追加記念元気の原液セット</p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>メンテナンス情報</strong></span><br />
+毎週水曜日 10:00 ～ 16:00</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_2">掲示板</h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_7_3">交流用掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">雑談掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_7_4">攻略掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">質問掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E6%83%85%E5%A0%B1%E6%8F%90%E4%BE%9B%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">情報提供掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E3%83%90%E3%82%B0%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">バグ報告掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_7_5">管理掲示板</h3>
+<ul class="list1 list-indent1"><li><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E8%80%85%E7%94%A8%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">編集者用掲示板</a></li>
+<li><a href="./?Wiki%E7%AE%A1%E7%90%86%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">Wiki管理掲示板</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_6">はじめに</h2>
+<ul class="list1 list-indent1"><li><a href="./?Wiki%E5%88%A9%E7%94%A8%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">Wiki利用のガイドライン</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">編集のガイドライン</a></li>
+<li><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" class="" data-mtime="">コメント欄のNGID機能</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_7">ゲームガイド</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E5%BA%8F%E7%9B%A4%E3%81%AE%E6%89%8B%E5%BC%95%E3%81%8D" class="" data-mtime="">序盤の手引き</a></li>
+<li><a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F" class="" data-mtime="">よくある質問</a></li>
+<li><a href="./?%E5%B0%8F%E3%83%8D%E3%82%BF%E3%83%BB%E5%B0%8F%E3%83%AF%E3%82%B6%E9%9B%86" class="" data-mtime="">小ネタ・小ワザ集</a></li></ul>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AC%E3%83%81%E3%83%A3" class="" data-mtime="">ガチャ</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_8">キャラクター</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7" class="" data-mtime="">キャラクター一覧</a><br />
+├ <a href="./?SSR" class="" data-mtime="">SSR</a> | <a href="./?SR" class="" data-mtime="">SR</a> | <a href="./?R" class="" data-mtime="">R</a><br />
+├ <a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a><br />
+└ <a href="./?NPC" class="" data-mtime="">NPC</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%BF%85%E6%AE%BA%E6%8A%80%E4%B8%80%E8%A6%A7" class="" data-mtime="">必殺技一覧</a></li>
+<li><a href="./?%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C%E4%B8%80%E8%A6%A7" class="" data-mtime="">固有効果一覧</a></li>
+<li><a href="./?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7" title="絞り込めるカテゴリ一覧" class="" data-mtime="">特殊属性一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">寝室シーン一覧</a><span style="color:red">(R18)</span></li>
+<li><a href="./?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95" class="" data-mtime="">原画別索引</a></li>
+<li><a href="./?CV%E4%B8%80%E8%A6%A7" class="" data-mtime="">CV一覧</a></li>
+<li><a href="./?%E5%AE%9F%E8%A3%85%E5%B1%A5%E6%AD%B4" class="" data-mtime="">実装履歴</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_9">システム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E6%88%A6%E9%97%98" class="" data-mtime="">戦闘</a><br />
+├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a><br />
+│　├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9" class="" data-mtime="">レイドおすすめキャラ</a><br />
+│　├ <a href="./?%E3%83%90%E3%83%95%E3%83%BB%E3%83%87%E3%83%90%E3%83%95%E8%83%BD%E5%8A%9B%E3%82%AD%E3%83%A3%E3%83%A9%E3%80%80%E4%B8%80%E8%A6%A7%E3%81%BE%E3%81%A8%E3%82%81" title="バフ・デバフ能力キャラ　一覧まとめ" class="" data-mtime="">レイドバフ・デバフ別キャラ一覧</a><br />
+│　└ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E7%94%A8%E7%B7%A8%E6%88%90%E4%BE%8B" class="" data-mtime="">レイド用編成例</a><br />
+├ <a href="./?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" title="Bユニバース" class="" data-mtime="">Bユニバース（強敵戦）</a><br />
+├ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a><br />
+│　└ <a href="./?%E5%BA%83%E5%9F%9F%E6%88%A6%E3%83%9E%E3%83%83%E3%83%97/%E3%83%9E%E3%83%83%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88" title="広域戦マップ/マップリスト" class="" data-mtime="">マップリスト</a><br />
+└ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" title="イベント86_殲滅戦" class="" data-mtime="">殲滅戦</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a></li>
+<li><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a></li>
+<li><a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a></li>
+<li><a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a><br />
+└ <a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a></li>
+<li><a href="./?%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3" class="" data-mtime="">コレクション</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ショップ" class="" data-mtime="">ショップ（VIPランク）</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_10">装備･アイテム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7" class="" data-mtime="">装備一覧</a><br />
+└ <a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a></li>
+<li><a href="./?%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7" class="" data-mtime="">アイテム一覧</a><br />
+└ <a href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" title="SandBox/アイテム価値早見表" class="" data-mtime="">[初心者用]アイテム価値早見表</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_11">クエスト･ミッション</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" class="" data-mtime="">メインストーリー</a><br />
+└<a href="./?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86" title="テーブル/全ストーリー実装順" class="" data-mtime="">全シナリオ実装順</a></li>
+<li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">メインクエスト</a></li>
+<li><a href="./?%E3%83%87%E3%82%A4%E3%83%AA%E3%83%BC%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">デイリークエスト</a></li>
+<li><a href="./?%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">ミッション一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" class="" data-mtime="">イベント一覧</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_12">その他</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E7%94%A8%E8%AA%9E%E9%9B%86" class="" data-mtime="">用語集</a> / <a href="./?%E4%BF%97%E8%AA%9E%E9%9B%86" class="" data-mtime="">俗語集</a></li>
+<li><a href="./?Tips%E4%B8%80%E8%A6%A7" class="" data-mtime="">Tips一覧</a></li>
+<li><a href="./?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" class="" data-mtime="">ゲーム外企画</a></li>
+<li><a href="./?%E4%BA%8B%E5%89%8D%E7%99%BB%E9%8C%B2%E7%89%B9%E5%85%B8" class="" data-mtime="">事前登録特典</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_13">公式リンク</h2>
+<ul class="list1 list-indent1"><li><a href="https://pc-play.games.dmm.com/play/escalationheroines/" rel="nofollow">ゲーム開始URL</a></li>
+<li><a href="https://www.dmm.co.jp/netgame/community/-/commu/detail/=/id=5633/" rel="nofollow">公式コミュニティ(FANZA)</a></li>
+<li><a href="https://www.alicesoft.com/" rel="nofollow">アリスソフト公式サイト</a><br />
+├ <a href="https://www.alicesoft.com/escalationheroines/" rel="nofollow">超昂大戦公式サイト</a><br />
+└ <a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow">超昂大戦公式ニュース</a></li>
+<li><a href="https://twitter.com/EscaH_PR" rel="nofollow">公式X(Twitter)</a></li>
+<li><a href="https://prod.e-heroines.net/server/product/AppSub" rel="nofollow">おしらせ・ヘルプ</a></li>
+<li><a href="https://www.bugbug.news/tag/post_tag-7528/" rel="nofollow">超昂大戦特集(BugBug.NEWS)</a></li></ul>
+<p><a href="https://www.alicesoft.com/information/2022/entry003123.html" rel="nofollow"><img src="attach2/696D67_E8B685E69882E5A4A7E688A6E5889DE5BF83E88085E8AC9BE5BAA75F62616E6E65722E6A7067.jpg" alt="超昂大戦初心者講座_banner.jpg" title="超昂大戦初心者講座_banner.jpg" width="265" height="47" /><br class="spacer" />超昂大戦初心者講座</a><br />
+<a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow"><img src="attach2/696D67_E69C88E99693E38396E383ADE382B05FE383ADE382B42E706E67.png" alt="月間ブログ_ロゴ.png" title="月間ブログ_ロゴ.png" width="265" height="46" /><br class="spacer" />超昂大戦公式ニュース</a><br />
+<a href="https://www.alicesoft.com/escalationheroines/special/comic/" rel="nofollow"><img src="attach2/696D67_E38286E3828BE382ABE383AC5F62616E6E65722E706E67.png" alt="ゆるカレ_banner.png" title="ゆるカレ_banner.png" width="265" height="47" /><br class="spacer" />ゆるっとエスカレーション(公式4コマ漫画)</a><br />
+<a href="https://www.alicesoft.com/information/radio/" rel="nofollow"><img src="attach2/696D67_E382A2E383AAE382B9E382BDE38395E38388E694BEE98081E5B1805F62616E6E65722E706E67.png" alt="アリスソフト放送局_banner.png" title="アリスソフト放送局_banner.png" width="265" height="47" /><br class="spacer" />アリスソフト放送局(ネットラジオ)</a><br />
+<a href="https://www.youtube.com/watch?v=xFC3s77AV0I&amp;list=PLG0kE08S6G8TfS9alOQFTOYtPU5tJlTWO" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A65F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦_banner.png" title="1分でわかる！超昂大戦_banner.png" width="138" height="40" /><br class="spacer" />1分でわかる！超昂大戦（初心者動画）</a><br />
+<a href="https://www.youtube.com/playlist?list=PLG0kE08S6G8Rt_A7hvfsJoN0QYyFZXV4_" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A620E383A1E383A2E383A1E383A2E38380E382A4E3838AE383A25F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" title="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" width="139" height="50" /><br class="spacer" />1分でわかる！超昂大戦 メモメモダイナモ!!</a></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_14">編集者用ページ</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E9%9B%9B%E5%BD%A2" title="雛形" class="" data-mtime="">雛形一覧</a></li>
+<li><a href="./?img" title="img" class="" data-mtime="">共通画像保管庫</a></li>
+<li><a href="./?%E7%B7%B4%E7%BF%92%E7%94%A8%E3%81%8A%E7%A0%82%E5%A0%B4" class="" data-mtime="">練習用お砂場</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_15">更新履歴</h2>
+<h5>最新の30件</h5>
+<div><h5>30分以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" title="コメント/魔法少女ヒトミ ">コメント/魔法少女ヒトミ</a> </li>
+</ul><h5>3時間以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/雑談掲示板 ">コメント/雑談掲示板</a> </li>
+</ul><h5>1日以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/質問掲示板 ">コメント/質問掲示板</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" title="コメント/寝室シーン一覧 ">コメント/寝室シーン一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" title="ゲーム外企画 ">ゲーム外企画</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" title="魔法少女ヒトミ ">魔法少女ヒトミ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" title="超昂装備 ">超昂装備</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%BF%85%E6%AE%BA%E3%82%B2%E3%83%BC%E3%82%B8%E9%85%8D%E5%B8%83%E3%82%AD%E3%83%A3%E3%83%A9" title="テーブル/必殺ゲージ配布キャラ ">テーブル/必殺ゲージ配布キャラ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7" title="絞り込めるカテゴリ一覧 ">絞り込めるカテゴリ一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" title="メインストーリー ">メインストーリー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?MenuBar" title="MenuBar ">MenuBar</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86" title="テーブル/全ストーリー実装順 ">テーブル/全ストーリー実装順</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="イベント一覧/開催イベント ">イベント一覧/開催イベント</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%BF%BC%E7%AB%9C%E5%89%A3%E8%81%96%E3%82%A2%E3%82%AB%E3%83%8D" title="翼竜剣聖アカネ ">翼竜剣聖アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AB%E3%83%8D" title="ハロウィンアカネ ">ハロウィンアカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D" title="ビートドラグーン・アカネ ">ビートドラグーン・アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D" title="テーブル/キャラ/別衣装_ビートドラグーン・アカネ ">テーブル/キャラ/別衣装_ビートドラグーン・アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="体育祭のヤブルー ">体育祭のヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%90%E3%83%8B%E3%83%BC%E3%83%BB%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="リバースバニー・ヤブルー ">リバースバニー・ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="魔女ヤブルー ">魔女ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="テーブル/キャラ/別衣装_魔女ヤブルー ">テーブル/キャラ/別衣装_魔女ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="ハロウィンニコール ">ハロウィンニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="真夏のニコール ">真夏のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="戦車のニコール ">戦車のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="テーブル/キャラ/別衣装_戦車のニコール ">テーブル/キャラ/別衣装_戦車のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="真夏のイーイー ">真夏のイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="ブライド・イーイー ">ブライド・イーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="ハロウィンイーイー ">ハロウィンイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="運命のイーイー ">運命のイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="テーブル/キャラ/別衣装_運命のイーイー ">テーブル/キャラ/別衣装_運命のイーイー</a> </li>
+</ul></div>
+<hr class="full_hr" />
+<p><a href="./?%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4%E3%83%9A%E3%83%BC%E3%82%B8" title="更新履歴ページ" class="" data-mtime="">更新履歴をもっとみる</a></p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_16">カウンター</h2>
+<ul class="list1 list-indent1"><li>合計：33574</li>
+<li>今日：5</li>
+<li>昨日：11</li></ul>
+<hr class="full_hr" />
+<p><span style="font-size:11px;display:inline-block;line-height:130%;text-indent:0px">〔<a href="./?cmd=edit&amp;page=MenuBar" title="Edit MenuBar">MENU編集</a></span>〕</p>
+</div>
+<!-- 300x600_1枠目_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=AYAMQFxEEER31b4v8YZnKA"></script>
+<br>
+<h2>
+<span style="font-size:12px;display:inline-block;line-height:130%;text-indent:0px">Official Tweet</span>
+</h2>
+<a class="twitter-timeline" data-lang="ja" data-height="500" width="300" href="https://twitter.com/EscaH_PR" width="200">Tweets by EscaH_PR</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<div class="sticky-ads">
+
+<!-- 300x600_2枠目_wikiru汎用 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="4423084522"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<br>
+  <td valign="top">
+<!-- 728x90_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=YXamGc1aiYMf5oovCRZ3rg"></script>
+<br>
+<div id="boxArea" style="display:table;padding:0 0 0 2px;"><div style="width:74px;height:22px;float:left;"><a href="https://twitter.com/share" class="twitter-share-button"{count} data-lang="ja" data-hashtags="エスカレーションヒロインズ"data-dnt="true">ツイート</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div>
+<br>
+      <div id="body"><div class="contents">
+<a id="contents_1"></a>
+<ul class="list1 list-indent1"><li><a href="#h7236d6e"> 交換所について </a></li>
+<li><a href="#wd6619ea"> 開発ラボ </a>
+<ul class="list2 list-indent1"><li><a href="#x709fc5b"> トークン一覧 </a></li>
+<li><a href="#e12b5036"> 売却所 </a></li>
+<li><a href="#lfc68eb3"> 取引所 </a>
+<ul class="list3 list-indent1"><li><a href="#n8ef15a0"> セールについて </a></li>
+<li><a href="#zc647618"> 取引回数制限アイテムのリセット </a></li>
+<li><a href="#oc323d29"> 期間限定交換品 </a></li></ul></li></ul></li>
+<li><a href="#i6d20aa7"> スキン交換所 </a>
+<ul class="list2 list-indent1"><li><a href="#sf3e0a08"> 期間限定スキン </a></li>
+<li><a href="#f50eec70"> ハニースキン </a></li></ul></li>
+<li><a href="#idec197f"> キャラクター交換所 </a></li>
+<li><a href="#i4ea48f3"> サポーター強化アイテム交換所 </a></li>
+<li><a href="#gd5b4f5d"> レベル上限UPアイテム交換所 </a></li>
+<li><a href="#m745b289"> Bユニバース </a>
+<ul class="list2 list-indent1"><li><a href="#g0225990"> レールフラスト </a></li>
+<li><a href="#a7d29f68"> ウェーブフラスト／ムービーフラスト／サイエンフラスト</a></li>
+<li><a href="#i4f1e990"> 殲忍カゲリ／滅忍キクリ＆コテツ／殲忍ハガネ／ディストバーン </a></li>
+<li><a href="#sc729423"> エスカレイヤー・リバース＆ハルカ・リバース／オルバ／オルタナ四天王 </a></li></ul></li>
+<li><a href="#qa067f97"> コメントフォーム </a></li></ul>
+</div>
+<br /><table><tr><td><script src="//i2ad.jp/customer/ads/ad.php?id=DUNW7FRFBH5TeDzucJIwEg"></script></td><td><div data-cptid="1554669" style="display: block;"><script>  window.gnshbrequest.cmd.push(function() {    window.gnshbrequest.applyThirdPartyTag("1554669", "[data-cptid='1554669']");  });</script></div></td></tr></table><br />
+<h2 id="content_1_0">交換所について  <a class="anchor_super" id="h7236d6e" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#h7236d6e" title="h7236d6e">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=h7236d6e" title="Edit #h7236d6e"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #h7236d6e" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=1" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<ul class="list1 list-indent1"><li>ホーム画面下の「SHOP・交換所」→「交換所 開発ラボ」からアクセスできる。</li>
+<li>開催期間が過ぎたイベントも交換期限内であればここからチップとアイテムを交換可能。</li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_1">開発ラボ  <a class="anchor_super" id="wd6619ea" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#wd6619ea" title="wd6619ea">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=wd6619ea" title="Edit #wd6619ea"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #wd6619ea" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=2" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p>2021/10/13に開発ラボ(売却所・取引所)が交換所の第1弾として実装された。<br />
+売却所で一部のアイテムを「トークン」、「トークン・黒」と交換し、取引所でトークンと指定のアイテムを交換することができる。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;openfile=%E9%96%8B%E7%99%BA%E3%83%A9%E3%83%9C.jpg" title="開発ラボ.jpg"><img src="attach2/E4BAA4E68F9BE68980_E9968BE799BAE383A9E3839C2E6A7067.jpg" alt="開発ラボ.jpg" title="開発ラボ.jpg" width="480" height="271" /></a></td></tr>
+</tbody></table></div>
+<ul class="list1 list-indent1"><li>トークンは<a href="#i4ea48f3">サポーター強化アイテム</a>や<a href="#gd5b4f5d">レベル上限UPアイテム</a>とも交換可能。</li>
+<li>イベントなど様々な報酬でトークンの入手経路は増えている。
+<ul class="list2 list-indent1"><li>毎月の交換やイベント報酬をすべて合わせると、年間200個以上のトークン・黒を入手できる。</li></ul></li>
+<li>売却・交換回数に月制限があるアイテムや、交換数に上限があるアイテムも存在する。</li>
+<li>交換したアイテムはプレゼントボックスに入らず倉庫に直接送られる。</li>
+<li>簡略履歴
+<ul class="list2 list-indent1"><li>2021/12/15のアップデートで、宝箱を強化ポイントのアイテムと交換することができるようになった。</li>
+<li>2022/03/16のアップデートで、トークン／トークン・黒への交換がノーマルミッションに追加された。（<a href="./?%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E4%B8%80%E8%A6%A7#wcba2437" class="" data-mtime="">ミッション一覧</a>参照）</li>
+<li>2023/10/18のアップデートで、トークン・黄が追加されアイテムと交換できるようになった。</li></ul></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_2">トークン一覧  <a class="anchor_super" id="x709fc5b" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#x709fc5b" title="x709fc5b">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=x709fc5b" title="Edit #x709fc5b"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #x709fc5b" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=3" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="includex" style="padding:0px;margin:0px;"></div>
+<ul class="list1 list-indent1"><li>関連ページ：<a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#wd6619ea" title="交換所" class="" data-mtime="">開発ラボ</a></li></ul>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">画像</th><th class="style_th">名称</th><th class="style_th">アイテム効果</th><th class="style_th">説明</th><th class="style_th">主な入手場所</th></tr>
+</thead><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3.png" title="トークン.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38388E383BCE382AFE383B32E706E67.png" alt="トークン.png" title="トークン.png" width="65" height="57" /></a></td><td class="style_td">トークン</td><td class="style_td" rowspan="3">開発ラボにてアイテムと交換できる</td><td class="style_td" rowspan="2">さやかが趣味で開発した交換取引用デバイス。<br class="spacer" />要は単なる引換券なのだが高性能な偽造防止用<br class="spacer" />プロテクトが施されており無駄にハイスペック。</td><td class="style_td" rowspan="2">イベント交換所<br class="spacer" />開発ラボ<br class="spacer" />レイド報酬<br class="spacer" /></td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%83%BB%E9%BB%92.png" title="トークン・黒.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38388E383BCE382AFE383B3E383BBE9BB922E706E67.png" alt="トークン・黒.png" title="トークン・黒.png" width="65" height="57" /></a></td><td class="style_td">トークン・黒</td></tr>
+<tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7&amp;openfile=%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%83%BB%E9%BB%84.png" title="トークン・黄.png"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38388E383BCE382AFE383B3E383BBE9BB842E706E67.png" alt="トークン・黄.png" title="トークン・黄.png" width="65" height="57" /></a></td><td class="style_td">トークン・黄</td><td class="style_td">フレーバーテキスト未確認</td><td class="style_td"><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a></td></tr>
+</tbody></table></div>
+
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_3">売却所  <a class="anchor_super" id="e12b5036" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#e12b5036" title="e12b5036">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=e12b5036" title="Edit #e12b5036"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #e12b5036" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=4" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>売却所で資金やアイテムを売却する事によりトークンを入手する</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" style="text-align:left;">売却アイテム</th><th class="style_th" style="text-align:center;">月制限</th><th class="style_th">取得トークン</th><th class="style_th">備考</th></tr>
+</thead><tbody><tr><th class="style_th" style="text-align:left;">リセットストラップ×1</th><td class="style_td" style="text-align:center;">---</td><td class="style_td" rowspan="7">トークン×1</td><td class="style_td">売却するのは勿体ない。普通に使おう。</td></tr>
+<tr><th class="style_th" style="text-align:left;">逞しきドロップ×1</th><td class="style_td" style="text-align:center;">---</td><td class="style_td">エリア12-10で使えば宝箱18個が確定。半年周期のアニバにも高効率の面がある。<br class="spacer" />現状の交換アイテムなら使った方がいい。</td></tr>
+<tr><th class="style_th" style="text-align:left;">４回転エテ公×1</th><td class="style_td" style="text-align:center;">---</td><td class="style_td">高レベルの助っ人で高難度クエストを突破可能なため、特にゲーム序盤は重要度が上がったが、できれば無理に使わず売却候補にしたい。<br class="spacer" />宝箱開封(ベース出現含む)で獲得できる量が、他売却アイテム(リセットストラップ・逞しきドロップ・チェーイングガム・時短チケット)より圧倒的に多い。</td></tr>
+<tr><th class="style_th" style="text-align:left;">チェーイングガム×1</th><td class="style_td" style="text-align:center;">---</td><td class="style_td">必殺技などに属性で性能が変わるものがあるため、使用する人は売却量に注意。初回無料で足りる人は売却の有力候補。</td></tr>
+<tr><th class="style_th" style="text-align:left;">時短チケット×100</th><td class="style_td" style="text-align:center;">---</td><td class="style_td">ぼったくり。どうせ使用しないなら売却するのもなくはないが、あまりにレートが悪すぎる。</td></tr>
+<tr><th class="style_th" style="text-align:left;">宝箱×10</th><td class="style_td" style="text-align:center;">100</td><td class="style_td">宝箱はリソースの大元なのでもったいないが、どうしても交換したいアイテムがあるなら交換候補。<br class="spacer" />オートでも処理できないほど有り余っているなら売却。月当たり売却制限数があることにも注意。</td></tr>
+<tr><th class="style_th" style="text-align:left;">資金×1000</th><td class="style_td" style="text-align:center;">100</td><td class="style_td"><strong>毎月上限まで交換することを推奨。</strong><br class="spacer" />ゲーム序盤等で資金に余裕がない場合もトークン黒を経由して増やせる。（10回まで）</td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×30</th><td class="style_td" style="text-align:center;">10</td><td class="style_td"><strong>トークン・黒×1</strong></td><td class="style_td">白黒トークンは純粋な上位下位では無く、それぞれ需要がある事に留意。<br class="spacer" />毎月上限まで交換するなら月300個のトークンを確保する必要がある。<br class="spacer" />宝箱や余剰アイテムを交換しないと無理なので、現在の交換品のラインナップのままなら、無目的に無理して取るメリットは薄い。<br class="spacer" />早く育成したいキャラ・強化したい装備がないなら、交換レートから月5個分（150個）が無理のないペースか。</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_4">取引所  <a class="anchor_super" id="lfc68eb3" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#lfc68eb3" title="lfc68eb3">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=lfc68eb3" title="Edit #lfc68eb3"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #lfc68eb3" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=5" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>入手したトークンを消費してアイテムを購入する</p>
+
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">交換アイテム</th><th class="style_th">月制限<br class="spacer" />(※1)</th><th class="style_th">交換<br class="spacer" />上限</th><th class="style_th" colspan="2">必要トークンor宝箱<br class="spacer" />(単価)</th><th class="style_th" colspan="2">備考</th><th class="style_th">リセット目安</th></tr>
+</thead><tbody><tr><th class="style_th"><span style="color:blue">１０連ガチャチケット×1</span></th><td class="style_td">---</td><td class="style_td">1</td><td class="style_td" colspan="2">トークン×500</td><td class="style_td" colspan="2">無理をしてまで取るメリットは薄い。</td><td class="style_td" rowspan="4">11月アニバ</td></tr>
+<tr><th class="style_th" rowspan="3"><span style="color:blue">全知全能の白鯨×1</span></th><td class="style_td" rowspan="3">---</td><td class="style_td" rowspan="3">3<br class="spacer" />(※2)</td><td class="style_td">1</td><td class="style_td">トークン×300</td><td class="style_td" rowspan="3" colspan="2">宝箱400個で上限なしの交換が可能になったため、こちらを優先して交換する理由が無くなった。</td></tr>
+<tr><td class="style_td">2</td><td class="style_td">トークン×700</td></tr>
+<tr><td class="style_td">3</td><td class="style_td">トークン×1500</td></tr>
+<tr><th class="style_th" rowspan="5">カクセイの木・必殺×1</th><td class="style_td" rowspan="5">5<br class="spacer" />(※2)</td><td class="style_td" rowspan="5">---</td><td class="style_td">1</td><td class="style_td">トークン×1</td><td class="style_td" rowspan="10" colspan="2">無理のない範囲で交換することを推奨。特に序盤は不足しがち。<br class="spacer" />宝箱やアイテムガチャやイベント報酬からも入手は可能。<br class="spacer" />十分な在庫を確保できたら交換数を減らしても大丈夫。どちらかというと必殺の方がよく使う。</td><td class="style_td" rowspan="21">---</td></tr>
+<tr><td class="style_td">2</td><td class="style_td">トークン×3</td></tr>
+<tr><td class="style_td">3</td><td class="style_td">トークン×5</td></tr>
+<tr><td class="style_td">4</td><td class="style_td">トークン×7</td></tr>
+<tr><td class="style_td">5</td><td class="style_td">トークン×10</td></tr>
+<tr><th class="style_th" rowspan="5">カクセイの木・固有効果×1</th><td class="style_td" rowspan="5">5<br class="spacer" />(※2)</td><td class="style_td" rowspan="5">---</td><td class="style_td">1</td><td class="style_td">トークン×1</td></tr>
+<tr><td class="style_td">2</td><td class="style_td">トークン×3</td></tr>
+<tr><td class="style_td">3</td><td class="style_td">トークン×5</td></tr>
+<tr><td class="style_td">4</td><td class="style_td">トークン×7</td></tr>
+<tr><td class="style_td">5</td><td class="style_td">トークン×10</td></tr>
+<tr><th class="style_th">銀の巫女絵馬×1</th><td class="style_td">1</td><td class="style_td">---</td><td class="style_td" colspan="2">トークン×30</td><td class="style_td">0.83P/トークン(※3)</td><td class="style_td" rowspan="2"><strong>毎月上限まで交換することを推奨。</strong>トークン効率は金の巫女絵馬より良い。</td></tr>
+<tr><th class="style_th">巫女絵馬×1</th><td class="style_td">3</td><td class="style_td">---</td><td class="style_td" rowspan="4" colspan="2">トークン×10</td><td class="style_td">0.50P/トークン(※3)</td></tr>
+<tr><th class="style_th">ソウシンチュウ×1</th><td class="style_td">3</td><td class="style_td">---</td><td class="style_td">1.00P/トークン(※3)</td><td class="style_td">余裕が出来てきたら毎月上限まで交換することを推奨。<br class="spacer" />制限はあるがカクセイの木・小と同等なのでお得。本来の役目のエロ目当てにも使える。<br class="spacer" />有志の検証によると宝箱からの排出率は0.15％程度なので案外増えない。</td></tr>
+<tr><th class="style_th">Ｇ・愛・情×1</th><td class="style_td">3</td><td class="style_td">---</td><td class="style_td">0.50P/トークン(※3)</td><td class="style_td">余裕が出来てきたら毎月上限まで交換することを推奨。<br class="spacer" />好感度は50P刻みで覚醒ポイントとなる。本来の役目の<del>エロ</del>ストーリー目当てにも使える。<br class="spacer" />トークン効率はトークン・黒を使うカクセイの木より良い。</td></tr>
+<tr><th class="style_th">元気の原液×1</th><td class="style_td">3</td><td class="style_td">---</td><td class="style_td" colspan="2">余裕が出来てきたら毎月上限まで交換することを推奨。<br class="spacer" />レイドイベントや高レベル周回（いわゆるボックス狩り）を頑張りたい人向け。</td></tr>
+<tr><th class="style_th">ヘビースターメン×1</th><td class="style_td">30</td><td class="style_td">---</td><td class="style_td" colspan="2">トークン×5</td><td class="style_td" colspan="2">レイドイベント時などに不足した時に交換しよう。</td></tr>
+<tr><th class="style_th">リセットストラップ×1</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2">トークン×100</td><td class="style_td" rowspan="4" colspan="2">このレートは論外と言える。</td></tr>
+<tr><th class="style_th">逞しきドロップ×1</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2">トークン×80</td></tr>
+<tr><th class="style_th">４回転エテ公×1</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2">トークン×20</td></tr>
+<tr><th class="style_th">チェーイングガム×1</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2">トークン×10</td></tr>
+<tr><th class="style_th">時短チケット×20</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2">トークン×1</td><td class="style_td" colspan="2">人によっては枯渇しがちだった時短チケットの待望の恒常・無制限の入手手段。レートも悪くない。</td></tr>
+<tr><th class="style_th" rowspan="3"><span style="color:blue">金の巫女絵馬×1</span></th><td class="style_td" rowspan="3">---</td><td class="style_td" rowspan="3">3<br class="spacer" />(※2)</td><td class="style_td">1</td><td class="style_td"><strong>トークン・黒×20</strong></td><td class="style_td">0.25P/トークン(※3)</td><td class="style_td" rowspan="3">トークン・黒の入手制限があるため、全て交換するには時間がかかる。<br class="spacer" />コストは高いが、銀以下を三か月分交換しても突破ポイントは120。<br class="spacer" />金の150には届かないため、二つ目までは無理しても交換する価値はある。<br class="spacer" />三つ目は気長に狙ってもいいだろう。</td><td class="style_td" rowspan="6">11月アニバ</td></tr>
+<tr><td class="style_td">2</td><td class="style_td"><strong>トークン・黒×30</strong></td><td class="style_td">0.17P/トークン(※3)</td></tr>
+<tr><td class="style_td">3</td><td class="style_td"><strong>トークン・黒×50</strong></td><td class="style_td">0.10P/トークン(※3)</td></tr>
+<tr><th class="style_th" rowspan="3"><span style="color:blue">ドラ猫の鈴×1</span></th><td class="style_td" rowspan="3">---</td><td class="style_td" rowspan="3">3<br class="spacer" />(※2)</td><td class="style_td">1</td><td class="style_td"><strong>トークン・黒×3</strong></td><td class="style_td" rowspan="3" colspan="2">入手手段が少ないので一つ目は取ってもいいかもしれないが、かなり割高。2つ目以降は論外。</td></tr>
+<tr><td class="style_td">2</td><td class="style_td"><strong>トークン・黒×10</strong></td></tr>
+<tr><td class="style_td">3</td><td class="style_td"><strong>トークン・黒×20</strong></td></tr>
+<tr><th class="style_th"><span style="color:blue">カクセイの木・中×1</span></th><td class="style_td">---</td><td class="style_td">10</td><td class="style_td" colspan="2"><strong>トークン・黒×5</strong></td><td class="style_td" rowspan="2">0.33P/トークン(※3)</td><td class="style_td" rowspan="2">突破ポイントより覚醒ポイントが欲しい時は優先的に交換しよう。</td><td class="style_td" rowspan="7">5月ハフバ</td></tr>
+<tr><th class="style_th"><span style="color:blue">カクセイの木・小×1</span></th><td class="style_td">---</td><td class="style_td">10</td><td class="style_td" colspan="2"><strong>トークン・黒×1</strong></td></tr>
+<tr><th class="style_th"><span style="color:blue">プレミアムガチャチケット×1</span></th><td class="style_td">---</td><td class="style_td">10</td><td class="style_td" colspan="2"><strong>トークン・黒×3</strong></td><td class="style_td" colspan="2">育成するよりキャラを増やしたいなら優先。Bユニバースの交換所と比べるとレートが割高。</td></tr>
+<tr><th class="style_th"><span style="color:blue">壁に開限×10</span></th><td class="style_td">---</td><td class="style_td">5</td><td class="style_td" colspan="2"><strong>トークン・黒×1</strong></td><td class="style_td" rowspan="3" colspan="2">それぞれの交換所からトークンで直接交換するよりレートが良いが交換上限がある。</td></tr>
+<tr><th class="style_th"><span style="color:blue">壁に開限・銅×10</span></th><td class="style_td">---</td><td class="style_td">4</td><td class="style_td" colspan="2"><strong>トークン・黒×5</strong></td></tr>
+<tr><th class="style_th"><span style="color:blue">サポートサプリ×2</span></th><td class="style_td">---</td><td class="style_td">20</td><td class="style_td" colspan="2"><strong>トークン・黒×1</strong></td></tr>
+<tr><th class="style_th"><span style="color:blue">資金×100000</span></th><td class="style_td">---</td><td class="style_td">10</td><td class="style_td" colspan="2"><strong>トークン・黒×1</strong></td><td class="style_td" colspan="2">資金が足りない場合の錬金術。交換上限に注意。<br class="spacer" />(資金:30000→トークン:30→トークン黒:1→資金100000)</td></tr>
+<tr><th class="style_th">全知全能の白鯨×1</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2">宝箱×400</td><td class="style_td" colspan="2">テトリスをどうしても避けたい、または強化ポイントが不足してすぐに必要な人向け。<br class="spacer" />副産物は惜しいが、不足しやすい防御力・魔法防御力だけなら手動で宝箱を開けるよりもらえる。</td><td class="style_td" rowspan="2">---</td></tr>
+<tr><th class="style_th">EXPハートx4 (※4)</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2">宝箱×1</td><td class="style_td" colspan="2">EXPは余るため非推奨。ゲーム開始直後にキャラを育てたいなど、どうしても急ぎたい時に。</td></tr>
+<tr><td class="style_td" colspan="8" style="background-color:#add8e6; text-align:center;"><strong>広域戦</strong></td></tr>
+<tr><th class="style_th"><span style="color:blue">宝箱×1</span></th><td class="style_td">---</td><td class="style_td">200</td><td class="style_td" colspan="2" style="background-color:#ffff99;">トークン・黄×10</td><td class="style_td" colspan="2">交換レートは非常に良好。<br class="spacer" />開催毎に上限まで交換してくことを推奨。</td><td class="style_td" rowspan="3"><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a><br class="spacer" />開催ごとに<br class="spacer" />リセット</td></tr>
+<tr><th class="style_th"><span style="color:blue">強化P詰合わせ×1</span></th><td class="style_td">---</td><td class="style_td">200</td><td class="style_td" colspan="2" style="background-color:#ffff99;">トークン・黄×5</td><td class="style_td" colspan="2">レートが割高であるため、特別な理由が無い限り交換は推奨されない。</td></tr>
+<tr><th class="style_th"><span style="color:blue">EXPハート×1</span></th><td class="style_td">---</td><td class="style_td">200</td><td class="style_td" colspan="2" style="background-color:#ffff99;">トークン・黄×5</td><td class="style_td" colspan="2">レートが割高であるため、特別な理由が無い限り交換は推奨されないが、<br class="spacer" />宝箱をハートに交換するような場合は、こちらを優先した方が良い。</td></tr>
+<tr><th class="style_th">宝箱×1</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2" style="background-color:#ffff99;">トークン・黄×50</td><td class="style_td" colspan="2">上限ありと比較するとレートは非常に悪い。<br class="spacer" />黄色トークンが余っており他に使い道が無くなったプレイヤー向け。</td><td class="style_td" rowspan="3">---</td></tr>
+<tr><th class="style_th">資金x100</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2" style="background-color:#ffff99;">トークン・黄×5</td><td class="style_td" colspan="2">レートが割高であるため、特別な理由が無い限り交換は推奨されないが、<br class="spacer" />トークン・黒を資金に交換するような場合は、こちらも選択肢となる。</td></tr>
+<tr><th class="style_th">昂る種×1</th><td class="style_td">---</td><td class="style_td">∞</td><td class="style_td" colspan="2" style="background-color:#ffff99;">トークン・黄×7</td><td class="style_td" colspan="2">レートは非常に良好。<br class="spacer" /><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a>で使用する。<br class="spacer" />特に手元戦力の不足する初心者プレイヤーは200個上限の宝箱を取り切った後は、こちらの種の交換が推奨される。</td></tr>
+<tr><td class="style_td" colspan="8" style="background-color:#add8e6; text-align:center;"><strong>過去イベント報酬</strong></td></tr>
+<tr><th class="style_th">サポーター引換券（M型アンドロイド）×1</th><td class="style_td">---</td><td class="style_td">1</td><td class="style_td" colspan="2">トークン×100</td><td class="style_td" colspan="2">既に所持している場合は交換不可</td><td class="style_td" rowspan="2">---</td></tr>
+<tr><th class="style_th"><a href="./?%E3%83%9E%E3%83%AA%E3%83%8A%E3%81%AE%E8%A1%A3%E8%A3%85" class="" data-mtime="">マリナの衣装</a>×1</th><td class="style_td">---</td><td class="style_td">5</td><td class="style_td" colspan="2">トークン×100</td><td class="style_td" colspan="2">ランクが最大になると交換不可</td></tr>
+</tbody></table></div>
+<p>・宝箱の交換に関して、サーバー負荷の関係上一度に交換できる宝箱の個数は1000個までとなっている。<br />
+※1：月間取得数が決まっているアイテムは毎月１日午前４時に交換回数がリセットされる。<br />
+※2：１回交換するごとに必要トークン数が上昇する。<br />
+※3：１トークン当たりの突破ポイント・覚醒ポイント数<br />
+※4：１つにつきパネルブレイク倍率と同数のハートを獲得できる。（パネルブレイク倍率はテトリス画面で確認可能）</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_5">セールについて  <a class="anchor_super" id="n8ef15a0" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#n8ef15a0" title="n8ef15a0">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=n8ef15a0" title="Edit #n8ef15a0"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #n8ef15a0" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=6" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>取引所で交換できるアイテムはまれに期間限定でセールを行うことがある。</p>
+<p>例１：全知全能の白鯨が宝箱360で交換可能(10%OFF)<br />
+例２：宝箱1個でEXPハートがx6に(50%増量)</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_6">取引回数制限アイテムのリセット  <a class="anchor_super" id="zc647618" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#zc647618" title="zc647618">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=zc647618" title="Edit #zc647618"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #zc647618" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=7" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p><strong><span style="color:blue">取引回数制限があるアイテム</span>は、スパンは長いが回数制限がリセットされる。</strong>(広域戦交換品は開催ごとにリセット)<br />
+現在のところ、リセットは全て5月または11月の○周年記念の際に行われている。<br />
+※トークン・黒 所持量100個程度が主要な交換品を全て回収する際の目安となります</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">時期</th><th class="style_th" style="text-align:center;">対象</th><th class="style_th">過去のリセット日</th></tr>
+</thead><tbody><tr><td class="style_td">5月</td><td class="style_td">カクセイの木・中<br class="spacer" />カクセイの木・小<br class="spacer" />プレミアムガチャチケット<br class="spacer" />壁に開限×10<br class="spacer" />壁に開限・銅×10<br class="spacer" />サポートサプリ×2<br class="spacer" />資金×100000</td><td class="style_td">2024/05/22、2025/05/21、2026/05/20</td></tr>
+<tr><td class="style_td">11月</td><td class="style_td">10連ガチャチケット<br class="spacer" />全知全能の白鯨<br class="spacer" />金の巫女絵馬<br class="spacer" />ドラ猫の鈴</td><td class="style_td">2022/11/16、2023/11/15、2024/11/13、2025/11/12</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_7">期間限定交換品  <a class="anchor_super" id="oc323d29" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#oc323d29" title="oc323d29">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=oc323d29" title="Edit #oc323d29"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #oc323d29" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=8" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>アイコン（以前に開催されたレイドイベントのミッション報酬）がラインナップされています。<br />
+おおよそ2ヶ月ごとに更新されます。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_8">スキン交換所  <a class="anchor_super" id="i6d20aa7" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#i6d20aa7" title="i6d20aa7">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=i6d20aa7" title="Edit #i6d20aa7"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #i6d20aa7" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=9" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<script>
+// 折りたたみ切り替え関数
+function tglRgn(button) {
+    var container = button.closest('.rgn-container');
+    var description = container.querySelector('.rgn-description');
+    var content = container.querySelector('.rgn-content');
+    var plusIcon = button.querySelector('.plus-icon');
+    var minusIcon = button.querySelector('.minus-icon');
+    var isCollapsed = description.style.display != 'none';
+    
+    description.style.display = isCollapsed ? 'none' : 'block';
+    content.style.display = isCollapsed ? 'block' : 'none';
+    plusIcon.style.display = isCollapsed ? 'none' : 'block';
+    minusIcon.style.display = isCollapsed ? 'block' : 'none';
+    
+    if (isCollapsed) {
+        // 展開時、内容が空の場合のみ全角スペースを追加
+        if (content.innerHTML.trim() === '') {
+            content.innerHTML = '　';
+        }
+    } else {
+        // 折りたたみ時、内容が全角スペースのみの場合、それを削除
+        if (content.innerHTML === '　') {
+            content.innerHTML = '';
+        }
+    }
+}
+
+// ハッシュ変更時の処理
+function openAllParentRegions(element) {
+    let currentElement = element;
+    const openedRegions = [];
+    
+    // 親方向に向かってすべてのregionを探索
+    while (currentElement) {
+        const regionContainer = currentElement.closest('.rgn-container');
+        if (!regionContainer) break;
+        
+        const content = regionContainer.querySelector('.rgn-content');
+        const button = regionContainer.querySelector('.rgn-button');
+        
+        if (content && content.style.display === 'none') {
+            tglRgn(button);
+            openedRegions.push(regionContainer);
+        }
+        
+        // 次の親要素の探索のため、現在のregionの外側から検索を開始
+        currentElement = regionContainer.parentElement;
+    }
+    
+    return openedRegions;
+}
+
+function handleHashChange() {
+    if (location.hash) {
+        const targetId = location.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+            // すべての親regionを開く
+            const openedRegions = openAllParentRegions(targetElement);
+            
+            // アニメーションが完了してから要素までスクロール
+            if (openedRegions.length > 0) {
+                setTimeout(function() {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }, 100 * openedRegions.length); // regionの数に応じて待ち時間を調整
+            } else {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+}
+
+// イベントリスナーの設定
+window.addEventListener('hashchange', handleHashChange);
+window.addEventListener('load', handleHashChange);
+</script>
+<style>
+.plus-icon, .minus-icon {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: -3px;
+}
+.rgn-container {
+    transition: all 0.3s ease-in-out;
+}
+.rgn-content {
+    transition: display 0.3s ease-in-out;
+}
+</style><div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>超昂大戦　スキン機能紹介ムービー</p>
+</div><div class="rgn-content" style="display: none">
+<style>
+.netvideo-wrap {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.netvideo-wrap.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+.netvideo-wrap.align-right {
+    margin-left: auto;
+    margin-right: 0;
+}
+.netvideo-responsive {
+    position: relative;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+}
+.netvideo-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+</style><div class="netvideo-wrap align-left" style="max-width:320px;"><div class="netvideo-responsive" style="padding-bottom:56.25%;"><iframe src="https://www.youtube-nocookie.com/embed/TiksP0zSHxQ" width="320" height="640" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div></div>
+
+<div class="netvideo-wrap align-left" style="max-width:540px;"><div class="netvideo-responsive" style="padding-bottom:56.25%;"><iframe src="https://www.youtube-nocookie.com/embed/3AKgvBZX7A0" width="540" height="360" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div></div>
+
+</div></div>
+<p>交換に必要なスキンチケットは<a href="./?%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97#e55c8b14" class="" data-mtime="">ショップ</a>にて販売されている。<br />
+スキンの変更方法についてはよくある質問の<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#wedc6260" title="よくある質問" class="" data-mtime="">該当項目</a>を参照すべし。<br />
+対象キャラクターに対し以下の恩恵が追加。(<strong>対象キャラクターを未所持の場合は交換出来ない</strong>)<br />
+なお、対象キャラクターの別バージョンではスキン変更することは出来ない。</p>
+<ul class="list1 list-indent1"><li>スキン（戦闘中のキャラクター衣装）の追加</li>
+<li>戦闘時のスキン専用ボイスの追加</li>
+<li>ホームキャラクターの「衣装変更」で既存の純愛HCGを選択できる項目を追加</li>
+<li>ホームキャラクターHCG設定時にボイスの追加</li>
+<li>システム音声(宝箱開封画面)のボイスの追加（総覧画面＞システム音声から変更可能）</li></ul>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">スキン名</th><th class="style_th">対象キャラクター</th><th class="style_th">紹介PV</th><th class="style_th">必要<br class="spacer" />チケット</th><th class="style_th">備考</th></tr>
+</thead><tbody><tr><th class="style_th" style="text-align:left;">エスカレイヤー 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC" class="" data-mtime="">エスカレイヤー</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="37" style="text-align:center;">15</td><td class="style_td" rowspan="2">2022/02/23実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・ルビー 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC" class="" data-mtime="">エスカ・ルビー</a></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・アメイズ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA" class="" data-mtime="">エスカ・アメイズ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2022/03/23実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">神騎エクシール 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E7%A5%9E%E9%A8%8E%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB" class="" data-mtime="">神騎エクシール</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2022/05/04実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカレイヤー・リバース 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9" class="" data-mtime="">エスカレイヤー・リバース</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2022/05/18実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・サファイア 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2" class="" data-mtime="">エスカ・サファイア</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2022/06/01実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ ウラジミールスキン<a id="notetext_1" href="#notefoot_1" class="note_super" title="期間限定スキンと同仕様">*1</a></th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA" class="" data-mtime="">エスカ・トパーズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1562364089023602688" rel="nofollow">紹介</a>)</td><td class="style_td">2022/08/24実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍ハルカ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%AB%E3%82%AB" class="" data-mtime="">閃忍ハルカ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="2">2022/11/16実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍スバル 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%82%B9%E3%83%90%E3%83%AB" class="" data-mtime="">閃忍スバル</a></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートアミュレット・ノノノ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%9F%E3%83%A5%E3%83%AC%E3%83%83%E3%83%88%E3%83%BB%E3%83%8E%E3%83%8E%E3%83%8E" class="" data-mtime="">ビートアミュレット・ノノノ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/01/01実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍ナリカ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%8A%E3%83%AA%E3%82%AB" class="" data-mtime="">閃忍ナリカ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/02/22実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートアイドル・マリナ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%9E%E3%83%AA%E3%83%8A" class="" data-mtime="">ビートアイドル・マリナ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/05/24実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ハルカ・リバース 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%8F%E3%83%AB%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9" class="" data-mtime="">ハルカ・リバース</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/06/28実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">花のチルカ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E8%8A%B1%E3%81%AE%E3%83%81%E3%83%AB%E3%82%AB" class="" data-mtime="">花のチルカ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/07/26実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍イノリ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%82%A4%E3%83%8E%E3%83%AA" class="" data-mtime="">閃忍イノリ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/08/09実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートドラグーン・アカネ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D" class="" data-mtime="">ビートドラグーン・アカネ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/10/11実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">神騎キリエル 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E7%A5%9E%E9%A8%8E%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB" class="" data-mtime="">神騎キリエル</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/11/15実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">皇帝のニル 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E7%9A%87%E5%B8%9D%E3%81%AE%E3%83%8B%E3%83%AB" class="" data-mtime="">皇帝のニル</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2023/12/27実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍クサリ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%82%AF%E3%82%B5%E3%83%AA" class="" data-mtime="">閃忍クサリ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/01/01実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">一の神鍵アズエル 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E4%B8%80%E3%81%AE%E7%A5%9E%E9%8D%B5%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB" class="" data-mtime="">一の神鍵アズエル</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/02/07実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍リルカ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%AA%E3%83%AB%E3%82%AB" class="" data-mtime="">閃忍リルカ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/03/20実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍ライカ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%A9%E3%82%A4%E3%82%AB" class="" data-mtime="">閃忍ライカ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/05/22実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">戦車のニコール 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" class="" data-mtime="">戦車のニコール</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/07/17実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">風のフウカ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%A2%A8%E3%81%AE%E3%83%95%E3%82%A6%E3%82%AB" class="" data-mtime="">風のフウカ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/08/14実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">幻忍キクリ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E5%B9%BB%E5%BF%8D%E3%82%AD%E3%82%AF%E3%83%AA" class="" data-mtime="">幻忍キクリ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/10/09実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">神騎ブロクミエル 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E7%A5%9E%E9%A8%8E%E3%83%96%E3%83%AD%E3%82%AF%E3%83%9F%E3%82%A8%E3%83%AB" class="" data-mtime="">神騎ブロクミエル</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/12/18実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍リコリス 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%AA%E3%82%B3%E3%83%AA%E3%82%B9" class="" data-mtime="">閃忍リコリス</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2025/02/12実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA" class="" data-mtime="">エスカ・トパーズ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2025/05/21実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">レガリアの神騎メガエル 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB" class="" data-mtime="">レガリアの神騎メガエル</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2025/07/16実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">運命のイーイー 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" class="" data-mtime="">運命のイーイー</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2025/08/13実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍アキラ　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%82%A2%E3%82%AD%E3%83%A9" class="" data-mtime="">閃忍アキラ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2025/11/05実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">九の護銃メイファール　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E4%B9%9D%E3%81%AE%E8%AD%B7%E9%8A%83%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB" class="" data-mtime="">九の護銃メイファール</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2025/12/17実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">光のシリカ　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E5%85%89%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB" class="" data-mtime="">光のシリカ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2026/01/21実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">二の聖剣ミカフィール　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E4%BA%8C%E3%81%AE%E8%81%96%E5%89%A3%E3%83%9F%E3%82%AB%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB" class="" data-mtime="">二の聖剣ミカフィール</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2026/02/25実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍ムツカ　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%A0%E3%83%84%E3%82%AB" class="" data-mtime="">閃忍ムツカ</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2026/03/25実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">レガリアの神騎ユリエル　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%AA%E3%82%A8%E3%83%AB" class="" data-mtime="">レガリアの神騎ユリエル</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2026/05/20実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">レガリアの神騎マヤエル　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%9E%E3%83%A4%E3%82%A8%E3%83%AB" class="" data-mtime="">レガリアの神騎マヤエル</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2026/05/20実装</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_9">期間限定スキン  <a class="anchor_super" id="sf3e0a08" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#sf3e0a08" title="sf3e0a08">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=sf3e0a08" title="Edit #sf3e0a08"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #sf3e0a08" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=10" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>システム音声(宝箱開封画面)は新規収録音声になっており、同キャラの別スキンと内容が異なります。</p>
+<p>▼通常スキンとの変更点</p>
+<ul class="list1 list-indent1"><li>プロフィールにスキンに対応した衣装の全身立ち絵が追加されます。</li>
+<li>ホームキャラクターの「衣装変更」にＨＣＧの追加はありませんが、代わりにスキンに対応した衣装の立ち絵が追加されます。(設定時にボイスが追加されます)</li></ul>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">スキン名</th><th class="style_th">対象キャラクター</th><th class="style_th">紹介PV</th><th class="style_th">必要<br class="spacer" />チケット</th><th class="style_th">備考</th></tr>
+</thead><tbody><tr><th class="style_th" style="text-align:left;">エスカ・ルビー 水着スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC" class="" data-mtime="">エスカ・ルビー</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1552555127466491904" rel="nofollow">紹介</a>)</td><td class="style_td" rowspan="29" style="text-align:center;">15</td><td class="style_td" rowspan="2">2022/07/27実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ 水着スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA" class="" data-mtime="">エスカ・トパーズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1552555370505465856" rel="nofollow">紹介</a>)</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・サファイア 水着スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2" class="" data-mtime="">エスカ・サファイア</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1559827623559061504" rel="nofollow">紹介</a>)</td><td class="style_td" rowspan="2">2022/08/17実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・アメイズ 水着スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA" class="" data-mtime="">エスカ・アメイズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1559828127219531777" rel="nofollow">紹介</a>)</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・ルビー クリスマススキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC" class="" data-mtime="">エスカ・ルビー</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1605488494675079168" rel="nofollow">紹介</a>)</td><td class="style_td">2022/12/21実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">八爪妖蠱ハツネ セーラー服スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E5%85%AB%E7%88%AA%E5%A6%96%E8%A0%B1%E3%83%8F%E3%83%84%E3%83%8D" class="" data-mtime="">八爪妖蠱ハツネ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1658736514875158528" rel="nofollow">紹介</a>)</td><td class="style_td">2023/05/17実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートソニック・アキレス 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF%E3%83%BB%E3%82%A2%E3%82%AD%E3%83%AC%E3%82%B9" class="" data-mtime="">ビートソニック・アキレス</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1729782272990306679" rel="nofollow">紹介</a>)</td><td class="style_td">2023/11/29実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・アメイズ クリスマススキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA" class="" data-mtime="">エスカ・アメイズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1737380430742249909" rel="nofollow">紹介</a>)</td><td class="style_td">2023/12/20実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ 正月スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA" class="" data-mtime="">エスカ・トパーズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1741478624614826134" rel="nofollow">紹介</a>)</td><td class="style_td">2024/01/01実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカルビー・アステライズ バニースキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AB%E3%83%93%E3%83%BC%E3%83%BB%E3%82%A2%E3%82%B9%E3%83%86%E3%83%A9%E3%82%A4%E3%82%BA" class="" data-mtime="">エスカルビー・アステライズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1762748214116225462" rel="nofollow">紹介</a>)</td><td class="style_td">2024/02/28実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートウィザード・リリアム 変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A6%E3%82%A3%E3%82%B6%E3%83%BC%E3%83%89%E3%83%BB%E3%83%AA%E3%83%AA%E3%82%A2%E3%83%A0" class="" data-mtime="">ビートウィザード・リリアム</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1765280602838946040" rel="nofollow">紹介</a>)</td><td class="style_td">2024/03/06実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・サファイア ブライドスキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2" class="" data-mtime="">エスカ・サファイア</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1803328038924673038" rel="nofollow">紹介</a>)</td><td class="style_td">2024/06/19実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">八爪妖蠱ハツネ オルタナスキン</th><td class="style_td" style="text-align:left;"><a href="./?%E5%85%AB%E7%88%AA%E5%A6%96%E8%A0%B1%E3%83%8F%E3%83%84%E3%83%8D" class="" data-mtime="">八爪妖蠱ハツネ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1922556096717177299" rel="nofollow">紹介</a>)</td><td class="style_td">2024/09/04実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカレイヤー ワンピーススキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC" class="" data-mtime="">エスカレイヤー</a></td><td class="style_td" style="text-align:center;"></td><td class="style_td">2024/11/13実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ クリスマススキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA" class="" data-mtime="">エスカ・トパーズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/1866744892078363077" rel="nofollow">紹介</a>)</td><td class="style_td">2024/12/11実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・アメイズ　正月スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA" class="" data-mtime="">エスカ・アメイズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1874113030444990682" rel="nofollow">紹介</a>)</td><td class="style_td">2025/01/01実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートブラスト・アサギ 対魔忍スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%96%E3%83%A9%E3%82%B9%E3%83%88%E3%83%BB%E3%82%A2%E3%82%B5%E3%82%AE" class="" data-mtime="">ビートブラスト・アサギ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1914952298675286389" rel="nofollow">紹介</a>)</td><td class="style_td">2025/04/23実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">魔女クレナイ 対魔忍スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%AD%94%E5%A5%B3%E3%82%AF%E3%83%AC%E3%83%8A%E3%82%A4" class="" data-mtime="">魔女クレナイ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1914951296081330672" rel="nofollow">紹介</a>)</td><td class="style_td">2025/04/23実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍ユキカゼ 対魔忍スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%A6%E3%82%AD%E3%82%AB%E3%82%BC" class="" data-mtime="">閃忍ユキカゼ</a></td><td class="style_td" style="text-align:center;">(<a href="https://twitter.com/EscaH_PR/status/1917478274596233710" rel="nofollow">紹介</a>)</td><td class="style_td">2025/04/30実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートアンスキルド・カナミ　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%B3%E3%82%B9%E3%82%AD%E3%83%AB%E3%83%89%E3%83%BB%E3%82%AB%E3%83%8A%E3%83%9F" class="" data-mtime="">ビートアンスキルド・カナミ</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/1965681410548879618" rel="nofollow">紹介</a>)</td><td class="style_td">2025/09/10実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートタクティクス・ウルザ　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%BF%E3%82%AF%E3%83%86%E3%82%A3%E3%82%AF%E3%82%B9%E3%83%BB%E3%82%A6%E3%83%AB%E3%82%B6" class="" data-mtime="">ビートタクティクス・ウルザ</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/1965681503784075558" rel="nofollow">紹介</a>)</td><td class="style_td">2025/09/10実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートクワィエット・シヅカ　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%AF%E3%83%AF%E3%82%A3%E3%82%A8%E3%83%83%E3%83%88%E3%83%BB%E3%82%B7%E3%83%85%E3%82%AB" class="" data-mtime="">ビートクワィエット・シヅカ</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/1965682195529621882" rel="nofollow">紹介</a>)</td><td class="style_td">2025/09/10実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートカーム・ナギ　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%AB%E3%83%BC%E3%83%A0%E3%83%BB%E3%83%8A%E3%82%AE" class="" data-mtime="">ビートカーム・ナギ</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/1965681895444029722" rel="nofollow">紹介</a>)</td><td class="style_td">2025/09/10実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートストーム・ハヅキ　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A0%E3%83%BB%E3%83%8F%E3%83%85%E3%82%AD" class="" data-mtime="">ビートストーム・ハヅキ</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/1993582381723533589" rel="nofollow">紹介</a>)</td><td class="style_td">2025/11/26実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">神騎レブエル　変身前スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E7%A5%9E%E9%A8%8E%E3%83%AC%E3%83%96%E3%82%A8%E3%83%AB" class="" data-mtime="">神騎レブエル</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/1996120231069319553" rel="nofollow">紹介</a>)</td><td class="style_td">2025/12/03実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートアモーレ・ジブリール　魔界天使スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%A2%E3%83%BC%E3%83%AC%E3%83%BB%E3%82%B8%E3%83%96%E3%83%AA%E3%83%BC%E3%83%AB" class="" data-mtime="">ビートアモーレ・ジブリール</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/2046857621324567002" rel="nofollow">紹介</a>)</td><td class="style_td">2026/04/22実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">神騎ジブリール・ゼロ　魔界天使スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E7%A5%9E%E9%A8%8E%E3%82%B8%E3%83%96%E3%83%AA%E3%83%BC%E3%83%AB%E3%83%BB%E3%82%BC%E3%83%AD" class="" data-mtime="">神騎ジブリール・ゼロ</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/2046857291132276898" rel="nofollow">紹介</a>)</td><td class="style_td">2026/04/22実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートアモーレ・ジブリールアリエス　魔界天使スキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%A2%E3%83%BC%E3%83%AC%E3%83%BB%E3%82%B8%E3%83%96%E3%83%AA%E3%83%BC%E3%83%AB%E3%82%A2%E3%83%AA%E3%82%A8%E3%82%B9" class="" data-mtime="">ビートアモーレ・ジブリールアリエス</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/2049388657333952583" rel="nofollow">紹介</a>)</td><td class="style_td">2026/04/29実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ ブライドスキン</th><td class="style_td" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA" class="" data-mtime="">エスカ・トパーズ</a></td><td class="style_td" style="text-align:center;">(<a href="https://x.com/EscaH_PR/status/2062078463016935510" rel="nofollow">紹介</a>)</td><td class="style_td">2026/06/03実装</td></tr>
+</tbody></table></div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>期間限定スキンの販売履歴</p>
+</div><div class="rgn-content" style="display: none">
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">限定スキン</th><th class="style_th">販売期間</th></tr>
+</thead><tbody><tr><th class="style_th" style="text-align:left;">エスカ・ルビー 水着スキン</th><td class="style_td">2022/07/27 ～ 2022/08/10<br class="spacer" />2023/08/02 ～ 2023/08/16<br class="spacer" />2024/07/17 ～ 2024/07/31<br class="spacer" />2025/08/06 ～ 2025/08/20</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・ルビー クリスマススキン</th><td class="style_td">2022/12/21 ～ 2022/12/31<br class="spacer" />2023/12/20 ～ 2023/12/31<br class="spacer" />2024/12/18 ～ 2024/12/31<br class="spacer" />2025/12/24 ～ 2025/12/31</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカルビー・アステライズ バニースキン</th><td class="style_td">2024/02/28 ～ 2024/03/06<br class="spacer" />2025/05/21 ～ 2025/06/04<br class="spacer" />2026/02/25 ～ 2026/03/04</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・サファイア 水着スキン</th><td class="style_td">2022/08/17 ～ 2022/08/31<br class="spacer" />2023/08/02 ～ 2023/08/16<br class="spacer" />2024/07/17 ～ 2024/07/31<br class="spacer" />2025/08/06 ～ 2025/08/20</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・サファイア ブライドスキン</th><td class="style_td">2024/06/19 ～ 2024/07/03<br class="spacer" />2025/06/18 ～ 2025/07/02<br class="spacer" />2026/06/03 ～ 2026/06/10</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ 水着スキン</th><td class="style_td">2022/07/27 ～ 2022/08/10<br class="spacer" />2023/08/02 ～ 2023/08/16<br class="spacer" />2024/08/07 ～ 2024/08/21<br class="spacer" />2025/07/09 ～ 2025/07/23<br class="spacer" />2026/07/08 ～ 2026/07/22</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ 正月スキン</th><td class="style_td">2024/01/01 ～ 2024/01/10<br class="spacer" />2025/01/08 ～ 2025/01/15<br class="spacer" />2026/01/01 ～ 2026/01/14</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ クリスマススキン</th><td class="style_td">2024/12/11 ～ 2024/12/18<br class="spacer" />2025/12/24 ～ 2025/12/31</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・トパーズ ブライドスキン</th><td class="style_td">2026/06/03 ～ 2026/06/10</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・アメイズ 水着スキン</th><td class="style_td">2022/08/17 ～ 2022/08/31<br class="spacer" />2023/08/02 ～ 2023/08/16<br class="spacer" />2024/08/07 ～ 2024/08/21<br class="spacer" />2025/07/09 ～ 2025/07/23<br class="spacer" />2026/07/08 ～ 2026/07/22</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・アメイズ クリスマススキン</th><td class="style_td">2023/12/20 ～ 2023/12/31<br class="spacer" />2024/12/18 ～ 2024/12/31<br class="spacer" />2025/12/24 ～ 2025/12/31</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカ・アメイズ　正月スキン</th><td class="style_td">2025/01/01 ～ 2025/01/08<br class="spacer" />2026/01/01 ～ 2026/01/14</td></tr>
+<tr><th class="style_th" style="text-align:left;">エスカレイヤー　ワンピーススキン</th><td class="style_td">2024/11/13 ～ 2024/11/27</td></tr>
+<tr><th class="style_th" style="text-align:left;">八爪妖蠱ハツネ セーラー服スキン</th><td class="style_td">2023/05/17 ～ 2023/05/31<br class="spacer" />2023/11/08 ～ 2023/11/29<br class="spacer" />2024/05/15 ～ 2024/05/29<br class="spacer" />2024/11/06 ～ 2024/11/27</td></tr>
+<tr><th class="style_th" style="text-align:left;">八爪妖蠱ハツネ オルタナスキン</th><td class="style_td">2024/09/04 ～ 2024/09/18<br class="spacer" />2025/05/14 ～ 2025/06/04</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートソニック・アキレス 変身前スキン</th><td class="style_td">2023/11/29 ～ 2023/12/06<br class="spacer" />2026/07/01 ～ 2026/07/08</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートウィザード・リリアム 変身前スキン</th><td class="style_td">2024/03/06 ～ 2024/03/13</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートブラスト・アサギ 対魔忍スキン</th><td class="style_td">2025/04/23 ～ 2025/05/07</td></tr>
+<tr><th class="style_th" style="text-align:left;">魔女クレナイ 対魔忍スキン</th><td class="style_td">2025/04/23 ～ 2025/05/07</td></tr>
+<tr><th class="style_th" style="text-align:left;">閃忍ユキカゼ 対魔忍スキン</th><td class="style_td">2025/04/30 ～ 2025/05/07</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートアンスキルド・カナミ　変身前スキン</th><td class="style_td">2025/09/10 ～ 2025/09/17</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートタクティクス・ウルザ　変身前スキン</th><td class="style_td">2025/09/10 ～ 2025/09/17</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートクワィエット・シヅカ　変身前スキン</th><td class="style_td">2025/09/10 ～ 2025/09/17</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートカーム・ナギ　変身前スキン</th><td class="style_td">2025/09/10 ～ 2025/09/17</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートストーム・ハヅキ　変身前スキン</th><td class="style_td">2025/11/26 ～ 2025/12/03</td></tr>
+<tr><th class="style_th" style="text-align:left;">神騎レブエル　変身前スキン</th><td class="style_td">2025/12/03 ～ 2025/12/10</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートアモーレ・ジブリール　魔界天使スキン</th><td class="style_td">2026/04/22 ～ 2026/05/06</td></tr>
+<tr><th class="style_th" style="text-align:left;">神騎ジブリール・ゼロ　魔界天使スキン</th><td class="style_td">2026/04/22 ～ 2026/05/06</td></tr>
+<tr><th class="style_th" style="text-align:left;">ビートアモーレ・ジブリールアリエス　魔界天使スキン</th><td class="style_td">2026/04/29 ～ 2026/05/06</td></tr>
+</tbody></table></div>
+</div></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_10">ハニースキン  <a class="anchor_super" id="f50eec70" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#f50eec70" title="f50eec70">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=f50eec70" title="Edit #f50eec70"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #f50eec70" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=11" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>8月2日のハニーの日にちなんで、記念ログインボーナスで配られたスキンです。<br />
+（配布スキンはハニーの日配布１年後にスキン交換所にてスキンチケット0枚で交換可能になる模様）<br />
+対象キャラクターの見た目をハニーに変更することができます。<br />
+通常のスキンと違い、ハニースキンでは戦闘中の見た目と立ち絵のみ変更可能です。</p>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>ハニースキン一覧</p>
+</div><div class="rgn-content" style="display: none">
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">対象キャラクター</th><th class="style_th">配布時期</th><th class="style_th">スキン交換所<br class="spacer" />追加時期<br class="spacer" /><span style="font-size:11px;display:inline-block;line-height:130%;text-indent:0px">(スキンチケット:0枚)</span></th></tr>
+</thead><tbody><tr><th class="style_th" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC" class="" data-mtime="">エスカ・ルビー</a></th><td class="style_td" rowspan="4" style="text-align:left;"><a href="https://www.alicesoft.com/information/2021/entry002806.html" rel="nofollow">2021年ハニーの日</a></td><td class="style_td" rowspan="4" style="text-align:left;">2022/08/02</td></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2" class="" data-mtime="">エスカ・サファイア</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA" class="" data-mtime="">エスカ・トパーズ</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA" class="" data-mtime="">エスカ・アメイズ</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC" class="" data-mtime="">エスカレイヤー</a></th><td class="style_td" rowspan="4" style="text-align:left;">2022年ハニーの日<br class="spacer" /><a href="https://www.alicesoft.com/information/2022/entry003043.html" rel="nofollow">『超昂天使エスカレイヤー』20周年記念</a></td><td class="style_td" rowspan="4" style="text-align:left;">2023/08/02</td></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%83%9E%E3%83%89%E3%82%AB%E3%83%BB%E3%82%A2%E3%82%B5%E3%83%AB%E3%83%88" class="" data-mtime="">マドカ・アサルト</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?FM77" class="" data-mtime="">FM77</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%A9%E3%83%AB%E3%83%BB%E3%83%9F%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%83%8C" class="" data-mtime="">ビートジェネラル・ミストレーヌ</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%82%A4%E3%83%8E%E3%83%AA" class="" data-mtime="">閃忍イノリ</a></th><td class="style_td" rowspan="2" style="text-align:left;">2023年ハニーの日</td><td class="style_td" rowspan="2" style="text-align:left;">2024/08/02</td></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%A9%E3%82%A4%E3%82%AB" class="" data-mtime="">閃忍ライカ</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%AB%E3%82%AB" class="" data-mtime="">閃忍ハルカ</a></th><td class="style_td" rowspan="3" style="text-align:left;">2024年ハニーの日<br class="spacer" /><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8854_%E3%83%80%E3%82%A4%E3%83%93%E3%83%BC%E3%83%88%E5%86%92%E9%99%BA%E8%A8%98%E3%80%80%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%AF%E3%83%AB%E3%83%BC%E3%82%BASOS%EF%BC%81" title="イベント54_ダイビート冒険記　真夏のクルーズSOS！" class="" data-mtime="">ダイビート冒険記　真夏のクルーズSOS！</a>のログインボーナス</td><td class="style_td" rowspan="3" style="text-align:left;">2025/08/02</td></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%83%8A%E3%83%AA%E3%82%AB" class="" data-mtime="">閃忍ナリカ</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E9%96%83%E5%BF%8D%E3%82%B9%E3%83%90%E3%83%AB" class="" data-mtime="">閃忍スバル</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%AA%E3%82%A8%E3%83%AB" class="" data-mtime="">レガリアの神騎ユリエル</a></th><td class="style_td" rowspan="3" style="text-align:left;">2025年ハニーの日<br class="spacer" /><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8871_%E3%81%8A%E3%81%84%E3%81%A7%E3%81%BE%E3%81%9B%E2%99%AA%E3%80%80%E3%83%8F%E3%83%8B%E3%83%BC%E3%82%B5%E3%83%9E%E3%83%BC%E3%83%AF%E3%83%BC%E3%83%AB%E3%83%89%EF%BC%81%EF%BC%81" title="イベント71_おいでませ♪　ハニーサマーワールド！！" class="" data-mtime="">＜復刻＞おいでませ♪　ハニーサマーワールド！！</a>のログインボーナス</td><td class="style_td" rowspan="3" style="text-align:left;">－</td></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%9E%E3%83%A4%E3%82%A8%E3%83%AB" class="" data-mtime="">レガリアの神騎マヤエル</a></th></tr>
+<tr><th class="style_th" style="text-align:left;"><a href="./?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB" class="" data-mtime="">レガリアの神騎メガエル</a></th></tr>
+</tbody></table></div>
+</div></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- wikiru_PC_h2_responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="9804070536"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br><h2 id="content_1_11">キャラクター交換所  <a class="anchor_super" id="idec197f" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#idec197f" title="idec197f">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=idec197f" title="Edit #idec197f"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #idec197f" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=12" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p><span style="color:#0000ff"><strong>常設無料</strong></span>のキャラクター入手システムです。<br />
+メインクエスト攻略の主力となるキャラを<span style="color:#0000ff"><strong>一切の課金無しで入手及び強化が可能</strong></span>です。<br />
+初心者の戦力強化には欠かせないため積極的な利用をおすすめします。</p>
+<ul class="list1 list-indent1"><li><span style="color:#0000ff"><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" title="キャラクター交換所" class="" data-mtime=""><strong>詳細は「キャラクター交換所」を参照のこと</strong></a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_12">サポーター強化アイテム交換所  <a class="anchor_super" id="i4ea48f3" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#i4ea48f3" title="i4ea48f3">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=i4ea48f3" title="Edit #i4ea48f3"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #i4ea48f3" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=13" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p>2023/02/22に<a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a>機能実装に伴い開設された交換所。<br />
+メインクエストArea4-8をクリアすることで解放される。<br />
+全体的にレートが悪い。本当に必要な時だけ利用するようにしよう。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" style="text-align:left;">交換アイテム</th><th class="style_th" style="text-align:center;">月制限</th><th class="style_th">必要アイテム</th><th class="style_th">備考</th></tr>
+</thead><tbody><tr><th class="style_th" style="text-align:left;">サポートサプリ×1</th><td class="style_td" style="text-align:center;">20</td><td class="style_td">トークン×20</td><td class="style_td"></td></tr>
+<tr><th class="style_th" style="text-align:left;">四円玉・銅×1</th><td class="style_td" style="text-align:center;">50</td><td class="style_td">トークン×10</td><td class="style_td"></td></tr>
+<tr><th class="style_th" style="text-align:left;">四円玉・銅×1</th><td class="style_td" style="text-align:center;">---</td><td class="style_td">トークン×100</td><td class="style_td"></td></tr>
+<tr><th class="style_th" style="text-align:left;">四円玉・銀×1</th><td class="style_td" style="text-align:center;">---</td><td class="style_td">四円玉・銅×10</td><td class="style_td"></td></tr>
+<tr><th class="style_th" style="text-align:left;">四円玉・金×1</th><td class="style_td" style="text-align:center;">3</td><td class="style_td">四円玉・銀×10</td><td class="style_td"></td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_13">レベル上限UPアイテム交換所  <a class="anchor_super" id="gd5b4f5d" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#gd5b4f5d" title="gd5b4f5d">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=gd5b4f5d" title="Edit #gd5b4f5d"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #gd5b4f5d" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=14" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p>2023/03/22に<a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a>機能実装に伴い開設された交換所。<br />
+<a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a>などエンドコンテンツを見据えた中級者以上向け。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" style="text-align:left;">交換アイテム</th><th class="style_th" style="text-align:center;">月制限</th><th class="style_th">必要アイテム</th><th class="style_th">備考</th><th class="style_th">（他との必要個数)</th></tr>
+</thead><tbody><tr><th class="style_th" style="text-align:left;">壁に開限×1</th><td class="style_td" style="text-align:center;">30</td><td class="style_td">トークン 5個</td><td class="style_td">プレイヤーによっては常に不足するのでトークンに余裕があるなら積極的に交換したい。</td><td class="style_td"></td></tr>
+<tr><th class="style_th" style="text-align:left;">壁に開限・銅×1</th><td class="style_td" style="text-align:center;"></td><td class="style_td">壁に開限 5個</td><td class="style_td">開眼・銅より通常開眼の方が入手機会が少ないので序盤は注意。</td><td class="style_td">トークン:25個</td></tr>
+<tr><th class="style_th" style="text-align:left;">壁に開限・銀×1</th><td class="style_td" style="text-align:center;"></td><td class="style_td">壁に開限・銅 5個</td><td class="style_td">開眼・銅はたくさん手に入るので余ったら銀と交換していこう。</td><td class="style_td">トークン:125個<br class="spacer" />壁に開限:25個</td></tr>
+<tr><th class="style_th" style="text-align:left;">壁に開限・金×1</th><td class="style_td" style="text-align:center;">20</td><td class="style_td">壁に開限・銀 5個</td><td class="style_td">逸品ベルトを装備するエースアタッカー以外は、開眼・金10個でLv130を1人作るより<br class="spacer" />開眼・銀50個でLv120を5人作った方が効率よく戦力（スコア）が増える。</td><td class="style_td">トークン:625個<br class="spacer" />壁に開限:125個<br class="spacer" />壁に開限・銅:25個</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_14">Bユニバース  <a class="anchor_super" id="m745b289" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#m745b289" title="m745b289">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=m745b289" title="Edit #m745b289"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #m745b289" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=15" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p><a href="./?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" class="" data-mtime="">Bユニバース</a>で獲得したレジデュー（白い素材）、またはスピリット（ピンクの素材）で交換できる。<br />
+報酬は共通ではなくボスそれぞれ別なので注意。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9&amp;openfile=%E3%83%AC%E3%82%B8%E3%83%87%E3%83%A5%E3%83%BC.png" title="レジデュー.png"><img src="attach2/42E383A6E3838BE38390E383BCE382B9_E383ACE382B8E38387E383A5E383BC2E706E67.png" alt="レジデュー.png" title="レジデュー.png" width="50" height="50" /></a></td><th class="style_th">レジデュー</th><td class="style_td"><a href="./?plugin=attach&amp;refer=B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9&amp;openfile=%E5%9B%BA%E6%9C%89%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0.png" title="固有アイテム.png"><img src="attach2/42E383A6E3838BE38390E383BCE382B9_E59BBAE69C89E382A2E382A4E38386E383A02E706E67.png" alt="固有アイテム.png" title="固有アイテム.png" width="50" height="50" /></a></td><th class="style_th">スピリット</th></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_15">レールフラスト  <a class="anchor_super" id="g0225990" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#g0225990" title="g0225990">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=g0225990" title="Edit #g0225990"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #g0225990" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=16" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">交換アイテム</th><th class="style_th">交換<br class="spacer" />上限</th><th class="style_th">必要レジデュー<br class="spacer" />(単価)</th><th class="style_th">必要レジデュー<br class="spacer" />(総数)</th><th class="style_th">必要スピリット<br class="spacer" />(単価)</th><th class="style_th">必要スピリット<br class="spacer" />(総数)</th><th class="style_th">備考</th></tr>
+</thead><tfoot><tr><th class="style_th" colspan="3" style="text-align:center;">上限ありアイテム全交換に必要なレジデュー</th><td class="style_td" style="text-align:center;">5,000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><th class="style_th" colspan="5" style="text-align:center;">上限ありアイテム全交換に必要なスピリット</th><td class="style_td" style="text-align:center;">1,640</td><td class="style_td" style="text-align:left;"></td></tr>
+</tfoot><tbody><tr><th class="style_th" style="text-align:left;">プレミアムガチャチケット10連×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" rowspan="5" style="text-align:left;">難易度「VERY HARD」実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">壁に開限・超昂×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">金の巫女絵馬×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・中×1</th><td class="style_td" style="text-align:center;">5</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">80</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">元気の原液×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">4</td><td class="style_td" style="text-align:center;">40</td></tr>
+<tr><th class="style_th" style="text-align:left;">パッチ</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="2" style="text-align:left;"><a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">パッチ</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">プレミアムガチャチケット10連×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="4" style="text-align:left;">初期実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">巫女絵馬×1</th><td class="style_td" style="text-align:center;">5</td><td class="style_td" style="text-align:center;">200</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">元気の原液×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">リセットストラップ×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="3" style="text-align:left;">難易度「VERY HARD」実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">∞</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">4</td><td class="style_td" style="text-align:center;">---</td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">∞</td><td class="style_td" style="text-align:center;">40</td><td class="style_td" style="text-align:center;">---</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_16"><a href="./?%E3%82%A6%E3%82%A7%E3%83%BC%E3%83%96%E3%83%95%E3%83%A9%E3%82%B9%E3%83%88%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="ウェーブフラスト（Bユニバース）" class="" data-mtime="">ウェーブフラスト</a>／<a href="./?%E3%83%A0%E3%83%BC%E3%83%93%E3%83%BC%E3%83%95%E3%83%A9%E3%82%B9%E3%83%88%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="ムービーフラスト（Bユニバース）" class="" data-mtime="">ムービーフラスト</a>／<a href="./?%E3%82%B5%E3%82%A4%E3%82%A8%E3%83%B3%E3%83%95%E3%83%A9%E3%82%B9%E3%83%88%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="サイエンフラスト（Bユニバース）" class="" data-mtime="">サイエンフラスト</a> <a class="anchor_super" id="a7d29f68" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#a7d29f68" title="a7d29f68">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=a7d29f68" title="Edit #a7d29f68"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #a7d29f68" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=17" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">交換アイテム</th><th class="style_th">交換<br class="spacer" />上限</th><th class="style_th">必要レジデュー<br class="spacer" />(単価)</th><th class="style_th">必要レジデュー<br class="spacer" />(総数)</th><th class="style_th">必要スピリット<br class="spacer" />(単価)</th><th class="style_th">必要スピリット<br class="spacer" />(総数)</th><th class="style_th">備考</th></tr>
+</thead><tfoot><tr><th class="style_th" colspan="3" style="text-align:center;">上限ありアイテム全交換に必要なレジデュー</th><td class="style_td" style="text-align:center;">12,500</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><th class="style_th" colspan="5" style="text-align:center;">上限ありアイテム全交換に必要なスピリット</th><td class="style_td" style="text-align:center;">1,640</td><td class="style_td" style="text-align:left;"></td></tr>
+</tfoot><tbody><tr><th class="style_th" style="text-align:left;">プレミアムガチャチケット10連×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" rowspan="5" style="text-align:left;">難易度「VERY HARD」実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">壁に開限・超昂×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">金の巫女絵馬×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・中×1</th><td class="style_td" style="text-align:center;">5</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">80</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">元気の原液×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">4</td><td class="style_td" style="text-align:center;">40</td></tr>
+<tr><th class="style_th" style="text-align:left;">パッチ</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="2" style="text-align:left;"><a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">パッチ</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">巫女絵馬×1</th><td class="style_td" style="text-align:center;">30</td><td class="style_td" style="text-align:center;">200</td><td class="style_td" style="text-align:center;">6000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="5" style="text-align:left;">初期実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・中×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・小×1</th><td class="style_td" style="text-align:center;">5</td><td class="style_td" style="text-align:center;">500</td><td class="style_td" style="text-align:center;">2500</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">元気の原液×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">リセットストラップ×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="3" style="text-align:left;">難易度「VERY HARD」実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">∞</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">4</td><td class="style_td" style="text-align:center;">---</td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">∞</td><td class="style_td" style="text-align:center;">40</td><td class="style_td" style="text-align:center;">---</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_17"><a href="./?%E6%AE%B2%E5%BF%8D%E3%82%AB%E3%82%B2%E3%83%AA%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="殲忍カゲリ（Bユニバース）" class="" data-mtime="">殲忍カゲリ</a>／<a href="./?%E6%BB%85%E5%BF%8D%E3%82%AD%E3%82%AF%E3%83%AA%EF%BC%86%E3%82%B3%E3%83%86%E3%83%84%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="滅忍キクリ＆コテツ（Bユニバース）" class="" data-mtime="">滅忍キクリ＆コテツ</a>／<a href="./?%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="殲忍ハガネ（Bユニバース）" class="" data-mtime="">殲忍ハガネ</a>／<a href="./?%E3%83%87%E3%82%A3%E3%82%B9%E3%83%88%E3%83%90%E3%83%BC%E3%83%B3%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="ディストバーン（Bユニバース）" class="" data-mtime="">ディストバーン</a>  <a class="anchor_super" id="i4f1e990" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#i4f1e990" title="i4f1e990">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=i4f1e990" title="Edit #i4f1e990"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #i4f1e990" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=18" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">交換アイテム</th><th class="style_th">交換<br class="spacer" />上限</th><th class="style_th">必要レジデュー<br class="spacer" />(単価)</th><th class="style_th">必要レジデュー<br class="spacer" />(総数)</th><th class="style_th">必要スピリット<br class="spacer" />(単価)</th><th class="style_th">必要スピリット<br class="spacer" />(総数)</th><th class="style_th">備考</th></tr>
+</thead><tfoot><tr><th class="style_th" colspan="3" style="text-align:center;">上限ありアイテム全交換に必要なレジデュー</th><td class="style_td" style="text-align:center;">16,400</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><th class="style_th" colspan="5" style="text-align:center;">上限ありアイテム全交換に必要なスピリット</th><td class="style_td" style="text-align:center;">1,640</td><td class="style_td" style="text-align:left;"></td></tr>
+</tfoot><tbody><tr><th class="style_th" style="text-align:left;">プレミアムガチャチケット10連×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" rowspan="5" style="text-align:left;">難易度「VERY HARD」実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">壁に開限・超昂×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">金の巫女絵馬×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・中×1</th><td class="style_td" style="text-align:center;">5</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">80</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">元気の原液×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">4</td><td class="style_td" style="text-align:center;">40</td></tr>
+<tr><th class="style_th" style="text-align:left;">パッチ</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="3" style="text-align:left;"><a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">パッチ</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">パッチ</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">10連ガチャチケット×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="6" style="text-align:left;">初期実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">巫女絵馬×1</th><td class="style_td" style="text-align:center;">30</td><td class="style_td" style="text-align:center;">200</td><td class="style_td" style="text-align:center;">6000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・中×1</th><td class="style_td" style="text-align:center;">2</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・小×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">500</td><td class="style_td" style="text-align:center;">5000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">元気の原液×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">リセットストラップ×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" rowspan="3" style="text-align:left;">難易度「VERY HARD」実装で追加</td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">∞</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">4</td><td class="style_td" style="text-align:center;">---</td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">∞</td><td class="style_td" style="text-align:center;">40</td><td class="style_td" style="text-align:center;">---</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+</tbody></table></div>
+<p>※ハガネのみ難易度「VERY HARD」用交換アイテムが2025/05/28アップデートで先行追加された</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_18"><a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%86%E3%83%8F%E3%83%AB%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="エスカレイヤー・リバース＆ハルカ・リバース（Bユニバース）" class="" data-mtime="">エスカレイヤー・リバース＆ハルカ・リバース</a>／<a href="./?%E3%82%AA%E3%83%AB%E3%83%90%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="オルバ（Bユニバース）" class="" data-mtime="">オルバ</a>／<a href="./?%E3%82%AA%E3%83%AB%E3%82%BF%E3%83%8A%E5%9B%9B%E5%A4%A9%E7%8E%8B%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="オルタナ四天王（Bユニバース）" class="" data-mtime="">オルタナ四天王</a>  <a class="anchor_super" id="sc729423" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#sc729423" title="sc729423">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=sc729423" title="Edit #sc729423"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #sc729423" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=19" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">交換アイテム</th><th class="style_th">交換<br class="spacer" />上限</th><th class="style_th">必要レジデュー<br class="spacer" />(単価)</th><th class="style_th">必要レジデュー<br class="spacer" />(総数)</th><th class="style_th">必要スピリット<br class="spacer" />(単価)</th><th class="style_th">必要スピリット<br class="spacer" />(総数)</th><th class="style_th">備考</th></tr>
+</thead><tfoot><tr><th class="style_th" colspan="3" style="text-align:center;">上限ありアイテム全交換に必要なレジデュー</th><td class="style_td" style="text-align:center;">15,200</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><th class="style_th" colspan="5" style="text-align:center;">上限ありアイテム全交換に必要なスピリット</th><td class="style_td" style="text-align:center;">1,640</td><td class="style_td" style="text-align:left;"></td></tr>
+</tfoot><tbody><tr><th class="style_th" style="text-align:left;">プレミアムガチャチケット10連×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" rowspan="14" style="text-align:left;">初期実装</td></tr>
+<tr><th class="style_th" style="text-align:left;">壁に開限・超昂×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">金の巫女絵馬×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・中×1</th><td class="style_td" style="text-align:center;">5</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">80</td><td class="style_td" style="text-align:center;">400</td></tr>
+<tr><th class="style_th" style="text-align:left;">元気の原液×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">4</td><td class="style_td" style="text-align:center;">40</td></tr>
+<tr><th class="style_th" style="text-align:left;">10連ガチャチケット×1</th><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">巫女絵馬×1</th><td class="style_td" style="text-align:center;">30</td><td class="style_td" style="text-align:center;">200</td><td class="style_td" style="text-align:center;">6000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・中×1</th><td class="style_td" style="text-align:center;">2</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">カクセイの木・小×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">500</td><td class="style_td" style="text-align:center;">5000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">元気の原液×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">リセットストラップ×1</th><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">∞</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">4</td><td class="style_td" style="text-align:center;">---</td></tr>
+<tr><th class="style_th" style="text-align:left;">トークン×1</th><td class="style_td" style="text-align:center;">∞</td><td class="style_td" style="text-align:center;">40</td><td class="style_td" style="text-align:center;">---</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_19">コメントフォーム  <a class="anchor_super" id="qa067f97" href="./?%E4%BA%A4%E6%8F%9B%E6%89%80#qa067f97" title="qa067f97">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=qa067f97" title="Edit #qa067f97"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #qa067f97" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80&amp;id=20" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="2456832941"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br>
+<div class="pcomment">
+<p> 最新の20件を表示しています。 <a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E4%BA%A4%E6%8F%9B%E6%89%80" title="コメント/交換所" class="" data-mtime="">コメントページを参照</a> </p>
+		<form action="./" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+
+		<ul class="list1 list-indent1"><li class="pcmt" data-comment-id="comment_fdbd1a0a4418bbdb60b814e7aa90db0e"><input class="pcmt" type="radio" name="reply" value="fdbd1a0a4418bbdb60b814e7aa90db0e" tabindex="21" />作成乙です。備考も参考になります -- [ng/0nhfegPk] <span class="comment_date">2021-10-13 (水) 23:15:43<span class="__plugin_new" data-mtime="2021-10-13T23:15:43+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_6a1938ce1f14a254564c37de3799a144"><input class="pcmt" type="radio" name="reply" value="6a1938ce1f14a254564c37de3799a144" tabindex="20" />資金・ガム・猿だけ売却しようかな。 -- [we9SKY4GVrw] <span class="comment_date">2021-10-14 (木) 00:04:40<span class="__plugin_new" data-mtime="2021-10-14T00:04:40+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_dea4bcfc01b842a5d272b6d914707305"><input class="pcmt" type="radio" name="reply" value="dea4bcfc01b842a5d272b6d914707305" tabindex="19" />交換価値ないアイテム多すぎだよな。<br class="spacer" />交換しないアイテムは無いのと同じ。ストラップにドロップなんて変える価値あるのか？ -- [/N.fikSSc22] <span class="comment_date">2021-10-14 (木) 01:52:08<span class="__plugin_new" data-mtime="2021-10-14T01:52:08+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_2d1c41cdb0d398cad7da200c63b18d56"><input class="pcmt" type="radio" name="reply" value="2d1c41cdb0d398cad7da200c63b18d56" tabindex="18" />あれはもはや罠だと思う。これの交換価値が高いってなったらゲームも末期だな。普通なら多くが交換終わる頃には黒トークンのアイテム追加するだろうし、それもしないってことだから。 -- [Mtoag44SDDM] <span class="comment_date">2022-01-16 (日) 20:54:49<span class="__plugin_new" data-mtime="2022-01-16T20:54:49+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_e920dc456a141349dd4b5299280563c7"><input class="pcmt" type="radio" name="reply" value="e920dc456a141349dd4b5299280563c7" tabindex="17" />勢いで10連取っちゃったけどコスト的に無かったな…というか下位絵馬2種だけ取ればいいな -- [qQ34gdA5J0M] <span class="comment_date">2021-10-14 (木) 12:05:39<span class="__plugin_new" data-mtime="2021-10-14T12:05:39+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_03b87a5ad36deca129178c125d0ea37c"><input class="pcmt" type="radio" name="reply" value="03b87a5ad36deca129178c125d0ea37c" tabindex="16" />うちは勢いで黒トークンとったけど、毎月とってたらガムもサルもあっというまになくなるからやっぱり絵馬だけにすることにした -- [ng/0nhfegPk] <span class="comment_date">2021-11-01 (月) 19:01:09<span class="__plugin_new" data-mtime="2021-11-01T19:01:09+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_29fccf2b48a25d7c9e15572b4df0da38"><input class="pcmt" type="radio" name="reply" value="29fccf2b48a25d7c9e15572b4df0da38" tabindex="15" />後で何かをめっちゃ要求される可能性だってあるし、猿とガムも１００くらいは残しておいていいんじゃないかな -- [EOP6FJuQ4XI] <span class="comment_date">2021-10-14 (木) 15:26:49<span class="__plugin_new" data-mtime="2021-10-14T15:26:49+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_a2cf22c6b27deee8851a15c1efdf6a31"><input class="pcmt" type="radio" name="reply" value="a2cf22c6b27deee8851a15c1efdf6a31" tabindex="14" />何を考えてこんな糞ゴミレートにしたのか… -- [2EPXSE1t76A] <span class="comment_date">2021-10-16 (土) 17:26:36<span class="__plugin_new" data-mtime="2021-10-16T17:26:36+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_bab42773b05e68ca8c5aba1a7c1e720b"><input class="pcmt" type="radio" name="reply" value="bab42773b05e68ca8c5aba1a7c1e720b" tabindex="13" />逆にどれだけ自分に都合のいい甘々レートを期待してたのか気になる -- [jG3iz1t5z6s] <span class="comment_date">2021-10-16 (土) 23:25:15<span class="__plugin_new" data-mtime="2021-10-16T23:25:15+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_146ba1f02d06c7d1e6db486f01ef379d"><input class="pcmt" type="radio" name="reply" value="146ba1f02d06c7d1e6db486f01ef379d" tabindex="12" />実装時は様子見調整で、後で下げた方が印象良くなるのは、まあ基本だし。スーパーの普段の価格みたいなもの。（安売りキャンペで集客狙ったり。）<br class="spacer" />むしろこの手の仕様で、最初からの資金系リソースが元手側に含まれてる事自体が珍しい。狙いはそっちっぽい。初期リソースは明らかにめっちゃ余ろうが放置、ガチャに変換可能なルート作っても婉曲に、が多数派っぽいからな…。 -- [wi491EvwG8M] <span class="comment_date">2021-10-16 (土) 22:05:35<span class="__plugin_new" data-mtime="2021-10-16T22:05:35+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_9892c06cfc1354107583af8f50f91b05"><input class="pcmt" type="radio" name="reply" value="9892c06cfc1354107583af8f50f91b05" tabindex="11" />ゴミアイテムばっかりじゃなくて、月代わりで逸品装備とか、キャラ専用装備出してくれたらいいのに。残念です。 -- [hCCcW2/pT7.] <span class="comment_date">2021-10-20 (水) 11:34:50<span class="__plugin_new" data-mtime="2021-10-20T11:34:50+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_ca844826d3ae83f2c78a02929b44286c"><input class="pcmt" type="radio" name="reply" value="ca844826d3ae83f2c78a02929b44286c" tabindex="10" />覚醒機能が入ったから、Ｇ・愛・情の価値上がったね。これだけは毎月とっとくとよさそう。 -- [qYgBlBB1thE] <span class="comment_date">2021-10-30 (土) 20:09:22<span class="__plugin_new" data-mtime="2021-10-30T20:09:22+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_2a132b3b43e294a6058e38095383f687"><input class="pcmt" type="radio" name="reply" value="2a132b3b43e294a6058e38095383f687" tabindex="9" />あ、もちろん絵馬以外での話 -- [qYgBlBB1thE] <span class="comment_date">2021-10-30 (土) 20:11:04<span class="__plugin_new" data-mtime="2021-10-30T20:11:04+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_4b731365da0a439a672f36e13a47c00a"><input class="pcmt" type="radio" name="reply" value="4b731365da0a439a672f36e13a47c00a" tabindex="8" />覚醒の木・必殺と固有効果、ひどいレートになるかと思いきや、意外に良心的だった。1,3,5,7,10の26、両方交換しても52 -- [ng/0nhfegPk] <span class="comment_date">2021-11-03 (水) 16:14:33<span class="__plugin_new" data-mtime="2021-11-03T16:14:33+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_01f7b4b20be0708af921c25c9f4ffe83"><input class="pcmt" type="radio" name="reply" value="01f7b4b20be0708af921c25c9f4ffe83" tabindex="7" />ソウシンチュウ３個≒覚醒ポイント30＝トークン30もプラスで計82。最後のレート10が４回って事に。<br class="spacer" />STも使うけど時短チケ１枚＋ST10面で問題ないし、エテ公/ガム30個＋それらと思えば別に悪くはない…よね？ -- [wi491EvwG8M] <span class="comment_date">2022-03-09 (水) 01:14:14<span class="__plugin_new" data-mtime="2022-03-09T01:14:14+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_6ef02cd5890ec8f6cf64814f1f82f463"><input class="pcmt" type="radio" name="reply" value="6ef02cd5890ec8f6cf64814f1f82f463" tabindex="6" />絵馬2種ジョーカクセイで142がコスト的には安定。黒トークンまでいくと442で毎月242はアイテムでまかなうことに。 -- [xcswcLiILsw] <span class="comment_date">2021-12-03 (金) 12:40:22<span class="__plugin_new" data-mtime="2021-12-03T12:40:22+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_bdef4d1b82413ca842901a95451115ac"><input class="pcmt" type="radio" name="reply" value="bdef4d1b82413ca842901a95451115ac" tabindex="5" />このペースでどれだけやれるかと思ってたが、来月まではやれそうな感じ。再来月もいけるかな？　最初にあった大量のストックの一部は、原液とソウシンチュウに消えてる。倉庫足りねー拡張はよ！　で資金稼ぎまくってると、案外資金は余裕で交換できる。 -- [Mtoag44SDDM] <span class="comment_date">2022-01-16 (日) 20:58:47<span class="__plugin_new" data-mtime="2022-01-16T20:58:47+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_a20420ef3102b9bb46ffebb633f3b8d6"><input class="pcmt" type="radio" name="reply" value="a20420ef3102b9bb46ffebb633f3b8d6" tabindex="4" />一周年ブログで<br class="spacer" />「また宝箱の別の使い方についても検討しており、年内を目標に改修を進行中です」<br class="spacer" />と書いていたのが今回の鯨とハート交換ですかね。<br class="spacer" />それとは別に「快適性と、より獲得できるポイントを増加する方向性、双方向からの改修を行う予定です」<br class="spacer" />とも書いてあるので、宝箱システム自体の改修はありそうですね。いつかは書いてませんが。 -- [TeOPh6n.nX6] <span class="comment_date">2021-12-17 (金) 19:47:39<span class="__plugin_new" data-mtime="2021-12-17T19:47:39+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_318a8470156f4181f427e5e887e45a37"><input class="pcmt" type="radio" name="reply" value="318a8470156f4181f427e5e887e45a37" tabindex="3" />もう今更なんだけど、ここのページ名って開発ラボじゃなく交換所の方が良いよね。 <br class="spacer" />交換所の中に色々な施設があって開発ラボはその中の一つなのに、総合名みたいになってる。 <br class="spacer" />最初は項目が少なくて一番上に開発ラボがあるからその名前にしたって事だと思うんだけど… -- [XPbY3lPcj.A] <span class="comment_date">2023-07-07 (金) 00:40:41<span class="__plugin_new" data-mtime="2023-07-07T00:40:41+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_4d8cd3f7c87b67684e26abf7d44508de"><input class="pcmt" type="radio" name="reply" value="4d8cd3f7c87b67684e26abf7d44508de" tabindex="2" />新しいページ作って内容を移植してもいいんだろうけど、かなりの作業量になるだろうしね。 <br class="spacer" />管理人さんにページの名前を「交換所」に変えてもらうのが、いちばん早いんだろうけど。 -- [YynkHg7W.MA] <span class="comment_date">2023-07-07 (金) 06:35:15<span class="__plugin_new" data-mtime="2023-07-07T06:35:15+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_d4d8681d93b0a621d4afbb702a38784b"><input class="pcmt" type="radio" name="reply" value="d4d8681d93b0a621d4afbb702a38784b" tabindex="1" />おおお、直してくれた！？ありがとう！ -- [XPbY3lPcj.A] <span class="comment_date">2023-07-14 (金) 13:56:53<span class="__plugin_new" data-mtime="2023-07-14T13:56:53+09:00"></span></span></li></ul></li></ul>
+
+		<style>
+/* 基本入力スタイル */
+.pcmt-name,.pcmt-msg{padding:5px 8px;border:1px solid #ccc;border-radius:4px;font-size:13px;outline:none;box-sizing:border-box}
+.pcmt-name:focus,.pcmt-msg:focus{border-color:#4a90d9}
+.pcmt-input-area{display:inline-block;vertical-align:top}
+.pcmt-msg-wrap{position:relative;display:inline-block;vertical-align:top}
+.pcmt-msg-wrap .pcmt-msg{padding-right:30px}
+.pcmt-msg-wrap-ta{display:flex}
+.pcmt-msg-wrap-ta .pcmt-msg{min-height:50px;resize:both}
+
+/* 絵文字ボタン */
+.pcmt-emoji-btn{position:absolute;right:3px;top:3px;width:24px;height:24px;padding:0;background:none;border:none;border-radius:4px;cursor:pointer;font-size:14px;opacity:.6}
+.pcmt-emoji-btn:hover{opacity:1;background:#f0f0f0}
+
+/* 絵文字ピッカー */
+.pcmt-emoji-picker{display:none;position:absolute;left:0;top:100%;margin-top:4px;width:340px;background:#fff;border:1px solid #ccc;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:9999}
+.pcmt-emoji-picker.show{display:block}
+.pcmt-ep-head{display:flex;padding:10px;gap:6px;border-bottom:1px solid #eee}
+.pcmt-ep-search{flex:1;padding:6px 10px;border:1px solid #ddd;border-radius:4px;font-size:14px;outline:none}
+.pcmt-ep-close{width:30px;height:30px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:16px;color:#666}
+.pcmt-ep-close:hover{background:#eee}
+.pcmt-ep-cats{display:flex;padding:8px;gap:4px;border-bottom:1px solid #eee;overflow-x:auto}
+.pcmt-ep-cat{padding:6px 8px;border:none;background:none;border-radius:4px;cursor:pointer;font-size:18px}
+.pcmt-ep-cat:hover{background:#f0f0f0}
+.pcmt-ep-cat.active{background:#e3f2fd}
+.pcmt-ep-list{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:10px;max-height:200px;overflow-y:auto}
+.pcmt-ep-item{width:38px;height:38px;border:none;background:none;border-radius:6px;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center}
+.pcmt-ep-item:hover{background:#f0f0f0;transform:scale(1.1)}
+.pcmt-ep-recent-wrap{padding:8px 10px 10px;border-top:1px solid #eee;display:none}
+.pcmt-ep-recent-wrap.show{display:block}
+.pcmt-ep-recent-title{font-size:12px;color:#888;margin-bottom:6px}
+.pcmt-ep-recent{display:flex;flex-wrap:wrap;gap:4px}
+
+/* ツールバー */
+.pcmt-toolbar{display:flex;gap:4px;margin-top:6px;position:relative}
+.pcmt-tb-btn.uploading svg{display:none}
+.pcmt-tb-btn.uploading::after{content:"";display:block;width:13px;height:13px;border:2px solid #ccc;border-top-color:#4a90d9;border-radius:50%;animation:pcmt-spin .8s linear infinite;margin:auto}
+@keyframes pcmt-spin{to{transform:rotate(360deg)}}
+.pcmt-terms-ov{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center}
+.pcmt-terms-box{background:#fff;border-radius:10px;max-width:420px;width:90%;padding:20px 22px;font-size:14px;line-height:1.8;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.pcmt-terms-box a{color:#3949ab;font-weight:bold}
+.pcmt-terms-btns{text-align:right;margin-top:14px}
+.pcmt-terms-btns button{margin-left:8px;padding:7px 16px;border:none;border-radius:6px;cursor:pointer;font-size:13px}
+.pcmt-terms-ok{background:#5a6acf;color:#fff}
+.pcmt-terms-cancel{background:#e0e0e0;color:#333}
+.pcmt-img-chips{display:none;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pcmt-img-chip{display:inline-flex;align-items:center;gap:4px;background:#eef1fb;border:1px solid #c5cae9;border-radius:14px;padding:2px 6px 2px 10px;font-size:12px;max-width:260px}
+.pcmt-img-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcmt-img-chip-x{border:none;background:none;color:#5a6acf;font-size:15px;cursor:pointer;padding:0 4px;line-height:1}
+.pcmt-tb-btn{width:32px;height:32px;padding:0;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#555;transition:all .15s}
+.pcmt-tb-btn:hover{background:#f5f5f5;border-color:#bbb}
+.pcmt-tb-btn.active{background:#e3f2fd;border-color:#4a90d9;color:#1976d2}
+
+/* カラーピッカー */
+.pcmt-color-picker{display:none;position:absolute;left:0;top:100%;margin-top:4px;width:260px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:9999;overflow:hidden}
+.pcmt-color-picker.show{display:block}
+.pcmt-cp-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #eee}
+.pcmt-cp-title{font-size:13px;font-weight:600;color:#333}
+.pcmt-cp-close{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:14px;color:#666}
+.pcmt-cp-close:hover{background:#eee}
+.pcmt-cp-colors{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:12px}
+.pcmt-cp-color{width:32px;height:32px;border:1px solid #ddd;border-radius:6px;cursor:pointer;transition:transform .1s,border-color .1s,box-shadow .1s}
+.pcmt-cp-color:hover{transform:scale(1.1);border-color:#999}
+.pcmt-cp-color.selected{border-color:#333;box-shadow:0 0 0 2px #fff,0 0 0 4px #333}
+.pcmt-cp-custom{display:flex;align-items:center;gap:8px;padding:0 12px 10px}
+.pcmt-cp-hex{width:90px;padding:6px 8px;border:1px solid #ddd;border-radius:4px;font-size:13px;font-family:monospace}
+.pcmt-cp-preview{width:32px;height:32px;border-radius:6px;border:1px solid #ddd}
+.pcmt-cp-actions{padding:10px 12px;border-top:1px solid #eee;text-align:right}
+.pcmt-cp-apply{padding:6px 16px;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
+.pcmt-cp-apply:hover{background:#3a7bc8}
+
+/* 文字サイズピッカー */
+.pcmt-size-picker{display:none;position:absolute;left:36px;top:100%;margin-top:4px;width:200px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:9999;overflow:hidden}
+.pcmt-size-picker.show{display:block}
+.pcmt-sp-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #eee}
+.pcmt-sp-title{font-size:13px;font-weight:600;color:#333}
+.pcmt-sp-close{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:14px;color:#666}
+.pcmt-sp-close:hover{background:#eee}
+.pcmt-sp-sizes{display:flex;flex-wrap:wrap;gap:6px;padding:12px}
+.pcmt-sp-size{min-width:36px;padding:6px 10px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;font-size:13px;text-align:center;transition:all .1s}
+.pcmt-sp-size:hover{background:#f5f5f5;border-color:#bbb}
+.pcmt-sp-size.selected{background:#e3f2fd;border-color:#4a90d9;color:#1976d2}
+.pcmt-sp-custom{display:flex;align-items:center;gap:6px;padding:0 12px 10px}
+.pcmt-sp-input{width:60px;padding:6px 8px;border:1px solid #ddd;border-radius:4px;font-size:13px;text-align:center}
+.pcmt-sp-unit{font-size:13px;color:#666}
+.pcmt-sp-preview{margin:0 12px 10px;padding:10px;background:#f9f9f9;border-radius:6px;text-align:center;transition:font-size .15s}
+.pcmt-sp-actions{padding:10px 12px;border-top:1px solid #eee;text-align:right}
+.pcmt-sp-apply{padding:6px 16px;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
+.pcmt-sp-apply:hover{background:#3a7bc8}
+
+/* レスポンシブ */
+@media(max-width:600px){
+.pcmt-name,.pcmt-msg{font-size:13px}
+.pcmt-input-area{display:block;width:100%;margin:6px 0}
+.pcmt-msg-wrap{display:block;width:100%}
+.pcmt-msg-wrap .pcmt-msg{width:100%}
+.pcmt-emoji-picker,.pcmt-color-picker,.pcmt-size-picker{width:calc(100vw - 32px);max-width:340px;left:0}
+.pcmt-size-picker{left:0}
+}
+</style>
+  <div id="pcomment-form">
+  <input type="hidden" name="digest" value="52174e939d1e2cf2abe2dca62095278e" />
+  <input type="hidden" name="plugin" value="pcomment" />
+  <input type="hidden" name="refer"  value="交換所" />
+  <input type="hidden" name="page"   value="[[コメント/交換所]]" />
+  <input type="hidden" name="nodate" value="" />
+  <input type="hidden" name="dir"    value="1" />
+  <input type="hidden" name="count"  value="20" />
+  <input type="radio" name="reply" value="0" tabindex="0" checked="checked" /> お名前:  <input type="text" name="name" size="15" class="pcmt-name" /> <div class="pcmt-input-area"><span class="pcmt-msg-wrap pcmt-msg-wrap-ta"><textarea name="msg" id="pcmt_6cac8840_msg" rows="2" cols="45" class="pcomment-textarea pcmt-msg" placeholder=""></textarea><button type="button" class="pcmt-emoji-btn" id="pcmt_6cac8840_emoji_btn" title="絵文字">😀</button><div class="pcmt-emoji-picker" id="pcmt_6cac8840_picker"><div class="pcmt-ep-head"><input type="text" class="pcmt-ep-search" id="pcmt_6cac8840_search" placeholder="検索"><button type="button" class="pcmt-ep-close" id="pcmt_6cac8840_close">×</button></div><div class="pcmt-ep-cats" id="pcmt_6cac8840_cats"></div><div class="pcmt-ep-list" id="pcmt_6cac8840_list"></div><div class="pcmt-ep-recent-wrap" id="pcmt_6cac8840_recent_wrap"><div class="pcmt-ep-recent-title">最近使った</div><div class="pcmt-ep-recent" id="pcmt_6cac8840_recent"></div></div></div></span><div class="pcmt-toolbar" id="pcmt_6cac8840_toolbar"><button type="button" class="pcmt-tb-btn" id="pcmt_6cac8840_color_btn" title="文字色"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L12 14L15 3"/><path d="M5 21h14" stroke-width="3" stroke="#e53935"/></svg></button><div class="pcmt-color-picker" id="pcmt_6cac8840_color_picker"><div class="pcmt-cp-head"><span class="pcmt-cp-title">文字色</span><button type="button" class="pcmt-cp-close" id="pcmt_6cac8840_color_close">×</button></div><div class="pcmt-cp-colors" id="pcmt_6cac8840_colors"></div><div class="pcmt-cp-custom"><input type="text" class="pcmt-cp-hex" id="pcmt_6cac8840_hex" placeholder="#000000" maxlength="7"><div class="pcmt-cp-preview" id="pcmt_6cac8840_preview"></div></div><div class="pcmt-cp-actions"><button type="button" class="pcmt-cp-apply" id="pcmt_6cac8840_color_apply">適用</button></div></div><button type="button" class="pcmt-tb-btn" id="pcmt_6cac8840_size_btn" title="文字サイズ"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><text x="3" y="17" font-size="14" font-weight="bold" fill="currentColor" stroke="none">T</text><text x="14" y="20" font-size="10" fill="currentColor" stroke="none">T</text></svg></button><div class="pcmt-size-picker" id="pcmt_6cac8840_size_picker"><div class="pcmt-sp-head"><span class="pcmt-sp-title">文字サイズ</span><button type="button" class="pcmt-sp-close" id="pcmt_6cac8840_size_close">×</button></div><div class="pcmt-sp-sizes" id="pcmt_6cac8840_sizes"></div><div class="pcmt-sp-custom"><input type="number" class="pcmt-sp-input" id="pcmt_6cac8840_size_input" placeholder="px" min="8" max="48" value="16"><span class="pcmt-sp-unit">px</span></div><div class="pcmt-sp-preview" id="pcmt_6cac8840_size_preview">サンプル</div><div class="pcmt-sp-actions"><button type="button" class="pcmt-sp-apply" id="pcmt_6cac8840_size_apply">適用</button></div></div><button type="button" class="pcmt-tb-btn" id="pcmt_6cac8840_bold_btn" title="太字"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h6c2.2 0 4 1.8 4 4 0 1.5-.8 2.7-2 3.4 1.5.7 2.5 2.2 2.5 4.1 0 2.5-2 4.5-4.5 4.5H6V4zm3 3v4h3c1.1 0 2-.9 2-2s-.9-2-2-2H9zm0 7v4h3.5c1.4 0 2.5-1.1 2.5-2.5S13.9 14 12.5 14H9z"/></svg></button><button type="button" class="pcmt-tb-btn pcmt-img-btn" id="pcmt_6cac8840_img_btn" title="画像・動画を添付"><svg width="18" height="18" viewBox="0 0 24 24"><defs><clipPath id="pcmt_6cac8840_imgclip"><rect x="2" y="2" width="20" height="20" rx="3"/></clipPath></defs><rect x="2" y="2" width="20" height="20" rx="3" fill="#dbeafe"/><g clip-path="url(#pcmt_6cac8840_imgclip)"><circle cx="15.5" cy="8" r="2.6" fill="#f59e0b"/><path d="M2 22L9.5 11l4.5 6 3-3.5L22 22z" fill="#22a06b"/><path d="M9.5 11l4.5 6-2.2 2.6L6 22H2z" fill="#1a8a55" opacity=".55"/></g><rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="#93c5fd" stroke-width="1.5"/></svg></button><input type="file" id="pcmt_6cac8840_img_file" accept="image/jpeg,image/png,image/gif,image/webp,video/webm,video/mp4" style="display:none"></div></div>
+  <input type="submit" value="コメントの挿入" />
+
+<script type="text/javascript" src="skin/assistant.js"></script>
+<script>
+(function(){
+var fid="pcmt_6cac8840";
+var emojis={
+"😀":["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔"],
+"😢":["😢","😭","😤","😠","😡","🤬","😈","👿","💀","☠️","😱","😨","😰","😥","😓","🤥","😶","😐","😑","😬","🙄","😯","😦","😧","😮","😲","🥱","😴","🤤"],
+"👍":["👍","👎","👊","✊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","✍️","💪","👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆"],
+"❤️":["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟","♥️","🩷","🩵","🩶","💋","💯","💢","💥","💫","💦"],
+"🐶":["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐔","🐧","🐦","🐤","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🦋","🐌"],
+"🍎":["🍎","🍏","🍐","🍑","🍒","🍓","🫐","🥝","🍅","🥥","🥑","🍆","🥔","🥕","🌽","🌶️","🥒","🥬","🥦","🍄","🥜","🌰","🍞","🥐","🍕","🍔","🍟","🌭","🍜","🍣"],
+"⚽":["⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉","🎱","🏓","🏸","🏒","🥅","⛳","🎯","🎮","🎲","🎰","🎳","🎪","🎭","🎨","🎬","🎤","🎧","🎼","🎹","🎷","🎺","🎻"],
+"⭐":["⭐","🌟","✨","💫","🔥","💥","❄️","🌈","☀️","🌤️","⛅","☁️","🌧️","⛈️","🌩️","❗","❓","💲","©️","®️","™️","🔴","🟠","🟡","🟢","🔵","🟣","⚫","⚪","🟤"],
+"🎉":["🎉","🎊","🎈","🎁","🎀","🏆","🥇","🥈","🥉","🏅","🎖️","📢","📣","🔔","🔕","🎵","🎶","💤","💭","💬","👁️‍🗨️","🗯️","💡","🔍","🔎","🔒","🔓","🔑","🗝️","💰"]
+};
+var cats=Object.keys(emojis);
+var recent=[];try{recent=JSON.parse(localStorage.getItem("pcmt_emoji_recent"))||[];}catch(e){}
+function $(id){return document.getElementById(id);}
+var btn=$(fid+"_emoji_btn"),picker=$(fid+"_picker"),msg=$(fid+"_msg"),search=$(fid+"_search"),catsEl=$(fid+"_cats"),list=$(fid+"_list"),recentEl=$(fid+"_recent"),recentWrap=$(fid+"_recent_wrap"),closeBtn=$(fid+"_close");
+if(!btn||!picker||!msg)return;
+var curCat=cats[0];
+catsEl.innerHTML=cats.map(function(c,i){return "<button type=\"button\" class=\"pcmt-ep-cat"+(i===0?" active":"")+"\" data-cat=\""+c+"\">"+c+"</button>";}).join("");
+function render(f){var html="",arr=f?[].concat.apply([],cats.map(function(c){return emojis[c];})):emojis[curCat];arr.forEach(function(e){html+="<button type=\"button\" class=\"pcmt-ep-item\" data-e=\""+e+"\">"+e+"</button>";});list.innerHTML=html;}
+function renderRecent(){if(!recent.length){recentWrap.classList.remove("show");return;}recentWrap.classList.add("show");recentEl.innerHTML=recent.map(function(e){return "<button type=\"button\" class=\"pcmt-ep-item\" data-e=\""+e+"\">"+e+"</button>";}).join("");}
+function insertText(t){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value;msg.value=v.substring(0,s)+t+v.substring(e);msg.selectionStart=msg.selectionEnd=s+t.length;msg.focus();}
+function insert(e){insertText(e);recent=recent.filter(function(x){return x!==e;});recent.unshift(e);if(recent.length>12)recent=recent.slice(0,12);try{localStorage.setItem("pcmt_emoji_recent",JSON.stringify(recent));}catch(x){}renderRecent();}
+btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=picker.classList.contains("show");if(!open){picker.classList.add("show");btn.classList.add("active");search.value="";render();renderRecent();}};
+closeBtn.onclick=function(){picker.classList.remove("show");btn.classList.remove("active");};
+catsEl.onclick=function(ev){var t=ev.target;if(!t.classList.contains("pcmt-ep-cat"))return;curCat=t.getAttribute("data-cat");catsEl.querySelectorAll(".pcmt-ep-cat").forEach(function(b){b.classList.remove("active");});t.classList.add("active");search.value="";render();};
+list.onclick=function(ev){var e=ev.target.getAttribute("data-e");if(e)insert(e);};
+recentEl.onclick=function(ev){var e=ev.target.getAttribute("data-e");if(e)insert(e);};
+search.oninput=function(){render(search.value);};
+render();renderRecent();
+
+// カラーピッカー
+var colors=["#000000","#434343","#666666","#999999","#cccccc","#ffffff","#e53935","#d81b60","#8e24aa","#5e35b1","#3949ab","#1e88e5","#039be5","#00acc1","#00897b","#43a047","#7cb342","#c0ca33","#fdd835","#ffb300","#fb8c00","#f4511e","#6d4c41","#757575"];
+var colorBtn=$(fid+"_color_btn"),colorPicker=$(fid+"_color_picker"),colorsEl=$(fid+"_colors"),hexInput=$(fid+"_hex"),preview=$(fid+"_preview"),colorClose=$(fid+"_color_close"),colorApply=$(fid+"_color_apply");
+var selectedColor="#000000";
+if(colorBtn&&colorPicker){
+colorsEl.innerHTML=colors.map(function(c){return "<button type=\"button\" class=\"pcmt-cp-color\" data-c=\""+c+"\" style=\"background:"+c+"\"></button>";}).join("");
+preview.style.background=selectedColor;
+colorBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=colorPicker.classList.contains("show");if(!open){colorPicker.classList.add("show");colorBtn.classList.add("active");}};
+colorClose.onclick=function(){colorPicker.classList.remove("show");colorBtn.classList.remove("active");};
+colorsEl.onclick=function(ev){var c=ev.target.getAttribute("data-c");if(c){selectedColor=c;hexInput.value=c;preview.style.background=c;colorsEl.querySelectorAll(".pcmt-cp-color").forEach(function(b){b.classList.remove("selected");});ev.target.classList.add("selected");}};
+hexInput.oninput=function(){var v=hexInput.value;if(/^#[0-9A-Fa-f]{6}$/.test(v)){selectedColor=v;preview.style.background=v;colorsEl.querySelectorAll(".pcmt-cp-color").forEach(function(b){b.classList.remove("selected");});}};
+colorApply.onclick=function(){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"&color("+selectedColor+"){"+sel+"};":"&color("+selectedColor+"){};";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+tag.length-2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();colorPicker.classList.remove("show");colorBtn.classList.remove("active");};
+}
+
+// 文字サイズピッカー
+var sizes=[10,12,14,16,18];
+var sizeBtn=$(fid+"_size_btn"),sizePicker=$(fid+"_size_picker"),sizesEl=$(fid+"_sizes"),sizeInput=$(fid+"_size_input"),sizePreview=$(fid+"_size_preview"),sizeClose=$(fid+"_size_close"),sizeApply=$(fid+"_size_apply");
+var selectedSize=16;
+if(sizeBtn&&sizePicker){
+sizesEl.innerHTML=sizes.map(function(s){return "<button type=\"button\" class=\"pcmt-sp-size"+(s===16?" selected":"")+"\" data-s=\""+s+"\">"+s+"</button>";}).join("");
+sizePreview.style.fontSize=selectedSize+"px";
+sizeBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=sizePicker.classList.contains("show");if(!open){sizePicker.classList.add("show");sizeBtn.classList.add("active");}};
+sizeClose.onclick=function(){sizePicker.classList.remove("show");sizeBtn.classList.remove("active");};
+sizesEl.onclick=function(ev){var s=ev.target.getAttribute("data-s");if(s){selectedSize=parseInt(s);sizeInput.value=selectedSize;sizePreview.style.fontSize=selectedSize+"px";sizesEl.querySelectorAll(".pcmt-sp-size").forEach(function(b){b.classList.remove("selected");});ev.target.classList.add("selected");}};
+sizeInput.oninput=function(){var v=parseInt(sizeInput.value);if(v>=8&&v<=48){selectedSize=v;sizePreview.style.fontSize=v+"px";sizesEl.querySelectorAll(".pcmt-sp-size").forEach(function(b){b.classList.remove("selected");});}};
+sizeApply.onclick=function(){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"&size("+selectedSize+"){"+sel+"};":"&size("+selectedSize+"){};";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+tag.length-2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();sizePicker.classList.remove("show");sizeBtn.classList.remove("active");};
+}
+
+// 太字ボタン
+var boldBtn=$(fid+"_bold_btn");
+if(boldBtn){
+boldBtn.onclick=function(ev){ev.preventDefault();var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"''"+sel+"''":"''''";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();};
+}
+
+// 画像添付ボタン(投稿時アップロード方式)
+var imgBtn=$(fid+"_img_btn"),imgFile=$(fid+"_img_file");
+var IMG_UPLOAD_URL="https://upload.wikiru-cdn.com";
+var IMG_MAX_COUNT=4;
+if(imgBtn&&imgFile){
+var pendingImgs=[];
+var imgSeq=0;
+var imgTb=imgBtn.parentNode;
+var chips=document.createElement("div");
+chips.className="pcmt-img-chips";
+imgTb.parentNode.insertBefore(chips,imgTb.nextSibling);
+function tokenOf(n,v){return v?"[添付予定動画"+n+"]":"[添付予定画像"+n+"]";}
+function renderChips(){
+chips.innerHTML="";
+for(var i=0;i<pendingImgs.length;i++){(function(p){
+var c=document.createElement("span");c.className="pcmt-img-chip";
+var t=document.createElement("span");t.textContent=(p.v?"動画":"画像")+p.n+": "+p.file.name;c.appendChild(t);
+var x=document.createElement("button");x.type="button";x.className="pcmt-img-chip-x";x.textContent="\u00d7";x.title="この画像を取り消す";
+x.onclick=function(){removePending(p.n);};
+c.appendChild(x);chips.appendChild(c);
+})(pendingImgs[i]);}
+chips.style.display=pendingImgs.length?"flex":"none";
+}
+function removePending(n){
+var tk="";
+for(var i=0;i<pendingImgs.length;i++){if(pendingImgs[i].n===n){tk=tokenOf(n,pendingImgs[i].v);break;}}
+pendingImgs=pendingImgs.filter(function(p){return p.n!==n;});
+if(tk)msg.value=msg.value.split(tk).join("");
+renderChips();
+}
+imgBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();showImgTerms();};
+function showImgTerms(){
+var ov=document.createElement("div");ov.className="pcmt-terms-ov";
+ov.innerHTML='<div class="pcmt-terms-box"><p style="margin:0"><a href="https://upload.wikiru-cdn.com/" target="_blank" rel="noopener">wikiru画像アップローダー利用規約</a>を必ず確認の上、画像・動画のアップロードを行ってください。<br><span style="font-size:12px;color:#888">ファイルはコメント投稿時にアップロードされます。</span></p><div class="pcmt-terms-btns"><button type="button" class="pcmt-terms-cancel">キャンセル</button><button type="button" class="pcmt-terms-ok">確認しました</button></div></div>';
+document.body.appendChild(ov);
+ov.querySelector(".pcmt-terms-ok").onclick=function(){document.body.removeChild(ov);imgFile.click();};
+ov.querySelector(".pcmt-terms-cancel").onclick=function(){document.body.removeChild(ov);};
+ov.onclick=function(e){if(e.target===ov)document.body.removeChild(ov);};
+}
+imgFile.onchange=function(){
+var f=imgFile.files[0];
+imgFile.value="";
+if(!f)return;
+if(pendingImgs.length>=IMG_MAX_COUNT){alert("1回のコメントに添付できる画像・動画はあわせて"+IMG_MAX_COUNT+"件までです");return;}
+var isV=(f.type.indexOf("video/")===0)||/\.(webm|mp4|mov)$/i.test(f.name);
+var maxSz=isV?20*1024*1024:10*1024*1024;
+if(f.size>maxSz){alert(isV?"動画は20MBまでです":"画像は10MBまでです");return;}
+imgSeq++;
+pendingImgs.push({n:imgSeq,file:f,v:isV});
+insertText(tokenOf(imgSeq,isV));
+renderChips();
+};
+// コメント送信時にまとめてアップロードし、仮タグをURLに置換してから投稿
+var imgForm=msg.form;
+var imgBypass=false;
+if(imgForm){
+imgForm.addEventListener("submit",function(ev){
+var targets=pendingImgs.filter(function(p){return msg.value.indexOf(tokenOf(p.n,p.v))!==-1;});
+if(imgBypass||targets.length===0)return;
+ev.preventDefault();
+var submitter=ev.submitter||imgForm.querySelector("input[type=submit],button[type=submit]");
+var subs=imgForm.querySelectorAll("input[type=submit],button[type=submit]");
+for(var i=0;i<subs.length;i++)subs[i].disabled=true;
+imgBtn.classList.add("uploading");imgBtn.disabled=true;
+var idx=0;
+function imgFail(m){
+alert("画像のアップロードに失敗したため、コメントは投稿されていません: "+m);
+for(var i=0;i<subs.length;i++)subs[i].disabled=false;
+imgBtn.classList.remove("uploading");imgBtn.disabled=false;
+}
+function imgNext(){
+if(idx>=targets.length){
+imgBtn.classList.remove("uploading");imgBtn.disabled=false;
+pendingImgs=[];renderChips();
+imgBypass=true;
+if(submitter){submitter.disabled=false;submitter.click();}else{imgForm.submit();}
+return;
+}
+var p=targets[idx];
+var fd=new FormData();fd.append("image",p.file);
+fetch(IMG_UPLOAD_URL,{method:"POST",body:fd})
+.then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
+.then(function(res){
+if(res.ok&&res.d&&res.d.url){
+msg.value=msg.value.split(tokenOf(p.n,p.v)).join((p.v?"[[添付動画>":"[[添付画像>")+res.d.url+"]]");
+idx++;imgNext();
+}else{imgFail((res.d&&res.d.error)||"不明なエラー");}
+})
+.catch(function(e){imgFail("通信エラー");});
+}
+imgNext();
+});
+}
+}
+
+
+
+
+// 全ピッカーを閉じる
+function closeAllPickers(){
+document.querySelectorAll(".pcmt-emoji-picker.show,.pcmt-color-picker.show,.pcmt-size-picker.show").forEach(function(p){p.classList.remove("show");});
+document.querySelectorAll(".pcmt-emoji-btn.active,.pcmt-tb-btn.active").forEach(function(b){b.classList.remove("active");});
+}
+
+// 外側クリックで閉じる
+document.addEventListener("click",function(ev){
+var isInside=ev.target.closest(".pcmt-emoji-picker,.pcmt-color-picker,.pcmt-size-picker,.pcmt-emoji-btn,.pcmt-tb-btn");
+if(!isInside)closeAllPickers();
+});
+})();
+</script></div>
+		</form>
+
+</div>
+</div>
+   <br>
+<div class="sticky-ads">
+<table>
+<tr>
+<td>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="1109012249"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+<td>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_2枠目_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="8922900187"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+</tr>
+</table>
+  </td>
+ </tr>
+</table>
+<p id="page-top"><a href="#wrap"><b><font size="7">↑</font></b></a></p>
+
+<div id="note"><hr class="note_hr" /><a id="notefoot_1" href="#notetext_1" class="note_super">*1</a>
+<span class="small">期間限定スキンと同仕様</span><br /></div>
+
+
+<hr class="full_hr" />
+<!-- Toolbar -->
+<div id="toolbar">
+ <a href="./"><img src="image/top.png" width="20" height="20" alt="トップ" title="トップ" /></a>
+ &nbsp;
+ 	<a href="./?cmd=edit&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/edit.png" width="20" height="20" alt="編集" title="編集" /></a>			<a href="./?cmd=freeze&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/freeze.png" width="20" height="20" alt="凍結" title="凍結" /></a>	  <a href="./?cmd=diff&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/diff.png" width="20" height="20" alt="差分" title="差分" /></a>	<a href="./?cmd=backup&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/backup.png" width="20" height="20" alt="バックアップ" title="バックアップ" /></a>			<a href="./?plugin=attach&amp;pcmd=upload&amp;page=%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/file.png" width="20" height="20" alt="添付" title="添付" /></a>		<a href="./?plugin=template&amp;refer=%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/copy.png" width="20" height="20" alt="複製" title="複製" /></a>	<a href="./?plugin=rename&amp;refer=%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/rename.png" width="20" height="20" alt="名前変更" title="名前変更" /></a> <a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/reload.png" width="20" height="20" alt="リロード" title="リロード" /></a> &nbsp;
+	<a href="./?plugin=newpage&amp;refer=%E4%BA%A4%E6%8F%9B%E6%89%80"><img src="image/new.png" width="20" height="20" alt="新規" title="新規" /></a> <a href="./?cmd=list"><img src="image/list.png" width="20" height="20" alt="一覧" title="一覧" /></a> <a href="./?cmd=search"><img src="image/search.png" width="20" height="20" alt="検索" title="検索" /></a> <a href="./?RecentChanges"><img src="image/recentchanges.png" width="20" height="20" alt="最終更新" title="最終更新" /></a> &nbsp; <a href="./?Help"><img src="image/help.png" width="20" height="20" alt="ヘルプ" title="ヘルプ" /></a> &nbsp; <a href="./?cmd=rss&amp;ver=1.0"><img src="image/rss.png" width="36" height="14" alt="最終更新のRSS" title="最終更新のRSS" /></a></div>
+
+<div id="lastmodified">Last-modified: 2026-07-08 (水) 16:13:53<span class="page_passage" data-mtime="2026-07-08T16:13:53+09:00"></span></div>
+
+
+<script>
+/* double post */
+$(function () { $("div.pcomment form").submit(function () { $(this).find(':submit').attr('disabled', 'disabled'); }); }); 
+</script>
+<div id="footer">
+運営中のwiki一覧: <a href="https://bungo.wikiru.jp/" class="exclude-icon">文豪とアルケミスト(文アル)攻略 Wiki</a> | <a href="https://otogi.wikiru.jp/" class="exclude-icon">オトギフロンティア(オトフロ)攻略 Wiki</a> | <a href="https://azurlane.wikiru.jp/" class="exclude-icon">アズールレーン(アズレン)攻略 Wiki</a> | <a href="https://taimanin-rpg.wikiru.jp/" class="exclude-icon">対魔忍RPG攻略 Wiki</a> | <a href="https://arknights.wikiru.jp/" class="exclude-icon">アークナイツ攻略 Wiki</a> | <a href="https://langrisser.wikiru.jp/" class="exclude-icon">ラングリッサーモバイル攻略 Wiki</a> | <a href="https://artwhirl.wikiru.jp/" class="exclude-icon">アートワール攻略 Wiki</a> | <a href="https://ayarabu.wikiru.jp/" class="exclude-icon">あやかしランブル！(あやらぶ)攻略 Wiki</a> | <a href="https://twst.wikiru.jp/" class="exclude-icon">ツイステッドワンダーランド(ツイステ)攻略 Wiki</a> | <a href="https://detarikiz.wikiru.jp/" class="exclude-icon">デタリキZ攻略 Wiki</a> | <a href="https://tonofura.wikiru.jp/" class="exclude-icon">Deep One 虚無と夢幻のフラグメント攻略Wiki</a> | <a href="https://bluearchive.wikiru.jp/" class="exclude-icon">ブルーアーカイブ（ブルアカ）攻略 Wiki</a> | <a href="https://misttraingirls.wikiru.jp/" class="exclude-icon">ミストトレインガールズ攻略 Wiki</a>  | <a href="https://escalationheroines.wikiru.jp/" class="exclude-icon">超昂大戦エスカレーションヒロインズ攻略 Wiki</a> | <a href="https://minashigo.wikiru.jp/" class="exclude-icon">ミナシゴノシゴト攻略 Wiki</a> | <a href="https://edensgrenze.wikiru.jp/" class="exclude-icon">エデンズリッターグレンツェ攻略 Wiki</a> | <a href="https://senkoi.wikiru.jp/" class="exclude-icon">戦国†恋姫オンライン～奥宴新史～攻略 Wiki</a> | <a href="https://umamusume.wikiru.jp/" class="exclude-icon">ウマ娘 プリティダービー 攻略 Wiki</a> | <a href="https://angelic.wikiru.jp/" class="exclude-icon">エンジェリックリンク（エンクリ）攻略 Wiki</a> | <a href="https://neural-cloud.wikiru.jp/" class="exclude-icon">ニューラルクラウド攻略 Wiki</a> | <a href="https://legeclo.wikiru.jp/" class="exclude-icon">れじぇくろ！ ～レジェンド・クローバー～攻略 Wiki</a> | <a href="https://tenkafuma.wikiru.jp/" class="exclude-icon">天下布魔攻略 Wiki</a> | <a href="https://sugarconflict.wikiru.jp/" class="exclude-icon">シュガーコンフリクト（シュガコン）攻略 Wiki</a> | <a href="https://monmusu-td.wikiru.jp/" class="exclude-icon">モンスター娘TD攻略 Wiki</a> | <a href="https://tenkei-paradox.wikiru.jp/" class="exclude-icon">天啓パラドクス(テンパラ)攻略 Wiki</a> | <a href="https://crimson-youmataisen.wikiru.jp/" class="exclude-icon">クリムゾン妖魔大戦攻略 Wiki</a> | <a href="https://arknights-endfield.wikiru.jp/" class="exclude-icon">アークナイツ エンドフィールド攻略 Wiki</a> | <a href="https://dollsfrontline2.wikiru.jp/" class="exclude-icon">ドールズフロントライン2：エクシリウム攻略 Wiki</a> | <a href="https://v-rising.wikiru.jp/" class="exclude-icon">V Rising日本語攻略 Wiki</a> | <a href="https://nikke.wikiru.jp/" class="exclude-icon">勝利の女神：NIKKE攻略 Wiki</a> | <a href="https://dolphin-wave.wikiru.jp/" class="exclude-icon">ドルフィンウェーブ（ドルウェブ）攻略Wiki</a> | <a href="https://jewel-reincarnation.wikiru.jp/" class="exclude-icon">宝石姫 Reincarnation攻略Wiki</a> | <a href="https://alliancesages.wikiru.jp/" class="exclude-icon">アライアンスセージ攻略Wiki</a> | <a href="https://cravesaga.wikiru.jp/" class="exclude-icon">クレイヴ・サーガ（クレサガ）攻略Wiki</a> | <a href="https://aethergazer.wikiru.jp/" class="exclude-icon">エーテルゲイザー攻略Wiki</a> | <a href="https://twinklestarknights.wikiru.jp/" class="exclude-icon">ティンクルスターナイツ（クルスタ）攻略Wiki</a> | <a href="https://reverse1999.wikiru.jp/" class="exclude-icon">リバース：1999攻略Wiki</a> | <a href="https://kfk.wikiru.jp/" class="exclude-icon">Kemono Friends：Kingdom Wiki</a> | <a href="https://snowbreak.wikiru.jp/" class="exclude-icon">スノウブレイク 攻略 Wiki</a> | <a href="https://honeycome.wikiru.jp/" class="exclude-icon">ハニカム 攻略wiki</a> | <a href="https://girlscreation.wikiru.jp/" class="exclude-icon">ガールズクリエイション（ガークリ）攻略 Wiki</a> | <a href="https://sweethomemaid.wikiru.jp/" class="exclude-icon">スイートホームメイド攻略 Wiki</a> | <a href="https://modernwarships.wikiru.jp/" class="exclude-icon">Modern Warships 攻略 Wiki</a> | <a href="https://ashechoes.wikiru.jp/" class="exclude-icon">アッシュエコーズ-白荊回廊-攻略 Wiki</a> | <a href="https://lilyange.wikiru.jp/" class="exclude-icon">りりぃあんじぇ（りりあん） 攻略Wiki</a> | <a href="https://unlightrevive.wikiru.jp/" class="exclude-icon">UNLIGHT：Revive 攻略Wiki</a> | <a href="https://azurpromilia.wikiru.jp/" class="exclude-icon">アズールプロミリア 有志Wiki</a> | <a href="https://sakurazimarpfer.wikiru.jp/" class="exclude-icon">桜島RPサーバーWiki</a> | <a href="https://madisland.wikiru.jp/" class="exclude-icon">Mad Island 攻略Wiki</a> | <a href="https://tenshoku-maou.wikiru.jp/" class="exclude-icon">転職魔王～リストラ勇者のお仕置きセレナーデ～ 攻略Wiki</a> | <a href="https://svs.wikiru.jp/" class="exclude-icon">サマバケ！すくらんぶる 攻略wiki</a> | <a href="https://orisries.wikiru.jp/" class="exclude-icon">オリスライズ 攻略wiki</a> | <a href="https://noctilucent.wikiru.jp/" class="exclude-icon">ノクティルセント：暁の前に 攻略Wiki</a> | <a href="https://suzuran.wikiru.jp/" class="exclude-icon">鈴蘭の剣攻略Wiki</a> | <a href="https://rebgil.wikiru.jp/" class="exclude-icon">リベリオン ギルガメッシュ（リベガメ）攻略Wiki</a> | <a href="https://donguri.wikiru.jp/" class="exclude-icon">5chどんぐり非公式まとめwiki</a> | <a href="https://mugenrou.wikiru.jp/" class="exclude-icon">夢幻楼と眠れぬ蝶 攻略Wiki</a> | <a href="https://resonance.wikiru.jp/" class="exclude-icon">レゾナンス：無限号列車 攻略 Wiki</a> | <a href="https://vtuber-database.wikiru.jp/" class="exclude-icon">Vtuber総合データベースwiki</a> | <a href="https://aigiscenario.wikiru.jp/" class="exclude-icon">千年戦争アイギスシナリオwiki</a> | <a href="https://angelica-aster.wikiru.jp/" class="exclude-icon">ANGELICA ASTER 攻略Wiki</a> | <a href="https://elins-inn.wikiru.jp/" class="exclude-icon">Elin 攻略有志wiki</a> | <a href="https://karin-lk.wikiru.jp/" class="exclude-icon">魔王カリンちゃんRPG ～恋姫建国奔走記～攻略 Wiki</a> | <a href="https://etechrore.wikiru.jp/" class="exclude-icon">エタクロニクル：Re攻略考察wiki</a> | <a href="https://touhou-dm.wikiru.jp/" class="exclude-icon">東方ダンジョンメーカー攻略wiki</a> | <a href="https://dnabyss.wikiru.jp/" class="exclude-icon">デュエットナイトアビス(二重螺旋)攻略 Wiki</a> | <a href="https://madodra.wikiru.jp/" class="exclude-icon">魔法少女まどか☆マギカ Magia Exedra（まどドラ）攻略有志Wiki</a> | <a href="https://touhounomeikyuu-tri.wikiru.jp/" class="exclude-icon">東方の迷宮Tri 夢見る乙女と神秘の宝珠 攻略有志Wiki</a> | <a href="https://siprj.wikiru.jp/" class="exclude-icon">STELLAR IDOL PROJECT（ステラP）攻略Wiki</a> | <a href="https://adult-seiyu.wikiru.jp/" class="exclude-icon">エロゲー・エロアニメ声優総合Wiki</a> | <a href="https://stellasora.wikiru.jp/" class="exclude-icon">ステラソラ攻略有志 Wiki</a> | <a href="https://muvluv-girls-garden.wikiru.jp/" class="exclude-icon">マブラヴ ガールズガーデン攻略 Wiki</a> | <a href="https://horizon-walker.wikiru.jp/" class="exclude-icon">ホライゾンウォーカー攻略 Wiki</a> | <a href="https://reet.wikiru.jp/" class="exclude-icon">エターナルツリー新生(REエタツリ)攻略 Wiki</a> | <a href="https://aicomi.wikiru.jp/" class="exclude-icon">アイコミ 攻略wiki</a> | <a href="https://kaiitoumetsutan-trpg.wikiru.jp/" class="exclude-icon">TRPG怪異討滅譚5版対応Wiki</a> | <a href="https://koihime-taisen.wikiru.jp/" class="exclude-icon">恋姫大戦 攻略Wiki</a> | <a href="https://techcronoss.wikiru.jp/" class="exclude-icon">テクロノス攻略 Wiki</a> | <a href="https://taimaninsquad.wikiru.jp/" class="exclude-icon">対魔忍スクワッド攻略 Wiki</a> | <a href="https://bloxd.wikiru.jp/" class="exclude-icon">bloxd攻略 Wiki</a> | <a href="https://rlyehshoujotai.wikiru.jp/" class="exclude-icon">邪神戦記ルルイエ少女隊攻略 Wiki</a> | <a href="https://killer-inn.wikiru.jp/" class="exclude-icon">キラーイン攻略 Wiki</a> | <a href="https://acacia.wikiru.jp/" class="exclude-icon">Acacia総合有志wiki</a> | <a href="https://drapline.wikiru.jp/" class="exclude-icon">DRAPLINE攻略 Wiki</a> | <a href="https://rezoriri.wikiru.jp/" class="exclude-icon">レゾナンスリリウム（レゾリリ）攻略 Wiki</a> | <a href="https://dotabyss.wikiru.jp/" class="exclude-icon">ドットアビスX攻略 Wiki</a> | <a href="https://astraeoratio.wikiru.jp/" class="exclude-icon">アストラエ・オラティオ（アスオラ）攻略 Wiki</a><br><br>
+ Site admin: <a href="https://escalationheroines.wikiru.jp/script/mailform/escalationheroines/">超昂大戦エスカレーションヒロインズ攻略 Wiki管理人</a><br>
+ <a href="https://wikiru.jp/">無料レンタルwiki by wikiru.jp</a><br>
+ <p>
+ <strong>PukiWiki 1.5.2</strong> &copy; 2001-2024 .
+ Powered by PHP 7.4.33. HTML convert time: 0.062 sec.
+ </p>
+<a href="https://greasyfork.org/ja/scripts/393034" class="exclude-icon">wikiru.jp コメントあぼーん</a> Copyright © 2017 Shikikan. License is <a href="https://www.apache.org/licenses/LICENSE-2.0" class="exclude-icon">Apache License 2.0</a><br>
+<a href="https://wikiru.jp/privacypolicy.html">wikiru.jpのプライバシーポリシー</a> | <a href="https://wikiru.jp/emergency_support.html">wikiru.jp運営の緊急サポートについて</a>
+</div>
+</div>
+<script type="text/javascript" src="skin/modalAnimation.js?1"></script>
+<script type="text/javascript" src="skin/modal.js?111"></script>
+</body>
+</html>

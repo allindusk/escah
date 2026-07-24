@@ -1,0 +1,14 @@
+{
+  "name": "escah-wiki-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build && node -e \"require('fs').writeFileSync('.vitepress/dist/.nojekyll','')\"",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.3",
+    "vue": "^3.5.13"
+  }
+}

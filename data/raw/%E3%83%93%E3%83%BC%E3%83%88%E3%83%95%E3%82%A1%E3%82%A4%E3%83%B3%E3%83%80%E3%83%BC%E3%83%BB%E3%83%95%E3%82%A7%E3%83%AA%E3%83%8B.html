@@ -1,0 +1,1440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+<link rel="canonical" href="https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" /><!-- OGP -->
+<meta property="og:site_name" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:title" content="ビートファインダー・フェリニ">
+<meta property="og:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B">
+<meta property="og:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ビートファインダー・フェリニ">
+<meta name="twitter:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta name="twitter:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+ <meta http-equiv="content-style-type" content="text/css" />
+
+ <title>ビートファインダー・フェリニ - 超昂大戦エスカレーションヒロインズ攻略 Wiki</title>
+
+ <link rel="SHORTCUT ICON" href="image/favicon.ico" />
+ <link rel="stylesheet" type="text/css" media="screen,print" href="skin/pukiwiki.css?222202020230911" />
+ <link rel="stylesheet" type="text/css" media="print" href="skin/pukiwiki.print.css" />
+ <link rel="alternate" type="application/rss+xml" title="RSS" href="./?cmd=rss" /> <script type="text/javascript" src="skin/default.js?1"></script>
+ <meta name="viewport" content="width=1024">
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	var topBtn = $('#page-top');	
+	topBtn.hide();
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 100) {
+			topBtn.fadeIn();
+		} else {
+			topBtn.fadeOut();
+		}
+	});
+	//スクロールしてトップ
+    topBtn.click(function () {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 500);
+		return false;
+    });
+});
+
+// pcommentプラグイン用の名前空間を作成
+var PCommentPlugin = {
+    originalFormParents: {},
+    originalFormNextSiblings: {},
+
+    showCommentForm: function(event) {
+        console.log('PComment: showCommentForm');
+        var radio = event.target;
+        var commentId = radio.value;
+        var formId = radio.closest('.pcomment').id;
+        console.log('PComment: commentId: ' + commentId + ', formId: ' + formId);
+
+        var commentElement = document.querySelector('#' + formId + ' [data-comment-id="comment_' + commentId + '"]');
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        
+        if (!form) {
+            console.error('PComment: pcomment form not found for ' + formId);
+            return;
+        }
+
+        console.log('PComment: form: ' + form);
+
+        if (!this.originalFormParents[formId]) {
+            this.originalFormParents[formId] = form.parentNode;
+            this.originalFormNextSiblings[formId] = form.nextSibling;
+        }
+
+        var existingCancelLink = form.querySelector('.cancel-link');
+        if (existingCancelLink) {
+            existingCancelLink.remove();
+        }
+
+        var cancelLink = document.createElement('div');
+        cancelLink.className = 'cancel-link';
+        cancelLink.innerHTML = `
+            <a class="js-abonelink" style="cursor: pointer; color: #215dc6; background-color: inherit; text-decoration: none;" onclick="PCommentPlugin.cancelForm('${commentId}', '${formId}')">返信をキャンセル</a>
+        `;
+        form.insertBefore(cancelLink, form.firstChild);
+
+        ['digest', 'refer', 'page', 'nodate', 'dir', 'count'].forEach(function(name) {
+            var input = form.querySelector('input[name="' + name + '"]');
+            if (input) {
+                input.value = document.querySelector('#' + formId + ' input[name="' + name + '"]').value;
+            }
+        });
+
+        commentElement.parentNode.insertBefore(form, commentElement.nextSibling);
+
+        // フォームまで自動スクロール
+        //setTimeout(function() {
+        //    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        //}, 100);
+    },
+
+    cancelForm: function(commentId, formId) {
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        if (form && this.originalFormParents[formId]) {
+            var cancelLink = form.querySelector('.js-abonelink').parentNode;
+            if (cancelLink) {
+                cancelLink.remove();
+            }
+            this.originalFormParents[formId].insertBefore(form, this.originalFormNextSiblings[formId]);
+            var radio = document.querySelector('#' + formId + ' input[name="reply"][value="' + commentId + '"]');
+            if (radio) {
+                radio.checked = false;
+            }
+        }
+    },
+
+    init: function() {
+        var pcommentDivs = document.querySelectorAll('.pcomment');
+        pcommentDivs.forEach(function(div, index) {
+            if (!div.id) {
+                div.id = 'pcomment-' + index;
+            }
+            var radios = div.querySelectorAll('input[type="radio"][name="reply"]');
+            radios.forEach(function(radio) {
+                radio.addEventListener('change', function(event) {
+                    PCommentPlugin.showCommentForm(event);
+                });
+            });
+        });
+    }
+};
+
+// DOMContentLoadedイベントでpcommentプラグインの初期化
+document.addEventListener('DOMContentLoaded', function() {
+    PCommentPlugin.init();
+});
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S8SSE7XDQV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S8SSE7XDQV');
+</script>
+
+
+<meta name="description" content="最終更新日時:2026-05-27 (水) 01:10:02Index：全キャラ | SSRキャラ | SRキャラ | Rキャラ 基本情報  ボイス  ゲームにおいて  別バージョン" />
+<!-- 外部リンクを別ウインドウで開く -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">  
+    jQuery(document).ready(function(){
+        jQuery('a[href^=http]')
+        .not('[href*="'+location.hostname+'"]')
+        .not('.exclude-icon')
+        .attr({target:"_blank"})
+        .append(' 🌐')
+    });
+</script> 
+
+<script async src="https://fundingchoicesmessages.google.com/i/pub-6756084042400545?ers=1" nonce="15dEpUr9AJY8eX0-XD7UvQ"></script><script nonce="15dEpUr9AJY8eX0-XD7UvQ">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
+
+<script>
+function getResolution() {
+  return screen.width + ' x ' + screen.height + 'px';
+}
+
+function getCookieId() {
+  var cookieId = document.cookie.replace(/(?:(?:^|.*;\s*)pukiwiki_cookie_id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (!cookieId) {
+    cookieId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    document.cookie = "pukiwiki_cookie_id=" + cookieId + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+  }
+  return cookieId;
+}
+
+document.cookie = "resolution=" + getResolution() + "; path=/";
+document.cookie = "cookie_id=" + getCookieId() + "; path=/";
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<!-- Geniee Wrapper Head Tag -->
+<script>
+  window.gnshbrequest = window.gnshbrequest || {cmd:[]};
+  window.gnshbrequest.cmd.push(function(){
+    window.gnshbrequest.registerPassback("1475070");
+    window.gnshbrequest.registerPassback("1536316");
+    window.gnshbrequest.registerPassback("1548387");
+    window.gnshbrequest.registerPassback("1551138");
+    window.gnshbrequest.registerPassback("1558324");
+    window.gnshbrequest.registerPassback("1558325");
+    window.gnshbrequest.forceInternalRequest();
+  });
+</script>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script async src="https://cpt.geniee.jp/hb/v1/179425/666/wrapper.min.js"></script>
+<!-- /Geniee Wrapper Head Tag -->
+</head>
+<body>
+
+<div id="header">
+ <a href="./"><img id="logo" src="image/pukiwiki.png" width="80" height="80" alt="[PukiWiki]" title="[PukiWiki]" /></a>
+
+ <h1 class="title"><a href="./?plugin=related&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B">ビートファインダー・フェリニ</a> </h1>
+
+    <span class="small">
+   <span class="topicpath-top"><a href="./?%E8%B6%85%E6%98%82%E5%A4%A7%E6%88%A6%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%92%E3%83%AD%E3%82%A4%E3%83%B3%E3%82%BA%E6%94%BB%E7%95%A5+Wiki" title="超昂大戦エスカレーションヒロインズ攻略 Wiki" class="" data-mtime="">Top</a><span class="topicpath-slash"> / </span></span>ビートファインダー・フェリニ   </span>
+ 
+</div>
+
+<div id="navigator">
+ [ <a href="./" >トップ</a> ] &nbsp;
+
+ [
+ 	<a href="./?cmd=edit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" >編集</a> |
+<a href="./?cmd=guiedit&page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B">編集（GUI）</a> |
+			<a href="./?cmd=freeze&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" >凍結</a> |
+	  <a href="./?cmd=diff&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" >差分</a> 	| <a href="./?cmd=backup&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" >バックアップ</a>  	| <a href="./?plugin=attach&amp;pcmd=upload&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" >添付</a>  | <a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" >リロード</a> ] &nbsp;
+
+ [
+ 	<a href="./?plugin=newpage&amp;refer=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" >新規</a> |
+    <a href="./?cmd=list" >一覧</a>  | <a href="./?cmd=search" >検索</a> | <a href="./?RecentChanges" >最終更新</a> | <a href="./?Help" >ヘルプ</a> ]
+
+</div>
+
+<hr class="full_hr" />
+<table border="0" style="width:100%">
+ <tr>
+  <td class="menubar">
+<a href="chgsp.php?rd=http://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" rel="nofollow">スマホ版表示に切り替える</a>
+<br><br>
+<br><br>
+<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'ja', includedLanguages: 'en,ko,zh-TW,ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, gaTrack: true, gaId: 'UA-48994870-1'}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- PC_300x250_menu_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="6243394662"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+   <div id="menubar"><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/escalationheroines.wikiru.jp\/?E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B"},"url":"https:\/\/escalationheroines.wikiru.jp\/?E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B","headline":"\u30d3\u30fc\u30c8\u30d5\u30a1\u30a4\u30f3\u30c0\u30fc\u30fb\u30d5\u30a7\u30ea\u30cb | \u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","author":{"@type":"Person","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki\u7ba1\u7406\u4eba"},"publisher":{"@type":"Organization","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki"},"datePublished":"2026-05-26T16:09:03+00:00","dateModified":"2026-05-26T16:09:03+00:00"}</script><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","item":"https:\/\/escalationheroines.wikiru.jp\/"},{"@type":"ListItem","position":2,"name":"\u30d3\u30fc\u30c8\u30d5\u30a1\u30a4\u30f3\u30c0\u30fc\u30fb\u30d5\u30a7\u30ea\u30cb","item":"https:\/\/escalationheroines.wikiru.jp\/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"}]}</script>
+<p>現在、<strong>129人</strong>が閲覧中です</p>
+<h2 id="content_14_0">サイト内検索</h2>
+<form action="./?cmd=search" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+ <div>
+  <input type="text"  name="word" value="" size="20" />
+  <label><input type="radio" name="type" value="AND"  checked="checked" /> AND検索</label>
+  <label><input type="radio" name="type" value="OR"  /> OR検索</label>
+  &nbsp;<input type="submit" value="検索" />
+ </div>
+
+</form>
+<hr class="full_hr" />
+<p><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><span style="color:red"><strong><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="" data-mtime="">イベント</a></strong></span></span></p>
+<ul class="list1 list-indent1"><li>開催中のイベントはありません。</li></ul>
+<p><strong>◆メインストーリー新章</strong><br />
+<a href="./?plugin=attach&amp;refer=img&amp;openfile=%E7%AC%AC3%E9%83%A8%E9%96%91%E8%A9%B11.jpg" title="第3部閑話1.jpg"><img src="attach2/696D67_E7ACAC33E983A8E99691E8A9B1312E6A7067.jpg" alt="第3部閑話1.jpg" title="第3部閑話1.jpg" width="265" height="149" /></a><br />
+07/22 メンテ後（16:00～）<br />
+<a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" class="" data-mtime="">メインストーリー</a>第3部 閑話1 追加</p>
+
+<div style="text-align:right"><a href="./?cmd=edit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="Edit イベント一覧/開催イベント"><img src="image/edit.png" width="20" height="20" alt="Edit" title="Edit イベント一覧/開催イベント" />EDIT</a></div>
+<hr class="full_hr" />
+<p><strong><span style="color:red">7/22新キャラ</span></strong><br />
+SSR「<a href="./?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" class="" data-mtime="">魔法少女ヒトミ</a>」<br />
+<strong><span style="color:red">7/15新キャラ</span></strong><br />
+SSR「<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB" class="" data-mtime="">真夏のセラフィール</a>」<br />
+SSR「<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%B0%E3%83%9F" class="" data-mtime="">真夏のメグミ</a>」<br />
+R「<a href="./?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%82%A2%E3%83%B3" class="" data-mtime="">魔女リアン</a>」<br />
+<strong><span style="color:red">6/24新キャラ</span></strong><br />
+SSR「<a href="./?%E6%B7%B1%E7%AA%93%E3%81%AE%E4%BB%A4%E5%AC%A2%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB" class="" data-mtime="">深窓の令嬢ステアール</a>」</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_1">お知らせ</h2>
+<p><span style="color:red"><strong>アップデート情報</strong></span><br />
+7月22日(水)<br />
+・メインストーリー第3部閑話1追加<br />
+・メインクエスト第3部Area29～30追加<br />
+<strong><span style="color:blue">・期間限定ミッション追加</span></strong><br />
+・ショップに商品追加</p>
+<p>・スキン交換所に<br />
+　ショップへ遷移するボタンを追加</p>
+
+<p><span style="color:red"><strong>キャンペーン</strong></span><br />
+<strong>メインクエスト追加記念キャンペーン</strong><br />
+<strong>7月22日 16:00 ～ 7月29日 9:59まで</strong></p>
+<p>■メインクエスト全難易度の初挑戦時、<br />
+　消費スタミナが半減（特殊戦は対象外）<br />
+■メインクエスト(難易度：NORMAL)第1部Area18-10まで、<br />
+　初挑戦時スタミナ消費無し（特殊戦は対象外）<br />
+■メインクエスト(難易度：NORMAL)第1部Area18-10まで、<br />
+　プレイヤーEXP入手量１．５倍<br />
+■メインクエスト全難易度において、<br />
+　ハニー系の出現率２倍　＆<br />
+　ハニー系がドロップする宝箱数５倍<br />
+■メインクエスト全難易度の<br />
+　パンドラボックス出現率＋１０％<br />
+■助っ人の基本利用回数２倍<br />
+■全クエストの<br />
+　『時短戦闘』使用時の時短チケット消費無し</p>
+
+<p><span style="color:red"><strong>シリアルコード配布</strong></span><br />
+◆<strong>超昂月間ブログ</strong><br />
+<span style="color:blue">プレミアムガチャチケット×1 (最下段記載）</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry003983.html" rel="nofollow">8月号</a> 8月17日 23:59まで</p>
+<p>◆<strong>アリスソフト放送局</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<span style="color:blue">※歯抜け有(動画内で英数字の発表)</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry003986.html" rel="nofollow">第50回</a> 7月23日 17:59まで</p>
+<p>◆<strong>1分でわかる！超昂大戦</strong><br />
+<span style="color:blue">単発ガチャチケット×1（コメント欄にコード有）</span><br />
+<a href="https://www.youtube.com/shorts/EMgbaMAEUXo" rel="nofollow">第21回</a></p>
+<p>◆<strong>BugBug.NEWS</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<a href="https://www.bugbug.news/b_game/265668/" rel="nofollow">7月17日付記事</a> 7月29日 23:59まで</p>
+<p><span style="color:red"><strong>SSRピックアップガチャ</strong></span><br />
+<strong>7月22日 16:00 ～ 7月29日 9:59</strong><br />
+◆<a href="./?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" class="" data-mtime="">魔法少女ヒトミ</a></p>
+<p><span style="color:red"><strong>商品追加</strong></span><br />
+<strong>7月22日 16:00 ～ 7月29日 09:59</strong><br />
+◆魔法少女ヒトミＰＵガチャチケットセット　4種<br />
+◆魔法少女ヒトミ参戦記念セット　3種<br />
+◆メイン追加記念ログインパス<br />
+◆メイン追加記念元気の原液セット</p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>メンテナンス情報</strong></span><br />
+毎週水曜日 10:00 ～ 16:00</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_2">掲示板</h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_14_3">交流用掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">雑談掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_14_4">攻略掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">質問掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E6%83%85%E5%A0%B1%E6%8F%90%E4%BE%9B%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">情報提供掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E3%83%90%E3%82%B0%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">バグ報告掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_14_5">管理掲示板</h3>
+<ul class="list1 list-indent1"><li><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E8%80%85%E7%94%A8%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">編集者用掲示板</a></li>
+<li><a href="./?Wiki%E7%AE%A1%E7%90%86%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">Wiki管理掲示板</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_6">はじめに</h2>
+<ul class="list1 list-indent1"><li><a href="./?Wiki%E5%88%A9%E7%94%A8%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">Wiki利用のガイドライン</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">編集のガイドライン</a></li>
+<li><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" class="" data-mtime="">コメント欄のNGID機能</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_7">ゲームガイド</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E5%BA%8F%E7%9B%A4%E3%81%AE%E6%89%8B%E5%BC%95%E3%81%8D" class="" data-mtime="">序盤の手引き</a></li>
+<li><a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F" class="" data-mtime="">よくある質問</a></li>
+<li><a href="./?%E5%B0%8F%E3%83%8D%E3%82%BF%E3%83%BB%E5%B0%8F%E3%83%AF%E3%82%B6%E9%9B%86" class="" data-mtime="">小ネタ・小ワザ集</a></li></ul>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AC%E3%83%81%E3%83%A3" class="" data-mtime="">ガチャ</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_8">キャラクター</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7" class="" data-mtime="">キャラクター一覧</a><br />
+├ <a href="./?SSR" class="" data-mtime="">SSR</a> | <a href="./?SR" class="" data-mtime="">SR</a> | <a href="./?R" class="" data-mtime="">R</a><br />
+├ <a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a><br />
+└ <a href="./?NPC" class="" data-mtime="">NPC</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%BF%85%E6%AE%BA%E6%8A%80%E4%B8%80%E8%A6%A7" class="" data-mtime="">必殺技一覧</a></li>
+<li><a href="./?%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C%E4%B8%80%E8%A6%A7" class="" data-mtime="">固有効果一覧</a></li>
+<li><a href="./?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7" title="絞り込めるカテゴリ一覧" class="" data-mtime="">特殊属性一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">寝室シーン一覧</a><span style="color:red">(R18)</span></li>
+<li><a href="./?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95" class="" data-mtime="">原画別索引</a></li>
+<li><a href="./?CV%E4%B8%80%E8%A6%A7" class="" data-mtime="">CV一覧</a></li>
+<li><a href="./?%E5%AE%9F%E8%A3%85%E5%B1%A5%E6%AD%B4" class="" data-mtime="">実装履歴</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_9">システム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E6%88%A6%E9%97%98" class="" data-mtime="">戦闘</a><br />
+├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a><br />
+│　├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9" class="" data-mtime="">レイドおすすめキャラ</a><br />
+│　├ <a href="./?%E3%83%90%E3%83%95%E3%83%BB%E3%83%87%E3%83%90%E3%83%95%E8%83%BD%E5%8A%9B%E3%82%AD%E3%83%A3%E3%83%A9%E3%80%80%E4%B8%80%E8%A6%A7%E3%81%BE%E3%81%A8%E3%82%81" title="バフ・デバフ能力キャラ　一覧まとめ" class="" data-mtime="">レイドバフ・デバフ別キャラ一覧</a><br />
+│　└ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E7%94%A8%E7%B7%A8%E6%88%90%E4%BE%8B" class="" data-mtime="">レイド用編成例</a><br />
+├ <a href="./?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" title="Bユニバース" class="" data-mtime="">Bユニバース（強敵戦）</a><br />
+├ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a><br />
+│　└ <a href="./?%E5%BA%83%E5%9F%9F%E6%88%A6%E3%83%9E%E3%83%83%E3%83%97/%E3%83%9E%E3%83%83%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88" title="広域戦マップ/マップリスト" class="" data-mtime="">マップリスト</a><br />
+└ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" title="イベント86_殲滅戦" class="" data-mtime="">殲滅戦</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a></li>
+<li><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a></li>
+<li><a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a></li>
+<li><a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a><br />
+└ <a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a></li>
+<li><a href="./?%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3" class="" data-mtime="">コレクション</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ショップ" class="" data-mtime="">ショップ（VIPランク）</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_10">装備･アイテム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7" class="" data-mtime="">装備一覧</a><br />
+└ <a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a></li>
+<li><a href="./?%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7" class="" data-mtime="">アイテム一覧</a><br />
+└ <a href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" title="SandBox/アイテム価値早見表" class="" data-mtime="">[初心者用]アイテム価値早見表</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_11">クエスト･ミッション</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" class="" data-mtime="">メインストーリー</a><br />
+└<a href="./?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86" title="テーブル/全ストーリー実装順" class="" data-mtime="">全シナリオ実装順</a></li>
+<li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">メインクエスト</a></li>
+<li><a href="./?%E3%83%87%E3%82%A4%E3%83%AA%E3%83%BC%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">デイリークエスト</a></li>
+<li><a href="./?%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">ミッション一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" class="" data-mtime="">イベント一覧</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_12">その他</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E7%94%A8%E8%AA%9E%E9%9B%86" class="" data-mtime="">用語集</a> / <a href="./?%E4%BF%97%E8%AA%9E%E9%9B%86" class="" data-mtime="">俗語集</a></li>
+<li><a href="./?Tips%E4%B8%80%E8%A6%A7" class="" data-mtime="">Tips一覧</a></li>
+<li><a href="./?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" class="" data-mtime="">ゲーム外企画</a></li>
+<li><a href="./?%E4%BA%8B%E5%89%8D%E7%99%BB%E9%8C%B2%E7%89%B9%E5%85%B8" class="" data-mtime="">事前登録特典</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_13">公式リンク</h2>
+<ul class="list1 list-indent1"><li><a href="https://pc-play.games.dmm.com/play/escalationheroines/" rel="nofollow">ゲーム開始URL</a></li>
+<li><a href="https://www.dmm.co.jp/netgame/community/-/commu/detail/=/id=5633/" rel="nofollow">公式コミュニティ(FANZA)</a></li>
+<li><a href="https://www.alicesoft.com/" rel="nofollow">アリスソフト公式サイト</a><br />
+├ <a href="https://www.alicesoft.com/escalationheroines/" rel="nofollow">超昂大戦公式サイト</a><br />
+└ <a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow">超昂大戦公式ニュース</a></li>
+<li><a href="https://twitter.com/EscaH_PR" rel="nofollow">公式X(Twitter)</a></li>
+<li><a href="https://prod.e-heroines.net/server/product/AppSub" rel="nofollow">おしらせ・ヘルプ</a></li>
+<li><a href="https://www.bugbug.news/tag/post_tag-7528/" rel="nofollow">超昂大戦特集(BugBug.NEWS)</a></li></ul>
+<p><a href="https://www.alicesoft.com/information/2022/entry003123.html" rel="nofollow"><img src="attach2/696D67_E8B685E69882E5A4A7E688A6E5889DE5BF83E88085E8AC9BE5BAA75F62616E6E65722E6A7067.jpg" alt="超昂大戦初心者講座_banner.jpg" title="超昂大戦初心者講座_banner.jpg" width="265" height="47" /><br class="spacer" />超昂大戦初心者講座</a><br />
+<a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow"><img src="attach2/696D67_E69C88E99693E38396E383ADE382B05FE383ADE382B42E706E67.png" alt="月間ブログ_ロゴ.png" title="月間ブログ_ロゴ.png" width="265" height="46" /><br class="spacer" />超昂大戦公式ニュース</a><br />
+<a href="https://www.alicesoft.com/escalationheroines/special/comic/" rel="nofollow"><img src="attach2/696D67_E38286E3828BE382ABE383AC5F62616E6E65722E706E67.png" alt="ゆるカレ_banner.png" title="ゆるカレ_banner.png" width="265" height="47" /><br class="spacer" />ゆるっとエスカレーション(公式4コマ漫画)</a><br />
+<a href="https://www.alicesoft.com/information/radio/" rel="nofollow"><img src="attach2/696D67_E382A2E383AAE382B9E382BDE38395E38388E694BEE98081E5B1805F62616E6E65722E706E67.png" alt="アリスソフト放送局_banner.png" title="アリスソフト放送局_banner.png" width="265" height="47" /><br class="spacer" />アリスソフト放送局(ネットラジオ)</a><br />
+<a href="https://www.youtube.com/watch?v=xFC3s77AV0I&amp;list=PLG0kE08S6G8TfS9alOQFTOYtPU5tJlTWO" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A65F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦_banner.png" title="1分でわかる！超昂大戦_banner.png" width="138" height="40" /><br class="spacer" />1分でわかる！超昂大戦（初心者動画）</a><br />
+<a href="https://www.youtube.com/playlist?list=PLG0kE08S6G8Rt_A7hvfsJoN0QYyFZXV4_" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A620E383A1E383A2E383A1E383A2E38380E382A4E3838AE383A25F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" title="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" width="139" height="50" /><br class="spacer" />1分でわかる！超昂大戦 メモメモダイナモ!!</a></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_14">編集者用ページ</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E9%9B%9B%E5%BD%A2" title="雛形" class="" data-mtime="">雛形一覧</a></li>
+<li><a href="./?img" title="img" class="" data-mtime="">共通画像保管庫</a></li>
+<li><a href="./?%E7%B7%B4%E7%BF%92%E7%94%A8%E3%81%8A%E7%A0%82%E5%A0%B4" class="" data-mtime="">練習用お砂場</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_15">更新履歴</h2>
+<h5>最新の30件</h5>
+<div><h5>1時間以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" title="コメント/魔法少女ヒトミ ">コメント/魔法少女ヒトミ</a> </li>
+</ul><h5>3時間以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/雑談掲示板 ">コメント/雑談掲示板</a> </li>
+</ul><h5>1日以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/質問掲示板 ">コメント/質問掲示板</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" title="コメント/寝室シーン一覧 ">コメント/寝室シーン一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" title="ゲーム外企画 ">ゲーム外企画</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" title="魔法少女ヒトミ ">魔法少女ヒトミ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" title="超昂装備 ">超昂装備</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%BF%85%E6%AE%BA%E3%82%B2%E3%83%BC%E3%82%B8%E9%85%8D%E5%B8%83%E3%82%AD%E3%83%A3%E3%83%A9" title="テーブル/必殺ゲージ配布キャラ ">テーブル/必殺ゲージ配布キャラ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7" title="絞り込めるカテゴリ一覧 ">絞り込めるカテゴリ一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" title="メインストーリー ">メインストーリー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?MenuBar" title="MenuBar ">MenuBar</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86" title="テーブル/全ストーリー実装順 ">テーブル/全ストーリー実装順</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="イベント一覧/開催イベント ">イベント一覧/開催イベント</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%BF%BC%E7%AB%9C%E5%89%A3%E8%81%96%E3%82%A2%E3%82%AB%E3%83%8D" title="翼竜剣聖アカネ ">翼竜剣聖アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AB%E3%83%8D" title="ハロウィンアカネ ">ハロウィンアカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D" title="ビートドラグーン・アカネ ">ビートドラグーン・アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D" title="テーブル/キャラ/別衣装_ビートドラグーン・アカネ ">テーブル/キャラ/別衣装_ビートドラグーン・アカネ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="体育祭のヤブルー ">体育祭のヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%90%E3%83%8B%E3%83%BC%E3%83%BB%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="リバースバニー・ヤブルー ">リバースバニー・ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="魔女ヤブルー ">魔女ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC" title="テーブル/キャラ/別衣装_魔女ヤブルー ">テーブル/キャラ/別衣装_魔女ヤブルー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="ハロウィンニコール ">ハロウィンニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="真夏のニコール ">真夏のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="戦車のニコール ">戦車のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="テーブル/キャラ/別衣装_戦車のニコール ">テーブル/キャラ/別衣装_戦車のニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="真夏のイーイー ">真夏のイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="ブライド・イーイー ">ブライド・イーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="ハロウィンイーイー ">ハロウィンイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="運命のイーイー ">運命のイーイー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" title="テーブル/キャラ/別衣装_運命のイーイー ">テーブル/キャラ/別衣装_運命のイーイー</a> </li>
+</ul></div>
+<hr class="full_hr" />
+<p><a href="./?%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4%E3%83%9A%E3%83%BC%E3%82%B8" title="更新履歴ページ" class="" data-mtime="">更新履歴をもっとみる</a></p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_14_16">カウンター</h2>
+<ul class="list1 list-indent1"><li>合計：50246</li>
+<li>今日：2</li>
+<li>昨日：7</li></ul>
+<hr class="full_hr" />
+<p><span style="font-size:11px;display:inline-block;line-height:130%;text-indent:0px">〔<a href="./?cmd=edit&amp;page=MenuBar" title="Edit MenuBar">MENU編集</a></span>〕</p>
+</div>
+<!-- 300x600_1枠目_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=AYAMQFxEEER31b4v8YZnKA"></script>
+<br>
+<h2>
+<span style="font-size:12px;display:inline-block;line-height:130%;text-indent:0px">Official Tweet</span>
+</h2>
+<a class="twitter-timeline" data-lang="ja" data-height="500" width="300" href="https://twitter.com/EscaH_PR" width="200">Tweets by EscaH_PR</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<div class="sticky-ads">
+
+<!-- 300x600_2枠目_wikiru汎用 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="4423084522"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<br>
+  <td valign="top">
+<!-- 728x90_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=YXamGc1aiYMf5oovCRZ3rg"></script>
+<br>
+<div id="boxArea" style="display:table;padding:0 0 0 2px;"><div style="width:74px;height:22px;float:left;"><a href="https://twitter.com/share" class="twitter-share-button"{count} data-lang="ja" data-hashtags="エスカレーションヒロインズ"data-dnt="true">ツイート</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div>
+<br>
+      <div id="body"><div style="text-align:right">最終更新日時:2026-05-27 (水) 01:10:02</div>
+<hr class="full_hr" />
+<p><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px">Index：<a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7" title="キャラクター一覧" class="" data-mtime="">全キャラ</a> | <a href="./?SSR" title="SSR" class="" data-mtime="">SSRキャラ</a> | <a href="./?SR" title="SR" class="" data-mtime="">SRキャラ</a> | <a href="./?R" title="R" class="" data-mtime="">Rキャラ</a></span></p>
+<hr class="full_hr" />
+<div class="contents">
+<a id="contents_1"></a>
+<ul class="list1 list-indent1"><li><a href="#w4860f89"> 基本情報 </a></li>
+<li><a href="#qefe1b30"> ボイス </a></li>
+<li><a href="#u2ed9a2f"> ゲームにおいて </a>
+<ul class="list3 list-indent2"><li><a href="#f737a576"> 別バージョン・関連キャラクター </a></li></ul></li>
+<li><a href="#s35001e3"> 小ネタ </a>
+<ul class="list2 list-indent1"><li><a href="#u65f95f5"> 【1分でわかる！超昂大戦 メモメモダイナモ!!】 </a></li></ul></li>
+<li><a href="#h8d2dd6d"> 公式ツイッターの紹介 </a></li>
+<li><a href="#db467b4c"> コメントフォーム </a></li></ul>
+</div>
+<br /><table><tr><td><script src="//i2ad.jp/customer/ads/ad.php?id=DUNW7FRFBH5TeDzucJIwEg"></script></td><td><div data-cptid="1554669" style="display: block;"><script>  window.gnshbrequest.cmd.push(function() {    window.gnshbrequest.applyThirdPartyTag("1554669", "[data-cptid='1554669']");  });</script></div></td></tr></table><br />
+<h2 id="content_1_0">基本情報  <a class="anchor_super" id="w4860f89" href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B#w4860f89" title="w4860f89">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=w4860f89" title="Edit #w4860f89"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #w4860f89" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=1" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" style="text-align:center; width:480px;">変身画像</th><th class="style_th" colspan="2" style="text-align:center;">プロフィール</th></tr>
+<tr><td class="style_td" rowspan="9" style="text-align:center; width:480px;"><a href="./?plugin=attach&amp;refer=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;openfile=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B.png" title="ビートファインダー・フェリニ.png"><img src="attach2/E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B_E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B2E706E67.png" alt="ビートファインダー・フェリニ.png" title="ビートファインダー・フェリニ.png" width="430" height="529" /></a></td><th class="style_th" style="text-align:center; width:100px;">名前</th><td class="style_td" style="text-align:center; width:150px;">ビートファインダー・フェリニ</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">本名</th><td class="style_td" style="text-align:center; width:150px;">フェリニア・クレアライズ</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">レアリティ</th><td class="style_td" style="text-align:center; width:150px;">R</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">通常攻撃</th><td class="style_td" style="text-align:center; width:150px;">遠距離攻撃(物理)</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">所属勢力</th><td class="style_td" style="text-align:center; width:150px;">戦士(現界)</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">CV</th><td class="style_td" style="text-align:center; width:150px;"><a href="./?CV%E4%B8%80%E8%A6%A7#s5ee38be" title="CV一覧" class="" data-mtime="">花澤さくら</a>→<br class="spacer" /><a href="./?CV%E4%B8%80%E8%A6%A7#z8664d65" title="CV一覧" class="" data-mtime="">榎本ねむ</a>(24/07/03～)</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">イラスト</th><td class="style_td" style="text-align:center; width:150px;"><a href="./?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95#nara" title="原画別索引" class="" data-mtime="">MIN-NARAKEN</a></td></tr>
+<tr><th class="style_th" colspan="2" style="text-align:center;">SDキャラ</th></tr>
+<tr><td class="style_td" colspan="2" style="text-align:center;"><a href="./?plugin=attach&amp;refer=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;openfile=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B_sd.gif" title="ビートファインダー・フェリニ_sd.gif"><img src="attach2/E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B_E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B5F73642E676966.gif" alt="ビートファインダー・フェリニ_sd.gif" title="ビートファインダー・フェリニ_sd.gif" width="203" height="188" /></a></td></tr>
+<tr><th class="style_th" colspan="3" style="text-align:center;">フレーバーテキスト</th></tr>
+<tr><td class="style_td" colspan="3" style="text-align:center;">「『宇宙人と戦う前線基地に潜入してみたｗ』<br class="spacer" />よし、これはイケる！」<br class="spacer" /><br class="spacer" />ダイビート基地に潜入してきた突撃型動画配信者。<br class="spacer" />捕縛されたが、懲りずに日夜ネタ探しに基地内を徘徊している。<br class="spacer" />日伊のミックスだが、中身はほとんど日本人。<br class="spacer" />後先考えないタチで、自爆しては追い詰められて泣き喚く。<br class="spacer" />戦闘もエッチも、素人からのスタート。</td></tr>
+<tr><th class="style_th" colspan="3" style="text-align:center;">入手方法</th></tr>
+<tr><td class="style_td" colspan="3" style="text-align:center;">イベント「<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8802_%E5%81%BD%E3%82%B5%E3%83%B3%E3%82%BF%E7%8F%BE%E3%82%8B%EF%BC%81%EF%BC%9F%E8%81%96%E5%A4%9C%E3%81%AE%E3%83%87%E3%83%BC%E3%83%88%E5%A4%A7%E4%BD%9C%E6%88%A6%EF%BC%81" title="イベント02_偽サンタ現る！？聖夜のデート大作戦！" class="" data-mtime="">偽サンタ現る！？聖夜のデート大作戦！</a>」報酬キャラ<br class="spacer" /><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a>にて「昂る種」100個で交換可能</td></tr>
+</tbody></table></div>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="6" style="text-align:center;">基本ステータス</th></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">レベル</th><th class="style_th" style="text-align:center; width:119px;">スタミナ</th><th class="style_th" style="text-align:center; width:119px;">攻撃力</th><th class="style_th" style="text-align:center; width:119px;">防御力</th><th class="style_th" style="text-align:center; width:120px;">魔法力</th><th class="style_th" style="text-align:center; width:120px;">魔法抵抗力</th></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">1</td><td class="style_td" style="text-align:center; width:119px;">105</td><td class="style_td" style="text-align:center; width:119px;">8</td><td class="style_td" style="text-align:center; width:119px;">10</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">8</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">10</td><td class="style_td" style="text-align:center; width:119px;">226</td><td class="style_td" style="text-align:center; width:119px;">21</td><td class="style_td" style="text-align:center; width:119px;">33</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">28</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">20</td><td class="style_td" style="text-align:center; width:119px;">357</td><td class="style_td" style="text-align:center; width:119px;">34</td><td class="style_td" style="text-align:center; width:119px;">58</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">52</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">30</td><td class="style_td" style="text-align:center; width:119px;">488</td><td class="style_td" style="text-align:center; width:119px;">47</td><td class="style_td" style="text-align:center; width:119px;">83</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">76</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">40</td><td class="style_td" style="text-align:center; width:119px;">619</td><td class="style_td" style="text-align:center; width:119px;">61</td><td class="style_td" style="text-align:center; width:119px;">109</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">101</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">50</td><td class="style_td" style="text-align:center; width:119px;">750</td><td class="style_td" style="text-align:center; width:119px;">75</td><td class="style_td" style="text-align:center; width:119px;">135</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">126</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">60</td><td class="style_td" style="text-align:center; width:119px;">1030</td><td class="style_td" style="text-align:center; width:119px;">110</td><td class="style_td" style="text-align:center; width:119px;">183</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">171</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">70</td><td class="style_td" style="text-align:center; width:119px;">1310</td><td class="style_td" style="text-align:center; width:119px;">145</td><td class="style_td" style="text-align:center; width:119px;">231</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">217</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">80</td><td class="style_td" style="text-align:center; width:119px;">1590</td><td class="style_td" style="text-align:center; width:119px;">180</td><td class="style_td" style="text-align:center; width:119px;">279</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">262</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">90</td><td class="style_td" style="text-align:center; width:119px;">1870</td><td class="style_td" style="text-align:center; width:119px;">215</td><td class="style_td" style="text-align:center; width:119px;">327</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">308</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">100</td><td class="style_td" style="text-align:center; width:119px;">2150</td><td class="style_td" style="text-align:center; width:119px;">250</td><td class="style_td" style="text-align:center; width:119px;">375</td><td class="style_td" style="text-align:center; width:120px;">0</td><td class="style_td" style="text-align:center; width:120px;">353</td></tr>
+</tbody></table></div>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="4" style="text-align:center;">詳細ステータス</th></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">命中力</th><td class="style_td" style="text-align:center; width:271px;">20</td><th class="style_th">回避率</th><td class="style_td" style="text-align:center; width:270px;">30</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">連撃率</th><td class="style_td" style="text-align:center; width:271px;">20%</td><th class="style_th">反撃率</th><td class="style_td" style="text-align:center; width:270px;">15%</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">スタン発動率</th><td class="style_td" style="text-align:center; width:271px;">30%</td><th class="style_th">スタン抵抗率</th><td class="style_td" style="text-align:center; width:270px;">30%</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">移動速度</th><td class="style_td" style="text-align:center; width:271px;">6sec</td><th class="style_th">出撃速度</th><td class="style_td" style="text-align:center; width:270px;">7.5sec</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">行動速度</th><td class="style_td" style="text-align:center; width:271px;">5sec</td><th class="style_th">必殺充填量</th><td class="style_td" style="text-align:center; width:270px;">7.5%</td></tr>
+</tbody></table></div>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;">必殺技</th></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">名称</th><th class="style_th" style="text-align:center; width:641px;">効果</th></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">ナマ放送・ブロードフラッシュ</td><td class="style_td" style="text-align:center; width:641px;">敵全体に確定スタン効果（スタン無効の敵は対象外）</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">ナマ放送・ブロードフラッシュ+</td><td class="style_td" style="text-align:center; width:641px;">敵全体に物理2倍ダメージ<br class="spacer" />敵全体に確定スタン効果（スタン無効の敵は対象外）</td></tr>
+</tbody></table></div>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;">固有効果</th></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">名称</th><th class="style_th" style="text-align:center; width:641px;">効果</th></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">マシンガン前口上</td><td class="style_td" style="text-align:center; width:641px;">出撃完了時、2.5秒間敵フィールドの時間停止</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">マシンガン前口上+</td><td class="style_td" style="text-align:center; width:641px;">出撃完了時、4秒間敵フィールドの時間停止</td></tr>
+</tbody></table></div>
+<script>
+// 折りたたみ切り替え関数
+function tglRgn(button) {
+    var container = button.closest('.rgn-container');
+    var description = container.querySelector('.rgn-description');
+    var content = container.querySelector('.rgn-content');
+    var plusIcon = button.querySelector('.plus-icon');
+    var minusIcon = button.querySelector('.minus-icon');
+    var isCollapsed = description.style.display != 'none';
+    
+    description.style.display = isCollapsed ? 'none' : 'block';
+    content.style.display = isCollapsed ? 'block' : 'none';
+    plusIcon.style.display = isCollapsed ? 'none' : 'block';
+    minusIcon.style.display = isCollapsed ? 'block' : 'none';
+    
+    if (isCollapsed) {
+        // 展開時、内容が空の場合のみ全角スペースを追加
+        if (content.innerHTML.trim() === '') {
+            content.innerHTML = '　';
+        }
+    } else {
+        // 折りたたみ時、内容が全角スペースのみの場合、それを削除
+        if (content.innerHTML === '　') {
+            content.innerHTML = '';
+        }
+    }
+}
+
+// ハッシュ変更時の処理
+function openAllParentRegions(element) {
+    let currentElement = element;
+    const openedRegions = [];
+    
+    // 親方向に向かってすべてのregionを探索
+    while (currentElement) {
+        const regionContainer = currentElement.closest('.rgn-container');
+        if (!regionContainer) break;
+        
+        const content = regionContainer.querySelector('.rgn-content');
+        const button = regionContainer.querySelector('.rgn-button');
+        
+        if (content && content.style.display === 'none') {
+            tglRgn(button);
+            openedRegions.push(regionContainer);
+        }
+        
+        // 次の親要素の探索のため、現在のregionの外側から検索を開始
+        currentElement = regionContainer.parentElement;
+    }
+    
+    return openedRegions;
+}
+
+function handleHashChange() {
+    if (location.hash) {
+        const targetId = location.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+            // すべての親regionを開く
+            const openedRegions = openAllParentRegions(targetElement);
+            
+            // アニメーションが完了してから要素までスクロール
+            if (openedRegions.length > 0) {
+                setTimeout(function() {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }, 100 * openedRegions.length); // regionの数に応じて待ち時間を調整
+            } else {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+}
+
+// イベントリスナーの設定
+window.addEventListener('hashchange', handleHashChange);
+window.addEventListener('load', handleHashChange);
+</script>
+<style>
+.plus-icon, .minus-icon {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: -3px;
+}
+.rgn-container {
+    transition: all 0.3s ease-in-out;
+}
+.rgn-content {
+    transition: display 0.3s ease-in-out;
+}
+</style><div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>私服画像</p>
+</div><div class="rgn-content" style="display: none">
+<p><a href="./?plugin=attach&amp;refer=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;openfile=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B%E7%A7%81%E6%9C%8D.png" title="ビートファインダー・フェリニ私服.png"><img src="attach2/E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B_E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838BE7A781E69C8D2E706E67.png" alt="ビートファインダー・フェリニ私服.png" title="ビートファインダー・フェリニ私服.png" width="451" height="536" /></a></p>
+</div></div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>強化画像</p>
+</div><div class="rgn-content" style="display: none">
+<p><a href="./?plugin=attach&amp;refer=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;openfile=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B%E5%BC%B7%E5%8C%96.png" title="ビートファインダー・フェリニ強化.png"><img src="attach2/E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B_E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838BE5BCB7E58C962E706E67.png" alt="ビートファインダー・フェリニ強化.png" title="ビートファインダー・フェリニ強化.png" width="608" height="720" /></a></p>
+</div></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_1">ボイス  <a class="anchor_super" id="qefe1b30" href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B#qefe1b30" title="qefe1b30">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=qefe1b30" title="Edit #qefe1b30"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #qefe1b30" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=2" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>クリックでセリフ一覧を開く</p>
+</div><div class="rgn-content" style="display: none">
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th">加入</th><td class="style_td"></td></tr>
+<tr><th class="style_th">会話1(変身後)</th><td class="style_td">出撃ですかぁ～？やっっちゃいますよ～！！</td></tr>
+<tr><th class="style_th">会話2(変身後)</th><td class="style_td">長官さん…な、なんか…目がエッチじゃないですか？</td></tr>
+<tr><th class="style_th">会話3(変身後)</th><td class="style_td">うーん…ちょっとツツキ過ぎでは？</td></tr>
+<tr><th class="style_th">会話4(変身後)</th><td class="style_td">あなたがいるから、頑張ろっかなって思います！</td></tr>
+<tr><th class="style_th">放置1(変身後)</th><td class="style_td">あうぁ…この体勢、結構疲れるんですけど…</td></tr>
+<tr><th class="style_th">放置2(変身後)</th><td class="style_td">ひ～～ま～～ひま、暇で～す…ライブ配信でもしようかな？接近！秘密基地の指令室公開！</td></tr>
+<tr><th class="style_th">会話1(変身前)</th><td class="style_td">な…何もしてないですよ～ホント、ホントぉ…</td></tr>
+<tr><th class="style_th">会話2(変身前)</th><td class="style_td">ひぃぃ～そそそ…そういうのは…んあ、その…今からですか？</td></tr>
+<tr><th class="style_th">会話3(変身前)</th><td class="style_td">長官さ～ん、どこか行きませんか？ほら、ネタを探しに…</td></tr>
+<tr><th class="style_th">会話4(変身前)</th><td class="style_td">長官さん、今度の動画、出ませんか？人気でますよぉ～</td></tr>
+<tr><th class="style_th">放置1(変身前)</th><td class="style_td">今のうちにファイルの整理でも…あ、これは…アハハハ！おっかしい！！</td></tr>
+<tr><th class="style_th">放置2(変身前)</th><td class="style_td">あれれ？お休みですかぁ～？じゃ、私も一休みっと…</td></tr>
+<tr><th class="style_th">レベルアップ1</th><td class="style_td">んあ、だ、ダメですよぉ……そ、そんな……！あっ……！？</td></tr>
+<tr><th class="style_th">レベルアップ2</th><td class="style_td">はぁ、あっ、はぁっ……！な、なんか……入って……ふぅ、んはあぁああぁあああ！？</td></tr>
+<tr><th class="style_th">レベルアップ3</th><td class="style_td">ふあぁ！？あっ、はっ……だっ、だめぇ……。</td></tr>
+<tr><th class="style_th">捕縛</th><td class="style_td"></td></tr>
+<tr><th class="style_th">戦闘開始1</th><td class="style_td"></td></tr>
+<tr><th class="style_th">戦闘開始2</th><td class="style_td"></td></tr>
+<tr><th class="style_th">戦闘参加1</th><td class="style_td">フェリニが戦闘に参加してみた！</td></tr>
+<tr><th class="style_th">戦闘参加2</th><td class="style_td">それでは、動画スタート！</td></tr>
+<tr><th class="style_th">戦闘勝利1</th><td class="style_td"></td></tr>
+<tr><th class="style_th">戦闘勝利2</th><td class="style_td"></td></tr>
+<tr><th class="style_th">通常攻撃1</th><td class="style_td">ビィーム！</td></tr>
+<tr><th class="style_th">通常攻撃2</th><td class="style_td"></td></tr>
+<tr><th class="style_th">通常攻撃3</th><td class="style_td"></td></tr>
+<tr><th class="style_th">固有効果発動1</th><td class="style_td">ヘイ、ユー！</td></tr>
+<tr><th class="style_th">固有効果発動2</th><td class="style_td"></td></tr>
+<tr><th class="style_th">固有効果発動3</th><td class="style_td"></td></tr>
+<tr><th class="style_th">必殺技1</th><td class="style_td">それでは張り切って参ります！生放送、スタート！</td></tr>
+<tr><th class="style_th">必殺技2</th><td class="style_td"></td></tr>
+<tr><th class="style_th">被ダメージ1</th><td class="style_td">「あべし！！」（元ネタは特徴的な断末魔で知られる北斗の拳）</td></tr>
+<tr><th class="style_th">被ダメージ2</th><td class="style_td"></td></tr>
+<tr><th class="style_th">被ダメージ3</th><td class="style_td"></td></tr>
+<tr><th class="style_th">撤退</th><td class="style_td">わ…わたしが倒れても…いずれ第2第3の…あぅ…</td></tr>
+</tbody></table></div>
+</div></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_2">ゲームにおいて  <a class="anchor_super" id="u2ed9a2f" href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B#u2ed9a2f" title="u2ed9a2f">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=u2ed9a2f" title="Edit #u2ed9a2f"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #u2ed9a2f" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=3" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<ul class="list1 list-indent1"><li>2020/12/23～2020/12/31開催のイベント「<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8802_%E5%81%BD%E3%82%B5%E3%83%B3%E3%82%BF%E7%8F%BE%E3%82%8B%EF%BC%81%EF%BC%9F%E8%81%96%E5%A4%9C%E3%81%AE%E3%83%87%E3%83%BC%E3%83%88%E5%A4%A7%E4%BD%9C%E6%88%A6%EF%BC%81" title="イベント02_偽サンタ現る！？聖夜のデート大作戦！" class="" data-mtime="">偽サンタ現る！？聖夜のデート大作戦！</a>」の配布報酬キャラクター。</li>
+<li>敵の足止めに特化したデバッファー。火力は投げ捨ててひたすら敵の行動を止めて味方の被ダメージを防ぐ戦法を得意とする。</li>
+<li>基本ステータスは防御力と魔法抵抗力がRキャラ中上位だが、攻撃力が<a href="./?%E7%A5%9E%E9%A8%8E%E3%83%95%E3%83%AD%E3%83%BC%E3%83%AC%E3%83%AB" class="" data-mtime="">神騎フローレル</a>と並ぶワーストタイ。<br />
+防御力と魔法抵抗力はどちらか片方は高め、というキャラは多いが両方ともというのは貴重。<br />
+配布キャラクターなのでイベント中にポイントを稼ぐ事が可能な為、限界突破による火力不足のカバーと耐久周りの長所伸ばしの双方を手軽にできるのは有り難い。</li>
+<li>詳細ステータスでは出撃速度と移動速度が高く、控えから素早く出撃できる。<br />
+攻撃力の低さも相まって与ダメージ力は全キャラ中ワーストだが、限界突破しやすいイベントキャラなのでそこまで気にならない。</li>
+<li>固有効果は時間停止、必殺技は全体確定スタンと、とにかく敵の動きを止め続ける。<br />
+スタン発動率も高いので通常攻撃でも動きを止める事が得意。
+<ul class="list2 list-indent1"><li><a href="./?%E9%96%83%E5%BF%8D%E3%82%AF%E3%82%B5%E3%83%AA" class="" data-mtime="">閃忍クサリ</a>が実装されたことで、全体確定スタン→全体確定スタンのループができるようになった。<br />
+高ランクのロケットエンジン、ガッツ十姉妹、<a href="./?%E7%A5%9E%E9%A8%8E%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AB" class="" data-mtime="">神騎アルゴル</a>をそろえる必要があるが非常に強力。鬼畜ランス突破のテンプレになった。<br />
+<a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA" class="" data-mtime="">エスカ・アメイズ</a>あるいは<a href="./?%E7%A5%9E%E9%A8%8E%E3%83%AA%E3%82%B2%E3%83%AB" class="" data-mtime="">神騎リゲル</a>を用いる変則系の行動阻害ループもある。</li>
+<li>覚醒強化により必殺技でダメージが与えられるようになり、クサリとさらに差別化された。<br />
+攻撃力の低さと2倍のため大ダメージは期待できないが、雑魚散らしではまず討ち漏らすことはなくなり、スタン無効の敵にもゲージが無駄にならず、隙がなくなる強化である。</li></ul></li>
+<li>敵の動きを止める事で被ダメージを防ぎ、一方的に殴る状況作りに特化したデバフの一芸特化。<br />
+スタンが有効なフラスト(いわゆる中ボス)やザコ敵を確実にスタンさせ、敵の攻撃や厄介な行動を封じることができる。</li>
+<li>また防御力の高さを活かした壁タンク運用も可能。<br />
+攻撃力と反撃率が低いため反撃ダメージは期待薄で他のタンク系キャラと異なりデコイに専念することになる。
+<ul class="list2 list-indent1"><li>これを逆手にとって「体力が減ると他者にバフを付与するボスコマンダー」の率いる敵軍の攻撃を引き付けるのに最適なタンクになったこともある。</li></ul></li>
+<li>装備はスタン特化のデバッファーとするか、タンク運用かのどちらかで方針を決めておくとよい。覚醒前は火力不足かつデイリーやイベントマップの周回などの普段使いではスタンが腐り易いので、迷ったら相手を選ばないタンク運用の方が事故になりにくいだろう。
+<ul class="list2 list-indent1"><li>スタン特化ならてかる栗とガッツ十姉妹で通常攻撃のスタン発動と必殺技の回転率を上げる。覚醒後は火力もある程度出せるので衝撃のあるベルトも選択肢にはなるが、主目的はデバフと考えると装備する余裕があるか怪しい。</li>
+<li>タンクなら定番の長髪まねき猫。元の攻撃力と反撃率が低いのでスーパーカーで無理に反撃させる必要は無い。細菌兵器やスタン帽子による状態異常の対策も初期では考えられたが、現在は消費性になったため難しい。<br />
+代用としては、防御力が高いといっても所詮はRの中では高いというだけなので、SR以上のタンクに並ばせるなら牛女肉襦袢で軽減率を高めるのがよい。</li></ul></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_3">別バージョン・関連キャラクター  <a class="anchor_super" id="f737a576" href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B#f737a576" title="f737a576">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=f737a576" title="Edit #f737a576"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #f737a576" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=4" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<ul class="list1 list-indent1"><li><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" class="" data-mtime="">ビートファインダー・フェリニ</a></li>
+<li><a href="./?%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%82%AC%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" class="" data-mtime="">イメージガール・フェリニ</a></li>
+<li><a href="./?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" class="" data-mtime="">ブライド・フェリニ</a></li></ul>
+
+<p><a href="./?cmd=edit&amp;page=%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%82%AD%E3%83%A3%E3%83%A9%2F%E5%88%A5%E8%A1%A3%E8%A3%85_%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" title="Edit テーブル/キャラ/別衣装_ビートファインダー・フェリニ"><img src="image/edit.png" width="20" height="20" alt="Edit" title="Edit テーブル/キャラ/別衣装_ビートファインダー・フェリニ" />EDIT</a></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_4">小ネタ  <a class="anchor_super" id="s35001e3" href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B#s35001e3" title="s35001e3">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=s35001e3" title="Edit #s35001e3"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #s35001e3" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=5" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<ul class="list1 list-indent1"><li>本作出身キャラクターとしては初のイベント配布キャラ（先発の配布は既存作品発の<a href="./?FM77" class="" data-mtime="">FM77</a>）</li>
+<li>動画投稿者ということで広報的な事もこなしているらしくメイン・イベント問わず戦闘の中継する姿が見られる。<br />
+また撮れ高を意識した結果ギャグムーブを積極的に行うキャラがライター側も使いやすいのか、<a href="./?%E3%83%8F%E3%83%AB%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9" title="ハルカ・リバース" class="" data-mtime="">コミュニケーションに</a><a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D" title="ビートドラグーン・アカネ" class="" data-mtime="">難があるメンツ</a>だろうがそうでなかろうが他人のキャラストでも頻繁に出張出演する。<span style="color:gray">導入にもオチにも使える万能キャラ…。</span></li></ul>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>終章ネタバレ</p>
+</div><div class="rgn-content" style="display: none">
+<ul class="list2 list-indent2"><li>報道系キャラという事を活かし、<a href="./?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AB%E3%83%93%E3%83%BC%E3%83%BB%E3%82%A2%E3%82%B9%E3%83%86%E3%83%A9%E3%82%A4%E3%82%BA" title="エスカルビー・アステライズ" class="" data-mtime="">最終決戦の切り札</a>に力を供給するための重要な役割を担う形となる。<br />
+最終決戦ストーリーパートにおいてはエスカチーム・レジェンド・ネームド系などの有力メンバーが殆どと、それらと関係あるNPCが重要な立ち回りを行う事となったが、その中で一般超昂戦士にもかかわらず最終パートに関わるという大役を得る事となった。
+</div></div></li></ul>
+<ul class="list1 list-indent1"><li>担当声優の花澤さくら女史が2022年3月をもって声優を引退・廃業。後任として榎本ねむ女史が引継ぐこととなった。
+<ul class="list2 list-indent1"><li>声優交代は過去に<a href="./?%E9%96%83%E5%BF%8D%E3%83%84%E3%83%AB%E3%82%B3" class="" data-mtime="">閃忍ツルコ</a>で発生しており、こちらでは収録・公開済みのボイスは据え置き、交代発表後に追加された新規エピソードやバリエーションキャラでは交代後の声優のボイスを使用という措置が取られている。</li></ul></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_5">【1分でわかる！超昂大戦 メモメモダイナモ!!】  <a class="anchor_super" id="u65f95f5" href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B#u65f95f5" title="u65f95f5">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=u65f95f5" title="Edit #u65f95f5"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #u65f95f5" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=6" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<ul class="list1 list-indent1"><li>2025.9.18、2人目のゲーム紹介役として抜擢（<a href="./?%E7%A5%9E%E9%A8%8E%E3%83%96%E3%83%AD%E3%82%AF%E3%83%9F%E3%82%A8%E3%83%AB" title="神騎ブロクミエル" class="" data-mtime="">羽留</a>が紹介していた【1分でわかる！超昂大戦】とは別シリーズ）。
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>公式NEWS、動画</p>
+</div><div class="rgn-content" style="display: none">
+<ul class="list2 list-indent1"><li><a href="https://www.alicesoft.com/information/2025/entry003774.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/U_36wiPqGB4" rel="nofollow">動画</a>(第1回　みんなのことをご紹介！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003781.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/qvRhe7b-E4w" rel="nofollow">動画</a>(第2回　ダイビートとは！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003783.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/S-TTVNkJvrc" rel="nofollow">動画</a>(第3回　戦士とは！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003786.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/s_AoDzRmAD8" rel="nofollow">動画</a>(第4回　閃忍：想破とは！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003792.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/Vh0LVywyxAc" rel="nofollow">動画</a>(第5回　閃忍：久世とは！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003803.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/c7kSRLPguaU" rel="nofollow">動画</a>(第6回　天界神騎とは！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003806.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/kHxmzGrT9q8" rel="nofollow">動画</a>(第7回　地上神騎とは！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003848.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/xqVdq7SQvcI" rel="nofollow">動画</a>(第8回　魔女とは！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003851.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/KMRq6dxvdvQ" rel="nofollow">動画</a>(第9回　魔女：箱船とは！)</li>
+<li><a href="https://www.alicesoft.com/information/2025/entry003853.html" rel="nofollow">公式NEWS</a>, <a href="https://www.youtube.com/shorts/0hYHCcy2F1k" rel="nofollow">動画</a>(第10回「コマンダー募集中です。)</li></ul></li></ul>
+</div></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- wikiru_PC_h2_responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="9804070536"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br><h2 id="content_1_6">公式ツイッターの紹介  <a class="anchor_super" id="h8d2dd6d" href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B#h8d2dd6d" title="h8d2dd6d">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=h8d2dd6d" title="Edit #h8d2dd6d"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #h8d2dd6d" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=7" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>紹介(PV)</p>
+</div><div class="rgn-content" style="display: none">
+<p><blockquote class="twitter-tweet" data-lang="ja" data-theme="light" data-link-color="#66ABFF">
+<a href="https://twitter.com/escah_pr/status/1341669975203872768"></a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+</div></div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>紹介②(イベント告知)</p>
+</div><div class="rgn-content" style="display: none">
+<p><blockquote class="twitter-tweet" data-lang="ja" data-theme="light" data-link-color="#66ABFF">
+<a href="https://twitter.com/escah_pr/status/1341643067355369473"></a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+</div></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_7">コメントフォーム  <a class="anchor_super" id="db467b4c" href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B#db467b4c" title="db467b4c">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=db467b4c" title="Edit #db467b4c"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #db467b4c" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B&amp;id=8" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>クリックで過去ログ一覧を開く</p>
+</div><div class="rgn-content" style="display: none">
+<p>末尾の番号が若いほど、古いログになります。</p>
+<p>'コメント/ビートファインダー・フェリニ/' には、下位層のページがありません。</p>
+</div></div>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="2456832941"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br>
+<div class="pcomment">
+<p> 最新の20件を表示しています。 <a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" title="コメント/ビートファインダー・フェリニ" class="" data-mtime="">コメントページを参照</a> </p>
+		<form action="./" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+
+		<ul class="list1 list-indent1"><li class="pcmt" data-comment-id="comment_12b367815c4ba0e2f800a4e64f7e4a92"><input class="pcmt" type="radio" name="reply" value="12b367815c4ba0e2f800a4e64f7e4a92" tabindex="38" />結局タンク役しかできないから、星５前提で猫・十姉妹・スーパーカー辺りなのかなぁ -- [3tNmqtPJA6o] <span class="comment_date">2020-12-25 (金) 19:32:07<span class="__plugin_new" data-mtime="2020-12-25T19:32:07+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_f58816608cb21f9578ca36326b6c2dc4"><input class="pcmt" type="radio" name="reply" value="f58816608cb21f9578ca36326b6c2dc4" tabindex="37" />スタン発動率が高いし必殺技もスタンだからロケット・クリ・十姉妹or納豆でスタン撒くデバフ役で良いんじゃねーって思ってる -- [vvEyr2ZGLGc] <span class="comment_date">2020-12-25 (金) 20:37:56<span class="__plugin_new" data-mtime="2020-12-25T20:37:56+09:00"></span></span>
+<ul class="list3 list-indent1"><li>現状最強タンクはジェレミーだけど反撃率が高いし必殺技も噛み合ってるからで、この子でヘイト集めても無駄に落ちちゃう気がする -- [vvEyr2ZGLGc] <span class="comment_date">2020-12-26 (土) 03:40:00<span class="__plugin_new" data-mtime="2020-12-26T03:40:00+09:00"></span></span></li>
+<li>凸ジェレミや凸エクシール完成するまではメイン盾、完成後はDENAI背負わせてサブ盾で良いじゃん。 -- [jddskavlHhw] <span class="comment_date">2020-12-26 (土) 07:04:18<span class="__plugin_new" data-mtime="2020-12-26T07:04:18+09:00"></span></span></li>
+<li>全体スタンで行動封じて安全に攻撃回数増やせるから、単純にベルトで火力補うのもありだぞ。ベルトつけてると結構ダメージソースとしても活躍してくれる。ベルトなし助っ人フェリニと比べるとよくわかる。 -- [fDCL3hAOt7M] <span class="comment_date">2021-01-08 (金) 09:24:31<span class="__plugin_new" data-mtime="2021-01-08T09:24:31+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_a246323979c6f93f7dff2609e065ab0d"><input class="pcmt" type="radio" name="reply" value="a246323979c6f93f7dff2609e065ab0d" tabindex="36" />いうて完凸すればそこらの無凸Rの４，５倍火力出すじゃろ -- [N2ZLPvqnB0A] <span class="comment_date">2020-12-26 (土) 03:03:40<span class="__plugin_new" data-mtime="2020-12-26T03:03:40+09:00"></span></span>
+<ul class="list3 list-indent1"><li>完凸LV50が225だから無凸Rの倍くらいじゃない？完凸でステ3倍なのに火力4,5倍はないっす -- [hPBaYUZFWBA] <span class="comment_date">2020-12-26 (土) 05:53:04<span class="__plugin_new" data-mtime="2020-12-26T05:53:04+09:00"></span></span></li>
+<li>完凸FM７７が大体７倍くらいのダメだすからそんくらいかなって -- [N2ZLPvqnB0A] <span class="comment_date">2020-12-26 (土) 23:59:34<span class="__plugin_new" data-mtime="2020-12-26T23:59:34+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_037ec63a491b0e550f27682c097367a9"><input class="pcmt" type="radio" name="reply" value="037ec63a491b0e550f27682c097367a9" tabindex="35" />反撃に期待しない分、猫にスタン防止と細菌兵器付けようかと思ってる -- [.pXyLAUgALo] <span class="comment_date">2020-12-26 (土) 07:52:52<span class="__plugin_new" data-mtime="2020-12-26T07:52:52+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_e23353ac64ea58f7365f8e42a74a070e"><input class="pcmt" type="radio" name="reply" value="e23353ac64ea58f7365f8e42a74a070e" tabindex="34" />火力周りが死んでるせいで星5まで上げても微妙に使いにくい…毒とスタン防げるタンクくらいしか使い道がない -- [KGDG83AiMhs] <span class="comment_date">2020-12-26 (土) 16:13:00<span class="__plugin_new" data-mtime="2020-12-26T16:13:00+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_4b57f717878bc17c7d3d6b7832e331dc"><input class="pcmt" type="radio" name="reply" value="4b57f717878bc17c7d3d6b7832e331dc" tabindex="33" />凸のしやすさやら開幕時止めやらでエロコマさん撃退係としては最優秀なんじゃないかと思ってる -- [zosudpQIWqI] <span class="comment_date">2020-12-26 (土) 21:39:19<span class="__plugin_new" data-mtime="2020-12-26T21:39:19+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_4c7a103e91df05e647dbe8bde3406527"><input class="pcmt" type="radio" name="reply" value="4c7a103e91df05e647dbe8bde3406527" tabindex="32" />バトル中盤でリスキル状態に陥った時に出撃してくれれば時止めとタンク性能で場を持ち直すのに使えそう -- [kcg12LU7ZcE] <span class="comment_date">2020-12-27 (日) 05:17:58<span class="__plugin_new" data-mtime="2020-12-27T05:17:58+09:00"></span></span>
+<ul class="list3 list-indent1"><li>残念ながら出撃完了しないと時止めは起こらないので、フィールドまでたどり着くことが必要。サンタ３連撃くらってると多分無理 -- [.pXyLAUgALo] <span class="comment_date">2020-12-27 (日) 14:07:20<span class="__plugin_new" data-mtime="2020-12-27T14:07:20+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_4b48c44e17fc8b2e048b991ea87a1969"><input class="pcmt" type="radio" name="reply" value="4b48c44e17fc8b2e048b991ea87a1969" tabindex="31" />配布で手に入れたの10レベル単位でレベリングしたのだけど、途中から魔法抵抗力が一気に伸びるなあ -- [/vx8jsxqZ4A] <span class="comment_date">2020-12-26 (土) 21:32:18<span class="__plugin_new" data-mtime="2020-12-26T21:32:18+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_9b6783e1a0036e7e7aa8a8268e98983d"><input class="pcmt" type="radio" name="reply" value="9b6783e1a0036e7e7aa8a8268e98983d" tabindex="30" />別に一気には上がってないよ -- [Ih7ECnMD/Ro] <span class="comment_date">2020-12-29 (火) 04:54:02<span class="__plugin_new" data-mtime="2020-12-29T04:54:02+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_40f3ec7fada99891aa0eb1cd0768002c"><input class="pcmt" type="radio" name="reply" value="40f3ec7fada99891aa0eb1cd0768002c" tabindex="29" />案外早く星4まで来れたなー。からの、あれ？蕾の在庫が0だお？やっちまったようだぜ -- [iY.btz7Mcuo] <span class="comment_date">2020-12-27 (日) 00:51:08<span class="__plugin_new" data-mtime="2020-12-27T00:51:08+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_ba8739848534bbea687e9befac61061a"><input class="pcmt" type="radio" name="reply" value="ba8739848534bbea687e9befac61061a" tabindex="28" />なーむー -- [.pXyLAUgALo] <span class="comment_date">2020-12-27 (日) 01:11:56<span class="__plugin_new" data-mtime="2020-12-27T01:11:56+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_945660f0d8c5fc561a6eb181b243df1b"><input class="pcmt" type="radio" name="reply" value="945660f0d8c5fc561a6eb181b243df1b" tabindex="27" />イベント終了までは通常の蕾使えないとか使いますかって表示してくれればいいのですけどね。☆５になりましたけど☆上げるたびに何度も確認しました。 -- [URxartI6iO6] <span class="comment_date">2020-12-28 (月) 06:42:21<span class="__plugin_new" data-mtime="2020-12-28T06:42:21+09:00"></span></span>
+<ul class="list3 list-indent1"><li>表示を突破ポイントに変えとけばいいんじゃない？ -- [35ttMoviqWA] <span class="comment_date">2020-12-31 (木) 21:29:04<span class="__plugin_new" data-mtime="2020-12-31T21:29:04+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_e04bd6d6b84693863ceb1bbef4844002"><input class="pcmt" type="radio" name="reply" value="e04bd6d6b84693863ceb1bbef4844002" tabindex="26" />敗北のやつはちょっと物足りなかったな…<br class="spacer" />え、ここで終わり？ってなった -- [NvltWmfcCrI] <span class="comment_date">2020-12-27 (日) 22:12:22<span class="__plugin_new" data-mtime="2020-12-27T22:12:22+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_da78b4ae3d10010f53df199978acabb0"><input class="pcmt" type="radio" name="reply" value="da78b4ae3d10010f53df199978acabb0" tabindex="25" />長官が配信眺めてるのユーノにバレたんだろ。さっさと救出に行かない長官が悪い。 -- [fDCL3hAOt7M] <span class="comment_date">2021-01-08 (金) 09:18:26<span class="__plugin_new" data-mtime="2021-01-08T09:18:26+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_dac331ee85e16add795c329e49833d61"><input class="pcmt" type="radio" name="reply" value="dac331ee85e16add795c329e49833d61" tabindex="24" />こういう塗りやとNARAKENの良さがしんでまうな -- [afsXa5Yqm9s] <span class="comment_date">2020-12-29 (火) 13:31:19<span class="__plugin_new" data-mtime="2020-12-29T13:31:19+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_fa29d6641318ddf1a5d0f8a00aefbbdc"><input class="pcmt" type="radio" name="reply" value="fa29d6641318ddf1a5d0f8a00aefbbdc" tabindex="23" />★４になったから油断して優先枠を一軍化してなかったらエロコマさんに食われてもうた。<br class="spacer" />まあそれはそれでいいんだけど、撃退ミッションは本当に面倒なんだな･･･。 -- [3WDAoU6oGcQ] <span class="comment_date">2020-12-29 (火) 17:52:07<span class="__plugin_new" data-mtime="2020-12-29T17:52:07+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_46dce8205f94e3c3d8b687751c049403"><input class="pcmt" type="radio" name="reply" value="46dce8205f94e3c3d8b687751c049403" tabindex="22" />ヘビースターとかでスタメン人員増やして袋叩きにしないと容赦なく連行されるからなあエロコマさん。宝箱開けまくった後はあっさり倒せるけど意識的に追い払おうとすると中々うまくいかん事が多い… -- [HgLMvqOPqbs] <span class="comment_date">2020-12-29 (火) 18:01:44<span class="__plugin_new" data-mtime="2020-12-29T18:01:44+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_9353ea2c7cf3e92e469cc9935343a927"><input class="pcmt" type="radio" name="reply" value="9353ea2c7cf3e92e469cc9935343a927" tabindex="21" />自分は優先枠一軍でも出撃制限で食われてしまいました。 -- [SwHWiGxeDUo] <span class="comment_date">2020-12-31 (木) 21:10:39<span class="__plugin_new" data-mtime="2020-12-31T21:10:39+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_11a1987be4e03f9410fb43fe0dcaa783"><input class="pcmt" type="radio" name="reply" value="11a1987be4e03f9410fb43fe0dcaa783" tabindex="20" />なんかハニーフラッシュ（防御貫通）使ってる感じだから、半端なランクだとエロコマが連撃発動したら落ちるんで、最低でも4、できれば5が撃退を安定させるスタミナだな。4のリゲルでやってて、優先調整したと思ったらツカサ残ってたのに気付いた時はビビった……助っ人火力でいけたけど。 -- [fDCL3hAOt7M] <span class="comment_date">2021-01-08 (金) 09:14:57<span class="__plugin_new" data-mtime="2021-01-08T09:14:57+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_6c3fbf3a192da7fd59f53b8c54ea4a69"><input class="pcmt" type="radio" name="reply" value="6c3fbf3a192da7fd59f53b8c54ea4a69" tabindex="19" />猫と栗と車つけてるんだけど反撃でスタンって発動してるんだろうか？<br class="spacer" />発動するなら反撃率は車で滅茶苦茶盛れるからつけたほうが良いと思う、ランク5で50％は強い。 -- [hM6TqTpOO7Q] <span class="comment_date">2021-01-06 (水) 14:47:40<span class="__plugin_new" data-mtime="2021-01-06T14:47:40+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_7306644b4e809167a768c359a2b4bee8"><input class="pcmt" type="radio" name="reply" value="7306644b4e809167a768c359a2b4bee8" tabindex="18" />難度も回してると、てかる栗は必殺技と合わせて過剰スタンしてる感じだったから、栗は外すことにしたわ。<br class="spacer" />王道のロケットベルトコンボで殴らせることにした。絶対栗だろと思ったんだが、必殺技が優秀すぎて栗なくても十二分にスタンするんだよなこの子。 -- [fDCL3hAOt7M] <span class="comment_date">2021-01-08 (金) 09:11:06<span class="__plugin_new" data-mtime="2021-01-08T09:11:06+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_2c129ffda6764ca7fdbf53a95be2e4f3"><input class="pcmt" type="radio" name="reply" value="2c129ffda6764ca7fdbf53a95be2e4f3" tabindex="17" />完凸してから敗北Ｈ見ようとしたら３回も失敗した。防御力たけーな本当に -- [ihcpwDQfA56] <span class="comment_date">2021-01-14 (木) 22:58:46<span class="__plugin_new" data-mtime="2021-01-14T22:58:46+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_ee2944d4e7e4e17a02ff220547438342"><input class="pcmt" type="radio" name="reply" value="ee2944d4e7e4e17a02ff220547438342" tabindex="16" />お前はおれか。何回しても攫われる前に確定スタン技が発動してエロコマさんを袋だたきにしちゃうから、もうエロコマさん撃退数稼ぎ要員と思って敗北Ｈ鑑賞を諦めてる -- [msfjuWAMnPw] <span class="comment_date">2021-01-16 (土) 16:50:02<span class="__plugin_new" data-mtime="2021-01-16T16:50:02+09:00"></span></span>
+<ul class="list3 list-indent1"><li>必殺技のオートOFFにすればというツッコミはしていいのか？ -- [fDCL3hAOt7M] <span class="comment_date">2021-01-16 (土) 17:16:19<span class="__plugin_new" data-mtime="2021-01-16T17:16:19+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_b9f10af997f2a2266bc9ea6c24802461"><input class="pcmt" type="radio" name="reply" value="b9f10af997f2a2266bc9ea6c24802461" tabindex="15" />常にタイミングが合うとは限らないが、回避バリ高ワンちゃんや必殺ゲージ奪ったり魅了かけたりといった厄介な雑魚が出てきた事考えると、必殺重点の装備構成にしておくと結構輝くかもしれないな -- [Y2/5PhOhUwc] <span class="comment_date">2021-01-15 (金) 02:39:10<span class="__plugin_new" data-mtime="2021-01-15T02:39:10+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_eba686a7daad2ca32a8f096bdf54a8a9"><input class="pcmt" type="radio" name="reply" value="eba686a7daad2ca32a8f096bdf54a8a9" tabindex="14" />十姉妹・ロケットで必殺連打は鉄板として、残りをどうするかだわなぁ。ヘイト稼ぎにくいし納豆で長持ちとかかね -- [0GJ2UM3hv/.] <span class="comment_date">2021-02-05 (金) 18:48:40<span class="__plugin_new" data-mtime="2021-02-05T18:48:40+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_285823c8e54e944c4b6b2fa7f0a03d45"><input class="pcmt" type="radio" name="reply" value="285823c8e54e944c4b6b2fa7f0a03d45" tabindex="13" />ストーリーでよく髪の毛引っ張られた時の顔だったり、戦闘時のHey you!とかやられた時のばたんきゅ～とかもういろいろ可愛すぎて好き -- [qWDSoF.rkvE] <span class="comment_date">2021-02-05 (金) 22:29:37<span class="__plugin_new" data-mtime="2021-02-05T22:29:37+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_13857e9a6fab4b18022e4178aa81ffc5"><input class="pcmt" type="radio" name="reply" value="13857e9a6fab4b18022e4178aa81ffc5" tabindex="12" />私はご視聴ありがとうございました！が好きだなぁ。あ、なんか尺ギリギリで巻いてしゃべってるんだろうなって感じが可愛くて好き。 -- [vu6jpjjq3eU] <span class="comment_date">2021-02-05 (金) 23:16:36<span class="__plugin_new" data-mtime="2021-02-05T23:16:36+09:00"></span></span>
+<ul class="list3 list-indent1"><li>必殺技のピースも可愛いしもう全部かわいい！ -- [qWDSoF.rkvE] <span class="comment_date">2021-02-06 (土) 00:28:33<span class="__plugin_new" data-mtime="2021-02-06T00:28:33+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_b50f2a221c786cf07542d9ecb563059d"><input class="pcmt" type="radio" name="reply" value="b50f2a221c786cf07542d9ecb563059d" tabindex="11" />今回のイベントでも登場。最近読んだいくつかのキャラストーリーでも出てきたし、出番多めで勝ち組な感ある。○○の放送してみた～ってネタの扱いやすさとか、ギャグ要員にしても許されるようなキャラゆえか。 -- [k8kxwVtf1oE] <span class="comment_date">2021-11-03 (水) 17:26:08<span class="__plugin_new" data-mtime="2021-11-03T17:26:08+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_d9fb706a0ab214304da8336558ccd1a1"><input class="pcmt" type="radio" name="reply" value="d9fb706a0ab214304da8336558ccd1a1" tabindex="10" />でも、CVの人3月で引退なのよねー。残念 -- [DmFOpOhUsU6] <span class="comment_date">2021-11-10 (水) 17:57:58<span class="__plugin_new" data-mtime="2021-11-10T17:57:58+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_ef6f9a521190c8752f03d0abf00bce14"><input class="pcmt" type="radio" name="reply" value="ef6f9a521190c8752f03d0abf00bce14" tabindex="9" />連撃・反撃・行動を強化して、フィンファンネルごっこして遊んでる -- [xqqlytxPCCw] <span class="comment_date">2021-11-11 (木) 05:38:20<span class="__plugin_new" data-mtime="2021-11-11T05:38:20+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_9012879dacadcbfad4be4baeeb7de9e9"><input class="pcmt" type="radio" name="reply" value="9012879dacadcbfad4be4baeeb7de9e9" tabindex="8" />フェリニの声優さん引退しちゃうのか。後任が気になるがメインシナリオの出番が無ければ当分このままもあり得るか。 -- [/NqEYXsecFM] <span class="comment_date">2021-11-11 (木) 12:54:30<span class="__plugin_new" data-mtime="2021-11-11T12:54:30+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_5519067a0e5a0983bdf3f63f1646f9ce"><input class="pcmt" type="radio" name="reply" value="5519067a0e5a0983bdf3f63f1646f9ce" tabindex="7" />唐突にCVの変更が告知されたらメインシナリオでの登場or衣装違いの実装が濃厚かな。他所で実際にあったパターン。 -- [k8kxwVtf1oE] <span class="comment_date">2021-11-13 (土) 01:00:10<span class="__plugin_new" data-mtime="2021-11-13T01:00:10+09:00"></span></span>
+<ul class="list3 list-indent1"><li>パッケージ売りなら前例知ってるが、ソシャゲだとそういう手もあるのね。できればこのCVのまま限定が理想だが、エロゲ声優も最近同人音声の活況で層が厚いし、メインでのボイスありの出番がなくなる方が寂しいしなあ。引退するから出番を多めにされている感じもするからどうなるやら。 -- [Mtoag44SDDM] <span class="comment_date">2022-01-15 (土) 21:58:23<span class="__plugin_new" data-mtime="2022-01-15T21:58:23+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_7397224b36021c77b3d5ab909ca173e9"><input class="pcmt" type="radio" name="reply" value="7397224b36021c77b3d5ab909ca173e9" tabindex="6" />元々強いけど、覚醒させると必殺も固有もなんかやたら強い気が…… -- [LBlIJ3oun3s] <span class="comment_date">2022-05-24 (火) 00:51:39<span class="__plugin_new" data-mtime="2022-05-24T00:51:39+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_d6e3045a247a39375f9993778c150988"><input class="pcmt" type="radio" name="reply" value="d6e3045a247a39375f9993778c150988" tabindex="5" />ありのままに怒ったことを話すぜ！俺はエルカエルのキャラストを見ていたはずなのにフェリニのキャラストが始まっていた…何を言ってるわからないと思うが本当のことだ！脅威の出張率とかそんなチャチなもんじゃねえ。パパラッチのコメディリリーフにおける汎用性の恐ろしさの片鱗を味わったぜ…！ -- [ZZWfVjkwVvM] <span class="comment_date">2022-05-26 (木) 04:27:53<span class="__plugin_new" data-mtime="2022-05-26T04:27:53+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_65aeb27246a5c972d87e96eac1548276"><input class="pcmt" type="radio" name="reply" value="65aeb27246a5c972d87e96eac1548276" tabindex="4" />イタリア人とのハーフなんて設定忘れてたわ -- [t2Gdg2dFCwo] <span class="comment_date">2022-05-27 (金) 17:19:13<span class="__plugin_new" data-mtime="2022-05-27T17:19:13+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_3431d63aa207cecb659f62378045b469"><input class="pcmt" type="radio" name="reply" value="3431d63aa207cecb659f62378045b469" tabindex="3" />敗北のはこれ一般人に凸されたってことでええの？　ダイビートが助けに来たとかじゃなくて -- [xIX.GzuaFpQ] <span class="comment_date">2023-12-21 (木) 06:52:37<span class="__plugin_new" data-mtime="2023-12-21T06:52:37+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_e44a4d1a483bf7045732b4ba8d9c29d3"><input class="pcmt" type="radio" name="reply" value="e44a4d1a483bf7045732b4ba8d9c29d3" tabindex="2" />声がすごく可愛くて好きなんだけど、声優さんが他の役を担当されてないのが残念 -- [kJT2KbXwYYM] <span class="comment_date">2023-12-29 (金) 16:43:26<span class="__plugin_new" data-mtime="2023-12-29T16:43:26+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_ec6905f50b7fce835fff649d46e83c62"><input class="pcmt" type="radio" name="reply" value="ec6905f50b7fce835fff649d46e83c62" tabindex="1" />やめちゃったしなあ…声優さん -- [UedOVyB2Ulk] <span class="comment_date">2024-01-10 (水) 00:07:46<span class="__plugin_new" data-mtime="2024-01-10T00:07:46+09:00"></span></span></li></ul></li></ul>
+
+		<style>
+/* 基本入力スタイル */
+.pcmt-name,.pcmt-msg{padding:5px 8px;border:1px solid #ccc;border-radius:4px;font-size:13px;outline:none;box-sizing:border-box}
+.pcmt-name:focus,.pcmt-msg:focus{border-color:#4a90d9}
+.pcmt-input-area{display:inline-block;vertical-align:top}
+.pcmt-msg-wrap{position:relative;display:inline-block;vertical-align:top}
+.pcmt-msg-wrap .pcmt-msg{padding-right:30px}
+.pcmt-msg-wrap-ta{display:flex}
+.pcmt-msg-wrap-ta .pcmt-msg{min-height:50px;resize:both}
+
+/* 絵文字ボタン */
+.pcmt-emoji-btn{position:absolute;right:3px;top:3px;width:24px;height:24px;padding:0;background:none;border:none;border-radius:4px;cursor:pointer;font-size:14px;opacity:.6}
+.pcmt-emoji-btn:hover{opacity:1;background:#f0f0f0}
+
+/* 絵文字ピッカー */
+.pcmt-emoji-picker{display:none;position:absolute;left:0;top:100%;margin-top:4px;width:340px;background:#fff;border:1px solid #ccc;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:9999}
+.pcmt-emoji-picker.show{display:block}
+.pcmt-ep-head{display:flex;padding:10px;gap:6px;border-bottom:1px solid #eee}
+.pcmt-ep-search{flex:1;padding:6px 10px;border:1px solid #ddd;border-radius:4px;font-size:14px;outline:none}
+.pcmt-ep-close{width:30px;height:30px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:16px;color:#666}
+.pcmt-ep-close:hover{background:#eee}
+.pcmt-ep-cats{display:flex;padding:8px;gap:4px;border-bottom:1px solid #eee;overflow-x:auto}
+.pcmt-ep-cat{padding:6px 8px;border:none;background:none;border-radius:4px;cursor:pointer;font-size:18px}
+.pcmt-ep-cat:hover{background:#f0f0f0}
+.pcmt-ep-cat.active{background:#e3f2fd}
+.pcmt-ep-list{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:10px;max-height:200px;overflow-y:auto}
+.pcmt-ep-item{width:38px;height:38px;border:none;background:none;border-radius:6px;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center}
+.pcmt-ep-item:hover{background:#f0f0f0;transform:scale(1.1)}
+.pcmt-ep-recent-wrap{padding:8px 10px 10px;border-top:1px solid #eee;display:none}
+.pcmt-ep-recent-wrap.show{display:block}
+.pcmt-ep-recent-title{font-size:12px;color:#888;margin-bottom:6px}
+.pcmt-ep-recent{display:flex;flex-wrap:wrap;gap:4px}
+
+/* ツールバー */
+.pcmt-toolbar{display:flex;gap:4px;margin-top:6px;position:relative}
+.pcmt-tb-btn.uploading svg{display:none}
+.pcmt-tb-btn.uploading::after{content:"";display:block;width:13px;height:13px;border:2px solid #ccc;border-top-color:#4a90d9;border-radius:50%;animation:pcmt-spin .8s linear infinite;margin:auto}
+@keyframes pcmt-spin{to{transform:rotate(360deg)}}
+.pcmt-terms-ov{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center}
+.pcmt-terms-box{background:#fff;border-radius:10px;max-width:420px;width:90%;padding:20px 22px;font-size:14px;line-height:1.8;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.pcmt-terms-box a{color:#3949ab;font-weight:bold}
+.pcmt-terms-btns{text-align:right;margin-top:14px}
+.pcmt-terms-btns button{margin-left:8px;padding:7px 16px;border:none;border-radius:6px;cursor:pointer;font-size:13px}
+.pcmt-terms-ok{background:#5a6acf;color:#fff}
+.pcmt-terms-cancel{background:#e0e0e0;color:#333}
+.pcmt-img-chips{display:none;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pcmt-img-chip{display:inline-flex;align-items:center;gap:4px;background:#eef1fb;border:1px solid #c5cae9;border-radius:14px;padding:2px 6px 2px 10px;font-size:12px;max-width:260px}
+.pcmt-img-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcmt-img-chip-x{border:none;background:none;color:#5a6acf;font-size:15px;cursor:pointer;padding:0 4px;line-height:1}
+.pcmt-tb-btn{width:32px;height:32px;padding:0;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#555;transition:all .15s}
+.pcmt-tb-btn:hover{background:#f5f5f5;border-color:#bbb}
+.pcmt-tb-btn.active{background:#e3f2fd;border-color:#4a90d9;color:#1976d2}
+
+/* カラーピッカー */
+.pcmt-color-picker{display:none;position:absolute;left:0;top:100%;margin-top:4px;width:260px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:9999;overflow:hidden}
+.pcmt-color-picker.show{display:block}
+.pcmt-cp-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #eee}
+.pcmt-cp-title{font-size:13px;font-weight:600;color:#333}
+.pcmt-cp-close{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:14px;color:#666}
+.pcmt-cp-close:hover{background:#eee}
+.pcmt-cp-colors{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:12px}
+.pcmt-cp-color{width:32px;height:32px;border:1px solid #ddd;border-radius:6px;cursor:pointer;transition:transform .1s,border-color .1s,box-shadow .1s}
+.pcmt-cp-color:hover{transform:scale(1.1);border-color:#999}
+.pcmt-cp-color.selected{border-color:#333;box-shadow:0 0 0 2px #fff,0 0 0 4px #333}
+.pcmt-cp-custom{display:flex;align-items:center;gap:8px;padding:0 12px 10px}
+.pcmt-cp-hex{width:90px;padding:6px 8px;border:1px solid #ddd;border-radius:4px;font-size:13px;font-family:monospace}
+.pcmt-cp-preview{width:32px;height:32px;border-radius:6px;border:1px solid #ddd}
+.pcmt-cp-actions{padding:10px 12px;border-top:1px solid #eee;text-align:right}
+.pcmt-cp-apply{padding:6px 16px;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
+.pcmt-cp-apply:hover{background:#3a7bc8}
+
+/* 文字サイズピッカー */
+.pcmt-size-picker{display:none;position:absolute;left:36px;top:100%;margin-top:4px;width:200px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:9999;overflow:hidden}
+.pcmt-size-picker.show{display:block}
+.pcmt-sp-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #eee}
+.pcmt-sp-title{font-size:13px;font-weight:600;color:#333}
+.pcmt-sp-close{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:14px;color:#666}
+.pcmt-sp-close:hover{background:#eee}
+.pcmt-sp-sizes{display:flex;flex-wrap:wrap;gap:6px;padding:12px}
+.pcmt-sp-size{min-width:36px;padding:6px 10px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;font-size:13px;text-align:center;transition:all .1s}
+.pcmt-sp-size:hover{background:#f5f5f5;border-color:#bbb}
+.pcmt-sp-size.selected{background:#e3f2fd;border-color:#4a90d9;color:#1976d2}
+.pcmt-sp-custom{display:flex;align-items:center;gap:6px;padding:0 12px 10px}
+.pcmt-sp-input{width:60px;padding:6px 8px;border:1px solid #ddd;border-radius:4px;font-size:13px;text-align:center}
+.pcmt-sp-unit{font-size:13px;color:#666}
+.pcmt-sp-preview{margin:0 12px 10px;padding:10px;background:#f9f9f9;border-radius:6px;text-align:center;transition:font-size .15s}
+.pcmt-sp-actions{padding:10px 12px;border-top:1px solid #eee;text-align:right}
+.pcmt-sp-apply{padding:6px 16px;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
+.pcmt-sp-apply:hover{background:#3a7bc8}
+
+/* レスポンシブ */
+@media(max-width:600px){
+.pcmt-name,.pcmt-msg{font-size:13px}
+.pcmt-input-area{display:block;width:100%;margin:6px 0}
+.pcmt-msg-wrap{display:block;width:100%}
+.pcmt-msg-wrap .pcmt-msg{width:100%}
+.pcmt-emoji-picker,.pcmt-color-picker,.pcmt-size-picker{width:calc(100vw - 32px);max-width:340px;left:0}
+.pcmt-size-picker{left:0}
+}
+</style>
+  <div id="pcomment-form">
+  <input type="hidden" name="digest" value="d0350dbc6fab6fe9d904a9bc405705bc" />
+  <input type="hidden" name="plugin" value="pcomment" />
+  <input type="hidden" name="refer"  value="ビートファインダー・フェリニ" />
+  <input type="hidden" name="page"   value="[[コメント/ビートファインダー・フェリニ]]" />
+  <input type="hidden" name="nodate" value="" />
+  <input type="hidden" name="dir"    value="1" />
+  <input type="hidden" name="count"  value="20" />
+  <input type="radio" name="reply" value="0" tabindex="0" checked="checked" /> お名前:  <input type="text" name="name" size="15" class="pcmt-name" /> <div class="pcmt-input-area"><span class="pcmt-msg-wrap pcmt-msg-wrap-ta"><textarea name="msg" id="pcmt_ff5cfe50_msg" rows="2" cols="45" class="pcomment-textarea pcmt-msg" placeholder=""></textarea><button type="button" class="pcmt-emoji-btn" id="pcmt_ff5cfe50_emoji_btn" title="絵文字">😀</button><div class="pcmt-emoji-picker" id="pcmt_ff5cfe50_picker"><div class="pcmt-ep-head"><input type="text" class="pcmt-ep-search" id="pcmt_ff5cfe50_search" placeholder="検索"><button type="button" class="pcmt-ep-close" id="pcmt_ff5cfe50_close">×</button></div><div class="pcmt-ep-cats" id="pcmt_ff5cfe50_cats"></div><div class="pcmt-ep-list" id="pcmt_ff5cfe50_list"></div><div class="pcmt-ep-recent-wrap" id="pcmt_ff5cfe50_recent_wrap"><div class="pcmt-ep-recent-title">最近使った</div><div class="pcmt-ep-recent" id="pcmt_ff5cfe50_recent"></div></div></div></span><div class="pcmt-toolbar" id="pcmt_ff5cfe50_toolbar"><button type="button" class="pcmt-tb-btn" id="pcmt_ff5cfe50_color_btn" title="文字色"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L12 14L15 3"/><path d="M5 21h14" stroke-width="3" stroke="#e53935"/></svg></button><div class="pcmt-color-picker" id="pcmt_ff5cfe50_color_picker"><div class="pcmt-cp-head"><span class="pcmt-cp-title">文字色</span><button type="button" class="pcmt-cp-close" id="pcmt_ff5cfe50_color_close">×</button></div><div class="pcmt-cp-colors" id="pcmt_ff5cfe50_colors"></div><div class="pcmt-cp-custom"><input type="text" class="pcmt-cp-hex" id="pcmt_ff5cfe50_hex" placeholder="#000000" maxlength="7"><div class="pcmt-cp-preview" id="pcmt_ff5cfe50_preview"></div></div><div class="pcmt-cp-actions"><button type="button" class="pcmt-cp-apply" id="pcmt_ff5cfe50_color_apply">適用</button></div></div><button type="button" class="pcmt-tb-btn" id="pcmt_ff5cfe50_size_btn" title="文字サイズ"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><text x="3" y="17" font-size="14" font-weight="bold" fill="currentColor" stroke="none">T</text><text x="14" y="20" font-size="10" fill="currentColor" stroke="none">T</text></svg></button><div class="pcmt-size-picker" id="pcmt_ff5cfe50_size_picker"><div class="pcmt-sp-head"><span class="pcmt-sp-title">文字サイズ</span><button type="button" class="pcmt-sp-close" id="pcmt_ff5cfe50_size_close">×</button></div><div class="pcmt-sp-sizes" id="pcmt_ff5cfe50_sizes"></div><div class="pcmt-sp-custom"><input type="number" class="pcmt-sp-input" id="pcmt_ff5cfe50_size_input" placeholder="px" min="8" max="48" value="16"><span class="pcmt-sp-unit">px</span></div><div class="pcmt-sp-preview" id="pcmt_ff5cfe50_size_preview">サンプル</div><div class="pcmt-sp-actions"><button type="button" class="pcmt-sp-apply" id="pcmt_ff5cfe50_size_apply">適用</button></div></div><button type="button" class="pcmt-tb-btn" id="pcmt_ff5cfe50_bold_btn" title="太字"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h6c2.2 0 4 1.8 4 4 0 1.5-.8 2.7-2 3.4 1.5.7 2.5 2.2 2.5 4.1 0 2.5-2 4.5-4.5 4.5H6V4zm3 3v4h3c1.1 0 2-.9 2-2s-.9-2-2-2H9zm0 7v4h3.5c1.4 0 2.5-1.1 2.5-2.5S13.9 14 12.5 14H9z"/></svg></button><button type="button" class="pcmt-tb-btn pcmt-img-btn" id="pcmt_ff5cfe50_img_btn" title="画像・動画を添付"><svg width="18" height="18" viewBox="0 0 24 24"><defs><clipPath id="pcmt_ff5cfe50_imgclip"><rect x="2" y="2" width="20" height="20" rx="3"/></clipPath></defs><rect x="2" y="2" width="20" height="20" rx="3" fill="#dbeafe"/><g clip-path="url(#pcmt_ff5cfe50_imgclip)"><circle cx="15.5" cy="8" r="2.6" fill="#f59e0b"/><path d="M2 22L9.5 11l4.5 6 3-3.5L22 22z" fill="#22a06b"/><path d="M9.5 11l4.5 6-2.2 2.6L6 22H2z" fill="#1a8a55" opacity=".55"/></g><rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="#93c5fd" stroke-width="1.5"/></svg></button><input type="file" id="pcmt_ff5cfe50_img_file" accept="image/jpeg,image/png,image/gif,image/webp,video/webm,video/mp4" style="display:none"></div></div>
+  <input type="submit" value="コメントの挿入" />
+
+<script type="text/javascript" src="skin/assistant.js"></script>
+<script>
+(function(){
+var fid="pcmt_ff5cfe50";
+var emojis={
+"😀":["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔"],
+"😢":["😢","😭","😤","😠","😡","🤬","😈","👿","💀","☠️","😱","😨","😰","😥","😓","🤥","😶","😐","😑","😬","🙄","😯","😦","😧","😮","😲","🥱","😴","🤤"],
+"👍":["👍","👎","👊","✊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","✍️","💪","👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆"],
+"❤️":["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟","♥️","🩷","🩵","🩶","💋","💯","💢","💥","💫","💦"],
+"🐶":["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐔","🐧","🐦","🐤","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🦋","🐌"],
+"🍎":["🍎","🍏","🍐","🍑","🍒","🍓","🫐","🥝","🍅","🥥","🥑","🍆","🥔","🥕","🌽","🌶️","🥒","🥬","🥦","🍄","🥜","🌰","🍞","🥐","🍕","🍔","🍟","🌭","🍜","🍣"],
+"⚽":["⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉","🎱","🏓","🏸","🏒","🥅","⛳","🎯","🎮","🎲","🎰","🎳","🎪","🎭","🎨","🎬","🎤","🎧","🎼","🎹","🎷","🎺","🎻"],
+"⭐":["⭐","🌟","✨","💫","🔥","💥","❄️","🌈","☀️","🌤️","⛅","☁️","🌧️","⛈️","🌩️","❗","❓","💲","©️","®️","™️","🔴","🟠","🟡","🟢","🔵","🟣","⚫","⚪","🟤"],
+"🎉":["🎉","🎊","🎈","🎁","🎀","🏆","🥇","🥈","🥉","🏅","🎖️","📢","📣","🔔","🔕","🎵","🎶","💤","💭","💬","👁️‍🗨️","🗯️","💡","🔍","🔎","🔒","🔓","🔑","🗝️","💰"]
+};
+var cats=Object.keys(emojis);
+var recent=[];try{recent=JSON.parse(localStorage.getItem("pcmt_emoji_recent"))||[];}catch(e){}
+function $(id){return document.getElementById(id);}
+var btn=$(fid+"_emoji_btn"),picker=$(fid+"_picker"),msg=$(fid+"_msg"),search=$(fid+"_search"),catsEl=$(fid+"_cats"),list=$(fid+"_list"),recentEl=$(fid+"_recent"),recentWrap=$(fid+"_recent_wrap"),closeBtn=$(fid+"_close");
+if(!btn||!picker||!msg)return;
+var curCat=cats[0];
+catsEl.innerHTML=cats.map(function(c,i){return "<button type=\"button\" class=\"pcmt-ep-cat"+(i===0?" active":"")+"\" data-cat=\""+c+"\">"+c+"</button>";}).join("");
+function render(f){var html="",arr=f?[].concat.apply([],cats.map(function(c){return emojis[c];})):emojis[curCat];arr.forEach(function(e){html+="<button type=\"button\" class=\"pcmt-ep-item\" data-e=\""+e+"\">"+e+"</button>";});list.innerHTML=html;}
+function renderRecent(){if(!recent.length){recentWrap.classList.remove("show");return;}recentWrap.classList.add("show");recentEl.innerHTML=recent.map(function(e){return "<button type=\"button\" class=\"pcmt-ep-item\" data-e=\""+e+"\">"+e+"</button>";}).join("");}
+function insertText(t){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value;msg.value=v.substring(0,s)+t+v.substring(e);msg.selectionStart=msg.selectionEnd=s+t.length;msg.focus();}
+function insert(e){insertText(e);recent=recent.filter(function(x){return x!==e;});recent.unshift(e);if(recent.length>12)recent=recent.slice(0,12);try{localStorage.setItem("pcmt_emoji_recent",JSON.stringify(recent));}catch(x){}renderRecent();}
+btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=picker.classList.contains("show");if(!open){picker.classList.add("show");btn.classList.add("active");search.value="";render();renderRecent();}};
+closeBtn.onclick=function(){picker.classList.remove("show");btn.classList.remove("active");};
+catsEl.onclick=function(ev){var t=ev.target;if(!t.classList.contains("pcmt-ep-cat"))return;curCat=t.getAttribute("data-cat");catsEl.querySelectorAll(".pcmt-ep-cat").forEach(function(b){b.classList.remove("active");});t.classList.add("active");search.value="";render();};
+list.onclick=function(ev){var e=ev.target.getAttribute("data-e");if(e)insert(e);};
+recentEl.onclick=function(ev){var e=ev.target.getAttribute("data-e");if(e)insert(e);};
+search.oninput=function(){render(search.value);};
+render();renderRecent();
+
+// カラーピッカー
+var colors=["#000000","#434343","#666666","#999999","#cccccc","#ffffff","#e53935","#d81b60","#8e24aa","#5e35b1","#3949ab","#1e88e5","#039be5","#00acc1","#00897b","#43a047","#7cb342","#c0ca33","#fdd835","#ffb300","#fb8c00","#f4511e","#6d4c41","#757575"];
+var colorBtn=$(fid+"_color_btn"),colorPicker=$(fid+"_color_picker"),colorsEl=$(fid+"_colors"),hexInput=$(fid+"_hex"),preview=$(fid+"_preview"),colorClose=$(fid+"_color_close"),colorApply=$(fid+"_color_apply");
+var selectedColor="#000000";
+if(colorBtn&&colorPicker){
+colorsEl.innerHTML=colors.map(function(c){return "<button type=\"button\" class=\"pcmt-cp-color\" data-c=\""+c+"\" style=\"background:"+c+"\"></button>";}).join("");
+preview.style.background=selectedColor;
+colorBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=colorPicker.classList.contains("show");if(!open){colorPicker.classList.add("show");colorBtn.classList.add("active");}};
+colorClose.onclick=function(){colorPicker.classList.remove("show");colorBtn.classList.remove("active");};
+colorsEl.onclick=function(ev){var c=ev.target.getAttribute("data-c");if(c){selectedColor=c;hexInput.value=c;preview.style.background=c;colorsEl.querySelectorAll(".pcmt-cp-color").forEach(function(b){b.classList.remove("selected");});ev.target.classList.add("selected");}};
+hexInput.oninput=function(){var v=hexInput.value;if(/^#[0-9A-Fa-f]{6}$/.test(v)){selectedColor=v;preview.style.background=v;colorsEl.querySelectorAll(".pcmt-cp-color").forEach(function(b){b.classList.remove("selected");});}};
+colorApply.onclick=function(){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"&color("+selectedColor+"){"+sel+"};":"&color("+selectedColor+"){};";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+tag.length-2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();colorPicker.classList.remove("show");colorBtn.classList.remove("active");};
+}
+
+// 文字サイズピッカー
+var sizes=[10,12,14,16,18];
+var sizeBtn=$(fid+"_size_btn"),sizePicker=$(fid+"_size_picker"),sizesEl=$(fid+"_sizes"),sizeInput=$(fid+"_size_input"),sizePreview=$(fid+"_size_preview"),sizeClose=$(fid+"_size_close"),sizeApply=$(fid+"_size_apply");
+var selectedSize=16;
+if(sizeBtn&&sizePicker){
+sizesEl.innerHTML=sizes.map(function(s){return "<button type=\"button\" class=\"pcmt-sp-size"+(s===16?" selected":"")+"\" data-s=\""+s+"\">"+s+"</button>";}).join("");
+sizePreview.style.fontSize=selectedSize+"px";
+sizeBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=sizePicker.classList.contains("show");if(!open){sizePicker.classList.add("show");sizeBtn.classList.add("active");}};
+sizeClose.onclick=function(){sizePicker.classList.remove("show");sizeBtn.classList.remove("active");};
+sizesEl.onclick=function(ev){var s=ev.target.getAttribute("data-s");if(s){selectedSize=parseInt(s);sizeInput.value=selectedSize;sizePreview.style.fontSize=selectedSize+"px";sizesEl.querySelectorAll(".pcmt-sp-size").forEach(function(b){b.classList.remove("selected");});ev.target.classList.add("selected");}};
+sizeInput.oninput=function(){var v=parseInt(sizeInput.value);if(v>=8&&v<=48){selectedSize=v;sizePreview.style.fontSize=v+"px";sizesEl.querySelectorAll(".pcmt-sp-size").forEach(function(b){b.classList.remove("selected");});}};
+sizeApply.onclick=function(){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"&size("+selectedSize+"){"+sel+"};":"&size("+selectedSize+"){};";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+tag.length-2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();sizePicker.classList.remove("show");sizeBtn.classList.remove("active");};
+}
+
+// 太字ボタン
+var boldBtn=$(fid+"_bold_btn");
+if(boldBtn){
+boldBtn.onclick=function(ev){ev.preventDefault();var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"''"+sel+"''":"''''";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();};
+}
+
+// 画像添付ボタン(投稿時アップロード方式)
+var imgBtn=$(fid+"_img_btn"),imgFile=$(fid+"_img_file");
+var IMG_UPLOAD_URL="https://upload.wikiru-cdn.com";
+var IMG_MAX_COUNT=4;
+if(imgBtn&&imgFile){
+var pendingImgs=[];
+var imgSeq=0;
+var imgTb=imgBtn.parentNode;
+var chips=document.createElement("div");
+chips.className="pcmt-img-chips";
+imgTb.parentNode.insertBefore(chips,imgTb.nextSibling);
+function tokenOf(n,v){return v?"[添付予定動画"+n+"]":"[添付予定画像"+n+"]";}
+function renderChips(){
+chips.innerHTML="";
+for(var i=0;i<pendingImgs.length;i++){(function(p){
+var c=document.createElement("span");c.className="pcmt-img-chip";
+var t=document.createElement("span");t.textContent=(p.v?"動画":"画像")+p.n+": "+p.file.name;c.appendChild(t);
+var x=document.createElement("button");x.type="button";x.className="pcmt-img-chip-x";x.textContent="\u00d7";x.title="この画像を取り消す";
+x.onclick=function(){removePending(p.n);};
+c.appendChild(x);chips.appendChild(c);
+})(pendingImgs[i]);}
+chips.style.display=pendingImgs.length?"flex":"none";
+}
+function removePending(n){
+var tk="";
+for(var i=0;i<pendingImgs.length;i++){if(pendingImgs[i].n===n){tk=tokenOf(n,pendingImgs[i].v);break;}}
+pendingImgs=pendingImgs.filter(function(p){return p.n!==n;});
+if(tk)msg.value=msg.value.split(tk).join("");
+renderChips();
+}
+imgBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();showImgTerms();};
+function showImgTerms(){
+var ov=document.createElement("div");ov.className="pcmt-terms-ov";
+ov.innerHTML='<div class="pcmt-terms-box"><p style="margin:0"><a href="https://upload.wikiru-cdn.com/" target="_blank" rel="noopener">wikiru画像アップローダー利用規約</a>を必ず確認の上、画像・動画のアップロードを行ってください。<br><span style="font-size:12px;color:#888">ファイルはコメント投稿時にアップロードされます。</span></p><div class="pcmt-terms-btns"><button type="button" class="pcmt-terms-cancel">キャンセル</button><button type="button" class="pcmt-terms-ok">確認しました</button></div></div>';
+document.body.appendChild(ov);
+ov.querySelector(".pcmt-terms-ok").onclick=function(){document.body.removeChild(ov);imgFile.click();};
+ov.querySelector(".pcmt-terms-cancel").onclick=function(){document.body.removeChild(ov);};
+ov.onclick=function(e){if(e.target===ov)document.body.removeChild(ov);};
+}
+imgFile.onchange=function(){
+var f=imgFile.files[0];
+imgFile.value="";
+if(!f)return;
+if(pendingImgs.length>=IMG_MAX_COUNT){alert("1回のコメントに添付できる画像・動画はあわせて"+IMG_MAX_COUNT+"件までです");return;}
+var isV=(f.type.indexOf("video/")===0)||/\.(webm|mp4|mov)$/i.test(f.name);
+var maxSz=isV?20*1024*1024:10*1024*1024;
+if(f.size>maxSz){alert(isV?"動画は20MBまでです":"画像は10MBまでです");return;}
+imgSeq++;
+pendingImgs.push({n:imgSeq,file:f,v:isV});
+insertText(tokenOf(imgSeq,isV));
+renderChips();
+};
+// コメント送信時にまとめてアップロードし、仮タグをURLに置換してから投稿
+var imgForm=msg.form;
+var imgBypass=false;
+if(imgForm){
+imgForm.addEventListener("submit",function(ev){
+var targets=pendingImgs.filter(function(p){return msg.value.indexOf(tokenOf(p.n,p.v))!==-1;});
+if(imgBypass||targets.length===0)return;
+ev.preventDefault();
+var submitter=ev.submitter||imgForm.querySelector("input[type=submit],button[type=submit]");
+var subs=imgForm.querySelectorAll("input[type=submit],button[type=submit]");
+for(var i=0;i<subs.length;i++)subs[i].disabled=true;
+imgBtn.classList.add("uploading");imgBtn.disabled=true;
+var idx=0;
+function imgFail(m){
+alert("画像のアップロードに失敗したため、コメントは投稿されていません: "+m);
+for(var i=0;i<subs.length;i++)subs[i].disabled=false;
+imgBtn.classList.remove("uploading");imgBtn.disabled=false;
+}
+function imgNext(){
+if(idx>=targets.length){
+imgBtn.classList.remove("uploading");imgBtn.disabled=false;
+pendingImgs=[];renderChips();
+imgBypass=true;
+if(submitter){submitter.disabled=false;submitter.click();}else{imgForm.submit();}
+return;
+}
+var p=targets[idx];
+var fd=new FormData();fd.append("image",p.file);
+fetch(IMG_UPLOAD_URL,{method:"POST",body:fd})
+.then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
+.then(function(res){
+if(res.ok&&res.d&&res.d.url){
+msg.value=msg.value.split(tokenOf(p.n,p.v)).join((p.v?"[[添付動画>":"[[添付画像>")+res.d.url+"]]");
+idx++;imgNext();
+}else{imgFail((res.d&&res.d.error)||"不明なエラー");}
+})
+.catch(function(e){imgFail("通信エラー");});
+}
+imgNext();
+});
+}
+}
+
+
+
+
+// 全ピッカーを閉じる
+function closeAllPickers(){
+document.querySelectorAll(".pcmt-emoji-picker.show,.pcmt-color-picker.show,.pcmt-size-picker.show").forEach(function(p){p.classList.remove("show");});
+document.querySelectorAll(".pcmt-emoji-btn.active,.pcmt-tb-btn.active").forEach(function(b){b.classList.remove("active");});
+}
+
+// 外側クリックで閉じる
+document.addEventListener("click",function(ev){
+var isInside=ev.target.closest(".pcmt-emoji-picker,.pcmt-color-picker,.pcmt-size-picker,.pcmt-emoji-btn,.pcmt-tb-btn");
+if(!isInside)closeAllPickers();
+});
+})();
+</script></div>
+		</form>
+
+</div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p><span style="font-size:20px;display:inline-block;line-height:130%;text-indent:0px"><span style="color:red"><strong>←板を利用する前にルールを必ずお読みください。</strong></span></span></p>
+</div><div class="rgn-content" style="display: none">
+<h3 id="content_13_0">ルールについて  <a class="anchor_super" id="e94fdca9" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#e94fdca9" title="e94fdca9">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=e94fdca9" title="Edit #e94fdca9"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #e94fdca9" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=e94fdca9" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<ul class="list1 list-indent1"><li>ページの編集を行った人に対して、文句を言ったり批判することを控えて下さい。他人の編集内容に意見がある方は、「対案を出す」あるいは「自ら編集を行う」など、建設的なコミュニケーションを取るようにしてください。</li>
+<li>外部サイト(ツイッター、Youtube、画像アップローダー等)のURLを貼る際は、URLの最後にスペースを入れてください。(スペースを入れないと正常に遷移しない可能性があります。)
+<pre>『http://yahoo.co.jp/　』</pre>
+<ul class="list2 list-indent1"><li>個人サイトなどリンクを無断に貼ることを禁止しているサイトのURLは掲載しないでください。</li></ul></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_13_1">ルール違反投稿について  <a class="anchor_super" id="gc9c8429" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#gc9c8429" title="gc9c8429">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=gc9c8429" title="Edit #gc9c8429"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #gc9c8429" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=gc9c8429" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>以下は荒れる原因となるので投稿自体を禁止とさせていただきます。</p>
+<ul class="list1 list-indent1"><li><strong>キャラに対する誹謗中傷・蔑称</strong>
+<ul class="list2 list-indent1"><li>キャラの性能を評価する発言(強い、弱い等)は許容しておりますが、言葉遣いに注意してください。例えば、「○○のスキルが弱くて使う価値なし、雑魚」といった発言は、性能評価とキャラの誹謗中傷を同時に行っており、ルール違反対象となります。他にも「ゴミ、産廃、ブス、ハズレ、使えない」といった類の暴言ワードも違反対象になります。また、「貧乳」といったワードは書き方によって暴言になったり、好意的な文になったりしますので、注意しましょう。</li></ul></li></ul>
+<ul class="list1 list-indent1"><li><strong>他者への誹謗中傷・喧嘩腰な書き込み</strong>
+<ul class="list2 list-indent1"><li>他者とは、当wikiを利用している人、公式運営、絵師、声優、現実に存在する個人、ツイッター民といったグループも含まれます。</li>
+<li>運営に対する投稿について、「ここを改善してくれたらいいのに」、「不具合を早く直して欲しい」、「メンテ長すぎるよ」といった、ユーザーの意見ととれる書き込みは許容しておりますが、汚い言葉を使って貶める行為は許容しておりません。</li>
+<li>議論や意見を言い合うことを「他者への誹謗中傷・喧嘩腰」と捉えるのは間違いです。しかし、議論や意見を言い合う中で、暴言を吐いたり、見下す態度をとったり、相手を挑発したり、明確な根拠なしに言いたいことを言う行為は違反に当たります。どのような場合においても言葉遣いには注意して発言しましょう。</li>
+<li>喧嘩腰な書き込みとは、「～しろよ、～やれよ。等の強い命令口調」「汚い言葉を使う」「見下す態度をとる」「挑発する」を指します。</li></ul></li></ul>
+<ul class="list1 list-indent1"><li><strong>本作のネガキャン</strong>
+<ul class="list2 list-indent1"><li>「まだこのゲームやってる人いるの？」「オワコンゲー」など現プレイヤーに不快な思いをさせる投稿を禁止します。ネガティブなことを一切言ってはいけないというわけではなく、ネガティブの範疇を超えた誹謗中傷と言える度が過ぎた投稿が対象となります。</li></ul></li></ul>
+<ul class="list1 list-indent1"><li><strong>他者のゲーム内ネーム、UIDを公開する晒し行為</strong></li>
+<li><strong>他サイト、アプリの宣伝・誹謗中傷</strong>
+<ul class="list2 list-indent1"><li>ただし、本作の攻略の助けとなる情報、動画の紹介は認めます。</li></ul></li>
+<li><strong>他アプリを引き合いに出すこと</strong></li>
+<li><strong>複数の板へのマルチポスト行為</strong></li>
+<li><strong>意味を成していない文字列の羅列による書き込み</strong></li>
+<li><strong>不正行為、バグ悪用に関する書き込み</strong></li>
+<li><strong>ルール違反投稿に対して返信すること</strong>
+<ul class="list2 list-indent1"><li><span style="color:#0000ff"><span style="font-size:20px;display:inline-block;line-height:130%;text-indent:0px"><strong>ルール違反投稿は無視することが一番</strong></span></span>です。相手の挑発に乗ったり、反論することがさらなる荒れに繋がります。</li></ul></li></ul>
+<p>※以上で示したルールのうち「誹謗中傷」とは、<strong>客観的な根拠なくそしり貶すこと</strong>を指します。批判的な文をいっしょくたに「誹謗中傷」と判断するのは誤りですので、注意してください。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_13_2">書き込みログの改変、削除について  <a class="anchor_super" id="k35e7437" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#k35e7437" title="k35e7437">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=k35e7437" title="Edit #k35e7437"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #k35e7437" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=k35e7437" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<ul class="list1 list-indent1"><li><strong>書き込みログを無断で改変、削除することを禁止します。</strong>
+<ul class="list2 list-indent1"><li>ただし、誤字・脱字・文字色の修正は認めます。(他者による善意の修正も認めます)</li>
+<li>例外として、自分の書き込みを自分で削除することを認めますが、削除後、<strong><a href="./?Wiki%E7%AE%A1%E7%90%86%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="Wiki管理掲示板" class="" data-mtime="">管理人</a></strong>にその旨を必ず報告してください。また、削除の際はコメントを丸ごと消すのではなく以下の文言に置き換えてください。
+<pre>&amp;color(#ff0000){''投稿者本人が削除しました''};</pre></li></ul></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_13_3">ルール違反投稿のコメントアウトについて  <a class="anchor_super" id="r6306277" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#r6306277" title="r6306277">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=r6306277" title="Edit #r6306277"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #r6306277" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=r6306277" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>上記のルール違反コメントは、管理人の許可なくコメントアウトすることを許可しています。<br />
+ただし、コメントアウトした際は、<strong><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></strong>で必ず報告するようにしてください。<br />
+報告の書式は、<strong><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></strong>のテンプレート通りにしてくたさい。</p>
+<ul class="list1 list-indent1"><li><strong><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></strong>に報告なくコメントアウトした投稿は復旧対象となり、コメントアウトした人物は処罰対象とさせていただきます。</li>
+<li>ルール違反投稿でないものを<strong><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></strong>に何度も報告する方は、独善的であると判断し、書き込み規制・編集規制を行わせていただきます。</li>
+<li><strong><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></strong>において、ルール違反とはいえない報告は管理人の判断で復旧することがあります。</li></ul>
+<p>重ねてのお願いになりますが、ルールに違反していないコメントをコメントアウトするのはお止めください。<br />
+(例えば、「ルールには違反していないが、荒らしであることは誰が見ても明らかといった主観的な判断」や、「イタズラ」、「木をまるごとコメントアウトする」など)</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_13_4">ルール違反ではないが「不愉快」な書き込みについて  <a class="anchor_super" id="c6412beb" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#c6412beb" title="c6412beb">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=c6412beb" title="Edit #c6412beb"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #c6412beb" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=c6412beb" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>不愉快な書き込みであっても、板のルールに抵触していなければコメントアウト対象ではありません。<br />
+人によって、不愉快に思う書き込みのボーダーは異なりますので、反論・煽りあいなどせず、<strong><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" title="コメント欄のNGID機能" class="" data-mtime="">NGID機能</a></strong>を使ってコメントを不可視にしてください。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_13_5">煽りは違反対象にならないの？  <a class="anchor_super" id="p760b53b" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#p760b53b" title="p760b53b">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=p760b53b" title="Edit #p760b53b"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #p760b53b" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=p760b53b" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>煽りは人によって、煽りと思う・思わないの差が大きいので、違反とはしていません。煽りだと思ったら<strong><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" title="コメント欄のNGID機能" class="" data-mtime="">NGID機能</a></strong>を使ってコメントを不可視にしてください。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_13_6">愚痴は違反対象にならないの？  <a class="anchor_super" id="i016b210" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#i016b210" title="i016b210">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=i016b210" title="Edit #i016b210"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #i016b210" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=i016b210" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>基本的に愚痴そのものを違反対象とはしていません。<br />
+ただし、本作のネガキャン、愚痴の範囲におさまらない誹謗中傷・暴言・喧嘩腰な投稿は違反対象となります。<br />
+愚痴が不快な方は、<strong><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" title="コメント欄のNGID機能" class="" data-mtime="">NGID機能</a></strong>を使ってコメントを不可視にしてください。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_13_7">ルール違反投稿であるかどうか判断に迷った時は？  <a class="anchor_super" id="g5f3e4c1" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#g5f3e4c1" title="g5f3e4c1">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=g5f3e4c1" title="Edit #g5f3e4c1"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #g5f3e4c1" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=g5f3e4c1" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>書き込みの中には、違反であるとも、違反ではないともいえるような判断に迷う投稿があります。<br />
+そのような微妙な投稿をコメントアウトするのはトラブルの元になるので、<br />
+コメントアウトをせず、<strong><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" title="コメント欄のNGID機能" class="" data-mtime="">NGID機能</a></strong>を使ってコメントを不可視にしてください。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_13_8">違反投稿を繰り返す行為に対する処罰  <a class="anchor_super" id="ifae91c6" href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB#ifae91c6" title="ifae91c6">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;id=ifae91c6" title="Edit #ifae91c6"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #ifae91c6" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%AE%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB&amp;anchor=ifae91c6" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>違反投稿を何度も繰り返したり、特に悪質な投稿に対しては、<br />
+管理人の判断で、「アクセス禁止」「投稿規制」といった処罰を行うことがあります。</p>
+<hr class="full_hr" />
+<p>さらによりよくするための提案等ありましたら、<strong><a href="./?Wiki%E7%AE%A1%E7%90%86%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">Wiki管理掲示板</a></strong>までご連絡をお願いいたします。</p>
+<div style="text-align:right">ルールの最終更新日時:2022-12-22 (木) 10:04:23</div>
+
+</div></div>
+</div>
+   <br>
+<div class="sticky-ads">
+<table>
+<tr>
+<td>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="1109012249"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+<td>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_2枠目_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="8922900187"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+</tr>
+</table>
+  </td>
+ </tr>
+</table>
+<p id="page-top"><a href="#wrap"><b><font size="7">↑</font></b></a></p>
+
+
+
+<hr class="full_hr" />
+<!-- Toolbar -->
+<div id="toolbar">
+ <a href="./"><img src="image/top.png" width="20" height="20" alt="トップ" title="トップ" /></a>
+ &nbsp;
+ 	<a href="./?cmd=edit&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/edit.png" width="20" height="20" alt="編集" title="編集" /></a>			<a href="./?cmd=freeze&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/freeze.png" width="20" height="20" alt="凍結" title="凍結" /></a>	  <a href="./?cmd=diff&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/diff.png" width="20" height="20" alt="差分" title="差分" /></a>	<a href="./?cmd=backup&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/backup.png" width="20" height="20" alt="バックアップ" title="バックアップ" /></a>			<a href="./?plugin=attach&amp;pcmd=upload&amp;page=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/file.png" width="20" height="20" alt="添付" title="添付" /></a>		<a href="./?plugin=template&amp;refer=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/copy.png" width="20" height="20" alt="複製" title="複製" /></a>	<a href="./?plugin=rename&amp;refer=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/rename.png" width="20" height="20" alt="名前変更" title="名前変更" /></a> <a href="./?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/reload.png" width="20" height="20" alt="リロード" title="リロード" /></a> &nbsp;
+	<a href="./?plugin=newpage&amp;refer=%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B"><img src="image/new.png" width="20" height="20" alt="新規" title="新規" /></a> <a href="./?cmd=list"><img src="image/list.png" width="20" height="20" alt="一覧" title="一覧" /></a> <a href="./?cmd=search"><img src="image/search.png" width="20" height="20" alt="検索" title="検索" /></a> <a href="./?RecentChanges"><img src="image/recentchanges.png" width="20" height="20" alt="最終更新" title="最終更新" /></a> &nbsp; <a href="./?Help"><img src="image/help.png" width="20" height="20" alt="ヘルプ" title="ヘルプ" /></a> &nbsp; <a href="./?cmd=rss&amp;ver=1.0"><img src="image/rss.png" width="36" height="14" alt="最終更新のRSS" title="最終更新のRSS" /></a></div>
+
+<div id="lastmodified">Last-modified: 2026-05-27 (水) 01:10:02<span class="page_passage" data-mtime="2026-05-27T01:10:02+09:00"></span></div>
+
+
+<script>
+/* double post */
+$(function () { $("div.pcomment form").submit(function () { $(this).find(':submit').attr('disabled', 'disabled'); }); }); 
+</script>
+<div id="footer">
+運営中のwiki一覧: <a href="https://bungo.wikiru.jp/" class="exclude-icon">文豪とアルケミスト(文アル)攻略 Wiki</a> | <a href="https://otogi.wikiru.jp/" class="exclude-icon">オトギフロンティア(オトフロ)攻略 Wiki</a> | <a href="https://azurlane.wikiru.jp/" class="exclude-icon">アズールレーン(アズレン)攻略 Wiki</a> | <a href="https://taimanin-rpg.wikiru.jp/" class="exclude-icon">対魔忍RPG攻略 Wiki</a> | <a href="https://arknights.wikiru.jp/" class="exclude-icon">アークナイツ攻略 Wiki</a> | <a href="https://langrisser.wikiru.jp/" class="exclude-icon">ラングリッサーモバイル攻略 Wiki</a> | <a href="https://artwhirl.wikiru.jp/" class="exclude-icon">アートワール攻略 Wiki</a> | <a href="https://ayarabu.wikiru.jp/" class="exclude-icon">あやかしランブル！(あやらぶ)攻略 Wiki</a> | <a href="https://twst.wikiru.jp/" class="exclude-icon">ツイステッドワンダーランド(ツイステ)攻略 Wiki</a> | <a href="https://detarikiz.wikiru.jp/" class="exclude-icon">デタリキZ攻略 Wiki</a> | <a href="https://tonofura.wikiru.jp/" class="exclude-icon">Deep One 虚無と夢幻のフラグメント攻略Wiki</a> | <a href="https://bluearchive.wikiru.jp/" class="exclude-icon">ブルーアーカイブ（ブルアカ）攻略 Wiki</a> | <a href="https://misttraingirls.wikiru.jp/" class="exclude-icon">ミストトレインガールズ攻略 Wiki</a>  | <a href="https://escalationheroines.wikiru.jp/" class="exclude-icon">超昂大戦エスカレーションヒロインズ攻略 Wiki</a> | <a href="https://minashigo.wikiru.jp/" class="exclude-icon">ミナシゴノシゴト攻略 Wiki</a> | <a href="https://edensgrenze.wikiru.jp/" class="exclude-icon">エデンズリッターグレンツェ攻略 Wiki</a> | <a href="https://senkoi.wikiru.jp/" class="exclude-icon">戦国†恋姫オンライン～奥宴新史～攻略 Wiki</a> | <a href="https://umamusume.wikiru.jp/" class="exclude-icon">ウマ娘 プリティダービー 攻略 Wiki</a> | <a href="https://angelic.wikiru.jp/" class="exclude-icon">エンジェリックリンク（エンクリ）攻略 Wiki</a> | <a href="https://neural-cloud.wikiru.jp/" class="exclude-icon">ニューラルクラウド攻略 Wiki</a> | <a href="https://legeclo.wikiru.jp/" class="exclude-icon">れじぇくろ！ ～レジェンド・クローバー～攻略 Wiki</a> | <a href="https://tenkafuma.wikiru.jp/" class="exclude-icon">天下布魔攻略 Wiki</a> | <a href="https://sugarconflict.wikiru.jp/" class="exclude-icon">シュガーコンフリクト（シュガコン）攻略 Wiki</a> | <a href="https://monmusu-td.wikiru.jp/" class="exclude-icon">モンスター娘TD攻略 Wiki</a> | <a href="https://tenkei-paradox.wikiru.jp/" class="exclude-icon">天啓パラドクス(テンパラ)攻略 Wiki</a> | <a href="https://crimson-youmataisen.wikiru.jp/" class="exclude-icon">クリムゾン妖魔大戦攻略 Wiki</a> | <a href="https://arknights-endfield.wikiru.jp/" class="exclude-icon">アークナイツ エンドフィールド攻略 Wiki</a> | <a href="https://dollsfrontline2.wikiru.jp/" class="exclude-icon">ドールズフロントライン2：エクシリウム攻略 Wiki</a> | <a href="https://v-rising.wikiru.jp/" class="exclude-icon">V Rising日本語攻略 Wiki</a> | <a href="https://nikke.wikiru.jp/" class="exclude-icon">勝利の女神：NIKKE攻略 Wiki</a> | <a href="https://dolphin-wave.wikiru.jp/" class="exclude-icon">ドルフィンウェーブ（ドルウェブ）攻略Wiki</a> | <a href="https://jewel-reincarnation.wikiru.jp/" class="exclude-icon">宝石姫 Reincarnation攻略Wiki</a> | <a href="https://alliancesages.wikiru.jp/" class="exclude-icon">アライアンスセージ攻略Wiki</a> | <a href="https://cravesaga.wikiru.jp/" class="exclude-icon">クレイヴ・サーガ（クレサガ）攻略Wiki</a> | <a href="https://aethergazer.wikiru.jp/" class="exclude-icon">エーテルゲイザー攻略Wiki</a> | <a href="https://twinklestarknights.wikiru.jp/" class="exclude-icon">ティンクルスターナイツ（クルスタ）攻略Wiki</a> | <a href="https://reverse1999.wikiru.jp/" class="exclude-icon">リバース：1999攻略Wiki</a> | <a href="https://kfk.wikiru.jp/" class="exclude-icon">Kemono Friends：Kingdom Wiki</a> | <a href="https://snowbreak.wikiru.jp/" class="exclude-icon">スノウブレイク 攻略 Wiki</a> | <a href="https://honeycome.wikiru.jp/" class="exclude-icon">ハニカム 攻略wiki</a> | <a href="https://girlscreation.wikiru.jp/" class="exclude-icon">ガールズクリエイション（ガークリ）攻略 Wiki</a> | <a href="https://sweethomemaid.wikiru.jp/" class="exclude-icon">スイートホームメイド攻略 Wiki</a> | <a href="https://modernwarships.wikiru.jp/" class="exclude-icon">Modern Warships 攻略 Wiki</a> | <a href="https://ashechoes.wikiru.jp/" class="exclude-icon">アッシュエコーズ-白荊回廊-攻略 Wiki</a> | <a href="https://lilyange.wikiru.jp/" class="exclude-icon">りりぃあんじぇ（りりあん） 攻略Wiki</a> | <a href="https://unlightrevive.wikiru.jp/" class="exclude-icon">UNLIGHT：Revive 攻略Wiki</a> | <a href="https://azurpromilia.wikiru.jp/" class="exclude-icon">アズールプロミリア 有志Wiki</a> | <a href="https://sakurazimarpfer.wikiru.jp/" class="exclude-icon">桜島RPサーバーWiki</a> | <a href="https://madisland.wikiru.jp/" class="exclude-icon">Mad Island 攻略Wiki</a> | <a href="https://tenshoku-maou.wikiru.jp/" class="exclude-icon">転職魔王～リストラ勇者のお仕置きセレナーデ～ 攻略Wiki</a> | <a href="https://svs.wikiru.jp/" class="exclude-icon">サマバケ！すくらんぶる 攻略wiki</a> | <a href="https://orisries.wikiru.jp/" class="exclude-icon">オリスライズ 攻略wiki</a> | <a href="https://noctilucent.wikiru.jp/" class="exclude-icon">ノクティルセント：暁の前に 攻略Wiki</a> | <a href="https://suzuran.wikiru.jp/" class="exclude-icon">鈴蘭の剣攻略Wiki</a> | <a href="https://rebgil.wikiru.jp/" class="exclude-icon">リベリオン ギルガメッシュ（リベガメ）攻略Wiki</a> | <a href="https://donguri.wikiru.jp/" class="exclude-icon">5chどんぐり非公式まとめwiki</a> | <a href="https://mugenrou.wikiru.jp/" class="exclude-icon">夢幻楼と眠れぬ蝶 攻略Wiki</a> | <a href="https://resonance.wikiru.jp/" class="exclude-icon">レゾナンス：無限号列車 攻略 Wiki</a> | <a href="https://vtuber-database.wikiru.jp/" class="exclude-icon">Vtuber総合データベースwiki</a> | <a href="https://aigiscenario.wikiru.jp/" class="exclude-icon">千年戦争アイギスシナリオwiki</a> | <a href="https://angelica-aster.wikiru.jp/" class="exclude-icon">ANGELICA ASTER 攻略Wiki</a> | <a href="https://elins-inn.wikiru.jp/" class="exclude-icon">Elin 攻略有志wiki</a> | <a href="https://karin-lk.wikiru.jp/" class="exclude-icon">魔王カリンちゃんRPG ～恋姫建国奔走記～攻略 Wiki</a> | <a href="https://etechrore.wikiru.jp/" class="exclude-icon">エタクロニクル：Re攻略考察wiki</a> | <a href="https://touhou-dm.wikiru.jp/" class="exclude-icon">東方ダンジョンメーカー攻略wiki</a> | <a href="https://dnabyss.wikiru.jp/" class="exclude-icon">デュエットナイトアビス(二重螺旋)攻略 Wiki</a> | <a href="https://madodra.wikiru.jp/" class="exclude-icon">魔法少女まどか☆マギカ Magia Exedra（まどドラ）攻略有志Wiki</a> | <a href="https://touhounomeikyuu-tri.wikiru.jp/" class="exclude-icon">東方の迷宮Tri 夢見る乙女と神秘の宝珠 攻略有志Wiki</a> | <a href="https://siprj.wikiru.jp/" class="exclude-icon">STELLAR IDOL PROJECT（ステラP）攻略Wiki</a> | <a href="https://adult-seiyu.wikiru.jp/" class="exclude-icon">エロゲー・エロアニメ声優総合Wiki</a> | <a href="https://stellasora.wikiru.jp/" class="exclude-icon">ステラソラ攻略有志 Wiki</a> | <a href="https://muvluv-girls-garden.wikiru.jp/" class="exclude-icon">マブラヴ ガールズガーデン攻略 Wiki</a> | <a href="https://horizon-walker.wikiru.jp/" class="exclude-icon">ホライゾンウォーカー攻略 Wiki</a> | <a href="https://reet.wikiru.jp/" class="exclude-icon">エターナルツリー新生(REエタツリ)攻略 Wiki</a> | <a href="https://aicomi.wikiru.jp/" class="exclude-icon">アイコミ 攻略wiki</a> | <a href="https://kaiitoumetsutan-trpg.wikiru.jp/" class="exclude-icon">TRPG怪異討滅譚5版対応Wiki</a> | <a href="https://koihime-taisen.wikiru.jp/" class="exclude-icon">恋姫大戦 攻略Wiki</a> | <a href="https://techcronoss.wikiru.jp/" class="exclude-icon">テクロノス攻略 Wiki</a> | <a href="https://taimaninsquad.wikiru.jp/" class="exclude-icon">対魔忍スクワッド攻略 Wiki</a> | <a href="https://bloxd.wikiru.jp/" class="exclude-icon">bloxd攻略 Wiki</a> | <a href="https://rlyehshoujotai.wikiru.jp/" class="exclude-icon">邪神戦記ルルイエ少女隊攻略 Wiki</a> | <a href="https://killer-inn.wikiru.jp/" class="exclude-icon">キラーイン攻略 Wiki</a> | <a href="https://acacia.wikiru.jp/" class="exclude-icon">Acacia総合有志wiki</a> | <a href="https://drapline.wikiru.jp/" class="exclude-icon">DRAPLINE攻略 Wiki</a> | <a href="https://rezoriri.wikiru.jp/" class="exclude-icon">レゾナンスリリウム（レゾリリ）攻略 Wiki</a> | <a href="https://dotabyss.wikiru.jp/" class="exclude-icon">ドットアビスX攻略 Wiki</a> | <a href="https://astraeoratio.wikiru.jp/" class="exclude-icon">アストラエ・オラティオ（アスオラ）攻略 Wiki</a><br><br>
+ Site admin: <a href="https://escalationheroines.wikiru.jp/script/mailform/escalationheroines/">超昂大戦エスカレーションヒロインズ攻略 Wiki管理人</a><br>
+ <a href="https://wikiru.jp/">無料レンタルwiki by wikiru.jp</a><br>
+ <p>
+ <strong>PukiWiki 1.5.2</strong> &copy; 2001-2024 .
+ Powered by PHP 7.4.33. HTML convert time: 0.090 sec.
+ </p>
+<a href="https://greasyfork.org/ja/scripts/393034" class="exclude-icon">wikiru.jp コメントあぼーん</a> Copyright © 2017 Shikikan. License is <a href="https://www.apache.org/licenses/LICENSE-2.0" class="exclude-icon">Apache License 2.0</a><br>
+<a href="https://wikiru.jp/privacypolicy.html">wikiru.jpのプライバシーポリシー</a> | <a href="https://wikiru.jp/emergency_support.html">wikiru.jp運営の緊急サポートについて</a>
+</div>
+</div>
+<script type="text/javascript" src="skin/modalAnimation.js?1"></script>
+<script type="text/javascript" src="skin/modal.js?111"></script>
+</body>
+</html>

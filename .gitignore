@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 密钥与环境
+.env
+
+# Node / 构建产物
+site/node_modules/
+site/.vitepress/dist/
+site/.vitepress/cache/
+site/.vitepress/frag/
+
+# 日志
+data/logs/
+
+# OS
+Thumbs.db
+
+# 生成层 / 大体积下载资产（均可由流水线重建，不入库）
+data/assets/img/
+data/parsed/
+site/public/
+site/**/*.md
+recycle_bin/
+.vscode/

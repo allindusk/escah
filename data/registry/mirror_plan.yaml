@@ -1,0 +1,1267 @@
+planned: []
+mirrored:
+  ゲームガイド:
+  - name: 序盤の手引き
+    slug: getting-started
+    url: https://escalationheroines.wikiru.jp/?%E5%BA%8F%E7%9B%A4%E3%81%AE%E6%89%8B%E5%BC%95%E3%81%8D
+  - name: よくある質問
+    slug: faq
+    url: https://escalationheroines.wikiru.jp/?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F
+  - name: 小ネタ・小ワザ集
+    slug: tips-tricks
+    url: https://escalationheroines.wikiru.jp/?%E5%B0%8F%E3%83%8D%E3%82%BF%E3%83%BB%E5%B0%8F%E3%83%AF%E3%82%B6%E9%9B%86
+  - name: ガチャ
+    slug: gacha
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AC%E3%83%81%E3%83%A3
+  キャラクター一覧:
+  - name: キャラクター一覧
+    slug: characters
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7
+  - name: 必殺技一覧
+    slug: skills
+    url: https://escalationheroines.wikiru.jp/?%E5%BF%85%E6%AE%BA%E6%8A%80%E4%B8%80%E8%A6%A7
+  - name: 固有効果一覧
+    slug: unique-effects
+    url: https://escalationheroines.wikiru.jp/?%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C%E4%B8%80%E8%A6%A7
+  - name: 絞り込めるカテゴリ一覧
+    slug: special-attributes
+    url: https://escalationheroines.wikiru.jp/?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7
+  - name: 原画別索引
+    slug: artists
+    url: https://escalationheroines.wikiru.jp/?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95
+  - name: CV一覧
+    slug: voice-actors
+    url: https://escalationheroines.wikiru.jp/?CV%E4%B8%80%E8%A6%A7
+  - name: 実装履歴
+    slug: release-history
+    url: https://escalationheroines.wikiru.jp/?%E5%AE%9F%E8%A3%85%E5%B1%A5%E6%AD%B4
+  - name: 寝室シーン一覧
+    slug: bedroom-scenes
+    url: https://escalationheroines.wikiru.jp/?%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7
+  キャラクター一覧SSR:
+  - name: エスカレイヤー
+    slug: characters/エスカレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: 閃忍ハルカ
+    slug: characters/閃忍ハルカ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%AB%E3%82%AB
+  - name: 閃忍ナリカ
+    slug: characters/閃忍ナリカ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8A%E3%83%AA%E3%82%AB
+  - name: 神騎エクシール
+    slug: characters/神騎エクシール
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB
+  - name: 火のゴウカ
+    slug: characters/火のゴウカ
+    url: https://escalationheroines.wikiru.jp/?%E7%81%AB%E3%81%AE%E3%82%B4%E3%82%A6%E3%82%AB
+  - name: 鬼の斗羽大洋
+    slug: characters/鬼の斗羽大洋
+    url: https://escalationheroines.wikiru.jp/?%E9%AC%BC%E3%81%AE%E6%96%97%E7%BE%BD%E5%A4%A7%E6%B4%8B
+  - name: 七の賢腕シャムエル
+    slug: characters/七の賢腕シャムエル
+    url: https://escalationheroines.wikiru.jp/?%E4%B8%83%E3%81%AE%E8%B3%A2%E8%85%95%E3%82%B7%E3%83%A3%E3%83%A0%E3%82%A8%E3%83%AB
+  - name: 八の闇刃ラブディエル
+    slug: characters/八の闇刃ラブディエル
+    url: https://escalationheroines.wikiru.jp/?%E5%85%AB%E3%81%AE%E9%97%87%E5%88%83%E3%83%A9%E3%83%96%E3%83%87%E3%82%A3%E3%82%A8%E3%83%AB
+  - name: マドカ・アサルト
+    slug: characters/マドカ・アサルト
+    url: https://escalationheroines.wikiru.jp/?%E3%83%9E%E3%83%89%E3%82%AB%E3%83%BB%E3%82%A2%E3%82%B5%E3%83%AB%E3%83%88
+  - name: ビートアイドル・マリナ
+    slug: characters/ビートアイドル・マリナ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%9E%E3%83%AA%E3%83%8A
+  - name: 聖夜ハルカ
+    slug: characters/聖夜ハルカ
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%83%8F%E3%83%AB%E3%82%AB
+  - name: 六の法杖セラフィール
+    slug: characters/六の法杖セラフィール
+    url: https://escalationheroines.wikiru.jp/?%E5%85%AD%E3%81%AE%E6%B3%95%E6%9D%96%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB
+  - name: 正月エスカ・ルビー
+    slug: characters/正月エスカ・ルビー
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC
+  - name: 九の護銃メイファール
+    slug: characters/九の護銃メイファール
+    url: https://escalationheroines.wikiru.jp/?%E4%B9%9D%E3%81%AE%E8%AD%B7%E9%8A%83%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB
+  - name: 三の裁刀イザナエル
+    slug: characters/三の裁刀イザナエル
+    url: https://escalationheroines.wikiru.jp/?%E4%B8%89%E3%81%AE%E8%A3%81%E5%88%80%E3%82%A4%E3%82%B6%E3%83%8A%E3%82%A8%E3%83%AB
+  - name: ビートアンスキルド・カナミ
+    slug: characters/ビートアンスキルド・カナミ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%B3%E3%82%B9%E3%82%AD%E3%83%AB%E3%83%89%E3%83%BB%E3%82%AB%E3%83%8A%E3%83%9F
+  - name: バレンタインエスカ・アメイズ
+    slug: characters/バレンタインエスカ・アメイズ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA
+  - name: バレンタインナリカ
+    slug: characters/バレンタインナリカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8A%E3%83%AA%E3%82%AB
+  - name: 閃忍スバル
+    slug: characters/閃忍スバル
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%B9%E3%83%90%E3%83%AB
+  - name: 血の切裂余命
+    slug: characters/血の切裂余命
+    url: https://escalationheroines.wikiru.jp/?%E8%A1%80%E3%81%AE%E5%88%87%E8%A3%82%E4%BD%99%E5%91%BD
+  - name: 剛毅のレヴィ
+    slug: characters/剛毅のレヴィ
+    url: https://escalationheroines.wikiru.jp/?%E5%89%9B%E6%AF%85%E3%81%AE%E3%83%AC%E3%83%B4%E3%82%A3
+  - name: ビートクワィエット・シヅカ
+    slug: characters/ビートクワィエット・シヅカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%AF%E3%83%AF%E3%82%A3%E3%82%A8%E3%83%83%E3%83%88%E3%83%BB%E3%82%B7%E3%83%85%E3%82%AB
+  - name: 神騎キリエル
+    slug: characters/神騎キリエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: 皇帝のニル
+    slug: characters/皇帝のニル
+    url: https://escalationheroines.wikiru.jp/?%E7%9A%87%E5%B8%9D%E3%81%AE%E3%83%8B%E3%83%AB
+  - name: ブライド・エスカレイヤー
+    slug: characters/ブライド・エスカレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: 四の狩斧ゼブリエル
+    slug: characters/四の狩斧ゼブリエル
+    url: https://escalationheroines.wikiru.jp/?%E5%9B%9B%E3%81%AE%E7%8B%A9%E6%96%A7%E3%82%BC%E3%83%96%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: ビートフーマン・ツクモ
+    slug: characters/ビートフーマン・ツクモ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%83%BC%E3%83%9E%E3%83%B3%E3%83%BB%E3%83%84%E3%82%AF%E3%83%A2
+  - name: 魔術師のルカ
+    slug: characters/魔術師のルカ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E8%A1%93%E5%B8%AB%E3%81%AE%E3%83%AB%E3%82%AB
+  - name: 神騎ブロクミエル
+    slug: characters/神騎ブロクミエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%96%E3%83%AD%E3%82%AF%E3%83%9F%E3%82%A8%E3%83%AB
+  - name: 風のフウカ
+    slug: characters/風のフウカ
+    url: https://escalationheroines.wikiru.jp/?%E9%A2%A8%E3%81%AE%E3%83%95%E3%82%A6%E3%82%AB
+  - name: 真夏のエクシール
+    slug: characters/真夏のエクシール
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB
+  - name: 花のチルカ
+    slug: characters/花のチルカ
+    url: https://escalationheroines.wikiru.jp/?%E8%8A%B1%E3%81%AE%E3%83%81%E3%83%AB%E3%82%AB
+  - name: エスカレイヤー・リバース
+    slug: characters/エスカレイヤー・リバース
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9
+  - name: 節制のクラリス
+    slug: characters/節制のクラリス
+    url: https://escalationheroines.wikiru.jp/?%E7%AF%80%E5%88%B6%E3%81%AE%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9
+  - name: 死神のストナ
+    slug: characters/死神のストナ
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%BB%E7%A5%9E%E3%81%AE%E3%82%B9%E3%83%88%E3%83%8A
+  - name: 二の聖剣ミカフィール
+    slug: characters/二の聖剣ミカフィール
+    url: https://escalationheroines.wikiru.jp/?%E4%BA%8C%E3%81%AE%E8%81%96%E5%89%A3%E3%83%9F%E3%82%AB%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB
+  - name: 神騎ミモザ
+    slug: characters/神騎ミモザ
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%9F%E3%83%A2%E3%82%B6
+  - name: 五の魅琴マリエル
+    slug: characters/五の魅琴マリエル
+    url: https://escalationheroines.wikiru.jp/?%E4%BA%94%E3%81%AE%E9%AD%85%E7%90%B4%E3%83%9E%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: ビートドラグーン・アカネ
+    slug: characters/ビートドラグーン・アカネ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D
+  - name: ビートアイドル・クミコ
+    slug: characters/ビートアイドル・クミコ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%9F%E3%82%B3
+  - name: エンジェリック・エスカレイヤー
+    slug: characters/エンジェリック・エスカレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AA%E3%83%83%E3%82%AF%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: ハルカ・リバース
+    slug: characters/ハルカ・リバース
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AB%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9
+  - name: 聖夜こもり
+    slug: characters/聖夜こもり
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%81%93%E3%82%82%E3%82%8A
+  - name: 聖夜エスカ・トパーズ
+    slug: characters/聖夜エスカ・トパーズ
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA
+  - name: ビートソニック・アキレス
+    slug: characters/ビートソニック・アキレス
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%BD%E3%83%8B%E3%83%83%E3%82%AF%E3%83%BB%E3%82%A2%E3%82%AD%E3%83%AC%E3%82%B9
+  - name: ビートマルス・ケンシン
+    slug: characters/ビートマルス・ケンシン
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%9E%E3%83%AB%E3%82%B9%E3%83%BB%E3%82%B1%E3%83%B3%E3%82%B7%E3%83%B3
+  - name: 正月エスカ・サファイア
+    slug: characters/正月エスカ・サファイア
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2
+  - name: 正月キリエル
+    slug: characters/正月キリエル
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: バレンタインショウコ
+    slug: characters/バレンタインショウコ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%A7%E3%82%A6%E3%82%B3
+  - name: バレンタインハルカ
+    slug: characters/バレンタインハルカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8F%E3%83%AB%E3%82%AB
+  - name: エスカルビー・アステライズ
+    slug: characters/エスカルビー・アステライズ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AB%E3%83%93%E3%83%BC%E3%83%BB%E3%82%A2%E3%82%B9%E3%83%86%E3%83%A9%E3%82%A4%E3%82%BA
+  - name: 閃忍ニャンコ
+    slug: characters/閃忍ニャンコ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3
+  - name: 狂の秋道姫路
+    slug: characters/狂の秋道姫路
+    url: https://escalationheroines.wikiru.jp/?%E7%8B%82%E3%81%AE%E7%A7%8B%E9%81%93%E5%A7%AB%E8%B7%AF
+  - name: ビートデュアル・ハート
+    slug: characters/ビートデュアル・ハート
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%87%E3%83%A5%E3%82%A2%E3%83%AB%E3%83%BB%E3%83%8F%E3%83%BC%E3%83%88
+  - name: ビートスナイパー・エイム
+    slug: characters/ビートスナイパー・エイム
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B9%E3%83%8A%E3%82%A4%E3%83%91%E3%83%BC%E3%83%BB%E3%82%A8%E3%82%A4%E3%83%A0
+  - name: 魔女ヤブルー
+    slug: characters/魔女ヤブルー
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC
+  - name: 魔女プカルル
+    slug: characters/魔女プカルル
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%97%E3%82%AB%E3%83%AB%E3%83%AB
+  - name: 運命のイーイー
+    slug: characters/運命のイーイー
+    url: https://escalationheroines.wikiru.jp/?%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC
+  - name: ビートウィザード・リリアム
+    slug: characters/ビートウィザード・リリアム
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A6%E3%82%A3%E3%82%B6%E3%83%BC%E3%83%89%E3%83%BB%E3%83%AA%E3%83%AA%E3%82%A2%E3%83%A0
+  - name: ビートエンジェル・エクシレイヤー
+    slug: characters/ビートエンジェル・エクシレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AB%E3%83%BB%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: 一の神鍵アズエル
+    slug: characters/一の神鍵アズエル
+    url: https://escalationheroines.wikiru.jp/?%E4%B8%80%E3%81%AE%E7%A5%9E%E9%8D%B5%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB
+  - name: 神騎セリカエル
+    slug: characters/神騎セリカエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%BB%E3%83%AA%E3%82%AB%E3%82%A8%E3%83%AB
+  - name: ブライド・アヤカ
+    slug: characters/ブライド・アヤカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A2%E3%83%A4%E3%82%AB
+  - name: 閃忍イノリ
+    slug: characters/閃忍イノリ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%A4%E3%83%8E%E3%83%AA
+  - name: 閃忍ライカ
+    slug: characters/閃忍ライカ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A9%E3%82%A4%E3%82%AB
+  - name: ブライドエスカ・アメイズ
+    slug: characters/ブライドエスカ・アメイズ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA
+  - name: ブライド・ニル
+    slug: characters/ブライド・ニル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%8B%E3%83%AB
+  - name: 魔女クルル
+    slug: characters/魔女クルル
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%AF%E3%83%AB%E3%83%AB
+  - name: 真夏のカペラ
+    slug: characters/真夏のカペラ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%AB%E3%83%9A%E3%83%A9
+  - name: ビートアイドル・メグミ
+    slug: characters/ビートアイドル・メグミ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%A1%E3%82%B0%E3%83%9F
+  - name: 真夏のシズカ
+    slug: characters/真夏のシズカ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%B7%E3%82%BA%E3%82%AB
+  - name: 真夏のチルカ
+    slug: characters/真夏のチルカ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%81%E3%83%AB%E3%82%AB
+  - name: 真夏のナリカ
+    slug: characters/真夏のナリカ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8A%E3%83%AA%E3%82%AB
+  - name: 神騎アスマール
+    slug: characters/神騎アスマール
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%A2%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%AB
+  - name: 閃忍リコリス
+    slug: characters/閃忍リコリス
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%AA%E3%82%B3%E3%83%AA%E3%82%B9
+  - name: 神騎レグルス
+    slug: characters/神騎レグルス
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%AC%E3%82%B0%E3%83%AB%E3%82%B9
+  - name: ビートスカルプター・サテラ
+    slug: characters/ビートスカルプター・サテラ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B9%E3%82%AB%E3%83%AB%E3%83%97%E3%82%BF%E3%83%BC%E3%83%BB%E3%82%B5%E3%83%86%E3%83%A9
+  - name: ビートビジョン・リズナ
+    slug: characters/ビートビジョン・リズナ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%93%E3%82%B8%E3%83%A7%E3%83%B3%E3%83%BB%E3%83%AA%E3%82%BA%E3%83%8A
+  - name: ビートブレイカー・ユイ
+    slug: characters/ビートブレイカー・ユイ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%96%E3%83%AC%E3%82%A4%E3%82%AB%E3%83%BC%E3%83%BB%E3%83%A6%E3%82%A4
+  - name: 酒のちいちゃん
+    slug: characters/酒のちいちゃん
+    url: https://escalationheroines.wikiru.jp/?%E9%85%92%E3%81%AE%E3%81%A1%E3%81%84%E3%81%A1%E3%82%83%E3%82%93
+  - name: ハロウィンアカネ
+    slug: characters/ハロウィンアカネ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AB%E3%83%8D
+  - name: ハロウィンアキエ
+    slug: characters/ハロウィンアキエ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AD%E3%82%A8
+  - name: 閃忍ムツカ
+    slug: characters/閃忍ムツカ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A0%E3%83%84%E3%82%AB
+  - name: 超昂閃忍ハルカ
+    slug: characters/超昂閃忍ハルカ
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%AB%E3%82%AB
+  - name: 超昂閃忍スバル
+    slug: characters/超昂閃忍スバル
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%82%B9%E3%83%90%E3%83%AB
+  - name: 八爪妖蠱ハツネ
+    slug: characters/八爪妖蠱ハツネ
+    url: https://escalationheroines.wikiru.jp/?%E5%85%AB%E7%88%AA%E5%A6%96%E8%A0%B1%E3%83%8F%E3%83%84%E3%83%8D
+  - name: 戦車のニコール
+    slug: characters/戦車のニコール
+    url: https://escalationheroines.wikiru.jp/?%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB
+  - name: タイガージョナ
+    slug: characters/タイガージョナ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A
+  - name: 聖夜エスカレイヤー
+    slug: characters/聖夜エスカレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: 魔女ミヤビ
+    slug: characters/魔女ミヤビ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%9F%E3%83%A4%E3%83%93
+  - name: 正月エスカレイヤー・リバース
+    slug: characters/正月エスカレイヤー・リバース
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9
+  - name: 正月ノノノ
+    slug: characters/正月ノノノ
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%83%8E%E3%83%8E%E3%83%8E
+  - name: 閃忍コイヌ
+    slug: characters/閃忍コイヌ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%B3%E3%82%A4%E3%83%8C
+  - name: 神騎ヴィアール
+    slug: characters/神騎ヴィアール
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%B4%E3%82%A3%E3%82%A2%E3%83%BC%E3%83%AB
+  - name: バレンタインエクシール
+    slug: characters/バレンタインエクシール
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB
+  - name: バレンタインスピカ
+    slug: characters/バレンタインスピカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%94%E3%82%AB
+  - name: 超昂閃忍ナリカ
+    slug: characters/超昂閃忍ナリカ
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%8A%E3%83%AA%E3%82%AB
+  - name: シスター・メイファール
+    slug: characters/シスター・メイファール
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B7%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB
+  - name: 怒のヴィーカ・ガオンヌ
+    slug: characters/怒のヴィーカ・ガオンヌ
+    url: https://escalationheroines.wikiru.jp/?%E6%80%92%E3%81%AE%E3%83%B4%E3%82%A3%E3%83%BC%E3%82%AB%E3%83%BB%E3%82%AC%E3%82%AA%E3%83%B3%E3%83%8C
+  - name: 小鬼の斗羽大洋
+    slug: characters/小鬼の斗羽大洋
+    url: https://escalationheroines.wikiru.jp/?%E5%B0%8F%E9%AC%BC%E3%81%AE%E6%96%97%E7%BE%BD%E5%A4%A7%E6%B4%8B
+  - name: トレーニングＢＢ・ミーナ
+    slug: characters/トレーニングＢＢ・ミーナ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%88%E3%83%AC%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0%EF%BC%A2%EF%BC%A2%E3%83%BB%E3%83%9F%E3%83%BC%E3%83%8A
+  - name: マディオン・カスタム
+    slug: characters/マディオン・カスタム
+    url: https://escalationheroines.wikiru.jp/?%E3%83%9E%E3%83%87%E3%82%A3%E3%82%AA%E3%83%B3%E3%83%BB%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0
+  - name: ビートアイドル・ノドカ
+    slug: characters/ビートアイドル・ノドカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%8E%E3%83%89%E3%82%AB
+  - name: 神騎コトネーゼ
+    slug: characters/神騎コトネーゼ
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%B3%E3%83%88%E3%83%8D%E3%83%BC%E3%82%BC
+  - name: 神騎サーヤ
+    slug: characters/神騎サーヤ
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%B5%E3%83%BC%E3%83%A4
+  - name: 和装のセラフィール
+    slug: characters/和装のセラフィール
+    url: https://escalationheroines.wikiru.jp/?%E5%92%8C%E8%A3%85%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB
+  - name: 閃忍リルカ
+    slug: characters/閃忍リルカ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%AA%E3%83%AB%E3%82%AB
+  - name: ビートスター・マリナ
+    slug: characters/ビートスター・マリナ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%BB%E3%83%9E%E3%83%AA%E3%83%8A
+  - name: 正義のヒトミ
+    slug: characters/正義のヒトミ
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E7%BE%A9%E3%81%AE%E3%83%92%E3%83%88%E3%83%9F
+  - name: 電脳の魔女クラリス
+    slug: characters/電脳の魔女クラリス
+    url: https://escalationheroines.wikiru.jp/?%E9%9B%BB%E8%84%B3%E3%81%AE%E9%AD%94%E5%A5%B3%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9
+  - name: ブライド・ライカ
+    slug: characters/ブライド・ライカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%A9%E3%82%A4%E3%82%AB
+  - name: ブライドハルカ・リバース
+    slug: characters/ブライドハルカ・リバース
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%8F%E3%83%AB%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9
+  - name: 閃忍マナヅル
+    slug: characters/閃忍マナヅル
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%9E%E3%83%8A%E3%83%85%E3%83%AB
+  - name: 真夏のスバル
+    slug: characters/真夏のスバル
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%B9%E3%83%90%E3%83%AB
+  - name: ビートノーブル・サトリ
+    slug: characters/ビートノーブル・サトリ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%8E%E3%83%BC%E3%83%96%E3%83%AB%E3%83%BB%E3%82%B5%E3%83%88%E3%83%AA
+  - name: 真夏のエスカレイヤー
+    slug: characters/真夏のエスカレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: 真夏のイノリ
+    slug: characters/真夏のイノリ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%8E%E3%83%AA
+  - name: 妹の1024
+    slug: characters/妹の1024
+    url: https://escalationheroines.wikiru.jp/?%E5%A6%B9%E3%81%AE1024
+  - name: レースクイーン・リゲル
+    slug: characters/レースクイーン・リゲル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%83%BC%E3%82%B9%E3%82%AF%E3%82%A4%E3%83%BC%E3%83%B3%E3%83%BB%E3%83%AA%E3%82%B2%E3%83%AB
+  - name: 制服ニャンコ
+    slug: characters/制服ニャンコ
+    url: https://escalationheroines.wikiru.jp/?%E5%88%B6%E6%9C%8D%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3
+  - name: リバースバニー・カノープス
+    slug: characters/リバースバニー・カノープス
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%90%E3%83%8B%E3%83%BC%E3%83%BB%E3%82%AB%E3%83%8E%E3%83%BC%E3%83%97%E3%82%B9
+  - name: ビートプレジデント・シーラ
+    slug: characters/ビートプレジデント・シーラ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%97%E3%83%AC%E3%82%B8%E3%83%87%E3%83%B3%E3%83%88%E3%83%BB%E3%82%B7%E3%83%BC%E3%83%A9
+  - name: ビートエンハンス・シルキィ
+    slug: characters/ビートエンハンス・シルキィ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A8%E3%83%B3%E3%83%8F%E3%83%B3%E3%82%B9%E3%83%BB%E3%82%B7%E3%83%AB%E3%82%AD%E3%82%A3
+  - name: 思慮深き五の魅琴マリエル
+    slug: characters/思慮深き五の魅琴マリエル
+    url: https://escalationheroines.wikiru.jp/?%E6%80%9D%E6%85%AE%E6%B7%B1%E3%81%8D%E4%BA%94%E3%81%AE%E9%AD%85%E7%90%B4%E3%83%9E%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: ハロウィンイーイー
+    slug: characters/ハロウィンイーイー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC
+  - name: ハロウィンノドカ
+    slug: characters/ハロウィンノドカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8E%E3%83%89%E3%82%AB
+  - name: 浴衣のシリカ
+    slug: characters/浴衣のシリカ
+    url: https://escalationheroines.wikiru.jp/?%E6%B5%B4%E8%A1%A3%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB
+  - name: 超昂神騎エクシール
+    slug: characters/超昂神騎エクシール
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB
+  - name: 超昂神騎キリエル
+    slug: characters/超昂神騎キリエル
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: 青竜天クチナワ
+    slug: characters/青竜天クチナワ
+    url: https://escalationheroines.wikiru.jp/?%E9%9D%92%E7%AB%9C%E5%A4%A9%E3%82%AF%E3%83%81%E3%83%8A%E3%83%AF
+  - name: ビートアイドル80・メグミ
+    slug: characters/ビートアイドル80・メグミ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB80%E3%83%BB%E3%83%A1%E3%82%B0%E3%83%9F
+  - name: 聖夜エスカ・ルビー
+    slug: characters/聖夜エスカ・ルビー
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC
+  - name: 聖夜ニル
+    slug: characters/聖夜ニル
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%83%8B%E3%83%AB
+  - name: 正月の切裂余命
+    slug: characters/正月の切裂余命
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%81%AE%E5%88%87%E8%A3%82%E4%BD%99%E5%91%BD
+  - name: 正月クサリ
+    slug: characters/正月クサリ
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%AF%E3%82%B5%E3%83%AA
+  - name: 翼竜剣聖アカネ
+    slug: characters/翼竜剣聖アカネ
+    url: https://escalationheroines.wikiru.jp/?%E7%BF%BC%E7%AB%9C%E5%89%A3%E8%81%96%E3%82%A2%E3%82%AB%E3%83%8D
+  - name: 閃忍ハクメイ
+    slug: characters/閃忍ハクメイ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8F%E3%82%AF%E3%83%A1%E3%82%A4
+  - name: バレンタインアズエル
+    slug: characters/バレンタインアズエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB
+  - name: バレンタインクラリス
+    slug: characters/バレンタインクラリス
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9
+  - name: リバースバニー・ヤブルー
+    slug: characters/リバースバニー・ヤブルー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%90%E3%83%8B%E3%83%BC%E3%83%BB%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC
+  - name: エスカサファイア・ムーンライズ
+    slug: characters/エスカサファイア・ムーンライズ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2%E3%83%BB%E3%83%A0%E3%83%BC%E3%83%B3%E3%83%A9%E3%82%A4%E3%82%BA
+  - name: 閃忍ハータン
+    slug: characters/閃忍ハータン
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%BC%E3%82%BF%E3%83%B3
+  - name: チアガールのアヤカ
+    slug: characters/チアガールのアヤカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%81%E3%82%A2%E3%82%AC%E3%83%BC%E3%83%AB%E3%81%AE%E3%82%A2%E3%83%A4%E3%82%AB
+  - name: 魔女カミーユ
+    slug: characters/魔女カミーユ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%AB%E3%83%9F%E3%83%BC%E3%83%A6
+  - name: 神騎ポラリス
+    slug: characters/神騎ポラリス
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%9D%E3%83%A9%E3%83%AA%E3%82%B9
+  - name: 幻忍キクリ
+    slug: characters/幻忍キクリ
+    url: https://escalationheroines.wikiru.jp/?%E5%B9%BB%E5%BF%8D%E3%82%AD%E3%82%AF%E3%83%AA
+  - name: ナースキリエル
+    slug: characters/ナースキリエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8A%E3%83%BC%E3%82%B9%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: 閃忍イズミ
+    slug: characters/閃忍イズミ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%A4%E3%82%BA%E3%83%9F
+  - name: 魔女キョウカ
+    slug: characters/魔女キョウカ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%AD%E3%83%A7%E3%82%A6%E3%82%AB
+  - name: メイドコイヌ
+    slug: characters/メイドコイヌ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%89%E3%82%B3%E3%82%A4%E3%83%8C
+  - name: 黒の幻身ミニテクトル
+    slug: characters/黒の幻身ミニテクトル
+    url: https://escalationheroines.wikiru.jp/?%E9%BB%92%E3%81%AE%E5%B9%BB%E8%BA%AB%E3%83%9F%E3%83%8B%E3%83%86%E3%82%AF%E3%83%88%E3%83%AB
+  - name: 超昂閃忍イノリ
+    slug: characters/超昂閃忍イノリ
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%82%A4%E3%83%8E%E3%83%AA
+  - name: 審判のクロエ
+    slug: characters/審判のクロエ
+    url: https://escalationheroines.wikiru.jp/?%E5%AF%A9%E5%88%A4%E3%81%AE%E3%82%AF%E3%83%AD%E3%82%A8
+  - name: ブライド・イーイー
+    slug: characters/ブライド・イーイー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC
+  - name: ブライド・エクシール
+    slug: characters/ブライド・エクシール
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB
+  - name: ブライド・セリカエル
+    slug: characters/ブライド・セリカエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%BB%E3%83%AA%E3%82%AB%E3%82%A8%E3%83%AB
+  - name: イメージガール・フェリニ
+    slug: characters/イメージガール・フェリニ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%82%AC%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B
+  - name: ナイトドレス・レグルス
+    slug: characters/ナイトドレス・レグルス
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8A%E3%82%A4%E3%83%88%E3%83%89%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%AC%E3%82%B0%E3%83%AB%E3%82%B9
+  - name: 真夏のニコール
+    slug: characters/真夏のニコール
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB
+  - name: 真夏のマドカ
+    slug: characters/真夏のマドカ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%9E%E3%83%89%E3%82%AB
+  - name: 真夏のハルカ
+    slug: characters/真夏のハルカ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8F%E3%83%AB%E3%82%AB
+  - name: 真夏のフウカ
+    slug: characters/真夏のフウカ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%95%E3%82%A6%E3%82%AB
+  - name: アイドルの奉輪こもり
+    slug: characters/アイドルの奉輪こもり
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%81%AE%E5%A5%89%E8%BC%AA%E3%81%93%E3%82%82%E3%82%8A
+  - name: シックな小悪魔キッカ
+    slug: characters/シックな小悪魔キッカ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B7%E3%83%83%E3%82%AF%E3%81%AA%E5%B0%8F%E6%82%AA%E9%AD%94%E3%82%AD%E3%83%83%E3%82%AB
+  - name: 女郎蜘蛛初音
+    slug: characters/女郎蜘蛛初音
+    url: https://escalationheroines.wikiru.jp/?%E5%A5%B3%E9%83%8E%E8%9C%98%E8%9B%9B%E5%88%9D%E9%9F%B3
+  - name: 女郎蜘蛛奏子
+    slug: characters/女郎蜘蛛奏子
+    url: https://escalationheroines.wikiru.jp/?%E5%A5%B3%E9%83%8E%E8%9C%98%E8%9B%9B%E5%A5%8F%E5%AD%90
+  - name: どうぶつきぐるみ・カペラ
+    slug: characters/どうぶつきぐるみ・カペラ
+    url: https://escalationheroines.wikiru.jp/?%E3%81%A9%E3%81%86%E3%81%B6%E3%81%A4%E3%81%8D%E3%81%90%E3%82%8B%E3%81%BF%E3%83%BB%E3%82%AB%E3%83%9A%E3%83%A9
+  - name: ファントムシーフ・ハイネ
+    slug: characters/ファントムシーフ・ハイネ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%95%E3%82%A1%E3%83%B3%E3%83%88%E3%83%A0%E3%82%B7%E3%83%BC%E3%83%95%E3%83%BB%E3%83%8F%E3%82%A4%E3%83%8D
+  - name: 魔法少女リーマ
+    slug: characters/魔法少女リーマ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%AA%E3%83%BC%E3%83%9E
+  - name: 幻忍コテツ
+    slug: characters/幻忍コテツ
+    url: https://escalationheroines.wikiru.jp/?%E5%B9%BB%E5%BF%8D%E3%82%B3%E3%83%86%E3%83%84
+  - name: ハロウィンヴィアール
+    slug: characters/ハロウィンヴィアール
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%B4%E3%82%A3%E3%82%A2%E3%83%BC%E3%83%AB
+  - name: ハロウィンエクシール
+    slug: characters/ハロウィンエクシール
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB
+  - name: 白の幻身ミニシワトル
+    slug: characters/白の幻身ミニシワトル
+    url: https://escalationheroines.wikiru.jp/?%E7%99%BD%E3%81%AE%E5%B9%BB%E8%BA%AB%E3%83%9F%E3%83%8B%E3%82%B7%E3%83%AF%E3%83%88%E3%83%AB
+  - name: レガリアの神騎ユリエル
+    slug: characters/レガリアの神騎ユリエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: レジェンド・エスカレイヤー
+    slug: characters/レジェンド・エスカレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%89%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: エスカアメイズ・ファンタスマ
+    slug: characters/エスカアメイズ・ファンタスマ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA%E3%83%BB%E3%83%95%E3%82%A1%E3%83%B3%E3%82%BF%E3%82%B9%E3%83%9E
+  - name: バビロニア・ニル
+    slug: characters/バビロニア・ニル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%93%E3%83%AD%E3%83%8B%E3%82%A2%E3%83%BB%E3%83%8B%E3%83%AB
+  - name: 閃忍アキラ
+    slug: characters/閃忍アキラ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%A2%E3%82%AD%E3%83%A9
+  - name: 魔女カミナ
+    slug: characters/魔女カミナ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%AB%E3%83%9F%E3%83%8A
+  - name: チャイナドレス・レイヴン
+    slug: characters/チャイナドレス・レイヴン
+    url: https://escalationheroines.wikiru.jp/?%E3%83%81%E3%83%A3%E3%82%A4%E3%83%8A%E3%83%89%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%AC%E3%82%A4%E3%83%B4%E3%83%B3
+  - name: 聖夜ブロクミエル
+    slug: characters/聖夜ブロクミエル
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%83%96%E3%83%AD%E3%82%AF%E3%83%9F%E3%82%A8%E3%83%AB
+  - name: 聖夜メイファール
+    slug: characters/聖夜メイファール
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB
+  - name: 正月ナリカ
+    slug: characters/正月ナリカ
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%83%8A%E3%83%AA%E3%82%AB
+  - name: 正月ポラリス
+    slug: characters/正月ポラリス
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%83%9D%E3%83%A9%E3%83%AA%E3%82%B9
+  - name: レガリアの神騎マヤエル
+    slug: characters/レガリアの神騎マヤエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%9E%E3%83%A4%E3%82%A8%E3%83%AB
+  - name: 正月タイガージョナ
+    slug: characters/正月タイガージョナ
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A
+  - name: バレンタインサイカ
+    slug: characters/バレンタインサイカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%B5%E3%82%A4%E3%82%AB
+  - name: バレンタインリコリス
+    slug: characters/バレンタインリコリス
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%AA%E3%82%B3%E3%83%AA%E3%82%B9
+  - name: 超昂閃忍チルカ
+    slug: characters/超昂閃忍チルカ
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%81%E3%83%AB%E3%82%AB
+  - name: レガリアの神騎メガエル
+    slug: characters/レガリアの神騎メガエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB
+  - name: 体育祭のハルカ
+    slug: characters/体育祭のハルカ
+    url: https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%8F%E3%83%AB%E3%82%AB
+  - name: 体育祭のノノノ
+    slug: characters/体育祭のノノノ
+    url: https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%8E%E3%83%8E%E3%83%8E
+  - name: 体育祭のヤブルー
+    slug: characters/体育祭のヤブルー
+    url: https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC
+  - name: ダンスクイーン・ピカ
+    slug: characters/ダンスクイーン・ピカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%80%E3%83%B3%E3%82%B9%E3%82%AF%E3%82%A4%E3%83%BC%E3%83%B3%E3%83%BB%E3%83%94%E3%82%AB
+  - name: ビートロイヤル・カノン
+    slug: characters/ビートロイヤル・カノン
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%AD%E3%82%A4%E3%83%A4%E3%83%AB%E3%83%BB%E3%82%AB%E3%83%8E%E3%83%B3
+  - name: ビートボンデージ・ハザクラ
+    slug: characters/ビートボンデージ・ハザクラ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%9C%E3%83%B3%E3%83%87%E3%83%BC%E3%82%B8%E3%83%BB%E3%83%8F%E3%82%B6%E3%82%AF%E3%83%A9
+  - name: 閃忍ゲッカ
+    slug: characters/閃忍ゲッカ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%B2%E3%83%83%E3%82%AB
+  - name: ビートブラスト・アサギ
+    slug: characters/ビートブラスト・アサギ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%96%E3%83%A9%E3%82%B9%E3%83%88%E3%83%BB%E3%82%A2%E3%82%B5%E3%82%AE
+  - name: 閃忍ユキカゼ
+    slug: characters/閃忍ユキカゼ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A6%E3%82%AD%E3%82%AB%E3%82%BC
+  - name: 理系のアルデバラン
+    slug: characters/理系のアルデバラン
+    url: https://escalationheroines.wikiru.jp/?%E7%90%86%E7%B3%BB%E3%81%AE%E3%82%A2%E3%83%AB%E3%83%87%E3%83%90%E3%83%A9%E3%83%B3
+  - name: 閃忍アマネ
+    slug: characters/閃忍アマネ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%A2%E3%83%9E%E3%83%8D
+  - name: エスカトパーズ・ミスティカル
+    slug: characters/エスカトパーズ・ミスティカル
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA%E3%83%BB%E3%83%9F%E3%82%B9%E3%83%86%E3%82%A3%E3%82%AB%E3%83%AB
+  - name: エスカ・オニキス
+    slug: characters/エスカ・オニキス
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%AA%E3%83%8B%E3%82%AD%E3%82%B9
+  - name: ブライド・リルカ
+    slug: characters/ブライド・リルカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%AA%E3%83%AB%E3%82%AB
+  - name: ブライド・スバル
+    slug: characters/ブライド・スバル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%B9%E3%83%90%E3%83%AB
+  - name: ブライド・クルル
+    slug: characters/ブライド・クルル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%AF%E3%83%AB%E3%83%AB
+  - name: ビートハンター・エイム
+    slug: characters/ビートハンター・エイム
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%8F%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%BB%E3%82%A8%E3%82%A4%E3%83%A0
+  - name: 真夏のアズエル
+    slug: characters/真夏のアズエル
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB
+  - name: 真夏のメガエル
+    slug: characters/真夏のメガエル
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB
+  - name: サロン・コバリ
+    slug: characters/サロン・コバリ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B5%E3%83%AD%E3%83%B3%E3%83%BB%E3%82%B3%E3%83%90%E3%83%AA
+  - name: 真夏のエスカ・ルビー
+    slug: characters/真夏のエスカ・ルビー
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC
+  - name: 真夏のノドカ
+    slug: characters/真夏のノドカ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8E%E3%83%89%E3%82%AB
+  - name: 真夏のイーイー
+    slug: characters/真夏のイーイー
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC
+  - name: 執筆のアスマール
+    slug: characters/執筆のアスマール
+    url: https://escalationheroines.wikiru.jp/?%E5%9F%B7%E7%AD%86%E3%81%AE%E3%82%A2%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%AB
+  - name: 魔法少女ラメール
+    slug: characters/魔法少女ラメール
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%A9%E3%83%A1%E3%83%BC%E3%83%AB
+  - name: 魔女リッタ
+    slug: characters/魔女リッタ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%83%83%E3%82%BF
+  - name: 閃忍マチ
+    slug: characters/閃忍マチ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%9E%E3%83%81
+  - name: 閃忍ワーグ
+    slug: characters/閃忍ワーグ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%AF%E3%83%BC%E3%82%B0
+  - name: 視えずの黒子サナギ
+    slug: characters/視えずの黒子サナギ
+    url: https://escalationheroines.wikiru.jp/?%E8%A6%96%E3%81%88%E3%81%9A%E3%81%AE%E9%BB%92%E5%AD%90%E3%82%B5%E3%83%8A%E3%82%AE
+  - name: ビートロイダー・マッハ
+    slug: characters/ビートロイダー・マッハ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%AD%E3%82%A4%E3%83%80%E3%83%BC%E3%83%BB%E3%83%9E%E3%83%83%E3%83%8F
+  - name: ハロウィンニコール
+    slug: characters/ハロウィンニコール
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB
+  - name: ハロウィンポピー
+    slug: characters/ハロウィンポピー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%9D%E3%83%94%E3%83%BC
+  - name: 閃忍ササミ
+    slug: characters/閃忍ササミ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%B5%E3%82%B5%E3%83%9F
+  - name: レジェンド・ハルカ
+    slug: characters/レジェンド・ハルカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%89%E3%83%BB%E3%83%8F%E3%83%AB%E3%82%AB
+  - name: バビロニア・ノノノ
+    slug: characters/バビロニア・ノノノ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%93%E3%83%AD%E3%83%8B%E3%82%A2%E3%83%BB%E3%83%8E%E3%83%8E%E3%83%8E
+  - name: 邪閃忍ライカ
+    slug: characters/邪閃忍ライカ
+    url: https://escalationheroines.wikiru.jp/?%E9%82%AA%E9%96%83%E5%BF%8D%E3%83%A9%E3%82%A4%E3%82%AB
+  - name: 黒門天・屍寺炎斎
+    slug: characters/黒門天・屍寺炎斎
+    url: https://escalationheroines.wikiru.jp/?%E9%BB%92%E9%96%80%E5%A4%A9%E3%83%BB%E5%B1%8D%E5%AF%BA%E7%82%8E%E6%96%8E
+  - name: ビートストーム・ハヅキ
+    slug: characters/ビートストーム・ハヅキ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A0%E3%83%BB%E3%83%8F%E3%83%85%E3%82%AD
+  - name: 神騎レブエル
+    slug: characters/神騎レブエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%AC%E3%83%96%E3%82%A8%E3%83%AB
+  - name: 聖夜シズク
+    slug: characters/聖夜シズク
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%B7%E3%82%BA%E3%82%AF
+  - name: 聖夜エクシール
+    slug: characters/聖夜エクシール
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB
+  - name: 聖夜イノリ
+    slug: characters/聖夜イノリ
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A4%E3%83%8E%E3%83%AA
+  - name: 正月エスカレイヤー
+    slug: characters/正月エスカレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: 正月エスカ・アメイズ
+    slug: characters/正月エスカ・アメイズ
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA
+  - name: 正月シリカ
+    slug: characters/正月シリカ
+    url: https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%B7%E3%83%AA%E3%82%AB
+  - name: ビートイリュージョン・アエカ
+    slug: characters/ビートイリュージョン・アエカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A4%E3%83%AA%E3%83%A5%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%A8%E3%82%AB
+  - name: バレンタインニル
+    slug: characters/バレンタインニル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8B%E3%83%AB
+  - name: バレンタインマドカ
+    slug: characters/バレンタインマドカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%9E%E3%83%89%E3%82%AB
+  - name: バレンタインタイガージョナ
+    slug: characters/バレンタインタイガージョナ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A
+  - name: レガリアの超昂神騎ミカフィール
+    slug: characters/レガリアの超昂神騎ミカフィール
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%9F%E3%82%AB%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB
+  - name: メイドユリッペ
+    slug: characters/メイドユリッペ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%89%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A
+  - name: 体育祭のキリエル
+    slug: characters/体育祭のキリエル
+    url: https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: 体育祭のムツカ
+    slug: characters/体育祭のムツカ
+    url: https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A0%E3%83%84%E3%82%AB
+  - name: 閃忍ハナコ
+    slug: characters/閃忍ハナコ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%8A%E3%82%B3
+  - name: 神騎イブ
+    slug: characters/神騎イブ
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%A4%E3%83%96
+  - name: ビートアモーレ・ジブリール
+    slug: characters/ビートアモーレ・ジブリール
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%A2%E3%83%BC%E3%83%AC%E3%83%BB%E3%82%B8%E3%83%96%E3%83%AA%E3%83%BC%E3%83%AB
+  - name: ビートアモーレ・ジブリールアリエス
+    slug: characters/ビートアモーレ・ジブリールアリエス
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%A2%E3%83%BC%E3%83%AC%E3%83%BB%E3%82%B8%E3%83%96%E3%83%AA%E3%83%BC%E3%83%AB%E3%82%A2%E3%83%AA%E3%82%A8%E3%82%B9
+  - name: 神騎ビブリエル
+    slug: characters/神騎ビブリエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%93%E3%83%96%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: 神騎ルクセール
+    slug: characters/神騎ルクセール
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%AB%E3%82%AF%E3%82%BB%E3%83%BC%E3%83%AB
+  - name: レガリアの超昂神騎ユリエル
+    slug: characters/レガリアの超昂神騎ユリエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%AA%E3%82%A8%E3%83%AB
+  - name: レガリアの超昂神騎マヤエル
+    slug: characters/レガリアの超昂神騎マヤエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%9E%E3%83%A4%E3%82%A8%E3%83%AB
+  - name: レガリアの超昂神騎メガエル
+    slug: characters/レガリアの超昂神騎メガエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB
+  - name: ブライド・フェリニ
+    slug: characters/ブライド・フェリニ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B
+  - name: ブライドエスカ・ルビー
+    slug: characters/ブライドエスカ・ルビー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC
+  - name: ブライドエスカレイヤー・リバース
+    slug: characters/ブライドエスカレイヤー・リバース
+    url: https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9
+  - name: 深窓の令嬢ステアール
+    slug: characters/深窓の令嬢ステアール
+    url: https://escalationheroines.wikiru.jp/?%E6%B7%B1%E7%AA%93%E3%81%AE%E4%BB%A4%E5%AC%A2%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB
+  - name: 真夏のセラフィール
+    slug: characters/真夏のセラフィール
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB
+  - name: 真夏のメグミ
+    slug: characters/真夏のメグミ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%B0%E3%83%9F
+  - name: SSR
+    slug: list-ssr
+    url: https://escalationheroines.wikiru.jp/?SSR
+  キャラクター一覧SR:
+  - name: ビートスラッシャー・ショウコ
+    slug: characters/ビートスラッシャー・ショウコ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B9%E3%83%A9%E3%83%83%E3%82%B7%E3%83%A3%E3%83%BC%E3%83%BB%E3%82%B7%E3%83%A7%E3%82%A6%E3%82%B3
+  - name: ビートBB・ミーナ
+    slug: characters/ビートBB・ミーナ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88BB%E3%83%BB%E3%83%9F%E3%83%BC%E3%83%8A
+  - name: 林のアヤカ
+    slug: characters/林のアヤカ
+    url: https://escalationheroines.wikiru.jp/?%E6%9E%97%E3%81%AE%E3%82%A2%E3%83%A4%E3%82%AB
+  - name: 氷のシズカ
+    slug: characters/氷のシズカ
+    url: https://escalationheroines.wikiru.jp/?%E6%B0%B7%E3%81%AE%E3%82%B7%E3%82%BA%E3%82%AB
+  - name: 鋼のジェレミー・ベンダー
+    slug: characters/鋼のジェレミー・ベンダー
+    url: https://escalationheroines.wikiru.jp/?%E9%8B%BC%E3%81%AE%E3%82%B8%E3%82%A7%E3%83%AC%E3%83%9F%E3%83%BC%E3%83%BB%E3%83%99%E3%83%B3%E3%83%80%E3%83%BC
+  - name: 闇の奉輪こもり
+    slug: characters/闇の奉輪こもり
+    url: https://escalationheroines.wikiru.jp/?%E9%97%87%E3%81%AE%E5%A5%89%E8%BC%AA%E3%81%93%E3%82%82%E3%82%8A
+  - name: ビートタクティクス・ウルザ
+    slug: characters/ビートタクティクス・ウルザ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%BF%E3%82%AF%E3%83%86%E3%82%A3%E3%82%AF%E3%82%B9%E3%83%BB%E3%82%A6%E3%83%AB%E3%82%B6
+  - name: 神騎カペラ
+    slug: characters/神騎カペラ
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%AB%E3%83%9A%E3%83%A9
+  - name: 土のオウカ
+    slug: characters/土のオウカ
+    url: https://escalationheroines.wikiru.jp/?%E5%9C%9F%E3%81%AE%E3%82%AA%E3%82%A6%E3%82%AB
+  - name: 光のシリカ
+    slug: characters/光のシリカ
+    url: https://escalationheroines.wikiru.jp/?%E5%85%89%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB
+  - name: 魔女キレー
+    slug: characters/魔女キレー
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%AD%E3%83%AC%E3%83%BC
+  - name: 毒の冬柱月子
+    slug: characters/毒の冬柱月子
+    url: https://escalationheroines.wikiru.jp/?%E6%AF%92%E3%81%AE%E5%86%AC%E6%9F%B1%E6%9C%88%E5%AD%90
+  - name: ビートカーム・ナギ
+    slug: characters/ビートカーム・ナギ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%AB%E3%83%BC%E3%83%A0%E3%83%BB%E3%83%8A%E3%82%AE
+  - name: ビートジェネラル・ミストレーヌ
+    slug: characters/ビートジェネラル・ミストレーヌ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%A9%E3%83%AB%E3%83%BB%E3%83%9F%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%83%8C
+  - name: ビートサムライ・アオイ
+    slug: characters/ビートサムライ・アオイ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B5%E3%83%A0%E3%83%A9%E3%82%A4%E3%83%BB%E3%82%A2%E3%82%AA%E3%82%A4
+  - name: ビートチューリップ・マリア
+    slug: characters/ビートチューリップ・マリア
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%81%E3%83%A5%E3%83%BC%E3%83%AA%E3%83%83%E3%83%97%E3%83%BB%E3%83%9E%E3%83%AA%E3%82%A2
+  - name: 閃忍キッカ
+    slug: characters/閃忍キッカ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%AD%E3%83%83%E3%82%AB
+  - name: 閃忍ユキノ
+    slug: characters/閃忍ユキノ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A6%E3%82%AD%E3%83%8E
+  - name: ビートクイーン・リア
+    slug: characters/ビートクイーン・リア
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%AF%E3%82%A4%E3%83%BC%E3%83%B3%E3%83%BB%E3%83%AA%E3%82%A2
+  - name: 神騎プロキオン
+    slug: characters/神騎プロキオン
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%97%E3%83%AD%E3%82%AD%E3%82%AA%E3%83%B3
+  - name: ビートアクトレス・マナミ
+    slug: characters/ビートアクトレス・マナミ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%AF%E3%83%88%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%9E%E3%83%8A%E3%83%9F
+  - name: 魔女スェン
+    slug: characters/魔女スェン
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%B9%E3%82%A7%E3%83%B3
+  - name: 魔女クレナイ
+    slug: characters/魔女クレナイ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%AF%E3%83%AC%E3%83%8A%E3%82%A4
+  - name: 閃忍フクシュウチャン
+    slug: characters/閃忍フクシュウチャン
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%95%E3%82%AF%E3%82%B7%E3%83%A5%E3%82%A6%E3%83%81%E3%83%A3%E3%83%B3
+  - name: 魔女シャオ
+    slug: characters/魔女シャオ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%B7%E3%83%A3%E3%82%AA
+  - name: 神騎ジブリール・ゼロ
+    slug: characters/神騎ジブリール・ゼロ
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%B8%E3%83%96%E3%83%AA%E3%83%BC%E3%83%AB%E3%83%BB%E3%82%BC%E3%83%AD
+  - name: SR
+    slug: list-sr
+    url: https://escalationheroines.wikiru.jp/?SR
+  キャラクター一覧R:
+  - name: エスカ・ルビー
+    slug: characters/エスカ・ルビー
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC
+  - name: エスカ・サファイア
+    slug: characters/エスカ・サファイア
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2
+  - name: エスカ・トパーズ
+    slug: characters/エスカ・トパーズ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA
+  - name: エスカ・アメイズ
+    slug: characters/エスカ・アメイズ
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA
+  - name: ビートバイカー・マッハ
+    slug: characters/ビートバイカー・マッハ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%90%E3%82%A4%E3%82%AB%E3%83%BC%E3%83%BB%E3%83%9E%E3%83%83%E3%83%8F
+  - name: 閃忍ツルコ
+    slug: characters/閃忍ツルコ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%84%E3%83%AB%E3%82%B3
+  - name: 神騎スケートル
+    slug: characters/神騎スケートル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%88%E3%83%AB
+  - name: ビートブレイカー・メイ
+    slug: characters/ビートブレイカー・メイ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%96%E3%83%AC%E3%82%A4%E3%82%AB%E3%83%BC%E3%83%BB%E3%83%A1%E3%82%A4
+  - name: ビートブレイカー・アイ
+    slug: characters/ビートブレイカー・アイ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%96%E3%83%AC%E3%82%A4%E3%82%AB%E3%83%BC%E3%83%BB%E3%82%A2%E3%82%A4
+  - name: ビートアミュレット・ノノノ
+    slug: characters/ビートアミュレット・ノノノ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%9F%E3%83%A5%E3%83%AC%E3%83%83%E3%83%88%E3%83%BB%E3%83%8E%E3%83%8E%E3%83%8E
+  - name: ビートスピナー・ハザクラ
+    slug: characters/ビートスピナー・ハザクラ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B9%E3%83%94%E3%83%8A%E3%83%BC%E3%83%BB%E3%83%8F%E3%82%B6%E3%82%AF%E3%83%A9
+  - name: ビートネイチャー・アケビ
+    slug: characters/ビートネイチャー・アケビ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%8D%E3%82%A4%E3%83%81%E3%83%A3%E3%83%BC%E3%83%BB%E3%82%A2%E3%82%B1%E3%83%93
+  - name: 閃忍サナギ
+    slug: characters/閃忍サナギ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%B5%E3%83%8A%E3%82%AE
+  - name: 閃忍フワワ
+    slug: characters/閃忍フワワ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%95%E3%83%AF%E3%83%AF
+  - name: 閃忍ツカサ
+    slug: characters/閃忍ツカサ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%84%E3%82%AB%E3%82%B5
+  - name: Ms.ライトニング
+    slug: characters/Ms.ライトニング
+    url: https://escalationheroines.wikiru.jp/?Ms.%E3%83%A9%E3%82%A4%E3%83%88%E3%83%8B%E3%83%B3%E3%82%B0
+  - name: 神騎デュエル
+    slug: characters/神騎デュエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%87%E3%83%A5%E3%82%A8%E3%83%AB
+  - name: 神騎フローレル
+    slug: characters/神騎フローレル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%95%E3%83%AD%E3%83%BC%E3%83%AC%E3%83%AB
+  - name: 神騎プラチネル
+    slug: characters/神騎プラチネル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%97%E3%83%A9%E3%83%81%E3%83%8D%E3%83%AB
+  - name: 神騎ユユエル
+    slug: characters/神騎ユユエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%A6%E3%82%A8%E3%83%AB
+  - name: 神騎スピカ
+    slug: characters/神騎スピカ
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%B9%E3%83%94%E3%82%AB
+  - name: 神騎アルデバラン
+    slug: characters/神騎アルデバラン
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%A2%E3%83%AB%E3%83%87%E3%83%90%E3%83%A9%E3%83%B3
+  - name: 神騎アルゴル
+    slug: characters/神騎アルゴル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AB
+  - name: FM77
+    slug: characters/FM77
+    url: https://escalationheroines.wikiru.jp/?FM77
+  - name: ビートファインダー・フェリニ
+    slug: characters/ビートファインダー・フェリニ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B
+  - name: 神騎リゲル
+    slug: characters/神騎リゲル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%AA%E3%82%B2%E3%83%AB
+  - name: ビートアイドル・アキエ
+    slug: characters/ビートアイドル・アキエ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%82%A2%E3%82%AD%E3%82%A8
+  - name: 閃忍クサリ
+    slug: characters/閃忍クサリ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%AF%E3%82%B5%E3%83%AA
+  - name: 魔女イレーナ
+    slug: characters/魔女イレーナ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%8A
+  - name: 神騎ベラトリクス
+    slug: characters/神騎ベラトリクス
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%99%E3%83%A9%E3%83%88%E3%83%AA%E3%82%AF%E3%82%B9
+  - name: ビートウエディング・チマ
+    slug: characters/ビートウエディング・チマ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A6%E3%82%A8%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%BB%E3%83%81%E3%83%9E
+  - name: ビートシューター・リンドウ
+    slug: characters/ビートシューター・リンドウ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%BF%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%B3%E3%83%89%E3%82%A6
+  - name: 閃忍マユリ
+    slug: characters/閃忍マユリ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%9E%E3%83%A6%E3%83%AA
+  - name: 閃忍ウミ
+    slug: characters/閃忍ウミ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%A6%E3%83%9F
+  - name: 魔女ユウガ
+    slug: characters/魔女ユウガ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%A6%E3%82%A6%E3%82%AC
+  - name: 神騎カノープス
+    slug: characters/神騎カノープス
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%AB%E3%83%8E%E3%83%BC%E3%83%97%E3%82%B9
+  - name: ビートアイドル・タマキ
+    slug: characters/ビートアイドル・タマキ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%82%BF%E3%83%9E%E3%82%AD
+  - name: 閃忍セツニャ
+    slug: characters/閃忍セツニャ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%BB%E3%83%84%E3%83%8B%E3%83%A3
+  - name: ビートプランナー・ハイネ
+    slug: characters/ビートプランナー・ハイネ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%97%E3%83%A9%E3%83%B3%E3%83%8A%E3%83%BC%E3%83%BB%E3%83%8F%E3%82%A4%E3%83%8D
+  - name: バレンタインツルコ
+    slug: characters/バレンタインツルコ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%84%E3%83%AB%E3%82%B3
+  - name: 閃忍レイナ
+    slug: characters/閃忍レイナ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%AC%E3%82%A4%E3%83%8A
+  - name: 魔女ミゴー
+    slug: characters/魔女ミゴー
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%9F%E3%82%B4%E3%83%BC
+  - name: 神騎エルカエル
+    slug: characters/神騎エルカエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%A8%E3%83%AB%E3%82%AB%E3%82%A8%E3%83%AB
+  - name: 魔女レイヴン
+    slug: characters/魔女レイヴン
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%AC%E3%82%A4%E3%83%B4%E3%83%B3
+  - name: ビートアイドル・ポピー
+    slug: characters/ビートアイドル・ポピー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%9D%E3%83%94%E3%83%BC
+  - name: 真夏のシリカ
+    slug: characters/真夏のシリカ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB
+  - name: 閃忍サイカ
+    slug: characters/閃忍サイカ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%B5%E3%82%A4%E3%82%AB
+  - name: 魔女ハッピー
+    slug: characters/魔女ハッピー
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%8F%E3%83%83%E3%83%94%E3%83%BC
+  - name: 魔女リーマ
+    slug: characters/魔女リーマ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%83%BC%E3%83%9E
+  - name: 魔女フタバ
+    slug: characters/魔女フタバ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%95%E3%82%BF%E3%83%90
+  - name: 魔女ピカ
+    slug: characters/魔女ピカ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%94%E3%82%AB
+  - name: 神騎ベガ
+    slug: characters/神騎ベガ
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%99%E3%82%AC
+  - name: 神騎ヘプタスロン
+    slug: characters/神騎ヘプタスロン
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%98%E3%83%97%E3%82%BF%E3%82%B9%E3%83%AD%E3%83%B3
+  - name: 恋のみらくる☆スイート
+    slug: characters/恋のみらくる☆スイート
+    url: https://escalationheroines.wikiru.jp/?%E6%81%8B%E3%81%AE%E3%81%BF%E3%82%89%E3%81%8F%E3%82%8B%E2%98%86%E3%82%B9%E3%82%A4%E3%83%BC%E3%83%88
+  - name: 魔女ラメール
+    slug: characters/魔女ラメール
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%A9%E3%83%A1%E3%83%BC%E3%83%AB
+  - name: 魔女クーレー
+    slug: characters/魔女クーレー
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%AF%E3%83%BC%E3%83%AC%E3%83%BC
+  - name: ビートノーブル・カノン
+    slug: characters/ビートノーブル・カノン
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%8E%E3%83%BC%E3%83%96%E3%83%AB%E3%83%BB%E3%82%AB%E3%83%8E%E3%83%B3
+  - name: 神騎グラシエル
+    slug: characters/神騎グラシエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%B0%E3%83%A9%E3%82%B7%E3%82%A8%E3%83%AB
+  - name: 神騎ステアール
+    slug: characters/神騎ステアール
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB
+  - name: ハロウィンキレー
+    slug: characters/ハロウィンキレー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%AD%E3%83%AC%E3%83%BC
+  - name: 魔女コバリ
+    slug: characters/魔女コバリ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%B3%E3%83%90%E3%83%AA
+  - name: 閃忍ユリッペ
+    slug: characters/閃忍ユリッペ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A
+  - name: バレンタインミゴー
+    slug: characters/バレンタインミゴー
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%9F%E3%82%B4%E3%83%BC
+  - name: 閃忍カズハ
+    slug: characters/閃忍カズハ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%AB%E3%82%BA%E3%83%8F
+  - name: 神騎ディアロール
+    slug: characters/神騎ディアロール
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%87%E3%82%A3%E3%82%A2%E3%83%AD%E3%83%BC%E3%83%AB
+  - name: 魔女シズク
+    slug: characters/魔女シズク
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%B7%E3%82%BA%E3%82%AF
+  - name: 神騎ハニーエル
+    slug: characters/神騎ハニーエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%8F%E3%83%8B%E3%83%BC%E3%82%A8%E3%83%AB
+  - name: 魔女フナノ
+    slug: characters/魔女フナノ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%95%E3%83%8A%E3%83%8E
+  - name: 真夏のニャンコ
+    slug: characters/真夏のニャンコ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3
+  - name: 神騎ドミナール
+    slug: characters/神騎ドミナール
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%89%E3%83%9F%E3%83%8A%E3%83%BC%E3%83%AB
+  - name: 神騎ミルエル
+    slug: characters/神騎ミルエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%9F%E3%83%AB%E3%82%A8%E3%83%AB
+  - name: 魔女カオリ
+    slug: characters/魔女カオリ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%AB%E3%82%AA%E3%83%AA
+  - name: 魔女リンゴ
+    slug: characters/魔女リンゴ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%83%B3%E3%82%B4
+  - name: 爆の藤宮火咲
+    slug: characters/爆の藤宮火咲
+    url: https://escalationheroines.wikiru.jp/?%E7%88%86%E3%81%AE%E8%97%A4%E5%AE%AE%E7%81%AB%E5%92%B2
+  - name: ビートノーブル・クレードネ
+    slug: characters/ビートノーブル・クレードネ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%8E%E3%83%BC%E3%83%96%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%AC%E3%83%BC%E3%83%89%E3%83%8D
+  - name: ビートリバイバル・カナリア
+    slug: characters/ビートリバイバル・カナリア
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%AA%E3%83%90%E3%82%A4%E3%83%90%E3%83%AB%E3%83%BB%E3%82%AB%E3%83%8A%E3%83%AA%E3%82%A2
+  - name: 神騎ハダル
+    slug: characters/神騎ハダル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%8F%E3%83%80%E3%83%AB
+  - name: 魔女ニーア
+    slug: characters/魔女ニーア
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%8B%E3%83%BC%E3%82%A2
+  - name: 魔女メリー
+    slug: characters/魔女メリー
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%A1%E3%83%AA%E3%83%BC
+  - name: ビートリベレイター・ノエル
+    slug: characters/ビートリベレイター・ノエル
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%AA%E3%83%99%E3%83%AC%E3%82%A4%E3%82%BF%E3%83%BC%E3%83%BB%E3%83%8E%E3%82%A8%E3%83%AB
+  - name: 神騎アクルックス
+    slug: characters/神騎アクルックス
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%A2%E3%82%AF%E3%83%AB%E3%83%83%E3%82%AF%E3%82%B9
+  - name: 体育祭のクラリス
+    slug: characters/体育祭のクラリス
+    url: https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9
+  - name: 神騎カースエル
+    slug: characters/神騎カースエル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%AB%E3%83%BC%E3%82%B9%E3%82%A8%E3%83%AB
+  - name: 閃忍ユラリ
+    slug: characters/閃忍ユラリ
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A6%E3%83%A9%E3%83%AA
+  - name: 魔女リアン
+    slug: characters/魔女リアン
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%82%A2%E3%83%B3
+  - name: R
+    slug: list-r
+    url: https://escalationheroines.wikiru.jp/?R
+  キャラクター一覧サポーター:
+  - name: サポーター
+    slug: list-supporter
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC
+  キャラクター一覧NPC:
+  - name: NPC
+    slug: list-npc
+    url: https://escalationheroines.wikiru.jp/?NPC
+  システム:
+  - name: 戦闘
+    slug: battle
+    url: https://escalationheroines.wikiru.jp/?%E6%88%A6%E9%97%98
+  - name: レイド
+    slug: raid
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%A4%E3%83%89
+  - name: レイドおすすめキャラ
+    slug: raid-recommended
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9
+  - name: バフ・デバフ能力キャラ　一覧まとめ
+    slug: raid-buff-debuff
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%95%E3%83%BB%E3%83%87%E3%83%90%E3%83%95%E8%83%BD%E5%8A%9B%E3%82%AD%E3%83%A3%E3%83%A9%E3%80%80%E4%B8%80%E8%A6%A7%E3%81%BE%E3%81%A8%E3%82%81
+  - name: レイド用編成例
+    slug: raid-formations
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%A4%E3%83%89%E7%94%A8%E7%B7%A8%E6%88%90%E4%BE%8B
+  - name: Bユニバース
+    slug: b-universe
+    url: https://escalationheroines.wikiru.jp/?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9
+  - name: イベント50_広域戦
+    slug: wide-battle
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6
+  - name: 広域戦マップ/マップリスト
+    slug: map-list
+    url: https://escalationheroines.wikiru.jp/?%E5%BA%83%E5%9F%9F%E6%88%A6%E3%83%9E%E3%83%83%E3%83%97/%E3%83%9E%E3%83%83%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88
+  - name: イベント86_殲滅戦
+    slug: annihilation
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6
+  - name: 限界突破
+    slug: limit-break
+    url: https://escalationheroines.wikiru.jp/?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4
+  - name: 覚醒強化
+    slug: awakening
+    url: https://escalationheroines.wikiru.jp/?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96
+  - name: レベル上限UP
+    slug: level-cap
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP
+  - name: 宝箱
+    slug: treasure-box
+    url: https://escalationheroines.wikiru.jp/?%E5%AE%9D%E7%AE%B1
+  - name: 交換所
+    slug: exchange
+    url: https://escalationheroines.wikiru.jp/?%E4%BA%A4%E6%8F%9B%E6%89%80
+  - name: キャラクター交換所
+    slug: character-exchange
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80
+  - name: コレクション
+    slug: collection
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3
+  - name: ショップ
+    slug: shop
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97
+  装備･アイテム:
+  - name: 装備一覧
+    slug: equipment
+    url: https://escalationheroines.wikiru.jp/?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7
+  - name: 超昂装備
+    slug: super-equipment
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99
+  - name: アイテム一覧
+    slug: items
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7
+  - name: SandBox/アイテム価値早見表
+    slug: item-value-guide
+    url: https://escalationheroines.wikiru.jp/?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8
+  クエスト･ミッション:
+  - name: メインストーリー
+    slug: main-story
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC
+  - name: テーブル/全ストーリー実装順
+    slug: scenario-order
+    url: https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86
+  - name: メインクエスト
+    slug: main-quest
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88
+  - name: デイリークエスト
+    slug: daily-quest
+    url: https://escalationheroines.wikiru.jp/?%E3%83%87%E3%82%A4%E3%83%AA%E3%83%BC%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88
+  - name: ミッション一覧
+    slug: missions
+    url: https://escalationheroines.wikiru.jp/?%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E4%B8%80%E8%A6%A7
+  - name: イベント一覧
+    slug: events
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7
+  その他:
+  - name: 用語集
+    slug: glossary
+    url: https://escalationheroines.wikiru.jp/?%E7%94%A8%E8%AA%9E%E9%9B%86
+  - name: 俗語集
+    slug: slang
+    url: https://escalationheroines.wikiru.jp/?%E4%BF%97%E8%AA%9E%E9%9B%86
+  - name: Tips一覧
+    slug: tips
+    url: https://escalationheroines.wikiru.jp/?Tips%E4%B8%80%E8%A6%A7
+  - name: ゲーム外企画
+    slug: external-projects
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB
+  - name: 事前登録特典
+    slug: prereg-bonus
+    url: https://escalationheroines.wikiru.jp/?%E4%BA%8B%E5%89%8D%E7%99%BB%E9%8C%B2%E7%89%B9%E5%85%B8
