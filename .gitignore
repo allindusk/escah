@@ -19,8 +19,11 @@ data/logs/
 # OS
 Thumbs.db
 
-# 生成层 / 大体积下载资产（均可由流水线重建，不入库）
-data/assets/img/
+# 生成层 / 大体积资产
+# data/assets/img 是真图字节（唯一不可逆资产），改用 Git LFS 跟踪入库，
+#   换机器 clone + git lfs pull 即可拿到图，无需重新下载原站。
+# data/parsed、site/public、site/*.md、site/.vitepress/frag 均可由
+#   流水线从 data/raw（已入库）+ 源码本地重建，不入库。
 data/parsed/
 site/public/
 site/**/*.md
