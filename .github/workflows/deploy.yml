@@ -18,10 +18,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # 不在 checkout 阶段拉 LFS，改为“缓存 + 增量 pull”节省 LFS 带宽配额：
+      # 命中缓存时 git lfs pull 只下载新增/变更的对象（通常 0～几 MB）。
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Build LFS file list
+        run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
+
+      - name: Cache LFS objects
+        uses: actions/cache@v4
         with:
-          lfs: true
+          path: .git/lfs
+          key: lfs-${{ hashFiles('.lfs-assets-id') }}
+          restore-keys: lfs-
+
+      - name: Pull LFS objects
+        run: git lfs pull && git lfs checkout
 
       - name: Set up Python
         uses: actions/setup-python@v5
