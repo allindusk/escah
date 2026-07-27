@@ -76,11 +76,12 @@ jobs:
       # 需在仓库 Settings → Secrets and variables → Actions 配置：
       #   CLOUDFLARE_API_TOKEN（权限：Cloudflare Pages:Edit）
       #   CLOUDFLARE_ACCOUNT_ID
-      # 未配置这两个 secret 时以下步骤自动跳过，不影响 GH Pages 部署。
+      # 注意：GitHub Actions 的 if 条件不允许引用 secrets 上下文，故无法用
+      # if 判断 secret 是否存在；改为无条件执行 + continue-on-error:true。
+      # 配了 secret → 正常部署到 CF；没配/失败 → 步骤标黄但不影响 GH Pages 主部署。
       # CF 构建环境不支持 Git LFS（图片会变指针文件），因此不在 CF 侧构建，
       # 而是在此处用 BASE=/ 重建一份根路径版 dist 后直传 CF。
       - name: Rebuild for Cloudflare (BASE=/)
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         continue-on-error: true
         working-directory: site
         env:
@@ -90,7 +91,6 @@ jobs:
           node build.mjs build
 
       - name: Deploy to Cloudflare Pages
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         continue-on-error: true
         working-directory: site
         env:
