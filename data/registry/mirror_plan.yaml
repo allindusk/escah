@@ -816,6 +816,9 @@ mirrored:
   - name: SSR
     slug: list-ssr
     url: https://escalationheroines.wikiru.jp/?SSR
+  - name: 魔法少女ヒトミ
+    slug: characters/魔法少女ヒトミ
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F
   キャラクター一覧SR:
   - name: ビートスラッシャー・ショウコ
     slug: characters/ビートスラッシャー・ショウコ
@@ -1259,3 +1262,9 @@ mirrored:
   - name: Tips一覧
     slug: tips
     url: https://escalationheroines.wikiru.jp/?Tips%E4%B8%80%E8%A6%A7
+  - name: ゲーム外企画
+    slug: external-projects
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB
+  - name: 事前登録特典
+    slug: prereg-bonus
+    url: https://escalationheroines.wikiru.jp/?%E4%BA%8B%E5%89%8D%E7%99%BB%E9%8C%B2%E7%89%B9%E5%85%B8

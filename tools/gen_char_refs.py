@@ -24,21 +24,35 @@ def main():
 
     pending = json.load(open(PENDING, encoding='utf-8'))
     avatar_hashes: dict[str, str] = {}
+    # displayName(正文可能出现的形式：日文名 / 中文名) → 规范化 key(=文件名=modal 加载 key)
+    # 正文里中文页会把角色名渲染成 name_zh，必须也映射回日文 key，否则悬停加载会 404。
+    name_aliases: dict[str, str] = {}
     for n in names:
         d = json.load(open(os.path.join(CHAR_DIR, n + '.json'), encoding='utf-8'))
+        name_aliases[n] = n  # 日文名即 key
+        zh = d.get('name_zh', '')
+        if zh and zh != n:
+            name_aliases[zh] = n
         icon = d.get('icon', '')
         if not icon:
             continue
-        url = 'https://escalationheroines.wikiru.jp/' + icon  # icon 形如 attach2/<hex>.png
-        h = pending.get(url)
+        # icon 形如 "img/<hash>.png"（本地资源，frag 里即 /img/<hash>）——
+        # 直接取其文件名作为 hash 键；少数历史数据为 wiki 原始路径 attach2/<hex>.png，
+        # 则经 pending_assets 反查本地 hash。
+        if icon.startswith('img/'):
+            h = icon.split('/')[-1]
+        elif icon.startswith('http'):
+            h = pending.get(icon)
+        else:
+            h = pending.get('https://escalationheroines.wikiru.jp/' + icon)
         if h:
             avatar_hashes[h] = n
 
-    out = {'names': names, 'avatarHashes': avatar_hashes}
+    out = {'names': names, 'avatarHashes': avatar_hashes, 'nameAliases': name_aliases}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, indent=0)
-    print(f'角色名: {len(names)}  头像hash映射: {len(avatar_hashes)}  -> {os.path.relpath(OUT, ROOT)}')
+    print(f'角色名: {len(names)}  头像hash映射: {len(avatar_hashes)}  别名(含中文名): {len(name_aliases)}  -> {os.path.relpath(OUT, ROOT)}')
 
 
 if __name__ == '__main__':

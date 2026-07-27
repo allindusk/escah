@@ -47,6 +47,15 @@
 .VPNavBar.has-sidebar .wrapper .content .curtain,
 .VPNavBar .wrapper .content .curtain { backdrop-filter: blur(10px); }
 .VPNavBar .wrapper { border-bottom: 1px solid var(--escah-border); }
+/* 顶部导航栏：置顶且必须不透明，避免向下滚动时正文透过毛玻璃显示出来。
+   构建产物里 .curtain 仅含 backdrop-filter 而无实色底，故在此显式补背景。 */
+.VPNav { position: fixed !important; top: 0; left: 0; right: 0; z-index: 100 !important; }
+.VPNavBar,
+.VPNavBar .wrapper,
+.VPNavBar .wrapper .content .curtain {
+  background-color: var(--vp-nav-bg-color) !important;
+  opacity: 1 !important;
+}
 /* 仅作用于链接本体 <a class="title">，避免外层 <div class="title"> 容器也被加上方块（否则出现两个标题方块、撑破布局） */
 .VPNavBar .title a.title::before,
 .VPNavBar .title > a::before {
@@ -370,24 +379,47 @@
 }
 .lightbox-mask img { max-width: 92vw; max-height: 92vh; border-radius: 10px; box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
 
-/* ========== 侧栏分组标题底色：区分分组名与页面名 ========== */
-/* VitePress 顶层分组（.is-group）标题加渐变胶囊，使分组名与下级的页面链接明显区分 */
-.VPSidebarItem.is-group > .item .text {
-  display: inline-block;
-  padding: 3px 11px;
-  margin: 2px 0;
-  border-radius: 999px;
+/* ========== 侧栏分组标题底色：整行高亮区分分组名与页面名 ========== */
+/* 注意：本 VitePress 版本的分组头类为 .VPSidebarItem.level-0.collapsible
+   （无 is-group），故以 .collapsible 选中所有折叠分组头，给整行 .item 加底色。 */
+.VPSidebarItem.collapsible > .item {
+  align-items: center;
+  background: var(--escah-grad-soft);   /* 品红紫淡渐变整行底色 */
+  border-left: 3px solid var(--escah-pink);
+  border-radius: 8px;
+  padding: 5px 10px !important;
+  margin: 6px 0 2px;
+}
+.VPSidebarItem.collapsible > .item .text {
   font-weight: 700;
-  color: #fff !important;
-  background: var(--escah-grad);
-  box-shadow: 0 2px 6px rgba(233, 30, 99, 0.22);
+  color: var(--escah-purple) !important;
 }
-/* 暗黑主题下稍提亮，保持可读 */
-.dark .VPSidebarItem.is-group > .item .text {
-  box-shadow: 0 2px 8px rgba(233, 30, 99, 0.45);
+/* 嵌套分组（如「角色一览」）稍弱一档，避免喧宾夺主 */
+.VPSidebarItem.level-1.collapsible > .item {
+  background: rgba(156, 39, 176, 0.06);
+  border-left-color: var(--escah-purple);
 }
-/* 分组折叠箭头与胶囊标题垂直居中对齐 */
-.VPSidebarItem.is-group > .item { align-items: center; }
+/* 暗黑主题：底色换深色、文字提亮 */
+.dark .VPSidebarItem.collapsible > .item {
+  background: rgba(156, 39, 176, 0.22);
+}
+.dark .VPSidebarItem.collapsible > .item .text {
+  color: #f3c0ec !important;
+}
+.dark .VPSidebarItem.level-1.collapsible > .item {
+  background: rgba(156, 39, 176, 0.12);
+}
+
+/* ========== 术语/俗语词条：中文标题后附带的原日文（弱化、小号）========== */
+/* glossary/slang 等 <dl class="list1 list-indent1"> 的词条标题，由 sitegen
+   在 zh 渲染时于中文后补入「（日文）」并包 .term-ja，便于弱化显示。 */
+.term-ja {
+  font-weight: 400;
+  font-size: 0.82em;
+  color: var(--vp-c-text-2);
+  margin-left: 2px;
+  white-space: nowrap;
+}
 
 /* ========== 顶栏控制条：宽度模式 / 收起侧栏 / 收起目录 ========== */
 .escah-nav-controls {
@@ -418,8 +450,12 @@
 }
 
 /* ========== 宽度模式 + 侧栏/目录收起 ========== */
-/* 超宽模式（默认关=标准居中宽度，见 uiPrefs.ts）：开启后侧栏贴最左、
-   目录贴最右、正文填满二者之间的全部空间。 */
+/* 标准模式（默认）：VitePress 默认 --vp-layout-max-width:1440px 居中，
+   侧栏内缩、正文居中、目录贴右内缩（即“导航在2、正文3-7、目录在9”）。
+   超宽模式：解除整页布局的 1440px 居中限制，让侧栏贴最左(0)、
+   目录贴最右(视口边)、正文填满二者之间(即“导航在1、正文2-9、目录在10”)，
+   内容随可用宽度自适应拉宽。 */
+.escah-ultrawide { --vp-layout-max-width: 100% !important; }
 .escah-ultrawide .VPDoc .container { max-width: 100% !important; }
 .escah-ultrawide .VPDoc .content-container,
 .escah-ultrawide .VPDoc.has-aside .content-container { max-width: 100% !important; }
@@ -427,7 +463,7 @@
 /* 侧栏贴最左：覆盖 VitePress ≥1440px 按 --vp-layout-max-width 做的居中偏移 */
 @media (min-width: 1440px) {
   .escah-ultrawide .VPSidebar {
-    padding-left: 24px !important;
+    padding-left: 20px !important;
     width: var(--vp-sidebar-width) !important;
   }
 }
@@ -524,28 +560,39 @@
   border-color: var(--escah-pink);
   box-shadow: 0 0 0 2px var(--vp-c-brand-soft);
 }
-/* 自适应列宽/行宽：去掉强制撑满，让表格按内容收缩，避免大量留白 */
+/* 增强表格：以真实表格布局渲染；列宽随内容、过宽时由容器横向滚动 */
+.escah-tbl .table-scroll { overflow-x: auto; overflow-y: hidden; }
 .escah-tbl .table-scroll > table {
+  display: table !important;
   width: auto !important;
-  min-width: 0 !important;
+  max-width: none !important;
   table-layout: auto !important;
+  border-collapse: collapse;
 }
 .escah-tbl .table-scroll > table td,
 .escah-tbl .table-scroll > table th {
   width: auto !important;
   height: auto !important;
-  white-space: normal;
+  max-width: 30vw;             /* 列宽上限：任何一列不超过页面 30% */
+  white-space: normal;         /* 允许长文本在 30vw 内换行（短列不受影响） */
+  overflow-wrap: anywhere;     /* 长串/无空格文本也强制换行，避免列被撑得过宽 */
+  vertical-align: top;
+}
+.escah-tbl .table-scroll > table th {
+  background: var(--escah-grad-soft);
+  font-weight: 600;
 }
 /* 可点击排序的表头 */
 .escah-sortable { cursor: pointer; user-select: none; }
 .escah-sortable::after {
   content: "⇅";
   margin-left: 4px;
-  opacity: 0.4;
   font-size: 11px;
+  color: var(--escah-purple);
+  opacity: 0.5;
 }
-.escah-sort-asc::after { content: "▲"; opacity: 1; }
-.escah-sort-desc::after { content: "▼"; opacity: 1; }
+.escah-sort-asc::after { content: "▲"; color: var(--escah-pink); opacity: 1; }
+.escah-sort-desc::after { content: "▼"; color: var(--escah-pink); opacity: 1; }
 
 /* 页面内全屏（overlay，非屏幕全屏） */
 .escah-tbl-fs {
@@ -595,16 +642,45 @@
   padding: 5px 9px;
   text-align: left;
   vertical-align: top;
+  max-width: 30vw;             /* 全屏表格同样：任何一列不超过页面 30% */
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
-.escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.12); font-weight: 600; white-space: nowrap; }
+.escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.12); font-weight: 600; white-space: normal; }
 .dark .escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.24); }
 
-/* 图像列：固定最小宽度，保证图片以正常尺寸显示而不被压缩 */
-.escah-img-col { min-width: 80px; }
-.escah-img-col img { display: block; max-width: none; height: auto; }
+/* 图像列：固定最小宽度，保证图片以正常尺寸显示而不被压缩；图文混排时居中 */
+.escah-img-col { min-width: 80px; text-align: center; vertical-align: middle; }
+.escah-img-col img { display: inline-block; vertical-align: middle; max-width: none; height: auto; }
 
-/* 超长文本列：最高约 10 行高度，超出可滚动；列宽随内容加宽 */
-.escah-long { max-height: calc(10 * 1.6em); overflow: auto; min-width: 300px; }
+/* 纯图标列表单元格：
+   - 单图标（escah-img-stack）：竖向堆叠（每个图标独占一行），由 tableEnhancer 标记；
+   - 多图标（escah-img-row）：横向排列并换行，与原站点一致（如 getting-started 的资源图标）。
+   仅作用于 applyImageStack 标记的单元格（除图片链接外无其它文字）。 */
+.escah-img-stack a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.4;
+}
+.escah-img-stack a + a { margin-top: 4px; }
+/* 多图标横向排列（与原站点一致） */
+.escah-img-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  line-height: 1.5;
+}
+
+/* 超长文本列：换行并在内部滚动，避免单列过宽 / 整行被撑高 */
+.escah-tbl .table-scroll > table td.escah-long,
+.escah-tbl .table-scroll > table th.escah-long {
+  white-space: normal;
+  max-height: 9em;
+  overflow: auto;
+  min-width: 180px;
+}
 
 /* 全屏内移动的是真实表格容器：取消内层滚动，由外层统一横向/纵向滚动 */
 .escah-tbl-fs-scroll .table-scroll { overflow: visible; max-width: none; }
@@ -620,4 +696,63 @@
   .charlist-toolbar { position: static; }
   .home-hero { padding: 36px 20px; }
   .home-hero h1 { font-size: 24px; }
+}
+
+/* ========== 自定义树状目录（DocOutline，取代默认 outline） ========== */
+.escah-doc-outline {
+  position: sticky;
+  top: calc(var(--vp-nav-height, 64px) + 24px);
+  max-height: calc(100vh - var(--vp-nav-height, 64px) - 48px);
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.5;
+  padding-bottom: 24px;
+}
+.escah-doc-outline-title {
+  margin: 0 0 8px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--vp-c-text-1);
+}
+.escah-outline-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.escah-outline-list .escah-outline-list {
+  padding-left: 11px;
+  margin-left: 5px;
+  border-left: 1px solid var(--vp-c-divider);
+}
+.escah-ol-item > a {
+  display: block;
+  padding: 3px 8px;
+  margin: 1px 0;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+/* ========== 搜索冷加载提示（索引懒加载空窗期） ========== */
+.VPLocalSearchBox.escah-search-loading .results::before {
+  content: "正在搜索中，请稍等…";
+  display: block;
+  padding: 28px 12px;
+  text-align: center;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+}
+.escah-ol-item > a:hover {
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-default-soft);
+}
+.escah-ol-item > a.active {
+  color: var(--vp-c-brand-1);
+  border-left-color: var(--vp-c-brand-1);
+  font-weight: 600;
 }

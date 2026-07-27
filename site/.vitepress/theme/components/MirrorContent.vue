@@ -22,19 +22,20 @@ const resolved = computed(() =>
 )
 
 // ===== 全页面角色浮窗 =====
-// charRefs 由 tools/gen_char_refs.py 生成：369 个角色名 + 头像 hash→名 映射。
+// charRefs 由 tools/gen_char_refs.py 生成：角色名(=日文 key) + 头像 hash→名 映射 + nameAliases(日文名/中文名→key)。
 // 正文里无论「角色链接 / 独立头像 / 纯文本角色名」出现，都打 data-char 标记，
 // 统一接入与「角色一览」一致的悬停展示 / 点击固定逻辑。
 const nameSet = new Set<string>(charRefs.names)
 const avatarMap: Record<string, string> = charRefs.avatarHashes
 
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-// 纯文本匹配仅用长度 ≥ 3 的名字，避免过短名字造成大量误命中；
-// 按长度降序排列，使较长名字优先（重叠处不吃掉短名）。
-const plainNames = charRefs.names
+// 纯文本匹配覆盖「日文名 + 中文名(name_zh)」全部出现形式：中文页正文把角色名渲染成 name_zh，
+// 必须映射回日文 key(=文件名) 才能正确加载浮窗数据（否则 404）。按长度降序使长名优先（不吃掉短名）。
+const nameAliases: Record<string, string> = (charRefs as any).nameAliases || {}
+const plainDisplays = Object.keys(nameAliases)
   .filter((n) => Array.from(n).length >= 3)
   .sort((a, b) => Array.from(b).length - Array.from(a).length)
-const nameRegex = new RegExp(plainNames.map(escapeRegExp).join('|'), 'g')
+const nameRegex = new RegExp(plainDisplays.map(escapeRegExp).join('|'), 'g')
 
 const root = ref<HTMLElement | null>(null)
 
@@ -65,8 +66,9 @@ function wrapPlainTextNames(el: HTMLElement) {
     acceptNode(node) {
       const p = node.parentElement
       if (!p) return NodeFilter.FILTER_REJECT
-      // 跳过链接内、已标记的 span、脚本/样式
-      if (p.closest('a, [data-char], script, style')) return NodeFilter.FILTER_REJECT
+      // 跳过已标记的 span、脚本/样式；但「非 /characters/ 的外部链接」内的角色名
+      // 仍要作为纯文本打 data-char（tagCharLinks 仅处理指向角色页的链接，会漏掉外链中的名字）
+      if (p.closest('[data-char], script, style')) return NodeFilter.FILTER_REJECT
       return NodeFilter.FILTER_ACCEPT
     },
   })
@@ -88,7 +90,7 @@ function wrapPlainTextNames(el: HTMLElement) {
       if (idx > last) frag.appendChild(document.createTextNode(text.slice(last, idx)))
       const span = document.createElement('span')
       span.className = 'char-ref'
-      span.setAttribute('data-char', matched)
+      span.setAttribute('data-char', nameAliases[matched] || matched)
       span.textContent = matched
       frag.appendChild(span)
       last = idx + matched.length

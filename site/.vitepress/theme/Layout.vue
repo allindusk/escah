@@ -3,8 +3,11 @@ import DefaultTheme from 'vitepress/theme'
 import { useData, withBase } from 'vitepress'
 import { onMounted, onUnmounted, ref } from 'vue'
 import CharHoverModal from './components/CharHoverModal.vue'
+import DocOutline from './components/DocOutline.vue'
 import MetaBar from './components/MetaBar.vue'
 import ScrollButtons from './components/ScrollButtons.vue'
+import SiteAccessSwitch from './components/SiteAccessSwitch.vue'
+import SearchLoading from './components/SearchLoading.vue'
 import { useI18n } from './i18n'
 import { uiPrefs, applyUiClasses } from './uiPrefs'
 
@@ -68,10 +71,14 @@ const homeHref = () => withBase(lang.value.startsWith('zh') ? 'zh/' : 'ja/')
         >
           {{ uiPrefs.tocCollapsed ? '展开目录' : '收起目录' }}
         </button>
+        <SiteAccessSwitch />
       </div>
     </template>
     <template #doc-bottom>
       <MetaBar />
+    </template>
+    <template #aside-top>
+      <DocOutline />
     </template>
     <template #not-found>
       <div class="escah-notfound">
@@ -84,6 +91,7 @@ const homeHref = () => withBase(lang.value.startsWith('zh') ? 'zh/' : 'ja/')
   </Layout>
   <CharHoverModal />
   <ScrollButtons />
+  <SearchLoading />
   <div v-if="lbSrc" class="lightbox-mask" @click="lbSrc = ''">
     <img :src="lbSrc" alt="" />
   </div>

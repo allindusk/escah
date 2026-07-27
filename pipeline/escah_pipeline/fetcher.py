@@ -38,9 +38,14 @@ def page_url(name: str) -> str:
     return f"{config.SOURCE_BASE}?{quote(name)}"
 
 
-# WIKI 自身的"最后编辑时间"，位于每页 #body 内：最終更新日時:YYYY-MM-DD (曜) HH:MM:SS
+# WIKI 自身的"最后编辑时间"，存在于两处：
+#   - <meta name="description" content="最終更新日時:YYYY-MM-DD (曜) HH:MM:SS...">
+#   - <div id="lastmodified">Last-modified: YYYY-MM-DD (曜) HH:MM:SS<span ...>
+# 两种形式都解析（兼容有无空格 / 是否含秒），保证全站覆盖。
 LASTMOD_RE = re.compile(
-    r"最終更新日時:(\d{4}-\d{2}-\d{2}) \(.\d?\) (\d{2}:\d{2}:\d{2})"
+    r"(?:最終更新日時|Last-modified):\s*"
+    r"(\d{4}-\d{2}-\d{2})\s*\(.\d?\)\s*"
+    r"(\d{1,2}:\d{2}(?::\d{2})?)"
 )
 
 

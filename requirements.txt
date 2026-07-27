@@ -1,0 +1,6 @@
+# Python 流水线依赖（GitHub Pages CI 用）
+pyyaml
+lxml
+beautifulsoup4
+httpx
+python-dotenv

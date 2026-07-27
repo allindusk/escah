@@ -86,6 +86,9 @@ def extract_character(name: str, raw_html: str) -> dict | None:
                     cell["rs"] = int(c["rowspan"])
                 if needs_translation(text):
                     cell["tr"] = True
+                zh = i18n.char_cell_zh(text)
+                if zh:
+                    cell["zh"] = zh
                 cells.append(cell)
             if cells:
                 out_rows.append(cells)

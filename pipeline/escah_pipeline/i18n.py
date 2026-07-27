@@ -137,6 +137,11 @@ _CORR_RE: "re.Pattern | None" = None
 _CORR_MAP: "dict[str, str] | None" = None
 _LEARNED = False
 
+# 角色浮窗单元格翻译（chara.py 注入 zh 字段用）：UI 标签 + 常用游戏术语值
+_TERMS_FILE = config.ROOT / "glossary" / "terms.yaml"
+_CHAR_LABEL_NORM: "dict[str, str] | None" = None
+_CHAR_VALUE_NORM: "dict[str, str] | None" = None
+
 
 def _load_name_glossary() -> None:
     global _NAME_RE, _NAME_MAP, _GLOSSARY_NORM
@@ -247,6 +252,44 @@ def name_zh(ja: str) -> "str | None":
     if _GLOSSARY_NORM is None:
         return None
     return _GLOSSARY_NORM.get(_norm(ja))
+
+
+def _load_char_terms() -> None:
+    """角色浮窗 UI 标签 / 常用游戏术语值的 zh 词表（glossary/terms.yaml 的
+    char_labels / char_values，JA→ZH，归一化 ja 精确匹配）。"""
+    global _CHAR_LABEL_NORM, _CHAR_VALUE_NORM
+    if _CHAR_LABEL_NORM is not None:
+        return
+    labels: dict = {}
+    values: dict = {}
+    if _TERMS_FILE.exists():
+        try:
+            loaded = yaml.safe_load(_TERMS_FILE.read_text(encoding="utf-8")) or {}
+            labels = loaded.get("char_labels", {}) or {}
+            values = loaded.get("char_values", {}) or {}
+        except Exception as e:  # 词表损坏不应阻断渲染
+            log.warning("[i18n char] 加载 glossary/terms.yaml 失败：%s", e)
+    # 仅保留「真有替换」的条目（ja==zh 视为无需替换，跳过）
+    _CHAR_LABEL_NORM = {_norm(k): v for k, v in labels.items() if k and v and k != v}
+    _CHAR_VALUE_NORM = {_norm(k): v for k, v in values.items() if k and v and k != v}
+
+
+def char_cell_zh(ja: str) -> "str | None":
+    """角色浮窗单元格翻译：先专有名词/技能精翻（名字、必殺技/固有効果 名称与效果），
+    再 UI 标签（名前/本名/レアリティ…），最后常用游戏术语值（近距離攻撃(物理)…）。
+    命中且 zh≠ja 返回中文，否则 None（保留日文）。供 chara.py 注入单元格 zh 字段。"""
+    if not ja:
+        return None
+    ov = _name_override(ja)
+    if ov:
+        return ov
+    _load_char_terms()
+    n = _norm(ja)
+    if _CHAR_LABEL_NORM and n in _CHAR_LABEL_NORM:
+        return _CHAR_LABEL_NORM[n]
+    if _CHAR_VALUE_NORM and n in _CHAR_VALUE_NORM:
+        return _CHAR_VALUE_NORM[n]
+    return None
 
 
 def _tpl_path(slug: str) -> Path:
@@ -789,13 +832,13 @@ def extract_todo(slugs: list[str] | None = None, date: str | None = None) -> str
         pages += 1
         total += len(lines)
 
+    TODO_DIR.mkdir(parents=True, exist_ok=True)
     translated_path.touch()  # 空白译文文件（翻译模型产出后由 fill 取用）
 
     if not new_sections:
         log.info("无新增待译页面（或均已列入）：%s", todo_path)
         return str(todo_path)
 
-    TODO_DIR.mkdir(parents=True, exist_ok=True)
     if todo_path.exists():
         cur = todo_path.read_text(encoding="utf-8", errors="replace")
         if cur and not cur.endswith("\n"):
@@ -987,7 +1030,8 @@ def char_fill_all() -> None:
                         changed = True
                         hit += 1
         if changed:
-            f.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+            # 与 chara.py 提取时的缩进保持一致（indent=1），避免每次回填都重排版全量文件
+            f.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
         if i % 100 == 0 or i == len(files):
             log.info("[char-fill] %d/%d", i, len(files))
     log.info("char-fill 完成：%d 文件，命中更新 %d / 候选 %d", len(files), hit, total)
@@ -1016,6 +1060,9 @@ def render_locale(slug: str, locale: str) -> str | None:
                     continue
                 if all(keys.get(k, {}).get("zh") for k in blk.get("keys", [])):
                     continue  # 节点级全有译文 → 保留行内结构
+                # 含图片/表格的块：保留结构（避免丢图/丢表），节点级回退 ja
+                if any(d.tag in ("img", "table") for d in el.iter()):
+                    continue
                 for child in list(el):
                     el.remove(child)
                 if locale == "zh":

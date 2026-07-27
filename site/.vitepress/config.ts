@@ -96,8 +96,10 @@ async function renderMirror(_mdSrc: string, env: { relativePath: string }, md: {
 }
 
 // CJK 自定义分词：单字 + bigram，保证中日文检索召回
-const CJK_RE = /[぀-ヿ㐀-䶿一-鿿豈-﫿]/
+// ⚠️ tokenize 会被 VitePress 序列化后在浏览器端 eval 重建（deserializeFunctions），
+// 闭包外的变量全部丢失 → 正则必须定义在函数体内，否则运行时 ReferenceError、搜索 0 结果。
 function tokenize(text: string): string[] {
+  const CJK_RE = /[\u3040-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]/
   const tokens: string[] = []
   for (const word of text.split(/[\s\-–—/\\,.;:!?()[\]{}<>"'`~@#$%^&*+=|、。・，；：！？「」『』（）]+/)) {
     if (!word) continue
@@ -115,17 +117,17 @@ const navJa = [
   { text: 'ホーム', link: '/ja/' },
   { text: 'キャラクター', link: '/ja/characters.html' },
   { text: '更新履歴', link: '/ja/updates.html' },
-  { text: '原文Wiki', link: 'https://escalationheroines.wikiru.jp/' },
+  { text: '原WIKI站点', link: 'https://escalationheroines.wikiru.jp/' },
 ]
 const navZh = [
   { text: '首页', link: '/zh/' },
   { text: '角色一览', link: '/zh/characters.html' },
   { text: '更新记录', link: '/zh/updates.html' },
-  { text: '原文Wiki', link: 'https://escalationheroines.wikiru.jp/' },
+  { text: '原WIKI站点', link: 'https://escalationheroines.wikiru.jp/' },
 ]
 
 export default defineConfig({
-  base: '/escah/',
+  base: process.env.BASE || '/escah/',
   title: '超昂大戦 Wiki',
   description: '超昂大戦エスカレーションヒロインズ攻略 Wiki 中日双语镜像站',
   ignoreDeadLinks: true,
@@ -137,7 +139,8 @@ export default defineConfig({
       themeConfig: {
         nav: navJa,
         sidebar: sidebarJa,
-        outline: { label: '目次' },
+        // 默认 outline 关闭：改用自定义树状目录 DocOutline（见 Layout.vue #aside-top）
+        outline: false,
         docFooter: { prev: '前のページ', next: '次のページ' },
         lastUpdated: { text: '最終更新' },
         returnToTopLabel: 'トップへ戻る',
@@ -151,7 +154,8 @@ export default defineConfig({
       themeConfig: {
         nav: navZh,
         sidebar: sidebarZh,
-        outline: { label: '目录' },
+        // 默认 outline 关闭：改用自定义树状目录 DocOutline（见 Layout.vue #aside-top）
+        outline: false,
         docFooter: { prev: '上一页', next: '下一页' },
         lastUpdated: { text: '最后更新' },
         returnToTopLabel: '返回顶部',

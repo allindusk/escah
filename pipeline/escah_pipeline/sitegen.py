@@ -43,7 +43,6 @@ _MTIME_RE = re.compile(r"Last-modified:\s*([0-9]{4}-[0-9]{2}-[0-9]{2}[^<\n]*)")
 MD_TEMPLATE = """---
 title: "{title}"
 layout: doc
-outline: [2, 3]
 meta:
   sourceUrl: "{source_url}"
   sourceUpdated: "{source_updated}"
@@ -317,6 +316,47 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
 
 
 
+# 假名范围：用于判定文本是否仍含日文（需在中文标题后补原词）
+_TERM_KANA_RE = re.compile(
+    r"[\u3040-\u309F\u30A0-\u30FF\u31F0-\u31FF\uFF65-\uFF9F]"
+)
+_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def _has_kana(s: str) -> bool:
+    return bool(_TERM_KANA_RE.search(s or ""))
+
+
+def _augment_term_originals(zh_html: str, ja_html: str) -> str:
+    """术语/俗语类页面：在 zh 的 <dt> 中文标题后补上原日文（中文（日文））。
+
+    仅对含 <dl class="list1 list-indent1"> 的词条列表生效；按文档顺序把 zh 与 ja
+    的同序 <dt> 配对，若 zh 标题尚未含日文则追加「（日文）」（包一层 .term-ja
+    便于弱化样式），已含（如俗语集译者已手写日文）则跳过，保证幂等且不重复。
+    """
+    if (
+        "list1 list-indent1" not in zh_html
+        or "list1 list-indent1" not in ja_html
+    ):
+        return zh_html
+    zh_dts = re.findall(r"<dt>(.*?)</dt>", zh_html, re.S)
+    ja_dts = re.findall(r"<dt>(.*?)</dt>", ja_html, re.S)
+    if len(zh_dts) != len(ja_dts) or not zh_dts:
+        return zh_html
+    ja_iter = iter(ja_dts)
+
+    def repl(m: "re.Match") -> str:
+        zh_txt = m.group(1)
+        ja_txt = _TAG_RE.sub("", next(ja_iter, "")).strip()
+        if ja_txt and not _has_kana(zh_txt) and _has_kana(ja_txt):
+            return (
+                f'<dt>{zh_txt}<span class="term-ja">（{ja_txt}）</span></dt>'
+            )
+        return m.group(0)
+
+    return re.sub(r"<dt>(.*?)</dt>", repl, zh_html, flags=re.S)
+
+
 def sync_site() -> None:
     config.ensure_dirs()
     entries = load_registry()
@@ -332,6 +372,12 @@ def sync_site() -> None:
         source_url = (manifest.page(name) or {}).get("url") or f"{config.SOURCE_BASE}?{name}"
         source_updated = _source_mtime(name)
         use_i18n = i18n.has_i18n(slug)
+        # 预取 ja 片段，供 zh 词条标题补原日文（术语/俗语页）配对使用
+        ja_fragment = None
+        if use_i18n:
+            ja_fragment = i18n.render_locale(slug, "ja")
+        else:
+            ja_fragment, _, _ = _read_fragment(slug, "ja", name)
         for locale, site_dir in (("ja", config.SITE_JA_DIR), ("zh", config.SITE_ZH_DIR)):
             if use_i18n:
                 # key 化 i18n：模板 {{keyN}} → 语言文本（查表，零正则），已预净化
@@ -342,6 +388,9 @@ def sync_site() -> None:
                 fragment, translated, reviewed = _read_fragment(slug, locale, name)
             if not fragment:
                 continue
+            # 术语/俗语类页面：zh 标题补原日文（ja 片段配对，已含则跳过）
+            if locale == "zh" and ja_fragment and "list1 list-indent1" in fragment:
+                fragment = _augment_term_originals(fragment, ja_fragment)
             md_path = site_dir / f"{route_slug}.md"
             _write_md(md_path, _page_title_ja2zh(name, locale), fragment, route_slug, source_url, source_updated, synced, reviewed, translated, locale, pre_sanitized=use_i18n)
             written += 1
@@ -380,6 +429,10 @@ def sync_site() -> None:
 
     char_out = public_data / "char"
     char_out.mkdir(exist_ok=True)
+    # 浮窗 JSON 的 zh 必须由「角色自己页面的 i18n 词典」回填（节点级 keyN + 整句块
+    # 回退 blkN），与详情页 render_locale 用同一数据源。否则 extract_all_characters
+    # 只做了 glossary 精确匹配（无块级回退），浮窗会比详情页少译大量技能/效果文本。
+    i18n.char_fill_all()
     copied = 0
     for f in config.PARSED_CHAR_DIR.glob("*.json"):
         shutil.copy2(f, char_out / f.name)
