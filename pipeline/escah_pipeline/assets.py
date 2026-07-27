@@ -50,7 +50,7 @@ def download_assets(force: bool = False) -> None:
 
     manifest = Manifest()
     ok = failed = 0
-    workers = max(4, min(os.cpu_count() or 4, 16))
+    workers = max(4, round((os.cpu_count() or 4) * 0.8))  # 留约 20% CPU 不占满
     with ThreadPoolExecutor(max_workers=workers) as ex:
         futures = [ex.submit(_download_one, url, filename, path) for (url, filename, path) in todo]
         for fut in as_completed(futures):

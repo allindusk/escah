@@ -4,22 +4,15 @@ slug = sys.argv[1]
 src = pathlib.Path(f'data/parsed/ja/{slug}.html')
 text = src.read_text(encoding='utf-8')
 
-# 现有键
-tree = ast.parse(pathlib.Path('tools/zh_patch.py').read_text(encoding='utf-8'))
+# 现有键：以用户手工译文 (_manual_zh.json) 为准（原硬编码 JA2ZH 散文词典已于 2026-07-26 移除）。
+import json as _json
+_manual_file = pathlib.Path('tools/_manual_zh.json')
 existing = set()
-def collect(node):
-    if isinstance(node.value, ast.Dict):
-        for k in node.value.keys:
-            if isinstance(k, ast.Constant) and isinstance(k.value, str):
-                existing.add(k.value)
-for node in ast.walk(tree):
-    if isinstance(node, ast.Assign):
-        for t in node.targets:
-            if isinstance(t, ast.Name) and t.id == 'JA2ZH':
-                collect(node)
-    elif isinstance(node, ast.AnnAssign):
-        if isinstance(node.target, ast.Name) and node.target.id == 'JA2ZH':
-            collect(node)
+if _manual_file.is_file():
+    try:
+        existing = set(_json.loads(_manual_file.read_text(encoding='utf-8')).keys())
+    except Exception:
+        existing = set()
 
 ka = re.compile(r'[぀-ゟ゠-ヺ]')
 tag = re.compile(r'<[^>]+>')

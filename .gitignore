@@ -12,6 +12,8 @@ site/node_modules/
 site/.vitepress/dist/
 site/.vitepress/cache/
 site/.vitepress/frag/
+# 前端组件 SSR import 用的生成数据（由 sitegen 从 data/parsed 重建，不入库）
+site/.vitepress/theme/.gen-data/
 
 # 日志
 data/logs/
@@ -29,3 +31,22 @@ site/public/
 site/**/*.md
 recycle_bin/
 .vscode/
+
+# 手动翻译工作文件
+# _texts_for_translation 可由 tools/_extract_texts.py 从 data/parsed 重建，不入库；
+# _translated_texts 是用户手工填写的译文（唯一源头真值，既是待译清单也是已译存档），入库；
+#   i18n extract 把空 zh 的 key 增量追加到此目录的 <slug>.txt（附 # 原文 参考 + [keyN]/[blkN] 空译文位），
+#   用户直接在同一文件内补译后跑 i18n fill；旧 [N] 行为迁移遗留，勿删。
+# _manual_zh.json 由 inject_translations.py 从 _translated_texts 重建（旧流程），不入库。
+tools/_texts_for_translation/
+tools/_manual_zh.json
+
+# tools 杂项日志 / 临时输出
+tools/*.log
+tools/*.err
+tools/_*.txt
+# 后台任务护栏：锁文件与运行日志（由 tools/_bg.py 与 tools/_rebuild.bat 生成，不入库）
+tools/_bg.lock
+tools/_rebuild.lock
+tools/_logs/
+tools/_rebuild.log

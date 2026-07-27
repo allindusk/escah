@@ -19,7 +19,8 @@
     "unpin": "取消固定",
     "close": "关闭",
     "dragHint": "按住此处拖动",
-    "fullPage": "打开完整详情页"
+    "fullPage": "打开完整详情页",
+    "clickToPin": "点击可固定显示"
   },
   "meta": {
     "sourceUpdated": "原文更新",
@@ -37,13 +38,6 @@
     "pages": "页面",
     "chars": "角色",
     "lastSync": "最近同步"
-  },
-  "glossary": {
-    "title": "日中术语对照表",
-    "filter": "筛选…",
-    "ja": "日文",
-    "zh": "中文",
-    "note": "备注"
   },
   "updates": {
     "title": "更新记录",

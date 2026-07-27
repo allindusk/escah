@@ -164,14 +164,6 @@ pages:
   slug: tips
   category: misc
   mode: watch
-- name: ゲーム外企画
-  slug: external-projects
-  category: misc
-  mode: watch
-- name: 事前登録特典
-  slug: prereg-bonus
-  category: misc
-  mode: watch
 - name: エスカレイヤー
   slug: characters/エスカレイヤー
   category: character-detail

@@ -5,7 +5,58 @@
   "items": [
    {
     "text": "キャラクター一覧",
-    "link": "/ja/characters"
+    "link": "/ja/characters.html",
+    "collapsed": false,
+    "items": [
+     {
+      "text": "SSR",
+      "link": "/ja/list-ssr.html"
+     },
+     {
+      "text": "SR",
+      "link": "/ja/list-sr.html"
+     },
+     {
+      "text": "R",
+      "link": "/ja/list-r.html"
+     }
+    ]
+   },
+   {
+    "text": "必殺技一覧",
+    "link": "/ja/skills.html"
+   },
+   {
+    "text": "固有効果一覧",
+    "link": "/ja/unique-effects.html"
+   },
+   {
+    "text": "絞り込めるカテゴリ一覧",
+    "link": "/ja/special-attributes.html"
+   },
+   {
+    "text": "原画別索引",
+    "link": "/ja/artists.html"
+   },
+   {
+    "text": "CV一覧",
+    "link": "/ja/voice-actors.html"
+   },
+   {
+    "text": "実装履歴",
+    "link": "/ja/release-history.html"
+   },
+   {
+    "text": "サポーター",
+    "link": "/ja/list-supporter.html"
+   },
+   {
+    "text": "NPC",
+    "link": "/ja/list-npc.html"
+   },
+   {
+    "text": "寝室シーン一覧",
+    "link": "/ja/bedroom-scenes.html"
    }
   ]
  },
@@ -15,77 +66,19 @@
   "items": [
    {
     "text": "序盤の手引き",
-    "link": "/ja/getting-started"
+    "link": "/ja/getting-started.html"
    },
    {
     "text": "よくある質問",
-    "link": "/ja/faq"
+    "link": "/ja/faq.html"
    },
    {
     "text": "小ネタ・小ワザ集",
-    "link": "/ja/tips-tricks"
+    "link": "/ja/tips-tricks.html"
    },
    {
     "text": "ガチャ",
-    "link": "/ja/gacha"
-   }
-  ]
- },
- {
-  "text": "キャラクター",
-  "collapsed": true,
-  "items": [
-   {
-    "text": "キャラクター一覧",
-    "link": "/ja/characters-mirror"
-   },
-   {
-    "text": "必殺技一覧",
-    "link": "/ja/skills"
-   },
-   {
-    "text": "固有効果一覧",
-    "link": "/ja/unique-effects"
-   },
-   {
-    "text": "絞り込めるカテゴリ一覧",
-    "link": "/ja/special-attributes"
-   },
-   {
-    "text": "原画別索引",
-    "link": "/ja/artists"
-   },
-   {
-    "text": "CV一覧",
-    "link": "/ja/voice-actors"
-   },
-   {
-    "text": "実装履歴",
-    "link": "/ja/release-history"
-   },
-   {
-    "text": "SSR",
-    "link": "/ja/list-ssr"
-   },
-   {
-    "text": "SR",
-    "link": "/ja/list-sr"
-   },
-   {
-    "text": "R",
-    "link": "/ja/list-r"
-   },
-   {
-    "text": "サポーター",
-    "link": "/ja/list-supporter"
-   },
-   {
-    "text": "NPC",
-    "link": "/ja/list-npc"
-   },
-   {
-    "text": "寝室シーン一覧",
-    "link": "/ja/bedroom-scenes"
+    "link": "/ja/gacha.html"
    }
   ]
  },
@@ -95,71 +88,71 @@
   "items": [
    {
     "text": "戦闘",
-    "link": "/ja/battle"
+    "link": "/ja/battle.html"
    },
    {
     "text": "レイド",
-    "link": "/ja/raid"
+    "link": "/ja/raid.html"
    },
    {
     "text": "レイドおすすめキャラ",
-    "link": "/ja/raid-recommended"
+    "link": "/ja/raid-recommended.html"
    },
    {
     "text": "バフ・デバフ能力キャラ　一覧まとめ",
-    "link": "/ja/raid-buff-debuff"
+    "link": "/ja/raid-buff-debuff.html"
    },
    {
     "text": "レイド用編成例",
-    "link": "/ja/raid-formations"
+    "link": "/ja/raid-formations.html"
    },
    {
     "text": "Bユニバース",
-    "link": "/ja/b-universe"
+    "link": "/ja/b-universe.html"
    },
    {
     "text": "イベント50_広域戦",
-    "link": "/ja/wide-battle"
+    "link": "/ja/wide-battle.html"
    },
    {
     "text": "広域戦マップ/マップリスト",
-    "link": "/ja/map-list"
+    "link": "/ja/map-list.html"
    },
    {
     "text": "イベント86_殲滅戦",
-    "link": "/ja/annihilation"
+    "link": "/ja/annihilation.html"
    },
    {
     "text": "限界突破",
-    "link": "/ja/limit-break"
+    "link": "/ja/limit-break.html"
    },
    {
     "text": "覚醒強化",
-    "link": "/ja/awakening"
+    "link": "/ja/awakening.html"
    },
    {
     "text": "レベル上限UP",
-    "link": "/ja/level-cap"
+    "link": "/ja/level-cap.html"
    },
    {
     "text": "宝箱",
-    "link": "/ja/treasure-box"
+    "link": "/ja/treasure-box.html"
    },
    {
     "text": "交換所",
-    "link": "/ja/exchange"
+    "link": "/ja/exchange.html"
    },
    {
     "text": "キャラクター交換所",
-    "link": "/ja/character-exchange"
+    "link": "/ja/character-exchange.html"
    },
    {
     "text": "コレクション",
-    "link": "/ja/collection"
+    "link": "/ja/collection.html"
    },
    {
     "text": "ショップ",
-    "link": "/ja/shop"
+    "link": "/ja/shop.html"
    }
   ]
  },
@@ -169,19 +162,19 @@
   "items": [
    {
     "text": "装備一覧",
-    "link": "/ja/equipment"
+    "link": "/ja/equipment.html"
    },
    {
     "text": "超昂装備",
-    "link": "/ja/super-equipment"
+    "link": "/ja/super-equipment.html"
    },
    {
     "text": "アイテム一覧",
-    "link": "/ja/items"
+    "link": "/ja/items.html"
    },
    {
     "text": "SandBox/アイテム価値早見表",
-    "link": "/ja/item-value-guide"
+    "link": "/ja/item-value-guide.html"
    }
   ]
  },
@@ -191,27 +184,27 @@
   "items": [
    {
     "text": "メインストーリー",
-    "link": "/ja/main-story"
+    "link": "/ja/main-story.html"
    },
    {
     "text": "テーブル/全ストーリー実装順",
-    "link": "/ja/scenario-order"
+    "link": "/ja/scenario-order.html"
    },
    {
     "text": "メインクエスト",
-    "link": "/ja/main-quest"
+    "link": "/ja/main-quest.html"
    },
    {
     "text": "デイリークエスト",
-    "link": "/ja/daily-quest"
+    "link": "/ja/daily-quest.html"
    },
    {
     "text": "ミッション一覧",
-    "link": "/ja/missions"
+    "link": "/ja/missions.html"
    },
    {
     "text": "イベント一覧",
-    "link": "/ja/events"
+    "link": "/ja/events.html"
    }
   ]
  },
@@ -221,41 +214,19 @@
   "items": [
    {
     "text": "用語集",
-    "link": "/ja/glossary"
+    "link": "/ja/glossary.html"
    },
    {
     "text": "俗語集",
-    "link": "/ja/slang"
+    "link": "/ja/slang.html"
    },
    {
     "text": "Tips一覧",
-    "link": "/ja/tips"
-   },
-   {
-    "text": "ゲーム外企画",
-    "link": "/ja/external-projects"
-   },
-   {
-    "text": "事前登録特典",
-    "link": "/ja/prereg-bonus"
-   }
-  ]
- },
- {
-  "text": "その他",
-  "collapsed": true,
-  "items": [
-   {
-    "text": "全ページ一覧",
-    "link": "/ja/sitemap"
-   },
-   {
-    "text": "日中用語対照表",
-    "link": "/ja/term-map"
+    "link": "/ja/tips.html"
    },
    {
     "text": "更新履歴",
-    "link": "/ja/updates"
+    "link": "/ja/updates.html"
    }
   ]
  }

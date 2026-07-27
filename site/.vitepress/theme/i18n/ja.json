@@ -19,7 +19,8 @@
     "unpin": "固定を解除",
     "close": "閉じる",
     "dragHint": "ドラッグで移動",
-    "fullPage": "詳細ページを開く"
+    "fullPage": "詳細ページを開く",
+    "clickToPin": "クリックで固定表示"
   },
   "meta": {
     "sourceUpdated": "原文更新",
@@ -37,13 +38,6 @@
     "pages": "ページ",
     "chars": "キャラクター",
     "lastSync": "最終同期"
-  },
-  "glossary": {
-    "title": "日中用語対照表",
-    "filter": "絞り込み…",
-    "ja": "日本語",
-    "zh": "中国語",
-    "note": "備考"
   },
   "updates": {
     "title": "更新履歴",

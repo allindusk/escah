@@ -4,7 +4,9 @@ import { useData, withBase } from 'vitepress'
 import { onMounted, onUnmounted, ref } from 'vue'
 import CharHoverModal from './components/CharHoverModal.vue'
 import MetaBar from './components/MetaBar.vue'
+import ScrollButtons from './components/ScrollButtons.vue'
 import { useI18n } from './i18n'
+import { uiPrefs, applyUiClasses } from './uiPrefs'
 
 const { Layout } = DefaultTheme
 const { t } = useI18n()
@@ -16,14 +18,58 @@ function onDocClick(e: MouseEvent) {
   const img = (e.target as HTMLElement).closest?.('.mirror-content img') as HTMLImageElement | null
   if (img) lbSrc.value = img.src
 }
-onMounted(() => document.addEventListener('click', onDocClick))
-onUnmounted(() => document.removeEventListener('click', onDocClick))
+
+// Shift + 滚轮：在横向可滚动容器（表格/全屏）内横向滚动
+function onShiftWheel(e: WheelEvent) {
+  if (!e.shiftKey) return
+  const target = e.target as HTMLElement
+  const sc = target.closest('.table-scroll, .escah-tbl-fs-scroll') as HTMLElement | null
+  if (!sc) return
+  if (sc.scrollWidth <= sc.clientWidth + 1) return
+  e.preventDefault()
+  sc.scrollLeft += e.deltaY
+}
+
+onMounted(() => {
+  document.addEventListener('click', onDocClick)
+  window.addEventListener('wheel', onShiftWheel, { passive: false })
+  applyUiClasses()
+})
+onUnmounted(() => {
+  document.removeEventListener('click', onDocClick)
+  window.removeEventListener('wheel', onShiftWheel)
+})
 
 const homeHref = () => withBase(lang.value.startsWith('zh') ? 'zh/' : 'ja/')
 </script>
 
 <template>
   <Layout>
+    <template #nav-bar-content-after>
+      <div class="escah-nav-controls">
+        <button
+          class="escah-ctrl-btn"
+          :title="uiPrefs.ultraWide ? '切换为标准宽度' : '切换为超宽模式'"
+          @click="uiPrefs.ultraWide = !uiPrefs.ultraWide"
+        >
+          {{ uiPrefs.ultraWide ? '超宽' : '标准' }}宽度
+        </button>
+        <button
+          class="escah-ctrl-btn"
+          :title="uiPrefs.navCollapsed ? '展开左侧导航栏' : '收起左侧导航栏'"
+          @click="uiPrefs.navCollapsed = !uiPrefs.navCollapsed"
+        >
+          {{ uiPrefs.navCollapsed ? '展开侧栏' : '收起侧栏' }}
+        </button>
+        <button
+          class="escah-ctrl-btn"
+          :title="uiPrefs.tocCollapsed ? '展开右侧目录栏' : '收起右侧目录栏'"
+          @click="uiPrefs.tocCollapsed = !uiPrefs.tocCollapsed"
+        >
+          {{ uiPrefs.tocCollapsed ? '展开目录' : '收起目录' }}
+        </button>
+      </div>
+    </template>
     <template #doc-bottom>
       <MetaBar />
     </template>
@@ -37,6 +83,7 @@ const homeHref = () => withBase(lang.value.startsWith('zh') ? 'zh/' : 'ja/')
     </template>
   </Layout>
   <CharHoverModal />
+  <ScrollButtons />
   <div v-if="lbSrc" class="lightbox-mask" @click="lbSrc = ''">
     <img :src="lbSrc" alt="" />
   </div>

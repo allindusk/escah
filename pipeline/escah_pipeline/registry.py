@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import re
-from urllib.parse import unquote_plus, urlparse
+from urllib.parse import unquote_plus, urljoin, urlparse
 
 import yaml
 from bs4 import BeautifulSoup
@@ -181,6 +181,20 @@ def _resolve_name(want: str, norm_to_actual: dict[str, str]) -> str | None:
     return norm_to_actual.get(_norm(want))
 
 
+def _img_local_name(src: str) -> str:
+    """把 wiki 原始图片 src 转成本地存储名（与 sitegen._img_local_name 完全一致）：img/<sha256[:16]>.<ext>。
+
+    角色头像图经 assets 管线以该名下载到 data/assets/img（构建进 dist/img）。
+    浮窗组件据此路径 withBase('img/'+icon) 显示头像。
+    """
+    abs_url = urljoin(config.SOURCE_BASE, src)
+    digest = hashlib.sha256(abs_url.encode()).hexdigest()[:16]
+    m = re.search(r"\.([a-zA-Z0-9]+)$", src.rsplit("/", 1)[-1])
+    ext = (m.group(1).lower() if m else "png")
+    ext = re.sub(r"[^a-z0-9]", "", ext)[:5] or "png"
+    return f"img/{digest}.{ext}"
+
+
 def extract_characters(html: str) -> list[dict]:
     """从キャラクター一覧抽取 SSR/SR/R 分区内的角色：[{name, rarity, icon}]。
 
@@ -208,7 +222,7 @@ def extract_characters(html: str) -> list[dict]:
             characters.append({
                 "name": name,
                 "rarity": rarity,
-                "icon": img.get("src", ""),
+                "icon": _img_local_name(img.get("src", "")),
             })
     return characters
 

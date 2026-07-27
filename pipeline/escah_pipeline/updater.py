@@ -4,9 +4,11 @@
 """
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
+import unicodedata
 
 from . import config
 from .chara import extract_all_characters
@@ -35,16 +37,41 @@ from .snapshot import Manifest, save_snapshot, utcnow_iso
 log = get_logger()
 
 
-def _run_zh_patch() -> None:
-    """以子进程运行 tools/zh_patch.py（词典确定性替换）。"""
-    cmd = [sys.executable, str(config.ROOT / "tools" / "zh_patch.py")]
-    log.info("运行 zh_patch 生成中文镜像页…")
-    subprocess.run(
-        cmd,
-        cwd=str(config.ROOT),
-        env={**os.environ, "PYTHONIOENCODING": "utf-8"},
-        check=False,
-    )
+def _run_zh_patch(pages: list[str] | None = None) -> None:
+    """key 化 i18n 流程（2026-07-27 取代 zh_patch 正则替换，函数名保留兼容）。
+
+    build（重 parse 页面重建模板+JSON，按 ja 文本回贴已有 zh）→ 应用翻译
+    （migrate 旧 [N] 存量迁移 + 回填 _todo_translate 最新待译清单中的 [N] 中文）
+    → char-fill（角色数据 JSON）。全程查表，无正则。
+    """
+    from . import i18n
+
+    log.info("运行 key 化 i18n（build → fill → char-fill）…")
+    i18n.build_all(slugs=pages)
+    i18n.migrate_all(slugs=pages)        # 旧版 _translated_texts/<slug>.txt 的 [N] 存量迁移（幂等）
+    i18n.fill_latest_todo(slugs=pages)   # 应用人工在 _todo_translate/<日期>_translated.txt 的译文（取成功后移入 _translated_texts）
+    i18n.char_fill_all()
+
+
+def _write_todo_for_changed(changed_pages: list[str], by_name: dict) -> None:
+    """更新脚本：对本次新增/变更的页面，把 zh 空缺条目**追加**到当日待译清单
+    tools/_todo_translate/<日期>.txt（i18n.extract_todo，并在同目录生成空白 <日期>_translated.txt）。
+
+    译者拿着该集中清单去翻译，翻译模型把 [N] 中文 写到 <日期>_translated.txt（沿用 ===X=== 分段），
+    然后运行 `i18n fill` 即可（取成功后该文件移入 _translated_texts）。已列入的页面不重复追加。
+    """
+    from . import i18n
+
+    slugs = []
+    for name in changed_pages:
+        entry = by_name.get(name, {})
+        is_char = entry.get("category") == "character-detail"
+        slug = f"characters/{name}" if is_char else entry.get("slug", name)
+        if i18n.has_i18n(slug):
+            slugs.append(slug)
+    if slugs:
+        out = i18n.extract_todo(slugs=slugs)
+        log.info("待译清单已更新：%s", out)
 
 
 def _fetch_and_record(
@@ -188,6 +215,7 @@ def run_update(no_translate: bool = False, full: bool = False) -> None:
             extract_all_characters(force=True)
         else:
             extract_all_characters()
+        _write_todo_for_changed(reprocess, by_name)
         if not no_translate:
             _run_zh_patch()
         else:

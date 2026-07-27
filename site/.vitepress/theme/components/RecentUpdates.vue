@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { withBase } from 'vitepress'
+import { computed } from 'vue'
+import updatesData from '../.gen-data/updates.json'
 
 interface UpdatesData {
   changed: { date: string; pages: { name: string; status: string }[] }[]
+  hrefs?: Record<string, string>
 }
 
 const props = withDefaults(defineProps<{ limit?: number }>(), { limit: 8 })
-const items = ref<{ date: string; name: string; href: string }[]>([])
-
-onMounted(async () => {
-  const res = await fetch(withBase('data/updates.json'))
-  const data: UpdatesData & { hrefs?: Record<string, string> } = await res.json()
+// 直接 import 静态数据并同步计算，SSR 与 CSR 都能渲染
+const items = computed<{ date: string; name: string; href: string }[]>(() => {
+  const data = updatesData as UpdatesData
   const flat: { date: string; name: string; href: string }[] = []
   for (const g of data.changed) {
     for (const p of g.pages) {
       flat.push({ date: g.date, name: p.name, href: (data.hrefs && data.hrefs[p.name]) || '#' })
     }
   }
-  items.value = flat.slice(0, props.limit)
+  return flat.slice(0, props.limit)
 })
 </script>
 

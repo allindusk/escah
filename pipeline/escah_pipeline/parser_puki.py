@@ -46,6 +46,37 @@ def needs_translation(text: str) -> bool:
     return bool(_JA_RE.search(text))
 
 
+def _keep_pcomments(body: BeautifulSoup) -> None:
+    """保留 pcomment 插件的网友评论（含 [发送ID] 与 comment_date 时间），从被删的 form 中解救。
+
+    PukiWiki 的 pcomment 把评论 <ul class="list1">（含 li.pcmt 与嵌套回复 ul.list2/3）
+    整体嵌在 <form> 内，原 _remove_chrome 会随 form 一并 decompose 掉。这里在通用
+    form 删除之前先把评论 ul 移出 form，并清理回复单选框 / 空“新帖”标记 / 提交表单 /
+    死链提示“最新の20件を表示しています”。评论正文、[发送ID]、时间均保留。
+    """
+    for div in body.find_all("div", class_="pcomment"):
+        for form in list(div.find_all("form")):
+            ul = form.find("ul")
+            if ul is not None and ul.find("li", class_="pcmt") is not None:
+                form.insert_before(ul)
+            form.decompose()
+        pf = div.find("div", id="pcomment-form")
+        if pf is not None:
+            pf.decompose()
+        for st in list(div.find_all("style")):
+            st.decompose()
+        for p in list(div.find_all("p")):
+            if "最新の20件" in (p.get_text() or ""):
+                p.decompose()
+        # 统一清理评论项的回复单选框与空“新帖”标记（同时覆盖评论不在 form 内的情况）
+        for li in div.find_all("li", class_="pcmt"):
+            inp = li.find("input", class_="pcmt")
+            if inp is not None:
+                inp.decompose()
+            for ns in li.find_all("span", class_="__plugin_new"):
+                ns.decompose()
+
+
 def _remove_chrome(body: BeautifulSoup) -> None:
     """移除 wiki 管理控件：编辑链接、锚点标记、脚本、表单控件（不碰正文文本）。"""
     for tag in body.find_all(["script", "style", "noscript", "iframe"]):
@@ -74,6 +105,20 @@ def _remove_chrome(body: BeautifulSoup) -> None:
             img.decompose()
     for c in body.find_all(string=lambda t: isinstance(t, Comment)):
         c.extract()
+
+
+# 站方皮肤自动注入的「板の利用ルール」通知（PukiWiki region 插件块 rgn-container）：
+# 每页重复出现、非页面正文，不应镜像也不应翻译。按内容唯一标识，
+# 避免误删页面作者用 region 插件写的正经折叠内容。
+_RULES_MARKERS = ("板を利用する前にルールを必ずお読みください", "ルールについて")
+
+
+def _remove_rules_region(body: BeautifulSoup) -> None:
+    """删除每页自动附加的「利用規約/板の利用ルール」通知区域。"""
+    for div in list(body.find_all("div", class_="rgn-container")):
+        txt = div.get_text(" ", strip=True) or ""
+        if any(m in txt for m in _RULES_MARKERS):
+            div.decompose()
 
 
 def _rewrite_links(body: BeautifulSoup, slug_by_name: dict[str, str]) -> None:
@@ -155,7 +200,15 @@ def parse_page_html(name: str, raw_html: str, slug_by_name: dict[str, str], pend
     if body is None:
         log.warning("%s：未找到 #body，整页作为正文", name)
         body = soup.body or soup
+    # 评论救援必须在整文档层面做：部分页面的 pcomment 被原站渲染在 #body 之外
+    # （如嵌于错位表格后，lxml 把评论推出 #body），仅处理 #body 会漏掉它们。
+    _keep_pcomments(soup)
     _remove_chrome(body)
+    _remove_rules_region(body)
+    # 把 #body 之外的评论区移入 #body，确保进入片段（救援已在上面完成）。
+    for pc in list(soup.find_all("div", class_="pcomment")):
+        if pc.find_parent(id="body") is None:
+            body.append(pc)
     _rewrite_links(body, slug_by_name)
     _rewrite_images(body, pending_assets)
     chunks = _extract_chunks(body)
@@ -229,7 +282,7 @@ def parse_all(pages: list[str] | None = None, force: bool = False) -> None:
         frag_path.parent.mkdir(parents=True, exist_ok=True)
 
     ok = failed = 0
-    workers = max(1, min(os.cpu_count() or 4, 16))
+    workers = max(1, round((os.cpu_count() or 4) * 0.8))  # 留约 20% CPU 不占满
     with ProcessPoolExecutor(max_workers=workers) as ex:
         for name, ok_flag, err, frag_rel, chunks_rel, fragment, chunks, index_entry, local_pending in ex.map(_parse_one, targets):
             if not ok_flag:

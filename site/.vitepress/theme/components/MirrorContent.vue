@@ -7,9 +7,10 @@
 // 片段通过 JSON 导入（Vite 在 SSR 下可靠转换 JSON，而 ?raw 在 SSR 下返回空），
 // 因此预渲染的静态 HTML 中即包含镜像正文，利于 SEO。
 import { withBase } from 'vitepress'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { charModalStore as store } from './charModalStore'
 import charRefs from '../charRefs.json'
+import { enhanceTables } from '../tableEnhancer'
 
 const props = defineProps<{ html: string }>()
 
@@ -111,40 +112,91 @@ function findChar(target: EventTarget | null): string | null {
 function onOver(e: MouseEvent) {
   const name = findChar(e.target)
   if (name) {
-    store.cancelHide()
-    store.show(name)
-  } else if (!store.pinned && store.visible) {
+    const el = (e.target as HTMLElement).closest('[data-char]') as HTMLElement
+    const r = el.getBoundingClientRect()
+    store.showHover(name, {
+      left: r.left,
+      top: r.top,
+      right: r.right,
+      bottom: r.bottom,
+      width: r.width,
+      height: r.height,
+    })
+  } else if (store.mode === 'hover' && store.visible) {
     store.scheduleHide()
   }
+}
+
+// 离开正文内容区：仅 hover 预览收起，固定窗保持
+function onOut() {
+  if (store.mode === 'hover') store.scheduleHide()
 }
 
 function onClick(e: MouseEvent) {
   const name = findChar(e.target)
   if (name) {
-    // 点击角色引用：不跳转，改为固定（pin）浮窗；
+    // 点击角色引用：不跳转，改为固定（pin）浮窗（全部信息、居中、可拖动）；
     // 阻断冒泡，避免头像同时触发 Layout 的图片灯箱
     e.preventDefault()
     e.stopPropagation()
-    store.show(name)
-    store.pinned = true
+    store.pin(name)
   }
+}
+
+// 页内锚点跳转（wiki .contents 目录 / 正文内 #xxx 链接）：
+// 平滑滚动到目标标题，并避让固定导航栏高度。
+function onAnchorClick(e: MouseEvent) {
+  const a = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null
+  if (!a) return
+  const href = a.getAttribute('href') || ''
+  if (!href.startsWith('#')) return
+  const id = decodeURIComponent(href.slice(1))
+  if (!id) return
+  const target = document.getElementById(id)
+  if (!target) return
+  e.preventDefault()
+  const nav = document.querySelector('.VPNav') as HTMLElement | null
+  const navH = nav ? nav.getBoundingClientRect().height : 0
+  const y = target.getBoundingClientRect().top + window.scrollY - navH - 10
+  window.scrollTo({ top: y, behavior: 'smooth' })
+  if (typeof history.replaceState === 'function') history.replaceState(null, '', '#' + id)
+}
+
+function processEl(el: HTMLElement) {
+  tagCharLinks(el)
+  tagAvatars(el)
+  wrapPlainTextNames(el)
+  enhanceTables(el)
 }
 
 onMounted(() => {
   const el = root.value
   if (!el) return
-  tagCharLinks(el)
-  tagAvatars(el)
-  wrapPlainTextNames(el)
+  processEl(el)
   el.addEventListener('mouseover', onOver)
+  el.addEventListener('mouseleave', onOut)
   el.addEventListener('click', onClick)
+  el.addEventListener('click', onAnchorClick)
 })
 onUnmounted(() => {
   const el = root.value
   if (!el) return
   el.removeEventListener('mouseover', onOver)
+  el.removeEventListener('mouseleave', onOut)
   el.removeEventListener('click', onClick)
+  el.removeEventListener('click', onAnchorClick)
 })
+
+// 片段内容随路由/语言切换变化时，重新处理（角色标记 + 表格增强）
+watch(
+  () => props.html,
+  () => {
+    nextTick(() => {
+      const el = root.value
+      if (el) processEl(el)
+    })
+  },
+)
 </script>
 
 <template>

@@ -19,12 +19,13 @@ REGISTRY_FILE = DATA_DIR / "registry" / "pages.yaml"
 MIRROR_PLAN_FILE = DATA_DIR / "registry" / "mirror_plan.yaml"
 MANIFEST_FILE = DATA_DIR / "manifest.json"
 
-GLOSSARY_FILE = ROOT / "glossary" / "glossary.yaml"
-OVERRIDES_ZH_DIR = ROOT / "overrides" / "zh"
 SITE_DIR = ROOT / "site"
 SITE_JA_DIR = SITE_DIR / "ja"
 SITE_ZH_DIR = SITE_DIR / "zh"
 SITE_PUBLIC_DIR = SITE_DIR / "public"
+
+# 站点词汇表（日→中）：仅含 UI 文案（页面标题 / 侧栏 / 角色悬浮窗分段标题），由 AI 维护。
+GLOSSARY_FILE = ROOT / "glossary" / "terms.yaml"
 
 SOURCE_BASE = "https://escalationheroines.wikiru.jp/"
 MENUBAR_PAGE = "MenuBar"
@@ -50,6 +51,5 @@ def ensure_dirs() -> None:
         ASSETS_IMG_DIR,
         LOG_DIR,
         REGISTRY_FILE.parent,
-        OVERRIDES_ZH_DIR,
     ):
         d.mkdir(parents=True, exist_ok=True)

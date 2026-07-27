@@ -47,7 +47,9 @@
 .VPNavBar.has-sidebar .wrapper .content .curtain,
 .VPNavBar .wrapper .content .curtain { backdrop-filter: blur(10px); }
 .VPNavBar .wrapper { border-bottom: 1px solid var(--escah-border); }
-.VPNavBar .title::before {
+/* 仅作用于链接本体 <a class="title">，避免外层 <div class="title"> 容器也被加上方块（否则出现两个标题方块、撑破布局） */
+.VPNavBar .title a.title::before,
+.VPNavBar .title > a::before {
   content: "";
   display: inline-block;
   width: 26px; height: 26px;
@@ -61,15 +63,30 @@
 /* ========== 镜像内容：忠实 PukiWiki 排版 + 轻度美化 ========== */
 /* 横向滚动容器：宽表格（如对比表/多列属性表）超出内容区时可横滑，避免被裁切 */
 .mirror-content { font-size: 14px; line-height: 1.55; color: var(--vp-c-text-1); overflow-x: auto; }
-.mirror-content h2 {
-  margin: 1.1em 0 0.5em;
-  padding: 0.2em 0.4em;
-  font-size: 20px; font-weight: 600;
-  border-left: 4px solid var(--escah-pink);
-  border-bottom: 1px solid var(--escah-border);
-  background: var(--escah-grad-soft);
-  border-radius: 0 8px 8px 0;
+/* _sanitize_html 已把每个 <table> 包进 .table-scroll，这里让容器独立横向滚动，
+   避免多列表格被内容区裁切（用户反馈表格一塌糊涂/显示不全） */
+.table-scroll { overflow-x: auto; margin: 0.8em 0; border-radius: 8px; }
+.table-scroll > table { width: max-content; min-width: 100%; border-collapse: collapse; }
+.table-scroll > table th, .table-scroll > table td {
+  border: 1px solid var(--escah-border); padding: 5px 10px; text-align: left; vertical-align: top;
 }
+.table-scroll > table th { background: var(--escah-grad-soft); font-weight: 600; white-space: nowrap; }
+/* H1 / H2：整个标题标签加底色块，显眼并分割内容（非仅文字着色） */
+.mirror-content h1,
+.mirror-content h2 {
+  display: block;
+  margin: 1.2em 0 0.7em;
+  padding: 8px 16px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  border-left: 5px solid var(--escah-pink);
+  border-bottom: none;
+  background: var(--escah-grad-soft);
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.mirror-content h1 { font-size: 26px; }
+.mirror-content h2 { font-size: 20px; }
 .mirror-content h3 {
   margin: 1.0em 0 0.45em;
   padding-bottom: 0.2em;
@@ -188,7 +205,6 @@
 .char-modal-mask {
   position: fixed; inset: 0; z-index: 200;
   background: rgba(10, 10, 18, 0.45);
-  backdrop-filter: blur(3px);
   animation: escah-fade 0.15s ease;
 }
 .char-modal-mask.transparent { background: transparent; backdrop-filter: none; pointer-events: none; }
@@ -232,14 +248,21 @@
 }
 .char-modal-body {
   padding: 14px 18px;
-  overflow: hidden; /* 1920×1080 一屏展示，不出现滚轮 */
+  overflow-y: auto; /* 内容超出一屏时出现滚轮，浮窗高度受 .char-modal max-height 限制 */
+  overflow-x: hidden;
   font-size: 13px;
 }
+/* 浮窗滚动条：细窄柔和，明确提示可滚动 */
+.char-modal-body::-webkit-scrollbar { width: 9px; }
+.char-modal-body::-webkit-scrollbar-thumb {
+  background: var(--vp-c-brand-soft); border-radius: 6px;
+}
+.char-modal-body { scrollbar-width: thin; }
 .char-modal-body .sections {
   display: grid;
   grid-template-columns: 1.1fr 1fr 1.2fr;
   gap: 14px;
-  height: 100%;
+  align-items: start;
 }
 .char-modal-body .section h5 {
   margin: 0 0 6px;
@@ -251,6 +274,8 @@
 .char-modal-body table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .char-modal-body th, .char-modal-body td { border: 1px solid var(--escah-border); padding: 3px 8px; text-align: left; }
 .char-modal-body th { background: var(--escah-grad-soft); font-weight: 600; white-space: nowrap; }
+/* 数据单元格保留 <br> 换行（必殺技/固有効果 多行文本须与日文一致，不合并成一行） */
+.char-modal-body td { white-space: pre-line; }
 .char-modal-body .long-text { line-height: 1.7; }
 .char-modal-loading, .char-modal-error { padding: 60px 0; text-align: center; color: var(--vp-c-text-2); }
 
@@ -329,9 +354,6 @@
   background: var(--vp-c-bg-soft); color: var(--vp-c-text-1);
 }
 .filter-input:focus { border-color: var(--escah-pink); box-shadow: 0 0 0 3px var(--vp-c-brand-soft); outline: none; }
-.glossary-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.glossary-table th, .glossary-table td { border: 1px solid var(--escah-border); padding: 6px 12px; text-align: left; }
-.glossary-table th { background: var(--escah-grad-soft); }
 .sitemap-cat { margin-bottom: 22px; }
 .sitemap-cat h3 { margin: 0 0 8px; font-size: 15px; }
 .sitemap-cat ul { columns: 3; margin: 0; padding-left: 1.2em; }
@@ -347,6 +369,247 @@
   animation: escah-fade 0.15s ease;
 }
 .lightbox-mask img { max-width: 92vw; max-height: 92vh; border-radius: 10px; box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
+
+/* ========== 侧栏分组标题底色：区分分组名与页面名 ========== */
+/* VitePress 顶层分组（.is-group）标题加渐变胶囊，使分组名与下级的页面链接明显区分 */
+.VPSidebarItem.is-group > .item .text {
+  display: inline-block;
+  padding: 3px 11px;
+  margin: 2px 0;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #fff !important;
+  background: var(--escah-grad);
+  box-shadow: 0 2px 6px rgba(233, 30, 99, 0.22);
+}
+/* 暗黑主题下稍提亮，保持可读 */
+.dark .VPSidebarItem.is-group > .item .text {
+  box-shadow: 0 2px 8px rgba(233, 30, 99, 0.45);
+}
+/* 分组折叠箭头与胶囊标题垂直居中对齐 */
+.VPSidebarItem.is-group > .item { align-items: center; }
+
+/* ========== 顶栏控制条：宽度模式 / 收起侧栏 / 收起目录 ========== */
+.escah-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 14px;
+}
+.escah-ctrl-btn {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--escah-border);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.escah-ctrl-btn:hover {
+  color: var(--escah-pink);
+  border-color: var(--escah-pink);
+}
+@media (max-width: 960px) {
+  .escah-nav-controls { display: none; }
+}
+
+/* ========== 宽度模式 + 侧栏/目录收起 ========== */
+/* 超宽模式（默认关=标准居中宽度，见 uiPrefs.ts）：开启后侧栏贴最左、
+   目录贴最右、正文填满二者之间的全部空间。 */
+.escah-ultrawide .VPDoc .container { max-width: 100% !important; }
+.escah-ultrawide .VPDoc .content-container,
+.escah-ultrawide .VPDoc.has-aside .content-container { max-width: 100% !important; }
+
+/* 侧栏贴最左：覆盖 VitePress ≥1440px 按 --vp-layout-max-width 做的居中偏移 */
+@media (min-width: 1440px) {
+  .escah-ultrawide .VPSidebar {
+    padding-left: 24px !important;
+    width: var(--vp-sidebar-width) !important;
+  }
+}
+/* 正文占最大、目录(aside)固定宽度贴最右：正文 flex-grow 吃满剩余空间，
+   目录不再 flex-grow 撑开导致飘在中间 */
+@media (min-width: 1280px) {
+  .escah-ultrawide .VPDoc .content { flex-grow: 1 !important; }
+  .escah-ultrawide .VPDoc .aside { flex-grow: 0 !important; }
+}
+
+/* 收起左侧导航栏（仅桌面，避免与移动端抽屉冲突） */
+@media (min-width: 960px) {
+  .escah-nav-collapsed .VPSidebar { transform: translateX(-100%) !important; }
+  .escah-nav-collapsed .VPContent.has-sidebar { padding-left: 0 !important; }
+}
+/* 收起右侧目录栏（仅桌面，VP 在 <1280px 已隐藏） */
+@media (min-width: 1280px) {
+  .escah-toc-collapsed .VPDocAside { display: none !important; }
+  .escah-toc-collapsed .VPDoc .content { padding-right: 0 !important; max-width: 100% !important; }
+}
+
+/* ========== 侧栏 / 目录行间距收紧 ========== */
+.VPSidebarItem { padding: 1px 0 !important; }
+.VPSidebarItem > .item > .text { line-height: 1.35 !important; }
+.VPSidebarItem .items { padding-left: 14px; }
+.VPSidebarItem.collapsed > .item,
+.VPSidebarItem > .item { padding-top: 3px !important; padding-bottom: 3px !important; }
+.VPDocAside a { line-height: 1.3; }
+.VPDocAside .VPDocOutlineItem { padding: 1px 0; }
+.VPDocAside .outline-title { margin-bottom: 6px; }
+
+/* ========== 表格增强：工具栏 / 排序 / 全屏 / 自适应 ========== */
+.escah-tbl { margin: 0.8em 0; }
+.escah-tbl-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.escah-tbl-btn {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background: var(--escah-grad);
+  box-shadow: 0 2px 8px rgba(233, 30, 99, 0.22);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.escah-tbl-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.35);
+}
+.escah-tbl-filter {
+  display: none;
+  width: 240px;
+  max-width: 50%;
+  padding: 6px 12px;
+  font-size: 13px;
+  border: 1px solid var(--escah-border);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  outline: none;
+}
+.escah-tbl-filter.show { display: inline-block; }
+.escah-tbl-filter:focus {
+  border-color: var(--escah-pink);
+  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
+}
+/* 按列筛选行：表头下方一行，每列一个筛选控件（下拉/文本框） */
+.escah-tbl-filter-row > .escah-tbl-filter-cell {
+  padding: 4px 6px;
+  background: var(--vp-c-bg-soft);
+}
+.escah-col-filter {
+  width: 100%;
+  min-width: 60px;
+  box-sizing: border-box;
+  padding: 3px 6px;
+  font-size: 12px;
+  font-weight: 400;
+  border: 1px solid var(--escah-border);
+  border-radius: 6px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  outline: none;
+}
+.escah-col-filter:focus {
+  border-color: var(--escah-pink);
+  box-shadow: 0 0 0 2px var(--vp-c-brand-soft);
+}
+/* 自适应列宽/行宽：去掉强制撑满，让表格按内容收缩，避免大量留白 */
+.escah-tbl .table-scroll > table {
+  width: auto !important;
+  min-width: 0 !important;
+  table-layout: auto !important;
+}
+.escah-tbl .table-scroll > table td,
+.escah-tbl .table-scroll > table th {
+  width: auto !important;
+  height: auto !important;
+  white-space: normal;
+}
+/* 可点击排序的表头 */
+.escah-sortable { cursor: pointer; user-select: none; }
+.escah-sortable::after {
+  content: "⇅";
+  margin-left: 4px;
+  opacity: 0.4;
+  font-size: 11px;
+}
+.escah-sort-asc::after { content: "▲"; opacity: 1; }
+.escah-sort-desc::after { content: "▼"; opacity: 1; }
+
+/* 页面内全屏（overlay，非屏幕全屏） */
+.escah-tbl-fs {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 8, 14, 0.6);
+  animation: escah-fade 0.15s ease;
+}
+.escah-tbl-fs-panel {
+  width: 94vw;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--escah-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+}
+.escah-tbl-fs-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--escah-grad);
+  color: #fff;
+}
+.escah-tbl-fs-bar span { font-weight: 600; }
+.escah-tbl-fs-close { margin-left: auto; }
+.escah-tbl-fs-scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 14px 16px;
+}
+.escah-tbl-fs-scroll table {
+  width: max-content;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.escah-tbl-fs-scroll th,
+.escah-tbl-fs-scroll td {
+  border: 1px solid var(--escah-border);
+  padding: 5px 9px;
+  text-align: left;
+  vertical-align: top;
+}
+.escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.12); font-weight: 600; white-space: nowrap; }
+.dark .escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.24); }
+
+/* 图像列：固定最小宽度，保证图片以正常尺寸显示而不被压缩 */
+.escah-img-col { min-width: 80px; }
+.escah-img-col img { display: block; max-width: none; height: auto; }
+
+/* 超长文本列：最高约 10 行高度，超出可滚动；列宽随内容加宽 */
+.escah-long { max-height: calc(10 * 1.6em); overflow: auto; min-width: 300px; }
+
+/* 全屏内移动的是真实表格容器：取消内层滚动，由外层统一横向/纵向滚动 */
+.escah-tbl-fs-scroll .table-scroll { overflow: visible; max-width: none; }
+.escah-tbl-fs-scroll .escah-tbl { width: max-content; max-width: none; }
+.escah-tbl-fs-scroll .escah-tbl-toolbar { position: static; }
 
 /* ========== 响应式 ========== */
 @media (max-width: 1200px) { .char-modal-body .sections { grid-template-columns: 1fr 1fr; } }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { withBase } from 'vitepress'
+import { ref } from 'vue'
 import { useI18n } from '../i18n'
+import updatesData from '../.gen-data/updates.json'
 
 interface UpdatesData {
   lastRun: string | null
@@ -10,12 +10,8 @@ interface UpdatesData {
 }
 
 const { t } = useI18n()
-const data = ref<UpdatesData | null>(null)
-
-onMounted(async () => {
-  const res = await fetch(withBase('data/updates.json'))
-  data.value = await res.json()
-})
+// 直接 import 静态数据：SSR 与 CSR 都能渲染，消除首屏空白
+const data = ref<UpdatesData | null>(updatesData as UpdatesData)
 </script>
 
 <template>

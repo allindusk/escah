@@ -35,7 +35,7 @@ def _freq_file(f: pathlib.Path) -> dict[str, int]:
 
 def main() -> None:
     files = sorted(JA.glob("*.html"))
-    workers = max(1, min(os.cpu_count() or 4, 16))
+    workers = max(1, round((os.cpu_count() or 4) * 0.8))  # 留约 20% CPU 不占满
     counts: dict[str, int] = {}
     with ProcessPoolExecutor(max_workers=workers) as ex:
         for local in ex.map(_freq_file, files):
