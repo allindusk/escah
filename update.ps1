@@ -7,17 +7,13 @@
     捕获退出码。可配合计划任务/双击手动运行。
 .PARAMETER NoTranslate
     仅抓取与重解析，跳过翻译（用于无 API Key 时先备料）。
-.PARAMETER Mock
-    使用占位翻译（不调用 LLM），用于验证整条链路而不消耗额度。
 .EXAMPLE
     .\update.ps1                 # 正常增量更新并翻译
-    .\update.ps1 -Mock           # 用占位翻译验证链路
     .\update.ps1 -NoTranslate    # 只重抓/重解析，不翻译
 #>
 [CmdletBinding()]
 param(
-    [switch]$NoTranslate,
-    [switch]$Mock
+    [switch]$NoTranslate
 )
 
 $ErrorActionPreference = "Stop"
@@ -31,7 +27,6 @@ try {
 
     $argsList = @("update")
     if ($NoTranslate) { $argsList += "--no-translate" }
-    if ($Mock)        { $argsList += "--mock" }
 
     # 优先使用已安装的 console 脚本，否则回退到仓库内模块
     $cmd = Get-Command escah-pipeline -ErrorAction SilentlyContinue
