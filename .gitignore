@@ -26,7 +26,10 @@ Thumbs.db
 #   换机器 clone + git lfs pull 即可拿到图，无需重新下载原站。
 # data/parsed、site/public、site/*.md、site/.vitepress/frag 均可由
 #   流水线从 data/raw（已入库）+ 源码本地重建，不入库。
-data/parsed/
+# 例外：data/parsed/i18n/ 含人工译文词典（keyN: {ja,zh}），是不可重建的
+#   唯一真值，必须入库（CI 构建 zh 站依赖它）。
+data/parsed/*
+!data/parsed/i18n/
 site/public/
 site/**/*.md
 recycle_bin/

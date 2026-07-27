@@ -29,7 +29,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install -e pipeline
 
       # 由已入库的 data/raw 快照本地解析出 data/parsed（无需联网）
       - name: Parse snapshots
