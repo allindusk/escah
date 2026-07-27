@@ -90,13 +90,21 @@ jobs:
           rm -rf .vitepress/dist .vitepress/cache
           node build.mjs build
 
+      - name: Ensure Cloudflare Pages project exists
+        continue-on-error: true
+        working-directory: site
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler pages project create escah --production-branch=main || true
+
       - name: Deploy to Cloudflare Pages
         continue-on-error: true
         working-directory: site
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx wrangler pages deploy .vitepress/dist --project-name=escah --branch=main
+        run: npx wrangler pages deploy .vitepress/dist --project-name=escah --branch=main --commit-dirty=true
 
   deploy:
     needs: build
