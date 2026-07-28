@@ -2402,14 +2402,6 @@ pages:
   slug: bedroom-scenes
   category: character
   mode: watch
-- name: ゲーム外企画
-  slug: external-projects
-  category: misc
-  mode: watch
-- name: 事前登録特典
-  slug: prereg-bonus
-  category: misc
-  mode: watch
 - name: 魔法少女ヒトミ
   slug: characters/魔法少女ヒトミ
   category: character-detail

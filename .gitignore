@@ -8,6 +8,7 @@ venv/
 .env
 
 # Node / 构建产物
+node_modules/
 site/node_modules/
 site/.vitepress/dist/
 site/.vitepress/cache/

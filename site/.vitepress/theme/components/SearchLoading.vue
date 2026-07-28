@@ -28,8 +28,9 @@ function resultsReady(m: HTMLElement): boolean {
   const results = m.querySelector('.results')
   if (results && results.querySelector('.result, li, a')) return true
   if (results && results.children.length > 0) return true
-  const txt = m.textContent || ''
-  if (/no results|无结果|未找到|没有找到|没有匹配/i.test(txt)) return true
+  const txt = (m.textContent || '').replace(/\s+/g, '')
+  // 覆盖 VitePress 各语言“无结果”文案（英文 no results / 中文 无结果·未找到·没有找到·没有匹配·没有结果·无匹配）
+  if (/noresults|无结果|未找到|没有找到|没有匹配|没有结果|无匹配/i.test(txt)) return true
   return false
 }
 
@@ -43,11 +44,15 @@ function complete() {
   window.setTimeout(() => { visible.value = false }, 600)
 }
 
+const MAX_MS = 20000 // 硬超时兜底：无论如何 20s 后强制收尾，避免进度卡永久卡死
+
 function animate() {
   if (done) return
   // 真实完成信号：索引分块下载结束（冷加载时）
   if (chunkLoaded()) { complete(); return }
   const elapsed = performance.now() - startTime
+  // 硬超时兜底：极端情况下（检测结果渲染失败）也保证进度卡最终消失
+  if (elapsed > MAX_MS) { complete(); return }
   const t = Math.min(elapsed / 8000, 1)
   const eased = 1 - Math.pow(1 - t, 2.2)
   pct.value = Math.min(99, Math.round(2 + eased * 97))
@@ -102,9 +107,13 @@ function scan() {
 }
 
 function onClose() {
+  // ⚠️ 重要：此处【绝不】断开 mo（MutationObserver）。
+  // 旧逻辑在打开搜索框（输入框为空）时也会走到 onClose → 把 mo 断开，
+  // 导致后续“结果渲染”的 DOM mutation 不再触发 scan() → resultsReady 永不重算
+  // → complete() 永不调用 → 进度卡永久卡在 99%。
+  // mo 仅在组件卸载（onUnmounted）时断开，组件生命周期内始终保持监听。
   if (raf) cancelAnimationFrame(raf)
   if (showTimer) { clearTimeout(showTimer); showTimer = null }
-  if (mo) { mo.disconnect(); mo = null }
   visible.value = false
   pct.value = 0
   modal = null
@@ -127,6 +136,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener('input', onInputCapture, true)
+  if (mo) { mo.disconnect(); mo = null }
   onClose()
 })
 </script>

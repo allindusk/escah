@@ -133,6 +133,7 @@ _NAME_RE: "re.Pattern | None" = None
 _NAME_MAP: "dict[str, str] | None" = None
 _GLOSSARY_NORM: "dict[str, str] | None" = None
 _SKILL_NORM: "dict[str, str] | None" = None
+_SKILL_NS: "dict[str, str] | None" = None  # 去全部空白索引（容错源/线上 JA 空白/换行漂移）
 _CORR_RE: "re.Pattern | None" = None
 _CORR_MAP: "dict[str, str] | None" = None
 _LEARNED = False
@@ -161,6 +162,10 @@ _HIGH_FREQ_FILE = config.ROOT / "glossary" / "high_freq.yaml"
 _HF_SUB_RE: "re.Pattern | None" = None        # 含假名键：子串替换
 _HF_SUB_MAP: "dict[str, str] | None" = None
 _HF_EXACT_NORM: "dict[str, str] | None" = None  # 纯汉字键：整词精确（归一化 ja）
+_HF_ALL_NORM: "dict[str, str] | None" = None    # 全部键（含假名）：整词精确（供 JA 精确覆盖已翻译 zh）
+_HF_PRECISE: "set[str] | None" = None            # _precise 白名单（归一化 ja）：仅这些键参与「纠正已译中文」层
+_HF_PRECISE_SUB_RE: "re.Pattern | None" = None    # _precise 中「非纯片假名」条目：对 zh 文本做残留日文形→规范中文 子串替换
+_HF_PRECISE_SUB_MAP: "dict[str, str] | None" = None
 
 
 def _load_name_glossary() -> None:
@@ -184,7 +189,7 @@ def _load_name_glossary() -> None:
 
 def _load_skill_glossary() -> None:
     """必殺技/固有効果 精翻词表（glossary/skills.yaml，JA→ZH，归一化 ja 精确匹配）。"""
-    global _SKILL_NORM
+    global _SKILL_NORM, _SKILL_NS
     if _SKILL_NORM is not None:
         return
     data: dict = {}
@@ -194,10 +199,19 @@ def _load_skill_glossary() -> None:
             data = loaded.get("skills", {}) or {}
         except Exception as e:  # 词表损坏不应阻断渲染
             log.warning("[i18n skills] 加载 glossary/skills.yaml 失败：%s", e)
+    pairs = [(k, v) for k, v in data.items() if k and v and k != v]
     # 仅保留「真有替换」的条目（ja==zh 视为无需替换，跳过）
-    _SKILL_NORM = {
-        _norm(k): v for k, v in data.items() if k and v and k != v
-    }
+    _SKILL_NORM = {_norm(k): v for k, v in pairs}
+    # 去全部空白二级索引：容错源文件 JA 与线上 JA 的空白/换行漂移（日语无空格语义，安全）
+    _SKILL_NS = {_norm_ns(k): v for k, v in pairs}
+
+
+# 读音归一化（手动纠正）：names.yaml 读音调整后，旧读音在「变体短语」（如 真夏のメガエル→盛夏梅加艾尔）
+# 中以子串形式残留，无法被「整词精确」纠正层捕获。此处按子串纠正（名字唯一，无上下文误伤风险）。
+_READING_CORR = {
+    "梅加艾尔": "米加尔",
+    "玛雅艾尔": "玛雅尔",
+}
 
 
 def _learn_corrections() -> None:
@@ -207,10 +221,20 @@ def _learn_corrections() -> None:
         return
     _LEARNED = True
     _load_name_glossary()
-    if not _GLOSSARY_NORM:
+    _load_high_freq_glossary()
+    # 合并 names + high_freq（names 优先，专有名词不被通用术语覆盖），用于 JA 精确匹配学习「错译 ZH → 规范 ZH」
+    norm: "dict[str, str]" = {}
+    # high_freq：仅 _precise 白名单内的键参与「纠正已译中文」（默认只做渲染期源文替换，安全）。
+    if _HF_ALL_NORM and _HF_PRECISE:
+        for k, v in _HF_ALL_NORM.items():
+            if k in _HF_PRECISE:
+                norm[k] = v
+    # names：专有名词全量参与纠正（译名无争议，用户规则：固定名字翻译不可变）。
+    if _GLOSSARY_NORM:
+        norm.update(_GLOSSARY_NORM)
+    if not norm:
         return
-    from collections import Counter, defaultdict
-    wc: "dict[str, Counter]" = defaultdict(Counter)
+    corr: "dict[str, str]" = {}
     if I18N_DIR.exists():
         for p in I18N_DIR.glob("*.json"):
             try:
@@ -221,16 +245,19 @@ def _learn_corrections() -> None:
                 for v in sec.values():
                     if not isinstance(v, dict):
                         continue
-                    ja = _norm(v.get("ja", ""))
-                    zh = v.get("zh")
-                    if ja in _GLOSSARY_NORM and zh and zh != _GLOSSARY_NORM[ja]:
-                        wc[ja][zh] += 1
-    corr: "dict[str, str]" = {}
-    for ja, counter in wc.items():
-        z = _GLOSSARY_NORM[ja]
-        for w in counter:
-            if w != z:
-                corr[w] = z
+                    for old, new in _node_name_corrections(v.get("ja", ""), v.get("zh"), norm):
+                        if old != new:
+                            corr[old] = new
+            # characters.json 等：key 节点存于顶层（键名 keyN，含 ja/zh 字段），需补扫
+            for v in e.values():
+                if isinstance(v, dict) and "ja" in v and "zh" in v:
+                    for old, new in _node_name_corrections(v.get("ja", ""), v.get("zh"), norm):
+                        if old != new:
+                            corr[old] = new
+    # 读音归一化（手动）：把旧读音残留（变体短语中的子串）纠正为新读音。
+    for old, new in _READING_CORR.items():
+        if old != new:
+            corr[old] = new
     cp = sorted(corr.items(), key=lambda kv: len(kv[0]), reverse=True)
     _CORR_MAP = {w: z for w, z in cp}
     _CORR_RE = re.compile("|".join(re.escape(w) for w, _ in cp)) if cp else None
@@ -248,16 +275,76 @@ def _correct_text(text: str) -> str:
         text = _CORR_RE.sub(lambda m: _CORR_MAP[m.group(0)], text)  # type: ignore[union-attr]
     # 通用高频游戏术语子串替换（覆盖句内残留日语术语）
     text = _high_freq_override(text)
+    # _precise 纯汉字/含平假名条目句中子串纠正（强制统一，覆盖句内残留日文形）
+    text = _high_freq_precise_sub(text)
     # inline_terms 含假名条目子串替换（覆盖正文内嵌称呼/术语，如「長官さぁん」）
     text = _term_sub_override(text)
     return text
+
+
+_NAME_SUFFIX_RE = re.compile(
+    r"^(.*?)([（(][^（）()]*[）)]"            # 括号修饰（如 (ユリカ)）
+    r"|[　\s]*[RrSsUuNn]+"                    # 稀有度 R/SR/SSR
+    r"|[　\s]*※"                              # 注释 ※
+    r"|[　][ぁ-んァ-ヶー一-龯]+)$"             # 全角空格+日文描述（如 変身前スキン）
+)
+
+
+def _split_name_suffix(ja: str) -> "tuple[str, str]":
+    """拆分 基词 + 尾部修饰。无修饰返回 (ja, '')。
+
+    覆盖：括号 (ユリカ) / 稀有度 R·SR·SSR / 注释 ※ / 全角空格+日文描述（変身前スキン）。
+    用途：让「游戏内固定专有名词」即使带后缀也始终落到词表规范译名
+    （用户要求：names.yaml 的翻译不可变，前缀后缀都不影响）。"""
+    if not ja:
+        return ja, ""
+    m = _NAME_SUFFIX_RE.match(ja)
+    if m and m.group(2):
+        return m.group(1), m.group(2)
+    return ja, ""
+
+
+def _node_name_corrections(ja_raw: str, zh: "str | None", norm: "dict[str, str]") -> "list[tuple[str, str]]":
+    """为一个 i18n 节点生成「旧 zh → 规范 zh」纠错对（供 _learn_corrections 使用）。
+
+    - 节点 ja 整词命中词表 → 直接纠错；
+    - 节点 ja 带尾部修饰且基词命中词表 → 基词规范化，并保留 zh 中的对应后缀
+      （括号 → 原样保留括号段；全角空格/稀有度描述 → 保留 zh 尾部空格段）。
+    全部 JA 精确门控，不子串误伤。"""
+    out: "list[tuple[str, str]]" = []
+    if not zh:
+        return out
+    n = _norm(ja_raw)
+    if n in norm and zh != norm[n]:
+        out.append((zh, norm[n]))
+        return out
+    base, suffix = _split_name_suffix(ja_raw)
+    if base == ja_raw:
+        return out
+    nb = _norm(base)
+    if nb not in norm:
+        return out
+    canonical = norm[nb]
+    if re.search(r"[（(][^（）()]*[）)]$", ja_raw):
+        mz = re.search(r"[（(][^（）()]*[）)]$", zh or "")
+        out.append((zh, canonical + (mz.group(0) if mz else "")))
+    elif suffix.startswith("　") or re.match(r"[　\s]*[RrSsUuNn]+|[　\s]*※", suffix):
+        if " " in (zh or ""):
+            zb, zs = zh.rsplit(" ", 1)  # type: ignore[union-attr]
+            out.append((zh, canonical + " " + zs))
+        else:
+            out.append((zh, canonical))
+    else:
+        out.append((zh, canonical))
+    return out
 
 
 def _name_override(ja: str) -> "str | None":
     """专有名词/技能精翻最高优先级覆盖：节点 ja 归一化后恰为某词表条目 → 返回词表 ZH。
 
     依次查 names（专有名词）与 skills（必殺技/固有効果 精翻），任一命中即返回；
-    否则 None（退回 LLM/机翻 zh）。仅 zh 渲染调用。"""
+    否则 None（退回 LLM/机翻 zh）。仅 zh 渲染调用。
+    容忍尾部修饰（括号/稀有度/※/全角空格+日文描述）后再匹配基词。"""
     _load_name_glossary()
     _load_skill_glossary()
     if _GLOSSARY_NORM is None and _SKILL_NORM is None:
@@ -267,6 +354,25 @@ def _name_override(ja: str) -> "str | None":
         return _GLOSSARY_NORM[n]
     if _SKILL_NORM and n in _SKILL_NORM:
         return _SKILL_NORM[n]
+    # 去全部空白二级索引：容错源/线上 JA 空白/换行漂移（技能 JA 无空格语义）
+    ns = _norm_ns(ja)
+    if _SKILL_NS and ns in _SKILL_NS:
+        return _SKILL_NS[ns]
+    # 容忍尾部修饰（(ユリカ) / 　R / 　※ / 　変身前スキン）后再匹配基词，
+    # 否则「体育祭のクラリス　R」「レガリアの神騎ユリエル(ユリカ)」这类带后缀文本
+    # 无法精确匹配 names.yaml，会回退到通用 の→的 转换或保留错译，导致中文名形态
+    # 与 charRefs 别名不一致、前端匹配失败、角色浮窗失效。
+    base, suffix = _split_name_suffix(ja)
+    if base == ja:
+        return None
+    nb = _norm(base)
+    if _GLOSSARY_NORM and nb in _GLOSSARY_NORM:
+        return _GLOSSARY_NORM[nb] + suffix
+    if _SKILL_NORM and nb in _SKILL_NORM:
+        return _SKILL_NORM[nb] + suffix
+    nbs = _norm_ns(base)
+    if _SKILL_NS and nbs in _SKILL_NS:
+        return _SKILL_NS[nbs] + suffix
     return None
 
 
@@ -372,7 +478,7 @@ def _load_high_freq_glossary() -> None:
       - 含假名键 → 子串替换（_HF_SUB_RE / _HF_SUB_MAP），长词优先；
       - 纯汉字键 → 整词精确（_HF_EXACT_NORM，归一化 ja 精确匹配）。
     仅保留 ja!=zh 的条目（ja==zh 视为无需替换，跳过）。"""
-    global _HF_SUB_RE, _HF_SUB_MAP, _HF_EXACT_NORM
+    global _HF_SUB_RE, _HF_SUB_MAP, _HF_EXACT_NORM, _HF_ALL_NORM, _HF_PRECISE, _HF_PRECISE_SUB_RE, _HF_PRECISE_SUB_MAP
     if _HF_SUB_MAP is not None or _HF_EXACT_NORM is not None:
         return
     data: dict = {}
@@ -395,6 +501,36 @@ def _load_high_freq_glossary() -> None:
     _HF_SUB_MAP = {k: v for k, v in sub_pairs}
     _HF_SUB_RE = re.compile("|".join(re.escape(k) for k, _ in sub_pairs)) if sub_pairs else None
     _HF_EXACT_NORM = {_norm(k): v for k, v in exact_pairs}
+    # 全量键（含假名）整词精确归一化：供 JA 精确匹配覆盖「已翻译中文」（如 レガリア→圣衣→王权）
+    _HF_ALL_NORM = {_norm(k): v for k, v in data.items() if k and v and k != v}
+    # _precise 白名单：仅名单内的键参与「纠正已译中文」层（_learn_corrections），
+    # 其余 high_freq 键仅做渲染期源文替换（安全，不回改已译中文）。名单键须已存在于 high_freq。
+    # 注：ja==zh 的同形词（如 地上/魔女）天然不入 _HF_ALL_NORM，也无需纠正，静默跳过；
+    #     仅当 _precise 键根本不在 high_freq 时（拼写错误）才告警。
+    all_keys_norm = {_norm(k) for k in data if k}
+    precise_list = (loaded.get("_precise") or []) if isinstance(loaded, dict) else []
+    _HF_PRECISE = set()
+    for key in precise_list:
+        nk = _norm(key) if isinstance(key, str) else ""
+        if nk and nk in _HF_ALL_NORM:
+            _HF_PRECISE.add(nk)
+        elif nk and nk not in all_keys_norm:
+            log.warning("[i18n high_freq] _precise 键未在 high_freq 中找到，已忽略：%r", key)
+    # _precise 非纯片假名条目（纯汉字 / 含平假名，如 神騎/現界/真夏）：对 zh 文本做
+    # 「残留日文形 → 规范中文」子串替换，实现「即使在句子中也强制统一」。
+    # 纯片假名条目已由上方 _HF_SUB_RE 覆盖（_HF_SUB_MAP），此处不重复，避免双重处理。
+    # 安全依据：中日同形字 Unicode 不同（戦≠战、騎≠骑、現≠现…），故只命中残留日文，
+    # 不会误改已译中文；长词优先（九大神騎 先于 神騎），避免截断复合词。
+    precise_sub = [
+        (k, _HF_ALL_NORM[nk])
+        for k in _HF_PRECISE
+        if (nk := _norm(k)) in _HF_ALL_NORM and nk not in _HF_SUB_MAP
+    ]
+    precise_sub.sort(key=lambda kv: len(kv[0]), reverse=True)
+    _HF_PRECISE_SUB_MAP = {k: v for k, v in precise_sub} or None
+    _HF_PRECISE_SUB_RE = (
+        re.compile("|".join(re.escape(k) for k, _ in precise_sub)) if precise_sub else None
+    )
 
 
 def _high_freq_override(text: str) -> str:
@@ -407,12 +543,39 @@ def _high_freq_override(text: str) -> str:
     return text
 
 
+def _high_freq_precise_sub(text: str) -> str:
+    """_precise 非片假名条目（纯汉字/含平假名）的句中子串纠正：把 zh 文本里残留的日文形
+    替换成规范中文（如 神騎→神骑、現界→现界、真夏→盛夏）。
+
+    仅命中残留日文（中日同形字 Unicode 不同，不会误改已译中文）；长词优先。
+    纯片假名 _precise 条目已由 _high_freq_override 覆盖，此处不重复。"""
+    if not text:
+        return text
+    _load_high_freq_glossary()
+    if _HF_PRECISE_SUB_RE is not None:
+        return _HF_PRECISE_SUB_RE.sub(
+            lambda m: _HF_PRECISE_SUB_MAP[m.group(0)], text  # type: ignore[union-attr]
+        )
+    return text
+
+
 def _high_freq_exact(ja: str) -> "str | None":
     """纯汉字高频词整词精确覆盖：节点 ja 归一化后恰为某纯汉字键 → 返回词表 ZH；否则 None。"""
     _load_high_freq_glossary()
     if _HF_EXACT_NORM is None:
         return None
     return _HF_EXACT_NORM.get(_norm(ja))
+
+
+def _high_freq_all(ja: str) -> "str | None":
+    """全量高频词（含假名键）整词精确覆盖：节点 ja 归一化后恰为某键 → 返回词表 ZH；否则 None。
+
+    与 _high_freq_exact 区别：此处含假名键（如 レガリア），仅用于「节点/单元格 ja 整词精确命中」
+    时覆盖已翻译中文，绝不子串替换，故不会污染中文。"""
+    _load_high_freq_glossary()
+    if _HF_ALL_NORM is None:
+        return None
+    return _HF_ALL_NORM.get(_norm(ja))
 
 
 def _tpl_path(slug: str) -> Path:
@@ -1153,6 +1316,8 @@ def char_fill_all() -> None:
                         ov = _name_override(t)
                     if ov is None:
                         ov = _high_freq_exact(t)
+                    if ov is None:
+                        ov = _high_freq_all(t)
                     if ov is not None:
                         zh = ov
                     # 含假名高频词 / inline_terms 子串替换（覆盖单元格内残留日语术语与称呼）
@@ -1223,6 +1388,8 @@ def render_locale(slug: str, locale: str) -> str | None:
             if ov is not None:
                 return _html.escape(ov, quote=False)  # 独立名词直接覆盖
             ov = _high_freq_exact(ent.get("ja", ""))  # 纯汉字高频词整词精确覆盖
+            if ov is None:
+                ov = _high_freq_all(ent.get("ja", ""))  # 含假名词条整词精确覆盖（如 レガリア）
             if ov is not None:
                 return _html.escape(ov, quote=False)
             text = ent.get("zh") or ent.get("ja", "")
@@ -1230,7 +1397,15 @@ def render_locale(slug: str, locale: str) -> str | None:
             return _html.escape(text, quote=False)
         return _html.escape(ent.get("ja", ""), quote=False)
 
-    return _KEY_RE.sub(_sub, tpl)
+    html = _KEY_RE.sub(_sub, tpl)
+    # 末尾读音归一化（zh 仅）：部分页面（数据表/散文）的文本经自定义渲染落地，
+    # 不经过节点级 _correct_text，导致旧读音（梅加艾尔/玛雅艾尔）以子串残留。
+    # 此处对整段 html 做子串纠正（名字唯一，无误伤风险）。
+    if locale == "zh" and _READING_CORR:
+        for old, new in _READING_CORR.items():
+            if old in html:
+                html = html.replace(old, new)
+    return html
 
 
 def zh_ratio(slug: str) -> float:

@@ -16,10 +16,10 @@ interface CharData {
 }
 
 const SECTION_ORDER = ['プロフィール', '入手方法', '基本ステータス', '詳細ステータス', '必殺技', '固有効果']
-// hover 预览只展示轻量分段：头像(头部) + 以下 4 个分段；基本ステータス 内容多，仅放大浮窗显示
-const HOVER_SECTIONS = ['プロフィール', '詳細ステータス', '必殺技', '固有効果']
-const HOVER_LEFT = ['プロフィール', '詳細ステータス']   // 角色信息 + 属性
-const HOVER_RIGHT = ['必殺技', '固有効果']                              // 必杀技 + 固有效果
+// hover 预览只展示轻量分段：头像(头部) + 以下分段；基本ステータス 精简为仅显示 100 级属性
+const HOVER_SECTIONS = ['プロフィール', '基本ステータス', '詳細ステータス', '必殺技', '固有効果']
+const HOVER_LEFT = ['プロフィール', '基本ステータス', '詳細ステータス']   // 人物档案 + 基础属性 + 详细属性
+const HOVER_RIGHT = ['必殺技', '固有効果']                                  // 必杀技 + 固有效果
 const HOVER_WIDTH = 760
 const { t, isZh } = useI18n()
 const { lang } = useData()
@@ -161,14 +161,27 @@ function cleanHoverRows(rows) {
   return out
 }
 
-// hover 预览仅展示指定分段（剔除フレーバーテキスト；并从小浮窗分段标题剔除星阶成长说明）
+// 小浮窗的基础属性：只保留表头 + 100 级那一行（其余等级隐藏），避免 11 行等级数据撑爆小浮窗
+function simplifyBasicStatus(rows) {
+  if (!rows.length) return rows
+  const header = rows[0]
+  const lv100 = rows.find((r) => r[0] && !r[0].h && (r[0].t || '').trim() === '100')
+  if (!lv100) return rows
+  return [header, lv100]
+}
+
+// hover 预览仅展示指定分段（剔除フレーバーテキスト；并从小浮窗分段标题剔除星阶成长说明；基础属性仅留 100 级）
 const hoverSections = computed(() =>
   allSections.value
     .filter((s) => HOVER_SECTIONS.includes(s.key))
-    .map((s) => ({ ...s, label: stripStarNote(s.label), rows: cleanHoverRows(s.rows) }))
+    .map((s) => {
+      let rows = cleanHoverRows(s.rows)
+      if (s.key === '基本ステータス') rows = simplifyBasicStatus(rows)
+      return { ...s, label: stripStarNote(s.label), rows }
+    })
 )
 
-// 左栏：角色信息 + 属性；右栏：必杀技 + 固有效果
+// 左栏：人物档案 + 详细属性；右栏：基础属性 + 必杀技 + 固有效果
 const hoverLeft = computed(() => hoverSections.value.filter((s) => HOVER_LEFT.includes(s.key)))
 const hoverRight = computed(() => hoverSections.value.filter((s) => HOVER_RIGHT.includes(s.key)))
 

@@ -2,7 +2,7 @@
 """由 必殺技/固有効果 精翻清单生成 glossary/skills.yaml（JA→ZH）。
 
 源：tools/_translated_texts/skill_unique_effects_20260727.txt   （# MAP + ===X=== + [N] 日文）
-译文：tools/_translated_texts/skill_unique_effects_20260727_translated.txt （同结构，[N] 中文）
+译文：tools/_translated_texts/skill_unique_effects_20260729_translated.txt （同结构，[N] 中文）
 按 (label, [N]) 对齐配对，跳过 zh==ja（未译/英文/同形）条目，写入 glossary/skills.yaml。
 渲染期由 i18n.render_locale 以归一化 ja 精确匹配做最高优先级覆盖（防被其他翻译覆盖）。
 """
@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / "pipeline"))
 from escah_pipeline import i18n as I  # noqa: E402
 
 SRC = ROOT / "tools" / "_translated_texts" / "skill_unique_effects_20260727.txt"
-TRG = ROOT / "tools" / "_translated_texts" / "skill_unique_effects_20260727_translated.txt"
+TRG = ROOT / "tools" / "_translated_texts" / "skill_unique_effects_20260729_translated.txt"
 OUT = ROOT / "glossary" / "skills.yaml"
 
 _MAP_RE = re.compile(r"^#\s*MAP\s+([A-Za-z0-9_-]+)\s*=\s*(.+?)\s*$")
@@ -74,8 +74,8 @@ def main() -> None:
         matched += 1
         per_label[src_labels.get(label, label)] += 1
     OUT.write_text(
-        "# 必殺技/固有効果 精翻词表（JA→ZH，2026-07-27）\n"
-        "# 来源：tools/_translated_texts/skill_unique_effects_20260727.txt (+同名 _translated.txt) 配对\n"
+        "# 必殺技/固有効果 精翻词表（JA→ZH，2026-07-29 精炼版）\n"
+        "# 来源：tools/_translated_texts/skill_unique_effects_20260727.txt (JA) + skill_unique_effects_20260729_translated.txt (ZH) 配对\n"
         "# 用途：i18n.render_locale 最高优先级覆盖（仅 zh，按归一化 ja 精确匹配），防被其他翻译覆盖。\n"
         "# 键=归一化 ja，值=规范中文译文。\n",
         encoding="utf-8",

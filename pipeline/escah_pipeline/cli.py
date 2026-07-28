@@ -8,6 +8,30 @@ from .logutil import get_logger
 log = get_logger()
 
 
+def _regen_char_refs() -> None:
+    """重生成前端角色引用表 charRefs.json（供 sync-site 调用）。
+
+    角色中文名 name_zh 一旦变更就必须重生成该文件，否则中文页角色名无法映射回
+    日文 key，导致悬停浮窗失效（日文页不受影响）。旧流程需手动跑
+    tools/gen_char_refs.py，易漏；这里在 sync-site 末尾自动重跑。
+    """
+    import importlib.util
+    import os
+
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    script = os.path.join(root, 'tools', 'gen_char_refs.py')
+    try:
+        spec = importlib.util.spec_from_file_location('gen_char_refs', script)
+        if spec is None or spec.loader is None:
+            raise FileNotFoundError(script)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        mod.main()
+        log.info('[cli] 已重生成 charRefs.json（角色浮窗引用表）')
+    except Exception as e:  # 失败不应阻断站点生成
+        log.warning('[cli] 重生成 charRefs.json 失败（不影响站点内容）：%s', e)
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="escah-pipeline",
@@ -77,6 +101,10 @@ def main(argv: list[str] | None = None) -> None:
     elif args.cmd == "sync-site":
         from .sitegen import sync_site
         sync_site()
+        # 重生成前端角色引用表 charRefs.json：角色中文名（name_zh）一变就必须重生成，
+        # 否则中文页的角色名无法映射回日文 key → 悬停浮窗失效（日文页正常）。
+        # 旧流程需手动跑 tools/gen_char_refs.py，容易漏；这里接入自动重生成。
+        _regen_char_refs()
     elif args.cmd == "i18n":
         from . import i18n
         if args.action == "build":
