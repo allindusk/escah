@@ -56,16 +56,14 @@
   background-color: var(--vp-nav-bg-color) !important;
   opacity: 1 !important;
 }
-/* 仅作用于链接本体 <a class="title">，避免外层 <div class="title"> 容器也被加上方块（否则出现两个标题方块、撑破布局） */
-.VPNavBar .title a.title::before,
-.VPNavBar .title > a::before {
-  content: "";
-  display: inline-block;
-  width: 26px; height: 26px;
-  margin-right: 8px;
-  border-radius: 8px;
-  background: var(--escah-grad);
-  vertical-align: -6px;
+/* 标题左侧 logo：エスカレイヤー头像（config.ts themeConfig.logo），
+   替换原渐变色块（::before 方案已移除）。40px 在 64px 导航栏里比 50px 更协调。 */
+:root { --vp-nav-logo-height: 40px; }
+.VPNavBarTitle .logo {
+  border-radius: 10px;
+  object-fit: cover;
+  width: var(--vp-nav-logo-height);
+  height: var(--vp-nav-logo-height);
 }
 .VPNavBar .title { font-weight: 700; }
 
@@ -560,11 +558,18 @@
   border-color: var(--escah-pink);
   box-shadow: 0 0 0 2px var(--vp-c-brand-soft);
 }
-/* 增强表格：以真实表格布局渲染；列宽随内容、过宽时由容器横向滚动 */
+/* 增强表格：以真实表格布局渲染；列宽随内容、过宽时由容器横向滚动。
+   ⚠️ 终极防"一字一行"约定（2026-07-28）：
+   - table 必须 width:max-content（保持自然宽度，绝不被容器压缩挤扁列）；
+     宽表由 .table-scroll 横向滚动承接。
+   - 单元格绝不可用 overflow-wrap:anywhere / word-break:break-all——
+     它们会把列的最小宽度算成 1 字符，表格一被压缩就每个字/数字一行。
+     只用 break-word（不参与最小宽度计算，仅超 30vw 时断超长串）。 */
 .escah-tbl .table-scroll { overflow-x: auto; overflow-y: hidden; }
 .escah-tbl .table-scroll > table {
   display: table !important;
-  width: auto !important;
+  width: max-content !important;
+  min-width: 100%;
   max-width: none !important;
   table-layout: auto !important;
   border-collapse: collapse;
@@ -574,8 +579,8 @@
   width: auto !important;
   height: auto !important;
   max-width: 30vw;             /* 列宽上限：任何一列不超过页面 30% */
-  white-space: normal;         /* 允许长文本在 30vw 内换行（短列不受影响） */
-  overflow-wrap: anywhere;     /* 长串/无空格文本也强制换行，避免列被撑得过宽 */
+  white-space: normal;         /* 允许长文本在 30vw 内自然换行 */
+  overflow-wrap: break-word;   /* 仅超宽长串断行；不影响列最小宽度 */
   vertical-align: top;
 }
 .escah-tbl .table-scroll > table th {
@@ -644,7 +649,7 @@
   vertical-align: top;
   max-width: 30vw;             /* 全屏表格同样：任何一列不超过页面 30% */
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;   /* 同上：禁 anywhere，防一字一行 */
 }
 .escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.12); font-weight: 600; white-space: normal; }
 .dark .escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.24); }

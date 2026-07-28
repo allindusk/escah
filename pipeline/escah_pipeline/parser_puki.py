@@ -15,11 +15,11 @@ import re
 from concurrent.futures import ProcessPoolExecutor
 from urllib.parse import quote, urljoin
 
-from bs4 import BeautifulSoup, Comment
+from bs4 import BeautifulSoup, Comment, Tag
 
 from . import config
 from .logutil import get_logger
-from .registry import href_to_page_name, load_registry
+from .registry import extract_characters, href_to_page_name, load_registry
 from .snapshot import Manifest, page_filename
 
 log = get_logger()
@@ -35,6 +35,57 @@ _INVALID_FILENAME = str.maketrans({"/": "／", "\\": "＼", ":": "：", "*": "�
 
 CHROME_LINK_RE = re.compile(r"[?&]cmd=(edit|guiedit|freeze|diff|backup)")
 CHROME_IMG_RE = re.compile(r"(guiedit|paraedit|edit)\.png")
+
+# 上游 wiki 用 [添付:名_icon.png] 引用角色头像；若该附件未上传，wiki 会渲染出
+# “File not found: "名_icon.png" at page "img"[添付]” 文本。下游镜像据此替换为角色已知头像。
+_CHAR_ICON_MAP: dict[str, str] | None = None
+_FILE_NOT_FOUND_RE = re.compile(
+    r'File not found:.*?([^"\s&]+?)_icon\.png.*?at page.*?img.*?\[添付\]'
+)
+
+
+def _char_icon_map() -> dict[str, str]:
+    """名(日文) → 本地头像 hash(不含 img/ 前缀)，取自「キャラクター一覧」快照。
+
+    与 chara.py 同源(extract_characters)，hash 与 data/parsed/characters/*.json 的 icon 一致；
+    取快照而非已提取 JSON，可避免“先 parse 后提取”顺序下新角色首次 parse 时映射缺失。
+    """
+    global _CHAR_ICON_MAP
+    if _CHAR_ICON_MAP is not None:
+        return _CHAR_ICON_MAP
+    m: dict[str, str] = {}
+    try:
+        raw = config.RAW_DIR / page_filename(config.CHARLIST_PAGE)
+        if raw.exists():
+            for c in extract_characters(raw.read_text(encoding="utf-8", errors="replace")):
+                icon = c.get("icon") or ""
+                if icon.startswith("img/"):
+                    m[c["name"]] = icon.split("/", 1)[-1]
+    except Exception as err:  # noqa: BLE001
+        log.warning("构建角色头像映射失败：%s", err)
+    _CHAR_ICON_MAP = m
+    return m
+
+
+def _fix_missing_char_icons(soup: BeautifulSoup, body: Tag) -> None:
+    """把上游 wiki 未上传附件导致的“File not found”角色头像单元格替换为已知头像 <img>。"""
+    icon_map = _char_icon_map()
+    if not icon_map:
+        return
+    for a in list(body.find_all("a")):
+        mm = _FILE_NOT_FOUND_RE.search(a.get_text(strip=True))
+        if not mm:
+            continue
+        name = mm.group(1)
+        if name not in icon_map:
+            continue
+        img = soup.new_tag("img", src=f"/img/{icon_map[name]}")
+        img["alt"] = f"{name}_icon.png"
+        img["title"] = f"{name}_icon.png"
+        img["height"] = "100"
+        img["width"] = "100"
+        img["loading"] = "lazy"
+        a.replace_with(img)
 
 
 def safe_id(name: str) -> str:
@@ -211,6 +262,7 @@ def parse_page_html(name: str, raw_html: str, slug_by_name: dict[str, str], pend
             body.append(pc)
     _rewrite_links(body, slug_by_name)
     _rewrite_images(body, pending_assets)
+    _fix_missing_char_icons(soup, body)
     chunks = _extract_chunks(body)
     fragment = body.decode_contents()
     return fragment, chunks

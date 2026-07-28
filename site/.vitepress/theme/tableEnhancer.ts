@@ -278,11 +278,12 @@ function buildColumnFilterRow(table: HTMLTableElement): void {
       const t = (dc.textContent || '').trim()
       if (t) vals.add(t)
     }
-    if (vals.size === 0 || vals.size > 40) continue // 无值或选项过多 → 不做筛选控件
+    if (vals.size === 0) continue // 该列无文本 → 不做筛选控件
     hasAnyFilter = true
     cell.classList.remove('escah-col-filter-none')
     cell.classList.add('escah-col-filter')
-    if (vals.size <= 12) {
+    if (vals.size <= 50) {
+      // 枚举适中的列（如角色名）→ 下拉选择
       const sel = document.createElement('select')
       sel.innerHTML = '<option value="">（全部）</option>'
       ;[...vals].sort((a, b) => a.localeCompare(b)).forEach((v) => {
@@ -294,9 +295,12 @@ function buildColumnFilterRow(table: HTMLTableElement): void {
       sel.addEventListener('change', () => applyColumnFilters(table))
       cell.appendChild(sel)
     } else {
+      // 高基数自由文本列（如剧情/描述，bedroom-scenes 的纯爱H/战败H）→
+      // 下拉会爆选项，改用“包含”文本框实时筛选，直接搜出目标行
       const inp = document.createElement('input')
       inp.type = 'text'
-      inp.placeholder = '筛选…'
+      inp.placeholder = '包含筛选…'
+      inp.title = '输入关键字，仅显示该列包含此文本的行'
       inp.addEventListener('input', () => applyColumnFilters(table))
       cell.appendChild(inp)
     }

@@ -19,8 +19,16 @@ let observer: IntersectionObserver | null = null
 
 function cleanText(el: HTMLElement): string {
   const c = el.cloneNode(true) as HTMLElement
-  c.querySelectorAll('.anchor_super, a').forEach((n) => n.remove())
-  return (c.textContent || '').replace(/\s+/g, ' ').trim()
+  c.querySelectorAll('.anchor_super').forEach((n) => n.remove())
+  // 只删无实际文字的锚点噪声（†/↑/空 anchor），保留角色名等内容链接的文字
+  c.querySelectorAll('a').forEach((n) => {
+    const t = (n.textContent || '').trim()
+    if (!t || /^[†↑#※・]+$/.test(t)) n.remove()
+  })
+  return (c.textContent || '')
+    .replace(/†/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
 function build() {
@@ -44,7 +52,10 @@ function build() {
         text: cleanText(el),
       }
     })
-    .filter((h) => h.text && h.text.length <= 60)
+    .filter((h) => h.text)
+    .map((h) =>
+      h.text.length > 40 ? { ...h, text: h.text.slice(0, 40) + '…' } : h,
+    )
 
   // 按层级构建嵌套树
   const result: HNode[] = []

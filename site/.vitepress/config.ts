@@ -164,6 +164,12 @@ export default defineConfig({
     },
   },
   themeConfig: {
+    // 顶部标题左侧 logo：エスカレイヤー头像（public/img，withBase 自动处理双部署 base）
+    logo: '/img/63de516dca671d22.png',
+    // 导航栏最右侧 GitHub 图标（官方 mark），点击打开项目仓库
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/allindusk/escah' },
+    ],
     search: {
       provider: 'local',
       options: {

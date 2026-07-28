@@ -15,9 +15,11 @@ if (mode === 'build') {
   writeFileSync(resolve(root, '.vitepress/dist/.nojekyll'), '')
   console.log('Build complete ->', resolve(root, '.vitepress/dist'))
 } else if (mode === 'preview') {
-  await serve(root, { port: 4173 })
+  // host: true → 监听所有网卡，避免只绑 IPv6(::1) 导致 127.0.0.1 连不上
+  await serve(root, { port: 4173, host: true })
 } else if (mode === 'dev') {
-  const server = await createServer(root, { port: 5173 })
+  // host: true → 同上；dev/preview 都需可被 localhost 与 127.0.0.1 访问
+  const server = await createServer(root, { port: 5173, host: true })
   await server.listen()
 } else {
   console.error('Unknown mode:', mode, '（build | preview | dev）')

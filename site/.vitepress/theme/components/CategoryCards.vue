@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useData, withBase } from 'vitepress'
+import { useData } from 'vitepress'
 
 const { lang } = useData()
 
 const cards = computed(() => {
   const zh = lang.value.startsWith('zh')
-  const prefix = zh ? 'zh/' : 'ja/'
-  const link = (slug: string) => withBase(prefix + slug + '.html')
+  // 用 BASE_URL 拼出带部署根的“绝对路径”，避免 withBase 对相对路径不生效
+  // 导致在 /zh/ 首页上卡片链接变成相对路径、跳转成 /zh/zh/... 的问题。
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '')
+  const langPath = zh ? 'zh' : 'ja'
+  const link = (slug: string) => `${base}/${langPath}/${slug}.html`
   return zh
     ? [
         { icon: '🗡️', title: '角色', desc: 'SSR / SR / R 全角色图鉴', href: link('characters') },

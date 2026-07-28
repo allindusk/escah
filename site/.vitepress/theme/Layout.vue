@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
-import { useData, withBase } from 'vitepress'
+import { useData } from 'vitepress'
 import { onMounted, onUnmounted, ref } from 'vue'
 import CharHoverModal from './components/CharHoverModal.vue'
 import DocOutline from './components/DocOutline.vue'
@@ -43,7 +43,10 @@ onUnmounted(() => {
   window.removeEventListener('wheel', onShiftWheel)
 })
 
-const homeHref = () => withBase(lang.value.startsWith('zh') ? 'zh/' : 'ja/')
+const homeHref = () => {
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '')
+  return `${base}/${lang.value.startsWith('zh') ? 'zh' : 'ja'}/`
+}
 </script>
 
 <template>

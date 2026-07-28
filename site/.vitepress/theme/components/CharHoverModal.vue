@@ -16,9 +16,9 @@ interface CharData {
 }
 
 const SECTION_ORDER = ['プロフィール', '入手方法', '基本ステータス', '詳細ステータス', '必殺技', '固有効果']
-// hover 预览只展示的 5 项：头像(头部) + 以下 4 个分段
-const HOVER_SECTIONS = ['プロフィール', '基本ステータス', '詳細ステータス', '必殺技', '固有効果']
-const HOVER_LEFT = ['プロフィール', '基本ステータス', '詳細ステータス']   // 角色信息 + 属性
+// hover 预览只展示轻量分段：头像(头部) + 以下 4 个分段；基本ステータス 内容多，仅放大浮窗显示
+const HOVER_SECTIONS = ['プロフィール', '詳細ステータス', '必殺技', '固有効果']
+const HOVER_LEFT = ['プロフィール', '詳細ステータス']   // 角色信息 + 属性
 const HOVER_RIGHT = ['必殺技', '固有効果']                              // 必杀技 + 固有效果
 const HOVER_WIDTH = 760
 const { t, isZh } = useI18n()
@@ -97,6 +97,19 @@ watch(
   async () => {
     if (store.visible && store.mode === 'hover') {
       placeHoverInitial()
+      await nextTick()
+      clampHoverToViewport()
+    }
+  },
+)
+
+// 数据异步加载完成后，浮窗内容会变大（更高/更宽）——必须重新夹取视口，
+// 否则膨胀后的浮窗底部/右侧会越出浏览器窗口，导致内容看不到。
+// （初始 clamp 只在 loading 小尺寸时跑过一次，加载完即失效）
+watch(
+  () => [data.value, loading.value, store.visible, store.mode],
+  async () => {
+    if (store.visible && store.mode === 'hover') {
       await nextTick()
       clampHoverToViewport()
     }

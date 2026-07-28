@@ -6,6 +6,8 @@
 - 数据：`data/raw`(快照,已 git) + `data/manifest.json`(sha256) + `data/parsed/{ja,zh,characters,i18n}`(可重跑,不入库) + `data/assets/img`(2386 图,LFS) + `data/registry/{pages.yaml(真源~418页),mirror_plan.yaml}`。
 - 部署：无 CI。本地 `python -m escah_pipeline.cli update` → `cd site && node build.mjs build` → 手动 push dist 到 gh-pages。**双部署**：GitHub Pages(base `/escah/`、repo 名 `escah` 项目页) + Cloudflare Pages(base `/`，CF 控制台设构建环境变量 `BASE=/`)；顶部 `SiteAccessSwitch.vue` 下拉互切，域名配 `site/.env` 的 `VITE_GHPAGES_URL` / `VITE_CF_URL`（`.env` 被 gitignore，CF 构建须在控制台设这些 VITE_ 变量 + `BASE=/`）。
 - 硬件 AMD Ryzen 7 8845HS（16 线程）；并行上限 round(cpu*0.8)，留 20% CPU。不可并行：fetch（单限速器）、sync_site（顺序）、build.mjs（detached 防 harness 杀）。
+- ⚠️ **本地 `vite preview`(sirv) 不能验证搜索**：sirv 对 `@` 前缀的本地搜索索引分块（`@localSearchIndex<locale>.<hash>.js`，~20MB）MIME/serving 有坑，预览站搜索恒 0 结果、索引资源不出现；**搜索相关只能对部署站（GH Pages/CF）实测**。VitePress 本地搜索索引是懒加载——`VPLocalSearchBox` 的 `ln={root,zh}` 在**用户首次输入**时才 `import()` 该分块（`storePositions:true` 致 `index` 字段 ~19.9MB，整体分块 ~21MB）。modal 打开即渲染 input，结果等索引就绪。
+- ⚠️ **搜索索引不要随意瘦身/改 load 机制**（用户 2026-07-28：搜索可用，只加进度提示即可）。若需优化体积，注意：自己 `fetch/import` 该索引分块 URL 会与 VitePress 同 URL 的 `import()` **争用并破坏搜索**，只能侦测 VitePress 自身加载完成（performance resource `responseEnd>0`）。进度 UI 组件：`site/.vitepress/theme/components/SearchLoading.vue`（侦测 `.VPLocalSearchBox input`，冷加载显示 1%–100% 进度卡片，`pointer-events:none` 不拦截输入框）。
 
 ## 翻译工作流（2026-07-27 起 = key 化 i18n，方案固化，用户"暂不再改"）
 - 助手不译正文（成人内容红线）。译者译文写 `new_translation_<YYYYMMDD>_translated.txt`；集中待译清单 `new_translation_<YYYYMMDD>.txt` 由 `i18n extract` 生成（`===X===` 字母标记分隔 + `# MAP A=<slug>` 映射 + `[N] 日文`；同时生成空白 `_translated.txt` 给译文）。
@@ -36,6 +38,7 @@
 - VitePress 改 theme 后 JS 不刷新 → 删 `.vitepress/cache` 再 build。
 - ⚠️ `config.ts` search.miniSearch 里的函数（tokenize/processTerm 等）会被序列化后浏览器端 eval 重建，**闭包变量全丢** → 必须自包含（常量写函数体内），否则 ReferenceError、搜索 0 结果（2026-07-27 已修）。
 - ⚠️ preview 服务器（sirv）启动时缓存文件清单：rebuild 后新 hash 资源 404、页面 JS 全挂 → rebuild 后必须重启 preview。
+- ⚠️ 表格"一字一行"终极约定（2026-07-28，用户已濒临放弃勿再犯）：`.escah-tbl` 表格曾设 `width:auto !important` + 单元格 `overflow-wrap:anywhere` → 多列表被压进内容区时每列最小宽度=1 字符，数字 `8,500,000,000` 每个数字一行、中文一字一行（raid/raid-formations 等）。**铁律**：表格恒 `width:max-content!important; min-width:100%`（自然宽度绝不被压缩，宽表由 `.table-scroll` 横滚承接）；单元格只许 `overflow-wrap:break-word`（不参与最小宽度计算），**全站禁止对表格单元格用 `anywhere`/`break-all`**。custom.css 内 `.escah-tbl` 与 `.escah-tbl-fs-scroll` 两处均已改。
 - tableEnhancer 结构安全约定（2026-07-27 大修）：表头块=开头连续全 th 行整块进 thead（rowspan 不能跨 thead/tbody）；筛选行插表头块后、用 headerGrid 算叶列数；数据区含合并单元格的表禁用排序/列筛选/删首列（bodyHasSpans 守卫）；markSpecialColumns 按单元格不按列索引。数据层 raw↔ja↔zh 表结构 416 页 0 差异，表格问题一律先查前端。
 - 表格图片竖向堆叠（2026-07-27）：`applyImageStack()` 对“去掉所有 `<a>/<img>` 后剩余非空白文字为 0”的单元格加 `escah-img-stack`（纯图标列表 / 图标+名称竖向）；CSS `.escah-img-stack a{display:flex;align-items:center;gap:6px}`。含「+」组合、尾部说明、裸 `<img>xN` 因剩余文字≠0 保持横排。`.escah-img-col img{display:block}` 已存在但外层 `<a>` 须也变 flex 才生效。
 - `CharHoverModal.isZh` 是函数须 `isZh()` 调用。
@@ -54,3 +57,4 @@
 - LLM 翻译管线已弃用，代码 `recycle_bin/tools/`，勿重建。
 - ⚠️ **非日语/代号类不翻译（用户 2026-07-27 指定）**：名字或术语若不是日语（代号、纯字母数字、或用户指定保持原样的，如 `FM77`/`女郎蜘蛛初音`/`女郎蜘蛛奏子`），**不要翻译，保留原样**：不写进 glossary（不造 `ja==zh` 回声），角色 `name_zh` 留空使浮窗显示原样。新增此类名字追加到 `tools/_check_glossary_coverage.py` 的 `_DO_NOT_TRANSLATE`，避免被报为缺译。
 - 本地开发 `start-dev.bat`(sync-site+`node build.mjs dev`:5173+`dev-watch.py`)/`stop-dev.bat`/`start-site.bat`(:4173)。
+- ⚠️ **推送 GitHub 须经用户明确指令（2026-07-28 指定）**：修复/改动完成后**不要自行决定提交并推送**；只能在做完改动、等用户说"推送/提交推送"时才 `git commit`+`git push`。本地可自由构建验证，但 push 一律等用户发话。
