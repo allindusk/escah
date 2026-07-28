@@ -142,6 +142,11 @@ _TERMS_FILE = config.ROOT / "glossary" / "terms.yaml"
 _CHAR_LABEL_NORM: "dict[str, str] | None" = None
 _CHAR_VALUE_NORM: "dict[str, str] | None" = None
 
+# 站点术语全站最高优先级覆盖（glossary/terms.yaml 的 char_sections / char_labels /
+# char_values / inline_terms 合并，JA→ZH，归一化 ja 整词精确匹配）。作用于全站
+# （详情页/普通页/表格/大小浮窗），zh 渲染时整词精确覆盖，高于 LLM/机翻 zh。
+_TERM_NORM: "dict[str, str] | None" = None
+
 
 def _load_name_glossary() -> None:
     global _NAME_RE, _NAME_MAP, _GLOSSARY_NORM
@@ -290,6 +295,37 @@ def char_cell_zh(ja: str) -> "str | None":
     if _CHAR_VALUE_NORM and n in _CHAR_VALUE_NORM:
         return _CHAR_VALUE_NORM[n]
     return None
+
+
+def _load_site_terms() -> None:
+    """站点术语全站最高优先级覆盖词表：合并 glossary/terms.yaml 的
+    char_sections / char_labels / char_values / inline_terms（JA→ZH，
+    归一化 ja 整词精确匹配，ja==zh 视为无需替换跳过）。"""
+    global _TERM_NORM
+    if _TERM_NORM is not None:
+        return
+    mapping: dict = {}
+    if _TERMS_FILE.exists():
+        try:
+            loaded = yaml.safe_load(_TERMS_FILE.read_text(encoding="utf-8")) or {}
+            for sec in ("char_sections", "char_labels", "char_values", "inline_terms"):
+                for k, v in (loaded.get(sec, {}) or {}).items():
+                    if k and v and k != v:
+                        mapping[_norm(k)] = v
+        except Exception as e:  # 词表损坏不应阻断渲染
+            log.warning("[i18n terms] 加载 glossary/terms.yaml 失败：%s", e)
+    _TERM_NORM = mapping
+
+
+def _term_override(ja: str) -> "str | None":
+    """站点术语最高优先级覆盖：节点 ja 归一化后恰为某术语 → 返回词表 ZH；否则 None。
+
+    覆盖 char_sections（分段标题）/ char_labels（字段标签）/ char_values（术语值）/
+    inline_terms（行内独立术语）。仅 zh 渲染调用。"""
+    _load_site_terms()
+    if _TERM_NORM is None:
+        return None
+    return _TERM_NORM.get(_norm(ja))
 
 
 def _tpl_path(slug: str) -> Path:
@@ -1024,6 +1060,12 @@ def char_fill_all() -> None:
                         continue  # 人名/声优/画师值保留日文
                     total += 1
                     zh = d.get(_norm_ns(t))
+                    # 站点术语 / 专有名词最高优先级覆盖（覆盖旧 LLM 译）
+                    ov = _term_override(t)
+                    if ov is None:
+                        ov = _name_override(t)
+                    if ov is not None:
+                        zh = ov
                     if zh and zh != cell.get("zh"):
                         cell["zh"] = zh
                         cell["tr"] = True
@@ -1081,9 +1123,12 @@ def render_locale(slug: str, locale: str) -> str | None:
         if not ent:
             return m.group(0)
         if locale == "zh":
+            ov = _term_override(ent.get("ja", ""))  # 站点术语最高优先级覆盖
+            if ov is not None:
+                return _html.escape(ov, quote=False)
             ov = _name_override(ent.get("ja", ""))
             if ov is not None:
-                return _html.escape(ov, quote=False)  # 独立名词直接覆盖（最高优先级）
+                return _html.escape(ov, quote=False)  # 独立名词直接覆盖
             text = ent.get("zh") or ent.get("ja", "")
             text = _correct_text(text)  # 漏译/错译纠正
             return _html.escape(text, quote=False)
