@@ -146,6 +146,21 @@ _CHAR_VALUE_NORM: "dict[str, str] | None" = None
 # char_values / inline_terms 合并，JA→ZH，归一化 ja 整词精确匹配）。作用于全站
 # （详情页/普通页/表格/大小浮窗），zh 渲染时整词精确覆盖，高于 LLM/机翻 zh。
 _TERM_NORM: "dict[str, str] | None" = None
+# inline_terms 中含假名（必为日语）的条目 → 子串替换，覆盖正文内嵌称呼/术语
+# （如「長官さぁん」出现在「もっときて、長官さぁん！！」句中，整词匹配抓不到）。
+# 仅 inline_terms 段参与子串；其余段为结构标签，保持整词精确。
+_TERM_SUB_RE: "re.Pattern | None" = None
+_TERM_SUB_MAP: "dict[str, str] | None" = None
+
+# 全站高频游戏术语（日→中），render-time 覆盖（glossary/high_freq.yaml）。
+# 与 names.yaml 同层，但本节为通用游戏术语（非专有名词）。双层避免污染中文：
+#   - 含假名词条 → 子串替换（假名必为日语，安全；覆盖「ダメージ」等句内残留）
+#   - 纯汉字词条 → 整词精确匹配（仅在节点 ja 整词命中时替换，绝不子串误改中文）
+# 来源：tools/translate_glossary.py build。
+_HIGH_FREQ_FILE = config.ROOT / "glossary" / "high_freq.yaml"
+_HF_SUB_RE: "re.Pattern | None" = None        # 含假名键：子串替换
+_HF_SUB_MAP: "dict[str, str] | None" = None
+_HF_EXACT_NORM: "dict[str, str] | None" = None  # 纯汉字键：整词精确（归一化 ja）
 
 
 def _load_name_glossary() -> None:
@@ -231,6 +246,10 @@ def _correct_text(text: str) -> str:
         text = _NAME_RE.sub(lambda m: _NAME_MAP[m.group(0)], text)  # type: ignore[union-attr]
     if _CORR_RE is not None:
         text = _CORR_RE.sub(lambda m: _CORR_MAP[m.group(0)], text)  # type: ignore[union-attr]
+    # 通用高频游戏术语子串替换（覆盖句内残留日语术语）
+    text = _high_freq_override(text)
+    # inline_terms 含假名条目子串替换（覆盖正文内嵌称呼/术语，如「長官さぁん」）
+    text = _term_sub_override(text)
     return text
 
 
@@ -301,10 +320,11 @@ def _load_site_terms() -> None:
     """站点术语全站最高优先级覆盖词表：合并 glossary/terms.yaml 的
     char_sections / char_labels / char_values / inline_terms（JA→ZH，
     归一化 ja 整词精确匹配，ja==zh 视为无需替换跳过）。"""
-    global _TERM_NORM
+    global _TERM_NORM, _TERM_SUB_RE, _TERM_SUB_MAP
     if _TERM_NORM is not None:
         return
     mapping: dict = {}
+    sub_pairs: list = []
     if _TERMS_FILE.exists():
         try:
             loaded = yaml.safe_load(_TERMS_FILE.read_text(encoding="utf-8")) or {}
@@ -312,9 +332,16 @@ def _load_site_terms() -> None:
                 for k, v in (loaded.get(sec, {}) or {}).items():
                     if k and v and k != v:
                         mapping[_norm(k)] = v
+            # inline_terms 含假名条目 → 子串层（长词优先）
+            for k, v in (loaded.get("inline_terms", {}) or {}).items():
+                if k and v and k != v and _KANA_RE.search(k):
+                    sub_pairs.append((k, v))
         except Exception as e:  # 词表损坏不应阻断渲染
             log.warning("[i18n terms] 加载 glossary/terms.yaml 失败：%s", e)
     _TERM_NORM = mapping
+    sub_pairs.sort(key=lambda kv: len(kv[0]), reverse=True)  # 长词优先
+    _TERM_SUB_MAP = {k: v for k, v in sub_pairs}
+    _TERM_SUB_RE = re.compile("|".join(re.escape(k) for k, _ in sub_pairs)) if sub_pairs else None
 
 
 def _term_override(ja: str) -> "str | None":
@@ -326,6 +353,66 @@ def _term_override(ja: str) -> "str | None":
     if _TERM_NORM is None:
         return None
     return _TERM_NORM.get(_norm(ja))
+
+
+def _term_sub_override(text: str) -> str:
+    """inline_terms 中含假名条目的子串替换（覆盖正文内嵌称呼/术语，如「長官さぁん」）。"""
+    if not text:
+        return text
+    _load_site_terms()
+    if _TERM_SUB_RE is not None:
+        return _TERM_SUB_RE.sub(lambda m: _TERM_SUB_MAP[m.group(0)], text)  # type: ignore[union-attr]
+    return text
+
+
+def _load_high_freq_glossary() -> None:
+    """全站高频游戏术语词表：glossary/high_freq.yaml 的 high_freq（JA→ZH）。
+
+    拆分为两层（见模块常量说明）：
+      - 含假名键 → 子串替换（_HF_SUB_RE / _HF_SUB_MAP），长词优先；
+      - 纯汉字键 → 整词精确（_HF_EXACT_NORM，归一化 ja 精确匹配）。
+    仅保留 ja!=zh 的条目（ja==zh 视为无需替换，跳过）。"""
+    global _HF_SUB_RE, _HF_SUB_MAP, _HF_EXACT_NORM
+    if _HF_SUB_MAP is not None or _HF_EXACT_NORM is not None:
+        return
+    data: dict = {}
+    if _HIGH_FREQ_FILE.exists():
+        try:
+            loaded = yaml.safe_load(_HIGH_FREQ_FILE.read_text(encoding="utf-8")) or {}
+            data = loaded.get("high_freq", {}) or {}
+        except Exception as e:  # 词表损坏不应阻断渲染
+            log.warning("[i18n high_freq] 加载 glossary/high_freq.yaml 失败：%s", e)
+    sub_pairs: list[tuple[str, str]] = []
+    exact_pairs: list[tuple[str, str]] = []
+    for k, v in data.items():
+        if not k or not v or k == v:
+            continue
+        if _KANA_RE.search(k):
+            sub_pairs.append((k, v))       # 含假名 → 子串
+        else:
+            exact_pairs.append((k, v))     # 纯汉字 → 整词精确
+    sub_pairs.sort(key=lambda kv: len(kv[0]), reverse=True)  # 长词优先
+    _HF_SUB_MAP = {k: v for k, v in sub_pairs}
+    _HF_SUB_RE = re.compile("|".join(re.escape(k) for k, _ in sub_pairs)) if sub_pairs else None
+    _HF_EXACT_NORM = {_norm(k): v for k, v in exact_pairs}
+
+
+def _high_freq_override(text: str) -> str:
+    """含假名高频词子串替换（仅对 zh 文本中的日语假名片段生效，安全不污染中文）。"""
+    if not text:
+        return text
+    _load_high_freq_glossary()
+    if _HF_SUB_RE is not None:
+        return _HF_SUB_RE.sub(lambda m: _HF_SUB_MAP[m.group(0)], text)  # type: ignore[union-attr]
+    return text
+
+
+def _high_freq_exact(ja: str) -> "str | None":
+    """纯汉字高频词整词精确覆盖：节点 ja 归一化后恰为某纯汉字键 → 返回词表 ZH；否则 None。"""
+    _load_high_freq_glossary()
+    if _HF_EXACT_NORM is None:
+        return None
+    return _HF_EXACT_NORM.get(_norm(ja))
 
 
 def _tpl_path(slug: str) -> Path:
@@ -1060,12 +1147,18 @@ def char_fill_all() -> None:
                         continue  # 人名/声优/画师值保留日文
                     total += 1
                     zh = d.get(_norm_ns(t))
-                    # 站点术语 / 专有名词最高优先级覆盖（覆盖旧 LLM 译）
+                    # 站点术语 / 专有名词 / 纯汉字高频词 最高优先级覆盖（覆盖旧 LLM 译）
                     ov = _term_override(t)
                     if ov is None:
                         ov = _name_override(t)
+                    if ov is None:
+                        ov = _high_freq_exact(t)
                     if ov is not None:
                         zh = ov
+                    # 含假名高频词 / inline_terms 子串替换（覆盖单元格内残留日语术语与称呼）
+                    if zh:
+                        zh = _high_freq_override(zh)
+                        zh = _term_sub_override(zh)
                     if zh and zh != cell.get("zh"):
                         cell["zh"] = zh
                         cell["tr"] = True
@@ -1129,8 +1222,11 @@ def render_locale(slug: str, locale: str) -> str | None:
             ov = _name_override(ent.get("ja", ""))
             if ov is not None:
                 return _html.escape(ov, quote=False)  # 独立名词直接覆盖
+            ov = _high_freq_exact(ent.get("ja", ""))  # 纯汉字高频词整词精确覆盖
+            if ov is not None:
+                return _html.escape(ov, quote=False)
             text = ent.get("zh") or ent.get("ja", "")
-            text = _correct_text(text)  # 漏译/错译纠正
+            text = _correct_text(text)  # 漏译/错译纠正 + 含假名高频词子串替换
             return _html.escape(text, quote=False)
         return _html.escape(ent.get("ja", ""), quote=False)
 
