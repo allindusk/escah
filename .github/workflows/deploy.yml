@@ -96,7 +96,15 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx wrangler pages project create escah --production-branch=main || true
+        run: |
+          # 项目已存在则跳过创建（避免 “already exists” 报错刷屏）；不存在才创建。
+          # 注：因 API 已成功鉴权并返回 “already exists”，说明 CLOUDFLARE secret 已配好。
+          if npx wrangler pages project list 2>/dev/null | grep -qw escah; then
+            echo "Cloudflare Pages 项目 'escah' 已存在，跳过创建。"
+          else
+            echo "创建 Cloudflare Pages 项目 'escah'..."
+            npx wrangler pages project create escah --production-branch=main || true
+          fi
 
       - name: Deploy to Cloudflare Pages
         continue-on-error: true
