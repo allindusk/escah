@@ -102,8 +102,11 @@ function wrapPlainTextNames(el: HTMLElement) {
 }
 
 function findChar(target: EventTarget | null): string | null {
+  // 向上查找 data-char：终止条件用 document.body 而非 root，
+  // 因为「表格页面内全屏」会把表格移出 root（挂到 body 的全屏遮罩里），
+  // 若止步于 root 就会漏掉全屏表格内的角色头像/名字触发。
   let node = target as HTMLElement | null
-  while (node && node !== root.value) {
+  while (node && node !== document.body) {
     const c = node.dataset?.char
     if (c) return c
     node = node.parentElement
@@ -175,18 +178,20 @@ onMounted(() => {
   const el = root.value
   if (!el) return
   processEl(el)
-  el.addEventListener('mouseover', onOver)
+  // 悬停/点击监听挂到 document 而非 root：表格「页面内全屏」会把表格移出 root，
+  // 挂 root 会让全屏表格里的角色头像/名字无法触发悬停预览与点击固定。
+  document.addEventListener('mouseover', onOver)
+  document.addEventListener('click', onClick)
+  document.addEventListener('click', onAnchorClick)
+  // 离开正文内容区（mouseleave 在 document 上不可靠）：仅在 root 上收起 hover 预览
   el.addEventListener('mouseleave', onOut)
-  el.addEventListener('click', onClick)
-  el.addEventListener('click', onAnchorClick)
 })
 onUnmounted(() => {
+  document.removeEventListener('mouseover', onOver)
+  document.removeEventListener('click', onClick)
+  document.removeEventListener('click', onAnchorClick)
   const el = root.value
-  if (!el) return
-  el.removeEventListener('mouseover', onOver)
-  el.removeEventListener('mouseleave', onOut)
-  el.removeEventListener('click', onClick)
-  el.removeEventListener('click', onAnchorClick)
+  if (el) el.removeEventListener('mouseleave', onOut)
 })
 
 // 片段内容随路由/语言切换变化时，重新处理（角色标记 + 表格增强）

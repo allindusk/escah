@@ -210,13 +210,13 @@
 
 /* ========== 核心组件：角色详情悬浮窗 ========== */
 .char-modal-mask {
-  position: fixed; inset: 0; z-index: 200;
+  position: fixed; inset: 0; z-index: 270;
   background: rgba(10, 10, 18, 0.45);
   animation: escah-fade 0.15s ease;
 }
 .char-modal-mask.transparent { background: transparent; backdrop-filter: none; pointer-events: none; }
 .char-modal {
-  position: fixed; z-index: 201;
+  position: fixed; z-index: 271;
   width: min(1500px, 92vw);
   max-height: min(920px, 92vh);
   display: flex; flex-direction: column;

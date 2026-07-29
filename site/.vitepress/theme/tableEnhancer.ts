@@ -2,6 +2,7 @@
  * 表格增强：表头排序、列筛选、页面内全屏、图像/长文本列适配。
  * 由 MirrorContent.vue 在 v-html 注入后调用（enhanceTables）。
  */
+import { charModalStore as charModalStore } from './components/charModalStore'
 /**
  * 表头行块：表格开头“连续的全 th 行”（PukiWiki 双行表头常带 rowspan/colspan）。
  * 必须整块放进 <thead>：rowspan 无法跨 thead/tbody 行组生效，
@@ -401,7 +402,13 @@ interface FsState {
 let fsState: FsState | null = null
 
 function onFsKey(e: KeyboardEvent): void {
-  if (e.key === 'Escape') closeFullscreen()
+  if (e.key === 'Escape') {
+    // 角色浮窗（hover 预览 / 固定大窗）优先接管 Esc：先关浮窗，保留表格全屏。
+    // 否则两者同按 Esc 会一起关掉，体验混乱（document 级 keydown 先于 window 级触发，
+    // 此处判定 visible 仍为 true 即可让 CharHoverModal 的 onKeydown 去关浮窗）。
+    if (charModalStore.visible) return
+    closeFullscreen()
+  }
 }
 
 function openFullscreen(table: HTMLTableElement): void {
@@ -438,6 +445,9 @@ function openFullscreen(table: HTMLTableElement): void {
 }
 
 function closeFullscreen(): void {
+  // 关闭表格全屏时，若仅处于 hover 预览态（非固定）则一并收起，
+  // 避免表格恢复到正文后页面上残留一个悬停小窗。
+  if (charModalStore.mode === 'hover' && charModalStore.visible) charModalStore.close()
   if (fsState) {
     const { container, parent, next } = fsState
     if (next) parent.insertBefore(container, next)

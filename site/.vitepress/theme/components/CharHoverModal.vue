@@ -20,7 +20,6 @@ const SECTION_ORDER = ['プロフィール', '入手方法', '基本ステータ
 const HOVER_SECTIONS = ['プロフィール', '基本ステータス', '詳細ステータス', '必殺技', '固有効果']
 const HOVER_LEFT = ['プロフィール', '基本ステータス', '詳細ステータス']   // 人物档案 + 基础属性 + 详细属性
 const HOVER_RIGHT = ['必殺技', '固有効果']                                  // 必杀技 + 固有效果
-const HOVER_WIDTH = 760
 const { t, isZh } = useI18n()
 const { lang } = useData()
 
@@ -47,77 +46,88 @@ const modalStyle = computed(() => {
   return { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
 })
 
-// hover 预览定位：先按锚点初步定位，再依据真实渲染尺寸夹取到视口内（绝不越界）
+// hover 预览定位：依据真实渲染尺寸在「右 → 左 → 下 → 上 → 左缘兜底」间择优，
+// 最终夹回视口内（绝不越界；名字/头像在右缘时浮窗改放下方或贴左缘，避免遮挡）。
 const hoverEl = ref<HTMLElement | null>(null)
 const hoverX = ref(0)
 const hoverY = ref(0)
 const hoverStyle = computed(() => ({ left: hoverX.value + 'px', top: hoverY.value + 'px' }))
 
-function placeHoverInitial() {
-  const a = store.anchor as HoverAnchor | null
-  if (!a) {
-    hoverX.value = Math.max(8, (window.innerWidth - HOVER_WIDTH) / 2)
-    hoverY.value = 40
-    return
-  }
-  const vw = window.innerWidth
-  const gap = 10
-  let left = a.right + gap // 优先放右侧
-  let top = a.top
-  if (left + HOVER_WIDTH > vw - 8) left = a.left - HOVER_WIDTH - gap // 右侧放不下→放左侧
-  if (left < 8) {
-    // 左右都放不下→放到下方（不遮挡名字/头像）
-    left = a.left
-    top = a.bottom + gap
-  }
-  hoverX.value = Math.max(8, left)
-  hoverY.value = Math.max(8, top)
+function clamp(v: number, lo: number, hi: number): number {
+  return Math.max(lo, Math.min(hi, v))
 }
 
-// 用真实尺寸把浮窗夹回视口内（宽度可能因 max-width:96vw / 网格而小于 HOVER_WIDTH，
-// 高度可达 94vh，须保证右下角不超出视口）
-function clampHoverToViewport() {
+// 用真实渲染尺寸把浮窗放到不遮挡锚点（名字/头像）且留在视口内的位置。
+// 关键修复：以前按「假定宽度 760」判断翻转，浮窗实际可达 96vw，
+// clamp 又只把右溢出的浮窗往左推到右缘 → 右缘锚点被覆盖。
+// 现按真实宽度依次尝试 右/左/下/上，都不行才贴左缘兜底，彻底避免覆盖锚点。
+function placeHover() {
   const el = hoverEl.value
+  const a = store.anchor as HoverAnchor | null
   if (!el) return
-  const r = el.getBoundingClientRect()
   const vw = window.innerWidth
   const vh = window.innerHeight
-  let left = r.left
-  let top = r.top
-  if (r.right > vw - 8) left = vw - 8 - r.width
-  if (r.bottom > vh - 8) top = vh - 8 - r.height
-  if (left < 8) left = 8
-  if (top < 8) top = 8
-  hoverX.value = Math.round(left)
-  hoverY.value = Math.round(top)
+  const gap = 10
+  const pad = 8
+  const r = el.getBoundingClientRect()
+  const w = r.width
+  const h = r.height
+
+  let left: number
+  let top: number
+  if (!a) {
+    left = (vw - w) / 2
+    top = 40
+  } else if (a.right + gap + w <= vw - pad) {
+    // 右侧放得下
+    left = a.right + gap
+    top = a.top
+  } else if (a.left - gap - w >= pad) {
+    // 右侧放不下 → 左侧放得下
+    left = a.left - gap - w
+    top = a.top
+  } else if (a.bottom + gap + h <= vh - pad) {
+    // 左右都放不下（浮窗宽）→ 放到锚点下方（垂直分离，不遮名字/头像）
+    left = a.left
+    top = a.bottom + gap
+  } else if (a.top - gap - h >= pad) {
+    // 下方也放不下 → 放到锚点上方
+    left = a.left
+    top = a.top - gap - h
+  } else {
+    // 无处可放：贴左缘兜底（仅当锚点靠右缘时才不会遮挡）
+    left = pad
+    top = a.top
+  }
+
+  hoverX.value = Math.round(clamp(left, pad, Math.max(pad, vw - pad - w)))
+  hoverY.value = Math.round(clamp(top, pad, Math.max(pad, vh - pad - h)))
 }
 
+// 浮窗可见（hover 模式）时：渲染出真实尺寸后再定位（loading 小尺寸与加载后大尺寸都要重定位）
 watch(
   () => [store.visible, store.mode, store.anchor],
   async () => {
     if (store.visible && store.mode === 'hover') {
-      placeHoverInitial()
       await nextTick()
-      clampHoverToViewport()
+      placeHover()
     }
   },
 )
 
-// 数据异步加载完成后，浮窗内容会变大（更高/更宽）——必须重新夹取视口，
-// 否则膨胀后的浮窗底部/右侧会越出浏览器窗口，导致内容看不到。
-// （初始 clamp 只在 loading 小尺寸时跑过一次，加载完即失效）
+// 数据异步加载完成后浮窗会变大，必须按真实尺寸重新定位（初始只在 loading 小尺寸跑过一次）
 watch(
   () => [data.value, loading.value, store.visible, store.mode],
   async () => {
     if (store.visible && store.mode === 'hover') {
       await nextTick()
-      clampHoverToViewport()
+      placeHover()
     }
   },
 )
 
 function onHoverViewportChange() {
-  if (store.visible && store.mode === 'hover') clampHoverToViewport()
+  if (store.visible && store.mode === 'hover') placeHover()
 }
 
 const allSections = computed(() => {
@@ -303,7 +313,7 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
             <span v-if="data?.rarity" class="rarity-badge" :class="data.rarity">{{ data.rarity }}</span>
             <span class="spacer"></span>
             <span v-if="store.pinned" class="hint">{{ t('modal.dragHint') }}</span>
-            <a class="fullpage" :href="detailHref">{{ t('modal.fullPage') }}</a>
+            <a class="fullpage" :href="detailHref" target="_blank" rel="noopener noreferrer" @click="store.close()">{{ t('modal.fullPage') }}</a>
             <button @click="store.togglePin()">{{ store.pinned ? t('modal.unpin') : t('modal.pin') }}</button>
             <button @click="store.close()">{{ t('modal.close') }}</button>
           </div>
@@ -408,7 +418,7 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
 /* hover 预览小窗 */
 .char-hover {
   position: fixed;
-  z-index: 60;
+  z-index: 260;            /* 高于表格页面内全屏(250)，使全屏表格里的角色也能正常显示悬停预览 */
   max-width: 96vw;
   background: var(--vp-c-bg, #fff);
   color: var(--vp-c-text-1, #1b1b1f);
