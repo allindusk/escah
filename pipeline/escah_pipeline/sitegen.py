@@ -140,6 +140,17 @@ def _strip_nav_links(frag) -> None:
     for el in frag.xpath(".//div[contains(concat(' ', normalize-space(@class), ' '), ' jumpmenu ')]"):
         el.drop_tree()
     for el in frag.xpath(".//a[contains(concat(' ', normalize-space(@class), ' '), ' anchor_super ')]"):
+        aid = el.get("id")
+        parent = el.getparent()
+        if parent is None:
+            el.drop_tree()
+            continue
+        if aid:
+            # 保留章节跳转锚点：PukiWiki 的 anchor_super(<a id="...">†</a>) 是正文里
+            # #id 链接（如 #drop_list）的唯一真实目标；直接 drop 会让这些跳转失效。
+            # 改为占位 <span id="..."> 落回原父元素内（保留锚点，去掉无意义 † 图标）。
+            span = etree.Element("span", attrib={"id": aid})
+            parent.insert(parent.index(el), span)
         el.drop_tree()
     for a in frag.xpath(".//a[contains(concat(' ', normalize-space(@class), ' '), ' internal-link ')]"):
         # 拆解保留内部内容：去掉跳转链接，但保留其中的文字/图片。
