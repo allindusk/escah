@@ -83,7 +83,16 @@ def load_glossary():
     return gloss
 
 
-def fix_zh(ja: str, zh: str, gloss: dict):
+_WS = re.compile(r"\s+")
+
+
+def fix_zh(ja: str, zh: str, gloss: dict, gloss_ns: dict):
+    # 规则0（最高优先）：整条 ja 恰为词表键（含去空白容错）→ zh 直接设为词表值。
+    # 以 ja 为唯一匹配依据，与 zh 现值无关，不需要分词对齐。
+    v = gloss.get(ja) or gloss.get(ja.strip()) or gloss_ns.get(_WS.sub("", ja))
+    if v is not None:
+        return v
+    # 规则1：ja 含词表键作子串 → 分词对齐后替换对应 zh 段（段数不等则跳过，安全）。
     js = segs(ja)
     zs = segs(zh)
     if len(js) != len(zs):
@@ -98,25 +107,26 @@ def fix_zh(ja: str, zh: str, gloss: dict):
     return "".join(out) if changed else zh
 
 
-def walk(o, gloss, stats, samples, path):
+def walk(o, gloss, gloss_ns, stats, samples, path):
     if isinstance(o, dict):
         if isinstance(o.get("ja"), str) and isinstance(o.get("zh"), str):
-            new = fix_zh(o["ja"], o["zh"], gloss)
+            new = fix_zh(o["ja"], o["zh"], gloss, gloss_ns)
             if new != o["zh"]:
                 stats["entries"] += 1
                 o["zh"] = new
                 if len(samples) < 20000:
                     samples.append((path, o["ja"], new))
         for v in o.values():
-            walk(v, gloss, stats, samples, path)
+            walk(v, gloss, gloss_ns, stats, samples, path)
     elif isinstance(o, list):
         for v in o:
-            walk(v, gloss, stats, samples, path)
+            walk(v, gloss, gloss_ns, stats, samples, path)
 
 
 def main():
     dry = "--dry" in sys.argv
     gloss = load_glossary()
+    gloss_ns = {_WS.sub("", k): v for k, v in gloss.items()}
     print(f"词表条目数: {len(gloss)}")
     stats = {"files": 0, "entries": 0}
     samples = []
@@ -135,7 +145,7 @@ def main():
                 print(f"[SKIP] 解析失败 {rel}: {e}")
                 continue
             before = json.dumps(data, ensure_ascii=False, sort_keys=True)
-            walk(data, gloss, stats, samples, rel)
+            walk(data, gloss, gloss_ns, stats, samples, rel)
             after = json.dumps(data, ensure_ascii=False, sort_keys=True)
             if before != after:
                 stats["files"] += 1
