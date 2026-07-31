@@ -9,6 +9,8 @@ export interface HoverAnchor {
   bottom: number
   width: number
   height: number
+  mx: number
+  my: number
 }
 
 /**

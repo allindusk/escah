@@ -137,6 +137,8 @@ function onOver(e: MouseEvent) {
       bottom: r.bottom,
       width: r.width,
       height: r.height,
+      mx: e.clientX,
+      my: e.clientY,
     })
   } else if (store.mode === 'hover' && store.visible) {
     store.scheduleHide()

@@ -57,10 +57,16 @@ function clamp(v: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(hi, v))
 }
 
-// 用真实渲染尺寸把浮窗放到不遮挡锚点（名字/头像）且留在视口内的位置。
-// 关键修复：以前按「假定宽度 760」判断翻转，浮窗实际可达 96vw，
-// clamp 又只把右溢出的浮窗往左推到右缘 → 右缘锚点被覆盖。
-// 现按真实宽度依次尝试 右/左/下/上，都不行才贴左缘兜底，彻底避免覆盖锚点。
+// 定位规则（极简、确定，绝不盖住鼠标、绝不越界）：
+// 浮窗固定宽 W（由真实渲染尺寸测得，max-width 96vw）。已知鼠标 (mx,my) 与锚点矩形 a。
+// 1) 优先放在「鼠标与锚点之间的间隙」一侧：
+//    - 若锚点在鼠标左边(a.right<=mx) 且 锚点右边到鼠标之间能塞下 W → 放锚点右侧(left=a.right+gap)；
+//    - 若锚点在鼠标右边(a.left>=mx) 且 鼠标到锚点左边之间能塞下 W → 放锚点左侧(left=a.left-gap-W)；
+//    这两步保证浮窗落在「锚点↔鼠标」之间，鼠标永远在浮窗外。
+// 2) 间隙不够 → 放鼠标另一侧（鼠标与视口边缘之间，必不遮鼠标）：
+//    - 鼠标偏左(mx< vw/2) → 放右侧(left=mx+gap)，前提右侧放得下，否则贴右缘；
+//    - 鼠标偏右 → 放左侧(left=mx-gap-W)，前提左侧放得下，否则贴左缘。
+// 3) 垂直：top 取 my 与 a.top 的较小者并对齐视口，最后夹回视口内。
 function placeHover() {
   const el = hoverEl.value
   const a = store.anchor as HoverAnchor | null
@@ -72,36 +78,32 @@ function placeHover() {
   const r = el.getBoundingClientRect()
   const w = r.width
   const h = r.height
+  const mx = a ? a.mx : Math.round(vw / 2)
+  const my = a ? a.my : Math.round(vh / 2)
 
   let left: number
-  let top: number
   if (!a) {
     left = (vw - w) / 2
-    top = 40
-  } else if (a.right + gap + w <= vw - pad) {
-    // 右侧放得下
+  } else if (a.right <= mx && a.right + gap + w <= mx - gap) {
+    // 锚点在鼠标左侧，且「锚点右缘 → 鼠标左缘」的间隙足够 → 放右侧（夹在锚点与鼠标间）
     left = a.right + gap
-    top = a.top
-  } else if (a.left - gap - w >= pad) {
-    // 右侧放不下 → 左侧放得下
+  } else if (a.left >= mx && mx + gap + w <= a.left - gap) {
+    // 锚点在鼠标右侧，且「鼠标右缘 → 锚点左缘」的间隙足够 → 放左侧
     left = a.left - gap - w
-    top = a.top
-  } else if (a.bottom + gap + h <= vh - pad) {
-    // 左右都放不下（浮窗宽）→ 放到锚点下方（垂直分离，不遮名字/头像）
-    left = a.left
-    top = a.bottom + gap
-  } else if (a.top - gap - h >= pad) {
-    // 下方也放不下 → 放到锚点上方
-    left = a.left
-    top = a.top - gap - h
+  } else if (mx < vw / 2) {
+    // 间隙不够：鼠标偏左 → 放鼠标右边（鼠标与右缘之间，不遮鼠标）
+    left = Math.min(mx + gap, vw - pad - w)
   } else {
-    // 无处可放：贴左缘兜底（仅当锚点靠右缘时才不会遮挡）
-    left = pad
-    top = a.top
+    // 鼠标偏右 → 放鼠标左边
+    left = Math.max(mx - gap - w, pad)
   }
 
+  // 垂直：尽量与鼠标/锚点顶部对齐，夹回视口
+  let top = (a ? Math.min(a.top, my) : my) - 4
+  top = clamp(top, pad, Math.max(pad, vh - pad - h))
+
   hoverX.value = Math.round(clamp(left, pad, Math.max(pad, vw - pad - w)))
-  hoverY.value = Math.round(clamp(top, pad, Math.max(pad, vh - pad - h)))
+  hoverY.value = Math.round(top)
 }
 
 // 浮窗可见（hover 模式）时：渲染出真实尺寸后再定位（loading 小尺寸与加载后大尺寸都要重定位）
