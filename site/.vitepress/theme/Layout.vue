@@ -19,7 +19,11 @@ const { lang } = useData()
 const lbSrc = ref('')
 function onDocClick(e: MouseEvent) {
   const img = (e.target as HTMLElement).closest?.('.mirror-content img') as HTMLImageElement | null
-  if (img) lbSrc.value = img.src
+  if (!img) return
+  // 角色头像（带 data-char）由 MirrorContent 的点击固定逻辑接管（pin 浮窗），
+  // 不能也触发灯箱放大，否则会同时弹出浮窗 + 放大头像 + 玻璃遮罩。
+  if (img.hasAttribute('data-char')) return
+  lbSrc.value = img.src
 }
 
 // Shift + 滚轮：在横向可滚动容器（表格/全屏）内横向滚动

@@ -57,23 +57,26 @@ function clamp(v: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(hi, v))
 }
 
-// 定位规则（极简、确定，绝不盖住鼠标、绝不越界）：
-// 浮窗固定宽 W（由真实渲染尺寸测得，max-width 96vw）。已知鼠标 (mx,my) 与锚点矩形 a。
-// 1) 优先放在「鼠标与锚点之间的间隙」一侧：
-//    - 若锚点在鼠标左边(a.right<=mx) 且 锚点右边到鼠标之间能塞下 W → 放锚点右侧(left=a.right+gap)；
-//    - 若锚点在鼠标右边(a.left>=mx) 且 鼠标到锚点左边之间能塞下 W → 放锚点左侧(left=a.left-gap-W)；
-//    这两步保证浮窗落在「锚点↔鼠标」之间，鼠标永远在浮窗外。
-// 2) 间隙不够 → 放鼠标另一侧（鼠标与视口边缘之间，必不遮鼠标）：
-//    - 鼠标偏左(mx< vw/2) → 放右侧(left=mx+gap)，前提右侧放得下，否则贴右缘；
-//    - 鼠标偏右 → 放左侧(left=mx-gap-W)，前提左侧放得下，否则贴左缘。
-// 3) 垂直：top 取 my 与 a.top 的较小者并对齐视口，最后夹回视口内。
+// 定位规则：把「不盖住鼠标」当成必须校验的硬约束，而不是靠分支顺序碰运气。
+//
+// 之前反复出错的原因：只算了水平方向，垂直方向 top 取 min(a.top,my)-4，
+// 而浮窗最高可达 94vh，鼠标几乎必然落在浮窗的纵向区间内；此时只要水平
+// 兜底把浮窗放到了 mx 附近，就会盖住鼠标。
+//
+// 现在的做法：
+//   1) 先在「鼠标左侧空间」与「鼠标右侧空间」里选放得下且更宽敞的一侧，
+//      使浮窗整体位于鼠标的一侧（left+w <= mx-gap 或 left >= mx+gap）。
+//   2) 垂直照常对齐锚点/鼠标顶部并夹回视口。
+//   3) 最后做一次显式校验：若鼠标点仍落在浮窗矩形内（含 gap 外扩），
+//      则把浮窗在垂直方向推到鼠标上方或下方；若上下都塞不下，
+//      再退一步把它强行贴到鼠标较宽的那一侧水平边缘。
 function placeHover() {
   const el = hoverEl.value
   const a = store.anchor as HoverAnchor | null
   if (!el) return
   const vw = window.innerWidth
   const vh = window.innerHeight
-  const gap = 10
+  const gap = 12
   const pad = 8
   const r = el.getBoundingClientRect()
   const w = r.width
@@ -81,28 +84,50 @@ function placeHover() {
   const mx = a ? a.mx : Math.round(vw / 2)
   const my = a ? a.my : Math.round(vh / 2)
 
+  const maxLeft = Math.max(pad, vw - pad - w)
+  const maxTop = Math.max(pad, vh - pad - h)
+
+  // ---- 水平：优先整体落在鼠标的某一侧 ----
+  const spaceLeft = mx - gap - pad          // 鼠标左边可用宽度
+  const spaceRight = vw - pad - (mx + gap)  // 鼠标右边可用宽度
+  const fitsLeft = w <= spaceLeft
+  const fitsRight = w <= spaceRight
+
   let left: number
   if (!a) {
     left = (vw - w) / 2
-  } else if (a.right <= mx && a.right + gap + w <= mx - gap) {
-    // 锚点在鼠标左侧，且「锚点右缘 → 鼠标左缘」的间隙足够 → 放右侧（夹在锚点与鼠标间）
-    left = a.right + gap
-  } else if (a.left >= mx && mx + gap + w <= a.left - gap) {
-    // 锚点在鼠标右侧，且「鼠标右缘 → 锚点左缘」的间隙足够 → 放左侧
-    left = a.left - gap - w
-  } else if (mx < vw / 2) {
-    // 间隙不够：鼠标偏左 → 放鼠标右边（鼠标与右缘之间，不遮鼠标）
-    left = Math.min(mx + gap, vw - pad - w)
+  } else if (fitsRight && (!fitsLeft || spaceRight >= spaceLeft)) {
+    left = mx + gap
+  } else if (fitsLeft) {
+    left = mx - gap - w
   } else {
-    // 鼠标偏右 → 放鼠标左边
-    left = Math.max(mx - gap - w, pad)
+    // 两侧都塞不下（浮窗过宽）：靠更宽的一侧对齐，交由后面的垂直避让兜底
+    left = spaceRight >= spaceLeft ? maxLeft : pad
+  }
+  left = clamp(left, pad, maxLeft)
+
+  // ---- 垂直：贴锚点/鼠标顶部 ----
+  let top = (a ? Math.min(a.top, my) : my) - 4
+  top = clamp(top, pad, maxTop)
+
+  // ---- 兜底校验：鼠标绝不能落在浮窗内 ----
+  const hitsX = mx >= left - gap && mx <= left + w + gap
+  const hitsY = my >= top - gap && my <= top + h + gap
+  if (a && hitsX && hitsY) {
+    const above = my - gap - pad   // 鼠标上方可用高度
+    const below = vh - pad - (my + gap)
+    if (h <= below) {
+      top = my + gap               // 放到鼠标下方
+    } else if (h <= above) {
+      top = my - gap - h           // 放到鼠标上方
+    } else {
+      // 上下都放不下：强行水平让开到更宽的一侧
+      left = spaceRight >= spaceLeft ? clamp(mx + gap, pad, maxLeft) : clamp(mx - gap - w, pad, maxLeft)
+    }
+    top = clamp(top, pad, maxTop)
   }
 
-  // 垂直：尽量与鼠标/锚点顶部对齐，夹回视口
-  let top = (a ? Math.min(a.top, my) : my) - 4
-  top = clamp(top, pad, Math.max(pad, vh - pad - h))
-
-  hoverX.value = Math.round(clamp(left, pad, Math.max(pad, vw - pad - w)))
+  hoverX.value = Math.round(left)
   hoverY.value = Math.round(top)
 }
 

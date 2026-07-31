@@ -145,6 +145,19 @@ function onOver(e: MouseEvent) {
   }
 }
 
+// mouseover 只在「进入元素」时触发一次，鼠标在同一个锚点内部移动（宽表格单元格、
+// 大图）时坐标会过期，导致浮窗按旧鼠标位置摆放又盖住光标。这里跟踪移动中的
+// 真实坐标并刷新锚点，让定位始终基于当前光标。
+function onMove(e: MouseEvent) {
+  if (!store.visible || store.mode !== 'hover') return
+  const name = findChar(e.target)
+  if (!name || name !== store.name) return
+  const a = store.anchor
+  if (!a) return
+  if (e.clientX === a.mx && e.clientY === a.my) return
+  store.updateHoverPointer(e.clientX, e.clientY)
+}
+
 // 离开正文内容区：仅 hover 预览收起，固定窗保持
 function onOut() {
   if (store.mode === 'hover') store.scheduleHide()
@@ -194,6 +207,7 @@ onMounted(() => {
   // 悬停/点击监听挂到 document 而非 root：表格「页面内全屏」会把表格移出 root，
   // 挂 root 会让全屏表格里的角色头像/名字无法触发悬停预览与点击固定。
   document.addEventListener('mouseover', onOver)
+  document.addEventListener('mousemove', onMove)
   document.addEventListener('click', onClick)
   document.addEventListener('click', onAnchorClick)
   // 离开正文内容区（mouseleave 在 document 上不可靠）：仅在 root 上收起 hover 预览
@@ -201,6 +215,7 @@ onMounted(() => {
 })
 onUnmounted(() => {
   document.removeEventListener('mouseover', onOver)
+  document.removeEventListener('mousemove', onMove)
   document.removeEventListener('click', onClick)
   document.removeEventListener('click', onAnchorClick)
   const el = root.value

@@ -42,6 +42,12 @@ export const charModalStore = reactive({
     this.y = null
     this.visible = true
   },
+  // 鼠标在同一锚点内移动时刷新光标坐标（锚点矩形不变），
+  // 让浮窗定位始终基于当前光标位置，避免用过期坐标摆放而盖住鼠标。
+  updateHoverPointer(mx: number, my: number) {
+    if (!this.anchor) return
+    this.anchor = { ...this.anchor, mx, my }
+  },
   pin(name?: string) {
     window.clearTimeout(hideTimer)
     if (name) this.name = name

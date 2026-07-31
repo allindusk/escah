@@ -1,52 +1,78 @@
 # MEMORY — ESCH 超昂大战 WIKI 中日双语镜像站
 
+> 长期记忆（就地更新，保持精简）。逐日过程细节见 `YYYY-MM-DD.md`，此处只留跨会话仍有效的结论。
+> 末次整理：2026-08-01（合并去重）。
+
+## 用户偏好（最高优先级）
+- ⚠️ **推送 GitHub 须经用户明确指令**；本地可自由 build 验证。
+- **回收站约定**：过期/无用文件移 `recycle_bin/`，**绝不 git rm/永久删**。
+- 后台运维纪律：①启动前 `Get-Process -Name python` 查重；②后台任务须有进度日志（`_bg.py`+锁+`[DONE]/[FAIL]`）；③能自行判断 bug/卡住。
+- 助手不翻译成人正文。
+- PowerShell 下勿用 `python -c`（Start-Process 会拆分号），改写脚本文件执行。
+
 ## 项目概况
-- 镜像 escalationheroines.wikiru.jp(PukiWiki)→本地构建 ja/zh 双语静态站,部署 GitHub Pages(base `/escah/`)+ Cloudflare Pages(`/`,BASE=/)。
-- 架构:Python 流水线 `pipeline/escah_pipeline`(discover/fetch/parse/assets/i18n/chara/sync-site)+ VitePress 站点 `site/`(MPA,ja/zh 双 locale),层间以文件为契约。
-- **部署:GitHub Actions `.github/workflows/deploy.yml`,push 到 main 即触发**(parse→sync-site→build→deploy GH Pages;可选 CF)。本地只需 commit+push,勿手动推 dist。
-- 数据:`data/raw`(快照,已 git+LFS)+`data/manifest.json`;`data/parsed/{ja,zh,characters}` 与 `site/public`/`site/*.md`/`site/.vitepress/frag` 由流水线从 data/raw+源码重建,**不入库**(`data/parsed/*` 忽略,仅 `!data/parsed/i18n/` 例外);`data/assets/img`(2386 图)LFS 入库。
-- ⚠️ **`data/parsed/i18n/` 是人工译文词典(唯一真值),必须入库**——CI 构建 zh 站直接读它(不跑 i18n build/extract/fill)。改译文后须把改动 commit 进 i18n JSON,否则部署不生效。
-- 硬件 16 线程;不可并行:fetch/sync_site(顺序)/build.mjs。`vite preview`(sirv)不能验证搜索,搜索只能对部署站实测。
+- 镜像 escalationheroines.wikiru.jp（PukiWiki）→ 本地构建 ja/zh 双语静态站；GitHub Pages（base `/escah/`）+ Cloudflare Pages（`/`，BASE=/）。
+- 架构：Python 流水线 `pipeline/escah_pipeline`（discover/fetch/parse/assets/i18n/chara/sync-site）+ VitePress `site/`（MPA，ja/zh 双 locale），层间以文件为契约。
+- **部署：push 到 main 即触发** `.github/workflows/deploy.yml`（parse→sync-site→build→deploy）。本地只需 commit+push，勿手推 dist。
+- 数据：`data/raw`（快照，git+LFS）+ `data/manifest.json`；`data/parsed/{ja,zh,characters}`、`site/public`、`site/*.md`、`site/.vitepress/frag` 均由流水线重建，**不入库**（`data/parsed/*` 忽略，仅 `!data/parsed/i18n/` 例外）；`data/assets/img`（2386 图）LFS 入库。
+- ⚠️ **`data/parsed/i18n/` 是人工译文唯一真值，必须入库**——CI 构建 zh 站直接读它（不跑 i18n build/extract/fill）。改译文后须 commit，否则部署不生效。
+- 硬件 16 线程；不可并行：fetch / sync_site / build.mjs。`vite preview`(sirv) 不能验证搜索，搜索只能对部署站实测。
+- 运行顺序：`python -m escah_pipeline.cli sync-site` → `cd site && node build.mjs build`。
 
-## 翻译工作流(key 化 i18n,2026-07-27 起固化)
-- 流程:`i18n build`→`extract`(清单 `new_translation_<date>.txt`+`_translated.txt`)→译→`fill`(按 [N] 序号回填,脆弱)→`char-fill`→`sync-site`→build。中日同形算有效翻译。助手不译成人正文。
-- ⚠️ **`fill` 按 `[N]` 位置序号对齐回填(非按 ja 内容)**:extract 与 fill 间未译集合偏移会整体错位(标题/正文串位)。损坏判别:某 key 的 ja 像标题但 zh 是长段落。修复=直改 `data/parsed/i18n/<slug>.json` 错 key/blk(重建保留,因记忆来自该 JSON)。
+## 翻译工作流（key 化 i18n）
+- 流程：`i18n build` → `extract`（`new_translation_<date>.txt`+`_translated.txt`）→ 译 → `fill` → `char-fill` → `sync-site` → build。中日同形算有效翻译。
+- ⚠️ **`fill` 按 `[N]` 位置序号回填（非按 ja 内容）**：extract 与 fill 之间未译集合若变动会整体错位。损坏判别：某 key 的 ja 像标题但 zh 是长段落。修复=直改 `data/parsed/i18n/<slug>.json`。
+- ⚠️ **`i18n build` 不套词表**（i18n.py 817-818，专名替换推迟到 `render_locale`），只做「记忆回贴」`zh = memory[norm(ja)]`，memory 取自跑之前的该 JSON 自身。故**先烘焙后 build，修正原样保住，不会被错误覆盖**。唯一例外：某分段 ja 切分粒度变了→memory 查不到→`zh=""`（漏译，非错译）。
+  - 早前笔记「build 套 names/skills.yaml 产生 31 条漂移（歼忍 影→歼忍歼忍影影）」对当前代码**不成立**（旧版行为或渲染期差异），已作废勿再引用。
 
-## 站点词汇表 glossary(render-time 最高优先级覆盖,仅 zh)
-- 三份手工词表(不被 build 覆盖):`terms.yaml`(page_titles/char_sections/labels/values/inline_terms)、`names.yaml`(~700 专名,**翻译绝对权威,天然全 precise**)、`skills.yaml`(必杀技/固有效果 JA→ZH,~2900 条)。加词只改 yaml→`sync-site`+`build` 生效,无需重建 i18n JSON。ja 站不受影响。
-- **`skills.yaml` 应用点**:`char_fill_all`(写 parsed→public/data/char,供 CharHoverModal 小浮窗)与 `render_locale`(整页)都用 `_name_override` 最高优先级。**⚠️ 2026-07-29 修 `_SKILL_NS`**:源 JA 与线上 JA 常有空白/换行漂移,原 `_norm`(保留空白)漏匹配近半(2700 中 1340 不命中)。已加 `_norm_ns`(去全部空白)二级索引,`_name_override` 查它,覆盖 2700/2700=100%(日语无空格语义,安全)。**之前报的「46% 死」是诊断脚本错用 NFKC 归一化的假警报,勿信。**
-- 精炼技能译已批量注入 `data/parsed/i18n/characters/<stem>.json`(按条目 ja 的 `_norm_ns` 匹配,覆盖 345 角色/1216 单元格),成可持久主源。⚠️ `i18n build/extract/fill` 会覆盖该目录,须重跑注入脚本(`tools/_gen_skill_glossary.py` 现指向 `skill_unique_effects_20260729_translated.txt`)。
-- **`_correct_text` 覆盖顺序**:`_NAME_RE`(子串)→`_CORR_RE`(`_learn_corrections`,names 全量+high_freq `_precise` 子集,带后缀健壮化 `_split_name_suffix`)→`_high_freq_override`(含假名子串)→`_term_sub_override`(inline_terms 含假名子串)。
-- **`_precise` 白名单(2026-07-29)**:`high_freq.yaml` 末 `_precise:` 段(纯片假名借词/专名)+取其中非纯片假名条目做「句中子串纠正」(`_high_freq_precise_sub`,仅节点级 zh,**不对整段 html**——否则误改 `data-char` 属性致浮窗失效)。用户 25 权威术语(アルカナ/フェス/レガリア/九大神騎/期間限定/神騎/魔女…)全站强制统一。
-- ⚠️ **渲染期覆盖救不了"想破→破念"这类错译(2026-07-30 铁律)**:`_load_high_freq_glossary` 里 `_HF_ALL_NORM` 只保留 `k!=v`,所以**同形词(如 `想破:想破`)被整体跳过**——既进不了 `_CORR_RE`,也救不了已写成"破念"的 zh(子串替换要求 zh 含正确/日文形态,而"破念"两样都不含)。结论:**同形词/错译必须烘焙进 i18n JSON 源头**。脚本 `tools/_apply_glossary_to_i18n.py` 用「分词对齐」把 `high_freq`+`names`+`skills`(JA→ZH)烘焙进 `data/parsed/i18n/**`:ja/zh 按 C/字母数字段 + 分隔符段切分,段数相等时把对应 zh 段强制设为词表值。⚠️**关键坑:全角标点（）必须归分隔符段,否则 ja 半角()切 4 段、zh 全角（）切 1 段→段数不等被跳过**。CI 构建直接读已提交的 i18n JSON(不跑 i18n build/extract/fill),故烘焙结果持久生效。本地跑 `i18n build` **不会错误覆盖**烘焙成果(只记忆回贴,见上条铁律);仅"ja 切分粒度变化"处分段会变空漏译,故建议 build 在前、烘焙在后以保证覆盖率,或烘焙后重跑兜底。
-- **`レガリアの神騎` 系列**:names.yaml 已有整系列,读音由 梅加艾尔/玛雅艾尔→用户选 **米加尔/玛雅尔**(含超昂变体);旧读音残留靠 `_READING_CORR`+render_locale 末尾 zh html 子串收口归零。
-- `names.yaml` 男主 戦部トキサダ(战部时贞)称呼变体已加;不翻译名单(FM77 等)`name_zh` 留空。
-- ⚠️ 改 names.yaml 读音后须 `extract_all_characters(force=True)` 重生成角色 JSON(sync-site 只复制不重建);调用用脚本文件(`python script.py`,勿 `python -c` 在 PowerShell Start-Process 下分号会被拆)。
+## 词表 glossary（render-time 最高优先级覆盖，仅 zh）
+- 三份手工词表（不被 build 覆盖）：`terms.yaml`（page_titles/char_sections/labels/values/inline_terms）、`names.yaml`（~700 专名，**翻译绝对权威**）、`skills.yaml`（必杀技/固有效果 JA→ZH，~2900 条）。加词只改 yaml → `sync-site`+build 生效，无需重建 i18n JSON；ja 站不受影响。
+- **`skills.yaml` 应用点**：`char_fill_all`（写 parsed→public/data/char，供浮窗）与 `render_locale`（整页）都走 `_name_override`。源 JA 与线上 JA 常有空白/换行漂移，故用 `_norm_ns`（去全部空白）二级索引，覆盖 2700/2700=100%。（曾报的「46% 死」是诊断脚本误用 NFKC 的假警报，勿信。）
+- **`_correct_text` 覆盖顺序**：`_NAME_RE` → `_CORR_RE`（names 全量 + high_freq `_precise` 子集，带 `_split_name_suffix` 后缀健壮化）→ `_high_freq_override` → `_term_sub_override`。
+- `_precise` 白名单在 `high_freq.yaml` 末段；其中非纯片假名条目做句中子串纠正（`_high_freq_precise_sub`，**仅节点级 zh，不对整段 html**——否则误改 `data-char` 属性致浮窗失效）。
+- ⚠️ **渲染期覆盖救不了「想破→破念」这类错译（铁律）**：`_HF_ALL_NORM` 只保留 `k!=v`，**同形词（`想破:想破`）被整体跳过**；且子串替换要求 zh 含正确或日文形态，"破念"两者都不含。→ **同形词/错译必须烘焙进 i18n JSON 源头**。
+- **烘焙脚本 `tools/_apply_glossary_to_i18n.py`**（ja 驱动，把 high_freq+names+skills 写进 `data/parsed/i18n/**`）：
+  - 规则0（最高优先）：整条 ja 精确命中词表（含 strip/去空白容错）→ 直接设 zh，不看现值。
+  - 规则1：分词对齐——ja/zh 按「CJK/字母数字段 + 分隔符段」切分，段数相等时对应段强制设词表值；段数不等则跳过（安全，绝不瞎猜）。
+  - ⚠️ **全角标点（）必须归分隔符段**，否则 ja 半角 () 切 4 段、zh 全角（）切 1 段 → 段数不等被跳过（初版踩过）。
+  - 历史执行：9433ecd（416 文件/10646 条，"破念"清零）、fbdb94c（规则0 补强，408 文件/3911 条）。
+- 精炼技能译已注入 `data/parsed/i18n/characters/<stem>.json`（345 角色/1216 单元格）。⚠️ `i18n build/extract/fill` 会覆盖该目录，须重跑注入脚本（`tools/_gen_skill_glossary.py`）。
+- `レガリアの神騎` 系列读音用户拍板 **米加尔/玛雅尔**（非梅加艾尔/玛雅艾尔）；旧读音靠 `_READING_CORR` + render_locale 末尾 zh html 子串收口。
+- 男主 戦部トキサダ（战部时贞）称呼变体已加；不翻译名单（FM77 等）`name_zh` 留空。
+- ⚠️ 改 names.yaml 读音后须 `extract_all_characters(force=True)` 重生成角色 JSON（sync-site 只复制不重建）。
 
 ## 关键架构
-- 原文 HTML→`sitegen._sanitize_html`→`site/.vitepress/frag/<slug>.{ja,zh}.json`;md `import frag`+`MirrorContent.vue` `v-html`(不可 ?raw)。`site/*.md`/sidebar 由 sync-site 重生成勿手改。图片 `withBase('/img/')`。
-- 角色 JSON `data/parsed/characters/<safe_id>.json`:name/name_zh/rarity/icon/sections→复制 `site/public/data/char/`。CharHoverModal.displayName: zh 站 `name_zh（日文名）`。
+- 原文 HTML → `sitegen._sanitize_html` → `site/.vitepress/frag/<slug>.{ja,zh}.json`；md 里 `import frag` + `MirrorContent.vue` `v-html`（**不可 ?raw**）。`site/*.md`/sidebar 由 sync-site 重生成，勿手改。图片走 `withBase('/img/')`。
+- 角色 JSON `data/parsed/characters/<safe_id>.json`（name/name_zh/rarity/icon/sections）→ 复制到 `site/public/data/char/`。`CharHoverModal.displayName`：zh 站为 `name_zh（日文名）`。
+- sitegen 特设页「日中用語対照表」slug 必须为 `term-map`，**不可用 glossary**（会覆盖 WIKI 用語集镜像页）。
+- z-index 自顶向下：lightbox 300 > char-modal 271 / mask 270 > char-hover 260 > 表格全屏 `.escah-tbl-fs` 250 > VPNav 100。
 
-## 已修复阻断 bug(铁律)
-- `cleanUrls:false`→内部链接带 `.html`;改 theme 后删 `.vitepress/cache` 再 build。
-- 表格:`.escah-tbl` 恒 `width:max-content!important;min-width:100%`;单元格只许 `overflow-wrap:break-word`,**禁 anywhere/break-all**。宽表用 `.table-scroll` 横滚。
-- `config.ts` search.miniSearch 被序列化 eval 重建,闭包变量全丢→须自包含;preview rebuild 后须重启。
-- 浮窗与详情页翻译须同源(`char_fill_all` 已挂 sync-site);`charRefs.json` 现已 sync-site 自动重生成(旧手动易漏→中文页浮窗失效)。
-- **SearchLoading.vue bug(已修)**:`onClose` 里 `mo.disconnect()` 在空查询时断 MO→进度永久卡 99%。改为 onClose 不断 mo(只复位视觉),mo 仅 onUnmounted 断;加 20s 硬超时兜底。
-- `render_locale` 块级回退含 img/table 须 `continue` 保留结构。
-- ⚠️ **正文 `#id` 锚点跳转失效(2026-07-30 铁律)**:`sitegen._strip_nav_links` 对 PukiWiki 的 `anchor_super`(`<a class="anchor_super internal-link" id="drop_list">†</a>`)直接 `drop_tree()`,而这些 `<a>` 正是**正文里 `#id` 链接(如 `#drop_list`)的真实跳转目标**——目标被删→`MirrorContent.onAnchorClick` 的 `getElementById` 返回 null→跳转失效(所有 i18n 页的 JA/ZH 都走 `render_locale`→模板,而模板在 `i18n build` 时经 `_sanitize_html` 把 `anchor_super` 连同 `id` 丢了)。**修复**:`_strip_nav_links` 丢弃 `anchor_super` 时若带 `id`,改为保留占位 `<span id="...">` 落回原父元素内(去掉无意义 †,保住锚点)。改后须**重跑 `i18n build` 重新生成 `data/parsed/i18n/*.template.html`**(417 文件补回 span)。⚠️**`i18n build` 在 JSON 阶段不套词表(代码 817-818 明确推迟到 `render_locale`)**,只做「记忆回贴」:`zh = memory[norm(ja)]`(memory 取自跑之前那个 i18n json 自身)。故**先烘焙后 build:build 读已修正的 zh 回贴,修正原样保住,不被错误覆盖**。唯一例外:某分段 ja 切分粒度变了→memory 查不到→`zh=""`(漏译,非错译)。早前笔记说的「build 套 names/skills.yaml 产生 31 条漂移(歼忍 影→歼忍歼忍影影)」对当前代码不成立(那是渲染期差异或旧版 build 行为,已过时),勿再以之为据。本次只修锚点,故 build 生成的 JSON 改动 `git checkout` 还原,仅留模板补丁+源码修复,不碰任何译文。
+## 已修复阻断 bug（铁律）
+- `cleanUrls:false` → 内部链接须带 `.html`；改 theme 后删 `.vitepress/cache` 再 build。
+- 表格：`.escah-tbl` 恒 `width:max-content!important; min-width:100%`；单元格只许 `overflow-wrap:break-word`，**禁 anywhere/break-all**；宽表用 `.table-scroll` 横滚。
+- `config.ts` 的 search.miniSearch 被序列化 eval 重建 → 闭包变量全丢，**必须自包含**；preview rebuild 后须重启。
+- 浮窗与详情页翻译须同源（`char_fill_all` 已挂 sync-site）；`charRefs.json` 由 sync-site 自动重生成（旧手动易漏 → 中文页浮窗失效）。
+- `SearchLoading.vue`：`onClose` 里 `mo.disconnect()` 在空查询时断 MO → 进度卡 99%。改为 onClose 只复位视觉，mo 仅 onUnmounted 断，并加 20s 硬超时。
+- `render_locale` 块级回退含 img/table 时须 `continue` 保留结构。
+- **正文 `#id` 锚点跳转**：`sitegen._strip_nav_links` 原把 PukiWiki `anchor_super`（`<a id="drop_list">†</a>`）整个 drop，而它正是 `#id` 链接的跳转目标 → `getElementById` 返回 null。修复=丢弃时若带 `id` 则保留占位 `<span id="...">`。改后须重跑 `i18n build` 重生成 `*.template.html`（417 文件）。
+- **角色浮窗对内联头像不触发**：`tagAvatars` 原只靠 `avatarMap[src hash]`，而 `avatarHashes` 仅由角色 JSON `icon`（一览缩略图 hash）构建，wiki 正文内联头像是**另一个 hash**。修复=`avatarMap` 未命中时用 `alt`/`title`（形如 `花のチルカ_icon.png`）去 `_icon`+扩展名后经 `nameAliases` 回 key。影响面 838 img / 745 页，已一次性修（bc5b2ac）。⚠️ 内联头像 URL 的 bytehex 被截断，**不能靠 URL 反解补 avatarHashes**，只能靠 alt。
+- **浮窗盖住鼠标（2026-08-01 根治）**：曾反复改不好，真因有二——① `placeHover` 只算水平方向，垂直是 `top=min(a.top,my)-4` 而浮窗 `max-height:94vh`，鼠标几乎必然落在纵向区间内，「不盖鼠标」只是分支顺序的副产物而非被校验的约束；② `mouseover` 只在进入元素时触发一次，大锚点（宽单元格/大图）内移动时 `mx/my` 过期。修复=`placeHover` 改「先选边→再**显式校验** `(mx,my)` 是否落在浮窗矩形内，命中则垂直推到鼠标上/下方，上下都不够才水平让开」；`MirrorContent` 加 document `mousemove` → `store.updateHoverPointer()` 换新 anchor 对象（已有 `watch(store.anchor)` 自动重跑定位）。**教训：几何约束应先写校验、再写启发式。**
 
-## 用户偏好(最高优先级)
-- 后台运维纪律:①启动前 `Get-Process -Name python` 查重;②后台任务须有进度日志(`_bg.py`+锁+`[DONE]/[FAIL]`);③能判断 bug/卡住。
-- 回收站约定:过期/无用文件移 `recycle_bin/`,**绝不 git rm/永久删**。
-- LLM 翻译管线已弃用→`recycle_bin/tools/`,勿重建。
-- ⚠️ 推送 GitHub 须经用户明确指令(本任务已获指令);本地可自由构建验证。
+## llm_reco 大模型推荐角色（独立子项目）
+- 目录 `llm_reco/`（reco-method / draft / reasoning-log / reco-team + `_signal_extract.py`/`_detail.py`/`_classify.py`/`_team_build.py`/`_char_score.py`）；已发布 `site/{zh,ja}/llm-recommend.md`。
+- ⚠️ **用户硬要求：推荐推理不得参考官方攻略/推荐名单**，须基于 `llm_reco/char_data.json`（370 角色）与机制事实由大模型自推，思维过程入文件夹。耗时多久都行。
+- **机制结论**（稳定）：数值无区分度、**固有效果才是区分度**；讨伐战体力 -2%/s（百分比，双防无效）→ 单队约 50s 退场 → **多队接力**；**降防 debuff >> 攻击 buff**（对 75% 减伤 BOSS 收益 3 倍；50% 上限只限「降低闪避」，正常降防可列到 100%）；不撤退在 raid 被稀释（raid 居座真解是「体力停止衰减」= 超昂奈理卡），在主线/EX 才是神；BREAK（确定点灯）> 时停。
+- **稀缺度盘点**（12 职能标签）：复活 1（唯 O 闪忍奈理卡）/ 不撤退 8 / 解控 19 / 降防 46 / 增伤 54 / 减伤 60 / 免疫 62 / 治疗 99 / 充能 102 / 攻 buff 110 / 硬控 112 / 速度 126。**洞察：速度、充能虽被用户强调但持有量充足非瓶颈，真卡脖子是复活/不撤退/降防。** 铰链卡：小鬼の斗羽大洋（单卡顶 6 职）。
+- **量化模型 v0.8（当前版，2026-07-30）**——RAID 专用真实频率公式，`_char_score.py`，输出 `_score_v08_out.txt`：
+  - 觉醒（真实表）：行动速度 -0.1×20 = 最多 **-2 秒扁平**（下限 3s，基础 ≤3s 零收益）；必杀充能 +0.3×20 = 最多 **+6pt 上限 15%**；攻/魔 +20%。连击率 +20 **不采用**（50/70 档已达上限；0 档点了反拖慢）。
+  - 装备（用户拍板，仅两件满级主装）：火箭引擎/咆哮猛虎 **行动速度 -50%**（乘法，先觉醒后装备）、冲击腰带 **攻魔 +50%**（与攻 buff 加算）。**副装贴片全删**（多变量）、**仁王纳豆删**（与部分角色技能冲突）；降防只剩角色 kit 自带（无 30% 打底）。
+  - 常数：`AWK_SPEED_SEC=2` / `AWK_SPEED_FLOOR=3` / `AWK_CHARGE=6` / `AWK_CHARGE_CAP=15` / `AWK_ATK=0.20` / `EQ_ROCKET_SPEED=0.50` / `EQ_BELT_ATK=0.50` / `R_ref=0.50` / 连击阈值 60%。
+  - 公式要点：`interval = max(速度-2, 3) × 0.5 / (1+自身速buff)`；`interval_ult = interval × (1+連撃率)`（连击拖慢节奏）；必杀 casts/s = (充填量%+15)/100/interval_ult；普攻含 combo_mult（decay 0.8/0.6/0.4/0.3，连击不暴击）；强度 = 0.70·DPS_norm + 0.30·UTIL_norm。
+  - 结果：maxDPS **6,595**；TOP＝レジェンド・ハルカ 78.9（降防100%）> 幻忍コテツ 75.4 > 黒門天 73.0 > ブライド・スバル 61.3 > 真夏のハルカ 55.3。**删降防打底后 kit 自带降防价值暴涨**（100% vs 60% = 25% 伤害差，直接改写头名）。四队：D 暴力输出 42,281 > C 居座 16,529 > A 顶配 12,541 > B 新手 7,344。
+  - 曾修 bug：连击率百分比/小数单位混用（1+30=31 倍减速塌缩）。「觉醒下限 3s 把基础 3~5s 拉平 → 基础速度快不再是护城河」。
+  - 复用：新增角色补 `char_data.json` → 重跑 `_char_score.py`。文档 reasoning-log §10/§11、reco-team §5、站点页第九节均 v0.8。
+- 待深化：弗栗多/乌塔尔「减速/全体异常清小猫」持有者需据 raid.md 减速表全量核实；速度/充能对 FEVER 分数的边际未量化；UTIL 稀缺度赋权与 0.70/0.30 权重为主观折中；队伍 fit_mult 为经验系数非严格推导。
 
-## llm_reco 大模型推荐角色(独立,2026-07-29 起)
-- `llm_reco/`(reco-method/draft/reasoning-log + `_signal_extract.py`/`_detail.py`→`_signals.txt`/`_details.txt`);已发布 `site/{zh,ja}/llm-recommend.md`。
-- ⚠️ 用户硬要求:推荐推理**不得**参考官方攻略/推荐名单,须基于 `llm_reco/char_data.json`(370 角色)与机制事实由大模型自推,思维入文件夹。耗时多久都行。
-- v0.2 框架:数值非区分度,**固有效果=区分度**;稀缺机制(不撤退8/全异常免疫1/复活1/攻击增益3…)。
-- **v0.3 已交付(2026-07-29)+副本/BOSS×配队**:读 `raid.md`/`raid-formations.md`(事实系统页,非推荐榜)。修正:①讨伐战体力-2%/s(百分比,双防无效)→单队50s退→**多队接力**(优先1→优先2→替补→星面50人),"分队伍"=接力;②**降防debuff >> 攻击buff**(75%减伤BOSS降防收益3倍,已用公式+raid.md原文双重论证;50%上限只限"降低闪避",正常降防无上限列到100%);③不撤退在raid被稀释,真适配raid居座是"体力停止衰减"(超昂奈理卡),不撤退在主线/EX(限时+双防有效)才是神;④BREAK(确定点灯)>时停。产出 `llm_reco/reco-team.md`+站点页第九节;7 BOSS 对策映射已建。
-- **v0.4 已交付(2026-07-29):从370人挑5人均衡队(用户要求考虑生存+速度/充能增益,只上5人)**。`_team_build.py` 对 `char_data.json` 全量打12职能标签:稀缺度 不撤退8/复活1(唯O闪忍奈理卡)/降防46/解控19/增伤54/减伤60/免疫62/治疗99/充能102/速度126/攻buff110/硬控112。关键洞察:**速度(126)/充能(102)虽用户强调重要但持有量充足非瓶颈,真卡脖子是不撤退(8)/复活(1)/降防(46)**;5框塞满核心=职能密度(≥3职46人/≥4职37/≥5职10/≥6职7,铰链=小鬼の斗羽大洋单卡顶降防+治疗+免疫+减伤+硬控+输出6职)。贪心覆盖算法拼出 顶配均衡队/新手R-SR队/居座队/暴力输出队,均5/5强制覆盖+生存完整。已写入 `reco-team.md` 2b 节 + `reasoning-log.md` §8 + 站点页第九节增补。
-- **v0.6 已交付(2026-07-29,Step3确认常数后):单角色固定强度量化模型(RAID专用·真实频率公式)**。Step1-2 分类:修复 `extract_chars.py` 抽 `char_data.json.combat`(連撃率/行動速度sec/必殺充填量%;原漏抽因 詳細ステータス 是多列 label-value 对)→`llm_reco/_classify.py` 分 输出289/辅助23/生存52/其他6;输出内 単体106/横列55/全体126/連撃2(连击阈值60%,Step3确认;基础连击率0/50/70三档跳变,仅3人≥60含1生存バビロニア・ニル)。Step3 用户确认常数:**R_ref=0.50(古纳冈类)/ 觉醒速+3%(+0.03间隔除法)/充+15pt(加法)/ 连击阈值60%**。Step5 `_char_score.py` v0.6 用真实频率公式:interval=行動速度/(1+副装速20%+觉醒速3%); interval_ult=interval×(1+連撃率)(连击拖慢节奏=连击惩罚); 必杀casts/s=(必殺充填量%+15)/100/interval_ult; combo_mult=1+Σ連撃率ⁿ×decay(0.8/0.6/0.4/0.3); normal_DPS=(base_hit·crit+base_hit·(combo_mult-1))×atks/s(连击不暴击); ult_DPS=base_hit×必杀倍率×FEVER3×break1.5×必杀casts/s; DPS=两者和; 强度=0.70·DPS_norm+0.30·UTIL_norm。370实跑:maxDPS=7,239;**修复连击率百分/小数单位bug**(原1+30=31倍减速塌缩1/30,閃忍アキラ DPS分1.9→修复~28);TOP「降防+必杀×9」统治(レジェンド・ハルカ83.9/幻忍コテツ74.3/エスカ・オニキス70.3/黒門天63.4);連撃验证:バビロニア・ニル必杀占比仅20.6%(普攻2622≫必杀682)确证连击型必杀权重下降。**队伍**:D暴力输出39,872(raw 44,303,缺全体→乌塔尔/狂王fit0.60/0.70) > C居座16,154 > A顶配12,730 > B新手7,757。复用:新增角色补 `char_data.json`→重跑 `_char_score.py`。已写入 `reasoning-log.md` §9 + `reco-team.md` §5 + `raid-output-classification.md` + 站点页第九节v0.6。**留白**:R_ref0.50可一行改(改0.75降防权重随§7.6升至3倍);连击阈值60%已定;固定装备数值据equipment.md;fit_mult为经验系数。
-- 仍待深化:弗栗多/乌塔尔专用"减速/全体异常清小猫"持有者需查 raid.md 减速表全量核实;速度/充能具体%对FEVER分数边际未量化(仅经 tempo 间接计);UTIL 点为稀缺度主观赋权、DPS/UTIL 0.70/0.30 为折中;队伍 fit_mult 为经验系数非严格推导。
+## 历史沿革（已归档，勿重建）
+- LLM 翻译管线（`tools/llm_patch.py` 等）与旧词表替换引擎（`zh_patch.py`/`char_zh.py`）均已弃用 → `recycle_bin/tools/`。
+- llm_reco v0.2/v0.3/v0.4/v0.6/v0.7 均被 v0.8 取代，过程见 `2026-07-29.md`/`2026-07-30.md`。
