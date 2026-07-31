@@ -56,7 +56,18 @@ function tagAvatars(el: HTMLElement) {
     const src = img.getAttribute('src') || ''
     const m = src.match(/\/img\/([^"?#]+)/)
     if (!m) return
-    const name = avatarMap[m[1]]
+    let name = avatarMap[m[1]]
+    // 兜底：avatarMap 未命中（同一角色在「角色一览缩略图」与「正文内联头像」用了
+    // 不同图片 hash）时，用 alt/title 里的角色名解析。wiki 头像 alt 形如
+    // "花のチルカ_icon.png"，去掉 _icon 与扩展名即得角色名，再经 nameAliases 回 key。
+    if (!name) {
+      const alt = (img.getAttribute('alt') || img.getAttribute('title') || '').trim()
+      if (alt) {
+        const nm = alt.replace(/\.(png|gif|jpe?g)$/i, '').replace(/_icon$/i, '').trim()
+        const key = nameAliases[nm] || (nameSet.has(nm) ? nm : null)
+        if (key) name = key
+      }
+    }
     if (name) img.setAttribute('data-char', name)
   })
 }
