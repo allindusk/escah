@@ -442,12 +442,16 @@ function openFullscreen(table: HTMLTableElement): void {
   const scroll = document.createElement('div')
   scroll.className = 'escah-tbl-fs-scroll'
   scroll.appendChild(container) // 移动真实表格（含工具栏/排序/筛选），与原表格完全一致
-  // 全屏表格必须沿用正文 shrink 的 fixed 布局，否则列宽回到 auto（每列 ≥ 表头宽，无窄列），
-  // 与正文不一致。内联兜底最高优先级，盖过任何 CSS 层叠歧义。
-  table.classList.add('escah-tbl-shrink')
-  table.style.tableLayout = 'fixed'
-  table.style.minWidth = '0'
-  table.style.width = '0' // 同 shrinkColumnsToData：必须 0 而非 auto，否则按内容撑开、<col> 失效
+  // ⚠️ 关键（2026-08-02 修复）：全屏时**只**对正文里原本就是 shrink 的表（角色一览类等）
+  // 沿用 fixed 布局 + 内联 width:0 兜底，避免列宽回到 auto 与正文不一致。
+  // 非 shrink 表（绝大多数普通内容表）正文是 auto + max-content，全屏后应保持不变——
+  // 若这里也强加 escah-tbl-shrink + fixed，会被全屏 CSS 的 width:auto!important 破坏，
+  // 导致全屏后样式全部错乱（这正是除 characters/ssr/sr/r 外页面全屏错乱的根因）。
+  if (table.classList.contains('escah-tbl-shrink')) {
+    table.style.tableLayout = 'fixed'
+    table.style.minWidth = '0'
+    table.style.width = '0' // 同 shrinkColumnsToData：必须 0 而非 auto，否则按内容撑开、<col> 失效
+  }
   bindScrollOpacity(scroll) // 全屏滚动时冻结单元格切不透明
   panel.append(bar, scroll)
   overlay.appendChild(panel)
@@ -475,6 +479,17 @@ function closeFullscreen(): void {
       el.style.background = ''
       delete el.dataset.escahBg
     })
+    // 关键（2026-08-02 修复）：若表格**不是**正文里的 shrink 表（普通内容表），
+    // 全屏期间可能被旧版逻辑强加过 escah-tbl-shrink 类 + fixed/width:0 内联样式，
+    // 关闭后这张表被移回正文，残留的 fixed 布局会让正文表格同样错乱。
+    // 这里对称清理（仅对非 shrink 表），让正文恢复 auto + max-content 布局。
+    // shrink 表正文本身就带该 class 与内联 fixed，故不会被误清（用 contains 判断）。
+    if (!table.classList.contains('escah-tbl-shrink')) {
+      table.classList.remove('escah-tbl-shrink')
+      table.style.removeProperty('table-layout')
+      table.style.removeProperty('width')
+      table.style.removeProperty('min-width')
+    }
     if (next) parent.insertBefore(container, next)
     else parent.appendChild(container)
     fsState = null
@@ -580,9 +595,15 @@ function shrinkColumnsToData(table: HTMLTableElement): void {
   // 在 auto 布局下会被整行列宽分配虚高，导致 col 宽度远大于真实内容宽，
   // 列虚胖、名字虽不换行却留大片空白）。span 取 display:inline-block + nowrap，
   // 直接反映内容最小宽；padding（单元格左右各 10px）单独补偿。
+  // ⚠️ 关键（2026-08-02 修复）：测量 span 必须继承**表格实际单元格**的 font-size/font-family，
+  // 否则脱离文档流后它继承 body 默认 16px（而 shrink 表单元格实际是 13px）→ 测宽虚高约 23%，
+  // 名称列被撑到 217px 而视觉最长名字远没那么宽。这里从首个数据单元格取计算样式套上去。
+  const sampleCell = rows[0]?.children[0] as HTMLElement | undefined
+  const cs = sampleCell ? getComputedStyle(sampleCell) : null
   const span = document.createElement('span')
   span.style.cssText =
-    'position:absolute;left:-99999px;top:0;visibility:hidden;white-space:nowrap;display:inline-block;'
+    'position:absolute;left:-99999px;top:0;visibility:hidden;white-space:nowrap;display:inline-block;' +
+    `font-size:${cs ? cs.fontSize : '13px'};font-family:${cs ? cs.fontFamily : 'inherit'};`
   document.body.appendChild(span)
   const CELL_PAD = 20 // 单元格 padding 左右之和（5px 10px → 10+10）
   // 数据行（tbody）

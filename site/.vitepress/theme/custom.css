@@ -658,12 +658,13 @@
   border-collapse: collapse;
   font-size: 13px;
 }
-/* 全屏下若表格带 escah-tbl-shrink（与正文同一张表移入的），必须同样 fixed + 不铺满容器，
-   否则匹配不到 .table-scroll 的 fixed 规则 → 列宽回到 auto，与正文不一致。 */
+/* 全屏下若表格带 escah-tbl-shrink（与正文同一张表移入的），沿用 fixed 布局。
+   ⚠️ 这里只能设 table-layout:fixed（与正文一致），绝不能写 width:auto/min-width:0 的
+   !important —— 那是之前全屏错乱的根因：会盖过 openFullscreen 给 shrink 表加的内联
+   width:0（fixed 下表格宽度必须收敛为各 <col> 之和，否则 max-content 把多余宽摊派回各列、
+   <col> 失效）。内联 width:0 / min-width:0 已在 JS 里兜底，这里无需重复。 */
 .escah-tbl-fs-scroll table.escah-tbl-shrink {
   table-layout: fixed !important;
-  width: auto !important;
-  min-width: 0 !important;
 }
 /* 同正文 shrink：全屏下也必须撤掉单元格上的显式 width，否则首行 width 压过 <col>，
    列宽回到内容最小宽（名称列被压到 81px）。 */

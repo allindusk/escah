@@ -4,7 +4,8 @@
 > 末次整理：2026-08-01（合并去重）。
 
 ## 用户偏好（最高优先级）
-- ⚠️ **推送 GitHub 须经用户明确指令**；本地可自由 build 验证。
+- ⚠️⚠️ **推送 GitHub（git push）须经用户当次明确指令，且只覆盖该次；绝不因"之前那次说过 push"就自行连续推送**。用户的"commit+push"只授权当次那一个动作，后续修复/重构若还要 push，必须再次征求确认。本地可自由 commit / build 验证，但 push 一律等指令。
+- **回收站约定**：过期/无用文件移 `recycle_bin/`，**绝不 git rm/永久删**。
 - **回收站约定**：过期/无用文件移 `recycle_bin/`，**绝不 git rm/永久删**。
 - 后台运维纪律：①启动前 `Get-Process -Name python` 查重；②后台任务须有进度日志（`_bg.py`+锁+`[DONE]/[FAIL]`）；③能自行判断 bug/卡住。
 - 助手不翻译成人正文。
@@ -81,6 +82,6 @@
 - llm_reco v0.2/v0.3/v0.4/v0.6/v0.7 均被 v0.8 取代，过程见 `2026-07-29.md`/`2026-07-30.md`。
 
 ## 前端版本号铁律（2026-08-02 新增）
-- 站点右上角版本号：`site/.vitepress/theme/components/SiteAccessSwitch.vue` 的 `const SITE_VERSION`（三位数：①大版本 ②新增功能 ③修改）。当前 `1.1.0`。
-- 版本日志数据源：`site/.vitepress/theme/.gen-data/changelog.json`（更新记录页「镜像站更新记录」区块按此渲染）。
-- ⚠️ **升版本号必须同时改这两处并保持一致**：改 `SITE_VERSION` + 在 `changelog.json` 顶部加该版本 `date`/`changes`。改完前端务必 commit+push 到 main，否则线上版本号与改动均不生效（本地工作区看得到、线上 HEAD 看不到）。
+- 站点右上角版本号：`site/.vitepress/theme/components/SiteAccessSwitch.vue` 的 `const SITE_VERSION`（三位数：①大版本 ②新增功能 ③修改）。当前 `1.2.0`。
+- 版本日志数据源：`site/.vitepress/theme/changelog.json`（**源码目录、入库**，更新记录页「镜像站更新记录」区块按此渲染）。⚠️ 切勿放回 `.gen-data/`（那是 sync-site 生成的 `page-times.json`，被 gitignore，放进去会导致 CI 构建报 'Could not resolve' 失败）。
+- ⚠️ **升版本号 + 维护 changelog 是 AI 助手的职责，不是用户**：每次改动前端升 `SITE_VERSION` 时，助手自己同步在 `theme/changelog.json` 顶部加该版本 `date`/`changes`，并保持一致。改完前端 commit 后等用户确认再 push（见上方推送纪律）。
