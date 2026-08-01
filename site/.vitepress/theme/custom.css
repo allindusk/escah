@@ -41,6 +41,23 @@
   --escah-border: #34344a;
   --escah-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   --escah-shadow-hover: 0 10px 28px rgba(233, 30, 99, 0.35);
+  /* 暗色模式：原 --escah-grad-soft 是浅紫半透明，叠在深色背景上发灰发亮，白字看不清。
+     改为明显深于背景的深紫，保证白字清晰（所有引用该变量的 th/筛选行/hover 行自动受益）。 */
+  --escah-grad-soft: linear-gradient(135deg, rgba(156, 39, 176, 0.40), rgba(233, 30, 99, 0.34));
+}
+
+/* 暗色模式：PukiWiki 原始 HTML 表格单元格常带内联浅色背景（如 rgb(255,240,245)），
+   叠在深色主题上是「浅底 + 白字」导致看不清。内联 background-color 优先级高于类样式，
+   故用 background-image 半透明深色遮罩（!important）压暗——它与 background-color 是不同
+   属性互不覆盖，仅把浅底变暗、隐约保留原色相，白字恢复可读。只命中带内联背景的单元格，
+   不影响我们自己在 CSS 类里设的表头/筛选行背景。 */
+.dark .table-scroll td[style*="background"],
+.dark .table-scroll th[style*="background"],
+.dark .escah-tbl-fs-scroll td[style*="background"],
+.dark .escah-tbl-fs-scroll th[style*="background"],
+.dark .char-modal-body td[style*="background"],
+.dark .char-modal-body th[style*="background"] {
+  background-image: linear-gradient(rgba(12, 12, 20, 0.62), rgba(12, 12, 20, 0.62)) !important;
 }
 
 /* ========== 全局微调 ========== */
@@ -641,6 +658,26 @@
   border-collapse: collapse;
   font-size: 13px;
 }
+/* 全屏下若表格带 escah-tbl-shrink（与正文同一张表移入的），必须同样 fixed + 不铺满容器，
+   否则匹配不到 .table-scroll 的 fixed 规则 → 列宽回到 auto，与正文不一致。 */
+.escah-tbl-fs-scroll table.escah-tbl-shrink {
+  table-layout: fixed !important;
+  width: auto !important;
+  min-width: 0 !important;
+}
+/* 同正文 shrink：全屏下也必须撤掉单元格上的显式 width，否则首行 width 压过 <col>，
+   列宽回到内容最小宽（名称列被压到 81px）。 */
+.escah-tbl-fs-scroll table.escah-tbl-shrink th,
+.escah-tbl-fs-scroll table.escah-tbl-shrink td {
+  width: unset !important;
+  max-width: none !important;
+}
+.escah-tbl-fs-scroll table.escah-tbl-shrink th:first-child,
+.escah-tbl-fs-scroll table.escah-tbl-shrink td:first-child {
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
 .escah-tbl-fs-scroll th,
 .escah-tbl-fs-scroll td {
   border: 1px solid var(--escah-border);
@@ -651,8 +688,159 @@
   white-space: normal;
   overflow-wrap: break-word;   /* 同上：禁 anywhere，防一字一行 */
 }
-.escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.12); font-weight: 600; white-space: normal; }
-.dark .escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.24); }
+/* 全屏表头：常态用半透明（与原站风格一致），仅「滚动时」由 JS 切不透明实色，
+   避免半透明底色在 sticky 滚动时透出下方数据文字。浅色用淡粉紫半透明，暗色用深紫半透明。 */
+.escah-tbl-fs-scroll th {
+  background: rgba(156, 39, 176, 0.25);
+  font-weight: 600;
+  white-space: normal;
+}
+.dark .escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.55); }
+
+/* ========== 表格增强：表头吸顶 / 列宽按数据 / 多选筛选 ========== */
+/* 表头吸顶：滚动容器（.table-scroll 或全屏 .escah-tbl-fs-scroll）内滚动时 thead 固定。
+   给 thead 单元格底色，避免下方内容透出。
+   筛选行（.escah-tbl-filter-row 的 td）吸顶时排在表头正下方，用 --escah-thead-h 偏移，
+   避免与表头行重叠。 */
+.escah-tbl .table-scroll > table thead th,
+.escah-tbl-fs-scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+}
+.escah-tbl .table-scroll > table thead td.escah-tbl-filter-row,
+.escah-tbl .table-scroll > table thead .escah-tbl-filter-row td,
+.escah-tbl-fs-scroll thead .escah-tbl-filter-row td {
+  position: sticky;
+  top: var(--escah-thead-h, 0px);
+  z-index: 3;
+}
+/* 冻结单元格常规底色：保持原 --escah-grad-soft（半透明，静止时不滚动就无碍观瞻）。
+   仅在「滚动时」才切不透明，由 JS 给容器加 .escah-scrolling 触发（见下方规则）。 */
+.escah-tbl .table-scroll > table thead th {
+  background: var(--escah-grad-soft);
+}
+.escah-tbl-fs-scroll thead th { background: rgba(156, 39, 176, 0.12); }
+.dark .escah-tbl-fs-scroll thead th { background: rgba(156, 39, 176, 0.40); }
+.escah-tbl .table-scroll > table thead .escah-tbl-filter-row td {
+  background: var(--escah-grad-soft);
+}
+.escah-tbl-fs-scroll thead .escah-tbl-filter-row td { background: rgba(156, 39, 176, 0.12); }
+.dark .escah-tbl-fs-scroll thead .escah-tbl-filter-row td { background: rgba(156, 39, 176, 0.40); }
+
+/* 列宽按最长数据为准（仅角色一览类页面，JS 给表格加 .escah-tbl-shrink）。
+   shrink class 加在 table 上，故选择器用 table.escah-tbl-shrink。
+   覆盖默认 auto 布局：改用 fixed + <col> 宽度，表头允许换行。 */
+.escah-tbl .table-scroll > table.escah-tbl-shrink {
+  table-layout: fixed !important;
+  /* ⚠️ 铁律（2026-08-02 实测定位）：这里必须显式写死 width/min-width，覆盖通用规则
+     `.escah-tbl .table-scroll > table { width: max-content !important; min-width:100% }`。
+     max-content 会让表格按「内容固有宽」撑开（实测 2336px），而各 <col> 之和只有 2037px；
+     fixed 布局随后把多出的 299px 按比例摊派回各列 —— 结果 <col> 形同虚设：
+     窄列 39px 被撑成 85px，名称列 217px 反被压成 81px（角色名折行）。
+     用 width:0 + min-width:0 让表格「不主动撑开」，fixed 下宽度即收敛为各 <col> 之和。 */
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+/* shrink 模式下：列宽完全由 <col> 决定（JS 按数据最长像素宽测量）。
+   ⚠️ 铁律：这里绝不能给 th/td 写任何 width（哪怕 width:auto / width:0）。
+   table-layout:fixed 下，浏览器取列宽的优先级是「首行单元格的显式 width > <col> 的 width」，
+   所以 .escah-tbl .table-scroll > table td/th 的 `width:auto!important`（见上方通用规则）
+   会整体压过 <col style="width:217px">，列被打回内容最小宽（名称列 81px、名字折行）。
+   解决：用 width:unset 撤掉那条继承来的 !important，把决定权彻底交还 <col>。 */
+.escah-tbl .table-scroll > table.escah-tbl-shrink th,
+.escah-tbl .table-scroll > table.escah-tbl-shrink td {
+  width: unset !important;
+  max-width: none !important;
+}
+.escah-tbl .table-scroll > table.escah-tbl-shrink th {
+  white-space: normal !important;
+  overflow-wrap: break-word;
+  word-break: break-all !important;
+}
+.escah-tbl .table-scroll > table.escah-tbl-shrink td {
+  white-space: normal !important;
+  overflow-wrap: break-word;
+}
+/* shrink 模式下，图片列宽度由 JS 设的 <col> 决定，取消 markSpecialColumns 的 min-width 以免冲突撑宽 */
+.escah-tbl .table-scroll > table.escah-tbl-shrink td.escah-img-col {
+  min-width: auto !important;
+}
+/* 名称列（第一列）：按最长角色名适配列宽（<col> 已测得），且永不换行，避免长名折行难看 */
+.escah-tbl .table-scroll > table.escah-tbl-shrink th:first-child,
+.escah-tbl .table-scroll > table.escah-tbl-shrink td:first-child {
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+/* 列头（首列）冻结：横向滚动时第一列固定。需底色防下方内容透出；
+   与表头吸顶交叉的角落单元格（thead 首列）提高 z-index。 */
+.escah-tbl .table-scroll > table th:first-child,
+.escah-tbl .table-scroll > table td:first-child,
+.escah-tbl-fs-scroll th:first-child,
+.escah-tbl-fs-scroll td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+.escah-tbl .table-scroll > table th:first-child,
+.escah-tbl-fs-scroll th:first-child {
+  /* 角落单元格（thead 首列）常规用原渐变；滚动时由 .escah-scrolling 切不透明 */
+  background: var(--escah-grad-soft);
+  z-index: 5; /* 角落：高于表头(4)与首列(2) */
+}
+/* 首列数据单元格：常态用半透明淡紫（与表头同色系，避免白底突兀），
+   横向滚动时由 JS 切不透明（防透字）。纵向滚动不固定首列，故常态半透明安全。 */
+.escah-tbl .table-scroll > table td:first-child,
+.escah-tbl-fs-scroll td:first-child {
+  background: var(--escah-grad-soft);
+}
+.dark .escah-tbl .table-scroll > table td:first-child,
+.dark .escah-tbl-fs-scroll td:first-child {
+  background: var(--escah-grad-soft);
+}
+
+/* 多选筛选下拉 */
+.escah-filter-multi { position: relative; display: inline-block; }
+.escah-filter-btn {
+  font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--escah-border); background: var(--vp-c-bg-soft); color: var(--vp-c-text-1);
+  white-space: nowrap;
+}
+/* shrink 表的筛选行：列宽下限必须容纳「筛选 ▾」按钮，否则窄数字列的筛选按钮会溢出、
+   与相邻列重叠（标签重合）。fixed 布局下 td 的 min-width 是硬下限，会盖过 <col> 的窄声明。 */
+.escah-tbl .table-scroll > table.escah-tbl-shrink .escah-tbl-filter-row td,
+.escah-tbl-fs-scroll table.escah-tbl-shrink .escah-tbl-filter-row td {
+  min-width: 76px !important;
+}
+.escah-filter-btn:hover { border-color: var(--escah-pink); }
+/* 已对某列做过筛选 → 整格高亮，让用户一眼看出操作了哪一列 */
+.escah-tbl-filter-row td.escah-filter-active {
+  background: var(--escah-grad-soft);
+  border: 1px solid var(--escah-pink);
+  box-shadow: inset 0 0 0 1px var(--escah-pink);
+}
+.escah-tbl-filter-row td.escah-filter-active .escah-filter-btn {
+  background: var(--escah-grad);
+  color: #fff;
+  border-color: transparent;
+}
+.escah-filter-pop {
+  display: none; position: absolute; z-index: 20; top: 100%; left: 0;
+  margin-top: 2px; padding: 6px 8px; max-height: 240px; overflow: auto;
+  min-width: 120px;
+  background: var(--vp-c-bg); border: 1px solid var(--escah-border); border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.escah-filter-pop.open { display: block; }
+.escah-filter-opt {
+  display: block; font-size: 12px; line-height: 1.7; white-space: nowrap; cursor: pointer;
+  color: var(--vp-c-text-1);
+}
+.escah-filter-opt:hover { color: var(--escah-pink); }
+.escah-filter-opt input { vertical-align: middle; margin-right: 4px; }
 
 /* 图像列：固定最小宽度，保证图片以正常尺寸显示而不被压缩；图文混排时居中 */
 .escah-img-col { min-width: 80px; text-align: center; vertical-align: middle; }

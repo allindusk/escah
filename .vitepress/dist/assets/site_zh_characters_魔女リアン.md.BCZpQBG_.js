@@ -1,0 +1,104 @@
+import{C as e,o as l,c as n,E as a,k as c,j as i}from"./chunks/framework.Bmhw_dvp.js";const d=`<div style="text-align:right">最終更新日時:2026-07-22 (水) 01:13:14</div>
+<hr class="full_hr">
+<p><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px">索引：所有角色 | SSR 角色 | SR 角色 | R 角色 | NPC 角色</span></p>
+<hr class="full_hr">
+<div class="contents">
+<a id="contents_1"></a>
+<ul class="list1 list-indent1"><li><a href="#content_1_0">基本信息</a></li>
+<li><a href="#content_1_1">在游戏中</a>
+<ul class="list3 list-indent2"><li><a href="#content_1_2">其他版本及相关角色</a></li></ul></li>
+<li><a href="#content_1_3">琐事</a></li>
+<li><a href="#content_1_4">官方推特账号介绍</a></li>
+<li><a href="#content_1_5">评论表单</a></li></ul>
+</div>
+<br><br>
+<h2 id="content_1_0">基本信息<span id="status"></span> </h2>
+<div class="ie5"><div class="table-scroll"><table border="0" cellspacing="1" class="style_table"><tbody><tr><th class="style_th" style="text-align:center; width:480px;">变身立绘</th><th class="style_th" colspan="2" style="text-align:center;">人物档案</th></tr>
+<tr><td class="style_td" rowspan="9" style="text-align:center; width:480px;"><img alt="魔女リアン.png" height="521" loading="lazy" src="/img/624a8af2d50ac680.png" title="魔女リアン.png" width="364"></td><th class="style_th" style="text-align:center; width:100px;">名称</th><td class="style_td" style="text-align:center; width:150px;">魔女莉安</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">真实姓名</th><td class="style_td" style="text-align:center; width:150px;">花房利安</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">稀有度</th><td class="style_td" style="text-align:center; width:150px;">R</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">普通攻击</th><td class="style_td" style="text-align:center; width:150px;">远程魔法攻击</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">所属势力</th><td class="style_td" style="text-align:center; width:150px;">魔女</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">CV</th><td class="style_td" style="text-align:center; width:150px;">穗香结城</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">插画</th><td class="style_td" style="text-align:center; width:150px;">户外稻</td></tr>
+<tr><th class="style_th" colspan="2" style="text-align:center;">SD形象</th></tr>
+<tr><td class="style_td" colspan="2" style="text-align:center;"><img alt="魔女リアン_sd.gif" height="217" loading="lazy" src="/img/251df2d1cad80949.gif" title="魔女リアン_sd.gif" width="187"></td></tr>
+<tr><th class="style_th" colspan="3" style="text-align:center;">角色背景文本</th></tr>
+<tr><td class="style_td" colspan="3" style="text-align:center;">“本特勒！地球上的各位好。我是莉安，一个外星人。来吧，让我们一起感受宇宙的意志。” 莉安相信外星人的存在。她的日常生活总是围绕着外星人展开，哪怕是最细微的异常现象她也不会错过。她表面上性格内敛，但一旦涉及到外星人，就会变得活泼开朗，展现出丰富的情感。</td></tr>
+<tr><th class="style_th" colspan="3" style="text-align:center;">获取途径</th></tr>
+<tr><td class="style_td" colspan="3" style="text-align:center;">活动「<a class="source-link" data-mtime="" href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88104_%E9%99%8D%E3%81%A3%E3%81%A6%E3%81%8D%E3%81%9F%E5%B0%91%E5%A5%B3%E3%81%A8%E5%A4%8F%E3%81%AE%EF%BC%B5%EF%BC%A6%EF%BC%AF" rel="noopener" target="_blank" title="イベント104_降ってきた少女と夏のＵＦＯ">从天而降的少女与夏日UFO</a>」中累计获得100个「绽放的花蕾・束缚」</td></tr>
+</tbody></table></div></div>
+<div class="ie5"><div class="table-scroll"><table border="0" cellspacing="1" class="style_table"><tbody><tr><th class="style_th" colspan="6" style="text-align:center;">基础属性（⭐︎1）* 每提升一个⭐︎，属性值增加50%，⭐︎5时为⭐︎1值的3倍。</th></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">等级</th><th class="style_th" style="text-align:center; width:119px;">体力</th><th class="style_th" style="text-align:center; width:119px;">攻击力</th><th class="style_th" style="text-align:center; width:119px;">防御能力</th><th class="style_th" style="text-align:center; width:120px;">魔力</th><th class="style_th" style="text-align:center; width:120px;">魔法抗性</th></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">1</td><td class="style_td" style="text-align:center; width:119px;">105</td><td class="style_td" style="text-align:center; width:119px;">12</td><td class="style_td" style="text-align:center; width:119px;">7</td><td class="style_td" style="text-align:center; width:120px;">9</td><td class="style_td" style="text-align:center; width:120px;">11</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">100</td><td class="style_td" style="text-align:center; width:119px;">2050</td><td class="style_td" style="text-align:center; width:119px;">420</td><td class="style_td" style="text-align:center; width:119px;">278</td><td class="style_td" style="text-align:center; width:120px;">271</td><td class="style_td" style="text-align:center; width:120px;">322</td></tr>
+</tbody></table></div></div>
+<div class="ie5"><div class="table-scroll"><table border="0" cellspacing="1" class="style_table"><tbody><tr><th class="style_th" colspan="4" style="text-align:center;">详细属性</th></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">命中</th><td class="style_td" style="text-align:center; width:271px;">99</td><th class="style_th">闪避</th><td class="style_td" style="text-align:center; width:270px;">40</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">连击率</th><td class="style_td" style="text-align:center; width:271px;">50%</td><th class="style_th">反击率</th><td class="style_td" style="text-align:center; width:270px;">0%</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">眩晕触发率</th><td class="style_td" style="text-align:center; width:271px;">25%</td><th class="style_th">眩晕抗性</th><td class="style_td" style="text-align:center; width:270px;">15%</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">移动速度</th><td class="style_td" style="text-align:center; width:271px;">3sec</td><th class="style_th">出战速度</th><td class="style_td" style="text-align:center; width:270px;">9sec</td></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">行动速度</th><td class="style_td" style="text-align:center; width:271px;">4sec</td><th class="style_th">必杀充能效率</th><td class="style_td" style="text-align:center; width:270px;">7.5%</td></tr>
+</tbody></table></div></div>
+<div class="ie5"><div class="table-scroll"><table border="0" cellspacing="1" class="style_table"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;">必杀技</th></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">姓名</th><th class="style_th" style="text-align:center; width:641px;">效果</th></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">外星诱拐突击</td><td class="style_td" style="text-align:center; width:641px;">对敌方单体造成6倍物理伤害</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">外星诱拐突击+</td><td class="style_td" style="text-align:center; width:641px;">对敌方单体造成9倍物理伤害，恢复自身相当于造成伤害25%的受损体力</td></tr>
+</tbody></table></div></div>
+<div class="ie5"><div class="table-scroll"><table border="0" cellspacing="1" class="style_table"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;">固有能力</th></tr>
+<tr><th class="style_th" style="text-align:center; width:100px;">姓名</th><th class="style_th" style="text-align:center; width:641px;">效果</th></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">本特拉本特拉</td><td class="style_td" style="text-align:center; width:641px;">有10%的概率在进行普通攻击时，替换为自身必杀能量增加15%、自身必杀技威力提升10%（最大50%）</td></tr>
+<tr><td class="style_td" style="text-align:center; width:100px;">本特拉本特拉+</td><td class="style_td" style="text-align:center; width:641px;">有20%的概率在进行普通攻击时，替换为自身必杀能量提升20%、自身必杀技威力提升10%（最大50%）</td></tr>
+</tbody></table></div></div>
+
+<div class="rgn-container" style=" position:relative; padding-left:35px; margin-bottom: 1em; "><div class="rgn-button" style=" display: flex; align-items: center; justify-content: center; cursor:pointer; height:26px; left:0; position:absolute; top:0; width:26px; "><svg class="plus-icon" style="display: block" viewbox="0 0 448 512"><path d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z" fill="currentColor"></path></svg><svg class="minus-icon" style="display: none" viewbox="0 0 448 512"><path d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z" fill="currentColor"></path></svg></div><div class="rgn-description" style="display: block"><p>休闲服装照片</p>
+</div><div class="rgn-content" style="display: none">
+<p><img alt="魔女リアン私服.png" height="652" loading="lazy" src="/img/d45da34b1d41e7c7.png" title="魔女リアン私服.png" width="275"></p>
+</div></div>
+<div class="rgn-container" style=" position:relative; padding-left:35px; margin-bottom: 1em; "><div class="rgn-button" style=" display: flex; align-items: center; justify-content: center; cursor:pointer; height:26px; left:0; position:absolute; top:0; width:26px; "><svg class="plus-icon" style="display: block" viewbox="0 0 448 512"><path d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z" fill="currentColor"></path></svg><svg class="minus-icon" style="display: none" viewbox="0 0 448 512"><path d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z" fill="currentColor"></path></svg></div><div class="rgn-description" style="display: block"><p>增强图像</p>
+</div><div class="rgn-content" style="display: none">
+<p><img alt="魔女リアン強化.png" height="652" loading="lazy" src="/img/7e9e9985a4bd28bc.png" title="魔女リアン強化.png" width="451"></p>
+</div></div>
+<h2 id="content_1_1">在游戏中<span id="use"></span> </h2>
+<ul class="list1 list-indent1"><li>通常攻击为魔法、必杀技为物理，是超昂大战中首个复合类型。<br>魔法力在实装时为最低值段，攻击力在R中为最高值段。</li>
+<li>必杀技为单体攻击。在持有单体必杀技的R角色中攻击力最高。<br>必杀技倍率本身很高，能打出仅次于闪忍真百合的高伤害。<br>觉醒后追加伤害回复。可弥补较低的体力。</li>
+<li>固有效果发动时不发生通常攻击。<br>攻击动作、伤害、连击、眩晕判定、通常攻击部分的必杀槽增加、讨伐战中的FEVER槽增加等全都不会发生。<br>一看似乎是负面效果，但比起本来就低的魔法力再加上0.8倍伤害修正的魔法通常攻击，高攻击力的物理必杀技更为重要，因此综合下来是正向收益。<br>由于不会发生攻击动作和连击，必杀技也会明显加快。觉醒后发动率会提升，总伤害也会增加。<br>但是不发动固有效果时FEVER槽更容易积攒。</li></ul>
+<h4 id="content_1_2">其他版本及相关角色<span id="ver"></span> </h4>
+
+
+<ins class="adsbygoogle" data-ad-client="ca-pub-6756084042400545" data-ad-format="auto" data-ad-slot="9804070536" data-full-width-responsive="true" style="display:block"></ins>
+<br><h2 id="content_1_3">琐事<span id="episode"></span> </h2>
+<ul class="list1 list-indent1"><li><span>误会されがちだが「キャトルミューティレー射精」とは<strong>内臓や血液などを不自然に失った家畜の変死体</strong>の意である。<br>从UFO伸出的光（牵引光束）绑架生物的行为称为“アブダク射精”。在角色故事中这两者也分开描绘了。</span><ul class="list2 list-indent1"><li>故事中详细介绍了特殊招式的噱头，他似乎是在召唤一头真正的牛。</li></ul></li>
+<li>“ventler”一词已成为他的口头禅，它是UFO研究员乔治·范·塔塞尔用来与宇宙交流的信息的一部分，据他所说，这是一个外星语言词，意思是“宇宙飞船”。</li>
+<li>升级时的语音「宇宙，太棒了——！」似乎出自《假面骑士Fourze》的主人公如月弦太朗的台词。<ul class="list2 list-indent1"><li>更准确地说，她是剧场版电影的女主角美咲抚子（假面骑士抚子）。抚子也是从天而降的，是真正的外星人，她用自己的能力模仿了弦太郎的变身能力和其他能力，所以她变身时说的台词也模仿了弦太郎。</li></ul></li></ul>
+<h2 id="content_1_4">官方推特账号介绍<span id="twitter"></span> </h2>
+<div class="rgn-container" style=" position:relative; padding-left:35px; margin-bottom: 1em; "><div class="rgn-button" style=" display: flex; align-items: center; justify-content: center; cursor:pointer; height:26px; left:0; position:absolute; top:0; width:26px; "><svg class="plus-icon" style="display: block" viewbox="0 0 448 512"><path d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z" fill="currentColor"></path></svg><svg class="minus-icon" style="display: none" viewbox="0 0 448 512"><path d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z" fill="currentColor"></path></svg></div><div class="rgn-description" style="display: block"><p>人物介绍</p>
+</div><div class="rgn-content" style="display: none">
+<p></p><blockquote class="twitter-tweet" data-lang="ja" data-link-color="#66ABFF" data-theme="light">
+<a href="https://twitter.com/escah_pr/status/2076594229489643945" rel="noopener" target="_blank"></a></blockquote>
+</div></div>
+<h2 id="content_1_5">评论表单<span id="comment"></span> </h2>
+<div class="rgn-container" style=" position:relative; padding-left:35px; margin-bottom: 1em; "><div class="rgn-button" style=" display: flex; align-items: center; justify-content: center; cursor:pointer; height:26px; left:0; position:absolute; top:0; width:26px; "><svg class="plus-icon" style="display: block" viewbox="0 0 448 512"><path d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z" fill="currentColor"></path></svg><svg class="minus-icon" style="display: none" viewbox="0 0 448 512"><path d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z" fill="currentColor"></path></svg></div><div class="rgn-description" style="display: block"><p>点击打开历史日志列表</p>
+</div><div class="rgn-content" style="display: none">
+<p>末尾的数字越小，日志就越旧。</p>
+<p>'评论/魔女莉安 Lian/' 没有子页面。</p>
+</div></div>
+
+<ins class="adsbygoogle" data-ad-client="ca-pub-6756084042400545" data-ad-format="auto" data-ad-slot="2456832941" data-full-width-responsive="true" style="display:block"></ins>
+<br>
+<div class="pcomment">
+
+<ul class="list1 list-indent1"><li class="pcmt" data-comment-id="comment_12e4c15fc499e373d6e12bfdd114243e">一位能够释放大量单体特殊攻击的女性角色。作为一张免费的R卡，她虽然简单，但似乎相当实用。 -- [Yr3kDppmqBw] <span class="comment_date">2026-07-16 (周四) 06:44:58</span></li>
+<li class="pcmt" data-comment-id="comment_4e7481ffbb932d907871c9320049d43c">我原以为之前没出现过很多外星敌人。但出乎意料的是，居然没多少……嗯，这类故事里出现的外星人，不出意外的话很快就会离开地球（或者死去）。 -- [/Y8KyZkgsm2] <span class="comment_date">2026-07-16 (周四) 09:27:01</span></li>
+<li class="pcmt" data-comment-id="comment_d4a7ebeea7ca24e975a7dd8415f40d7b">这孩子点数都攒到600了却不能界限突破……[--yStW/vcds0M]2026-07-18(土)12:20:44 -- [yStW/vcds0M] <span class="comment_date">2026-07-18 (周六) 12:20:44</span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_d0248238d43058db3ed5c96e1158132c">不能界限突破很多情况是强化点数或资金不足，你是另一种情况吗？[--BHFFhzIv7lk]2026-07-18(土)12:23:11 -- [BHFFhzIv7lk] <span class="comment_date">2026-07-18 (周六) 12:23:11</span>
+<ul class="list3 list-indent1"><li>我有600点突破点数和700万资金，但就是突破不到☆2。突破按钮是灰色的，按不了。 -- [yStW/vcds0M] <span class="comment_date">2026-07-19 (周日) 18:36:30</span></li>
+<li>你还需要一些强化材料 -- [YAt7h3ttTiA] <span class="comment_date">2026-07-20 (周一) 01:57:03</span></li>
+<li><span>谢谢大家的建议。多亏了你们，我已经解决了这个问题。原来是魔法防御点数不够……^^;</span><span class="comment_date">2026-07-20 (周一) 09:43:08</span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_9dd75cba060f2179bc8f29287009f630">她的特殊攻击和专属攻击都很优秀，但魔力较低，所以特殊攻击需要依靠强化才能造成伤害。虽然在团队副本中可能有效，但对付B级单位时伤害可能不高。我觉得她的普通攻击，尤其是利用连击率的普通攻击，比特殊攻击对她的伤害输出更重要。 -- [EDYfShSahDA] <span class="comment_date">2026-07-19 (周日) 16:16:16</span></li>
+<li class="pcmt" data-comment-id="comment_dd7252b9c26d187ee9fb3cc8e0b9c21c"><span>＞关于界限突破 因为不知道怎么作为楼中楼回复就直接评论了，是不是突破所需的强化点数里，体力、防御、魔法防御这些不够？[--Hml9DISRYFI]2026-07-19(日)20:14:11</span><span class="comment_date">2026-07-19 (周日) 20:14:11</span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_581b5d4c262f8a09e8d4462e4ddb119d"><span>没错，我就是魔法防御点数不够^^; 我以前只在游戏初期比较在意这些点数，但最近我完全没注意，就一直狂按突破键……</span><span class="comment_date">2026-07-20 (周一) 09:41:27</span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_4b6042f2b38e8868e9273fe16bb5291b">是否可以这样理解：普通攻击指的是魔法攻击力（标有★），而特殊招式指的是物理攻击力（因为上面写着“物理攻击”）？ -- [OhuhHkxKuJM] <span class="comment_date">2026-07-20 (周一) 08:39:33</span></li></ul>
+</div>
+
+`,r={html:d},g=JSON.parse('{"title":"魔女リアン","description":"","frontmatter":{"title":"魔女リアン","layout":"doc","meta":{"sourceUrl":"https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%82%A2%E3%83%B3","sourceUpdated":"2026-07-22 (水) 01:13:14","synced":"2026-07-22","reviewed":false,"translated":true}},"headers":[],"relativePath":"site/zh/characters/魔女リアン.md","filePath":"site/zh/characters/魔女リアン.md"}'),h={name:"site/zh/characters/魔女リアン.md"},x=Object.assign(h,{setup(p){return(o,t)=>{const s=e("MirrorContent");return l(),n("div",null,[a(s,{html:c(r).html},null,8,["html"]),t[0]||(t[0]=i("div",{class:"search-index",style:{display:"none"},"aria-hidden":"true"},"最終更新日時:2026-07-22 (水) 01:13:14 索引：所有角色 | SSR 角色 | SR 角色 | R 角色 | NPC 角色 基本信息 在游戏中 其他版本及相关角色 琐事 官方推特账号介绍 评论表单 基本信息 变身立绘人物档案 名称魔女莉安 真实姓名花房利安 稀有度R 普通攻击远程魔法攻击 所属势力魔女 CV穗香结城 插画户外稻 SD形象 角色背景文本 “本特勒！地球上的各位好。我是莉安，一个外星人。来吧，让我们一起感受宇宙的意志。” 莉安相信外星人的存在。她的日常生活总是围绕着外星人展开，哪怕是最细微的异常现象她也不会错过。她表面上性格内敛，但一旦涉及到外星人，就会变得活泼开朗，展现出丰富的情感。 获取途径 活动「从天而降的少女与夏日UFO」中累计获得100个「绽放的花蕾・束缚」 基础属性（⭐︎1）* 每提升一个⭐︎，属性值增加50%，⭐︎5时为⭐︎1值的3倍。 等级体力攻击力防御能力魔力魔法抗性 1105127911 1002050420278271322 详细属性 命中99闪避40 连击率50%反击率0% 眩晕触发率25%眩晕抗性15% 移动速度3sec出战速度9sec 行动速度4sec必杀充能效率7.5% 必杀技 姓名效果 外星诱拐突击对敌方单体造成6倍物理伤害 外星诱拐突击+对敌方单体造成9倍物理伤害，恢复自身相当于造成伤害25%的受损体力 固有能力 姓名效果 本特拉本特拉有10%的概率在进行普通攻击时，替换为自身必杀能量增加15%、自身必杀技威力提升10%（最大50%） 本特拉本特拉+有20%的概率在进行普通攻击时，替换为自身必杀能量提升20%、自身必杀技威力提升10%（最大50%） 休闲服装照片 增强图像 在游戏中 通常攻击为魔法、必杀技为物理，是超昂大战中首个复合类型。魔法力在实装时为最低值段，攻击力在R中为最高值段。 必杀技为单体攻击。在持有单体必杀技的R角色中攻击力最高。必杀技倍率本身很高，能打出仅次于闪忍真百合的高伤害。觉醒后追加伤害回复。可弥补较低的体力。 固有效果发动时不发生通常攻击。攻击动作、伤害、连击、眩晕判定、通常攻击部分的必杀槽增加、讨伐战中的FEVER槽增加等全都不会发生。一看似乎是负面效果，但比起本来就低的魔法力再加上0.8倍伤害修正的魔法通常攻击，高攻击力的物理必杀技更为重要，因此综合下来是正向收益。由于不会发生攻击动作和连击，必杀技也会明显加快。觉醒后发动率会提升，总伤害也会增加。但是不发动固有效果时FEVER槽更容易积攒。 其他版本及相关角色 琐事 误会されがちだが「キャトルミューティレー射精」とは内臓や血液などを不自然に失った家畜の変死体の意である。从UFO伸出的光（牵引光束）绑架生物的行为称为“アブダク射精”。在角色故事中这两者也分开描绘了。故事中详细介绍了特殊招式的噱头，他似乎是在召唤一头真正的牛。 “ventler”一词已成为他的口头禅，它是UFO研究员乔治·范·塔塞尔用来与宇宙交流的信息的一部分，据他所说，这是一个外星语言词，意思是“宇宙飞船”。 升级时的语音「宇宙，太棒了——！」似乎出自《假面骑士Fourze》的主人公如月弦太朗的台词。更准确地说，她是剧场版电影的女主角美咲抚子（假面骑士抚子）。抚子也是从天而降的，是真正的外星人，她用自己的能力模仿了弦太郎的变身能力和其他能力，所以她变身时说的台词也模仿了弦太郎。 官方推特账号介绍 人物介绍 评论表单 点击打开历史日志列表 末尾的数字越小，日志就越旧。 '评论/魔女莉安 Lian/' 没有子页面。 一位能够释放大量单体特殊攻击的女性角色。作为一张免费的R卡，她虽然简单，但似乎相当实用。 -- [Yr3kDppmqBw] 2026-07-16 (周四) 06:44:58 我原以为之前没出现过很多外星敌人。但出乎意料的是，居然没多少……嗯，这类故事里出现的外星人，不出意外的话很快就会离开地球（或者死去）。 -- [/Y8KyZkgsm2] 2026-07-16 (周四) 09:27:01 这孩子点数都攒到600了却不能界限突破……[--yStW/vcds0M]2026-07-18(土)12:20:44 -- [yStW/vcds0M] 2026-07-18 (周六) 12:20:44 不能界限突破很多情况是强化点数或资金不足，你是另一种情况吗？[--BHFFhzIv7lk]2026-07-18(土)12:23:11 -- [BHFFhzIv7lk] 2026-07-18 (周六) 12:23:11 我有600点突破点数和700万资金，但就是突破不到☆2。突破按钮是灰色的，按不了。 -- [yStW/vcds0M] 2026-07-19 (周日) 18:36:30 你还需要一些强化材料 -- [YAt7h3ttTiA] 2026-07-20 (周一) 01:57:03 谢谢大家的建议。多亏了你们，我已经解决了这个问题。原来是魔法防御点数不够……^^;2026-07-20 (周一) 09:43:08 她的特殊攻击和专属攻击都很优秀，但魔力较低，所以特殊攻击需要依靠强化才能造成伤害。虽然在团队副本中可能有效，但对付B级单位时伤害可能不高。我觉得她的普通攻击，尤其是利用连击率的普通攻击，比特殊攻击对她的伤害输出更重要。 -- [EDYfShSahDA] 2026-07-19 (周日) 16:16:16 ＞关于界限突破 因为不知道怎么作为楼中楼回复就直接评论了，是不是突破所需的强化点数里，体力、防御、魔法防御这些不够？[--Hml9DISRYFI]2026-07-19(日)20:14:112026-07-19 (周日) 20:14:11 没错，我就是魔法防御点数不够^^; 我以前只在游戏初期比较在意这些点数，但最近我完全没注意，就一直狂按突破键……2026-07-20 (周一) 09:41:27 是否可以这样理解：普通攻击指的是魔法攻击力（标有★），而特殊招式指的是物理攻击力（因为上面写着“物理攻击”）？ -- [OhuhHkxKuJM] 2026-07-20 (周一) 08:39:33",-1))])}}});export{g as __pageData,x as default};

@@ -33,8 +33,13 @@ function onShiftWheel(e: WheelEvent) {
   const sc = target.closest('.table-scroll, .escah-tbl-fs-scroll') as HTMLElement | null
   if (!sc) return
   if (sc.scrollWidth <= sc.clientWidth + 1) return
+  // 浏览器在 shift+滚轮时，不同设备把位移放进不同字段：
+  // 多数鼠标滚轮 → deltaY；部分鼠标/触控板横向滚轮 → deltaX。
+  // 只取绝对值较大的那个，避免「只读了 0 而提前 return」导致无法横滚。
+  const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
+  if (d === 0) return
   e.preventDefault()
-  sc.scrollLeft += e.deltaY
+  sc.scrollLeft += d
 }
 
 onMounted(() => {

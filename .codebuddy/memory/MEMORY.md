@@ -58,6 +58,8 @@
 - **正文 `#id` 锚点跳转**：`sitegen._strip_nav_links` 原把 PukiWiki `anchor_super`（`<a id="drop_list">†</a>`）整个 drop，而它正是 `#id` 链接的跳转目标 → `getElementById` 返回 null。修复=丢弃时若带 `id` 则保留占位 `<span id="...">`。改后须重跑 `i18n build` 重生成 `*.template.html`（417 文件）。
 - **角色浮窗对内联头像不触发**：`tagAvatars` 原只靠 `avatarMap[src hash]`，而 `avatarHashes` 仅由角色 JSON `icon`（一览缩略图 hash）构建，wiki 正文内联头像是**另一个 hash**。修复=`avatarMap` 未命中时用 `alt`/`title`（形如 `花のチルカ_icon.png`）去 `_icon`+扩展名后经 `nameAliases` 回 key。影响面 838 img / 745 页，已一次性修（bc5b2ac）。⚠️ 内联头像 URL 的 bytehex 被截断，**不能靠 URL 反解补 avatarHashes**，只能靠 alt。
 - **浮窗盖住鼠标（2026-08-01 根治）**：曾反复改不好，真因有二——① `placeHover` 只算水平方向，垂直是 `top=min(a.top,my)-4` 而浮窗 `max-height:94vh`，鼠标几乎必然落在纵向区间内，「不盖鼠标」只是分支顺序的副产物而非被校验的约束；② `mouseover` 只在进入元素时触发一次，大锚点（宽单元格/大图）内移动时 `mx/my` 过期。修复=`placeHover` 改「先选边→再**显式校验** `(mx,my)` 是否落在浮窗矩形内，命中则垂直推到鼠标上/下方，上下都不够才水平让开」；`MirrorContent` 加 document `mousemove` → `store.updateHoverPointer()` 换新 anchor 对象（已有 `watch(store.anchor)` 自动重跑定位）。**教训：几何约束应先写校验、再写启发式。**
+- **表格增强选择器铁律（2026-08-02）**：`tableEnhancer.ts` 的 `enhanceTables` 必须选 `table.style_table`（PukiWiki 原始 HTML 自带的表格 class，全站一致），**绝不能写 `table.escah-tbl`**——真实表格从不会被加 `escah-tbl`，写成后者会导致全屏/重置/筛选/吸顶/列宽全部失效（本地"按钮消失"就是这原因）。`enhanceTable` 依赖 `table.parentElement` 是 `.table-scroll`（真实结构 `<div class="ie5"><div class="table-scroll"><table>` 满足）。表头吸顶靠 CSS `.table-scroll thead th { position:sticky }`，无需 JS。
+- **本地/线上不一致根因（2026-08-02）**：theme 改动（tableEnhancer/custom.css/MirrorContent）若未 commit+push，线上（跑 main HEAD）永远看不到，本地（工作区）却能看到 → 必然脱节。改完前端必须提醒用户 commit+push。dev 端口冲突时 Vite 自动 +1（5173→5174），浏览器要访问实际监听端口，僵尸 node 进程不监听却占 PID 会误导排查。
 
 ## llm_reco 大模型推荐角色（独立子项目）
 - 目录 `llm_reco/`（reco-method / draft / reasoning-log / reco-team + `_signal_extract.py`/`_detail.py`/`_classify.py`/`_team_build.py`/`_char_score.py`）；已发布 `site/{zh,ja}/llm-recommend.md`。
@@ -77,3 +79,8 @@
 ## 历史沿革（已归档，勿重建）
 - LLM 翻译管线（`tools/llm_patch.py` 等）与旧词表替换引擎（`zh_patch.py`/`char_zh.py`）均已弃用 → `recycle_bin/tools/`。
 - llm_reco v0.2/v0.3/v0.4/v0.6/v0.7 均被 v0.8 取代，过程见 `2026-07-29.md`/`2026-07-30.md`。
+
+## 前端版本号铁律（2026-08-02 新增）
+- 站点右上角版本号：`site/.vitepress/theme/components/SiteAccessSwitch.vue` 的 `const SITE_VERSION`（三位数：①大版本 ②新增功能 ③修改）。当前 `1.1.0`。
+- 版本日志数据源：`site/.vitepress/theme/.gen-data/changelog.json`（更新记录页「镜像站更新记录」区块按此渲染）。
+- ⚠️ **升版本号必须同时改这两处并保持一致**：改 `SITE_VERSION` + 在 `changelog.json` 顶部加该版本 `date`/`changes`。改完前端务必 commit+push 到 main，否则线上版本号与改动均不生效（本地工作区看得到、线上 HEAD 看不到）。

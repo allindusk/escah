@@ -6,13 +6,27 @@
 // 处理（剔除 on* 事件处理器、平衡标签），因此 v-html 注入是安全的。
 // 片段通过 JSON 导入（Vite 在 SSR 下可靠转换 JSON，而 ?raw 在 SSR 下返回空），
 // 因此预渲染的静态 HTML 中即包含镜像正文，利于 SEO。
-import { withBase } from 'vitepress'
+import { withBase, useData } from 'vitepress'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { charModalStore as store } from './charModalStore'
 import charRefs from '../charRefs.json'
 import { enhanceTables } from '../tableEnhancer'
 
 const props = defineProps<{ html: string }>()
+
+// 当前页面 slug（去掉语言前缀与扩展名），用于让表格增强按页面定制
+// （如「角色一览」类页面启用「列宽按最长数据为准」）。
+// 注意：useData().relativePath 在客户端 onMounted 时可能为 ''（VitePress hydration 时序），
+// 导致此前 shrink 完全不触发。改用 location.pathname 解析（同步可靠），并回退 relativePath。
+function deriveSlug(): string {
+  const path = (typeof window !== 'undefined' && window.location?.pathname) || ''
+  // 形如 /escah/zh/characters.html 或 /escah/ja/list-ssr.html → characters / list-ssr
+  const m = path.match(/\/(ja|zh)\/([^/]+?)(?:\.html)?$/i)
+  if (m) return decodeURIComponent(m[2])
+  const rp = (useData().relativePath as string) || ''
+  return rp.replace(/^(ja|zh)\//, '').replace(/\.md$/, '').replace(/\.html$/, '')
+}
+const pageSlug = computed(deriveSlug)
 
 // 片段内图片以 /img/<hash> 绝对路径写入，但站点 base 为 /escah/；
 // v-html 注入的字符串 URL 不会被 Vite 自动加 base，需在此手动补全，
@@ -197,7 +211,7 @@ function processEl(el: HTMLElement) {
   tagCharLinks(el)
   tagAvatars(el)
   wrapPlainTextNames(el)
-  enhanceTables(el)
+  enhanceTables(el, pageSlug.value)
 }
 
 onMounted(() => {

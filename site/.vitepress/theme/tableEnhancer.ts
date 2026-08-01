@@ -1,5 +1,5 @@
 /**
- * 表格增强：表头排序、列筛选、页面内全屏、图像/长文本列适配。
+ * 表格增强：表头排序、列筛选（多选）、页面内全屏（居中留空）、图像/长文本列适配。
  * 由 MirrorContent.vue 在 v-html 注入后调用（enhanceTables）。
  */
 import { charModalStore as charModalStore } from './components/charModalStore'
@@ -87,8 +87,6 @@ function dataRows(table: HTMLTableElement): HTMLTableRowElement[] {
 function normalizeTable(table: HTMLTableElement): void {
   let thead = table.querySelector('thead') as HTMLTableSectionElement | null
   let tbody = table.querySelector('tbody') as HTMLTableSectionElement | null
-  // ⚠️ 整块搬移表头：连续的全 th 行（含 rowspan/colspan 的双行表头）必须一起进 thead，
-  // 只搬第一行会把 rowspan=2 表头拆断（历史 bug：表头分两行错位、第二表头行被当数据排序）。
   const headerBlock = headerRowsOf(table)
   if (!thead && headerBlock.length > 0) {
     thead = document.createElement('thead')
@@ -97,61 +95,11 @@ function normalizeTable(table: HTMLTableElement): void {
   }
   if (!tbody) {
     tbody = document.createElement('tbody')
-    // 仅把表头以外的直接子 <tr> 移入 tbody（按列筛选行尚未生成）
     Array.from(table.querySelectorAll(':scope > tr')).forEach((r) =>
       tbody!.appendChild(r as HTMLTableRowElement)
     )
     table.appendChild(tbody)
   }
-}
-
-/**
- * 删除“全空的首列”：PukiWiki 表格常有首格为空的占位列（如 <th colspan="2"></th>），
- * 在所有行都为空（无文字、无图片）且 colspan 一致时整列移除，避免表格前端出现无用空列。
- */
-function trimEmptyLeadingColumns(table: HTMLTableElement): void {
-  const rows = Array.from(table.querySelectorAll('tr'))
-  if (!rows.length) return
-  // 含 rowspan 的表：children[0] 不一定是第 1 列，删了必错位 → 跳过
-  for (const r of rows) {
-    for (const c of Array.from(r.children) as HTMLTableCellElement[]) {
-      if ((c.rowSpan || 1) > 1) return
-    }
-  }
-  const firsts = rows.map((r) => r.children[0]).filter(Boolean) as HTMLElement[]
-  if (firsts.length !== rows.length) return
-  const allEmpty = firsts.every((c) => {
-    const txt = (c.textContent || '').trim()
-    return txt === '' && !c.querySelector('img')
-  })
-  if (!allEmpty) return
-  const colspans = firsts.map((c) => parseInt(c.getAttribute('colspan') || '1', 10))
-  if (new Set(colspans).size !== 1) return // 各行列宽不一致 → 不处理，避免错位
-  firsts.forEach((c) => c.remove())
-}
-
-/**
- * 删除“编辑”列：原站点给管理员用的表格编辑链接（href 含 cmd=table_edit，
- * 链接文字 ja=編集 / zh=编辑），镜像站不需要。仅当“所有行”的末列都是
- * 该编辑链接、且至少剩 2 列时才整列移除（避免误删唯一数据列）。
- */
-function removeEditColumn(table: HTMLTableElement): void {
-  const rows = Array.from(table.querySelectorAll('tr'))
-  if (rows.length === 0) return
-  const lasts = rows.map((r) => r.lastElementChild).filter(Boolean) as HTMLElement[]
-  if (lasts.length !== rows.length) return
-  if (lasts.length === 0) return
-  const allEdit = lasts.every((c) => {
-    const a = c.querySelector('a')
-    if (!a) return false
-    const href = (a.getAttribute('href') || '').toLowerCase()
-    if (href.includes('table_edit')) return true
-    const txt = (c.textContent || '').trim()
-    return txt === '編集' || txt === '编辑'
-  })
-  const colCount = (rows[0] as HTMLTableRowElement).children.length
-  if (!allEdit || colCount <= 1) return
-  lasts.forEach((c) => c.remove())
 }
 
 function filterRowOf(table: HTMLTableElement): HTMLElement | null {
@@ -199,8 +147,8 @@ function sortByColumn(table: HTMLTableElement, col: number, dir: number): void {
     const an = cellNumber(av)
     const bn = cellNumber(bv)
     let cmp: number
-    if (an !== null && bn !== null) cmp = an - bn // 数字按 1→9
-    else cmp = av.localeCompare(bv) // 文本按 locale（A-Z / あいう…）
+    if (an !== null && bn !== null) cmp = an - bn
+    else cmp = av.localeCompare(bv)
     return cmp * dir
   })
   rows.forEach((r) => body.appendChild(r))
@@ -210,15 +158,16 @@ function sortByColumn(table: HTMLTableElement, col: number, dir: number): void {
 function applyColumnFilters(table: HTMLTableElement): void {
   const filterRow = filterRowOf(table)
   if (!filterRow) return
-  const cols = Array.from(filterRow.children) as HTMLElement[]
-  const active: { idx: number; val: string; isSelect: boolean }[] = []
-  cols.forEach((cell, idx) => {
+  const cells = Array.from(filterRow.children) as HTMLElement[]
+  // 收集每列已勾选的多选值（OR 逻辑：列内多选值之间取“或”，列之间取“与”）
+  const active: { idx: number; vals: string[] }[] = []
+  cells.forEach((cell, idx) => {
     if (cell.classList.contains('escah-col-filter-none')) return
-    const inp = cell.querySelector('input, select') as HTMLInputElement | HTMLSelectElement | null
-    if (!inp) return
-    const v = (inp.value || '').trim().toLowerCase()
-    if (!v) return
-    active.push({ idx, val: v, isSelect: inp.tagName === 'SELECT' })
+    const checked = Array.from(
+      cell.querySelectorAll('input[type="checkbox"]:checked')
+    ) as HTMLInputElement[]
+    const vals = checked.map((c) => (c.value || '').trim().toLowerCase()).filter(Boolean)
+    if (vals.length) active.push({ idx, vals })
   })
   if (!active.length) {
     dataRows(table).forEach((r) => (r.style.display = ''))
@@ -229,13 +178,8 @@ function applyColumnFilters(table: HTMLTableElement): void {
     for (const f of active) {
       const cell = r.children[f.idx] as HTMLElement | undefined
       const txt = (cell?.textContent || '').trim().toLowerCase()
-      if (f.isSelect) {
-        // select 存的是规范化值，需与单元格原始文本比对（多值用 | 分隔）
-        const opts = f.val.split('|')
-        if (!opts.some((o) => txt.includes(o))) show = false
-      } else if (!txt.includes(f.val)) {
-        show = false
-      }
+      // 列内多选：任一勾选值被包含即命中（OR）
+      if (!f.vals.some((v) => txt.includes(v))) show = false
       if (!show) break
     }
     r.style.display = show ? '' : 'none'
@@ -249,8 +193,18 @@ function resetTable(table: HTMLTableElement): void {
   ;(table as unknown as { dir?: number }).dir = undefined
   const filterRow = filterRowOf(table)
   if (filterRow) {
-    filterRow.querySelectorAll('.escah-col-filter').forEach((c) => {
-      ;(c as HTMLInputElement | HTMLSelectElement).value = ''
+    // 清空多选：取消勾选、复原按钮文字、去掉高亮整格
+    filterRow.querySelectorAll('input[type="checkbox"]').forEach((c) => {
+      ;(c as HTMLInputElement).checked = false
+    })
+    filterRow.querySelectorAll('.escah-filter-btn').forEach((b) => {
+      ;(b as HTMLElement).textContent = '筛选 ▾'
+    })
+    filterRow.querySelectorAll('input.escah-col-filter').forEach((i) => {
+      ;(i as HTMLInputElement).value = ''
+    })
+    filterRow.querySelectorAll('td').forEach((td) => {
+      td.classList.remove('escah-filter-active')
     })
   }
   applyColumnFilters(table)
@@ -258,7 +212,6 @@ function resetTable(table: HTMLTableElement): void {
 
 function buildColumnFilterRow(table: HTMLTableElement): void {
   if (table.querySelector('.escah-tbl-filter-row')) return
-  // 数据区含合并单元格：children[idx] ≠ 列号，筛选必错位 → 不提供列筛选
   if (bodyHasSpans(table)) return
   const headerRows = headerRowsOf(table)
   if (!headerRows.length) return
@@ -279,43 +232,70 @@ function buildColumnFilterRow(table: HTMLTableElement): void {
       const t = (dc.textContent || '').trim()
       if (t) vals.add(t)
     }
-    if (vals.size === 0) continue // 该列无文本 → 不做筛选控件
+    if (vals.size === 0) continue
     hasAnyFilter = true
     cell.classList.remove('escah-col-filter-none')
     cell.classList.add('escah-col-filter')
     if (vals.size <= 50) {
-      // 枚举适中的列（如角色名）→ 下拉选择
-      const sel = document.createElement('select')
-      sel.innerHTML = '<option value="">（全部）</option>'
-      ;[...vals].sort((a, b) => a.localeCompare(b)).forEach((v) => {
-        const o = document.createElement('option')
-        o.value = v
-        o.textContent = v
-        sel.appendChild(o)
+      // 枚举适中的列 → 多选下拉（checkbox popover，OR 逻辑）
+      const wrap = document.createElement('div')
+      wrap.className = 'escah-filter-multi'
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'escah-filter-btn'
+      btn.textContent = '筛选 ▾'
+      btn.title = '点击勾选要保留的值（可多选）'
+      const pop = document.createElement('div')
+      pop.className = 'escah-filter-pop'
+      const sorted = [...vals].sort((a, b) => a.localeCompare(b))
+      sorted.forEach((v) => {
+        const label = document.createElement('label')
+        label.className = 'escah-filter-opt'
+        const cb = document.createElement('input')
+        cb.type = 'checkbox'
+        cb.value = v
+        cb.addEventListener('change', () => {
+          const n = pop.querySelectorAll('input[type="checkbox"]:checked').length
+          btn.textContent = n > 0 ? `筛选·${n} ▾` : '筛选 ▾'
+          // 操作后高亮整格（escah-filter-active），让用户一眼看到对哪列做了筛选
+          cell.classList.toggle('escah-filter-active', n > 0)
+          applyColumnFilters(table)
+        })
+        label.appendChild(cb)
+        label.appendChild(document.createTextNode(' ' + v))
+        pop.appendChild(label)
       })
-      sel.addEventListener('change', () => applyColumnFilters(table))
-      cell.appendChild(sel)
+      const toggle = (e: MouseEvent) => {
+        e.stopPropagation()
+        const open = pop.classList.contains('open')
+        document.querySelectorAll('.escah-filter-pop.open').forEach((p) => p.classList.remove('open'))
+        if (!open) pop.classList.add('open')
+      }
+      btn.addEventListener('click', toggle)
+      pop.addEventListener('click', (e) => e.stopPropagation())
+      wrap.append(btn, pop)
+      cell.appendChild(wrap)
     } else {
-      // 高基数自由文本列（如剧情/描述，bedroom-scenes 的纯爱H/战败H）→
-      // 下拉会爆选项，改用“包含”文本框实时筛选，直接搜出目标行
+      // 高基数自由文本列 → “包含”文本框实时筛选
       const inp = document.createElement('input')
       inp.type = 'text'
+      inp.className = 'escah-col-filter'
       inp.placeholder = '包含筛选…'
       inp.title = '输入关键字，仅显示该列包含此文本的行'
-      inp.addEventListener('input', () => applyColumnFilters(table))
+      inp.addEventListener('input', () => {
+        cell.classList.toggle('escah-filter-active', inp.value.trim().length > 0)
+        applyColumnFilters(table)
+      })
       cell.appendChild(inp)
     }
   }
-  // 一个可筛选列都没有 → 不插入空行（避免表头下多出一行空格子）
   if (!hasAnyFilter) return
-  // 插在整个表头块之后（历史 bug：插在第一表头行后，会插进双行表头中间）
   const lastHeader = headerRows[headerRows.length - 1]
   const thead = lastHeader.parentElement as HTMLElement
   thead.insertBefore(filterRow, lastHeader.nextSibling)
 }
 
 function makeSortable(table: HTMLTableElement): void {
-  // 数据区含合并单元格：排序会拆散 rowspan 行组 → 禁用排序
   if (bodyHasSpans(table)) return
   const headerRows = headerRowsOf(table)
   if (!headerRows.length) return
@@ -325,7 +305,7 @@ function makeSortable(table: HTMLTableElement): void {
   )
   ths.forEach((th) => {
     if (th.classList.contains('escah-no-sort')) return
-    if ((th.colSpan || 1) > 1) return // 分组表头不对应单一数据列 → 不可排序
+    if ((th.colSpan || 1) > 1) return
     const idx = colOf.get(th)
     if (idx === undefined) return
     th.classList.add('escah-sortable')
@@ -355,7 +335,6 @@ function makeSortable(table: HTMLTableElement): void {
 
 /**
  * 标记图像单元格（固定最小宽度保证图片正常显示）与超长文本单元格（限高并加宽）。
- * 按“单元格”处理而非按列索引映射（含合并单元格的表按 children[idx] 找列必错位）。
  */
 function markSpecialColumns(table: HTMLTableElement): void {
   for (const row of dataRows(table)) {
@@ -375,18 +354,15 @@ function markSpecialColumns(table: HTMLTableElement): void {
 /**
  * 图标列表竖向堆叠：单元格内容“除图片链接外无其它文字”时
  * （纯图标列表 / 图标+其名称），把图片链接改为竖向排列，避免横排挤一行。
- * 含「+」组合、尾部说明文字、裸 <img>xN 等一律保持横排（不标记）。
  */
 function applyImageStack(table: HTMLTableElement): void {
   for (const cell of Array.from(table.querySelectorAll('td, th')) as HTMLElement[]) {
     const anchors = Array.from(cell.querySelectorAll('a')).filter((a) => a.querySelector('img'))
     if (anchors.length === 0) continue
-    // 去掉所有链接与图片后若仍剩非空白文字 → 图文混合/组合，保持横排
     const probe = cell.cloneNode(true) as HTMLElement
     probe.querySelectorAll('a, img').forEach((e) => e.remove())
     const rest = (probe.textContent || '').replace(/\s+/g, '')
     if (rest.length === 0) {
-      // 多图标横向排列（与原站点一致）；单图标维持竖向堆叠（视觉无差异）
       cell.classList.add(anchors.length === 1 ? 'escah-img-stack' : 'escah-img-row')
     }
   }
@@ -403,12 +379,44 @@ let fsState: FsState | null = null
 
 function onFsKey(e: KeyboardEvent): void {
   if (e.key === 'Escape') {
-    // 角色浮窗（hover 预览 / 固定大窗）优先接管 Esc：先关浮窗，保留表格全屏。
-    // 否则两者同按 Esc 会一起关掉，体验混乱（document 级 keydown 先于 window 级触发，
-    // 此处判定 visible 仍为 true 即可让 CharHoverModal 的 onKeydown 去关浮窗）。
     if (charModalStore.visible) return
     closeFullscreen()
   }
+}
+
+// 滚动时把冻结的表头/首列/角落/筛选行切为「不透明实色」（内联最高优先级，盖过任何 CSS），
+// 避免半透明底色透出底下滚动经过的数据文字；静止 150ms 后清除内联背景 → 恢复原来的
+// --escah-grad-soft 半透明样式。用内联而非 class 切换，避免 CSS 层叠优先级踩坑。
+function freezeCellsOpaque(scroller: HTMLElement, on: boolean): void {
+  const root = scroller.querySelector('table')
+  if (!root) return
+  const cells = root.querySelectorAll(
+    'thead th, thead .escah-tbl-filter-row td, th:first-child, td:first-child'
+  )
+  // 滚动不透明实色：与常态 --escah-grad-soft 同色系（紫），只是不透明，避免切到白底难看
+  const opaque = scroller.classList.contains('escah-dark') || document.documentElement.classList.contains('dark')
+    ? '#2c2238'
+    : '#e3b9ec'
+  cells.forEach((c) => {
+    const el = c as HTMLElement
+    if (on) {
+      if (el.style.background !== opaque) el.dataset.escahBg = el.style.background
+      el.style.background = opaque
+    } else if (el.dataset.escahBg !== undefined) {
+      el.style.background = el.dataset.escahBg
+      delete el.dataset.escahBg
+    }
+  })
+}
+
+function bindScrollOpacity(scroller: HTMLElement): void {
+  let timer: number | undefined
+  const onScroll = () => {
+    freezeCellsOpaque(scroller, true)
+    if (timer) window.clearTimeout(timer)
+    timer = window.setTimeout(() => freezeCellsOpaque(scroller, false), 150)
+  }
+  scroller.addEventListener('scroll', onScroll, { passive: true })
 }
 
 function openFullscreen(table: HTMLTableElement): void {
@@ -434,6 +442,13 @@ function openFullscreen(table: HTMLTableElement): void {
   const scroll = document.createElement('div')
   scroll.className = 'escah-tbl-fs-scroll'
   scroll.appendChild(container) // 移动真实表格（含工具栏/排序/筛选），与原表格完全一致
+  // 全屏表格必须沿用正文 shrink 的 fixed 布局，否则列宽回到 auto（每列 ≥ 表头宽，无窄列），
+  // 与正文不一致。内联兜底最高优先级，盖过任何 CSS 层叠歧义。
+  table.classList.add('escah-tbl-shrink')
+  table.style.tableLayout = 'fixed'
+  table.style.minWidth = '0'
+  table.style.width = '0' // 同 shrinkColumnsToData：必须 0 而非 auto，否则按内容撑开、<col> 失效
+  bindScrollOpacity(scroll) // 全屏滚动时冻结单元格切不透明
   panel.append(bar, scroll)
   overlay.appendChild(panel)
   overlay.addEventListener('mousedown', (e) => {
@@ -445,11 +460,21 @@ function openFullscreen(table: HTMLTableElement): void {
 }
 
 function closeFullscreen(): void {
-  // 关闭表格全屏时，若仅处于 hover 预览态（非固定）则一并收起，
-  // 避免表格恢复到正文后页面上残留一个悬停小窗。
   if (charModalStore.mode === 'hover' && charModalStore.visible) charModalStore.close()
   if (fsState) {
-    const { container, parent, next } = fsState
+    const { container, parent, next, table } = fsState
+    // 关键：关闭全屏前，清掉表格上「滚动时」残留的内联不透明背景。
+    // 否则若关闭瞬间正处于滚动态（150ms 还原定时器尚未触发），残留内联 background
+    // 会随同一张 table 元素被移回正文，导致正文表格表头/首列变成不透明实色，
+    // 失去常态半透明样式。
+    const root = table.closest('.escah-tbl-fs-scroll')?.querySelector('table') || table
+    root.querySelectorAll(
+      'thead th, thead .escah-tbl-filter-row td, th:first-child, td:first-child'
+    ).forEach((c) => {
+      const el = c as HTMLElement
+      el.style.background = ''
+      delete el.dataset.escahBg
+    })
     if (next) parent.insertBefore(container, next)
     else parent.appendChild(container)
     fsState = null
@@ -464,8 +489,6 @@ function toggleFullscreen(table: HTMLTableElement): void {
   else openFullscreen(table)
 }
 
-// 仅当表格超出可视宽度（出现横向滚动条、信息展示不全）时显示全屏按钮；
-// 若工具栏内已无任何可见按钮，则隐藏整条工具栏。
 function syncFullBtnFor(
   _container: HTMLElement,
   wrapper: HTMLElement,
@@ -505,20 +528,145 @@ function mkBtn(label: string, title: string, onClick: (e: MouseEvent) => void): 
   return b
 }
 
-function enhanceTable(table: HTMLTableElement): void {
+// 列宽按数据最长字符为准的页面（角色一览类，属性多为短数字、表头反而更长）
+// 用「前缀匹配」而非精确集合：relativePath 解析出的 slug 可能因目录式路由/
+// 大小写等偏差（如 characters/index、Characters）而漏匹配，之前因此 shrink 完全没触发。
+const SHRINK_PREFIXES = ['characters', 'list-ssr', 'list-sr', 'list-r', 'list-npc']
+function shouldShrink(pageSlug?: string): boolean {
+  if (!pageSlug) return false
+  const slug = pageSlug.toLowerCase()
+  return SHRINK_PREFIXES.some((p) => slug === p || slug.startsWith(p + '/') || slug.startsWith(p + '-'))
+}
+
+/**
+ * 列宽按“数据区最长内容”的像素宽为准（忽略表头）：
+ * 用脱离表格布局的临时 <span> 测每格内容真实宽，取列最大值 → 写进 <col> 的 width。
+ * 表头不参与测量、在 CSS 里 break-all 强制换行，因此列宽完全由数据决定，
+ * 长中文表头（如“行动速度”）在窄数据列里自动换行。
+ *
+ * ⚠️ 列宽生效的两个前提（缺一个都会被打回内容最小宽，名称列 81px）：
+ *  1) table-layout:fixed 下「首行单元格的显式 width」优先级高于 <col>，
+ *     故必须清掉 <th> 的内联/属性 width（本函数做），且 CSS 里 shrink 表的
+ *     th/td 要 width:unset!important（撤掉通用规则的 width:auto!important）。
+ *  2) 表格不能被 min-width:100% 拉伸后均分，故内联 min-width:0 + width:auto。
+ */
+function shrinkColumnsToData(table: HTMLTableElement): void {
+  if (bodyHasSpans(table)) return
+  const rows = dataRows(table)
+  if (!rows.length) return
+  let ncols = 0
+  for (const r of rows) ncols = Math.max(ncols, r.children.length)
+  if (!ncols) return
+
+  // PukiWiki 原 HTML 会给 <th> 带内联 width:Npx。挂上 fixed 布局后，
+  // 「首行单元格的显式 width」优先级高于 <col> → 内联 width 会直接压掉我们算出的列宽。
+  // CSS 的 width:unset!important 管不了内联样式，必须在这里永久清掉（不再恢复）。
+  const headerCells = Array.from(table.querySelectorAll('thead th')) as HTMLElement[]
+  headerCells.forEach((th) => {
+    th.style.removeProperty('width')
+    th.removeAttribute('width')
+  })
+
+  const maxPx = new Array(ncols).fill(0)
+  const isImgCol = new Array(ncols).fill(false)
+  let imgWidth = 110
+
+  // 筛选行的「筛选 ▾」按钮下限：fixed 布局下单元格的 min-width 不生效（列宽只认 <col>），
+  // 所以必须让 <col> 本身 ≥ 按钮宽，否则窄数字列的筛选按钮会溢出、与相邻列重叠（标签重合）。
+  const FILTER_BTN_MIN = 76
+
+  // 测量：用「脱离表格布局」的临时 span 读取每个单元格内容的真实像素宽，
+  // 完全不受 table-layout:auto/fixed 或相邻列约束干扰（之前用 cell.scrollWidth
+  // 在 auto 布局下会被整行列宽分配虚高，导致 col 宽度远大于真实内容宽，
+  // 列虚胖、名字虽不换行却留大片空白）。span 取 display:inline-block + nowrap，
+  // 直接反映内容最小宽；padding（单元格左右各 10px）单独补偿。
+  const span = document.createElement('span')
+  span.style.cssText =
+    'position:absolute;left:-99999px;top:0;visibility:hidden;white-space:nowrap;display:inline-block;'
+  document.body.appendChild(span)
+  const CELL_PAD = 20 // 单元格 padding 左右之和（5px 10px → 10+10）
+  // 数据行（tbody）
+  for (const r of rows) {
+    for (let c = 0; c < ncols; c++) {
+      const cell = r.children[c] as HTMLElement | undefined
+      if (!cell) continue
+      const img = cell.querySelector('img')
+      if (img) {
+        isImgCol[c] = true
+        const w = parseInt(img.getAttribute('width') || '', 10)
+        if (!isNaN(w) && w > imgWidth) imgWidth = Math.min(w, 280)
+        continue
+      }
+      // 克隆单元格内部 HTML 进 span（保留 <a>/<br> 等结构），测真实内容宽
+      span.innerHTML = cell.innerHTML
+      const w = span.getBoundingClientRect().width + CELL_PAD
+      if (w > maxPx[c]) maxPx[c] = w
+    }
+  }
+  // 筛选行（thead 内 .escah-tbl-filter-row，enhanceTable 先于 shrink 创建）：
+  // 把每列筛选按钮的真实宽纳入列宽下限，保证按钮不被压窄。
+  const filterRow = table.querySelector('.escah-tbl-filter-row') as HTMLElement | null
+  if (filterRow) {
+    for (let c = 0; c < ncols; c++) {
+      const cell = filterRow.children[c] as HTMLElement | undefined
+      if (!cell) continue
+      const btn = cell.querySelector('.escah-filter-btn') as HTMLElement | null
+      if (!btn) continue
+      const w = btn.getBoundingClientRect().width + CELL_PAD
+      if (w > maxPx[c]) maxPx[c] = w
+    }
+  }
+  document.body.removeChild(span)
+
+  const colgroup = document.createElement('colgroup')
+  for (let c = 0; c < ncols; c++) {
+    const col = document.createElement('col')
+    if (isImgCol[c]) col.style.width = imgWidth + 'px'
+    else col.style.width = Math.max(FILTER_BTN_MIN, Math.round(maxPx[c]) + 2) + 'px'
+    colgroup.appendChild(col)
+  }
+  const old = table.querySelector('colgroup')
+  if (old) old.remove()
+  table.insertBefore(colgroup, table.firstChild)
+  table.classList.add('escah-tbl-shrink')
+  // 内联兜底（最高优先级，压过任何 CSS 层叠歧义）：
+  // 1) table-layout:fixed —— 列宽严格由 <col> 决定，auto 算法不再按内容撑列。
+  // 2) min-width:0 —— 取消 .table-scroll>table 的 min-width:100%，表格不被拉伸到容器宽。
+  // 3) width:0 —— ⚠️ 必须是 0，不能是 auto！通用规则是 width:max-content!important，
+  //    auto 在 fixed 下仍会退化成「按内容撑开」（实测 2336px > 各 col 之和 2037px），
+  //    多出的 299px 会被 fixed 按比例摊派回各列，导致 <col> 形同虚设
+  //    （名称列声明 217px 却渲染 81px、角色名折行）。width:0 让表格不主动撑开，
+  //    fixed 下宽度自然收敛为各 <col> 之和。
+  table.style.tableLayout = 'fixed'
+  table.style.minWidth = '0'
+  table.style.width = '0'
+}
+
+/** 测量表头高度（不含筛选行），供筛选行吸顶时偏移，避免与表头重叠 */
+function measureHeadHeight(table: HTMLTableElement): void {
+  const headerRows = headerRowsOf(table)
+  let h = 0
+  for (const r of headerRows) {
+    if (r.classList.contains('escah-tbl-filter-row')) continue
+    h += r.getBoundingClientRect().height
+  }
+  if (h > 0) table.style.setProperty('--escah-thead-h', Math.ceil(h) + 'px')
+}
+
+function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
   if (table.getAttribute('data-escah') === '1') return
   normalizeTable(table)
-  trimEmptyLeadingColumns(table)
-  removeEditColumn(table)
   getOriginalRows(table)
-  // 行数 < 20 的小表格：不提供筛选/排序/重置（交互无意义）
   const smallTable = dataRows(table).length < 20
   if (!smallTable) {
-    buildColumnFilterRow(table)
+    buildColumnFilterRow(table) // 多选筛选（含 OR 逻辑）
     makeSortable(table)
   }
   markSpecialColumns(table)
   applyImageStack(table)
+  const doShrink = shouldShrink(pageSlug)
+  if (import.meta.env.DEV) console.log('[escah-tbl] slug=', pageSlug, 'shrink=', doShrink)
+  if (doShrink) shrinkColumnsToData(table)
 
   let wrapper = table.parentElement
   if (!wrapper || !wrapper.classList.contains('table-scroll')) {
@@ -534,26 +682,30 @@ function enhanceTable(table: HTMLTableElement): void {
 
   const toolbar = document.createElement('div')
   toolbar.className = 'escah-tbl-toolbar'
+  // 全屏 + 重置 放在同一工具条（同一行）
   const btnFull = mkBtn('表格全屏', '页面内全屏查看（仅在表格超出可视宽度时出现）', () => toggleFullscreen(table))
   btnFull.classList.add('escah-tbl-full-btn')
   toolbar.appendChild(btnFull)
   if (!smallTable) {
-    const btnReset = mkBtn('表格重置', '重置排序与筛选', () => resetTable(table))
+    const btnReset = mkBtn('表格重置', '重置排序与筛选（清空多选）', () => resetTable(table))
     toolbar.appendChild(btnReset)
   }
   container.insertBefore(toolbar, wrapper)
 
-  // 仅当表格出现横向滚动条（信息展示不全）时才显示全屏按钮；无溢出则隐藏整条工具栏
   requestAnimationFrame(() => syncFullBtnFor(container, wrapper, toolbar, btnFull))
   bindFullBtnResize()
+  measureHeadHeight(table)
 
   table.setAttribute('data-escah', '1')
 }
 
-export function enhanceTables(el: HTMLElement): void {
-  el.querySelectorAll('table').forEach((t) => {
-    enhanceTable(t as HTMLTableElement)
-  })
+// 真实表格 class 是 PukiWiki 自带的 style_table（全站一致），同时兼容 escah-tbl。
+export function enhanceTables(root: HTMLElement, pageSlug?: string): void {
+  for (const tbl of Array.from(
+    root.querySelectorAll('table.style_table, table.escah-tbl')
+  )) {
+    enhanceTable(tbl as HTMLTableElement, pageSlug)
+  }
 }
 
 export function destroyTables(_el: HTMLElement): void {

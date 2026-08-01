@@ -1134,7 +1134,7 @@
         "key581",
         "key582"
       ],
-      "zh": "File not found: \"魔法少女瞳美_icon.png\" at page \"img\"[附件] 魔法少女瞳美"
+      "zh": "（图片缺失：魔法少女瞳美_icon.png） at page \"img\"[附件] 魔法少女瞳美"
     },
     "blk227": {
       "ja": "コメントはありません。 コメント/実装履歴",
@@ -3959,7 +3959,7 @@
   },
   "key581": {
     "ja": "  File not found: \"魔法少女ヒトミ_icon.png\" at page \"img\"[添付]",
-    "zh": "File not found: \"魔法少女瞳_icon.png\" at page \"img\"[附件]"
+    "zh": "（图片缺失：魔法少女瞳_icon.png） at page \"img\"[附件]"
   },
   "key582": {
     "ja": "魔法少女ヒトミ",

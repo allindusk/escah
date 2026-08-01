@@ -7,6 +7,12 @@ import { useRoute } from 'vitepress'
 const ghUrl = 'https://allindusk.github.io/escah'
 const cfUrl = 'https://escah.pages.dev'
 
+// 站点前端版本号（三位数：①大版本 ②新增功能 ③修改）。改前端后手动递增对应位并 commit+push，
+// 线上才会更新，方便核对本地/线上是否一致。
+// 铁律：每次升版本号，必须同时维护 theme/.gen-data/changelog.json（更新记录页"镜像站更新记录"区块），
+// 两者保持一致；改动前端后务必 commit+push 到 main，否则线上版本号与改动不生效。
+const SITE_VERSION = '1.2.0'
+
 const options = computed(() => {
   const list: { key: string; label: string; url: string }[] = []
   if (ghUrl) list.push({ key: 'gh', label: 'GitHub Pages', url: ghUrl })
@@ -63,6 +69,7 @@ function onChange(e: Event) {
         两个镜像内容完全一致，哪个打开快就用哪个。
       </span>
     </span>
+    <span class="site-version" :title="'站点前端版本 ' + SITE_VERSION">v{{ SITE_VERSION }}</span>
   </span>
 </template>
 
@@ -113,5 +120,22 @@ function onChange(e: Event) {
 .site-help:focus-visible .site-help-tip {
   opacity: 1;
   visibility: visible;
+}
+.site-version {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 8px;
+  margin-left: 2px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--vp-c-white, #fff);
+  background: var(--escah-grad, linear-gradient(135deg, #e91e63, #ff6f91));
+  letter-spacing: 0.3px;
+  user-select: none;
+  cursor: default;
+  white-space: nowrap;
 }
 </style>
