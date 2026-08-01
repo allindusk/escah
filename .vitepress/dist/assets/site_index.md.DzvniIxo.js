@@ -1,1 +1,0 @@
-import{v as e,o as t,c as a}from"./chunks/framework.Bmhw_dvp.js";const c=JSON.parse('{"title":"","description":"","frontmatter":{"layout":"page"},"headers":[],"relativePath":"site/index.md","filePath":"site/index.md"}'),n={name:"site/index.md"},d=Object.assign(n,{setup(o){return e(()=>{location.replace("./zh/")}),(s,i)=>(t(),a("div"))}});export{c as __pageData,d as default};
