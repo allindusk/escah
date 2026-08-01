@@ -31,6 +31,7 @@
 - **`_correct_text` 覆盖顺序**：`_NAME_RE` → `_CORR_RE`（names 全量 + high_freq `_precise` 子集，带 `_split_name_suffix` 后缀健壮化）→ `_high_freq_override` → `_term_sub_override`。
 - `_precise` 白名单在 `high_freq.yaml` 末段；其中非纯片假名条目做句中子串纠正（`_high_freq_precise_sub`，**仅节点级 zh，不对整段 html**——否则误改 `data-char` 属性致浮窗失效）。
 - ⚠️ **渲染期覆盖救不了「想破→破念」这类错译（铁律）**：`_HF_ALL_NORM` 只保留 `k!=v`，**同形词（`想破:想破`）被整体跳过**；且子串替换要求 zh 含正确或日文形态，"破念"两者都不含。→ **同形词/错译必须烘焙进 i18n JSON 源头**。
+- ⚠️ **改专名译名（如 honey 系「甜心→哈尼」）的改动盲区（铁律，2026-08-02 实战）**：只改 yaml + 烘焙 i18n 不够，渲染期 `_name_override` 会整句命中 `skills.yaml` 长键、且多处独立字段覆盖回旧译。必须同步改：①`skills.yaml` 长键 zh 里的专名子串（如「『甜心打火机』」）；②`data/parsed/characters/*.json` 的 `zh` 字段**及顶层 `name_zh` 字段**（脚本遍历易漏 name_zh）；③`site/.vitepress/theme/charRefs.json` 的「中文名→id」反向映射；④`llm_reco` 手写 `site/{zh,ja}/llm-recommend.md`。验证以 `grep 旧译 site/.vitepress/dist` 为准（含 zh/ja/char json/theme chunk）。
 - **烘焙脚本 `tools/_apply_glossary_to_i18n.py`**（ja 驱动，把 high_freq+names+skills 写进 `data/parsed/i18n/**`）：
   - 规则0（最高优先）：整条 ja 精确命中词表（含 strip/去空白容错）→ 直接设 zh，不看现值。
   - 规则1：分词对齐——ja/zh 按「CJK/字母数字段 + 分隔符段」切分，段数相等时对应段强制设词表值；段数不等则跳过（安全，绝不瞎猜）。
