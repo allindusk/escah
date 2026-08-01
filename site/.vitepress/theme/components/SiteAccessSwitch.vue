@@ -7,10 +7,12 @@ import { useRoute } from 'vitepress'
 const ghUrl = 'https://allindusk.github.io/escah'
 const cfUrl = 'https://escah.pages.dev'
 
-// 站点前端版本号（三位数：①大版本 ②新增功能 ③修改）。改前端后手动递增对应位并 commit+push，
+// 站点前端版本号（三位数：①大版本 ②新增功能 ③修改）。改前端后递增对应位并 commit+push，
 // 线上才会更新，方便核对本地/线上是否一致。
-// 铁律：每次升版本号，必须同时维护 theme/.gen-data/changelog.json（更新记录页"镜像站更新记录"区块），
+// 铁律：每次升版本号，助手（AI）必须同步维护 theme/changelog.json（更新记录页"镜像站更新记录"区块），
 // 两者保持一致；改动前端后务必 commit+push 到 main，否则线上版本号与改动不生效。
+// 注意 changelog.json 位于 theme/ 源码目录（入库），不要放回 .gen-data/（那里是 sync-site 生成的
+// page-times.json，被 gitignore，会导致 CI 构建因文件缺失而失败）。
 const SITE_VERSION = '1.2.0'
 
 const options = computed(() => {

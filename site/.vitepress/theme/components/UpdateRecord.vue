@@ -3,8 +3,8 @@ import { ref, onMounted } from 'vue'
 import { enhanceTables } from '../tableEnhancer'
 // 页面更新时间数据由 sitegen 在 sync-site 阶段生成（grouped: guide / characters）
 import pageTimes from '../.gen-data/page-times.json'
-// 镜像站版本更新记录（手工维护）
-import changelog from '../.gen-data/changelog.json'
+// 镜像站版本更新记录（由助手在每次升版本号时维护，见 theme/changelog.json）
+import changelog from '../changelog.json'
 
 interface PageTime {
   ja: string
