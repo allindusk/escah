@@ -1,6 +1,16 @@
 {
   "versions": [
     {
+      "version": "1.2.1",
+      "date": "2026-08-03",
+      "changes": [
+        "觉醒页（awakening）翻译全面修复：顶部跳转目录与正文 h2/h3 标题两套 key 全部对齐；评论区错译（A/B 发言串位）、正文段落被误填为「评论区」等 fill 平移错位已逐条还原并按日文原文重译；裸 <pre> 长串不折行导致的横向滚动条已通过 .mirror-content pre 折行消除。",
+        "觉醒页历史遗留脏 template 根治：原站 rgn-container 仅含「推荐角色」一块，此前误把「色情指挥官出现间隔/时刻表/关于操心虫/评论区」四块塞进 rgn 导致横滚，已通过 i18n build 重生成干净 template（memory 回贴保留已译内容），与日文原站结构一致。",
+        "词表 high_freq 修正：「要求」「需要」此前误配为「需求」，已还原为原词，避免正文误译。",
+        "右侧大纲（DocOutline）支持识别页内「表格目录」（bedroom-scenes 等表格前 strong 标题），并按正文 DOM 真实位置排序插入，不再简单追加末尾；新增 .escah-table-toc 样式（胶囊标签、同一水平线对齐）。"
+      ]
+    },
+    {
       "version": "1.2.0",
       "date": "2026-08-02",
       "changes": [

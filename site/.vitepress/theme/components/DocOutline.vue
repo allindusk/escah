@@ -10,6 +10,7 @@ interface HNode {
   text: string
   level: number
   children: HNode[]
+  _el?: HTMLElement // 内部用：DOM 锚点元素，用于按正文位置排序
 }
 
 const route = useRoute()
@@ -58,7 +59,7 @@ function build() {
     )
 
   // 按层级构建嵌套树
-  const result: HNode[] = []
+  let result: HNode[] = []
   const stack: HNode[] = []
   for (const h of heads) {
     const node: HNode = { id: h.id, text: h.text, level: h.level, children: [] }
@@ -68,6 +69,39 @@ function build() {
     stack.push(node)
   }
   tree.value = result
+
+  // 额外注册「页内表格目录」的锚点项（bedroom-scenes 等：表格前的 strong 标题，
+  // 不是 h2/h3/h4，故默认大纲扫不到）。这些项按**其在正文 DOM 中的真实位置**插入，
+  // 而非简单追加末尾——例如「评论表格」h2 在 8 个表格之后，应排到最后。
+  const toc = root.querySelector('.escah-table-toc')
+  if (toc) {
+    const links = Array.from(toc.querySelectorAll('a')) as HTMLAnchorElement[]
+    const extra: HNode[] = []
+    for (const a of links) {
+      const href = a.getAttribute('href') || ''
+      if (!href.startsWith('#')) continue
+      const id = href.slice(1)
+      const text = (a.textContent || '').trim()
+      if (!id || !text) continue
+      // 锚点目标元素在正文里的 DOM 位置，用于决定插入点
+      const target = document.getElementById(id)
+      extra.push({ id, text, level: 2, children: [], _el: target || undefined })
+    }
+    if (extra.length) {
+      // 按 DOM 顺序把 extra 插入到 result：找到第一个 DOM 位置晚于该项的 h2/已有项，
+      // 插到它之前；否则追加末尾。
+      const ordered = [...result, ...extra].sort((p, q) => {
+        const ep = (p as any)._el as HTMLElement | undefined
+        const eq = (q as any)._el as HTMLElement | undefined
+        if (ep && eq) return ep.compareDocumentPosition(eq) & 2 ? -1 : 1
+        if (!ep) return 1 // extra 无目标则排后
+        if (!eq) return -1
+        return 0
+      })
+      result = ordered
+      tree.value = result
+    }
+  }
 
   // 当前阅读位置高亮
   if (heads.length) {
@@ -105,12 +139,21 @@ function onClick(e: MouseEvent) {
   activeId.value = id
 }
 
-onMounted(() => nextTick(build))
+onMounted(() => {
+  nextTick(build)
+  // 表格目录（escah-table-toc）由 tableEnhancer 在 enhanceTables 时注入，可能晚于
+  // 本组件首次 build，故监听其完成事件再重建一次，确保右侧目录也包含表格标题项。
+  document.addEventListener('escah:table-toc-built', onTocBuilt)
+})
+function onTocBuilt() {
+  nextTick(build)
+}
 watch(
   () => route.path,
   () => nextTick(build),
 )
 onBeforeUnmount(() => {
+  document.removeEventListener('escah:table-toc-built', onTocBuilt)
   if (observer) observer.disconnect()
 })
 </script>

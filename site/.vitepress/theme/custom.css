@@ -87,6 +87,13 @@
 /* ========== 镜像内容：忠实 PukiWiki 排版 + 轻度美化 ========== */
 /* 横向滚动容器：宽表格（如对比表/多列属性表）超出内容区时可横滑，避免被裁切 */
 .mirror-content { font-size: 14px; line-height: 1.55; color: var(--vp-c-text-1); overflow-x: auto; }
+/* <pre> 默认 white-space:pre 不折行，长中文/英文串会撑宽触发 .mirror-content 横向滚动条。
+   改折行（仅 zh/ja 镜像内容区），保留 pre 的等宽字体与缩进视觉。全站仅觉醒页有裸 <pre>。 */
+.mirror-content pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
 /* _sanitize_html 已把每个 <table> 包进 .table-scroll，这里让容器独立横向滚动，
    避免多列表格被内容区裁切（用户反馈表格一塌糊涂/显示不全） */
 .table-scroll { overflow-x: auto; margin: 0.8em 0; border-radius: 8px; }
@@ -949,4 +956,63 @@
   color: var(--vp-c-brand-1);
   border-left-color: var(--vp-c-brand-1);
   font-weight: 600;
+}
+
+/* ========== 页内表格目录（bedroom-scenes 等：标题已在表格前，仅注入跳转目录） ========== */
+.escah-table-toc {
+  margin: 0 0 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.escah-table-toc-title {
+  margin: 0 0 8px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--vp-c-text-1);
+}
+.escah-table-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center; /* 同行各项中线对齐，保证同一水平线 */
+  gap: 8px;
+}
+/* 每个 li 自身也是 flex 容器并把内容垂直居中：双保险，所有标签严格等高水平线。
+   注意：VitePress 的 .vp-doc li+li 特异性为 (0,1,2)，会胜过 .escah-table-toc li (0,1,1)，
+   导致自第二个 li 起被加 margin-top:8px（阶梯下移、水平线不齐）。这里用更高特异性 +
+   !important 强制清零，确保全部标签零外边距、同一水平线。 */
+.escah-table-toc ul li {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.5 !important;
+}
+/* 所有标题用完全一致的基础样式：固定行高、内边距、box-sizing，不依赖内容（全角括号等） */
+.escah-table-toc a {
+  display: block;
+  box-sizing: border-box;
+  line-height: 1.5;
+  white-space: nowrap; /* 单项标题不长，禁止换行导致高度不一致 */
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  border-radius: 14px;
+  background: var(--vp-c-default-soft);
+  border: 1px solid var(--vp-c-divider);
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.escah-table-toc a:hover {
+  color: var(--vp-c-text-1);
+  border-color: var(--vp-c-brand-1);
 }

@@ -155,35 +155,77 @@ function sortByColumn(table: HTMLTableElement, col: number, dir: number): void {
   applyColumnFilters(table)
 }
 
+// 预存在表格上的缓存：数据行元素数组 + 每行每列（小写、trim）文本，
+// 供 applyColumnFilters 纯内存判断，避免反复 querySelectorAll + 读 textContent 触发强制布局。
+type TblCache = HTMLTableElement & {
+  _escahRows?: HTMLTableRowElement[]
+  _escahRowText?: string[][]
+}
+
 function applyColumnFilters(table: HTMLTableElement): void {
   const filterRow = filterRowOf(table)
   if (!filterRow) return
+  const cache = table as TblCache
+  const dataRowEls = cache._escahRows || (dataRows(table) as HTMLTableRowElement[])
+  const rowTexts = cache._escahRowText
   const cells = Array.from(filterRow.children) as HTMLElement[]
-  // 收集每列已勾选的多选值（OR 逻辑：列内多选值之间取“或”，列之间取“与”）
-  const active: { idx: number; vals: string[] }[] = []
+  // 收集每列激活的筛选条件：
+  //  - 多选枚举列（checkbox）：列内取“或”，值用「精确相等」匹配——
+  //    否则稀有度 SSR/SR/R 互为子串（"ssr".includes("r") 为真）会互相误匹配。
+  //  - 自由文本列（input.escah-col-filter）：值用「子串包含」匹配。
+  //  多列之间取“与”：所有列的条件同时满足才显示。
+  type FilterCond = { idx: number; mode: 'exact' | 'substr'; vals: string[] }
+  const active: FilterCond[] = []
   cells.forEach((cell, idx) => {
     if (cell.classList.contains('escah-col-filter-none')) return
     const checked = Array.from(
       cell.querySelectorAll('input[type="checkbox"]:checked')
     ) as HTMLInputElement[]
-    const vals = checked.map((c) => (c.value || '').trim().toLowerCase()).filter(Boolean)
-    if (vals.length) active.push({ idx, vals })
+    const cvals = checked
+      .map((c) => (c.value || '').trim().toLowerCase())
+      .filter(Boolean)
+    if (cvals.length) {
+      active.push({ idx, mode: 'exact', vals: cvals })
+      return
+    }
+    const inp = cell.querySelector('input.escah-col-filter') as HTMLInputElement | null
+    if (inp && inp.value.trim()) {
+      active.push({ idx, mode: 'substr', vals: [inp.value.trim().toLowerCase()] })
+    }
   })
+  // 切换大量行的 display 前先隐藏整表，抑制逐行中间重绘；下一帧一次性恢复，
+  // 浏览器只做一次完整布局/绘制，避免取消筛选（数百行宽表恢复）时的多次重绘卡顿。
+  const restoring = active.length === 0 || dataRowEls.some((r) => r.style.display === 'none')
+  if (restoring) table.style.visibility = 'hidden'
+  const finish = () => {
+    requestAnimationFrame(() => {
+      table.style.visibility = ''
+    })
+  }
   if (!active.length) {
-    dataRows(table).forEach((r) => (r.style.display = ''))
+    dataRowEls.forEach((r) => (r.style.display = ''))
+    finish()
     return
   }
-  for (const r of dataRows(table)) {
+  dataRowEls.forEach((r, ri) => {
     let show = true
     for (const f of active) {
-      const cell = r.children[f.idx] as HTMLElement | undefined
-      const txt = (cell?.textContent || '').trim().toLowerCase()
-      // 列内多选：任一勾选值被包含即命中（OR）
-      if (!f.vals.some((v) => txt.includes(v))) show = false
+      const txt =
+        rowTexts && rowTexts[ri]
+          ? (rowTexts[ri][f.idx] ?? '')
+          : ((r.children[f.idx]?.textContent || '').trim().toLowerCase())
+      if (f.mode === 'exact') {
+        // 枚举列：该列值必须精确等于某个勾选项
+        if (!f.vals.includes(txt)) show = false
+      } else {
+        // 自由文本列：该列值包含关键字即命中
+        if (!f.vals.some((v) => txt.includes(v))) show = false
+      }
       if (!show) break
     }
     r.style.display = show ? '' : 'none'
-  }
+  })
+  finish()
 }
 
 function resetTable(table: HTMLTableElement): void {
@@ -218,6 +260,18 @@ function buildColumnFilterRow(table: HTMLTableElement): void {
   const { totalCols } = headerGrid(headerRows)
   const rows = dataRows(table)
   if (!rows.length || !totalCols) return
+  // 预存每行每列的小写 trim 文本 + 数据行数组，供 applyColumnFilters 纯内存判定，
+  // 避免勾选/取消时反复 querySelectorAll 与读 textContent（后者易触发强制布局）。
+  const rowTexts: string[][] = rows.map((r) => {
+    const arr: string[] = []
+    for (let c = 0; c < totalCols; c++) {
+      const dc = r.children[c] as HTMLElement | undefined
+      arr.push(((dc?.textContent || '').trim().toLowerCase()))
+    }
+    return arr
+  })
+  ;(table as TblCache)._escahRows = rows as HTMLTableRowElement[]
+  ;(table as TblCache)._escahRowText = rowTexts
   const filterRow = document.createElement('tr')
   filterRow.className = 'escah-tbl-filter-row'
   let hasAnyFilter = false
@@ -727,6 +781,78 @@ export function enhanceTables(root: HTMLElement, pageSlug?: string): void {
   )) {
     enhanceTable(tbl as HTMLTableElement, pageSlug)
   }
+  // bedroom-scenes 等「每个表格前已有 strong 标题」的页面：在正文开头插入一个
+  // 表格目录（列出各表标题并锚点跳转）。标题文字直接取表格前已有的 strong，不重复添加。
+  if (pageSlug === 'bedroom-scenes') buildTableToc(root)
+}
+
+/**
+ * 页内表格目录：扫描页面内各表格前已有的 strong 标题（如「SSR角色（常驻）」），
+ * 给每张表格容器打锚点 id，并在正文开头注入一个 <nav> 目录，点击平滑跳转。
+ * 仅用于「标题已经在表格前面」的页面（bedroom-scenes），不额外新增标题。
+ */
+function buildTableToc(root: HTMLElement): void {
+  const scrolls = Array.from(
+    root.querySelectorAll('.table-scroll')
+  ) as HTMLElement[]
+  if (scrolls.length < 2) return // 单表页没必要做目录
+
+  // 沿 previousElementSibling 链（含逐级父级的兄弟）找第一个含非空 strong 的块
+  function titleBefore(scroll: HTMLElement): HTMLElement | null {
+    let sib = scroll.previousElementSibling as HTMLElement | null
+    while (sib) {
+      const st = sib.querySelector('strong')
+      if (st && st.textContent && st.textContent.trim()) return st
+      sib = sib.previousElementSibling as HTMLElement | null
+    }
+    let p = scroll.parentElement
+    while (p) {
+      sib = p.previousElementSibling as HTMLElement | null
+      while (sib) {
+        const st = sib.querySelector('strong')
+        if (st && st.textContent && st.textContent.trim()) return st
+        sib = sib.previousElementSibling as HTMLElement | null
+      }
+      p = p.parentElement
+    }
+    return null
+  }
+
+  const items: { id: string; text: string }[] = []
+  scrolls.forEach((scroll, i) => {
+    const st = titleBefore(scroll)
+    const text = st ? st.textContent!.trim() : `表格 ${i + 1}`
+    const id = `escah-tbl-toc-${i + 1}`
+    scroll.id = id
+    items.push({ id, text })
+  })
+
+  if (items.length === 0) return
+  // 避免重复注入（enhanceTables 可能被多次调用）
+  const existing = root.querySelector('.escah-table-toc')
+  if (existing) existing.remove()
+
+  const nav = document.createElement('nav')
+  nav.className = 'escah-table-toc'
+  const title = document.createElement('p')
+  title.className = 'escah-table-toc-title'
+  title.textContent = '表格目录'
+  nav.appendChild(title)
+  const ul = document.createElement('ul')
+  for (const it of items) {
+    const li = document.createElement('li')
+    const a = document.createElement('a')
+    a.href = '#' + it.id
+    a.textContent = it.text
+    li.appendChild(a)
+    ul.appendChild(li)
+  }
+  nav.appendChild(ul)
+  // 插入到正文内容的最前面（mirror-content 首个子节点之前）
+  root.insertBefore(nav, root.firstChild)
+  // 通知右侧 DocOutline 重建大纲（收集本目录的锚点项）。DocOutline 在挂载时
+  // 可能早于本函数执行，故用事件解耦，确保表格目录也出现在右侧目录导航里。
+  document.dispatchEvent(new Event('escah:table-toc-built'))
 }
 
 export function destroyTables(_el: HTMLElement): void {
