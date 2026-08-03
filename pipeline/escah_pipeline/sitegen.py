@@ -38,6 +38,71 @@ CATEGORY_LABELS = {
     "character-detail": {"ja": "キャラクター詳細", "zh": "角色详情"},
 }
 CATEGORY_ORDER = ["guide", "character", "system", "equipment", "quest", "misc"]
+
+# ---- 侧边栏显式结构（slug 驱动；顺序即展示顺序）----
+# 顶层组 cat 对应 CATEGORY_LABELS；中间节点 slug 既是页也是容器（展开看子项）；
+# _SB_DIV 为视觉分隔符。zh 站点部分页需改名（去活动编号 / 加 VIP 说明），见 _SB_OVERRIDE_ZH。
+_SB_DIV = "__SB_DIV__"
+_SB_OVERRIDE_ZH = {
+    "wide-battle": "广域战",
+    "annihilation": "歼灭战",
+    "shop": "商店（VIP等级）",
+}
+SIDEBAR_TREE = [
+    {"cat": "character", "items": [
+        {"slug": "characters", "items": [
+            {"slug": "rarity-links", "combined": ["list-ssr", "list-sr", "list-r"], "sep": " | "},
+        ]},
+        {"slug": "list-supporter"},
+        {"slug": "list-npc"},
+        _SB_DIV,
+        {"slug": "skills"},
+        {"slug": "unique-effects"},
+        {"slug": "special-attributes"},
+        _SB_DIV,
+        {"slug": "bedroom-scenes"},
+        {"slug": "artists"},
+        {"slug": "voice-actors"},
+        {"slug": "release-history"},
+    ]},
+    {"cat": "guide", "flat": True, "collapsed": True},
+    {"cat": "system", "collapsed": True, "items": [
+        {"slug": "battle", "items": [
+            {"slug": "raid", "items": [
+                {"slug": "raid-recommended"},
+                {"slug": "raid-buff-debuff"},
+                {"slug": "raid-formations"},
+            ]},
+        {"slug": "b-universe"},
+        {"slug": "wide-battle", "items": [{"slug": "map-list"}]},
+        {"slug": "annihilation"},
+        ]},
+        _SB_DIV,
+        {"slug": "limit-break"},
+        {"slug": "awakening"},
+        {"slug": "level-cap"},
+        _SB_DIV,
+        {"slug": "treasure-box"},
+        {"slug": "exchange"},
+        {"slug": "character-exchange"},
+        {"slug": "collection"},
+        _SB_DIV,
+        {"slug": "shop"},
+    ]},
+    {"cat": "equipment", "collapsed": True, "items": [
+        {"slug": "equipment", "items": [{"slug": "super-equipment"}]},
+        {"slug": "items", "items": [{"slug": "item-value-guide"}]},
+    ]},
+    {"cat": "quest", "collapsed": True, "items": [
+        {"slug": "main-story", "items": [{"slug": "scenario-order"}]},
+        {"slug": "main-quest"},
+        {"slug": "daily-quest"},
+        {"slug": "missions"},
+        _SB_DIV,
+        {"slug": "events"},
+    ]},
+    {"cat": "misc", "flat": True, "collapsed": True},
+]
 _MTIME_RE = re.compile(r"Last-modified:\s*([0-9]{4}-[0-9]{2}-[0-9]{2}[^<\n]*)")
 
 MD_TEMPLATE = """---
@@ -130,12 +195,13 @@ def _sanitize_html(html: str) -> str:
 
 
 def _strip_nav_links(frag) -> None:
-    """删除 wiki 的导航/工具超链接，保留其内部结构（角色头像/纯文本）。
+    """删除 wiki 的导航/工具超链接，保留交叉引用链接与内部结构。
 
     - jumpmenu：回到顶部导航箭头
     - anchor_super：章节编辑锚点（† / 铅笔）
-    - internal-link：去掉 <a> 外衣、保留内部内容（避免整站死链，角色卡头像与
-      交叉引用文本得以保留；悬停浮窗仍由头像/角色名触发）
+    - internal-link：**保留**（站内交叉引用，如「参考リンク：寝室シーンの開き方」
+      指向 faq）。全站扫描确认所有 internal-link 目标均在 registry 内（无死链），
+      直接保留 <a> + href + title 即可恢复正文引用超链接；文本仍由 i18n 翻译。
     """
     for el in frag.xpath(".//div[contains(concat(' ', normalize-space(@class), ' '), ' jumpmenu ')]"):
         el.drop_tree()
@@ -152,32 +218,6 @@ def _strip_nav_links(frag) -> None:
             span = etree.Element("span", attrib={"id": aid})
             parent.insert(parent.index(el), span)
         el.drop_tree()
-    for a in frag.xpath(".//a[contains(concat(' ', normalize-space(@class), ' '), ' internal-link ')]"):
-        # 拆解保留内部内容：去掉跳转链接，但保留其中的文字/图片。
-        # 纯文本保存在 a.text、尾文本在 a.tail（均非「元素子节点」），必须把二者
-        # 一并提升到父节点，否则纯文本链接（如表格/列表里的角色名、分类页 ・ 列表）
-        # 文字会被整体删除 → 表现为表格角色名列空白、分类页只剩小黑点。
-        parent = a.getparent()
-        if parent is None:
-            a.drop_tree()
-            continue
-        prev = a.getprevious()
-        if a.text:
-            if prev is not None:
-                prev.tail = (prev.tail or "") + a.text
-            else:
-                parent.text = (parent.text or "") + a.text
-        for child in list(a):
-            parent.insert(parent.index(a), child)
-        last = a.getprevious()
-        if a.tail:
-            if last is not None:
-                last.tail = (last.tail or "") + a.tail
-            elif prev is not None:
-                prev.tail = (prev.tail or "") + a.tail
-            else:
-                parent.text = (parent.text or "") + a.tail
-        parent.remove(a)
 
 
 def _relink_toc(frag) -> None:
@@ -587,70 +627,103 @@ def _page_times_data(entries: list[dict], manifest: "Manifest") -> dict:
     }
 
 
+def _sb_combined_node(node, locale: str, slug_index: dict, explicit: set) -> dict | None:
+    """合并多个列表页为一个侧边栏文本节点，内含多个链接：例如 "SSR | SR | R"。"""
+    parts = []
+    for s in node["combined"]:
+        e = slug_index.get(s)
+        if e is None:
+            return None
+        explicit.add(s)
+        label = (_SB_OVERRIDE_ZH[s] if locale == "zh" and s in _SB_OVERRIDE_ZH
+                 else _page_title_ja2zh(e["name"], locale))
+        parts.append(f'<a href="/{locale}/{s}.html">{label}</a>')
+    return {
+        "text": node.get("sep", " | ").join(parts),
+        "collapsible": False,
+    }
+
+
+def _sb_node(node, locale: str, slug_index: dict, explicit: set) -> dict | None:
+    """把 SIDEBAR_TREE 的一个节点递归展开成 VitePress sidebar item。"""
+    if node == _SB_DIV:
+        # 视觉分隔符：VitePress 会丢弃「纯 hash 链接」(#xxx) 的 sidebar item（客户端渲染
+        # 时直接跳过），所以这里用「一个真实存在页面 + #__SB_DIV__ 锚点」作为 link，
+        # 确保渲染出 <a href="...#__SB_DIV__">。custom.css 隐藏文字、用 border-top 画实线。
+        return {"text": "—", "link": f"/{locale}/characters.html#__SB_DIV__"}
+    if isinstance(node, dict) and node.get("combined"):
+        return _sb_combined_node(node, locale, slug_index, explicit)
+    slug = node["slug"]
+    explicit.add(slug)
+    e = slug_index.get(slug)
+    if e is None:
+        return None
+    text = (_SB_OVERRIDE_ZH[slug] if locale == "zh" and slug in _SB_OVERRIDE_ZH
+            else _page_title_ja2zh(e["name"], locale))
+    item = {"text": text, "link": f"/{locale}/{slug}.html"}
+    kids = node.get("items")
+    if kids:
+        sub = []
+        for k in kids:
+            n = _sb_node(k, locale, slug_index, explicit)
+            if n is not None:
+                sub.append(n)
+        # 中间节点不折叠（用户要求全部展开，不要可折叠/展开）。
+        item["items"] = sub
+    return item
+
+
 def _write_sidebars(entries: list[dict]) -> None:
     gen_dir = config.SITE_DIR / ".vitepress" / "generated"
     gen_dir.mkdir(parents=True, exist_ok=True)
+    # slug -> entry 索引（跳过角色详情页，不进侧边栏）
+    slug_index: dict[str, dict] = {}
+    for e in entries:
+        if e.get("category") == "character-detail":
+            continue
+        slug_index[e["slug"]] = e
     for locale in ("ja", "zh"):
-        sections: dict[str, list[dict]] = {}
-        for e in entries:
-            cat = e.get("category", "misc")
-            if cat == "character-detail":
-                continue
-            route_slug = e["slug"]
-            sections.setdefault(cat, []).append({
-                "text": _page_title_ja2zh(e["name"], locale),
-                "link": f"/{locale}/{route_slug}.html",
-            })
-        # キャラクター一覧分组：wiki「キャラクター一覧」页（/characters，含 369 角色列表）为父节点，
-        # SSR/SR/R 作为其子节点（树状）；其余角色相关页（必杀技一覧/原画別索引…）并列。
-        char_pages = sections.get("character", [])
-        # 注意：链接统一带 .html 后缀（cleanUrls:false），判断须匹配 .html，
-        # 否则 wiki_char/rarity 全部落空 → 生成空「角色一览」父节点 + 所有页平铺（重复项）。
-        wiki_char = next(
-            (it for it in char_pages if it["link"].endswith(("/characters", "/characters.html"))),
-            None,
-        )
-        _RARITY_SUF = ("/list-ssr", "/list-sr", "/list-r",
-                       "/list-ssr.html", "/list-sr.html", "/list-r.html")
-        rarity = [it for it in char_pages if it["link"].endswith(_RARITY_SUF)]
-        others = [it for it in char_pages if it is not wiki_char and it not in rarity]
-        char_items: list[dict] = []
-        if wiki_char is not None:
-            wiki_char = dict(wiki_char)
-            wiki_char["text"] = _page_title_ja2zh(wiki_char["text"], locale)
-            wiki_char["collapsed"] = False
-            wiki_char["items"] = rarity
-            char_items.append(wiki_char)
-        else:
-            char_items.append({
-                "text": "キャラクター一覧" if locale == "ja" else "角色一览",
-                "collapsed": False,
-                "items": rarity,
-            })
-        char_items.extend(others)
-        sidebar = [
-            {"text": "キャラクター" if locale == "ja" else "角色", "collapsed": False, "items": char_items}
-        ]
-        for key in CATEGORY_ORDER:
-            # character 已并入「キャラクター一覧」；misc 并入下方「その他」，避免重复分组
-            if key in ("character", "misc"):
-                continue
-            if key in sections:
-                sidebar.append({
-                    "text": CATEGORY_LABELS[key][locale],
-                    "collapsed": True,
-                    "items": sections[key],
+        sidebar: list[dict] = []
+        explicit: set[str] = set()
+        for grp in SIDEBAR_TREE:
+            cat = grp["cat"]
+            label = CATEGORY_LABELS[cat][locale]
+            if grp.get("flat"):
+                # 游戏指南 / 其他：保持 registry 原顺序平铺
+                items = [{
+                    "text": _page_title_ja2zh(e["name"], locale),
+                    "link": f"/{locale}/{e['slug']}.html",
+                } for e in entries
+                    if e.get("category") == cat and e.get("category") != "character-detail"]
+            else:
+                items = []
+                for node in grp["items"]:
+                    if isinstance(node, dict) and node.get("combined"):
+                        n = _sb_combined_node(node, locale, slug_index, explicit)
+                        if n is not None:
+                            items.append(n)
+                        continue
+                    n = _sb_node(node, locale, slug_index, explicit)
+                    if n is not None:
+                        items.append(n)
+                # fallback：该分类下未显式列出的页面（含未来新增）追加到组末尾
+                for s, e in slug_index.items():
+                    if e.get("category") == cat and s not in explicit:
+                        items.append({
+                            "text": _page_title_ja2zh(e["name"], locale),
+                            "link": f"/{locale}/{s}.html",
+                        })
+            if cat == "misc":
+                # 站点栏目：更新记录（非 registry 条目）
+                items.append({
+                    "text": "更新履歴" if locale == "ja" else "更新记录",
+                    "link": f"/{locale}/updates.html",
                 })
-        # その他：分类为 misc 的页面 + 站点栏目（全ページ一覧/更新履歴），合并去重
-        misc_items = list(sections.get("misc", []))
-        misc_items.append(
-            {"text": "更新履歴" if locale == "ja" else "更新记录", "link": f"/{locale}/updates.html"}
-        )
-        sidebar.append({
-            "text": CATEGORY_LABELS["misc"][locale],
-            "collapsed": True,
-            "items": misc_items,
-        })
+            sidebar.append({
+                "text": label,
+                "collapsed": bool(grp.get("collapsed", False)),
+                "items": items,
+            })
         (gen_dir / f"sidebar.{locale}.json").write_text(
             json.dumps(sidebar, ensure_ascii=False, indent=1), encoding="utf-8"
         )

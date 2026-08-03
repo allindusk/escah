@@ -177,6 +177,30 @@ function onOut() {
   if (store.mode === 'hover') store.scheduleHide()
 }
 
+// PukiWiki region 折叠块：默认折叠（rgn-content 内联 display:none），
+// 点击左侧 rgn-button 在展开/折叠间切换，并切换 plus/minus 图标显隐。
+// 原站靠 tglRgn(this) 内联脚本，但流水线 _sanitize_html 已剔除 on* 属性，
+// 故改用事件委托在客户端复刻该交互。全站页面（含未来新增）统一生效。
+function toggleRgn(btn: HTMLElement) {
+  const container = btn.closest('.rgn-container') as HTMLElement | null
+  if (!container) return
+  const expanded = container.classList.toggle('expanded')
+  const content = container.querySelector('.rgn-content') as HTMLElement | null
+  const plus = container.querySelector('.plus-icon') as HTMLElement | null
+  const minus = container.querySelector('.minus-icon') as HTMLElement | null
+  if (content) content.style.display = expanded ? 'block' : 'none'
+  if (plus) plus.style.display = expanded ? 'none' : 'block'
+  if (minus) minus.style.display = expanded ? 'block' : 'none'
+}
+
+function onRgnClick(e: MouseEvent) {
+  const btn = (e.target as HTMLElement).closest('.rgn-button') as HTMLElement | null
+  if (!btn) return
+  e.preventDefault()
+  e.stopPropagation()
+  toggleRgn(btn)
+}
+
 function onClick(e: MouseEvent) {
   const name = findChar(e.target)
   if (name) {
@@ -222,6 +246,7 @@ onMounted(() => {
   // 挂 root 会让全屏表格里的角色头像/名字无法触发悬停预览与点击固定。
   document.addEventListener('mouseover', onOver)
   document.addEventListener('mousemove', onMove)
+  document.addEventListener('click', onRgnClick)
   document.addEventListener('click', onClick)
   document.addEventListener('click', onAnchorClick)
   // 离开正文内容区（mouseleave 在 document 上不可靠）：仅在 root 上收起 hover 预览
@@ -230,6 +255,7 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('mouseover', onOver)
   document.removeEventListener('mousemove', onMove)
+  document.removeEventListener('click', onRgnClick)
   document.removeEventListener('click', onClick)
   document.removeEventListener('click', onAnchorClick)
   const el = root.value

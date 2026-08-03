@@ -71,36 +71,29 @@ function build() {
   tree.value = result
 
   // 额外注册「页内表格目录」的锚点项（bedroom-scenes 等：表格前的 strong 标题，
-  // 不是 h2/h3/h4，故默认大纲扫不到）。这些项按**其在正文 DOM 中的真实位置**插入，
-  // 而非简单追加末尾——例如「评论表格」h2 在 8 个表格之后，应排到最后。
+  // 不是 h2/h3/h4，故默认大纲扫不到）。这些项作为**上一个 level-2 标题的子节点**挂入，
+  // 形成「寝室列表 ▸ 各表格」的嵌套；而后续的「评论表格」等 h2 仍保持顶级、与之同级。
   const toc = root.querySelector('.escah-table-toc')
   if (toc) {
     const links = Array.from(toc.querySelectorAll('a')) as HTMLAnchorElement[]
-    const extra: HNode[] = []
+    const existing = new Set(result.map((n) => n.text))
+    // 父级固定为「第一个 level-2 标题」（bedroom-scenes 中即「寝室列表」），
+    // 把表格锚点项挂到其下；后续的「评论表格」等 level-2 保持顶级、与之同级。
+    const parent = result.find((n) => n.level === 2) || null
     for (const a of links) {
       const href = a.getAttribute('href') || ''
       if (!href.startsWith('#')) continue
       const id = href.slice(1)
       const text = (a.textContent || '').trim()
       if (!id || !text) continue
-      // 锚点目标元素在正文里的 DOM 位置，用于决定插入点
+      // 若该项标题已在 h2/h3 大纲中（如「寝室列表」既是 h2 也是 toc 首项），则跳过避免重复
+      if (existing.has(text)) continue
       const target = document.getElementById(id)
-      extra.push({ id, text, level: 2, children: [], _el: target || undefined })
+      const node: HNode = { id, text, level: 3, children: [], _el: target || undefined }
+      if (parent) parent.children.push(node)
+      else result.push(node)
     }
-    if (extra.length) {
-      // 按 DOM 顺序把 extra 插入到 result：找到第一个 DOM 位置晚于该项的 h2/已有项，
-      // 插到它之前；否则追加末尾。
-      const ordered = [...result, ...extra].sort((p, q) => {
-        const ep = (p as any)._el as HTMLElement | undefined
-        const eq = (q as any)._el as HTMLElement | undefined
-        if (ep && eq) return ep.compareDocumentPosition(eq) & 2 ? -1 : 1
-        if (!ep) return 1 // extra 无目标则排后
-        if (!eq) return -1
-        return 0
-      })
-      result = ordered
-      tree.value = result
-    }
+    tree.value = result
   }
 
   // 当前阅读位置高亮

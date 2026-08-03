@@ -49,9 +49,14 @@ tools/_manual_zh.json
 tools/*.log
 tools/*.err
 tools/_*.txt
+tools/_tmp_*.py
 # 后台任务护栏：锁文件与运行日志（由 tools/_bg.py 与 tools/_rebuild.bat 生成，不入库）
 tools/_bg.lock
 tools/_rebuild.lock
 tools/_logs/
 tools/_rebuild.log
 .playwright-cli/
+
+# 本地预览/构建临时日志（由 node build.mjs preview/build 生成，不入库）
+site/_build*.log
+site/_preview*.log

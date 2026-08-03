@@ -6,21 +6,24 @@
    {
     "text": "キャラクター一覧",
     "link": "/ja/characters.html",
-    "collapsed": false,
     "items": [
      {
-      "text": "SSR",
-      "link": "/ja/list-ssr.html"
-     },
-     {
-      "text": "SR",
-      "link": "/ja/list-sr.html"
-     },
-     {
-      "text": "R",
-      "link": "/ja/list-r.html"
+      "text": "<a href=\"/ja/list-ssr.html\">SSR</a> | <a href=\"/ja/list-sr.html\">SR</a> | <a href=\"/ja/list-r.html\">R</a>",
+      "collapsible": false
      }
     ]
+   },
+   {
+    "text": "サポーター",
+    "link": "/ja/list-supporter.html"
+   },
+   {
+    "text": "NPC",
+    "link": "/ja/list-npc.html"
+   },
+   {
+    "text": "—",
+    "link": "/ja/characters.html#__SB_DIV__"
    },
    {
     "text": "必殺技一覧",
@@ -35,6 +38,14 @@
     "link": "/ja/special-attributes.html"
    },
    {
+    "text": "—",
+    "link": "/ja/characters.html#__SB_DIV__"
+   },
+   {
+    "text": "寝室シーン一覧",
+    "link": "/ja/bedroom-scenes.html"
+   },
+   {
     "text": "原画別索引",
     "link": "/ja/artists.html"
    },
@@ -45,18 +56,6 @@
    {
     "text": "実装履歴",
     "link": "/ja/release-history.html"
-   },
-   {
-    "text": "サポーター",
-    "link": "/ja/list-supporter.html"
-   },
-   {
-    "text": "NPC",
-    "link": "/ja/list-npc.html"
-   },
-   {
-    "text": "寝室シーン一覧",
-    "link": "/ja/bedroom-scenes.html"
    }
   ]
  },
@@ -88,39 +87,49 @@
   "items": [
    {
     "text": "戦闘",
-    "link": "/ja/battle.html"
+    "link": "/ja/battle.html",
+    "items": [
+     {
+      "text": "レイド",
+      "link": "/ja/raid.html",
+      "items": [
+       {
+        "text": "レイドおすすめキャラ",
+        "link": "/ja/raid-recommended.html"
+       },
+       {
+        "text": "バフ・デバフ能力キャラ　一覧まとめ",
+        "link": "/ja/raid-buff-debuff.html"
+       },
+       {
+        "text": "レイド用編成例",
+        "link": "/ja/raid-formations.html"
+       }
+      ]
+     },
+     {
+      "text": "Bユニバース",
+      "link": "/ja/b-universe.html"
+     },
+     {
+      "text": "イベント50_広域戦",
+      "link": "/ja/wide-battle.html",
+      "items": [
+       {
+        "text": "広域戦マップ/マップリスト",
+        "link": "/ja/map-list.html"
+       }
+      ]
+     },
+     {
+      "text": "イベント86_殲滅戦",
+      "link": "/ja/annihilation.html"
+     }
+    ]
    },
    {
-    "text": "レイド",
-    "link": "/ja/raid.html"
-   },
-   {
-    "text": "レイドおすすめキャラ",
-    "link": "/ja/raid-recommended.html"
-   },
-   {
-    "text": "バフ・デバフ能力キャラ　一覧まとめ",
-    "link": "/ja/raid-buff-debuff.html"
-   },
-   {
-    "text": "レイド用編成例",
-    "link": "/ja/raid-formations.html"
-   },
-   {
-    "text": "Bユニバース",
-    "link": "/ja/b-universe.html"
-   },
-   {
-    "text": "イベント50_広域戦",
-    "link": "/ja/wide-battle.html"
-   },
-   {
-    "text": "広域戦マップ/マップリスト",
-    "link": "/ja/map-list.html"
-   },
-   {
-    "text": "イベント86_殲滅戦",
-    "link": "/ja/annihilation.html"
+    "text": "—",
+    "link": "/ja/characters.html#__SB_DIV__"
    },
    {
     "text": "限界突破",
@@ -133,6 +142,10 @@
    {
     "text": "レベル上限UP",
     "link": "/ja/level-cap.html"
+   },
+   {
+    "text": "—",
+    "link": "/ja/characters.html#__SB_DIV__"
    },
    {
     "text": "宝箱",
@@ -151,6 +164,10 @@
     "link": "/ja/collection.html"
    },
    {
+    "text": "—",
+    "link": "/ja/characters.html#__SB_DIV__"
+   },
+   {
     "text": "ショップ",
     "link": "/ja/shop.html"
    }
@@ -162,19 +179,23 @@
   "items": [
    {
     "text": "装備一覧",
-    "link": "/ja/equipment.html"
-   },
-   {
-    "text": "超昂装備",
-    "link": "/ja/super-equipment.html"
+    "link": "/ja/equipment.html",
+    "items": [
+     {
+      "text": "超昂装備",
+      "link": "/ja/super-equipment.html"
+     }
+    ]
    },
    {
     "text": "アイテム一覧",
-    "link": "/ja/items.html"
-   },
-   {
-    "text": "SandBox/アイテム価値早見表",
-    "link": "/ja/item-value-guide.html"
+    "link": "/ja/items.html",
+    "items": [
+     {
+      "text": "SandBox/アイテム価値早見表",
+      "link": "/ja/item-value-guide.html"
+     }
+    ]
    }
   ]
  },
@@ -184,11 +205,13 @@
   "items": [
    {
     "text": "メインストーリー",
-    "link": "/ja/main-story.html"
-   },
-   {
-    "text": "テーブル/全ストーリー実装順",
-    "link": "/ja/scenario-order.html"
+    "link": "/ja/main-story.html",
+    "items": [
+     {
+      "text": "テーブル/全ストーリー実装順",
+      "link": "/ja/scenario-order.html"
+     }
+    ]
    },
    {
     "text": "メインクエスト",
@@ -201,6 +224,10 @@
    {
     "text": "ミッション一覧",
     "link": "/ja/missions.html"
+   },
+   {
+    "text": "—",
+    "link": "/ja/characters.html#__SB_DIV__"
    },
    {
     "text": "イベント一覧",

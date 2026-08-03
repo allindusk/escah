@@ -6,21 +6,24 @@
    {
     "text": "角色一览",
     "link": "/zh/characters.html",
-    "collapsed": false,
     "items": [
      {
-      "text": "SSR",
-      "link": "/zh/list-ssr.html"
-     },
-     {
-      "text": "SR",
-      "link": "/zh/list-sr.html"
-     },
-     {
-      "text": "R",
-      "link": "/zh/list-r.html"
+      "text": "<a href=\"/zh/list-ssr.html\">SSR</a> | <a href=\"/zh/list-sr.html\">SR</a> | <a href=\"/zh/list-r.html\">R</a>",
+      "collapsible": false
      }
     ]
+   },
+   {
+    "text": "支援者",
+    "link": "/zh/list-supporter.html"
+   },
+   {
+    "text": "NPC",
+    "link": "/zh/list-npc.html"
+   },
+   {
+    "text": "—",
+    "link": "/zh/characters.html#__SB_DIV__"
    },
    {
     "text": "必杀技一览",
@@ -35,6 +38,14 @@
     "link": "/zh/special-attributes.html"
    },
    {
+    "text": "—",
+    "link": "/zh/characters.html#__SB_DIV__"
+   },
+   {
+    "text": "寝室场景一览",
+    "link": "/zh/bedroom-scenes.html"
+   },
+   {
     "text": "原画索引",
     "link": "/zh/artists.html"
    },
@@ -45,18 +56,6 @@
    {
     "text": "实装历史",
     "link": "/zh/release-history.html"
-   },
-   {
-    "text": "支援者",
-    "link": "/zh/list-supporter.html"
-   },
-   {
-    "text": "NPC",
-    "link": "/zh/list-npc.html"
-   },
-   {
-    "text": "寝室场景一览",
-    "link": "/zh/bedroom-scenes.html"
    }
   ]
  },
@@ -88,39 +87,49 @@
   "items": [
    {
     "text": "战斗",
-    "link": "/zh/battle.html"
+    "link": "/zh/battle.html",
+    "items": [
+     {
+      "text": "突袭战",
+      "link": "/zh/raid.html",
+      "items": [
+       {
+        "text": "突袭推荐角色",
+        "link": "/zh/raid-recommended.html"
+       },
+       {
+        "text": "增益减益角色一览",
+        "link": "/zh/raid-buff-debuff.html"
+       },
+       {
+        "text": "突袭编队示例",
+        "link": "/zh/raid-formations.html"
+       }
+      ]
+     },
+     {
+      "text": "B宇宙",
+      "link": "/zh/b-universe.html"
+     },
+     {
+      "text": "广域战",
+      "link": "/zh/wide-battle.html",
+      "items": [
+       {
+        "text": "广域战地图/地图列表",
+        "link": "/zh/map-list.html"
+       }
+      ]
+     },
+     {
+      "text": "歼灭战",
+      "link": "/zh/annihilation.html"
+     }
+    ]
    },
    {
-    "text": "突袭战",
-    "link": "/zh/raid.html"
-   },
-   {
-    "text": "突袭推荐角色",
-    "link": "/zh/raid-recommended.html"
-   },
-   {
-    "text": "增益减益角色一览",
-    "link": "/zh/raid-buff-debuff.html"
-   },
-   {
-    "text": "突袭编队示例",
-    "link": "/zh/raid-formations.html"
-   },
-   {
-    "text": "B宇宙",
-    "link": "/zh/b-universe.html"
-   },
-   {
-    "text": "活动50_广域战",
-    "link": "/zh/wide-battle.html"
-   },
-   {
-    "text": "广域战地图/地图列表",
-    "link": "/zh/map-list.html"
-   },
-   {
-    "text": "活动86_歼灭战",
-    "link": "/zh/annihilation.html"
+    "text": "—",
+    "link": "/zh/characters.html#__SB_DIV__"
    },
    {
     "text": "界限突破",
@@ -133,6 +142,10 @@
    {
     "text": "等级上限提升",
     "link": "/zh/level-cap.html"
+   },
+   {
+    "text": "—",
+    "link": "/zh/characters.html#__SB_DIV__"
    },
    {
     "text": "宝箱",
@@ -151,7 +164,11 @@
     "link": "/zh/collection.html"
    },
    {
-    "text": "商店",
+    "text": "—",
+    "link": "/zh/characters.html#__SB_DIV__"
+   },
+   {
+    "text": "商店（VIP等级）",
     "link": "/zh/shop.html"
    }
   ]
@@ -162,19 +179,23 @@
   "items": [
    {
     "text": "装备一览",
-    "link": "/zh/equipment.html"
-   },
-   {
-    "text": "超昂装备",
-    "link": "/zh/super-equipment.html"
+    "link": "/zh/equipment.html",
+    "items": [
+     {
+      "text": "超昂装备",
+      "link": "/zh/super-equipment.html"
+     }
+    ]
    },
    {
     "text": "道具一览",
-    "link": "/zh/items.html"
-   },
-   {
-    "text": "SandBox/道具价值速查表",
-    "link": "/zh/item-value-guide.html"
+    "link": "/zh/items.html",
+    "items": [
+     {
+      "text": "SandBox/道具价值速查表",
+      "link": "/zh/item-value-guide.html"
+     }
+    ]
    }
   ]
  },
@@ -184,11 +205,13 @@
   "items": [
    {
     "text": "主线剧情",
-    "link": "/zh/main-story.html"
-   },
-   {
-    "text": "表格/全剧情实装顺序",
-    "link": "/zh/scenario-order.html"
+    "link": "/zh/main-story.html",
+    "items": [
+     {
+      "text": "表格/全剧情实装顺序",
+      "link": "/zh/scenario-order.html"
+     }
+    ]
    },
    {
     "text": "主线任务",
@@ -201,6 +224,10 @@
    {
     "text": "任务一览",
     "link": "/zh/missions.html"
+   },
+   {
+    "text": "—",
+    "link": "/zh/characters.html#__SB_DIV__"
    },
    {
     "text": "活动一览",

@@ -164,12 +164,27 @@
 .dark .mirror-content th { background: rgba(156, 39, 176, 0.18); }
 .mirror-content tbody tr:hover td { background: var(--escah-grad-soft); }
 
-/* PukiWiki 折叠区域(region)/剧透(spoiler)：原站靠 JS(tglRgn) 切换，镜像站无脚本，
-   故默认展开隐藏内容、隐藏切换按钮，避免信息永久不可见 */
-.mirror-content .rgn-button,
-.mirror-content .plus-icon,
-.mirror-content .minus-icon { display: none !important; }
-.mirror-content .rgn-content { display: block !important; }
+/* PukiWiki 折叠区域(region)：原站靠 JS(tglRgn) 切换展开/折叠。镜像站用
+   MirrorContent 里的事件委托复刻该行为——rgn-container 默认折叠（只显示
+   rgn-description 标题行），点击左侧 rgn-button 展开/收起，再次点击折叠。
+   折叠/展开的实际显隐由 JS 直接切换内联 display（原站 rgn-content/rgn-description
+   自带内联 display，class 优先级盖不过内联，故用 JS 改内联值而非纯 CSS）。
+   全站 MirrorContent 渲染的页面（ja/zh，含未来新增页）均自动生效。 */
+.mirror-content .rgn-container {
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 1em;
+}
+.mirror-content .rgn-button {
+  cursor: pointer;
+  user-select: none;
+  color: var(--escah-accent, #c0392b);
+}
+.mirror-content .rgn-button .plus-icon,
+.mirror-content .rgn-button .minus-icon {
+  width: 20px;
+  height: 20px;
+}
 
 /* 评论区样式（页底网友留言） */
 .mirror-content .pcomment { margin-top: 1em; font-size: 13px; }
@@ -430,6 +445,27 @@
 }
 .dark .VPSidebarItem.level-1.collapsible > .item {
   background: rgba(156, 39, 176, 0.12);
+}
+
+/* ========== 侧栏分隔符（SIDEBAR_TREE 中的 _SB_DIV 节点） ========== */
+/* 生成时渲染为 <a href="...#__SB_DIV__">（空文本），这里去掉链接外观、
+   改成分隔线，并禁用点击。 */
+.VPSidebarItem a[href$="__SB_DIV__"] {
+  display: block;
+  margin: 8px 8px;
+  padding: 0;
+  border-top: 1px solid var(--vp-c-divider);
+  font-size: 0;
+  line-height: 0;
+  pointer-events: none;
+  color: transparent;
+}
+.dark .VPSidebarItem a[href$="__SB_DIV__"] {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+.VPSidebarItem a[href$="__SB_DIV__"] .text { display: none; }
+.dark .VPSidebarItem a[href$="__SB_DIV__"] {
+  border-top-color: rgba(255, 255, 255, 0.12);
 }
 
 /* ========== 术语/俗语词条：中文标题后附带的原日文（弱化、小号）========== */
