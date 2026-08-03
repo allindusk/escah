@@ -113,6 +113,30 @@ function tokenize(text: string): string[] {
   return tokens
 }
 
+// combined 节点（如 "SSR | SR | R"）的 text 内含裸 <a href="/zh/...">，
+// VitePress 只给 "link" 字段补 base、不会处理 text 内的 HTML 链接，
+// 在 /escah/ base 下会变成 /zh/...（缺前缀）→ 404。这里统一用 withBase 补全。
+function applySidebarBase(sidebar: any[]): any[] {
+  const base = process.env.BASE || '/escah/'
+  const fixText = (s: string): string =>
+    typeof s === 'string'
+      ? s.replace(/<a\s+([^>]*?)href="(\/[^"]*)"([^>]*)>/gi,
+          (_m, pre: string, href: string, post: string) =>
+            `<a ${pre}href="${base}${href.replace(/^\//, '')}"${post}>`)
+      : s
+  const walk = (nodes: any[]): any[] =>
+    (nodes || []).map((n) => {
+      const copy = { ...n }
+      if (typeof copy.text === 'string') copy.text = fixText(copy.text)
+      if (Array.isArray(copy.items)) copy.items = walk(copy.items)
+      return copy
+    })
+  return walk(sidebar)
+}
+
+const sidebarJaFixed = applySidebarBase(sidebarJa as any[])
+const sidebarZhFixed = applySidebarBase(sidebarZh as any[])
+
 const navJa = [
   { text: 'ホーム', link: '/ja/' },
   { text: 'キャラクター', link: '/ja/characters.html' },
@@ -138,7 +162,7 @@ export default defineConfig({
       link: '/ja/',
       themeConfig: {
         nav: navJa,
-        sidebar: sidebarJa,
+        sidebar: sidebarJaFixed,
         // 默认 outline 关闭：改用自定义树状目录 DocOutline（见 Layout.vue #aside-top）
         outline: false,
         docFooter: { prev: '前のページ', next: '次のページ' },
@@ -153,7 +177,7 @@ export default defineConfig({
       link: '/zh/',
       themeConfig: {
         nav: navZh,
-        sidebar: sidebarZh,
+        sidebar: sidebarZhFixed,
         // 默认 outline 关闭：改用自定义树状目录 DocOutline（见 Layout.vue #aside-top）
         outline: false,
         docFooter: { prev: '上一页', next: '下一页' },

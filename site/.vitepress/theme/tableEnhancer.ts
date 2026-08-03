@@ -571,7 +571,7 @@ function syncFullBtnFor(
 }
 
 let resizeBound = false
-function syncAllFullBtns(): void {
+export function syncAllFullBtns(): void {
   document.querySelectorAll('.escah-tbl').forEach((c) => {
     const w = c.querySelector('.table-scroll') as HTMLElement | null
     const t = c.querySelector('.escah-tbl-toolbar') as HTMLElement | null

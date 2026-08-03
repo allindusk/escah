@@ -1,0 +1,1699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+<link rel="canonical" href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" /><!-- OGP -->
+<meta property="og:site_name" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:title" content="レイドイベント「堕威大仏」攻略まとめ">
+<meta property="og:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F">
+<meta property="og:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="レイドイベント「堕威大仏」攻略まとめ">
+<meta name="twitter:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta name="twitter:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+ <meta http-equiv="content-style-type" content="text/css" />
+
+ <title>レイドイベント「堕威大仏」攻略まとめ - 超昂大戦エスカレーションヒロインズ攻略 Wiki</title>
+
+ <link rel="SHORTCUT ICON" href="image/favicon.ico" />
+ <link rel="stylesheet" type="text/css" media="screen,print" href="skin/pukiwiki.css?222202020230911" />
+ <link rel="stylesheet" type="text/css" media="print" href="skin/pukiwiki.print.css" />
+ <link rel="alternate" type="application/rss+xml" title="RSS" href="./?cmd=rss" /> <script type="text/javascript" src="skin/default.js?1"></script>
+ <meta name="viewport" content="width=1024">
+
+
+ <meta http-equiv="Description" content="レイドイベント「堕威大仏」の攻略をまとめたページです。" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	var topBtn = $('#page-top');	
+	topBtn.hide();
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 100) {
+			topBtn.fadeIn();
+		} else {
+			topBtn.fadeOut();
+		}
+	});
+	//スクロールしてトップ
+    topBtn.click(function () {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 500);
+		return false;
+    });
+});
+
+// pcommentプラグイン用の名前空間を作成
+var PCommentPlugin = {
+    originalFormParents: {},
+    originalFormNextSiblings: {},
+
+    showCommentForm: function(event) {
+        console.log('PComment: showCommentForm');
+        var radio = event.target;
+        var commentId = radio.value;
+        var formId = radio.closest('.pcomment').id;
+        console.log('PComment: commentId: ' + commentId + ', formId: ' + formId);
+
+        var commentElement = document.querySelector('#' + formId + ' [data-comment-id="comment_' + commentId + '"]');
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        
+        if (!form) {
+            console.error('PComment: pcomment form not found for ' + formId);
+            return;
+        }
+
+        console.log('PComment: form: ' + form);
+
+        if (!this.originalFormParents[formId]) {
+            this.originalFormParents[formId] = form.parentNode;
+            this.originalFormNextSiblings[formId] = form.nextSibling;
+        }
+
+        var existingCancelLink = form.querySelector('.cancel-link');
+        if (existingCancelLink) {
+            existingCancelLink.remove();
+        }
+
+        var cancelLink = document.createElement('div');
+        cancelLink.className = 'cancel-link';
+        cancelLink.innerHTML = `
+            <a class="js-abonelink" style="cursor: pointer; color: #215dc6; background-color: inherit; text-decoration: none;" onclick="PCommentPlugin.cancelForm('${commentId}', '${formId}')">返信をキャンセル</a>
+        `;
+        form.insertBefore(cancelLink, form.firstChild);
+
+        ['digest', 'refer', 'page', 'nodate', 'dir', 'count'].forEach(function(name) {
+            var input = form.querySelector('input[name="' + name + '"]');
+            if (input) {
+                input.value = document.querySelector('#' + formId + ' input[name="' + name + '"]').value;
+            }
+        });
+
+        commentElement.parentNode.insertBefore(form, commentElement.nextSibling);
+
+        // フォームまで自動スクロール
+        //setTimeout(function() {
+        //    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        //}, 100);
+    },
+
+    cancelForm: function(commentId, formId) {
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        if (form && this.originalFormParents[formId]) {
+            var cancelLink = form.querySelector('.js-abonelink').parentNode;
+            if (cancelLink) {
+                cancelLink.remove();
+            }
+            this.originalFormParents[formId].insertBefore(form, this.originalFormNextSiblings[formId]);
+            var radio = document.querySelector('#' + formId + ' input[name="reply"][value="' + commentId + '"]');
+            if (radio) {
+                radio.checked = false;
+            }
+        }
+    },
+
+    init: function() {
+        var pcommentDivs = document.querySelectorAll('.pcomment');
+        pcommentDivs.forEach(function(div, index) {
+            if (!div.id) {
+                div.id = 'pcomment-' + index;
+            }
+            var radios = div.querySelectorAll('input[type="radio"][name="reply"]');
+            radios.forEach(function(radio) {
+                radio.addEventListener('change', function(event) {
+                    PCommentPlugin.showCommentForm(event);
+                });
+            });
+        });
+    }
+};
+
+// DOMContentLoadedイベントでpcommentプラグインの初期化
+document.addEventListener('DOMContentLoaded', function() {
+    PCommentPlugin.init();
+});
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S8SSE7XDQV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S8SSE7XDQV');
+</script>
+
+
+<!-- 外部リンクを別ウインドウで開く -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">  
+    jQuery(document).ready(function(){
+        jQuery('a[href^=http]')
+        .not('[href*="'+location.hostname+'"]')
+        .not('.exclude-icon')
+        .attr({target:"_blank"})
+        .append(' 🌐')
+    });
+</script> 
+
+<script async src="https://fundingchoicesmessages.google.com/i/pub-6756084042400545?ers=1" nonce="15dEpUr9AJY8eX0-XD7UvQ"></script><script nonce="15dEpUr9AJY8eX0-XD7UvQ">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
+
+<script>
+function getResolution() {
+  return screen.width + ' x ' + screen.height + 'px';
+}
+
+function getCookieId() {
+  var cookieId = document.cookie.replace(/(?:(?:^|.*;\s*)pukiwiki_cookie_id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (!cookieId) {
+    cookieId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    document.cookie = "pukiwiki_cookie_id=" + cookieId + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+  }
+  return cookieId;
+}
+
+document.cookie = "resolution=" + getResolution() + "; path=/";
+document.cookie = "cookie_id=" + getCookieId() + "; path=/";
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<!-- Geniee Wrapper Head Tag -->
+<script>
+  window.gnshbrequest = window.gnshbrequest || {cmd:[]};
+  window.gnshbrequest.cmd.push(function(){
+    window.gnshbrequest.registerPassback("1475070");
+    window.gnshbrequest.registerPassback("1536316");
+    window.gnshbrequest.registerPassback("1548387");
+    window.gnshbrequest.registerPassback("1551138");
+    window.gnshbrequest.registerPassback("1558324");
+    window.gnshbrequest.registerPassback("1558325");
+    window.gnshbrequest.forceInternalRequest();
+  });
+</script>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script async src="https://cpt.geniee.jp/hb/v1/179425/666/wrapper.min.js"></script>
+<!-- /Geniee Wrapper Head Tag -->
+</head>
+<body>
+
+<div id="header">
+ <a href="./"><img id="logo" src="image/pukiwiki.png" width="80" height="80" alt="[PukiWiki]" title="[PukiWiki]" /></a>
+
+ <h1 class="title"><a href="./?plugin=related&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F">イベント22_レイドイベント『堕威大仏』</a> </h1>
+
+    <span class="small">
+   <span class="topicpath-top"><a href="./?%E8%B6%85%E6%98%82%E5%A4%A7%E6%88%A6%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%92%E3%83%AD%E3%82%A4%E3%83%B3%E3%82%BA%E6%94%BB%E7%95%A5+Wiki" title="超昂大戦エスカレーションヒロインズ攻略 Wiki" class="" data-mtime="">Top</a><span class="topicpath-slash"> / </span></span>イベント22_レイドイベント『堕威大仏』   </span>
+ 
+</div>
+
+<div id="navigator">
+ [ <a href="./" >トップ</a> ] &nbsp;
+
+ [
+ 	<a href="./?cmd=edit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" >編集</a> |
+<a href="./?cmd=guiedit&page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F">編集（GUI）</a> |
+			<a href="./?cmd=freeze&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" >凍結</a> |
+	  <a href="./?cmd=diff&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" >差分</a> 	| <a href="./?cmd=backup&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" >バックアップ</a>  	| <a href="./?plugin=attach&amp;pcmd=upload&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" >添付</a>  | <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" >リロード</a> ] &nbsp;
+
+ [
+ 	<a href="./?plugin=newpage&amp;refer=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" >新規</a> |
+    <a href="./?cmd=list" >一覧</a>  | <a href="./?cmd=search" >検索</a> | <a href="./?RecentChanges" >最終更新</a> | <a href="./?Help" >ヘルプ</a> ]
+
+</div>
+
+<hr class="full_hr" />
+<table border="0" style="width:100%">
+ <tr>
+  <td class="menubar">
+<a href="chgsp.php?rd=http://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" rel="nofollow">スマホ版表示に切り替える</a>
+<br><br>
+<br><br>
+<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'ja', includedLanguages: 'en,ko,zh-TW,ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, gaTrack: true, gaId: 'UA-48994870-1'}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- PC_300x250_menu_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="6243394662"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+   <div id="menubar"><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/escalationheroines.wikiru.jp\/?E382A4E38399E383B3E3838832325FE383ACE382A4E38389E382A4E38399E383B3E38388E3808EE5A095E5A881E5A4A7E4BB8FE3808F"},"url":"https:\/\/escalationheroines.wikiru.jp\/?E382A4E38399E383B3E3838832325FE383ACE382A4E38389E382A4E38399E383B3E38388E3808EE5A095E5A881E5A4A7E4BB8FE3808F","headline":"\u30a4\u30d9\u30f3\u30c822_\u30ec\u30a4\u30c9\u30a4\u30d9\u30f3\u30c8\u300e\u5815\u5a01\u5927\u4ecf\u300f | \u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","author":{"@type":"Person","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki\u7ba1\u7406\u4eba"},"publisher":{"@type":"Organization","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki"},"datePublished":"2025-05-07T07:31:18+00:00","dateModified":"2025-05-07T07:31:18+00:00"}</script><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","item":"https:\/\/escalationheroines.wikiru.jp\/"},{"@type":"ListItem","position":2,"name":"\u30a4\u30d9\u30f3\u30c822_\u30ec\u30a4\u30c9\u30a4\u30d9\u30f3\u30c8\u300e\u5815\u5a01\u5927\u4ecf\u300f","item":"https:\/\/escalationheroines.wikiru.jp\/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"}]}</script>
+<p>現在、<strong>226人</strong>が閲覧中です</p>
+<h2 id="content_10_0">サイト内検索</h2>
+<form action="./?cmd=search" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+ <div>
+  <input type="text"  name="word" value="" size="20" />
+  <label><input type="radio" name="type" value="AND"  checked="checked" /> AND検索</label>
+  <label><input type="radio" name="type" value="OR"  /> OR検索</label>
+  &nbsp;<input type="submit" value="検索" />
+ </div>
+
+</form>
+<hr class="full_hr" />
+<p><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><span style="color:red"><strong><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="" data-mtime="">イベント</a></strong></span></span></p>
+<p><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8889_%E3%81%8B%E3%81%A4%E3%81%A6%E3%81%9F%E3%81%8E%E3%82%8A%E3%81%97%E9%9D%92%E6%98%A5%E3%81%AE%E6%97%A5%E3%80%85" title="イベント89_かつてたぎりし青春の日々" class="" data-mtime=""><img src="attach2/E382A4E38399E383B3E3838838395FE3818BE381A4E381A6E3819FE3818EE3828AE38197E99D92E698A5E381AEE697A5E38085_62616E6E65722E6A7067.jpg" alt="banner.jpg" title="banner.jpg" width="265" height="149" /></a><br />
+<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8889_%E3%81%8B%E3%81%A4%E3%81%A6%E3%81%9F%E3%81%8E%E3%82%8A%E3%81%97%E9%9D%92%E6%98%A5%E3%81%AE%E6%97%A5%E3%80%85" title="イベント89_かつてたぎりし青春の日々" class="" data-mtime="">＜復刻＞かつてたぎりし青春の日々</a><br />
+07/29 16:00 ～ 08/05 09:59</p>
+
+<div style="text-align:right"><a href="./?cmd=edit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="Edit イベント一覧/開催イベント"><img src="image/edit.png" width="20" height="20" alt="Edit" title="Edit イベント一覧/開催イベント" />EDIT</a></div>
+<hr class="full_hr" />
+<p><strong><span style="color:red">7/22新キャラ</span></strong><br />
+SSR「<a href="./?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" class="" data-mtime="">魔法少女ヒトミ</a>」<br />
+<strong><span style="color:red">7/15新キャラ</span></strong><br />
+SSR「<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB" class="" data-mtime="">真夏のセラフィール</a>」<br />
+SSR「<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%B0%E3%83%9F" class="" data-mtime="">真夏のメグミ</a>」<br />
+R「<a href="./?%E9%AD%94%E5%A5%B3%E3%83%AA%E3%82%A2%E3%83%B3" class="" data-mtime="">魔女リアン</a>」<br />
+<strong><span style="color:red">6/24新キャラ</span></strong><br />
+SSR「<a href="./?%E6%B7%B1%E7%AA%93%E3%81%AE%E4%BB%A4%E5%AC%A2%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB" class="" data-mtime="">深窓の令嬢ステアール</a>」</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_1">お知らせ</h2>
+<p><span style="color:red"><strong>アップデート情報</strong></span><br />
+8月2日(日)<br />
+<strong>・祝！　ハニーの日！</strong><br />
+　「ハニーキングのおみくじ占いガチャ」開催<br />
+<strong>8月2日 00:00 ～ 8月2日 23:59まで</strong><br />
+・ショップに商品追加</p>
+<p>7月29日(水)<br />
+・期間限定復刻イベント実装<br />
+　「かつてたぎりし青春の日々」<br />
+・ショップに商品追加<br />
+・ショップに無料セレクトPUガチャチケット</p>
+<p>・Bユニバース(強敵戦)において模擬戦リザルト画面に<br />
+　「もう一度戦闘を行う」ボタンを追加<br />
+・Bユニバース(強敵戦)において戦闘後の画面遷移先を変更<br />
+　戦闘終了後に同ボス内の難易度選択画面に遷移します</p>
+<p>・宝箱AUTO開封をデフォルトのまま実行できるように初期設定を調整<br />
+　※以前の初期設定であるすべてOFFの方、新規開始の方のみを対象に設定変更<br />
+　※合わせて宝箱開封高速化の初期設定も有効に変更<br />
+　※引き続き宝箱開封画面「設定画面へ」ボタンから調整可能です</p>
+<p>・コレクション＞MUSICに<br />
+　「シャッフル再生」機能を追加</p>
+
+<p><span style="color:red"><strong>シリアルコード配布</strong></span><br />
+◆<strong>超昂月間ブログ</strong><br />
+<span style="color:blue">プレミアムガチャチケット×1 (最下段記載）</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry003983.html" rel="nofollow">8月号</a> 8月17日 23:59まで</p>
+<p>◆<strong>アリスソフト放送局</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<span style="color:blue">※歯抜け有(動画内で英数字の発表)</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry003994.html" rel="nofollow">第51回</a> 8月6日 17:59まで</p>
+<p>◆<strong>1分でわかる！超昂大戦</strong><br />
+<span style="color:blue">単発ガチャチケット×1（コメント欄にコード有）</span><br />
+<a href="https://www.youtube.com/shorts/EMgbaMAEUXo" rel="nofollow">第21回</a></p>
+<p>◆<strong>BugBug.NEWS</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<a href="https://www.bugbug.news/b_game/267593/" rel="nofollow">7月31日付記事</a> 8月12日 23:59まで</p>
+<p><span style="color:red"><strong>期間限定ガチャ</strong></span><br />
+<strong>7月29日 16:00 ～ 8月5日 09:59</strong><br />
+◆<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC" class="" data-mtime="">真夏のエスカ・ルビー</a><br />
+◆<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8E%E3%83%89%E3%82%AB" class="" data-mtime="">真夏のノドカ</a><br />
+◆<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" class="" data-mtime="">真夏のイーイー</a><br />
+◆<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" class="" data-mtime="">真夏のニコール</a><br />
+◆<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%9E%E3%83%89%E3%82%AB" class="" data-mtime="">真夏のマドカ</a><br />
+◆<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC" class="" data-mtime="">真夏のエスカレイヤー</a><br />
+◆<a href="./?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%8E%E3%83%AA" class="" data-mtime="">真夏のイノリ</a></p>
+<p><span style="color:red"><strong>限定スキン</strong></span><br />
+<strong>7月29日 16:00 ～ 8月19日 09:59</strong><br />
+◆エスカ・ルビー　水着スキン<br />
+◆エスカ・サファイア　水着スキン</p>
+<p><span style="color:red"><strong>商品追加</strong></span><br />
+<strong>8月2日 00:00 ～ 8月19日 09:59</strong><br />
+◆'26ハニーの日ログインパス<br />
+◆'26ハニーの貯金箱セット</p>
+<p><strong>7月29日 16:00 ～ 8月5日 09:59</strong><br />
+◆'26超・復刻水着ステップアップセットB　ステップ1～5<br />
+◆'26復刻水着セレクトPUガチャチケットBセット　3種<br />
+◆スキンチケットバリューセット</p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>メンテナンス情報</strong></span><br />
+毎週水曜日 10:00 ～ 16:00</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_2">掲示板</h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_10_3">交流用掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">雑談掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_10_4">攻略掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">質問掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E6%83%85%E5%A0%B1%E6%8F%90%E4%BE%9B%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">情報提供掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E3%83%90%E3%82%B0%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">バグ報告掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_10_5">管理掲示板</h3>
+<ul class="list1 list-indent1"><li><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E8%80%85%E7%94%A8%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">編集者用掲示板</a></li>
+<li><a href="./?Wiki%E7%AE%A1%E7%90%86%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">Wiki管理掲示板</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_6">はじめに</h2>
+<ul class="list1 list-indent1"><li><a href="./?Wiki%E5%88%A9%E7%94%A8%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">Wiki利用のガイドライン</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">編集のガイドライン</a></li>
+<li><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" class="" data-mtime="">コメント欄のNGID機能</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_7">ゲームガイド</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E5%BA%8F%E7%9B%A4%E3%81%AE%E6%89%8B%E5%BC%95%E3%81%8D" class="" data-mtime="">序盤の手引き</a></li>
+<li><a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F" class="" data-mtime="">よくある質問</a></li>
+<li><a href="./?%E5%B0%8F%E3%83%8D%E3%82%BF%E3%83%BB%E5%B0%8F%E3%83%AF%E3%82%B6%E9%9B%86" class="" data-mtime="">小ネタ・小ワザ集</a></li></ul>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AC%E3%83%81%E3%83%A3" class="" data-mtime="">ガチャ</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_8">キャラクター</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7" class="" data-mtime="">キャラクター一覧</a><br />
+├ <a href="./?SSR" class="" data-mtime="">SSR</a> | <a href="./?SR" class="" data-mtime="">SR</a> | <a href="./?R" class="" data-mtime="">R</a><br />
+├ <a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a><br />
+└ <a href="./?NPC" class="" data-mtime="">NPC</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%BF%85%E6%AE%BA%E6%8A%80%E4%B8%80%E8%A6%A7" class="" data-mtime="">必殺技一覧</a></li>
+<li><a href="./?%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C%E4%B8%80%E8%A6%A7" class="" data-mtime="">固有効果一覧</a></li>
+<li><a href="./?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7" title="絞り込めるカテゴリ一覧" class="" data-mtime="">特殊属性一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">寝室シーン一覧</a><span style="color:red">(R18)</span></li>
+<li><a href="./?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95" class="" data-mtime="">原画別索引</a></li>
+<li><a href="./?CV%E4%B8%80%E8%A6%A7" class="" data-mtime="">CV一覧</a></li>
+<li><a href="./?%E5%AE%9F%E8%A3%85%E5%B1%A5%E6%AD%B4" class="" data-mtime="">実装履歴</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_9">システム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E6%88%A6%E9%97%98" class="" data-mtime="">戦闘</a><br />
+├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a><br />
+│　├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9" class="" data-mtime="">レイドおすすめキャラ</a><br />
+│　├ <a href="./?%E3%83%90%E3%83%95%E3%83%BB%E3%83%87%E3%83%90%E3%83%95%E8%83%BD%E5%8A%9B%E3%82%AD%E3%83%A3%E3%83%A9%E3%80%80%E4%B8%80%E8%A6%A7%E3%81%BE%E3%81%A8%E3%82%81" title="バフ・デバフ能力キャラ　一覧まとめ" class="" data-mtime="">レイドバフ・デバフ別キャラ一覧</a><br />
+│　└ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E7%94%A8%E7%B7%A8%E6%88%90%E4%BE%8B" class="" data-mtime="">レイド用編成例</a><br />
+├ <a href="./?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" title="Bユニバース" class="" data-mtime="">Bユニバース（強敵戦）</a><br />
+├ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a><br />
+│　└ <a href="./?%E5%BA%83%E5%9F%9F%E6%88%A6%E3%83%9E%E3%83%83%E3%83%97/%E3%83%9E%E3%83%83%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88" title="広域戦マップ/マップリスト" class="" data-mtime="">マップリスト</a><br />
+└ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" title="イベント86_殲滅戦" class="" data-mtime="">殲滅戦</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a></li>
+<li><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a></li>
+<li><a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a></li>
+<li><a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a><br />
+└ <a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a></li>
+<li><a href="./?%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3" class="" data-mtime="">コレクション</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ショップ" class="" data-mtime="">ショップ（VIPランク）</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_10">装備･アイテム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7" class="" data-mtime="">装備一覧</a><br />
+└ <a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a></li>
+<li><a href="./?%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7" class="" data-mtime="">アイテム一覧</a><br />
+└ <a href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" title="SandBox/アイテム価値早見表" class="" data-mtime="">[初心者用]アイテム価値早見表</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_11">クエスト･ミッション</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" class="" data-mtime="">メインストーリー</a><br />
+└<a href="./?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86" title="テーブル/全ストーリー実装順" class="" data-mtime="">全シナリオ実装順</a></li>
+<li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">メインクエスト</a></li>
+<li><a href="./?%E3%83%87%E3%82%A4%E3%83%AA%E3%83%BC%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">デイリークエスト</a></li>
+<li><a href="./?%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">ミッション一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" class="" data-mtime="">イベント一覧</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_12">その他</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E7%94%A8%E8%AA%9E%E9%9B%86" class="" data-mtime="">用語集</a> / <a href="./?%E4%BF%97%E8%AA%9E%E9%9B%86" class="" data-mtime="">俗語集</a></li>
+<li><a href="./?Tips%E4%B8%80%E8%A6%A7" class="" data-mtime="">Tips一覧</a></li>
+<li><a href="./?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" class="" data-mtime="">ゲーム外企画</a></li>
+<li><a href="./?%E4%BA%8B%E5%89%8D%E7%99%BB%E9%8C%B2%E7%89%B9%E5%85%B8" class="" data-mtime="">事前登録特典</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_13">公式リンク</h2>
+<ul class="list1 list-indent1"><li><a href="https://pc-play.games.dmm.com/play/escalationheroines/" rel="nofollow">ゲーム開始URL</a></li>
+<li><a href="https://www.dmm.co.jp/netgame/community/-/commu/detail/=/id=5633/" rel="nofollow">公式コミュニティ(FANZA)</a></li>
+<li><a href="https://www.alicesoft.com/" rel="nofollow">アリスソフト公式サイト</a><br />
+├ <a href="https://www.alicesoft.com/escalationheroines/" rel="nofollow">超昂大戦公式サイト</a><br />
+└ <a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow">超昂大戦公式ニュース</a></li>
+<li><a href="https://twitter.com/EscaH_PR" rel="nofollow">公式X(Twitter)</a></li>
+<li><a href="https://prod.e-heroines.net/server/product/AppSub" rel="nofollow">おしらせ・ヘルプ</a></li>
+<li><a href="https://www.bugbug.news/tag/post_tag-7528/" rel="nofollow">超昂大戦特集(BugBug.NEWS)</a></li></ul>
+<p><a href="https://www.alicesoft.com/information/2022/entry003123.html" rel="nofollow"><img src="attach2/696D67_E8B685E69882E5A4A7E688A6E5889DE5BF83E88085E8AC9BE5BAA75F62616E6E65722E6A7067.jpg" alt="超昂大戦初心者講座_banner.jpg" title="超昂大戦初心者講座_banner.jpg" width="265" height="47" /><br class="spacer" />超昂大戦初心者講座</a><br />
+<a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow"><img src="attach2/696D67_E69C88E99693E38396E383ADE382B05FE383ADE382B42E706E67.png" alt="月間ブログ_ロゴ.png" title="月間ブログ_ロゴ.png" width="265" height="46" /><br class="spacer" />超昂大戦公式ニュース</a><br />
+<a href="https://www.alicesoft.com/escalationheroines/special/comic/" rel="nofollow"><img src="attach2/696D67_E38286E3828BE382ABE383AC5F62616E6E65722E706E67.png" alt="ゆるカレ_banner.png" title="ゆるカレ_banner.png" width="265" height="47" /><br class="spacer" />ゆるっとエスカレーション(公式4コマ漫画)</a><br />
+<a href="https://www.alicesoft.com/information/radio/" rel="nofollow"><img src="attach2/696D67_E382A2E383AAE382B9E382BDE38395E38388E694BEE98081E5B1805F62616E6E65722E706E67.png" alt="アリスソフト放送局_banner.png" title="アリスソフト放送局_banner.png" width="265" height="47" /><br class="spacer" />アリスソフト放送局(ネットラジオ)</a><br />
+<a href="https://www.youtube.com/watch?v=xFC3s77AV0I&amp;list=PLG0kE08S6G8TfS9alOQFTOYtPU5tJlTWO" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A65F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦_banner.png" title="1分でわかる！超昂大戦_banner.png" width="138" height="40" /><br class="spacer" />1分でわかる！超昂大戦（初心者動画）</a><br />
+<a href="https://www.youtube.com/playlist?list=PLG0kE08S6G8Rt_A7hvfsJoN0QYyFZXV4_" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A620E383A1E383A2E383A1E383A2E38380E382A4E3838AE383A25F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" title="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" width="139" height="50" /><br class="spacer" />1分でわかる！超昂大戦 メモメモダイナモ!!</a></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_14">編集者用ページ</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E9%9B%9B%E5%BD%A2" title="雛形" class="" data-mtime="">雛形一覧</a></li>
+<li><a href="./?img" title="img" class="" data-mtime="">共通画像保管庫</a></li>
+<li><a href="./?%E7%B7%B4%E7%BF%92%E7%94%A8%E3%81%8A%E7%A0%82%E5%A0%B4" class="" data-mtime="">練習用お砂場</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_15">更新履歴</h2>
+<h5>最新の30件</h5>
+<div><h5>5分以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?CV%E4%B8%80%E8%A6%A7" title="CV一覧 ">CV一覧</a> </li>
+</ul><h5>30分以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/雑談掲示板 ">コメント/雑談掲示板</a> </li>
+</ul><h5>1日以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2FCO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/CO報告掲示板 ">コメント/CO報告掲示板</a> </li>
+</ul><h5>1週間以内に更新</h5>
+<ul class="recent_list"></ul><strong>2026-08-02</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/質問掲示板 ">コメント/質問掲示板</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB" title="コメント/レガリアの超昂神騎メガエル ">コメント/レガリアの超昂神騎メガエル</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E4%BA%A4%E6%8F%9B%E6%89%80" title="交換所 ">交換所</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?MenuBar" title="MenuBar ">MenuBar</a> </li>
+</ul><strong>2026-08-01</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" title="コメント/寝室シーン一覧 ">コメント/寝室シーン一覧</a> </li>
+</ul><strong>2026-07-31</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F" title="コメント/魔法少女ヒトミ ">コメント/魔法少女ヒトミ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8E%E3%83%89%E3%82%AB" title="コメント/真夏のノドカ ">コメント/真夏のノドカ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8F%E3%83%AB%E3%82%AB" title="コメント/バレンタインハルカ ">コメント/バレンタインハルカ</a> </li>
+</ul><strong>2026-07-30</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%AA%E3%83%AB%E3%83%90%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="オルバ（Bユニバース） ">オルバ（Bユニバース）</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" title="Bユニバース ">Bユニバース</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9" title="コメント/エクシール・リバース ">コメント/エクシール・リバース</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8889_%E3%81%8B%E3%81%A4%E3%81%A6%E3%81%9F%E3%81%8E%E3%82%8A%E3%81%97%E9%9D%92%E6%98%A5%E3%81%AE%E6%97%A5%E3%80%85" title="イベント89_かつてたぎりし青春の日々 ">イベント89_かつてたぎりし青春の日々</a> </li>
+</ul><strong>2026-07-29</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?SandBox%2F%E4%BA%BA%E6%B0%97%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E7%AD%89%E3%81%AE%E8%A8%98%E5%BF%B5%E5%A0%B1%E9%85%AC%E4%B8%80%E8%A6%A7" title="SandBox/人気ランキング等の記念報酬一覧 ">SandBox/人気ランキング等の記念報酬一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="イベント一覧/開催イベント ">イベント一覧/開催イベント</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧 ">イベント一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%AF%9D%E5%AE%A4R%EF%BC%88%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%EF%BC%89" title="テーブル/寝室R（イベント） ">テーブル/寝室R（イベント）</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%AF%9D%E5%AE%A4SSR%EF%BC%88%E9%99%90%E5%AE%9A%EF%BC%89" title="テーブル/寝室SSR（限定） ">テーブル/寝室SSR（限定）</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%AC%E3%83%81%E3%83%A3" title="ガチャ ">ガチャ</a> </li>
+</ul><strong>2026-07-28</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%AF%9D%E5%AE%A4SSR" title="テーブル/寝室SSR ">テーブル/寝室SSR</a> </li>
+</ul><strong>2026-07-27</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF%2F150" title="コメント/雑談掲示板/150 ">コメント/雑談掲示板/150</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?SandBox%2F%E9%96%8B%E7%99%BA%E3%82%B9%E3%82%BF%E3%83%83%E3%83%95" title="SandBox/開発スタッフ ">SandBox/開発スタッフ</a> </li>
+</ul><h5>その他</h5>
+<ul class="recent_list"></ul><strong>2026-07-26</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E3%83%A1%E3%82%A4%E3%83%89%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A" title="コメント/メイドユリッペ ">コメント/メイドユリッペ</a> </li>
+</ul><strong>2026-07-25</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E5%8D%81%E5%B4%8E%E7%BE%BD%E6%8A%98" title="十崎羽折 ">十崎羽折</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E5%AB%89%E5%A6%AC%E9%AD%94%E5%BD%B1%E3%82%A2%E3%82%BF%E3%83%B3" title="嫉妬魔影アタン ">嫉妬魔影アタン</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?SandBox%2F%E3%82%AD%E3%83%A3%E3%83%A9%E9%96%A2%E4%BF%82" title="SandBox/キャラ関係 ">SandBox/キャラ関係</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%96%83%E5%BF%8D%E3%83%AF%E3%83%BC%E3%82%B0" title="コメント/閃忍ワーグ ">コメント/閃忍ワーグ</a> </li>
+</ul><strong>2026-07-24</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9" title="コメント/ブライドエスカレイヤー・リバース ">コメント/ブライドエスカレイヤー・リバース</a> </li>
+</ul></div>
+<hr class="full_hr" />
+<p><a href="./?%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4%E3%83%9A%E3%83%BC%E3%82%B8" title="更新履歴ページ" class="" data-mtime="">更新履歴をもっとみる</a></p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_10_16">カウンター</h2>
+<ul class="list1 list-indent1"><li>合計：19445</li>
+<li>今日：3</li>
+<li>昨日：4</li></ul>
+<hr class="full_hr" />
+<p><span style="font-size:11px;display:inline-block;line-height:130%;text-indent:0px">〔<a href="./?cmd=edit&amp;page=MenuBar" title="Edit MenuBar">MENU編集</a></span>〕</p>
+</div>
+<!-- 300x600_1枠目_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=AYAMQFxEEER31b4v8YZnKA"></script>
+<br>
+<h2>
+<span style="font-size:12px;display:inline-block;line-height:130%;text-indent:0px">Official Tweet</span>
+</h2>
+<a class="twitter-timeline" data-lang="ja" data-height="500" width="300" href="https://twitter.com/EscaH_PR" width="200">Tweets by EscaH_PR</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<div class="sticky-ads">
+
+<!-- 300x600_2枠目_wikiru汎用 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="4423084522"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<br>
+  <td valign="top">
+<!-- 728x90_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=YXamGc1aiYMf5oovCRZ3rg"></script>
+<br>
+<div id="boxArea" style="display:table;padding:0 0 0 2px;"><div style="width:74px;height:22px;float:left;"><a href="https://twitter.com/share" class="twitter-share-button"{count} data-lang="ja" data-hashtags="エスカレーションヒロインズ"data-dnt="true">ツイート</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div>
+<br>
+      <div id="body">
+
+<p><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" class="" data-mtime="">イベント一覧</a> &gt; <strong>レイドイベント『堕威大仏』</strong></p>
+<hr class="full_hr" />
+<h2 id="content_2_0">レイドイベント『堕威大仏』</h2>
+
+<ul class="list1 list-indent1"><li>第5回：2025/05/07 ～ 05/14 09:59</li>
+<li>第4回：2024/06/05 ～ 06/12 09:59</li>
+<li>第3回：2023/03/01 ～ 03/08 09:59</li>
+<li>第2回：2022/06/01 ～ 06/08 09:59</li>
+<li>第1回：2021/12/08 ～ 12/15 09:59</li></ul>
+<p><img src="attach2/E382A4E38399E383B3E3838832325FE383ACE382A4E38389E382A4E38399E383B3E38388E3808EE5A095E5A881E5A4A7E4BB8FE3808F_62616E6E65722E6A7067.jpg" alt="banner.jpg" title="banner.jpg" width="640" height="360" /></p>
+<div class="contents">
+<a id="contents_1"></a>
+<ul class="list1 list-indent1"><li><a href="#l5ac29dc"> 3行で説明 </a></li>
+<li><a href="#qaaae776"> 概要 </a></li>
+<li><a href="#q40a23f0"> イベントの細かい流れ </a>
+<ul class="list2 list-indent1"><li><a href="#u4c5caf0"> ボスのレベルについて </a></li>
+<li><a href="#x6967883"> スコアについて </a></li>
+<li><a href="#n825252b"> 討伐報酬について </a>
+<ul class="list3 list-indent1"><li><a href="#i503aafe"> 討伐参加回数を満たすには </a></li></ul></li></ul></li>
+<li><a href="#e769dc0d"> ポイントの稼ぎ方解説 </a></li>
+<li><a href="#c7adce26"> 堕威大仏の特徴 </a></li>
+<li><a href="#z7a76a29"> 報酬・ミッション </a>
+<ul class="list2 list-indent1"><li><a href="#d4eee287"> 第5回：2025/05/07 ～ 05/14 09:59 </a>
+<ul class="list3 list-indent1"><li><a href="#jda2d2e8"> レイドボス報酬 </a></li>
+<li><a href="#oba54502"> レイド限定ミッション </a></li></ul></li>
+<li><a href="#edff3213"> 第4回：2024/06/05 ～ 06/12 09:59 </a>
+<ul class="list3 list-indent1"><li><a href="#kf4aa905"> レイドボス報酬 </a></li>
+<li><a href="#qef548e5"> レイド限定ミッション </a></li></ul></li>
+<li><a href="#vf95e18e"> 第3回：2023/03/01 ～ 03/08 09:59 </a>
+<ul class="list3 list-indent1"><li><a href="#y798f56e"> 前回開催の堕威大仏からの調整について </a></li>
+<li><a href="#y3f4f72c"> レイドボス報酬 </a></li>
+<li><a href="#ab3d7af0"> レイド限定ミッション </a></li></ul></li>
+<li><a href="#h12057dd"> 第2回：2022/06/01 ～ 06/08 09:59</a>
+<ul class="list3 list-indent1"><li><a href="#i24a1030"> レイドボス報酬 </a></li>
+<li><a href="#y507aa27"> レイド限定ミッション </a></li></ul></li>
+<li><a href="#s6b36830"> 第1回：2021/12/08 ～ 12/15 09:59 </a>
+<ul class="list3 list-indent1"><li><a href="#j0e99be6"> レイドボス報酬 </a></li>
+<li><a href="#daeab56c"> レイド限定ミッション </a></li></ul></li></ul></li>
+<li><a href="#cac645b9"> コメントフォーム </a></li></ul>
+</div>
+<br /><table><tr><td><script src="//i2ad.jp/customer/ads/ad.php?id=DUNW7FRFBH5TeDzucJIwEg"></script></td><td><div data-cptid="1554669" style="display: block;"><script>  window.gnshbrequest.cmd.push(function() {    window.gnshbrequest.applyThirdPartyTag("1554669", "[data-cptid='1554669']");  });</script></div></td></tr></table><br />
+<h2 id="content_1_0">3行で説明  <a class="anchor_super" id="l5ac29dc" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#l5ac29dc" title="l5ac29dc">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=l5ac29dc" title="Edit #l5ac29dc"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #l5ac29dc" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=1" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p>とにかくレイド蛍は消費しましょう。面倒なら一定数キャラを出撃させて即撤退してもOK。<br />
+こだわるなら模擬戦で納得いくまで編成を試せるし、参加するだけでも宝箱と豪華な報酬に加えD2Pも手に入ります！<br />
+時短チケット(ただし前回挑戦時の8割のスコア。連続5回まで)も使えます。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- wikiru_PC_h2_responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="9804070536"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br><h2 id="content_1_1">概要  <a class="anchor_super" id="qaaae776" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#qaaae776" title="qaaae776">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=qaaae776" title="Edit #qaaae776"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #qaaae776" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=2" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p>膨大な体力を持つ敵ボスを全プレイヤーが協力して倒すイベントです。出撃可能人数は50キャラで固定。<br />
+ボスは倒してもレベルを上げて何度でも復活するため倒し切ることはできず、<br />
+各プレイヤーの限られた参戦回数とそれぞれの総戦力でどれだけダメージを出せるかの勝負となります。<br />
+ダメージを与えた量に応じて各自にD2Pが、ボスの撃破された回数と参戦した回数に応じて報酬がもらえます。<br />
+レイドボス戦では開催毎に特定の勢力が「特効勢力」に指定され戦闘を有利にしてくれます。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_2">イベントの細かい流れ  <a class="anchor_super" id="q40a23f0" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#q40a23f0" title="q40a23f0">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=q40a23f0" title="Edit #q40a23f0"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #q40a23f0" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=3" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><td class="style_td" style="text-align:center;"><img src="attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E383ACE382A4E38389E89B8D2E706E67.png" alt="レイド蛍.png" title="レイド蛍.png" width="65" height="48" /><br class="spacer" />レイド蛍</td><td class="style_td">レイドイベントの挑戦権。<br class="spacer" />1個につき1回参加可能。<br class="spacer" />次のレイドへの持ち越しは不可。</td></tr>
+</tbody></table></div>
+<p>1. ログインボーナスや期間限定ミッションでレイド蛍を確保し、参加。<br />
+2. 討伐成功するとレイドボスのLvが上がり、レイド蛍が2個配布。その蛍で参加を繰り返す。<br />
+3. 報酬のD2Pが100P貯まったらD2Pガチャを回す。（進行には無関係なので任意です。）<br /></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_3">ボスのレベルについて  <a class="anchor_super" id="u4c5caf0" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#u4c5caf0" title="u4c5caf0">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=u4c5caf0" title="Edit #u4c5caf0"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #u4c5caf0" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=4" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>レベルが上がったボスは、スタミナが多くなるだけでその他の能力は上昇せず一定です。<br />
+なので、低レベルのボスが倒されてどんどんレベルが上がっていくのを見て焦る必要はありません。<br />
+不利になることは無いので自分の好きなタイミングで討伐に参加してください。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_4">スコアについて  <a class="anchor_super" id="x6967883" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#x6967883" title="x6967883">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=x6967883" title="Edit #x6967883"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #x6967883" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=5" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>戦闘中にボスに与えたダメージがスコアとなります。<br />
+スコアに応じて戦闘終了後にD2Pがもらえます。(1戦闘の上限は20P)<br />
+開催期間中に稼いだスコアの合計に応じてイベント終了後に<a href="./?%E3%83%AC%E3%82%A4%E3%83%89#b40c88e0" title="レイド" class="" data-mtime="">報酬</a>を得ることが出来ます。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_5">討伐報酬について  <a class="anchor_super" id="n825252b" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#n825252b" title="n825252b">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=n825252b" title="Edit #n825252b"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #n825252b" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=6" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>討伐レベルに対応した討伐参加回数を達成することで、討伐報酬を手に入れられます。<br />
+スコアは無関係なので、この回数さえ稼いでいれば主立った報酬は取り切ることが出来ます。<br />
+<span style="color:red"><strong>レイドに参加しないと、報酬は一切手に入りません。</strong></span></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_6">討伐参加回数を満たすには  <a class="anchor_super" id="i503aafe" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#i503aafe" title="i503aafe">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=i503aafe" title="Edit #i503aafe"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #i503aafe" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=7" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>現在は討伐レベル46に<a href="./?%E3%83%AC%E3%82%A4%E3%83%89#i650c2b6" title="レイド" class="" data-mtime="">高い壁</a>が存在すると推測されており、<strong>討伐レベル45~46(討伐参加回数125~128)が実質的な天井</strong><a id="notetext_1" href="#notefoot_1" class="note_super" title="第6回ゴールデンハニーで初の討伐レベル46を達成">*1</a>と考えられています。<br />
+そのため、討伐時にもらえる蛍2個やミッションを普通にこなしている程度では討伐参加回数を満たすことが出来ません。<br />
+ボスのレベル11以降はレベルが1増える毎に必要な討伐参加回数が3回増えるので、レベル1につき蛍1個分が不足してしまうからです。</p>
+<p>討伐報酬を取り切るなら、普段は毎日1回割っている蝶鉱石を2~5回に増やしたり、元気の原液を使ってスタミナを多く消費して<br />
+スタミナ500につき蛍1個のミッションを繰り返しクリアして蛍を稼ぐことになります。(回数限定ですが<a href="./?%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97#h575c472" class="" data-mtime="">ショップ</a>で買うこともできます)</p>
+<p>元気の原液が余っているというプレイヤーはメインクエストを周回してスタミナを消費し、必要な分の蛍を確保することをおすすめします。<br />
+▼周回例</p>
+<ul class="list1 list-indent1"><li>第2部Area19以降でボックス狩り</li>
+<li>第1部N2-8(閃忍ツカサの必殺技を発動しながら)</li>
+<li>第1部N12-10(逞しきドロップを使用しながら)</li>
+<li>高難度のステージ(経験値を稼いでレベルアップするため)</li>
+<li>手つかずの難易度HARD,EXTRAを進める</li></ul>
+<p>なお、宝箱が溜まっているならレイド期間中に開封してレベルアップをすることでスタミナの足しになります。</p>
+<script>
+// 折りたたみ切り替え関数
+function tglRgn(button) {
+    var container = button.closest('.rgn-container');
+    var description = container.querySelector('.rgn-description');
+    var content = container.querySelector('.rgn-content');
+    var plusIcon = button.querySelector('.plus-icon');
+    var minusIcon = button.querySelector('.minus-icon');
+    var isCollapsed = description.style.display != 'none';
+    
+    description.style.display = isCollapsed ? 'none' : 'block';
+    content.style.display = isCollapsed ? 'block' : 'none';
+    plusIcon.style.display = isCollapsed ? 'none' : 'block';
+    minusIcon.style.display = isCollapsed ? 'block' : 'none';
+    
+    if (isCollapsed) {
+        // 展開時、内容が空の場合のみ全角スペースを追加
+        if (content.innerHTML.trim() === '') {
+            content.innerHTML = '　';
+        }
+    } else {
+        // 折りたたみ時、内容が全角スペースのみの場合、それを削除
+        if (content.innerHTML === '　') {
+            content.innerHTML = '';
+        }
+    }
+}
+
+// ハッシュ変更時の処理
+function openAllParentRegions(element) {
+    let currentElement = element;
+    const openedRegions = [];
+    
+    // 親方向に向かってすべてのregionを探索
+    while (currentElement) {
+        const regionContainer = currentElement.closest('.rgn-container');
+        if (!regionContainer) break;
+        
+        const content = regionContainer.querySelector('.rgn-content');
+        const button = regionContainer.querySelector('.rgn-button');
+        
+        if (content && content.style.display === 'none') {
+            tglRgn(button);
+            openedRegions.push(regionContainer);
+        }
+        
+        // 次の親要素の探索のため、現在のregionの外側から検索を開始
+        currentElement = regionContainer.parentElement;
+    }
+    
+    return openedRegions;
+}
+
+function handleHashChange() {
+    if (location.hash) {
+        const targetId = location.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+            // すべての親regionを開く
+            const openedRegions = openAllParentRegions(targetElement);
+            
+            // アニメーションが完了してから要素までスクロール
+            if (openedRegions.length > 0) {
+                setTimeout(function() {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }, 100 * openedRegions.length); // regionの数に応じて待ち時間を調整
+            } else {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+}
+
+// イベントリスナーの設定
+window.addEventListener('hashchange', handleHashChange);
+window.addEventListener('load', handleHashChange);
+</script>
+<style>
+.plus-icon, .minus-icon {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: -3px;
+}
+.rgn-container {
+    transition: all 0.3s ease-in-out;
+}
+.rgn-content {
+    transition: display 0.3s ease-in-out;
+}
+</style><div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>繰り返しミッションで確保する必要のあるレイド蛍の数</p>
+</div><div class="rgn-content" style="display: none">
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">討伐Lv</th><th class="style_th">討伐参加回数</th><th class="style_th">足りない<br class="spacer" />蛍の数</th><th class="style_th">必要<br class="spacer" />スタミナ<a id="notetext_2" href="#notefoot_2" class="note_super" title="ミッションの『スタミナを◯◯消費しよう』がこの数値になっている必要がある">*2</a></th><th class="style_th">１割</th><th class="style_th">２割</th><th class="style_th">３割</th><th class="style_th">４割</th><th class="style_th">５割</th></tr>
+</thead><tfoot><tr><td class="style_td" colspan="4" style="text-align:center;">１週間の自然回復(2,000)+蝶鉱石による回復分</td><td class="style_td" style="text-align:center;">3,050</td><td class="style_td" style="text-align:center;">4,100</td><td class="style_td" style="text-align:center;">5,150</td><td class="style_td" style="text-align:center;">6,200</td><td class="style_td" style="text-align:center;">7,250</td></tr>
+</tfoot><tbody><tr><th class="style_th">Lv35</th><td class="style_td" style="text-align:center;">95</td><td class="style_td" style="text-align:center;">13</td><td class="style_td" style="text-align:center;">6,500</td><td class="style_td" style="text-align:center;">3,450</td><td class="style_td" style="text-align:center;">2,400</td><td class="style_td" style="text-align:center;">1,350</td><td class="style_td" style="text-align:center;">300</td><td class="style_td" style="text-align:center;">-750</td></tr>
+<tr><th class="style_th">Lv36</th><td class="style_td" style="text-align:center;">98</td><td class="style_td" style="text-align:center;">14</td><td class="style_td" style="text-align:center;">7,000</td><td class="style_td" style="text-align:center;">3,950</td><td class="style_td" style="text-align:center;">2,900</td><td class="style_td" style="text-align:center;">1,850</td><td class="style_td" style="text-align:center;">800</td><td class="style_td" style="text-align:center;">-250</td></tr>
+<tr><th class="style_th">Lv37</th><td class="style_td" style="text-align:center;">101</td><td class="style_td" style="text-align:center;">15</td><td class="style_td" style="text-align:center;">7,500</td><td class="style_td" style="text-align:center;">4,450</td><td class="style_td" style="text-align:center;">3,400</td><td class="style_td" style="text-align:center;">2,350</td><td class="style_td" style="text-align:center;">1,300</td><td class="style_td" style="text-align:center;">250</td></tr>
+<tr><th class="style_th">Lv38</th><td class="style_td" style="text-align:center;">104</td><td class="style_td" style="text-align:center;">16</td><td class="style_td" style="text-align:center;">8,000</td><td class="style_td" style="text-align:center;">4,950</td><td class="style_td" style="text-align:center;">3,900</td><td class="style_td" style="text-align:center;">2,850</td><td class="style_td" style="text-align:center;">1,800</td><td class="style_td" style="text-align:center;">750</td></tr>
+<tr><th class="style_th">Lv39</th><td class="style_td" style="text-align:center;">107</td><td class="style_td" style="text-align:center;">17</td><td class="style_td" style="text-align:center;">8,500</td><td class="style_td" style="text-align:center;">5,450</td><td class="style_td" style="text-align:center;">4,400</td><td class="style_td" style="text-align:center;">3,350</td><td class="style_td" style="text-align:center;">2,300</td><td class="style_td" style="text-align:center;">1,250</td></tr>
+<tr><th class="style_th">Lv40</th><td class="style_td" style="text-align:center;">110</td><td class="style_td" style="text-align:center;">18</td><td class="style_td" style="text-align:center;">9,000</td><td class="style_td" style="text-align:center;">5,950</td><td class="style_td" style="text-align:center;">4,900</td><td class="style_td" style="text-align:center;">3,850</td><td class="style_td" style="text-align:center;">2,800</td><td class="style_td" style="text-align:center;">1,750</td></tr>
+<tr><th class="style_th">Lv41</th><td class="style_td" style="text-align:center;">113</td><td class="style_td" style="text-align:center;">19</td><td class="style_td" style="text-align:center;">9,500</td><td class="style_td" style="text-align:center;">6,450</td><td class="style_td" style="text-align:center;">5,400</td><td class="style_td" style="text-align:center;">4,350</td><td class="style_td" style="text-align:center;">3,300</td><td class="style_td" style="text-align:center;">2,250</td></tr>
+<tr><th class="style_th">Lv42</th><td class="style_td" style="text-align:center;">116</td><td class="style_td" style="text-align:center;">20</td><td class="style_td" style="text-align:center;">10,000</td><td class="style_td" style="text-align:center;">6,950</td><td class="style_td" style="text-align:center;">5,900</td><td class="style_td" style="text-align:center;">4,850</td><td class="style_td" style="text-align:center;">3,800</td><td class="style_td" style="text-align:center;">2,750</td></tr>
+<tr><th class="style_th">Lv43</th><td class="style_td" style="text-align:center;">119</td><td class="style_td" style="text-align:center;">21</td><td class="style_td" style="text-align:center;">10,500</td><td class="style_td" style="text-align:center;">7,450</td><td class="style_td" style="text-align:center;">6,400</td><td class="style_td" style="text-align:center;">5,350</td><td class="style_td" style="text-align:center;">4,300</td><td class="style_td" style="text-align:center;">3,250</td></tr>
+<tr><th class="style_th">Lv44</th><td class="style_td" style="text-align:center;">122</td><td class="style_td" style="text-align:center;">22</td><td class="style_td" style="text-align:center;">11,000</td><td class="style_td" style="text-align:center;">7,950</td><td class="style_td" style="text-align:center;">6,900</td><td class="style_td" style="text-align:center;">5,850</td><td class="style_td" style="text-align:center;">4,800</td><td class="style_td" style="text-align:center;">3,750</td></tr>
+<tr><th class="style_th">Lv45</th><td class="style_td" style="text-align:center;">125</td><td class="style_td" style="text-align:center;">23</td><td class="style_td" style="text-align:center;">11,500</td><td class="style_td" style="text-align:center;">8,450</td><td class="style_td" style="text-align:center;">7,400</td><td class="style_td" style="text-align:center;">6,350</td><td class="style_td" style="text-align:center;">5,300</td><td class="style_td" style="text-align:center;">4,250</td></tr>
+<tr><th class="style_th">Lv46</th><td class="style_td" style="text-align:center;">128</td><td class="style_td" style="text-align:center;">24</td><td class="style_td" style="text-align:center;">12,000</td><td class="style_td" style="text-align:center;">8,950</td><td class="style_td" style="text-align:center;">7,900</td><td class="style_td" style="text-align:center;">6,850</td><td class="style_td" style="text-align:center;">5,800</td><td class="style_td" style="text-align:center;">4,750</td></tr>
+<tr><th class="style_th">Lv47</th><td class="style_td" style="text-align:center;">131</td><td class="style_td" style="text-align:center;">25</td><td class="style_td" style="text-align:center;">12,500</td><td class="style_td" style="text-align:center;">9,450</td><td class="style_td" style="text-align:center;">8,400</td><td class="style_td" style="text-align:center;">7,350</td><td class="style_td" style="text-align:center;">6,300</td><td class="style_td" style="text-align:center;">5,250</td></tr>
+<tr><th class="style_th">Lv48</th><td class="style_td" style="text-align:center;">134</td><td class="style_td" style="text-align:center;">26</td><td class="style_td" style="text-align:center;">13,000</td><td class="style_td" style="text-align:center;">9,950</td><td class="style_td" style="text-align:center;">8,900</td><td class="style_td" style="text-align:center;">7,850</td><td class="style_td" style="text-align:center;">6,800</td><td class="style_td" style="text-align:center;">5,750</td></tr>
+<tr><th class="style_th">Lv49</th><td class="style_td" style="text-align:center;">137</td><td class="style_td" style="text-align:center;">27</td><td class="style_td" style="text-align:center;">13,500</td><td class="style_td" style="text-align:center;">10,450</td><td class="style_td" style="text-align:center;">9,400</td><td class="style_td" style="text-align:center;">8,350</td><td class="style_td" style="text-align:center;">7,300</td><td class="style_td" style="text-align:center;">6,250</td></tr>
+<tr><th class="style_th">Lv50</th><td class="style_td" style="text-align:center;">140</td><td class="style_td" style="text-align:center;">28</td><td class="style_td" style="text-align:center;">14,000</td><td class="style_td" style="text-align:center;">10,950</td><td class="style_td" style="text-align:center;">9,900</td><td class="style_td" style="text-align:center;">8,850</td><td class="style_td" style="text-align:center;">7,800</td><td class="style_td" style="text-align:center;">6,750</td></tr>
+</tbody></table></div>
+<ul class="list1 list-indent1"><li>Q:この表は何？
+<ul class="list2 list-indent1"><li>レイド蛍は繰り返し以外のミッションを全て達成して12個、ボス討伐毎に2個入手出来るのだが、<br />
+その分を除いたスタミナミッションで稼ぐ必要のある蛍の数を示している。</li></ul></li>
+<li>Q:◯割って何？
+<ul class="list2 list-indent1"><li>◯割の欄は１日に蝶鉱石で回復を行う分(1日1回=1割)と自然回復分(VIPランクは0として計算)のスタミナを除いて、<br />
+それ以外の手段(レベルアップや元気の原液)によるスタミナがいくら必要になるかを示している。</li>
+<li>一例として、討伐Lv45の場合は4割ならば必要となるスタミナは5,300なので元気の原液は大体100本くらいは必要になることが分かる。</li></ul></li>
+<li>レイドボス一覧ページの討伐Lvは「現在の討伐中Lv」であることに注意(討伐Lvとは「討伐済みLv」のこと)</li></ul>
+</div></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_7">ポイントの稼ぎ方解説  <a class="anchor_super" id="e769dc0d" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#e769dc0d" title="e769dc0d">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=e769dc0d" title="Edit #e769dc0d"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #e769dc0d" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=8" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p>詳細は<strong><a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a></strong>へ。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_8">堕威大仏の特徴  <a class="anchor_super" id="c7adce26" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#c7adce26" title="c7adce26">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=c7adce26" title="Edit #c7adce26"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #c7adce26" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=9" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><td class="style_td"><a href="./?plugin=attach&amp;refer=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;openfile=%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E6%83%85%E5%A0%B1.png" title="堕威大仏情報.png"><img src="attach2/E382A4E38399E383B3E3838832325FE383ACE382A4E38389E382A4E38399E383B3E38388E3808EE5A095E5A881E5A4A7E4BB8FE3808F_E5A095E5A881E5A4A7E4BB8FE68385E5A0B12E706E67.png" alt="堕威大仏情報.png" title="堕威大仏情報.png" width="445" height="228" /></a></td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_9">報酬・ミッション  <a class="anchor_super" id="z7a76a29" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#z7a76a29" title="z7a76a29">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=z7a76a29" title="Edit #z7a76a29"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #z7a76a29" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=10" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: none"><p>第5回開催時</p>
+</div><div class="rgn-content" style="display: block">
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_10">第5回：2025/05/07 ～ 05/14 09:59  <a class="anchor_super" id="d4eee287" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#d4eee287" title="d4eee287">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=d4eee287" title="Edit #d4eee287"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #d4eee287" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=11" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_11">レイドボス報酬  <a class="anchor_super" id="jda2d2e8" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#jda2d2e8" title="jda2d2e8">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=jda2d2e8" title="Edit #jda2d2e8"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #jda2d2e8" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=12" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>レイドボスの報酬内容は以下の通りです。<br />
+※討伐報酬は対象レベルのレイドボスが討伐された後、討伐参加回数が必要数に達している場合にホーム画面に移動すると獲得します。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" rowspan="2" style="text-align:center; width:30px;">討伐LV</th><th class="style_th" rowspan="2" style="text-align:center; width:80px;">報酬獲得に<br class="spacer" />必要な討伐<br class="spacer" />参加回数</th><th class="style_th" rowspan="2" style="text-align:center;">[獲得資金]</th><th class="style_th" rowspan="2" style="text-align:center;">獲得アイテム</th><th class="style_th" rowspan="2" style="text-align:center;">[宝箱]</th><th class="style_th" rowspan="2" style="text-align:center;">[獲得D2P]</th></tr>
+
+</thead><tbody><tr><td class="style_td" style="text-align:center; width:30px;">1</td><td class="style_td" style="text-align:center; width:80px;">（　２回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">カクセイの木・小２個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">2</td><td class="style_td" style="text-align:center; width:80px;">（　４回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">3</td><td class="style_td" style="text-align:center; width:80px;">（　６回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">巫女絵馬１個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">4</td><td class="style_td" style="text-align:center; width:80px;">（　８回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">トークン２個</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">5</td><td class="style_td" style="text-align:center; width:80px;">（１０回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">蝶鉱石２個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">6</td><td class="style_td" style="text-align:center; width:80px;">（１２回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">四円玉・銅５個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">7</td><td class="style_td" style="text-align:center; width:80px;">（１４回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">カクセイの木・小３個<br class="spacer" />元気の原液・高濃度１個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">8</td><td class="style_td" style="text-align:center; width:80px;">（１６回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">昂るつぼみ２個<br class="spacer" />単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">9</td><td class="style_td" style="text-align:center; width:80px;">（１８回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">蝶鉱石３個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">10</td><td class="style_td" style="text-align:center; width:80px;">（２０回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">壁に開限２個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">11</td><td class="style_td" style="text-align:center; width:80px;">（２３回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">巫女絵馬１個</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">12</td><td class="style_td" style="text-align:center; width:80px;">（２６回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">カクセイの木・中２個<br class="spacer" />単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">13</td><td class="style_td" style="text-align:center; width:80px;">（２９回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">蝶鉱石４個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">14</td><td class="style_td" style="text-align:center; width:80px;">（３２回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">壁に開限３個<br class="spacer" />単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">15</td><td class="style_td" style="text-align:center; width:80px;">（３５回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">カクセイの木・中２個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">16</td><td class="style_td" style="text-align:center; width:80px;">（３８回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">巫女絵馬１個<br class="spacer" />元気の原液・超純度１個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">17</td><td class="style_td" style="text-align:center; width:80px;">（４１回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">蝶鉱石５個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">18</td><td class="style_td" style="text-align:center; width:80px;">（４４回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">トークン２個</td><td class="style_td" style="text-align:center;">20</td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">19</td><td class="style_td" style="text-align:center; width:80px;">（４７回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">銀の巫女絵馬１個<br class="spacer" />単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">20</td><td class="style_td" style="text-align:center; width:80px;">（５０回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">カクセイの木・中５個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+</tbody></table></div>
+<p>▼<strong>Lv21以上の討伐報酬について</strong></p>
+<p>Lvごとの討伐報酬の内容や、必要な討伐参加回数は<br />
+レイドボスの戦闘準備画面から「報酬情報」＞「討伐報酬」タブでご確認ください。</p>
+<p>※レイドボスごとに報酬が一部異なります。</p>
+<p>※初期状態ではLv40までしか表示がなく、41以降は討伐が進み次第、追加で表示されます。<br />
+（討伐Lvがどれだけ上がっても報酬は存在します）</p>
+<p>全レイドボス共通で討伐Lvが上がるごとに<br />
+・Ｄ２Ｐは５ずつ上昇（最大１００まで）<br />
+・銀の巫女絵馬は討伐Lv２３、２９、３５の時に１個付く<br />
+・カクセイの木・小は討伐Lv２６、３２、３８の時に３個付く</p>
+<p>※銀の巫女絵馬とカクセイの木・小は討伐Lv３９以降には付きません</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_12">レイド限定ミッション  <a class="anchor_super" id="oba54502" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#oba54502" title="oba54502">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=oba54502" title="Edit #oba54502"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #oba54502" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=13" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>期間限定ミッションについて：<br />
+ミッションは以下の通りです。</p>
+<p>ログインしよう（１日１回）<br />
+１日目はレイド蛍３個<br />
+２日目以降はレイド蛍１個</p>
+<p>Ｄ２Ｐガチャを行おう<br />
+アイコン「カール将軍（ママトト）」</p>
+<p>スタミナを500消費しよう（繰り返し）<br />
+レイド蛍１個</p>
+<p>宝箱画面で3段以上のブレイクを8回行おう<br />
+レイド蛍１個</p>
+<p>レイド戦に挑戦しよう<br />
+10回：レイド蛍１個<br />
+20回：レイド蛍１個</p>
+<p>レイド戦で以下の開催中獲得ptに到達しよう<br />
+　２０万：Ｄ２Ｐ[２０]<br />
+　３０万：アイコン「ピッテン（ママトト）」<br />
+　５０万：Ｄ２Ｐ[２０]<br />
+　７０万：アイコン「パットン（ママトト）」<br />
+　９０万：Ｄ２Ｐ[２０]<br />
+１２０万：アイコン「秋山敬一郎（大帝国）」<br />
+１４０万：Ｄ２Ｐ[２０]<br />
+１７０万：アイコン「帝（大帝国）」<br />
+２００万：Ｄ２Ｐ[２０]</p>
+<p>ミッションクリアでレイド蛍を2個手に入れよう（１日１回）<br />
+Ｄ２Ｐ[２０]</p>
+<p>メインクエストで戦おう（１日１回）<br />
+1回：なにになるやら１個<br />
+3回：カクセイの木・小１個<br />
+5回：蝶鉱石１個</p>
+<p>※１日１回のミッションについて<br />
+　基本毎日4時に切り替わりますが最終7日目のみ<br />
+　5/13 04:00～5/14 09:59<br />
+　こちらの30時間が1日分となります。</p>
+</div></div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>第4回開催時</p>
+</div><div class="rgn-content" style="display: none">
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_13">第4回：2024/06/05 ～ 06/12 09:59  <a class="anchor_super" id="edff3213" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#edff3213" title="edff3213">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=edff3213" title="Edit #edff3213"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #edff3213" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=14" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_14">レイドボス報酬  <a class="anchor_super" id="kf4aa905" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#kf4aa905" title="kf4aa905">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=kf4aa905" title="Edit #kf4aa905"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #kf4aa905" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=15" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>レイドボスの報酬内容は以下の通りです。<br />
+※討伐報酬は対象レベルのレイドボスが討伐された後、討伐参加回数が必要数に達している場合にホーム画面に移動すると獲得します。</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" rowspan="2" style="text-align:center; width:30px;">討伐LV</th><th class="style_th" rowspan="2" style="text-align:center; width:80px;">報酬獲得に<br class="spacer" />必要な討伐<br class="spacer" />参加回数</th><th class="style_th" rowspan="2" style="text-align:center;">[獲得資金]</th><th class="style_th" rowspan="2" style="text-align:center;">獲得アイテム</th><th class="style_th" rowspan="2" style="text-align:center;">[宝箱]</th><th class="style_th" rowspan="2" style="text-align:center;">[獲得D2P]</th></tr>
+
+</thead><tbody><tr><td class="style_td" style="text-align:center; width:30px;">1</td><td class="style_td" style="text-align:center; width:80px;">（　２回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">カクセイの木・小２個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">2</td><td class="style_td" style="text-align:center; width:80px;">（　４回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">3</td><td class="style_td" style="text-align:center; width:80px;">（　６回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">巫女絵馬１個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">4</td><td class="style_td" style="text-align:center; width:80px;">（　８回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">トークン２個</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">5</td><td class="style_td" style="text-align:center; width:80px;">（１０回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">蝶鉱石２個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">6</td><td class="style_td" style="text-align:center; width:80px;">（１２回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">四円玉・銅５個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">7</td><td class="style_td" style="text-align:center; width:80px;">（１４回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">カクセイの木・小３個<br class="spacer" />元気の原液・高濃度１個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">8</td><td class="style_td" style="text-align:center; width:80px;">（１６回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">昂るつぼみ２個<br class="spacer" />単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">9</td><td class="style_td" style="text-align:center; width:80px;">（１８回）</td><td class="style_td" style="text-align:center;">1000</td><td class="style_td" style="text-align:center;">蝶鉱石３個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">10</td><td class="style_td" style="text-align:center; width:80px;">（２０回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">壁に開限２個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">11</td><td class="style_td" style="text-align:center; width:80px;">（２３回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">巫女絵馬１個</td><td class="style_td" style="text-align:center;">10</td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">12</td><td class="style_td" style="text-align:center; width:80px;">（２６回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">カクセイの木・中２個<br class="spacer" />単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">13</td><td class="style_td" style="text-align:center; width:80px;">（２９回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">蝶鉱石４個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">14</td><td class="style_td" style="text-align:center; width:80px;">（３２回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">壁に開限３個<br class="spacer" />単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">15</td><td class="style_td" style="text-align:center; width:80px;">（３５回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">カクセイの木・中２個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">16</td><td class="style_td" style="text-align:center; width:80px;">（３８回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">巫女絵馬１個<br class="spacer" />元気の原液・超純度１個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">17</td><td class="style_td" style="text-align:center; width:80px;">（４１回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">蝶鉱石５個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">18</td><td class="style_td" style="text-align:center; width:80px;">（４４回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">トークン２個</td><td class="style_td" style="text-align:center;">20</td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">19</td><td class="style_td" style="text-align:center; width:80px;">（４７回）</td><td class="style_td" style="text-align:center;">2000</td><td class="style_td" style="text-align:center;">銀の巫女絵馬１個<br class="spacer" />単発ガチャチケット２枚</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;"></td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">20</td><td class="style_td" style="text-align:center; width:80px;">（５０回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">カクセイの木・中５個</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">10</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">21</td><td class="style_td" style="text-align:center; width:80px;">（５３回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">20</td><td class="style_td" style="text-align:center;">20</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">22</td><td class="style_td" style="text-align:center; width:80px;">（５６回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">25</td><td class="style_td" style="text-align:center;">25</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">23</td><td class="style_td" style="text-align:center; width:80px;">（５９回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">銀の巫女絵馬１個<br class="spacer" />なにになるやら１０個</td><td class="style_td" style="text-align:center;">30</td><td class="style_td" style="text-align:center;">30</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">24</td><td class="style_td" style="text-align:center; width:80px;">（６２回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">35</td><td class="style_td" style="text-align:center;">35</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">25</td><td class="style_td" style="text-align:center; width:80px;">（６５回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">40</td><td class="style_td" style="text-align:center;">40</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">26</td><td class="style_td" style="text-align:center; width:80px;">（６８回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">カクセイの木・小３個<br class="spacer" />なにになるやら１０個</td><td class="style_td" style="text-align:center;">45</td><td class="style_td" style="text-align:center;">45</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">27</td><td class="style_td" style="text-align:center; width:80px;">（７１回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">50</td><td class="style_td" style="text-align:center;">50</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">28</td><td class="style_td" style="text-align:center; width:80px;">（７４回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">55</td><td class="style_td" style="text-align:center;">55</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">29</td><td class="style_td" style="text-align:center; width:80px;">（７７回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">銀の巫女絵馬１個<br class="spacer" />なにになるやら１０個</td><td class="style_td" style="text-align:center;">60</td><td class="style_td" style="text-align:center;">60</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">30</td><td class="style_td" style="text-align:center; width:80px;">（８０回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">65</td><td class="style_td" style="text-align:center;">65</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">31</td><td class="style_td" style="text-align:center; width:80px;">（８３回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">70</td><td class="style_td" style="text-align:center;">70</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">32</td><td class="style_td" style="text-align:center; width:80px;">（８６回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">カクセイの木・小３個<br class="spacer" />なにになるやら１０個</td><td class="style_td" style="text-align:center;">75</td><td class="style_td" style="text-align:center;">75</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">33</td><td class="style_td" style="text-align:center; width:80px;">（８９回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">80</td><td class="style_td" style="text-align:center;">80</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">34</td><td class="style_td" style="text-align:center; width:80px;">（９２回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">85</td><td class="style_td" style="text-align:center;">85</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">35</td><td class="style_td" style="text-align:center; width:80px;">（９５回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">銀の巫女絵馬１個<br class="spacer" />なにになるやら１０個</td><td class="style_td" style="text-align:center;">90</td><td class="style_td" style="text-align:center;">90</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">36</td><td class="style_td" style="text-align:center; width:80px;">（９８回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">95</td><td class="style_td" style="text-align:center;">95</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">37</td><td class="style_td" style="text-align:center; width:80px;">（１０１回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">100</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">38</td><td class="style_td" style="text-align:center; width:80px;">（１０４回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">カクセイの木・小３個<br class="spacer" />なにになるやら１０個</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">100</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">39</td><td class="style_td" style="text-align:center; width:80px;">（１０７回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">100</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">40</td><td class="style_td" style="text-align:center; width:80px;">（１１０回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">元気の原液３個</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">100</td></tr>
+<tr><td class="style_td" style="text-align:center; width:30px;">41</td><td class="style_td" style="text-align:center; width:80px;">（１１３回）</td><td class="style_td" style="text-align:center;"></td><td class="style_td" style="text-align:center;">なにになるやら１０個</td><td class="style_td" style="text-align:center;">100</td><td class="style_td" style="text-align:center;">100</td></tr>
+</tbody></table></div>
+<p>▼<strong>Lv21以上の討伐報酬について</strong></p>
+<p>Lvごとの討伐報酬の内容や、必要な討伐参加回数は<br />
+レイドボスの戦闘準備画面から「報酬情報」＞「討伐報酬」タブでご確認ください。</p>
+<p>※レイドボスごとに報酬が一部異なります。</p>
+<p>※初期状態ではLv40までしか表示がなく、41以降は討伐が進み次第、追加で表示されます。<br />
+（討伐Lvがどれだけ上がっても報酬は存在します）</p>
+<p>全レイドボス共通で討伐Lvが上がるごとに<br />
+・Ｄ２Ｐは５ずつ上昇（最大１００まで）<br />
+・銀の巫女絵馬は討伐Lv２３、２９、３５の時に１個付く<br />
+・カクセイの木・小は討伐Lv２６、３２、３８の時に３個付く</p>
+<p>※銀の巫女絵馬とカクセイの木・小は討伐Lv３９以降には付きません</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_15">レイド限定ミッション  <a class="anchor_super" id="qef548e5" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#qef548e5" title="qef548e5">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=qef548e5" title="Edit #qef548e5"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #qef548e5" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=16" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>ミッションは以下の通りです。</p>
+<p>ログインしよう（１日１回）<br />
+１日目はレイド蛍３個<br />
+２日目以降はレイド蛍１個</p>
+<p>Ｄ２Ｐガチャを行おう<br />
+アイコン「支倉アエン（大悪司）」</p>
+<p>スタミナを500消費しよう（繰り返し）<br />
+レイド蛍１個</p>
+<p>宝箱画面で3段以上のブレイクを8回行おう<br />
+レイド蛍１個</p>
+<p>レイド戦に挑戦しよう<br />
+10回：レイド蛍１個<br />
+20回：レイド蛍１個</p>
+<p>レイド戦で以下の開催中獲得ptに到達しよう<br />
+　２０万：Ｄ２Ｐ[２０]<br />
+　３０万：アイコン「盾（大悪司）」<br />
+　５０万：Ｄ２Ｐ[２０]<br />
+　７０万：アイコン「明石大佐（大帝国）」<br />
+　９０万：Ｄ２Ｐ[２０]<br />
+１２０万：アイコン「フリス・ハルゼー（大帝国）」<br />
+１４０万：Ｄ２Ｐ[２０]<br />
+１７０万：アイコン「マウマウ（大帝国）」<br />
+２００万：Ｄ２Ｐ[２０]</p>
+<p>ミッションクリアでレイド蛍を2個手に入れよう（１日１回）<br />
+Ｄ２Ｐ[２０]</p>
+<p>メインクエストで戦おう（１日１回）<br />
+1回：なにになるやら１個<br />
+3回：カクセイの木・小１個<br />
+5回：蝶鉱石１個</p>
+<p>※１日１回のミッションについて<br />
+　基本毎日4時に切り替わりますが最終7日目のみ<br />
+　6/11 04:00～6/12 09:59<br />
+　こちらの30時間が1日分となります。</p>
+</div></div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>第3回開催時</p>
+</div><div class="rgn-content" style="display: none">
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_16">第3回：2023/03/01 ～ 03/08 09:59  <a class="anchor_super" id="vf95e18e" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#vf95e18e" title="vf95e18e">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=vf95e18e" title="Edit #vf95e18e"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #vf95e18e" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=17" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_17">前回開催の堕威大仏からの調整について  <a class="anchor_super" id="y798f56e" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#y798f56e" title="y798f56e">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=y798f56e" title="Edit #y798f56e"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #y798f56e" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=18" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<ul class="list1 list-indent1"><li>報酬<br />
+・討伐報酬の『資金』を増量<br />
+・討伐報酬Lv6、10、14の『なにになるやら』を5個に増量<br />
+※その他報酬の入手量に変更はありません。</li></ul>
+<ul class="list1 list-indent1"><li>ミッション<br />
+▼削除<br />
+メインクエストで稀に登場する敵、ハニーを1体倒そう(時短不可)報酬：レイド蛍x1<br />
+▼追加<br />
+レイド戦闘に20回挑戦しよう 報酬：レイド蛍x1<br />
+【１日１回】メインクエストで1回戦おう　報酬：なにになるやらx1<br />
+【１日１回】メインクエストで3回戦おう　報酬：カクセイの木・小x1<br />
+【１日１回】メインクエストで5回戦おう　報酬：蝶鉱石x1</li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_18">レイドボス報酬  <a class="anchor_super" id="y3f4f72c" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#y3f4f72c" title="y3f4f72c">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=y3f4f72c" title="Edit #y3f4f72c"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #y3f4f72c" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=19" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>レイドボスの報酬内容は以下の通りです。<br />
+※討伐報酬は対象レベルのレイドボスが討伐された後、討伐参加回数が必要数に達している場合にホーム画面に移動すると獲得します。</p>
+<p>討伐LV（報酬獲得に必要な討伐参加回数）：<br />
+　０１（　２回）：カクセイの木・小２個＋資金１０００<br />
+　０２（　４回）：単発ガチャチケット２枚＋Ｄ２Ｐ[１０]<br />
+　０３（　６回）：巫女絵馬１個＋資金１０００<br />
+　０４（　８回）：トークン２個＋宝箱１０個＋Ｄ２Ｐ[１０]<br />
+　０５（１０回）：蝶鉱石２個＋資金１０００<br />
+　０６（１２回）：なにになるやら５個＋Ｄ２Ｐ[１０]<br />
+　０７（１４回）：カクセイの木・小３個＋元気の原液・高濃度１個＋資金１０００<br />
+　０８（１６回）：昂るつぼみ２個＋単発ガチャチケット２枚＋Ｄ２Ｐ[１０]<br />
+　０９（１８回）：蝶鉱石３個＋資金１０００<br />
+　１０（２０回）：なにになるやら５個＋Ｄ２Ｐ[１０]<br />
+　１１（２３回）：巫女絵馬１個＋宝箱１０個＋資金２０００<br />
+　１２（２６回）：カクセイの木・中２個＋単発ガチャチケット２枚＋Ｄ２Ｐ[１０]<br />
+　１３（２９回）：蝶鉱石４個＋資金２０００<br />
+　１４（３２回）：なにになるやら５個＋単発ガチャチケット２枚＋Ｄ２Ｐ[１０]<br />
+　１５（３５回）：カクセイの木・中２個＋資金２０００<br />
+　１６（３８回）：巫女絵馬１個＋元気の原液・超純度１個＋Ｄ２Ｐ[１０]<br />
+　１７（４１回）：蝶鉱石５個＋資金２０００<br />
+　１８（４４回）：トークン２個＋宝箱２０個＋Ｄ２Ｐ[１０]<br />
+　１９（４７回）：銀の巫女絵馬１個＋単発ガチャチケット２枚＋資金２０００<br />
+　２０（５０回）：カクセイの木・中５個＋Ｄ２Ｐ[１０]</p>
+<p>Lv21以上の討伐報酬について<br />
+Lvごとの討伐報酬の内容や、必要な討伐参加回数はレイドボスの戦闘準備画面から「報酬情報」＞「討伐報酬」タブでご確認ください。</p>
+<p>※初期状態ではLv20までしか表示がなく、21以降は討伐が進み次第、追加で表示されます。<br />
+　（討伐Lvがどれだけ上がっても報酬は存在します）</p>
+<p>討伐Lvが上がるごとに<br />
+・資金は５００ずつ上昇（最大１５０００まで）<br />
+・宝箱は５個ずつ上昇（最大１００個まで）<br />
+・Ｄ２Ｐは５ずつ上昇（最大１００まで）<br />
+・銀の巫女絵馬は討伐Lv２３、２９、３５の時に１個付く<br />
+・カクセイの木・小は討伐Lv２６、３２、３８の時に３個付く<br />
+　※銀の巫女絵馬とカクセイの木・小は<br />
+　　討伐Lv３９以降には付きません</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_19">レイド限定ミッション  <a class="anchor_super" id="ab3d7af0" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#ab3d7af0" title="ab3d7af0">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=ab3d7af0" title="Edit #ab3d7af0"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #ab3d7af0" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=20" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>ログインしよう（１日１回）<br />
+１日目はレイド蛍３個<br />
+２日目以降はレイド蛍１個</p>
+<p>Ｄ２Ｐガチャを行おう<br />
+アイコン「シオン（大番長）」</p>
+<p>スタミナを500消費しよう（繰り返し）<br />
+レイド蛍１個</p>
+<p>宝箱画面で3段以上のブレイクを8回行おう<br />
+レイド蛍１個</p>
+<p>レイド戦に挑戦しよう<br />
+10回：レイド蛍１個<br />
+20回：レイド蛍１個</p>
+<p>レイド戦で以下の開催中獲得ptに到達しよう<br />
+　２０万：Ｄ２Ｐ[２０]<br />
+　３０万：アイコン「プラチナ（イブニクル２）」<br />
+　５０万：Ｄ２Ｐ[２０]<br />
+　７０万：アイコン「加賀元子（大悪司）」<br />
+　９０万：Ｄ２Ｐ[２０]<br />
+１２０万：アイコン「琴月円（妻しぼり）」<br />
+１４０万：Ｄ２Ｐ[２０]<br />
+１７０万：アイコン「アルビルダ（大帝国）」<br />
+２００万：Ｄ２Ｐ[２０]</p>
+<p>ミッションクリアでレイド蛍を2個手に入れよう（１日１回）<br />
+Ｄ２Ｐ[２０]</p>
+<p>メインクエストで戦おう（１日１回）<br />
+1回：なにになるやら１個<br />
+3回：カクセイの木・小１個<br />
+5回：蝶鉱石１個</p>
+<p>※１日１回のミッションについて<br />
+基本毎日4時に切り替わりますが最終7日目のみ<br />
+3/7 04:00～3/8 09:59<br />
+こちらの30時間が1日分となります。</p>
+</div></div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>第2回開催時</p>
+</div><div class="rgn-content" style="display: none">
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_20">第2回：2022/06/01 ～ 06/08 09:59 <a class="anchor_super" id="h12057dd" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#h12057dd" title="h12057dd">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=h12057dd" title="Edit #h12057dd"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #h12057dd" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=21" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_21">レイドボス報酬  <a class="anchor_super" id="i24a1030" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#i24a1030" title="i24a1030">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=i24a1030" title="Edit #i24a1030"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #i24a1030" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=22" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>レイドボスの報酬内容は以下の通りです。<br />
+※討伐報酬は対象レベルのレイドボスが討伐された後、討伐参加回数が必要数に達している場合にホーム画面に移動すると獲得します。</p>
+<p>討伐LV（報酬獲得に必要な討伐参加回数）：<br />
+　０１（　２回）：カクセイの木・小２個＋Ｄ２Ｐ[２]<br />
+　０２（　４回）：単発ガチャチケット２枚＋Ｄ２Ｐ[２]<br />
+　０３（　６回）：巫女絵馬１個＋Ｄ２Ｐ[２]<br />
+　０４（　８回）：トークン２個＋宝箱１０個＋Ｄ２Ｐ[３]<br />
+　０５（１０回）：蝶鉱石２個＋Ｄ２Ｐ[３]<br />
+　０６（１２回）：なにになるやら１個＋Ｄ２Ｐ[３]<br />
+　０７（１４回）：カクセイの木・小３個＋元気の原液・高濃度１個<br />
+　　　　　　　　　＋Ｄ２Ｐ[４]<br />
+　０８（１６回）：昂るつぼみ２個＋単発ガチャチケット２枚<br />
+　　　　　　　　　＋Ｄ２Ｐ[４]<br />
+　０９（１８回）：蝶鉱石３個＋Ｄ２Ｐ[４]<br />
+　１０（２０回）：なにになるやら２個＋Ｄ２Ｐ[５]<br />
+　１１（２３回）：巫女絵馬１個＋宝箱１０個＋Ｄ２Ｐ[５]<br />
+　１２（２６回）：カクセイの木・中２個＋単発ガチャチケット２枚<br />
+　　　　　　　　　＋Ｄ２Ｐ[５]<br />
+　１３（２９回）：蝶鉱石４個＋Ｄ２Ｐ[６]<br />
+　１４（３２回）：なにになるやら２個＋単発ガチャチケット２枚<br />
+　　　　　　　　　＋Ｄ２Ｐ[６]<br />
+　１５（３５回）：カクセイの木・中２個＋Ｄ２Ｐ[６]<br />
+　１６（３８回）：巫女絵馬１個＋元気の原液・超純度１個<br />
+　　　　　　　　　＋Ｄ２Ｐ[７]<br />
+　１７（４１回）：蝶鉱石５個＋Ｄ２Ｐ[７]<br />
+　１８（４４回）：トークン２個＋宝箱２０個＋Ｄ２Ｐ[７]<br />
+　１９（４７回）：銀の巫女絵馬１個＋単発ガチャチケット２枚<br />
+　　　　　　　　　＋Ｄ２Ｐ[２０]<br />
+　２０（５０回）：カクセイの木・中５個＋Ｄ２Ｐ[２０]</p>
+<p>※２１体以降について（討伐参加回数は＋３ずつ）<br />
+討伐Lvが上がるごとに<br />
+・資金は５００ずつ上昇（最大１５０００まで）<br />
+・宝箱は５個ずつ上昇（最大１００個まで）<br />
+・Ｄ２Ｐは５ずつ上昇（最大１００まで）<br />
+・銀の巫女絵馬は討伐Lv２３、２９、３５の時に１個付く<br />
+・カクセイの木・小は討伐Lv２６、３２、３８の時に３個付く<br />
+　※銀の巫女絵馬とカクセイの木・小は<br />
+　　討伐Lv３９以降には付きません</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_22">レイド限定ミッション  <a class="anchor_super" id="y507aa27" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#y507aa27" title="y507aa27">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=y507aa27" title="Edit #y507aa27"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #y507aa27" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=23" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>期間限定のミッションも追加されています。<br />
+レイドボスバトル期間中のミッションは以下の通りです。</p>
+<p>ログインしよう（１日１回）<br />
+１日目はレイド蛍３個<br />
+２日目以降はレイド蛍１個</p>
+<p>Ｄ２Ｐガチャを行おう<br />
+アイコン「瑠衣（奥さまの回復術）」</p>
+<p>スタミナを500消費しよう（繰り返し）<br />
+レイド蛍１個</p>
+<p>宝箱画面で3段以上のブレイクを8回行おう<br />
+レイド蛍１個</p>
+<p>メインクエストで稀に登場する敵、ハニーを1体倒そう(時短不可)<br />
+レイド蛍１個</p>
+<p>キャラクターを１回限界突破させよう<br />
+レイド蛍１個</p>
+<p>レイド戦で以下の開催中獲得ptに到達しよう<br />
+　２０万：Ｄ２Ｐ[２０]<br />
+　３０万：アイコン「ＪＫ（ペルシオン）」<br />
+　５０万：Ｄ２Ｐ[２０]<br />
+　７０万：アイコン「乃木喜久子（大悪司）」<br />
+　９０万：Ｄ２Ｐ[２０]<br />
+１２０万：アイコン「姫乃宮華苑（大番長）」<br />
+１４０万：Ｄ２Ｐ[２０]<br />
+１７０万：アイコン「ラミアス（イブニクル）」<br />
+２００万：Ｄ２Ｐ[２０]</p>
+<p>レイドボス期間限定ミッションクリアでレイド蛍を2個手に入れよう（１日１回）<br />
+Ｄ２Ｐ[２０]</p>
+<p>※１日１回のミッションについて<br />
+基本毎日4時に切り替わりますが最終7日目のみ 12/14 04:00～12/15 09:59 こちらの30時間が1日分となります。</p>
+</div></div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>第1回開催時</p>
+</div><div class="rgn-content" style="display: none">
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_23">第1回：2021/12/08 ～ 12/15 09:59  <a class="anchor_super" id="s6b36830" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#s6b36830" title="s6b36830">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=s6b36830" title="Edit #s6b36830"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #s6b36830" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=24" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_24">レイドボス報酬  <a class="anchor_super" id="j0e99be6" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#j0e99be6" title="j0e99be6">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=j0e99be6" title="Edit #j0e99be6"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #j0e99be6" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=25" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>レイドボスの報酬内容は以下の通りです。<br />
+※討伐報酬は対象レベルのレイドボスが討伐された後、討伐参加回数が必要数に達している場合にホーム画面に移動すると獲得します。</p>
+<p>討伐LV（報酬獲得に必要な討伐参加回数）：<br />
+　０１（　２回）：カクセイの木・小２個＋Ｄ２Ｐ[２]<br />
+　０２（　４回）：単発ガチャチケット１枚＋Ｄ２Ｐ[２]<br />
+　０３（　６回）：巫女絵馬１個＋Ｄ２Ｐ[２]<br />
+　０４（　８回）：昂るつぼみ２個＋宝箱１０個＋Ｄ２Ｐ[３]<br />
+　０５（１０回）：蝶鉱石２個＋Ｄ２Ｐ[３]<br />
+　０６（１２回）：なにになるやら１個＋Ｄ２Ｐ[３]<br />
+　０７（１４回）：カクセイの木・小３個＋元気の原液・高濃度１個<br />
+　　　　　　　　　＋Ｄ２Ｐ[４]<br />
+　０８（１６回）：昂るつぼみ２個＋単発ガチャチケット１枚<br />
+　　　　　　　　　＋Ｄ２Ｐ[４]<br />
+　０９（１８回）：蝶鉱石３個＋Ｄ２Ｐ[４]<br />
+　１０（２０回）：なにになるやら２個＋Ｄ２Ｐ[５]<br />
+　１１（２３回）：巫女絵馬１個＋宝箱１０個＋Ｄ２Ｐ[５]<br />
+　１２（２６回）：昂るつぼみ２個＋単発ガチャチケット２枚<br />
+　　　　　　　　　＋Ｄ２Ｐ[５]<br />
+　１３（２９回）：蝶鉱石４個＋Ｄ２Ｐ[６]<br />
+　１４（３２回）：なにになるやら２個＋SR確定チケット１枚<br />
+　　　　　　　　　＋Ｄ２Ｐ[６]<br />
+　１５（３５回）：カクセイの木・中２個＋Ｄ２Ｐ[６]<br />
+　１６（３８回）：巫女絵馬１個＋元気の原液・超純度１個<br />
+　　　　　　　　　＋Ｄ２Ｐ[７]<br />
+　１７（４１回）：蝶鉱石５個＋Ｄ２Ｐ[７]<br />
+　１８（４４回）：昂るつぼみ２個＋宝箱２０個＋Ｄ２Ｐ[７]<br />
+　１９（４７回）：銀の巫女絵馬１個＋Ｄ２Ｐ[２０]<br />
+　２０（５０回）：全知全能の白鯨１個＋Ｄ２Ｐ[３０]</p>
+<p>※２１体以降について（討伐参加回数は＋３ずつ）<br />
+　２１（５３回）：資金５０００＋宝箱２０個＋Ｄ２Ｐ[２０]<br />
+　２２（５６回）：資金５５００＋宝箱２５個＋Ｄ２Ｐ[２５]<br />
+　２３（５９回）：資金６０００＋宝箱３０個＋Ｄ２Ｐ[３０]<br />
+　　　　　　　　　＋銀の巫女絵馬１個<br />
+　２４（６２回）：資金６５００＋宝箱３５個＋Ｄ２Ｐ[３５]<br />
+　………<br />
+　……<br />
+　…<br />
+※討伐Lvが上がるごとに資金は５００ずつ上昇宝箱は５個ずつ上昇Ｄ２Ｐは５ずつ上昇<br />
+※３体ごとに［銀の巫女絵馬］が付く</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h4 id="content_1_25">レイド限定ミッション  <a class="anchor_super" id="daeab56c" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#daeab56c" title="daeab56c">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=daeab56c" title="Edit #daeab56c"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #daeab56c" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=26" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h4>
+<p>期間限定のミッションも追加されています。<br />
+レイドボスバトル期間中のミッションは以下の通りです。</p>
+<p>ログインしよう（１日１回）<br />
+１日目はレイド蛍３個<br />
+２日目以降はレイド蛍１個</p>
+<p>Ｄ２Ｐガチャを行おう<br />
+アイコン「斬真狼牙（大番長）」</p>
+<p>スタミナを500消費しよう（繰り返し）<br />
+レイド蛍１個</p>
+<p>宝箱画面で3段以上のブレイクを8回行おう<br />
+レイド蛍１個</p>
+<p>メインクエストで稀に登場する敵、ハニーを1体倒そう(時短不可)<br />
+レイド蛍１個</p>
+<p>キャラクターを１回限界突破させよう<br />
+レイド蛍１個</p>
+<p>レイド戦で以下の開催中獲得ptに到達しよう<br />
+　２０万：Ｄ２Ｐ[２０]<br />
+　３０万：アイコン「七荻鏡花（夜が来る！）」<br />
+　５０万：Ｄ２Ｐ[２０]<br />
+　７０万：アイコン「アシュバル（イブニクル）」<br />
+　９０万：Ｄ２Ｐ[２０]<br />
+１２０万：アイコン「ソース（どらぺこ！）」<br />
+１４０万：Ｄ２Ｐ[２０]<br />
+１７０万：アイコン「エミリィ（パステルチャイム３）」<br />
+２００万：Ｄ２Ｐ[２０]</p>
+<p>レイドボス期間限定ミッションクリアでレイド蛍を2個手に入れよう（１日１回）<br />
+昂るつぼみ２個</p>
+<p>※１日１回のミッションについて<br />
+基本毎日4時に切り替わりますが最終7日目のみ 12/14 04:00～12/15 09:59 こちらの30時間が1日分となります。</p>
+</div></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_26">コメントフォーム  <a class="anchor_super" id="cac645b9" href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F#cac645b9" title="cac645b9">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=cac645b9" title="Edit #cac645b9"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #cac645b9" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F&amp;id=27" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="2456832941"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br>
+<div class="pcomment">
+<p> 最新の20件を表示しています。 <a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F" title="コメント/イベント22_レイドイベント『堕威大仏』" class="" data-mtime="">コメントページを参照</a> </p>
+		<form action="./" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+
+		<ul class="list1 list-indent1"><li class="pcmt" data-comment-id="comment_c8eb6c8813eb3fbb1d1d9195e1ae045f"><input class="pcmt" type="radio" name="reply" value="c8eb6c8813eb3fbb1d1d9195e1ae045f" tabindex="25" />最短で５秒で攻撃してくるけどランダムなのかな。見ながら考えても規則性は皆目わからん -- [/7ljyrnoBso] <span class="comment_date">2021-12-09 (木) 17:16:25<span class="__plugin_new" data-mtime="2021-12-09T17:16:25+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_224e20a04aa669778125204d3456871e"><input class="pcmt" type="radio" name="reply" value="224e20a04aa669778125204d3456871e" tabindex="24" />ブライドエスカの固有を強化するとガンガンブレイクさせてくね<br class="spacer" />今回に限って言えば固有の最優先はこれかなぁ -- [YWycXY55ftM] <span class="comment_date">2021-12-10 (金) 08:23:12<span class="__plugin_new" data-mtime="2021-12-10T08:23:12+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_9c035277d525245f8642b1aa32e9b05f"><input class="pcmt" type="radio" name="reply" value="9c035277d525245f8642b1aa32e9b05f" tabindex="23" />固有だけで言うなら多分かなみちゃんの方がいいぞ -- [iJdRKmh5XBA] <span class="comment_date">2021-12-10 (金) 16:14:24<span class="__plugin_new" data-mtime="2021-12-10T16:14:24+09:00"></span></span>
+<ul class="list3 list-indent1"><li>かなみと月子の即死は覚醒で+1%でボス補正で10倍<br class="spacer" />ブライドエスカの魅了は+3%で5倍<br class="spacer" />即死の方が元々確率が高いとかでない限り、ブライドエスカの方が良くないか？<br class="spacer" />素の性能と回復役というのもあるし -- [fOf2R41w51E] <span class="comment_date">2021-12-10 (金) 16:55:07<span class="__plugin_new" data-mtime="2021-12-10T16:55:07+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_1cc7f92d6d45910ec2230ef99acac374"><input class="pcmt" type="radio" name="reply" value="1cc7f92d6d45910ec2230ef99acac374" tabindex="22" />見逃してるかもしれないが見てる範囲ではキリエル、アメイズ、ラブディエルの必殺技は確実にポイントが入って頼もしい。月子はいまいち。撤退するまでかなりの確率で一回は入るけど -- [/7ljyrnoBso] <span class="comment_date">2021-12-10 (金) 16:20:51<span class="__plugin_new" data-mtime="2021-12-10T16:20:51+09:00"></span></span>
+<ul class="list3 list-indent1"><li>ブレイクランプが目的なら手動撤退させた方が手っ取り早い上に任意のタイミングでランプ灯せるから確実だぞ。キリエルはアタッカーとしても使えるからともかくとして、アメイズとラブディエルと月子は必殺技撃つまで待つくらいなら手動撤退推奨。 -- [dcjl/DX4.S.] <span class="comment_date">2021-12-10 (金) 19:23:12<span class="__plugin_new" data-mtime="2021-12-10T19:23:12+09:00"></span></span></li>
+<li>必殺技で言えば、確定スタンは確定のままっぽい -- [.pXyLAUgALo] <span class="comment_date">2021-12-11 (土) 15:34:15<span class="__plugin_new" data-mtime="2021-12-11T15:34:15+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_f4c640776bf5e4187980f894caeda252"><input class="pcmt" type="radio" name="reply" value="f4c640776bf5e4187980f894caeda252" tabindex="21" />みんな鍛えてあるはずという意味では★5リゲルかねえ。覚醒は何もしてないけど、必殺撃たせた分だけ稼ぐ。装備で充填+6マスト状態。セラフィール優先１でアタッカー保たせるのが自分の基本だったけど、今回はリゲルに挿し変えた方が明らかに良さげ。 -- [wi491EvwG8M] <span class="comment_date">2021-12-10 (金) 17:55:21<span class="__plugin_new" data-mtime="2021-12-10T17:55:21+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_ca558c77ba753c7517c9c7553022c516"><input class="pcmt" type="radio" name="reply" value="ca558c77ba753c7517c9c7553022c516" tabindex="20" />ブレイクランプは即死や魅了なんて使わなくても手動撤退×３するだけでいいから、手動撤退用の枠を１枠確保しておいて、それ以外をノノノ＋覚醒済み単体アタッカー×３にするのが一番効率良いと思う。<br class="spacer" />固有効果覚醒させるならレジェンド３人の誰かを覚醒させて手動撤退枠に入れておいて、開幕レジェンドバフ後即撤退させて、優先１（ラーメン使用時）に入れておいた撤退用キャラと次々交代してフィーバーのタイミングでブレイク重ねて覚醒単体必殺３連発が一番ダメージ効率良いとおもう。 -- [dcjl/DX4.S.] <span class="comment_date">2021-12-10 (金) 19:28:52<span class="__plugin_new" data-mtime="2021-12-10T19:28:52+09:00"></span></span>
+<ul class="list3 list-indent1"><li>やってみると分かるけどそんなに効率は良くないよ。マリエルで初動を早めるとかも<br class="spacer" />少なくとも俺だと、逸品ベルトに聖夜ハルカとフウカでガチガチにバフ固めて、優先1に固有覚醒したエスカを置く、の方がダメージが出る -- [YWycXY55ftM] <span class="comment_date">2021-12-11 (土) 00:31:21<span class="__plugin_new" data-mtime="2021-12-11T00:31:21+09:00"></span></span></li>
+<li>聖夜ハルカもフウカも閃忍でエスカのレジェバフ乗らないのにそれは無いわ。嘘をつくのはやめたほうがいい。<br class="spacer" />言っとくけど、開幕ブレイクフィーバーに覚醒レジェバフ載せた覚醒単体必殺×３やれば開幕だけで80万以上稼げるからな？<br class="spacer" />他のレイドはともかく、今回のレイドはブレイクランプ３つでブレイクだから開幕ブレイクフィーバーをレジェバフ有効時間内に確定で出せるのにそれを利用しないのは悪手でしかない。<br class="spacer" />ま、どうせ単体必殺を覚醒してなかったってオチなんだろうけどさ。 -- [dcjl/DX4.S.] <span class="comment_date">2021-12-11 (土) 00:56:11<span class="__plugin_new" data-mtime="2021-12-11T00:56:11+09:00"></span></span></li>
+<li>不安になってまた試したけど、やっぱり自分の方がダメージ出るよ。優先1が落ちるまでで250～280万ぐらいは出てるから<br class="spacer" />優先1、2の装備が揃ってないのなら、そちらの方が正しい方法なのは確かだと思う -- [YWycXY55ftM] <span class="comment_date">2021-12-11 (土) 20:29:28<span class="__plugin_new" data-mtime="2021-12-11T20:29:28+09:00"></span></span></li>
+<li>ボロクソに他人を嘘つきよばわりした挙げ句ドヤ顔80万以上のざっと3倍以上のスコア出されてるのクソダサいな -- [lxT16mNB35M] <span class="comment_date">2021-12-12 (日) 14:26:57<span class="__plugin_new" data-mtime="2021-12-12T14:26:57+09:00"></span></span></li>
+<li>枝主は言葉はちょっときついけど、開幕で80万は間違ってなかったよ<br class="spacer" />ただその後優先2の一部まで撤退させてらーめん4人で稼いだとしても、こちらの編成の優先1までの方が上回っただけで<br class="spacer" />装備や限界突破の関係で、優先2までが不十分か優先1であまり稼げない人なら枝主が正しくてそういう人の方が多いと思う<br class="spacer" />ただ問題がこのボス限定の方法で、特定勢力の必殺覚醒を3つ使うので次以降のレイドで潰しが効かない可能性がある点は考慮した方がいいと思う -- [YWycXY55ftM] <span class="comment_date">2021-12-12 (日) 14:34:11<span class="__plugin_new" data-mtime="2021-12-12T14:34:11+09:00"></span></span></li>
+<li>そらレイド用に固有覚醒して逸品ベルトまで揃えてるようなガチ勢と一般人では土台が違い過ぎるからなｗ -- [hM6TqTpOO7Q] <span class="comment_date">2021-12-15 (水) 07:43:52<span class="__plugin_new" data-mtime="2021-12-15T07:43:52+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_039b1fe38a4a444c56b75cf78766aefd"><input class="pcmt" type="radio" name="reply" value="039b1fe38a4a444c56b75cf78766aefd" tabindex="19" />余命に逸品の白ヒゲここ一発ってどうなの？即死20%で確定連撃とかけっこうやばそうだけど白ヒゲ持ってないんだわ -- [1Hcvd0l4zRY] <span class="comment_date">2021-12-11 (土) 10:33:45<span class="__plugin_new" data-mtime="2021-12-11T10:33:45+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_0ab18344e53ec90d8a285946b0b19bed"><input class="pcmt" type="radio" name="reply" value="0ab18344e53ec90d8a285946b0b19bed" tabindex="18" />即死がスタンと同じ処理なら、連撃にはのらないはず -- [YWycXY55ftM] <span class="comment_date">2021-12-11 (土) 10:57:43<span class="__plugin_new" data-mtime="2021-12-11T10:57:43+09:00"></span></span>
+<ul class="list3 list-indent1"><li>なるほど、それなら白ヒゲはスタミナの差でゼブリエルのほうが良さそうってことかな -- [1Hcvd0l4zRY] <span class="comment_date">2021-12-11 (土) 11:21:18<span class="__plugin_new" data-mtime="2021-12-11T11:21:18+09:00"></span></span></li>
+<li>スタミナも%減少だから防御魔防と同じくレイドだと意味のない数字だったはず<br class="spacer" />行動速度1.5秒で、納豆Rank5や速度バフ、回復持ちにつけるでいいと思う。うちはフウカにつけてる -- [YWycXY55ftM] <span class="comment_date">2021-12-11 (土) 11:39:03<span class="__plugin_new" data-mtime="2021-12-11T11:39:03+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_0b51ea3ec6174c45e7f7173048370c99"><input class="pcmt" type="radio" name="reply" value="0b51ea3ec6174c45e7f7173048370c99" tabindex="17" />ななかやフローレルを延命し続けただけで結構いけたけど、結局運なんだよな -- [.9BLu2IgQMo] <span class="comment_date">2021-12-11 (土) 20:33:56<span class="__plugin_new" data-mtime="2021-12-11T20:33:56+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_8e6b7114f1dade582c45c6efcef87bbc"><input class="pcmt" type="radio" name="reply" value="8e6b7114f1dade582c45c6efcef87bbc" tabindex="16" />意識してななかを延命させてても５秒で攻撃されると自分の環境では３人連続で手動撤退させるのが間に合わないんだよなぁ。ムービーの長い必殺技中ならなんとかいけるけど２連続３連続で５秒攻撃してくるときもあるから泣ける -- [/7ljyrnoBso] <span class="comment_date">2021-12-12 (日) 05:57:23<span class="__plugin_new" data-mtime="2021-12-12T05:57:23+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_73027fc86aa584fc4482b008960e1d64"><input class="pcmt" type="radio" name="reply" value="73027fc86aa584fc4482b008960e1d64" tabindex="15" />これまでは毎日つぼみを取れる量の蛍をとって消化してたら報酬を全て取れたのに、今回はほたるが１０個くらい足りない。覚醒システムの影響もあるんだろうが、チートが猛威を振るってる影響もあるんだろうか -- [/7ljyrnoBso] <span class="comment_date">2021-12-13 (月) 10:54:57<span class="__plugin_new" data-mtime="2021-12-13T10:54:57+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_1cea2ca4cc7ceed5563b747ef62b8caa"><input class="pcmt" type="radio" name="reply" value="1cea2ca4cc7ceed5563b747ef62b8caa" tabindex="14" />総人数大した事無いチ-トよりは、単純にほぼ全プレイヤ－が前回比でスコア1.5倍↑超えしてる方がデカそう。　FEVER効果？ -- [.6CxqBBdM0s] <span class="comment_date">2021-12-14 (火) 04:24:37<span class="__plugin_new" data-mtime="2021-12-14T04:24:37+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_25486e3bc509a9bd07aaffa470c6f31a"><input class="pcmt" type="radio" name="reply" value="25486e3bc509a9bd07aaffa470c6f31a" tabindex="13" />覚醒システムの実装。エンジェリックエスカ、ハルカR、聖夜こもりとレイドで強いキャラの実装。組み合わせですぐにフィーバーできる事と色々組み合わさってると思います。自分は前回ハイスコア100万が今回280万行って平均スコア250万ぐらいでした -- [6DOwhXNLA9I] <span class="comment_date">2021-12-14 (火) 07:43:40<span class="__plugin_new" data-mtime="2021-12-14T07:43:40+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_9634c26c573300e0ad5ece2a6d4fdb09"><input class="pcmt" type="radio" name="reply" value="9634c26c573300e0ad5ece2a6d4fdb09" tabindex="12" />ポイントの方の順位がメンテ後２００くらいあがって１１００位台になった。どんぶり勘定だけどメンテ前のTOP１０００の２０％くらいがチートだったってことか -- [/7ljyrnoBso] <span class="comment_date">2021-12-15 (水) 17:27:15<span class="__plugin_new" data-mtime="2021-12-15T17:27:15+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_385ead7c2375ee9b09afcdf1f1b9f97d"><input class="pcmt" type="radio" name="reply" value="385ead7c2375ee9b09afcdf1f1b9f97d" tabindex="11" />残り24時間少々のこのタイミングでLV33が30％まで減ってるのか。LV35の銀絵馬まで届くのなら原液飲んで走るのもありだけど、さすがに厳しいか・・・？ -- [k8kxwVtf1oE] <span class="comment_date">2021-12-14 (火) 09:08:48<span class="__plugin_new" data-mtime="2021-12-14T09:08:48+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_9a3fbdd5e0a128fa27ed247880780d05"><input class="pcmt" type="radio" name="reply" value="9a3fbdd5e0a128fa27ed247880780d05" tabindex="10" />固有とか必殺覚醒当たり前みたいな話が多いけど覚醒ポイントどうやって貯めてるん？<br class="spacer" />一般人の俺は固有覚醒も殆どしてないしアタッカーにジッポ使って220万とかそんなもんだったわ。 -- [hM6TqTpOO7Q] <span class="comment_date">2021-12-15 (水) 07:46:07<span class="__plugin_new" data-mtime="2021-12-15T07:46:07+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_3a6c3d5b96cf06e18aa0a70d375a620e"><input class="pcmt" type="radio" name="reply" value="3a6c3d5b96cf06e18aa0a70d375a620e" tabindex="9" />＞覚醒ポイント　テトリスとかエロコマ捕獲とか。自分は天使エスカとアルゴルの必殺技を覚醒したら実装初期から溜めてたポイントなくなったが -- [/7ljyrnoBso] <span class="comment_date">2021-12-15 (水) 13:32:54<span class="__plugin_new" data-mtime="2021-12-15T13:32:54+09:00"></span></span>
+<ul class="list3 list-indent1"><li>あー、テトリス報酬変わったんだっけ？　箱が5桁残ってて全然新しい報酬にかわらんわ・・・ -- [hM6TqTpOO7Q] <span class="comment_date">2021-12-15 (水) 19:18:40<span class="__plugin_new" data-mtime="2021-12-15T19:18:40+09:00"></span></span></li></ul></li></ul></li>
+<li class="pcmt" data-comment-id="comment_dfa59f0ddf1291d516cc0a720d145aa3"><input class="pcmt" type="radio" name="reply" value="dfa59f0ddf1291d516cc0a720d145aa3" tabindex="8" />即死（必殺）　アオイ　イーイー　聖夜こもり　キリエル　マリナ　ラブディエル（１回）<br class="spacer" />魅了（必殺）　ミモザ　Vtハルカ　セリカエル　アメイズ　リゲル　Vtツルコ<br class="spacer" /><br class="spacer" />即死（固有）　月子　カナミ　ラブディエル（覚醒）　<br class="spacer" />魅了（固有）　Bエスカ<br class="spacer" /><br class="spacer" />逸品の白ヒゲ<br class="spacer" /><br class="spacer" />ブレイク参考 -- [MjmXrt80JX6] <span class="comment_date">2022-06-05 (日) 04:22:44<span class="__plugin_new" data-mtime="2022-06-05T04:22:44+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_e03fdd2a684038cfb8f403a25b5b7ee0"><input class="pcmt" type="radio" name="reply" value="e03fdd2a684038cfb8f403a25b5b7ee0" tabindex="7" />今1億でおおよそ1000位だから、10億とか100人行けんのでは？ -- [zaeadIV2hJk] <span class="comment_date">2022-06-05 (日) 15:50:15<span class="__plugin_new" data-mtime="2022-06-05T15:50:15+09:00"></span></span>
+<ul class="list2 list-indent1"><li class="pcmt" data-comment-id="comment_ded749fd64ae8289abe1dffcc79b6e8b"><input class="pcmt" type="radio" name="reply" value="ded749fd64ae8289abe1dffcc79b6e8b" tabindex="6" />前回実績が８人くらいだから、それよりも火力が上がってるとはいえ、厳しいだろうね<br class="spacer" />Bユニのウェーブフラスト的な流れになってる<br class="spacer" /><br class="spacer" />しかし、今回のレイドは追いつくのに倍ほど疲れたわ<br class="spacer" />報酬、少しでも上のを狙いたいから模擬戦でじっくり編成を試して<br class="spacer" />実戦では速度調整してHPギリで撤退させてブレイク稼ぎ<br class="spacer" />今まで面倒だからオートで眺めてただけだから…<br class="spacer" /><br class="spacer" />今の仕様で行くなら、ST消化で蛍手に入れる回数多くなるとしんどいのでそこを楽に出来ないかと<br class="spacer" />レイドそのものも手間が掛かりすぎるから<br class="spacer" />２～３個蛍を消費してスコアをその倍数入手できるような<br class="spacer" />調整が入らないとライト層からは不満が出ると思うわ<br class="spacer" />普段と違ってレイドに掛かりっきりにならないといけなくなるのは流石に苦痛を感じる -- [IsLS.cqX38s] <span class="comment_date">2022-06-05 (日) 18:48:54<span class="__plugin_new" data-mtime="2022-06-05T18:48:54+09:00"></span></span></li></ul></li>
+<li class="pcmt" data-comment-id="comment_28de6c726199181b68668bf30777ba05"><input class="pcmt" type="radio" name="reply" value="28de6c726199181b68668bf30777ba05" tabindex="5" />急いで消化しているけど金絵馬無理か。金絵馬取れないなら今後は思いっきり手を抜けるわ -- [cPDuX1ZJLtQ] <span class="comment_date">2022-06-08 (水) 04:47:52<span class="__plugin_new" data-mtime="2022-06-08T04:47:52+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_a96d59599d06552c6a5354daca99bf24"><input class="pcmt" type="radio" name="reply" value="a96d59599d06552c6a5354daca99bf24" tabindex="4" />エピローグ「だが、これで本当に堕威大仏がいなくなったとは思えない。トキサダとねんごろな女がいる限り、第二第三、第六千万の堕威大仏がぁぁぁ！！」 -- [Gx8PNLr68f6] <span class="comment_date">2022-06-09 (木) 07:47:49<span class="__plugin_new" data-mtime="2022-06-09T07:47:49+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_f1dba04762a15c72c009e5559b97b340"><input class="pcmt" type="radio" name="reply" value="f1dba04762a15c72c009e5559b97b340" tabindex="3" />&gt;削除 メインクエストで稀に登場する敵、ハニーを1体倒そう(時短不可)報酬：レイド蛍x1 これめちゃくちゃ嬉しい　欲しい時に出なくて不要な時に出るイライラからやっと解放された -- [Mz8KX1NuGF2] <span class="comment_date">2023-03-02 (木) 10:20:19<span class="__plugin_new" data-mtime="2023-03-02T10:20:19+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_4f48156b9aed9d230370d2a47d60a12d"><input class="pcmt" type="radio" name="reply" value="4f48156b9aed9d230370d2a47d60a12d" tabindex="2" />どのPTが一番稼げるのか構成案持ってる人乗せて欲しいっす -- [6v.DUVVI/Qs] <span class="comment_date">2023-03-03 (金) 15:41:00<span class="__plugin_new" data-mtime="2023-03-03T15:41:00+09:00"></span></span></li>
+<li class="pcmt" data-comment-id="comment_f4d3e1ad2723f4bf4b31e14e077235b4"><input class="pcmt" type="radio" name="reply" value="f4d3e1ad2723f4bf4b31e14e077235b4" tabindex="1" />抵抗率明示されたから案外スタン狙えるのわかって嬉しい<br class="spacer" />今まで完全に捨ててたからちょっと損してたな -- [eyJTB4pthnc] <span class="comment_date">2023-03-03 (金) 21:44:33<span class="__plugin_new" data-mtime="2023-03-03T21:44:33+09:00"></span></span></li></ul>
+
+		<style>
+/* 基本入力スタイル */
+.pcmt-name,.pcmt-msg{padding:5px 8px;border:1px solid #ccc;border-radius:4px;font-size:13px;outline:none;box-sizing:border-box}
+.pcmt-name:focus,.pcmt-msg:focus{border-color:#4a90d9}
+.pcmt-input-area{display:inline-block;vertical-align:top}
+.pcmt-msg-wrap{position:relative;display:inline-block;vertical-align:top}
+.pcmt-msg-wrap .pcmt-msg{padding-right:30px}
+.pcmt-msg-wrap-ta{display:flex}
+.pcmt-msg-wrap-ta .pcmt-msg{min-height:50px;resize:both}
+
+/* 絵文字ボタン */
+.pcmt-emoji-btn{position:absolute;right:3px;top:3px;width:24px;height:24px;padding:0;background:none;border:none;border-radius:4px;cursor:pointer;font-size:14px;opacity:.6}
+.pcmt-emoji-btn:hover{opacity:1;background:#f0f0f0}
+
+/* 絵文字ピッカー */
+.pcmt-emoji-picker{display:none;position:absolute;left:0;top:100%;margin-top:4px;width:340px;background:#fff;border:1px solid #ccc;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:9999}
+.pcmt-emoji-picker.show{display:block}
+.pcmt-ep-head{display:flex;padding:10px;gap:6px;border-bottom:1px solid #eee}
+.pcmt-ep-search{flex:1;padding:6px 10px;border:1px solid #ddd;border-radius:4px;font-size:14px;outline:none}
+.pcmt-ep-close{width:30px;height:30px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:16px;color:#666}
+.pcmt-ep-close:hover{background:#eee}
+.pcmt-ep-cats{display:flex;padding:8px;gap:4px;border-bottom:1px solid #eee;overflow-x:auto}
+.pcmt-ep-cat{padding:6px 8px;border:none;background:none;border-radius:4px;cursor:pointer;font-size:18px}
+.pcmt-ep-cat:hover{background:#f0f0f0}
+.pcmt-ep-cat.active{background:#e3f2fd}
+.pcmt-ep-list{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:10px;max-height:200px;overflow-y:auto}
+.pcmt-ep-item{width:38px;height:38px;border:none;background:none;border-radius:6px;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center}
+.pcmt-ep-item:hover{background:#f0f0f0;transform:scale(1.1)}
+.pcmt-ep-recent-wrap{padding:8px 10px 10px;border-top:1px solid #eee;display:none}
+.pcmt-ep-recent-wrap.show{display:block}
+.pcmt-ep-recent-title{font-size:12px;color:#888;margin-bottom:6px}
+.pcmt-ep-recent{display:flex;flex-wrap:wrap;gap:4px}
+
+/* ツールバー */
+.pcmt-toolbar{display:flex;gap:4px;margin-top:6px;position:relative}
+.pcmt-tb-btn.uploading svg{display:none}
+.pcmt-tb-btn.uploading::after{content:"";display:block;width:13px;height:13px;border:2px solid #ccc;border-top-color:#4a90d9;border-radius:50%;animation:pcmt-spin .8s linear infinite;margin:auto}
+@keyframes pcmt-spin{to{transform:rotate(360deg)}}
+.pcmt-terms-ov{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center}
+.pcmt-terms-box{background:#fff;border-radius:10px;max-width:420px;width:90%;padding:20px 22px;font-size:14px;line-height:1.8;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.pcmt-terms-box a{color:#3949ab;font-weight:bold}
+.pcmt-terms-btns{text-align:right;margin-top:14px}
+.pcmt-terms-btns button{margin-left:8px;padding:7px 16px;border:none;border-radius:6px;cursor:pointer;font-size:13px}
+.pcmt-terms-ok{background:#5a6acf;color:#fff}
+.pcmt-terms-cancel{background:#e0e0e0;color:#333}
+.pcmt-img-chips{display:none;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pcmt-img-chip{display:inline-flex;align-items:center;gap:4px;background:#eef1fb;border:1px solid #c5cae9;border-radius:14px;padding:2px 6px 2px 10px;font-size:12px;max-width:260px}
+.pcmt-img-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcmt-img-chip-x{border:none;background:none;color:#5a6acf;font-size:15px;cursor:pointer;padding:0 4px;line-height:1}
+.pcmt-tb-btn{width:32px;height:32px;padding:0;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#555;transition:all .15s}
+.pcmt-tb-btn:hover{background:#f5f5f5;border-color:#bbb}
+.pcmt-tb-btn.active{background:#e3f2fd;border-color:#4a90d9;color:#1976d2}
+
+/* カラーピッカー */
+.pcmt-color-picker{display:none;position:absolute;left:0;top:100%;margin-top:4px;width:260px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:9999;overflow:hidden}
+.pcmt-color-picker.show{display:block}
+.pcmt-cp-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #eee}
+.pcmt-cp-title{font-size:13px;font-weight:600;color:#333}
+.pcmt-cp-close{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:14px;color:#666}
+.pcmt-cp-close:hover{background:#eee}
+.pcmt-cp-colors{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:12px}
+.pcmt-cp-color{width:32px;height:32px;border:1px solid #ddd;border-radius:6px;cursor:pointer;transition:transform .1s,border-color .1s,box-shadow .1s}
+.pcmt-cp-color:hover{transform:scale(1.1);border-color:#999}
+.pcmt-cp-color.selected{border-color:#333;box-shadow:0 0 0 2px #fff,0 0 0 4px #333}
+.pcmt-cp-custom{display:flex;align-items:center;gap:8px;padding:0 12px 10px}
+.pcmt-cp-hex{width:90px;padding:6px 8px;border:1px solid #ddd;border-radius:4px;font-size:13px;font-family:monospace}
+.pcmt-cp-preview{width:32px;height:32px;border-radius:6px;border:1px solid #ddd}
+.pcmt-cp-actions{padding:10px 12px;border-top:1px solid #eee;text-align:right}
+.pcmt-cp-apply{padding:6px 16px;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
+.pcmt-cp-apply:hover{background:#3a7bc8}
+
+/* 文字サイズピッカー */
+.pcmt-size-picker{display:none;position:absolute;left:36px;top:100%;margin-top:4px;width:200px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:9999;overflow:hidden}
+.pcmt-size-picker.show{display:block}
+.pcmt-sp-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #eee}
+.pcmt-sp-title{font-size:13px;font-weight:600;color:#333}
+.pcmt-sp-close{width:26px;height:26px;border:none;background:#f5f5f5;border-radius:4px;cursor:pointer;font-size:14px;color:#666}
+.pcmt-sp-close:hover{background:#eee}
+.pcmt-sp-sizes{display:flex;flex-wrap:wrap;gap:6px;padding:12px}
+.pcmt-sp-size{min-width:36px;padding:6px 10px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;font-size:13px;text-align:center;transition:all .1s}
+.pcmt-sp-size:hover{background:#f5f5f5;border-color:#bbb}
+.pcmt-sp-size.selected{background:#e3f2fd;border-color:#4a90d9;color:#1976d2}
+.pcmt-sp-custom{display:flex;align-items:center;gap:6px;padding:0 12px 10px}
+.pcmt-sp-input{width:60px;padding:6px 8px;border:1px solid #ddd;border-radius:4px;font-size:13px;text-align:center}
+.pcmt-sp-unit{font-size:13px;color:#666}
+.pcmt-sp-preview{margin:0 12px 10px;padding:10px;background:#f9f9f9;border-radius:6px;text-align:center;transition:font-size .15s}
+.pcmt-sp-actions{padding:10px 12px;border-top:1px solid #eee;text-align:right}
+.pcmt-sp-apply{padding:6px 16px;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer}
+.pcmt-sp-apply:hover{background:#3a7bc8}
+
+/* レスポンシブ */
+@media(max-width:600px){
+.pcmt-name,.pcmt-msg{font-size:13px}
+.pcmt-input-area{display:block;width:100%;margin:6px 0}
+.pcmt-msg-wrap{display:block;width:100%}
+.pcmt-msg-wrap .pcmt-msg{width:100%}
+.pcmt-emoji-picker,.pcmt-color-picker,.pcmt-size-picker{width:calc(100vw - 32px);max-width:340px;left:0}
+.pcmt-size-picker{left:0}
+}
+</style>
+  <div id="pcomment-form">
+  <input type="hidden" name="digest" value="ace97ddfc8acec5ed3466b81b1c6f030" />
+  <input type="hidden" name="plugin" value="pcomment" />
+  <input type="hidden" name="refer"  value="イベント22_レイドイベント『堕威大仏』" />
+  <input type="hidden" name="page"   value="[[コメント/イベント22_レイドイベント『堕威大仏』]]" />
+  <input type="hidden" name="nodate" value="" />
+  <input type="hidden" name="dir"    value="1" />
+  <input type="hidden" name="count"  value="20" />
+  <input type="radio" name="reply" value="0" tabindex="0" checked="checked" /> お名前:  <input type="text" name="name" size="15" class="pcmt-name" /> <div class="pcmt-input-area"><span class="pcmt-msg-wrap pcmt-msg-wrap-ta"><textarea name="msg" id="pcmt_41488c41_msg" rows="2" cols="45" class="pcomment-textarea pcmt-msg" placeholder=""></textarea><button type="button" class="pcmt-emoji-btn" id="pcmt_41488c41_emoji_btn" title="絵文字">😀</button><div class="pcmt-emoji-picker" id="pcmt_41488c41_picker"><div class="pcmt-ep-head"><input type="text" class="pcmt-ep-search" id="pcmt_41488c41_search" placeholder="検索"><button type="button" class="pcmt-ep-close" id="pcmt_41488c41_close">×</button></div><div class="pcmt-ep-cats" id="pcmt_41488c41_cats"></div><div class="pcmt-ep-list" id="pcmt_41488c41_list"></div><div class="pcmt-ep-recent-wrap" id="pcmt_41488c41_recent_wrap"><div class="pcmt-ep-recent-title">最近使った</div><div class="pcmt-ep-recent" id="pcmt_41488c41_recent"></div></div></div></span><div class="pcmt-toolbar" id="pcmt_41488c41_toolbar"><button type="button" class="pcmt-tb-btn" id="pcmt_41488c41_color_btn" title="文字色"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L12 14L15 3"/><path d="M5 21h14" stroke-width="3" stroke="#e53935"/></svg></button><div class="pcmt-color-picker" id="pcmt_41488c41_color_picker"><div class="pcmt-cp-head"><span class="pcmt-cp-title">文字色</span><button type="button" class="pcmt-cp-close" id="pcmt_41488c41_color_close">×</button></div><div class="pcmt-cp-colors" id="pcmt_41488c41_colors"></div><div class="pcmt-cp-custom"><input type="text" class="pcmt-cp-hex" id="pcmt_41488c41_hex" placeholder="#000000" maxlength="7"><div class="pcmt-cp-preview" id="pcmt_41488c41_preview"></div></div><div class="pcmt-cp-actions"><button type="button" class="pcmt-cp-apply" id="pcmt_41488c41_color_apply">適用</button></div></div><button type="button" class="pcmt-tb-btn" id="pcmt_41488c41_size_btn" title="文字サイズ"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><text x="3" y="17" font-size="14" font-weight="bold" fill="currentColor" stroke="none">T</text><text x="14" y="20" font-size="10" fill="currentColor" stroke="none">T</text></svg></button><div class="pcmt-size-picker" id="pcmt_41488c41_size_picker"><div class="pcmt-sp-head"><span class="pcmt-sp-title">文字サイズ</span><button type="button" class="pcmt-sp-close" id="pcmt_41488c41_size_close">×</button></div><div class="pcmt-sp-sizes" id="pcmt_41488c41_sizes"></div><div class="pcmt-sp-custom"><input type="number" class="pcmt-sp-input" id="pcmt_41488c41_size_input" placeholder="px" min="8" max="48" value="16"><span class="pcmt-sp-unit">px</span></div><div class="pcmt-sp-preview" id="pcmt_41488c41_size_preview">サンプル</div><div class="pcmt-sp-actions"><button type="button" class="pcmt-sp-apply" id="pcmt_41488c41_size_apply">適用</button></div></div><button type="button" class="pcmt-tb-btn" id="pcmt_41488c41_bold_btn" title="太字"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h6c2.2 0 4 1.8 4 4 0 1.5-.8 2.7-2 3.4 1.5.7 2.5 2.2 2.5 4.1 0 2.5-2 4.5-4.5 4.5H6V4zm3 3v4h3c1.1 0 2-.9 2-2s-.9-2-2-2H9zm0 7v4h3.5c1.4 0 2.5-1.1 2.5-2.5S13.9 14 12.5 14H9z"/></svg></button><button type="button" class="pcmt-tb-btn pcmt-img-btn" id="pcmt_41488c41_img_btn" title="画像・動画を添付"><svg width="18" height="18" viewBox="0 0 24 24"><defs><clipPath id="pcmt_41488c41_imgclip"><rect x="2" y="2" width="20" height="20" rx="3"/></clipPath></defs><rect x="2" y="2" width="20" height="20" rx="3" fill="#dbeafe"/><g clip-path="url(#pcmt_41488c41_imgclip)"><circle cx="15.5" cy="8" r="2.6" fill="#f59e0b"/><path d="M2 22L9.5 11l4.5 6 3-3.5L22 22z" fill="#22a06b"/><path d="M9.5 11l4.5 6-2.2 2.6L6 22H2z" fill="#1a8a55" opacity=".55"/></g><rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="#93c5fd" stroke-width="1.5"/></svg></button><input type="file" id="pcmt_41488c41_img_file" accept="image/jpeg,image/png,image/gif,image/webp,video/webm,video/mp4" style="display:none"></div></div>
+  <input type="submit" value="コメントの挿入" />
+
+<script type="text/javascript" src="skin/assistant.js"></script>
+<script>
+(function(){
+var fid="pcmt_41488c41";
+var emojis={
+"😀":["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔"],
+"😢":["😢","😭","😤","😠","😡","🤬","😈","👿","💀","☠️","😱","😨","😰","😥","😓","🤥","😶","😐","😑","😬","🙄","😯","😦","😧","😮","😲","🥱","😴","🤤"],
+"👍":["👍","👎","👊","✊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","✍️","💪","👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆"],
+"❤️":["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟","♥️","🩷","🩵","🩶","💋","💯","💢","💥","💫","💦"],
+"🐶":["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐔","🐧","🐦","🐤","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🦋","🐌"],
+"🍎":["🍎","🍏","🍐","🍑","🍒","🍓","🫐","🥝","🍅","🥥","🥑","🍆","🥔","🥕","🌽","🌶️","🥒","🥬","🥦","🍄","🥜","🌰","🍞","🥐","🍕","🍔","🍟","🌭","🍜","🍣"],
+"⚽":["⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉","🎱","🏓","🏸","🏒","🥅","⛳","🎯","🎮","🎲","🎰","🎳","🎪","🎭","🎨","🎬","🎤","🎧","🎼","🎹","🎷","🎺","🎻"],
+"⭐":["⭐","🌟","✨","💫","🔥","💥","❄️","🌈","☀️","🌤️","⛅","☁️","🌧️","⛈️","🌩️","❗","❓","💲","©️","®️","™️","🔴","🟠","🟡","🟢","🔵","🟣","⚫","⚪","🟤"],
+"🎉":["🎉","🎊","🎈","🎁","🎀","🏆","🥇","🥈","🥉","🏅","🎖️","📢","📣","🔔","🔕","🎵","🎶","💤","💭","💬","👁️‍🗨️","🗯️","💡","🔍","🔎","🔒","🔓","🔑","🗝️","💰"]
+};
+var cats=Object.keys(emojis);
+var recent=[];try{recent=JSON.parse(localStorage.getItem("pcmt_emoji_recent"))||[];}catch(e){}
+function $(id){return document.getElementById(id);}
+var btn=$(fid+"_emoji_btn"),picker=$(fid+"_picker"),msg=$(fid+"_msg"),search=$(fid+"_search"),catsEl=$(fid+"_cats"),list=$(fid+"_list"),recentEl=$(fid+"_recent"),recentWrap=$(fid+"_recent_wrap"),closeBtn=$(fid+"_close");
+if(!btn||!picker||!msg)return;
+var curCat=cats[0];
+catsEl.innerHTML=cats.map(function(c,i){return "<button type=\"button\" class=\"pcmt-ep-cat"+(i===0?" active":"")+"\" data-cat=\""+c+"\">"+c+"</button>";}).join("");
+function render(f){var html="",arr=f?[].concat.apply([],cats.map(function(c){return emojis[c];})):emojis[curCat];arr.forEach(function(e){html+="<button type=\"button\" class=\"pcmt-ep-item\" data-e=\""+e+"\">"+e+"</button>";});list.innerHTML=html;}
+function renderRecent(){if(!recent.length){recentWrap.classList.remove("show");return;}recentWrap.classList.add("show");recentEl.innerHTML=recent.map(function(e){return "<button type=\"button\" class=\"pcmt-ep-item\" data-e=\""+e+"\">"+e+"</button>";}).join("");}
+function insertText(t){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value;msg.value=v.substring(0,s)+t+v.substring(e);msg.selectionStart=msg.selectionEnd=s+t.length;msg.focus();}
+function insert(e){insertText(e);recent=recent.filter(function(x){return x!==e;});recent.unshift(e);if(recent.length>12)recent=recent.slice(0,12);try{localStorage.setItem("pcmt_emoji_recent",JSON.stringify(recent));}catch(x){}renderRecent();}
+btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=picker.classList.contains("show");if(!open){picker.classList.add("show");btn.classList.add("active");search.value="";render();renderRecent();}};
+closeBtn.onclick=function(){picker.classList.remove("show");btn.classList.remove("active");};
+catsEl.onclick=function(ev){var t=ev.target;if(!t.classList.contains("pcmt-ep-cat"))return;curCat=t.getAttribute("data-cat");catsEl.querySelectorAll(".pcmt-ep-cat").forEach(function(b){b.classList.remove("active");});t.classList.add("active");search.value="";render();};
+list.onclick=function(ev){var e=ev.target.getAttribute("data-e");if(e)insert(e);};
+recentEl.onclick=function(ev){var e=ev.target.getAttribute("data-e");if(e)insert(e);};
+search.oninput=function(){render(search.value);};
+render();renderRecent();
+
+// カラーピッカー
+var colors=["#000000","#434343","#666666","#999999","#cccccc","#ffffff","#e53935","#d81b60","#8e24aa","#5e35b1","#3949ab","#1e88e5","#039be5","#00acc1","#00897b","#43a047","#7cb342","#c0ca33","#fdd835","#ffb300","#fb8c00","#f4511e","#6d4c41","#757575"];
+var colorBtn=$(fid+"_color_btn"),colorPicker=$(fid+"_color_picker"),colorsEl=$(fid+"_colors"),hexInput=$(fid+"_hex"),preview=$(fid+"_preview"),colorClose=$(fid+"_color_close"),colorApply=$(fid+"_color_apply");
+var selectedColor="#000000";
+if(colorBtn&&colorPicker){
+colorsEl.innerHTML=colors.map(function(c){return "<button type=\"button\" class=\"pcmt-cp-color\" data-c=\""+c+"\" style=\"background:"+c+"\"></button>";}).join("");
+preview.style.background=selectedColor;
+colorBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=colorPicker.classList.contains("show");if(!open){colorPicker.classList.add("show");colorBtn.classList.add("active");}};
+colorClose.onclick=function(){colorPicker.classList.remove("show");colorBtn.classList.remove("active");};
+colorsEl.onclick=function(ev){var c=ev.target.getAttribute("data-c");if(c){selectedColor=c;hexInput.value=c;preview.style.background=c;colorsEl.querySelectorAll(".pcmt-cp-color").forEach(function(b){b.classList.remove("selected");});ev.target.classList.add("selected");}};
+hexInput.oninput=function(){var v=hexInput.value;if(/^#[0-9A-Fa-f]{6}$/.test(v)){selectedColor=v;preview.style.background=v;colorsEl.querySelectorAll(".pcmt-cp-color").forEach(function(b){b.classList.remove("selected");});}};
+colorApply.onclick=function(){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"&color("+selectedColor+"){"+sel+"};":"&color("+selectedColor+"){};";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+tag.length-2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();colorPicker.classList.remove("show");colorBtn.classList.remove("active");};
+}
+
+// 文字サイズピッカー
+var sizes=[10,12,14,16,18];
+var sizeBtn=$(fid+"_size_btn"),sizePicker=$(fid+"_size_picker"),sizesEl=$(fid+"_sizes"),sizeInput=$(fid+"_size_input"),sizePreview=$(fid+"_size_preview"),sizeClose=$(fid+"_size_close"),sizeApply=$(fid+"_size_apply");
+var selectedSize=16;
+if(sizeBtn&&sizePicker){
+sizesEl.innerHTML=sizes.map(function(s){return "<button type=\"button\" class=\"pcmt-sp-size"+(s===16?" selected":"")+"\" data-s=\""+s+"\">"+s+"</button>";}).join("");
+sizePreview.style.fontSize=selectedSize+"px";
+sizeBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();closeAllPickers();var open=sizePicker.classList.contains("show");if(!open){sizePicker.classList.add("show");sizeBtn.classList.add("active");}};
+sizeClose.onclick=function(){sizePicker.classList.remove("show");sizeBtn.classList.remove("active");};
+sizesEl.onclick=function(ev){var s=ev.target.getAttribute("data-s");if(s){selectedSize=parseInt(s);sizeInput.value=selectedSize;sizePreview.style.fontSize=selectedSize+"px";sizesEl.querySelectorAll(".pcmt-sp-size").forEach(function(b){b.classList.remove("selected");});ev.target.classList.add("selected");}};
+sizeInput.oninput=function(){var v=parseInt(sizeInput.value);if(v>=8&&v<=48){selectedSize=v;sizePreview.style.fontSize=v+"px";sizesEl.querySelectorAll(".pcmt-sp-size").forEach(function(b){b.classList.remove("selected");});}};
+sizeApply.onclick=function(){var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"&size("+selectedSize+"){"+sel+"};":"&size("+selectedSize+"){};";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+tag.length-2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();sizePicker.classList.remove("show");sizeBtn.classList.remove("active");};
+}
+
+// 太字ボタン
+var boldBtn=$(fid+"_bold_btn");
+if(boldBtn){
+boldBtn.onclick=function(ev){ev.preventDefault();var s=msg.selectionStart,e=msg.selectionEnd,v=msg.value,sel=v.substring(s,e);var tag=sel?"''"+sel+"''":"''''";msg.value=v.substring(0,s)+tag+v.substring(e);var cursor=sel?s+tag.length:s+2;msg.selectionStart=msg.selectionEnd=cursor;msg.focus();};
+}
+
+// 画像添付ボタン(投稿時アップロード方式)
+var imgBtn=$(fid+"_img_btn"),imgFile=$(fid+"_img_file");
+var IMG_UPLOAD_URL="https://upload.wikiru-cdn.com";
+var IMG_MAX_COUNT=4;
+if(imgBtn&&imgFile){
+var pendingImgs=[];
+var imgSeq=0;
+var imgTb=imgBtn.parentNode;
+var chips=document.createElement("div");
+chips.className="pcmt-img-chips";
+imgTb.parentNode.insertBefore(chips,imgTb.nextSibling);
+function tokenOf(n,v){return v?"[添付予定動画"+n+"]":"[添付予定画像"+n+"]";}
+function renderChips(){
+chips.innerHTML="";
+for(var i=0;i<pendingImgs.length;i++){(function(p){
+var c=document.createElement("span");c.className="pcmt-img-chip";
+var t=document.createElement("span");t.textContent=(p.v?"動画":"画像")+p.n+": "+p.file.name;c.appendChild(t);
+var x=document.createElement("button");x.type="button";x.className="pcmt-img-chip-x";x.textContent="\u00d7";x.title="この画像を取り消す";
+x.onclick=function(){removePending(p.n);};
+c.appendChild(x);chips.appendChild(c);
+})(pendingImgs[i]);}
+chips.style.display=pendingImgs.length?"flex":"none";
+}
+function removePending(n){
+var tk="";
+for(var i=0;i<pendingImgs.length;i++){if(pendingImgs[i].n===n){tk=tokenOf(n,pendingImgs[i].v);break;}}
+pendingImgs=pendingImgs.filter(function(p){return p.n!==n;});
+if(tk)msg.value=msg.value.split(tk).join("");
+renderChips();
+}
+imgBtn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();showImgTerms();};
+function showImgTerms(){
+var ov=document.createElement("div");ov.className="pcmt-terms-ov";
+ov.innerHTML='<div class="pcmt-terms-box"><p style="margin:0"><a href="https://upload.wikiru-cdn.com/" target="_blank" rel="noopener">wikiru画像アップローダー利用規約</a>を必ず確認の上、画像・動画のアップロードを行ってください。<br><span style="font-size:12px;color:#888">ファイルはコメント投稿時にアップロードされます。</span></p><div class="pcmt-terms-btns"><button type="button" class="pcmt-terms-cancel">キャンセル</button><button type="button" class="pcmt-terms-ok">確認しました</button></div></div>';
+document.body.appendChild(ov);
+ov.querySelector(".pcmt-terms-ok").onclick=function(){document.body.removeChild(ov);imgFile.click();};
+ov.querySelector(".pcmt-terms-cancel").onclick=function(){document.body.removeChild(ov);};
+ov.onclick=function(e){if(e.target===ov)document.body.removeChild(ov);};
+}
+imgFile.onchange=function(){
+var f=imgFile.files[0];
+imgFile.value="";
+if(!f)return;
+if(pendingImgs.length>=IMG_MAX_COUNT){alert("1回のコメントに添付できる画像・動画はあわせて"+IMG_MAX_COUNT+"件までです");return;}
+var isV=(f.type.indexOf("video/")===0)||/\.(webm|mp4|mov)$/i.test(f.name);
+var maxSz=isV?20*1024*1024:10*1024*1024;
+if(f.size>maxSz){alert(isV?"動画は20MBまでです":"画像は10MBまでです");return;}
+imgSeq++;
+pendingImgs.push({n:imgSeq,file:f,v:isV});
+insertText(tokenOf(imgSeq,isV));
+renderChips();
+};
+// コメント送信時にまとめてアップロードし、仮タグをURLに置換してから投稿
+var imgForm=msg.form;
+var imgBypass=false;
+if(imgForm){
+imgForm.addEventListener("submit",function(ev){
+var targets=pendingImgs.filter(function(p){return msg.value.indexOf(tokenOf(p.n,p.v))!==-1;});
+if(imgBypass||targets.length===0)return;
+ev.preventDefault();
+var submitter=ev.submitter||imgForm.querySelector("input[type=submit],button[type=submit]");
+var subs=imgForm.querySelectorAll("input[type=submit],button[type=submit]");
+for(var i=0;i<subs.length;i++)subs[i].disabled=true;
+imgBtn.classList.add("uploading");imgBtn.disabled=true;
+var idx=0;
+function imgFail(m){
+alert("画像のアップロードに失敗したため、コメントは投稿されていません: "+m);
+for(var i=0;i<subs.length;i++)subs[i].disabled=false;
+imgBtn.classList.remove("uploading");imgBtn.disabled=false;
+}
+function imgNext(){
+if(idx>=targets.length){
+imgBtn.classList.remove("uploading");imgBtn.disabled=false;
+pendingImgs=[];renderChips();
+imgBypass=true;
+if(submitter){submitter.disabled=false;submitter.click();}else{imgForm.submit();}
+return;
+}
+var p=targets[idx];
+var fd=new FormData();fd.append("image",p.file);
+fetch(IMG_UPLOAD_URL,{method:"POST",body:fd})
+.then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
+.then(function(res){
+if(res.ok&&res.d&&res.d.url){
+msg.value=msg.value.split(tokenOf(p.n,p.v)).join((p.v?"[[添付動画>":"[[添付画像>")+res.d.url+"]]");
+idx++;imgNext();
+}else{imgFail((res.d&&res.d.error)||"不明なエラー");}
+})
+.catch(function(e){imgFail("通信エラー");});
+}
+imgNext();
+});
+}
+}
+
+
+
+
+// 全ピッカーを閉じる
+function closeAllPickers(){
+document.querySelectorAll(".pcmt-emoji-picker.show,.pcmt-color-picker.show,.pcmt-size-picker.show").forEach(function(p){p.classList.remove("show");});
+document.querySelectorAll(".pcmt-emoji-btn.active,.pcmt-tb-btn.active").forEach(function(b){b.classList.remove("active");});
+}
+
+// 外側クリックで閉じる
+document.addEventListener("click",function(ev){
+var isInside=ev.target.closest(".pcmt-emoji-picker,.pcmt-color-picker,.pcmt-size-picker,.pcmt-emoji-btn,.pcmt-tb-btn");
+if(!isInside)closeAllPickers();
+});
+})();
+</script></div>
+		</form>
+
+</div>
+</div>
+   <br>
+<div class="sticky-ads">
+<table>
+<tr>
+<td>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="1109012249"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+<td>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_2枠目_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="8922900187"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+</tr>
+</table>
+  </td>
+ </tr>
+</table>
+<p id="page-top"><a href="#wrap"><b><font size="7">↑</font></b></a></p>
+
+<div id="note"><hr class="note_hr" /><a id="notefoot_1" href="#notetext_1" class="note_super">*1</a>
+<span class="small">第6回ゴールデンハニーで初の討伐レベル46を達成</span><br />
+<a id="notefoot_2" href="#notetext_2" class="note_super">*2</a>
+<span class="small">ミッションの『スタミナを◯◯消費しよう』がこの数値になっている必要がある</span><br /></div>
+
+
+<hr class="full_hr" />
+<!-- Toolbar -->
+<div id="toolbar">
+ <a href="./"><img src="image/top.png" width="20" height="20" alt="トップ" title="トップ" /></a>
+ &nbsp;
+ 	<a href="./?cmd=edit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/edit.png" width="20" height="20" alt="編集" title="編集" /></a>			<a href="./?cmd=freeze&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/freeze.png" width="20" height="20" alt="凍結" title="凍結" /></a>	  <a href="./?cmd=diff&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/diff.png" width="20" height="20" alt="差分" title="差分" /></a>	<a href="./?cmd=backup&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/backup.png" width="20" height="20" alt="バックアップ" title="バックアップ" /></a>			<a href="./?plugin=attach&amp;pcmd=upload&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/file.png" width="20" height="20" alt="添付" title="添付" /></a>		<a href="./?plugin=template&amp;refer=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/copy.png" width="20" height="20" alt="複製" title="複製" /></a>	<a href="./?plugin=rename&amp;refer=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/rename.png" width="20" height="20" alt="名前変更" title="名前変更" /></a> <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/reload.png" width="20" height="20" alt="リロード" title="リロード" /></a> &nbsp;
+	<a href="./?plugin=newpage&amp;refer=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F"><img src="image/new.png" width="20" height="20" alt="新規" title="新規" /></a> <a href="./?cmd=list"><img src="image/list.png" width="20" height="20" alt="一覧" title="一覧" /></a> <a href="./?cmd=search"><img src="image/search.png" width="20" height="20" alt="検索" title="検索" /></a> <a href="./?RecentChanges"><img src="image/recentchanges.png" width="20" height="20" alt="最終更新" title="最終更新" /></a> &nbsp; <a href="./?Help"><img src="image/help.png" width="20" height="20" alt="ヘルプ" title="ヘルプ" /></a> &nbsp; <a href="./?cmd=rss&amp;ver=1.0"><img src="image/rss.png" width="36" height="14" alt="最終更新のRSS" title="最終更新のRSS" /></a></div>
+
+<div id="lastmodified">Last-modified: 2025-05-07 (水) 16:31:18<span class="page_passage" data-mtime="2025-05-07T16:31:18+09:00"></span></div>
+
+
+<script>
+/* double post */
+$(function () { $("div.pcomment form").submit(function () { $(this).find(':submit').attr('disabled', 'disabled'); }); }); 
+</script>
+<div id="footer">
+運営中のwiki一覧: <a href="https://bungo.wikiru.jp/" class="exclude-icon">文豪とアルケミスト(文アル)攻略 Wiki</a> | <a href="https://otogi.wikiru.jp/" class="exclude-icon">オトギフロンティア(オトフロ)攻略 Wiki</a> | <a href="https://azurlane.wikiru.jp/" class="exclude-icon">アズールレーン(アズレン)攻略 Wiki</a> | <a href="https://taimanin-rpg.wikiru.jp/" class="exclude-icon">対魔忍RPG攻略 Wiki</a> | <a href="https://arknights.wikiru.jp/" class="exclude-icon">アークナイツ攻略 Wiki</a> | <a href="https://langrisser.wikiru.jp/" class="exclude-icon">ラングリッサーモバイル攻略 Wiki</a> | <a href="https://artwhirl.wikiru.jp/" class="exclude-icon">アートワール攻略 Wiki</a> | <a href="https://ayarabu.wikiru.jp/" class="exclude-icon">あやかしランブル！(あやらぶ)攻略 Wiki</a> | <a href="https://twst.wikiru.jp/" class="exclude-icon">ツイステッドワンダーランド(ツイステ)攻略 Wiki</a> | <a href="https://detarikiz.wikiru.jp/" class="exclude-icon">デタリキZ攻略 Wiki</a> | <a href="https://tonofura.wikiru.jp/" class="exclude-icon">Deep One 虚無と夢幻のフラグメント攻略Wiki</a> | <a href="https://bluearchive.wikiru.jp/" class="exclude-icon">ブルーアーカイブ（ブルアカ）攻略 Wiki</a> | <a href="https://misttraingirls.wikiru.jp/" class="exclude-icon">ミストトレインガールズ攻略 Wiki</a>  | <a href="https://escalationheroines.wikiru.jp/" class="exclude-icon">超昂大戦エスカレーションヒロインズ攻略 Wiki</a> | <a href="https://minashigo.wikiru.jp/" class="exclude-icon">ミナシゴノシゴト攻略 Wiki</a> | <a href="https://edensgrenze.wikiru.jp/" class="exclude-icon">エデンズリッターグレンツェ攻略 Wiki</a> | <a href="https://senkoi.wikiru.jp/" class="exclude-icon">戦国†恋姫オンライン～奥宴新史～攻略 Wiki</a> | <a href="https://umamusume.wikiru.jp/" class="exclude-icon">ウマ娘 プリティダービー 攻略 Wiki</a> | <a href="https://angelic.wikiru.jp/" class="exclude-icon">エンジェリックリンク（エンクリ）攻略 Wiki</a> | <a href="https://neural-cloud.wikiru.jp/" class="exclude-icon">ニューラルクラウド攻略 Wiki</a> | <a href="https://legeclo.wikiru.jp/" class="exclude-icon">れじぇくろ！ ～レジェンド・クローバー～攻略 Wiki</a> | <a href="https://tenkafuma.wikiru.jp/" class="exclude-icon">天下布魔攻略 Wiki</a> | <a href="https://sugarconflict.wikiru.jp/" class="exclude-icon">シュガーコンフリクト（シュガコン）攻略 Wiki</a> | <a href="https://monmusu-td.wikiru.jp/" class="exclude-icon">モンスター娘TD攻略 Wiki</a> | <a href="https://tenkei-paradox.wikiru.jp/" class="exclude-icon">天啓パラドクス(テンパラ)攻略 Wiki</a> | <a href="https://crimson-youmataisen.wikiru.jp/" class="exclude-icon">クリムゾン妖魔大戦攻略 Wiki</a> | <a href="https://arknights-endfield.wikiru.jp/" class="exclude-icon">アークナイツ エンドフィールド攻略 Wiki</a> | <a href="https://dollsfrontline2.wikiru.jp/" class="exclude-icon">ドールズフロントライン2：エクシリウム攻略 Wiki</a> | <a href="https://v-rising.wikiru.jp/" class="exclude-icon">V Rising日本語攻略 Wiki</a> | <a href="https://nikke.wikiru.jp/" class="exclude-icon">勝利の女神：NIKKE攻略 Wiki</a> | <a href="https://dolphin-wave.wikiru.jp/" class="exclude-icon">ドルフィンウェーブ（ドルウェブ）攻略Wiki</a> | <a href="https://jewel-reincarnation.wikiru.jp/" class="exclude-icon">宝石姫 Reincarnation攻略Wiki</a> | <a href="https://alliancesages.wikiru.jp/" class="exclude-icon">アライアンスセージ攻略Wiki</a> | <a href="https://cravesaga.wikiru.jp/" class="exclude-icon">クレイヴ・サーガ（クレサガ）攻略Wiki</a> | <a href="https://aethergazer.wikiru.jp/" class="exclude-icon">エーテルゲイザー攻略Wiki</a> | <a href="https://twinklestarknights.wikiru.jp/" class="exclude-icon">ティンクルスターナイツ（クルスタ）攻略Wiki</a> | <a href="https://reverse1999.wikiru.jp/" class="exclude-icon">リバース：1999攻略Wiki</a> | <a href="https://kfk.wikiru.jp/" class="exclude-icon">Kemono Friends：Kingdom Wiki</a> | <a href="https://snowbreak.wikiru.jp/" class="exclude-icon">スノウブレイク 攻略 Wiki</a> | <a href="https://honeycome.wikiru.jp/" class="exclude-icon">ハニカム 攻略wiki</a> | <a href="https://girlscreation.wikiru.jp/" class="exclude-icon">ガールズクリエイション（ガークリ）攻略 Wiki</a> | <a href="https://sweethomemaid.wikiru.jp/" class="exclude-icon">スイートホームメイド攻略 Wiki</a> | <a href="https://modernwarships.wikiru.jp/" class="exclude-icon">Modern Warships 攻略 Wiki</a> | <a href="https://ashechoes.wikiru.jp/" class="exclude-icon">アッシュエコーズ-白荊回廊-攻略 Wiki</a> | <a href="https://lilyange.wikiru.jp/" class="exclude-icon">りりぃあんじぇ（りりあん） 攻略Wiki</a> | <a href="https://unlightrevive.wikiru.jp/" class="exclude-icon">UNLIGHT：Revive 攻略Wiki</a> | <a href="https://azurpromilia.wikiru.jp/" class="exclude-icon">アズールプロミリア 有志Wiki</a> | <a href="https://sakurazimarpfer.wikiru.jp/" class="exclude-icon">桜島RPサーバーWiki</a> | <a href="https://madisland.wikiru.jp/" class="exclude-icon">Mad Island 攻略Wiki</a> | <a href="https://tenshoku-maou.wikiru.jp/" class="exclude-icon">転職魔王～リストラ勇者のお仕置きセレナーデ～ 攻略Wiki</a> | <a href="https://svs.wikiru.jp/" class="exclude-icon">サマバケ！すくらんぶる 攻略wiki</a> | <a href="https://orisries.wikiru.jp/" class="exclude-icon">オリスライズ 攻略wiki</a> | <a href="https://noctilucent.wikiru.jp/" class="exclude-icon">ノクティルセント：暁の前に 攻略Wiki</a> | <a href="https://suzuran.wikiru.jp/" class="exclude-icon">鈴蘭の剣攻略Wiki</a> | <a href="https://rebgil.wikiru.jp/" class="exclude-icon">リベリオン ギルガメッシュ（リベガメ）攻略Wiki</a> | <a href="https://donguri.wikiru.jp/" class="exclude-icon">5chどんぐり非公式まとめwiki</a> | <a href="https://mugenrou.wikiru.jp/" class="exclude-icon">夢幻楼と眠れぬ蝶 攻略Wiki</a> | <a href="https://resonance.wikiru.jp/" class="exclude-icon">レゾナンス：無限号列車 攻略 Wiki</a> | <a href="https://vtuber-database.wikiru.jp/" class="exclude-icon">Vtuber総合データベースwiki</a> | <a href="https://aigiscenario.wikiru.jp/" class="exclude-icon">千年戦争アイギスシナリオwiki</a> | <a href="https://angelica-aster.wikiru.jp/" class="exclude-icon">ANGELICA ASTER 攻略Wiki</a> | <a href="https://elins-inn.wikiru.jp/" class="exclude-icon">Elin 攻略有志wiki</a> | <a href="https://karin-lk.wikiru.jp/" class="exclude-icon">魔王カリンちゃんRPG ～恋姫建国奔走記～攻略 Wiki</a> | <a href="https://etechrore.wikiru.jp/" class="exclude-icon">エタクロニクル：Re攻略考察wiki</a> | <a href="https://touhou-dm.wikiru.jp/" class="exclude-icon">東方ダンジョンメーカー攻略wiki</a> | <a href="https://dnabyss.wikiru.jp/" class="exclude-icon">デュエットナイトアビス(二重螺旋)攻略 Wiki</a> | <a href="https://madodra.wikiru.jp/" class="exclude-icon">魔法少女まどか☆マギカ Magia Exedra（まどドラ）攻略有志Wiki</a> | <a href="https://touhounomeikyuu-tri.wikiru.jp/" class="exclude-icon">東方の迷宮Tri 夢見る乙女と神秘の宝珠 攻略有志Wiki</a> | <a href="https://siprj.wikiru.jp/" class="exclude-icon">STELLAR IDOL PROJECT（ステラP）攻略Wiki</a> | <a href="https://adult-seiyu.wikiru.jp/" class="exclude-icon">エロゲー・エロアニメ声優総合Wiki</a> | <a href="https://stellasora.wikiru.jp/" class="exclude-icon">ステラソラ攻略有志 Wiki</a> | <a href="https://muvluv-girls-garden.wikiru.jp/" class="exclude-icon">マブラヴ ガールズガーデン攻略 Wiki</a> | <a href="https://horizon-walker.wikiru.jp/" class="exclude-icon">ホライゾンウォーカー攻略 Wiki</a> | <a href="https://reet.wikiru.jp/" class="exclude-icon">エターナルツリー新生(REエタツリ)攻略 Wiki</a> | <a href="https://aicomi.wikiru.jp/" class="exclude-icon">アイコミ 攻略wiki</a> | <a href="https://kaiitoumetsutan-trpg.wikiru.jp/" class="exclude-icon">TRPG怪異討滅譚5版対応Wiki</a> | <a href="https://koihime-taisen.wikiru.jp/" class="exclude-icon">恋姫大戦 攻略Wiki</a> | <a href="https://techcronoss.wikiru.jp/" class="exclude-icon">テクロノス攻略 Wiki</a> | <a href="https://taimaninsquad.wikiru.jp/" class="exclude-icon">対魔忍スクワッド攻略 Wiki</a> | <a href="https://bloxd.wikiru.jp/" class="exclude-icon">bloxd攻略 Wiki</a> | <a href="https://rlyehshoujotai.wikiru.jp/" class="exclude-icon">邪神戦記ルルイエ少女隊攻略 Wiki</a> | <a href="https://killer-inn.wikiru.jp/" class="exclude-icon">キラーイン攻略 Wiki</a> | <a href="https://acacia.wikiru.jp/" class="exclude-icon">Acacia総合有志wiki</a> | <a href="https://drapline.wikiru.jp/" class="exclude-icon">DRAPLINE攻略 Wiki</a> | <a href="https://rezoriri.wikiru.jp/" class="exclude-icon">レゾナンスリリウム（レゾリリ）攻略 Wiki</a> | <a href="https://dotabyss.wikiru.jp/" class="exclude-icon">ドットアビスX攻略 Wiki</a> | <a href="https://astraeoratio.wikiru.jp/" class="exclude-icon">アストラエ・オラティオ（アスオラ）攻略 Wiki</a><br><br>
+ Site admin: <a href="https://escalationheroines.wikiru.jp/script/mailform/escalationheroines/">超昂大戦エスカレーションヒロインズ攻略 Wiki管理人</a><br>
+ <a href="https://wikiru.jp/">無料レンタルwiki by wikiru.jp</a><br>
+ <p>
+ <strong>PukiWiki 1.5.2</strong> &copy; 2001-2024 .
+ Powered by PHP 7.4.33. HTML convert time: 0.080 sec.
+ </p>
+<a href="https://greasyfork.org/ja/scripts/393034" class="exclude-icon">wikiru.jp コメントあぼーん</a> Copyright © 2017 Shikikan. License is <a href="https://www.apache.org/licenses/LICENSE-2.0" class="exclude-icon">Apache License 2.0</a><br>
+<a href="https://wikiru.jp/privacypolicy.html">wikiru.jpのプライバシーポリシー</a> | <a href="https://wikiru.jp/emergency_support.html">wikiru.jp運営の緊急サポートについて</a>
+</div>
+</div>
+<script type="text/javascript" src="skin/modalAnimation.js?1"></script>
+<script type="text/javascript" src="skin/modal.js?111"></script>
+</body>
+</html>

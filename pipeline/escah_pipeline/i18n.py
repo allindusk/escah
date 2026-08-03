@@ -38,6 +38,7 @@ from __future__ import annotations
 
 import html as _html
 import json
+import posixpath
 import re
 import unicodedata
 import yaml
@@ -62,6 +63,8 @@ _JA_RE = re.compile(r"[ぁ-んァ-ヶ一-龯々〆ヵヶ]")
 _KANA_RE = re.compile(r"[ぁ-んァ-ヶ]")
 # 模板占位符
 _KEY_RE = re.compile(r"\{\{key(\d+)\}\}")
+# 站内跨页面跳转链接（非页内锚点）：用于渲染期统一加 target=_blank
+_INTLINK_RE = re.compile(r'<a\b[^>]*class="[^"]*internal-link[^"]*"[^>]*href="([^"]*)"[^>]*>')
 # 待译/译文 txt 的 [N] / [keyN] / [blkN] 行（条目可跨行，直到下一个标记）
 _ENTRY_RE = re.compile(r"^\[(key\d+|blk\d+|\d+)\]\s?", re.M)
 # 这些标签内部不做 key 化（保持原样）
@@ -1339,6 +1342,67 @@ def char_fill_all() -> None:
 
 # --------------------------------------------------------------- render ----
 
+def _fill_block_keep_links(el, blk: dict, keys: dict, blk_zh: str, locale: str) -> None:
+    """含链接(a)且块级译文完整、但部分子 key 缺译的块：保链接 + 保翻译。
+
+    不整块换成纯文本（会丢 <a> 跳转），也不跳过（会露日文）。
+    做法：按 blk keys 顺序把块级 zh 连续切分成与各 key 对应的中文片段
+    （已译 key 用自身 zh，缺译 key 用切分片段），遍历块内文本节点与 <a>
+    标签文本，把缺译的 {{keyN}} 占位符就地替换为对应片段；<a> 结构原样保留。
+    """
+    members = blk.get("keys", [])
+    Lz = len(blk_zh)
+    # 各 key 的 ja 长度（缺则视作 0），用于在块级 zh 上按比例连续切分。
+    lens = [len(keys.get(k, {}).get("ja", "") or "") for k in members]
+    total = sum(lens) or 1
+    # 预计算每个 key 在块级 zh 中的区间 [zs, ze]
+    spans: dict[str, tuple[int, int]] = {}
+    acc = 0
+    for kk, L in zip(members, lens):
+        zs = int(round(acc / total * Lz))
+        acc += L
+        ze = int(round(acc / total * Lz))
+        spans[kk] = (zs, max(zs, ze))
+    # key 的总 ja 长度（精确）：避免 total 用 lens 求和误差，直接用 ja_full 长度兜底
+    ja_full = blk.get("ja", "")
+    Lj = len(ja_full)
+
+    def _seg(kk: str) -> str:
+        zs, ze = spans.get(kk, (0, Lz))
+        seg = blk_zh[zs:ze]
+        return seg if seg else blk_zh
+
+    def _replace(text: str | None) -> str | None:
+        if not text:
+            return text
+        out = []
+        i = 0
+        while True:
+            j = text.find("{{", i)
+            if j < 0:
+                out.append(text[i:])
+                break
+            k = text.find("}}", j)
+            if k < 0:
+                out.append(text[i:])
+                break
+            out.append(text[i:j])
+            token = text[j + 2:k]
+            ent = keys.get(token)
+            if ent is not None and not ent.get("zh"):
+                out.append(_seg(token))
+            else:
+                out.append(text[j:k + 2])  # 已译/未知 → 保留占位符交给 _sub
+            i = k + 2
+        return "".join(out)
+
+    for node in el.iter():
+        if isinstance(node.text, str):
+            node.text = _replace(node.text)
+        if isinstance(node.tail, str):
+            node.tail = _replace(node.tail)
+
+
 def render_locale(slug: str, locale: str) -> str | None:
     """模板 → 最终 HTML。节点级查表替换；zh 局部缺译时块级整句回退。"""
     if not has_i18n(slug):
@@ -1360,16 +1424,27 @@ def render_locale(slug: str, locale: str) -> str | None:
                     continue
                 if all(keys.get(k, {}).get("zh") for k in blk.get("keys", [])):
                     continue  # 节点级全有译文 → 保留行内结构
-                # 含图片/表格的块：保留结构（避免丢图/丢表），节点级回退 ja
+                # 含图片/表格的块：保留结构（避免丢图/丢表），由顶层 _sub 节点级回退。
                 if any(d.tag in ("img", "table") for d in el.iter()):
                     continue
-                for child in list(el):
-                    el.remove(child)
+                # 含链接(a)的块：保链接 + 保翻译。
+                # 不能整块换成纯文本（会丢跳转链接），也不能 continue（会露日文）。
+                # 做法：保留 <a> 元素，把缺译子 key 占位符就地用块级 zh 兜底，
+                # 块级 zh 完整则全句可读，链接标签（a 内缺译 key）也用块级 zh 兜底。
+                blk_zh = blk["zh"]
                 if locale == "zh":
                     ov = _name_override(blk.get("ja", ""))
-                    el.text = ov if ov is not None else _correct_text(blk["zh"])
-                else:
-                    el.text = blk["zh"]
+                    if ov is not None:
+                        blk_zh = ov
+                    else:
+                        blk_zh = _correct_text(blk["zh"])
+                if any(d.tag == "a" for d in el.iter()):
+                    _fill_block_keep_links(el, blk, keys, blk_zh, locale)
+                    continue
+                # 无链接的纯文本块：整块换成块级 zh
+                for child in list(el):
+                    el.remove(child)
+                el.text = blk_zh
             tpl = lxml_html.tostring(frag, method="html", encoding="unicode")
             if tpl.startswith("<div>") and tpl.rstrip().endswith("</div>"):
                 tpl = tpl[len("<div>"):-len("</div>")]
@@ -1398,6 +1473,26 @@ def render_locale(slug: str, locale: str) -> str | None:
         return _html.escape(ent.get("ja", ""), quote=False)
 
     html = _KEY_RE.sub(_sub, tpl)
+    # 站内跨页面跳转（internal-link 且非页内锚点）一律新标签页打开，避免打断阅读。
+    # 例外：跳到「当前页」（同名文件，含带 #anchor 的同页锚点）则不新开，原地跳转。
+    if _INTLINK_RE is not None:
+        cur_html = posixpath.basename(slug) + ".html"  # 当前页文件名
+
+        def _open_new(m: "re.Match") -> str:
+            tag = m.group(0)
+            if "target=" in tag:
+                return tag
+            href = m.group(1)
+            if href.startswith("#"):
+                return tag
+            # 解析 href 的文件名（去掉锚点 / 目录前缀 / './' 前缀）
+            basename = href.split("#", 1)[0].rstrip("/").split("/")[-1]
+            if basename in ("", cur_html):
+                return tag  # 跳当前页 → 不新开
+            # 注意：tag 以 '>' 结尾，仅需去掉末尾 '>'（保留 href/title 的闭合引号），
+            # 否则 tag[:-2] 会误删闭合引号，使 target= 被塞进 href/title 属性值内导致 404。
+            return tag[:-1] + ' target="_blank" rel="noopener">'
+        html = _INTLINK_RE.sub(_open_new, html)
     # 末尾读音归一化（zh 仅）：部分页面（数据表/散文）的文本经自定义渲染落地，
     # 不经过节点级 _correct_text，导致旧读音（梅加艾尔/玛雅艾尔）以子串残留。
     # 此处对整段 html 做子串纠正（名字唯一，无误伤风险）。

@@ -499,7 +499,10 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
 }
 .char-hover-body td.long-text { white-space: normal; }
 .char-hover-hint {
-  margin-top: 4px; font-size: 11px; color: var(--vp-c-text-3, #8b949e);
-  text-align: center; opacity: 0.8;
+  margin-top: 8px; font-size: 14px; font-weight: 700;
+  color: var(--vp-c-brand-1, #3451b2);
+  text-align: center; opacity: 1;
+  background: var(--vp-c-bg-soft, #f6f6f7);
+  border-radius: 6px; padding: 6px 8px;
 }
 </style>

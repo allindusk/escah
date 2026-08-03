@@ -20,9 +20,10 @@ const lbSrc = ref('')
 function onDocClick(e: MouseEvent) {
   const img = (e.target as HTMLElement).closest?.('.mirror-content img') as HTMLImageElement | null
   if (!img) return
-  // 角色头像（带 data-char）由 MirrorContent 的点击固定逻辑接管（pin 浮窗），
-  // 不能也触发灯箱放大，否则会同时弹出浮窗 + 放大头像 + 玻璃遮罩。
-  if (img.hasAttribute('data-char')) return
+  // 角色头像由 MirrorContent 的点击固定逻辑接管（pin 浮窗），不能也触发灯箱放大，
+  // 否则会同时弹出浮窗 + 放大头像 + 玻璃遮罩。头像 img 自身通常不带 data-char，
+  // 而是包在带 data-char 的 span/祖先元素内，故用 closest 向上查找。
+  if (img.closest('[data-char]')) return
   lbSrc.value = img.src
 }
 

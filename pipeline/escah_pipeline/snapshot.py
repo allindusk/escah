@@ -11,8 +11,17 @@ from . import config
 
 
 def page_filename(name: str) -> str:
-    """页面名 → 安全的快照文件名（URL 编码，规避 Windows 日文文件名与路径长度风险）。"""
-    return quote(name, safe="") + ".html"
+    """页面名 → 安全的快照文件名（URL 编码，规避 Windows 日文文件名与路径长度风险）。
+
+    当编码后超过 180 字符（叠加 data/raw 前缀易超 Windows 默认 MAX_PATH 260）时，
+    回退为「sha1 前 16 位 + .html」的短名，保证确定性（同一 name 永远映射到同一文件），
+    因此 parse/chara/sitegen/i18n 用同一函数读取不会失配。
+    """
+    enc = quote(name, safe="") + ".html"
+    if len(enc) <= 180:
+        return enc
+    import hashlib
+    return hashlib.sha1(name.encode("utf-8")).hexdigest()[:16] + ".html"
 
 
 def sha256_bytes(data: bytes) -> str:

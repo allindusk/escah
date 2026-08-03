@@ -308,6 +308,15 @@ def parse_all(pages: list[str] | None = None, force: bool = False) -> None:
         wanted = set(pages)
         entries = [e for e in entries if e["name"] in wanted]
     slug_by_name = {e["name"]: e["slug"] for e in load_registry()}
+    # 246 个正文子页面（装备/讨伐/世界观/主线）已建镜像，链接应指向本站而非原 wiki。
+    # subpage_name_slug.json: {日文页名: {slug, subgroup}}，合并进 slug_by_name 让
+    # _rewrite_links 自动把原 wiki 查看链接改写为站内 internal-link。
+    _subpage_map = config.ROOT / "tools" / "subpage_name_slug.json"
+    if _subpage_map.exists():
+        for _nm, _info in json.loads(_subpage_map.read_text(encoding="utf-8")).items():
+            _sl = _info.get("slug") if isinstance(_info, dict) else _info
+            if _sl and _nm not in slug_by_name:
+                slug_by_name[_nm] = _sl
     manifest = Manifest()
     pending_assets: dict[str, str] = {}
     if (config.DATA_DIR / "pending_assets.json").exists():

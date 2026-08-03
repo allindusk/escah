@@ -1,0 +1,986 @@
+{
+  "1ダースべべたー": {
+    "slug": "equip-001",
+    "subgroup": "equipment"
+  },
+  "あの日の決意": {
+    "slug": "equip-002",
+    "subgroup": "equipment"
+  },
+  "うなぎの鞄焼き": {
+    "slug": "equip-003",
+    "subgroup": "equipment"
+  },
+  "お年玉2025": {
+    "slug": "equip-004",
+    "subgroup": "equipment"
+  },
+  "お茶会セット": {
+    "slug": "equip-005",
+    "subgroup": "equipment"
+  },
+  "しいたて": {
+    "slug": "equip-006",
+    "subgroup": "equipment"
+  },
+  "しゃーべりタイガー": {
+    "slug": "equip-007",
+    "subgroup": "equipment"
+  },
+  "すっぽんぽん鍋": {
+    "slug": "equip-008",
+    "subgroup": "equipment"
+  },
+  "そこそこ倉庫": {
+    "slug": "equip-009",
+    "subgroup": "equipment"
+  },
+  "てかるせっかち": {
+    "slug": "equip-010",
+    "subgroup": "equipment"
+  },
+  "てかる十姉妹": {
+    "slug": "equip-011",
+    "subgroup": "equipment"
+  },
+  "てかる栗": {
+    "slug": "equip-012",
+    "subgroup": "equipment"
+  },
+  "のーこんぶるま": {
+    "slug": "equip-013",
+    "subgroup": "equipment"
+  },
+  "ひまわらない・赤": {
+    "slug": "equip-014",
+    "subgroup": "equipment"
+  },
+  "ひまわらない・青": {
+    "slug": "equip-015",
+    "subgroup": "equipment"
+  },
+  "ひまわらない・黄": {
+    "slug": "equip-016",
+    "subgroup": "equipment"
+  },
+  "べべたーの刃": {
+    "slug": "equip-017",
+    "subgroup": "equipment"
+  },
+  "エンジんスパッツ": {
+    "slug": "equip-018",
+    "subgroup": "equipment"
+  },
+  "カット調味料・中": {
+    "slug": "equip-019",
+    "subgroup": "equipment"
+  },
+  "カット調味料・和": {
+    "slug": "equip-020",
+    "subgroup": "equipment"
+  },
+  "カット調味料・洋": {
+    "slug": "equip-021",
+    "subgroup": "equipment"
+  },
+  "ガッツのあるベルト": {
+    "slug": "equip-022",
+    "subgroup": "equipment"
+  },
+  "ガッツタイガー": {
+    "slug": "equip-023",
+    "subgroup": "equipment"
+  },
+  "ガッツ十姉妹": {
+    "slug": "equip-024",
+    "subgroup": "equipment"
+  },
+  "キラメキグローブ": {
+    "slug": "equip-025",
+    "subgroup": "equipment"
+  },
+  "クリア・ゲタスキー": {
+    "slug": "equip-026",
+    "subgroup": "equipment"
+  },
+  "クリスタルベアー": {
+    "slug": "equip-027",
+    "subgroup": "equipment"
+  },
+  "コンボの謎": {
+    "slug": "equip-028",
+    "subgroup": "equipment"
+  },
+  "コンボ納豆": {
+    "slug": "equip-029",
+    "subgroup": "equipment"
+  },
+  "ゴブスレー": {
+    "slug": "equip-030",
+    "subgroup": "equipment"
+  },
+  "スタンダードスクみず": {
+    "slug": "equip-031",
+    "subgroup": "equipment"
+  },
+  "スタン帽子": {
+    "slug": "equip-032",
+    "subgroup": "equipment"
+  },
+  "スーパーカー": {
+    "slug": "equip-033",
+    "subgroup": "equipment"
+  },
+  "スーパーコンボ": {
+    "slug": "equip-034",
+    "subgroup": "equipment"
+  },
+  "スーパードリル": {
+    "slug": "equip-035",
+    "subgroup": "equipment"
+  },
+  "タツノオトシドコロ": {
+    "slug": "equip-036",
+    "subgroup": "equipment"
+  },
+  "チョコットGPT": {
+    "slug": "equip-037",
+    "subgroup": "equipment"
+  },
+  "トキサダ手作りチョコ": {
+    "slug": "equip-038",
+    "subgroup": "equipment"
+  },
+  "ドラ猫の鈴": {
+    "slug": "equip-039",
+    "subgroup": "equipment"
+  },
+  "ドリル十姉妹": {
+    "slug": "equip-040",
+    "subgroup": "equipment"
+  },
+  "ドリル掃除機": {
+    "slug": "equip-041",
+    "subgroup": "equipment"
+  },
+  "ヌンジャスプレー": {
+    "slug": "equip-042",
+    "subgroup": "equipment"
+  },
+  "ハミング・ジャミング": {
+    "slug": "equip-043",
+    "subgroup": "equipment"
+  },
+  "フンバル三兄弟・三男": {
+    "slug": "equip-044",
+    "subgroup": "equipment"
+  },
+  "フンバル三兄弟・次男": {
+    "slug": "equip-045",
+    "subgroup": "equipment"
+  },
+  "フンバル三兄弟・長男": {
+    "slug": "equip-046",
+    "subgroup": "equipment"
+  },
+  "フーマンキラー": {
+    "slug": "equip-047",
+    "subgroup": "equipment"
+  },
+  "ヘイトのパンツ": {
+    "slug": "equip-048",
+    "subgroup": "equipment"
+  },
+  "ヘビースターメン": {
+    "slug": "equip-049",
+    "subgroup": "equipment"
+  },
+  "マリナの衣装": {
+    "slug": "equip-050",
+    "subgroup": "equipment"
+  },
+  "ロケットエンジン": {
+    "slug": "equip-051",
+    "subgroup": "equipment"
+  },
+  "ロケットベルト": {
+    "slug": "equip-052",
+    "subgroup": "equipment"
+  },
+  "ロケット十姉妹": {
+    "slug": "equip-053",
+    "subgroup": "equipment"
+  },
+  "ロケット納豆": {
+    "slug": "equip-054",
+    "subgroup": "equipment"
+  },
+  "一斬の剣": {
+    "slug": "equip-055",
+    "subgroup": "equipment"
+  },
+  "亀甲の刃": {
+    "slug": "equip-056",
+    "subgroup": "equipment"
+  },
+  "仁王タイガー": {
+    "slug": "equip-057",
+    "subgroup": "equipment"
+  },
+  "仁王ドリル": {
+    "slug": "equip-058",
+    "subgroup": "equipment"
+  },
+  "仁王納豆": {
+    "slug": "equip-059",
+    "subgroup": "equipment"
+  },
+  "内縛陣": {
+    "slug": "equip-060",
+    "subgroup": "equipment"
+  },
+  "命中の刃": {
+    "slug": "equip-061",
+    "subgroup": "equipment"
+  },
+  "太陽のトウ": {
+    "slug": "equip-062",
+    "subgroup": "equipment"
+  },
+  "小得のスーパーカー": {
+    "slug": "equip-063",
+    "subgroup": "equipment"
+  },
+  "小得の掃除機": {
+    "slug": "equip-064",
+    "subgroup": "equipment"
+  },
+  "星のカーフィー": {
+    "slug": "equip-065",
+    "subgroup": "equipment"
+  },
+  "月のウサギ": {
+    "slug": "equip-066",
+    "subgroup": "equipment"
+  },
+  "無名の祭祀書": {
+    "slug": "equip-067",
+    "subgroup": "equipment"
+  },
+  "牛女縛り": {
+    "slug": "equip-068",
+    "subgroup": "equipment"
+  },
+  "牛女肉襦袢": {
+    "slug": "equip-069",
+    "subgroup": "equipment"
+  },
+  "白ヒゲここ一発": {
+    "slug": "equip-070",
+    "subgroup": "equipment"
+  },
+  "白色のスカーフ": {
+    "slug": "equip-071",
+    "subgroup": "equipment"
+  },
+  "直前煮": {
+    "slug": "equip-072",
+    "subgroup": "equipment"
+  },
+  "純白スクみず": {
+    "slug": "equip-073",
+    "subgroup": "equipment"
+  },
+  "細菌兵器": {
+    "slug": "equip-074",
+    "subgroup": "equipment"
+  },
+  "縛りせっかち": {
+    "slug": "equip-075",
+    "subgroup": "equipment"
+  },
+  "縛りべべたー": {
+    "slug": "equip-076",
+    "subgroup": "equipment"
+  },
+  "縛り亀甲": {
+    "slug": "equip-077",
+    "subgroup": "equipment"
+  },
+  "縛り仁王": {
+    "slug": "equip-078",
+    "subgroup": "equipment"
+  },
+  "聖剣コスモス": {
+    "slug": "equip-079",
+    "subgroup": "equipment"
+  },
+  "衝撃のあるタイガー": {
+    "slug": "equip-080",
+    "subgroup": "equipment"
+  },
+  "衝撃のあるドリル": {
+    "slug": "equip-081",
+    "subgroup": "equipment"
+  },
+  "衝撃のあるベルト": {
+    "slug": "equip-082",
+    "subgroup": "equipment"
+  },
+  "衝撃の仁王": {
+    "slug": "equip-083",
+    "subgroup": "equipment"
+  },
+  "謙信の兜": {
+    "slug": "equip-084",
+    "subgroup": "equipment"
+  },
+  "超昂人ロック": {
+    "slug": "equip-085",
+    "subgroup": "equipment"
+  },
+  "超昂金 ソル・クラウン(スタミナ)": {
+    "slug": "equip-086",
+    "subgroup": "equipment"
+  },
+  "超昂金 ソル・クラウン(攻撃)": {
+    "slug": "equip-087",
+    "subgroup": "equipment"
+  },
+  "超昂金 パルシオン(スタミナ)": {
+    "slug": "equip-088",
+    "subgroup": "equipment"
+  },
+  "超昂金 パルシオン(攻撃)": {
+    "slug": "equip-089",
+    "subgroup": "equipment"
+  },
+  "超昂金 滴－シズク－(スタミナ)": {
+    "slug": "equip-090",
+    "subgroup": "equipment"
+  },
+  "超昂金 滴－シズク－(攻撃)": {
+    "slug": "equip-091",
+    "subgroup": "equipment"
+  },
+  "超昂金 紫竜－シリュウ－(スタミナ)": {
+    "slug": "equip-092",
+    "subgroup": "equipment"
+  },
+  "超昂金 紫竜－シリュウ－(攻撃)": {
+    "slug": "equip-093",
+    "subgroup": "equipment"
+  },
+  "超昂金ソル・クラウン（防御）": {
+    "slug": "equip-094",
+    "subgroup": "equipment"
+  },
+  "超昂金パルシオン（防御）": {
+    "slug": "equip-095",
+    "subgroup": "equipment"
+  },
+  "超昂金滴-シズク-（防御）": {
+    "slug": "equip-096",
+    "subgroup": "equipment"
+  },
+  "超昂金紫竜-シリュウ-（防御）": {
+    "slug": "equip-097",
+    "subgroup": "equipment"
+  },
+  "身代わりの樹Ⅱ": {
+    "slug": "equip-098",
+    "subgroup": "equipment"
+  },
+  "身代わりの肉襦袢": {
+    "slug": "equip-099",
+    "subgroup": "equipment"
+  },
+  "身軽の羽": {
+    "slug": "equip-100",
+    "subgroup": "equipment"
+  },
+  "長髪まねきドリル": {
+    "slug": "equip-101",
+    "subgroup": "equipment"
+  },
+  "長髪まねき猫": {
+    "slug": "equip-102",
+    "subgroup": "equipment"
+  },
+  "電光せっかち": {
+    "slug": "equip-103",
+    "subgroup": "equipment"
+  },
+  "電光べべたー": {
+    "slug": "equip-104",
+    "subgroup": "equipment"
+  },
+  "電光王子": {
+    "slug": "equip-105",
+    "subgroup": "equipment"
+  },
+  "青い羽根": {
+    "slug": "equip-106",
+    "subgroup": "equipment"
+  },
+  "風火二輪・Ｂ": {
+    "slug": "equip-107",
+    "subgroup": "equipment"
+  },
+  "鬼霧の剣": {
+    "slug": "equip-108",
+    "subgroup": "equipment"
+  },
+  "１ダースまねき猫": {
+    "slug": "equip-109",
+    "subgroup": "equipment"
+  },
+  "２コンの一撃": {
+    "slug": "equip-110",
+    "subgroup": "equipment"
+  },
+  "３セットメモリー": {
+    "slug": "equip-111",
+    "subgroup": "equipment"
+  },
+  "ＤＤアクセラレーター": {
+    "slug": "equip-112",
+    "subgroup": "equipment"
+  },
+  "イベント12_レイドイベント『ゴールデンハニー』": {
+    "slug": "raid-001",
+    "subgroup": "raid"
+  },
+  "イベント08_レイドイベント『グナガン』": {
+    "slug": "raid-002",
+    "subgroup": "raid"
+  },
+  "イベント14_レイドイベント『ウールタール』": {
+    "slug": "raid-003",
+    "subgroup": "raid"
+  },
+  "イベント22_レイドイベント『堕威大仏』": {
+    "slug": "raid-004",
+    "subgroup": "raid"
+  },
+  "イベント32_レイドイベント『大往嬢』": {
+    "slug": "raid-005",
+    "subgroup": "raid"
+  },
+  "イベント46_レイドイベント『狂王』": {
+    "slug": "raid-006",
+    "subgroup": "raid"
+  },
+  "イベント60_レイドイベント『ヴリトラ』": {
+    "slug": "raid-007",
+    "subgroup": "raid"
+  },
+  "ウェーブフラスト（Bユニバース）": {
+    "slug": "buniv-001",
+    "subgroup": "b-universe"
+  },
+  "エスカレイヤー・リバース＆ハルカ・リバース（Bユニバース）": {
+    "slug": "buniv-002",
+    "subgroup": "b-universe"
+  },
+  "オルタナ四天王（Bユニバース）": {
+    "slug": "buniv-003",
+    "subgroup": "b-universe"
+  },
+  "オルバ（Bユニバース）": {
+    "slug": "buniv-004",
+    "subgroup": "b-universe"
+  },
+  "サイエンフラスト（Bユニバース）": {
+    "slug": "buniv-005",
+    "subgroup": "b-universe"
+  },
+  "ディストバーン（Bユニバース）": {
+    "slug": "buniv-006",
+    "subgroup": "b-universe"
+  },
+  "ムービーフラスト（Bユニバース）": {
+    "slug": "buniv-007",
+    "subgroup": "b-universe"
+  },
+  "レールフラスト（Bユニバース）": {
+    "slug": "buniv-008",
+    "subgroup": "b-universe"
+  },
+  "殲忍カゲリ（Bユニバース）": {
+    "slug": "buniv-009",
+    "subgroup": "b-universe"
+  },
+  "殲忍ハガネ（Bユニバース）": {
+    "slug": "buniv-010",
+    "subgroup": "b-universe"
+  },
+  "滅忍キクリ＆コテツ（Bユニバース）": {
+    "slug": "buniv-011",
+    "subgroup": "b-universe"
+  },
+  "メインクエスト/Area1": {
+    "slug": "mq-001",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area2": {
+    "slug": "mq-002",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area3": {
+    "slug": "mq-003",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area4": {
+    "slug": "mq-004",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area5": {
+    "slug": "mq-005",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area6": {
+    "slug": "mq-006",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area7": {
+    "slug": "mq-007",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area8": {
+    "slug": "mq-008",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area9": {
+    "slug": "mq-009",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area10": {
+    "slug": "mq-010",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area11": {
+    "slug": "mq-011",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area12": {
+    "slug": "mq-012",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area13": {
+    "slug": "mq-013",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area14": {
+    "slug": "mq-014",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area15": {
+    "slug": "mq-015",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area16": {
+    "slug": "mq-016",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area17": {
+    "slug": "mq-017",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area18": {
+    "slug": "mq-018",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area19": {
+    "slug": "mq-019",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area20": {
+    "slug": "mq-020",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area21": {
+    "slug": "mq-021",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area22": {
+    "slug": "mq-022",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area23": {
+    "slug": "mq-023",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area24": {
+    "slug": "mq-024",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area25": {
+    "slug": "mq-025",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area26": {
+    "slug": "mq-026",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area27": {
+    "slug": "mq-027",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area28": {
+    "slug": "mq-028",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area29": {
+    "slug": "mq-029",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area30": {
+    "slug": "mq-030",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area31": {
+    "slug": "mq-031",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area32": {
+    "slug": "mq-032",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area33": {
+    "slug": "mq-033",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area34": {
+    "slug": "mq-034",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area35": {
+    "slug": "mq-035",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area36": {
+    "slug": "mq-036",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area37": {
+    "slug": "mq-037",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area38": {
+    "slug": "mq-038",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area39": {
+    "slug": "mq-039",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area40": {
+    "slug": "mq-040",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area41": {
+    "slug": "mq-041",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area42": {
+    "slug": "mq-042",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area43": {
+    "slug": "mq-043",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area44": {
+    "slug": "mq-044",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area45": {
+    "slug": "mq-045",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/Area46": {
+    "slug": "mq-046",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area1": {
+    "slug": "mq-047",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area1": {
+    "slug": "mq-048",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area2": {
+    "slug": "mq-049",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area2": {
+    "slug": "mq-050",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area3": {
+    "slug": "mq-051",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area3": {
+    "slug": "mq-052",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area4": {
+    "slug": "mq-053",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area4": {
+    "slug": "mq-054",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area5": {
+    "slug": "mq-055",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area5": {
+    "slug": "mq-056",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area6": {
+    "slug": "mq-057",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area6": {
+    "slug": "mq-058",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area7": {
+    "slug": "mq-059",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area7": {
+    "slug": "mq-060",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area8": {
+    "slug": "mq-061",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area8": {
+    "slug": "mq-062",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area9": {
+    "slug": "mq-063",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area9": {
+    "slug": "mq-064",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area10": {
+    "slug": "mq-065",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area10": {
+    "slug": "mq-066",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area11": {
+    "slug": "mq-067",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area11": {
+    "slug": "mq-068",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area12": {
+    "slug": "mq-069",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area12": {
+    "slug": "mq-070",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area13": {
+    "slug": "mq-071",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area13": {
+    "slug": "mq-072",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area14": {
+    "slug": "mq-073",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area14": {
+    "slug": "mq-074",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area15": {
+    "slug": "mq-075",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area15": {
+    "slug": "mq-076",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area16": {
+    "slug": "mq-077",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area16": {
+    "slug": "mq-078",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area17": {
+    "slug": "mq-079",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area17": {
+    "slug": "mq-080",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area18": {
+    "slug": "mq-081",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area18": {
+    "slug": "mq-082",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area19": {
+    "slug": "mq-083",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area19": {
+    "slug": "mq-084",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area20": {
+    "slug": "mq-085",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area20": {
+    "slug": "mq-086",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area21": {
+    "slug": "mq-087",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area21": {
+    "slug": "mq-088",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area22": {
+    "slug": "mq-089",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area22": {
+    "slug": "mq-090",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area23": {
+    "slug": "mq-091",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area23": {
+    "slug": "mq-092",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area24": {
+    "slug": "mq-093",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area24": {
+    "slug": "mq-094",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area25": {
+    "slug": "mq-095",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area25": {
+    "slug": "mq-096",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area26": {
+    "slug": "mq-097",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area26": {
+    "slug": "mq-098",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area27": {
+    "slug": "mq-099",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area27": {
+    "slug": "mq-100",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area28": {
+    "slug": "mq-101",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第3部/Area28": {
+    "slug": "mq-102",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area29": {
+    "slug": "mq-103",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area30": {
+    "slug": "mq-104",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area31": {
+    "slug": "mq-105",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area32": {
+    "slug": "mq-106",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area33": {
+    "slug": "mq-107",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area34": {
+    "slug": "mq-108",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area35": {
+    "slug": "mq-109",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area36": {
+    "slug": "mq-110",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area37": {
+    "slug": "mq-111",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area38": {
+    "slug": "mq-112",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area39": {
+    "slug": "mq-113",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area40": {
+    "slug": "mq-114",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area41": {
+    "slug": "mq-115",
+    "subgroup": "main-quest"
+  },
+  "メインクエスト/第2部/Area42": {
+    "slug": "mq-116",
+    "subgroup": "main-quest"
+  }
+}

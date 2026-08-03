@@ -108,7 +108,7 @@ _MTIME_RE = re.compile(r"Last-modified:\s*([0-9]{4}-[0-9]{2}-[0-9]{2}[^<\n]*)")
 MD_TEMPLATE = """---
 title: "{title}"
 layout: doc
-meta:
+{prevnext}meta:
   sourceUrl: "{source_url}"
   sourceUpdated: "{source_updated}"
   synced: "{synced}"
@@ -161,6 +161,13 @@ def _sanitize_html(html: str) -> str:
 
     # ---- 清理导航/工具类超链接（用户要求：已有目录，不必保留这些导航）----
     _strip_nav_links(frag)
+
+    # ---- 角色名/头像去链接化（用户要求：已有浮窗，无需跳转/打开图片）----
+    # 正文的角色名与头像以「指向 characters/名.html 的 <a>」形式存在，在 /escah/
+    # base 下会解析成 404 死链，且视觉上像可点击链接。这里把它改成
+    # <span data-char="日文名">（保留内部文字与头像）：既消除死链，又让浮窗逻辑
+    # （按 data-char 触发、点击已被 preventDefault + stopPropagation 拦截）继续生效。
+    _neutralize_char_links(frag)
 
     # ---- 页内目录（wiki .contents）锚点修正：PukiWiki 的 TOC 链接指向内层
     #      anchor(<a id="y4f8fac5">) 的哈希，而该内层 anchor 已被 _strip_nav_links
@@ -218,6 +225,51 @@ def _strip_nav_links(frag) -> None:
             span = etree.Element("span", attrib={"id": aid})
             parent.insert(parent.index(el), span)
         el.drop_tree()
+
+
+def _neutralize_char_links(frag) -> None:
+    """把正文内指向角色页的 <a> 去链接化，改为 <span data-char="日文名">。
+
+    角色名/头像在原站以「<a class="internal-link" href="characters/名.html">」形式出现，
+    站点已有浮窗（按 data-char 触发）无需跳转、也无需打开图片。保留 <a> 会在 /escah/
+    base 下解析出 404 死链且呈链接观感。改为 <span data-char> 后：
+      - 死链消除（不再有 href）；
+      - 浮窗逻辑继续生效（findChar 向上查任意 [data-char]，点击由 onClick 的
+        preventDefault + stopPropagation 拦截，不会跳转/弹灯箱）；
+      - 内联头像随 <a>→<span> 变为独立 <img>，由 tagAvatars 打 data-char（同一容器
+        已带 data-char，findChar 向上命中，不会误触灯箱）。
+    """
+    for a in frag.xpath(".//a[contains(@href, 'characters/')]"):
+        href = a.get("href", "")
+        m = re.search(r"characters/([^ \"#'?]+?)\.html", href)
+        if not m:
+            continue
+        name = unquote(m.group(1))
+        a.tag = "span"
+        a.set("data-char", name)
+        if "href" in a.attrib:
+            del a.attrib["href"]
+        # 去掉 internal-link 链接样式类，避免呈现为可点击链接
+        cls = a.get("class", "")
+        cls = " ".join(c for c in cls.split() if c != "internal-link")
+        if cls:
+            a.set("class", cls)
+        elif "class" in a.attrib:
+            del a.attrib["class"]
+
+
+def _neutralize_char_links_html(html: str) -> str:
+    """HTML 字符串版去链接化：供 pre_sanitized（i18n）页面在 sync-site 落盘前补跑。
+    幂等：若已无 a[href*=characters/] 则原样返回。"""
+    try:
+        tree = lxml_html.fragment_fromstring(html, create_parent="div")
+    except Exception:
+        return html
+    _neutralize_char_links(tree)
+    out = lxml_html.tostring(tree, encoding="unicode")
+    if out.startswith("<div>") and out.endswith("</div>"):
+        out = out[5:-6]
+    return out
 
 
 def _relink_toc(frag) -> None:
@@ -322,7 +374,7 @@ def _page_title_ja2zh(name: str, locale: str) -> str:
     return _load_glossary().get("page_titles", {}).get(name, name)
 
 
-def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, source_updated: str, synced: str, reviewed: bool, translated: bool, locale: str, pre_sanitized: bool = False) -> None:
+def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, source_updated: str, synced: str, reviewed: bool, translated: bool, locale: str, pre_sanitized: bool = False, no_prevnext: bool = False) -> None:
     # 原始 HTML 片段以 JSON 形式单独落盘，生成时用 import 导入并由 MirrorContent
     # 以 v-html 在 SSR/客户端渲染。选用 JSON 而非 ?raw：VitePress 的 SSR 构建
     # 不会转换 ?raw 导入（导致预渲染内容为空），但会可靠转换 JSON 导入。
@@ -336,13 +388,22 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
     frag_file.parent.mkdir(parents=True, exist_ok=True)
     # key 化 i18n 页面（pre_sanitized=True）在 parse/i18n build 阶段已完成
     # 净化+路由改写，此处直接落盘，免去每次 sync-site 的 lxml 重处理。
-    sanitized = fragment if pre_sanitized else _sanitize_html(_localize_routes(fragment, from_slug))
+    # 但角色链接去链接化需再补一次（i18n 模板可能早于该逻辑生成、或正文为
+    # 角色详情页内部互链），故 pre_sanitized 也跑轻量的 _neutralize_char_links。
+    if pre_sanitized:
+        sanitized = _neutralize_char_links_html(fragment)
+    else:
+        sanitized = _sanitize_html(_localize_routes(fragment, from_slug))
     frag_file.write_text(
         json.dumps({"html": sanitized}, ensure_ascii=False),
         encoding="utf-8",
     )
     rel = os.path.relpath(frag_file, path.parent).replace(os.sep, "/")
     path.parent.mkdir(parents=True, exist_ok=True)
+    # 角色详情页禁用 VitePress 文档页脚 prev/next：其上一/下一篇是相邻角色，
+    # 等价于「角色名跳转到角色页」——站点已有浮窗，无需此类跳转（也避免 ja 站
+    # 生成 /escah/ja/characters/名.html 互链）。其他页保留上/下页导航。
+    prevnext = "prev: false\nnext: false\n" if no_prevnext else ""
     body = MD_TEMPLATE.format(
         title=title.replace('"', "'"),
         source_url=source_url,
@@ -351,6 +412,7 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
         reviewed=str(reviewed).lower(),
         translated=str(translated).lower(),
         rel=rel,
+        prevnext=prevnext,
     )
     # 注入正文文本（隐藏块），供 VitePress 本地搜索索引；否则 md 仅含组件、索引无内容
     try:
@@ -443,7 +505,7 @@ def sync_site() -> None:
             if locale == "zh" and ja_fragment and "list1 list-indent1" in fragment:
                 fragment = _augment_term_originals(fragment, ja_fragment)
             md_path = site_dir / f"{route_slug}.md"
-            _write_md(md_path, _page_title_ja2zh(name, locale), fragment, route_slug, source_url, source_updated, synced, reviewed, translated, locale, pre_sanitized=use_i18n)
+            _write_md(md_path, _page_title_ja2zh(name, locale), fragment, route_slug, source_url, source_updated, synced, reviewed, translated, locale, pre_sanitized=use_i18n, no_prevnext=(e.get("category") == "character-detail"))
             written += 1
 
     # ---- 2. 特殊页：首页 / 更新记录 ----
@@ -529,10 +591,10 @@ def _compute_stats(entries: list[dict]) -> dict:
 
 def _home_md(locale: str, stats: dict) -> str:
     if locale == "zh":
-        hero_title, hero_tag, recent = "超昂大战 Escalation Heroines", "攻略 Wiki 中日双语镜像站", "最近更新"
+        hero_title, hero_tag, recent = "超昂大战 Escalation Heroines", "攻略 Wiki 中日双语镜像站", "镜像站更新记录"
         pages_label, chars_label = "镜像页面", "收录角色"
     else:
-        hero_title, hero_tag, recent = "超昂大戦エスカレーションヒロインズ", "攻略 Wiki 日中バイリンガルミラー", "最近の更新"
+        hero_title, hero_tag, recent = "超昂大戦エスカレーションヒロインズ", "攻略 Wiki 日中バイリンガルミラー", "ミラーサイト更新履歴"
         pages_label, chars_label = "ミラーページ", "収録キャラクター"
     return f"""---
 title: "{hero_title}"
@@ -552,7 +614,7 @@ layout: doc
 
 ## {recent}
 
-<RecentUpdates />
+<MirrorChangelog />
 """
 
 
@@ -676,10 +738,10 @@ def _sb_node(node, locale: str, slug_index: dict, explicit: set) -> dict | None:
 def _write_sidebars(entries: list[dict]) -> None:
     gen_dir = config.SITE_DIR / ".vitepress" / "generated"
     gen_dir.mkdir(parents=True, exist_ok=True)
-    # slug -> entry 索引（跳过角色详情页，不进侧边栏）
+    # slug -> entry 索引（跳过角色详情页与子页面，不进侧边栏）
     slug_index: dict[str, dict] = {}
     for e in entries:
-        if e.get("category") == "character-detail":
+        if e.get("category") in ("character-detail", "subpage"):
             continue
         slug_index[e["slug"]] = e
     for locale in ("ja", "zh"):
@@ -694,7 +756,7 @@ def _write_sidebars(entries: list[dict]) -> None:
                     "text": _page_title_ja2zh(e["name"], locale),
                     "link": f"/{locale}/{e['slug']}.html",
                 } for e in entries
-                    if e.get("category") == cat and e.get("category") != "character-detail"]
+                    if e.get("category") == cat and e.get("category") not in ("character-detail", "subpage")]
             else:
                 items = []
                 for node in grp["items"]:

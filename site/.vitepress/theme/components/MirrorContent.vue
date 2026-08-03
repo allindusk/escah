@@ -10,7 +10,7 @@ import { withBase, useData } from 'vitepress'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { charModalStore as store } from './charModalStore'
 import charRefs from '../charRefs.json'
-import { enhanceTables } from '../tableEnhancer'
+import { enhanceTables, syncAllFullBtns } from '../tableEnhancer'
 
 const props = defineProps<{ html: string }>()
 
@@ -65,8 +65,8 @@ function tagCharLinks(el: HTMLElement) {
 
 function tagAvatars(el: HTMLElement) {
   el.querySelectorAll('img').forEach((img) => {
-    // 已在角色链接内的头像：祖先 <a data-char> 已覆盖，跳过避免重复
-    if (img.closest('a[data-char]')) return
+    // 已在角色容器内的头像：祖先 [data-char] 已覆盖，跳过避免重复
+    if (img.closest('[data-char]')) return
     const src = img.getAttribute('src') || ''
     const m = src.match(/\/img\/([^"?#]+)/)
     if (!m) return
@@ -181,16 +181,53 @@ function onOut() {
 // 点击左侧 rgn-button 在展开/折叠间切换，并切换 plus/minus 图标显隐。
 // 原站靠 tglRgn(this) 内联脚本，但流水线 _sanitize_html 已剔除 on* 属性，
 // 故改用事件委托在客户端复刻该交互。全站页面（含未来新增）统一生效。
+//
+// PukiWiki region 折叠块：点击左侧 rgn-button 在展开/折叠间切换，并切换
+// plus/minus 图标。原站靠 tglRgn(this) 内联脚本，流水线 _sanitize_html 已剔除
+// on* 属性，故用事件委托在客户端复刻。
+// 原站 region 分「默认折叠」与「默认展开」两种，初始 inline 可能写反：
+//   展开态：content=block、desc=none；折叠态：content=none、desc=block。
+// 旧逻辑只切 content、从不恢复 desc，导致初始展开块点击后 desc 永久不显示、
+// 内容收起后整块空白（"整块不见了"）。
+// 修复要点：① toggle 同时切换 desc 显隐；② 渲染时把「初始是否展开」直接同步成
+// expanded 类的初始值（默认展开块渲染即带 expanded 类，默认折叠块不带）。这样
+// **唯一真值就是 expanded 类**——用户首次点击即可在展开/折叠间切换，默认展开块
+// （如 raid-005 第5期）既保持初始展开、又拥有完整折叠权；默认折叠块亦可正常双向
+// toggle，且不再「整块消失」。
+function _syncRgn(container: HTMLElement) {
+  const expanded = container.classList.contains('expanded')
+  const desc = container.querySelector('.rgn-description') as HTMLElement | null
+  const content = container.querySelector('.rgn-content') as HTMLElement | null
+  const plus = container.querySelector('.plus-icon') as HTMLElement | null
+  const minus = container.querySelector('.minus-icon') as HTMLElement | null
+  if (desc) desc.style.display = expanded ? 'none' : 'block'
+  if (content) content.style.display = expanded ? 'block' : 'none'
+  if (plus) plus.style.display = expanded ? 'none' : 'block'
+  if (minus) minus.style.display = expanded ? 'block' : 'none'
+}
+
+// 渲染时把初始展开态（content 是否可见）同步成 expanded 类：展开则加类、折叠则
+// 不加。之后显示完全由 expanded 类单一控制，用户首次点击即生效。
+function _initRgnBase(container: HTMLElement) {
+  if (container.dataset.rgnInit === '1') return
+  container.dataset.rgnInit = '1'
+  const content = container.querySelector('.rgn-content') as HTMLElement | null
+  const visible = content
+    ? (content.style.display || getComputedStyle(content).display) !== 'none'
+    : false
+  if (visible) container.classList.add('expanded')
+}
+
 function toggleRgn(btn: HTMLElement) {
   const container = btn.closest('.rgn-container') as HTMLElement | null
   if (!container) return
   const expanded = container.classList.toggle('expanded')
-  const content = container.querySelector('.rgn-content') as HTMLElement | null
-  const plus = container.querySelector('.plus-icon') as HTMLElement | null
-  const minus = container.querySelector('.minus-icon') as HTMLElement | null
-  if (content) content.style.display = expanded ? 'block' : 'none'
-  if (plus) plus.style.display = expanded ? 'none' : 'block'
-  if (minus) minus.style.display = expanded ? 'block' : 'none'
+  _syncRgn(container)
+  // 折叠内容里含表格时，初始增强因 display:none 宽度=0 把全屏/重置按钮隐藏，
+  // 展开后宽度恢复，需重算按钮可见性，否则展开后看不到全屏/重置按钮。
+  if (expanded) {
+    requestAnimationFrame(() => syncAllFullBtns())
+  }
 }
 
 function onRgnClick(e: MouseEvent) {
@@ -236,6 +273,14 @@ function processEl(el: HTMLElement) {
   tagAvatars(el)
   wrapPlainTextNames(el)
   enhanceTables(el, pageSlug.value)
+  // region 折叠块：先记初始展开基准（避免脏 inline 态导致无法重新折叠），
+  // 再按基准+expanded 类规整 desc/content/图标。默认展开块保持展开，
+  // 默认折叠块可正常双向 toggle（展开后能重新折叠），且不再「整块消失」。
+  el.querySelectorAll('.rgn-container').forEach((c) => {
+    const cc = c as HTMLElement
+    _initRgnBase(cc)
+    _syncRgn(cc)
+  })
 }
 
 onMounted(() => {
