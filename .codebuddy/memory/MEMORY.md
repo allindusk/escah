@@ -6,7 +6,6 @@
 ## 用户偏好（最高优先级）
 - ⚠️⚠️ **推送 GitHub（git push）须经用户当次明确指令，且只覆盖该次；绝不因"之前那次说过 push"就自行连续推送**。用户的"commit+push"只授权当次那一个动作，后续修复/重构若还要 push，必须再次征求确认。本地可自由 commit / build 验证，但 push 一律等指令。
 - **回收站约定**：过期/无用文件移 `recycle_bin/`，**绝不 git rm/永久删**。
-- **回收站约定**：过期/无用文件移 `recycle_bin/`，**绝不 git rm/永久删**。
 - 后台运维纪律：①启动前 `Get-Process -Name python` 查重；②后台任务须有进度日志（`_bg.py`+锁+`[DONE]/[FAIL]`）；③能自行判断 bug/卡住。
 - 助手不翻译成人正文。
 - PowerShell 下勿用 `python -c`（Start-Process 会拆分号），改写脚本文件执行。
@@ -82,6 +81,21 @@
 - llm_reco v0.2/v0.3/v0.4/v0.6/v0.7 均被 v0.8 取代，过程见 `2026-07-29.md`/`2026-07-30.md`。
 
 ## 前端版本号铁律（2026-08-02 新增）
-- 站点右上角版本号：`site/.vitepress/theme/components/SiteAccessSwitch.vue` 的 `const SITE_VERSION`（三位数：①大版本 ②新增功能 ③修改）。当前 `1.2.0`。
+- 站点右上角版本号：`site/.vitepress/theme/components/SiteAccessSwitch.vue` 的 `const SITE_VERSION`（三位数：①大版本 ②新增功能 ③修改）。当前 `1.2.1`。
 - 版本日志数据源：`site/.vitepress/theme/changelog.json`（**源码目录、入库**，更新记录页「镜像站更新记录」区块按此渲染）。⚠️ 切勿放回 `.gen-data/`（那是 sync-site 生成的 `page-times.json`，被 gitignore，放进去会导致 CI 构建报 'Could not resolve' 失败）。
 - ⚠️ **升版本号 + 维护 changelog 是 AI 助手的职责，不是用户**：每次改动前端升 `SITE_VERSION` 时，助手自己同步在 `theme/changelog.json` 顶部加该版本 `date`/`changes`，并保持一致。改完前端 commit 后等用户确认再 push（见上方推送纪律）。
+
+## 侧边栏生成（sitegen.py SIDEBAR_TREE）
+- 侧边栏由 `pipeline/escah_pipeline/sitegen.py` 的 `SIDEBAR_TREE`（按分类 cat 分组）+ `_sb_node()`（递归展开节点为 VitePress sidebar item）+ `_write_sidebars()`（顶层组循环，读 `collapsed` 字段）生成到 `site/.vitepress/generated/sidebar.{ja,zh}.json`，再被 `config.ts` import 喂给 VitePress。**`site/*.md`/sidebar JSON 由 sync-site 重生成，勿手改。**
+- 分隔符节点 `_SB_DIV = "__SB_DIV__"`：`_sb_node` 返回 `{"text":"—","link":f"/{locale}/characters.html#__SB_DIV__"}`，custom.css 用 `.VPSidebarItem a[href$="__SB_DIV__"]` 隐藏文字 + `border-top:1px solid` 画实线。
+  - **致命根因（铁律）**：VitePress **客户端渲染时会直接丢弃「纯 hash 链接」`link:"#__SB_DIV__"` 的 sidebar item**（DOM 里 0 个 `<a>`，CSS 永远失效）。必须用「真实存在页面 + 锚点」`/zh/characters.html#__SB_DIV__`。空文本 `""` 也会被跳过，故 text 用可见的 `"—"`（再被 CSS 隐藏）。
+- **`combined` 合并节点（可复用机制，2026-08-03 新增）**：把多个列表页合并成「一个文本节点内含多个链接」，例如 `SSR | SR | R`。节点写法 `{"slug":"rarity-links","combined":["list-ssr","list-sr","list-r"],"sep":" | "}`（置于某父节点的 `items` 内，如 `characters` 的 items）。`_sb_combined_node()` 生成 `{"text":'<a href="/{locale}/{s}.html">{label}</a>' 用 sep 连接, "collapsible":False}`。
+  - **⚠️ 铁律：`combined` 必须两条路径都支持**：`_sb_node()` 递归（处理容器内子项，如 `characters.items`）**和** `_write_sidebars()` 顶层循环（处理组直接子项）都要识别 `combined` 并调 `_sb_combined_node()`。曾只在顶层循环处理 → 容器内子项的 combined 被 `_sb_node` 因无 `slug` 静默丢弃 → `items:[]`（SSR/SR/R 消失）。**改 SIDEBAR_TREE 加 combined 后，必须确认它处于哪一层、两条路径都覆盖。**
+  - VitePress 1.6 的 `VPSidebarItem` 对 `text` 字段用 `v-html`（支持 HTML 标签），故 `<a>` 会被真实渲染成链接；但这是裸 `<a href>`，点击是**整页跳转**（非 SPA 客户端导航），功能正确、体验轻微。
+- **顶层组 `collapsed` 默认折叠（2026-08-03 新增）**：`SIDEBAR_TREE` 顶层组可加 `"collapsed": True` → `_write_sidebars()` 读 `grp.get("collapsed", False)` 写进生成的 sidebar item。当前约定：`character` 组不折叠（保持展开）；`guide/system/equipment/quest/misc` 五个板块默认折叠，由用户点击展开。
+
+## 预览验证纪律（铁律，2026-08-03 用户重点强调）
+- **改完前端/sidebar 这类有 UI 副作用的内容，助手必须自己重启 preview 并验证实际渲染，绝不把验证成本推给用户**。绝不允许对用户说"你硬刷新看看/你浏览器有缓存"——这是助手没自己验证好的借口。
+- 根因背景：每次 `node build.mjs build` 后 chunk 文件名 hash 会变。若旧 preview 进程（端口 4173）还在 serve 上一次 build 的旧 HTML，旧 HTML 引用的旧 `app/theme.*.js` 会 404 → 整页前端 JS 没初始化 → 侧边栏点不开、右侧 DocOutline 不渲染。所以 **build 后必须杀掉旧 preview 进程、干净重启再验证**。
+- **重启 preview 干净做法**：`Get-CimInstance Win32_Process -Filter "name='node.exe'" | Stop-Process -Force`（或精准杀 4173 占用 PID），再 `Start-Process node -ArgumentList "build.mjs","preview"`。`vite preview` 不能验证搜索；搜索只能对部署站实测。
+- **自检 DOM 方法（无需让用户刷新）**：系统 Edge 无头 dump 渲染后 DOM 验证：`& "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless --disable-gpu --no-sandbox --virtual-time-budget=8000 --dump-dom "http://localhost:4173/escah/zh/characters.html" | Out-File -Encoding utf8 _dom_dump.html`，再 `[regex]::Matches($dom,'<a[^>]*SB_DIV[^>]*>')` 看数量等。**永远用 dump-dom 实际验证渲染结果，不要只 grep 内联 JSON 字符串——JSON 含数据不代表 DOM 渲染出来。**
