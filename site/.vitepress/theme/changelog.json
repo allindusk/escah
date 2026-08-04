@@ -4,9 +4,8 @@
       "version": "1.2.4",
       "date": "2026-08-05",
       "changes": [
-        "b-universe 页面 12 个 BOSS 链接（buniv-001~011 等）在 zh 渲染时丢失的 bug 修复：根因是 i18n 译文 blk.zh 的 BOSS 中文名与词汇表（glossary/names.yaml、link_terms.yaml）译名不一致（如「浪潮弗拉斯特」vs「波涛弗拉斯托」、「欧尔巴」vs「奥尔巴」及空格差异），导致链接包裹匹配失败。已将 5 处 blk.zh 对齐词汇表权威译名、link_terms.yaml 同步对齐（波涛弗拉斯托/歼忍影/灭忍菊理＆铁/歼忍铁/奥尔巴），sync-site + build 后实测 12 条链接全部生效。",
-        "整理工作区：将 219 个 tools/ 探索调试脚本、根目录与 site/ 的构建日志等临时产物移入 recycle_bin/（已被 .gitignore 忽略），git 不再跟踪；保留生产脚本（_extract_link_todo.py、_apply_glossary_to_i18n.py、_merge_link_terms.py）与词汇表真值（glossary/link_terms.yaml）入库。",
-        "累积大量 i18n 译文固化（b-universe/buniv-*/characters/faq/raid/main-quest 等子页日文残留回填）与 glossary 词表（names.yaml/terms.yaml）译名统一，随 data/parsed/i18n/ 一并入库。"
+        "修复 B宇宙（b-universe）页面中 12 个 BOSS 攻略链接点击无反应的问题，现在可正常跳转到对应 BOSS 详情页。",
+        "补充完善了多个页面（B宇宙各 BOSS、角色、FAQ、团战、主线任务等）此前残留的日文未翻译内容，中文译文更完整。"
       ]
     },
     {
