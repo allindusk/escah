@@ -131,10 +131,16 @@
 .mirror-content a:hover { text-decoration: underline; }
 .dark .mirror-content a { color: var(--escah-pink-soft); }
 .mirror-content a.source-link { color: #7a7f8a; }
+/* 译文「指定词→超链接」由 glossary/link_terms.yaml 配置驱动（i18n._apply_config_links）生成，
+   渲染为标准 <a>（外链原样 / 站内归 /zh/xxx.html + target=_blank），样式沿用 internal-link。
+   原整句链接 escah-sentence-link 样式已废弃删除（2026-08-04）。 */
 /* 角色引用（纯文本名 / 独立头像）的浮窗触发提示：非侵入式，悬停才显虚线下划线 */
 .mirror-content .char-ref { cursor: pointer; border-bottom: 1px dotted transparent; }
 .mirror-content .char-ref:hover { border-bottom-color: var(--escah-pink); }
-.mirror-content img[data-char] { cursor: pointer; }
+.mirror-content img[data-char] { cursor: pointer; display: inline-block; vertical-align: middle; }
+/* 正文内联头像（角色链接去链接化后的 <span data-char><img> 连续排列）需横向同行，
+   覆盖 VitePress .vp-doc img 的 display:block，否则每个头像各占一行变成竖排 */
+.mirror-content p span[data-char] > img { display: inline-block; vertical-align: middle; }
 .mirror-content ul, .mirror-content ol { margin: 0.4em 0; padding-left: 1.6em; }
 .mirror-content li { margin: 0.1em 0; }
 .mirror-content img { max-width: 100%; height: auto; border-radius: 6px; cursor: zoom-in; }
@@ -975,15 +981,15 @@
   transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
 
-/* ========== 搜索冷加载提示（索引懒加载空窗期） ========== */
-.VPLocalSearchBox.escah-search-loading .results::before {
+/* ========== 搜索冷加载提示（索引懒加载空窗期）[搜索功能已禁用] ========== */
+/* .VPLocalSearchBox.escah-search-loading .results::before {
   content: "正在搜索中，请稍等…";
   display: block;
   padding: 28px 12px;
   text-align: center;
   color: var(--vp-c-text-2);
   font-size: 13px;
-}
+} */
 .escah-ol-item > a:hover {
   color: var(--vp-c-text-1);
   background: var(--vp-c-default-soft);
@@ -1052,3 +1058,10 @@
   color: var(--vp-c-text-1);
   border-color: var(--vp-c-brand-1);
 }
+
+/* ========== 搜索：隐藏 VitePress 默认搜索区 [搜索功能已禁用] ========== */
+/* 默认 VPNavBarSearch 由默认主题局部 import，无法通过 theme 覆盖；
+   自定义入口挂在 Layout 的 #nav-bar-content-after（根 .EscahNavSearch）。 */
+/* .VPNavBarSearch {
+  display: none !important;
+} */

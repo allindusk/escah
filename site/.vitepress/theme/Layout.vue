@@ -7,7 +7,9 @@ import DocOutline from './components/DocOutline.vue'
 import MetaBar from './components/MetaBar.vue'
 import ScrollButtons from './components/ScrollButtons.vue'
 import SiteAccessSwitch from './components/SiteAccessSwitch.vue'
-import SearchLoading from './components/SearchLoading.vue'
+// 搜索功能已禁用（性能开销）
+// import SearchLoading from './components/SearchLoading.vue'
+// import VPNavBarSearch from './components/VPNavBarSearch.vue'
 import { useI18n } from './i18n'
 import { uiPrefs, applyUiClasses } from './uiPrefs'
 
@@ -61,6 +63,9 @@ const homeHref = () => {
 
 <template>
   <Layout>
+    <template #nav-bar-content-before>
+      <!-- 搜索功能已禁用 <VPNavBarSearch /> -->
+    </template>
     <template #nav-bar-content-after>
       <div class="escah-nav-controls">
         <button
@@ -104,7 +109,7 @@ const homeHref = () => {
   </Layout>
   <CharHoverModal />
   <ScrollButtons />
-  <SearchLoading />
+  <!-- 搜索功能已禁用 <SearchLoading /> -->
   <div v-if="lbSrc" class="lightbox-mask" @click="lbSrc = ''">
     <img :src="lbSrc" alt="" />
   </div>

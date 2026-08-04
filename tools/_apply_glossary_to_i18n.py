@@ -86,12 +86,49 @@ def load_glossary():
 _WS = re.compile(r"\s+")
 
 
-def fix_zh(ja: str, zh: str, gloss: dict, gloss_ns: dict):
+def load_names():
+    """仅取 names.yaml 专名（JA->ZH），按键长降序返回，供规则2前缀匹配。"""
+    with open(os.path.join(GLOSS_DIR, "names.yaml"), encoding="utf-8") as f:
+        d = yaml.safe_load(f).get("names", {})
+    items = []
+    for k, v in d.items():
+        if not isinstance(k, str) or len(k) < 2:
+            continue
+        z = v if isinstance(v, str) else (v.get("name_zh") if isinstance(v, dict) else "")
+        if z:
+            items.append((k, z))
+    items.sort(key=lambda kv: len(kv[0]), reverse=True)  # 长键优先，避免短名被前缀误命中
+    return items
+
+
+def fix_zh(ja: str, zh: str, gloss: dict, gloss_ns: dict, names_items: list):
     # 规则0（最高优先）：整条 ja 恰为词表键（含去空白容错）→ zh 直接设为词表值。
     # 以 ja 为唯一匹配依据，与 zh 现值无关，不需要分词对齐。
     v = gloss.get(ja) or gloss.get(ja.strip()) or gloss_ns.get(_WS.sub("", ja))
     if v is not None:
         return v
+    # 规则2（整句前缀专名）：整句 ja 以某个专名键开头（专名 + 其后紧接分隔符），
+    # 把 zh 开头「连续 CJK/假名专名段（允许中间空格，即吃掉 LLM 幻觉/多余空格）」
+    # 整体替换为权威译名。覆盖「整句开头是角色名、但整句非精确键、分词段数不等」的盲区。
+    # 例：ja=「翼竜剣聖アカネ 20秒…」 zh=「翼龙剑圣 朱音 20秒…」
+    #     → 吃掉「翼龙剑圣 朱音」替换为「翼龙剑圣茜」 → 「翼龙剑圣茜 20秒…」 ✓
+    # 作者原话块（名后接叙述）若 zh 开头已是正确专名则 no-op，不会误伤。
+    for name_key, name_zh in names_items:
+        if ja.startswith(name_key):
+            rest = ja[len(name_key):]
+            if rest and rest[0] not in " 　()（）,，.。;；:：":
+                continue  # 名后不是分隔符，不算「专名+描述」结构，跳过
+            m = re.match(
+                r"^[\u4e00-\u9fff぀-ヿ㐀-䶿]+(?:[ 　]*[\u4e00-\u9fff぀-ヿ㐀-䶿]+)*", zh
+            )
+            if m:
+                head = m.group(0)
+                if head.replace(" ", "") != name_zh.replace(" ", "") or head != name_zh:
+                    return name_zh + zh[m.end():]
+            else:
+                if zh != name_zh:
+                    return name_zh
+            break  # 最长匹配生效，不再试更短键
     # 规则1：ja 含词表键作子串 → 分词对齐后替换对应 zh 段（段数不等则跳过，安全）。
     js = segs(ja)
     zs = segs(zh)
@@ -107,27 +144,33 @@ def fix_zh(ja: str, zh: str, gloss: dict, gloss_ns: dict):
     return "".join(out) if changed else zh
 
 
-def walk(o, gloss, gloss_ns, stats, samples, path):
+def walk(o, gloss, gloss_ns, names_items, stats, samples, path):
     if isinstance(o, dict):
         if isinstance(o.get("ja"), str) and isinstance(o.get("zh"), str):
-            new = fix_zh(o["ja"], o["zh"], gloss, gloss_ns)
+            # 空保护：blk.zh 为空表示原缺译。渲染层对空 blk.zh 保留日文原文，
+            # 前端用 nameAliases（日文名→中文名）匹配出浮窗。一旦烘焙把空块填成
+            # 错译中文，日文原文丢失、浮窗彻底失效。故空块绝不写入，保留原状。
+            if not o["zh"].strip():
+                return
+            new = fix_zh(o["ja"], o["zh"], gloss, gloss_ns, names_items)
             if new != o["zh"]:
                 stats["entries"] += 1
                 o["zh"] = new
                 if len(samples) < 20000:
                     samples.append((path, o["ja"], new))
         for v in o.values():
-            walk(v, gloss, gloss_ns, stats, samples, path)
+            walk(v, gloss, gloss_ns, names_items, stats, samples, path)
     elif isinstance(o, list):
         for v in o:
-            walk(v, gloss, gloss_ns, stats, samples, path)
+            walk(v, gloss, gloss_ns, names_items, stats, samples, path)
 
 
 def main():
     dry = "--dry" in sys.argv
     gloss = load_glossary()
     gloss_ns = {_WS.sub("", k): v for k, v in gloss.items()}
-    print(f"词表条目数: {len(gloss)}")
+    names_items = load_names()
+    print(f"词表条目数: {len(gloss)}  专名条目数: {len(names_items)}")
     stats = {"files": 0, "entries": 0}
     samples = []
     changed_files = []
@@ -145,7 +188,7 @@ def main():
                 print(f"[SKIP] 解析失败 {rel}: {e}")
                 continue
             before = json.dumps(data, ensure_ascii=False, sort_keys=True)
-            walk(data, gloss, gloss_ns, stats, samples, rel)
+            walk(data, gloss, gloss_ns, names_items, stats, samples, rel)
             after = json.dumps(data, ensure_ascii=False, sort_keys=True)
             if before != after:
                 stats["files"] += 1

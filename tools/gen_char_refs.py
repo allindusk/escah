@@ -11,10 +11,12 @@ MirrorContent 都会打 data-char 标记并接入悬停展示 / 点击固定浮�
 import json
 import os
 import glob
+import yaml
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHAR_DIR = os.path.join(ROOT, 'data/parsed/characters')
 PENDING = os.path.join(ROOT, 'data/pending_assets.json')
+NAMES_YAML = os.path.join(ROOT, 'glossary/names.yaml')
 OUT = os.path.join(ROOT, 'site/.vitepress/theme/charRefs.json')
 
 
@@ -48,11 +50,31 @@ def main():
         if h:
             avatar_hashes[h] = n
 
+    # 把 names.yaml 的权威中文名也并入 nameAliases，使中文站正文里的角色中文名
+    # 也能触发 data-char 浮窗。仅当该中文名对应的日文原名是真实角色卡 page key 时才并入，
+    # 避免给「无角色卡页的称号/必杀技冠名」加浮窗导致点击 404。
+    extra = 0
+    skipped = 0
+    if os.path.exists(NAMES_YAML):
+        gloss = yaml.safe_load(open(NAMES_YAML, encoding='utf-8')) or {}
+        for ja, zh in (gloss.get('names') or {}).items():
+            if not isinstance(ja, str) or not ja:
+                continue
+            z = zh if isinstance(zh, str) else (zh.get('name_zh') if isinstance(zh, dict) else '')
+            if not z or z == ja:
+                continue  # 同形不重复映射
+            if ja in names:  # 该日文原名本身是角色卡 page key
+                if z not in name_aliases:
+                    name_aliases[z] = ja
+                    extra += 1
+            else:
+                skipped += 1  # 无角色卡页，跳过（避免浮窗 404）
+
     out = {'names': names, 'avatarHashes': avatar_hashes, 'nameAliases': name_aliases}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, indent=0)
-    print(f'角色名: {len(names)}  头像hash映射: {len(avatar_hashes)}  别名(含中文名): {len(name_aliases)}  -> {os.path.relpath(OUT, ROOT)}')
+    print(f'角色名: {len(names)}  头像hash映射: {len(avatar_hashes)}  别名(含中文名): {len(name_aliases)}  (+names.yaml权威中文名 {extra}, 跳过无卡 {skipped})  -> {os.path.relpath(OUT, ROOT)}')
 
 
 if __name__ == '__main__':

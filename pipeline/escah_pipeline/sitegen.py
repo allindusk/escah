@@ -419,8 +419,12 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
         _tree = lxml_html.fragment_fromstring(sanitized, create_parent="div")
         _raw = re.sub(r"\s+", " ", _tree.text_content()).strip()
         if _raw:
-            body += '\n\n<div class="search-index" style="display:none" aria-hidden="true">{}</div>\n'.format(
-                _html.escape(_raw, quote=False)
+            # 前置 <h1>页面标题</h1>：让 VitePress 搜索索引（_splitIntoSections）能切出
+            # 带页面标题的上下文面包屑（titles），否则平铺纯文本会被切成 titles:[] 的大块，
+            # 搜索结果列表不显示任何上下文/页面标题。
+            body += '\n\n<div class="search-index" style="display:none" aria-hidden="true"><h1>{}</h1>{}</div>\n'.format(
+                _html.escape(title, quote=False),
+                _html.escape(_raw, quote=False),
             )
     except Exception:
         pass

@@ -28,6 +28,17 @@ SITE_PUBLIC_DIR = SITE_DIR / "public"
 GLOSSARY_FILE = ROOT / "glossary" / "terms.yaml"
 
 SOURCE_BASE = "https://escalationheroines.wikiru.jp/"
+
+# 站点 base，必须和 site/.vitepress/config.ts 的 base 保持一致。
+# VitePress 侧用 process.env.BASE（node）；此处用 ESCAH_BASE（python），未设置时默认 /escah/。
+# 正文内由 pipeline 生成的绝对链接（/zh/xxx.html）必须带此前缀，否则在 base 下解析为 404。
+_SITE_BASE = (os.environ.get("ESCAH_BASE") or "/escah/").strip()
+if not _SITE_BASE.startswith("/"):
+    _SITE_BASE = "/" + _SITE_BASE
+if not _SITE_BASE.endswith("/"):
+    _SITE_BASE += "/"
+SITE_BASE = _SITE_BASE
+
 MENUBAR_PAGE = "MenuBar"
 CHARLIST_PAGE = "キャラクター一覧"
 RECENT_CHANGES_PAGE = "RecentChanges"
