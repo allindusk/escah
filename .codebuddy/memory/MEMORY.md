@@ -35,16 +35,13 @@
 - **烘焙脚本 `tools/_apply_glossary_to_i18n.py`**（ja 驱动，必跑）：规则0（整条 ja 精确命中→直接设 zh，不看现值）+ 规则1（分词对齐，段数相等对应段强制设词表值，不等则跳过）。⚠️ **全角标点（）必须归分隔符段**（否则段数不等被跳过）。规则2'（连续专名段匹配，修正 LLM 幻觉名/空格）+ 空保护。必须作为「fill 之后、sync-site 之前」的必跑步骤，否则每次翻译更新角色名退化为译法、浮窗失效。
 - **渲染期块级回退（`render_locale`）**：节点级全齐备→`continue`；含 img/table→`continue` 保留结构；含 `<a>` 且块级译文完整→`_fill_block_keep_links`（保链、绝不回退日文）；无链接纯文本块→`el.text=blk_zh`。
 
-## link_terms 链接配置（重要铁律集合，2026-08-04/05）
-- 配置真值 `glossary/link_terms.yaml`：`slug` + `links:[{ja,zh,href}]`；`zh` 是渲染匹配键（精确子串、长词优先）；`href` 外链写完整 URL、站内写 `faq.html`→代码归一化 `/zh/faq.html` + `target=_blank rel=noopener`；`slug:"*"` 全局条目对全站生效。
-- ⚠️ **改动范围铁律**：`link_terms.yaml` 只针对「带超链接文本」(`(ja,zh,href)` 三元组)，**绝不扩成全站普通正文**；不碰 `data/parsed/i18n/*.json` 非链接节点译文、不批量改 `blk.zh` 整句。若中文词在 blk.zh 对不上，正确动作是**把 link_terms 的 `zh` 改成 blk.zh 实际出现的中文词**，而非改 blk.zh。
-- ⚠️ **每页独立判断**：link_terms 是页面词级方案，全局 `*` 仅配置复用便利，**绝不跨页强制**。`_ja_link_words_for_slug(slug)` 读 ja 原文收集 `<a>` 文本集合，仅当原页该词本身是 `<a>` 才包链接（页面级判断）。读 ja 原文须 `read_text(encoding='utf-8')` 后 `document_fromstring`，否则日文被当 Latin-1 致匹配全失效。已排除 TOC/导航容器内 `<a>`（td/th 正文表格链接不可排除）；标题 h1-h6 内不包 link_terms 链接。
-- ⚠️ **glossary 优先分流**：`_extract_link_todo.py` 输出 todo 前，先查 names/terms/skills/high_freq 四份词表 `ja→zh`。若 `ja` 在 glossary 已有中文翻译（ja≠zh），直接归并真值不进 todo；剩余 todo 才是真·待精修（glossary 也查不到的日文链接词）。
-- ⚠️ **日文链接词处理**：`link_terms` 的 `zh` 必须**精确等于译文里该链接文字的实际字符串**。若译文里仍是日文原文（zh==ja，常见于专名/整句日文/B宇宙角色/装备/staff日记），`zh` 直接设**日文原文本身**（中日同形），渲染期用日文精确匹配保留链接壳。**绝不要自作主张翻译成中文**（如 レイド→"突袭"），否则匹配不到→链接丢失。用户确认：角色名/人名专名保留日文。
-- 🐛 **`_extract`/`_merge` 字段名不一致 bug（已修）**：extract 用 `link:`（单 dict）、`_merge` 只认 `links:`（list）→ merge 永远 0 新增且删未入库 todo。已兼容两种格式。动 `*.todo.yaml` 前先验证 merge 真新增了。
-- **提取脚本 `tools/_extract_link_todo.py`**（生产脚本，入库）：只取外链+跨页 .html 跳转，排除 `#`/当前页自身 `.html#`/`cmd=table_edit`/`File not found`/同站 wikiru 导航/`div.contents`；整句上下文转纯文本。分流：跨≥2页重复→全局 `*`；单页已译(zh≠ja)→单页真值；单页未译(zh==ja)→`link_terms.todo.yaml`。`SKIP_SLUGS={"artists","voice-actors"}` 跳过例外页。
-- **例外页规则（永久）**：`artists`(原画索引)/`voice-actors`(声优一览) 带超链接文本块不翻译，直接用日文原文（`_fill_block_ja_links` 保链）；纯文本块按正常译文。渲染层 `SKIP_LINK_SLUGS` 对这两 slug 跳过中文词级链接包裹。
-- `link_terms.yaml` 改动须随当次改动一起 commit（CI 直接读）。验证：build 后 `grep '中文词' site/.vitepress/dist/zh/<slug>.html` 应见 `<a href=...>`。
+## 正文超链接方案（句末【】标签，2026-08-11 重构，现行）
+- ⚠️ **现行方案**：zh 镜像站正文链接**不再在句子中间切割注入**（旧 link_terms.yaml 的 zh 精确匹配脆弱，译名不一致即丢链/错乱）。改为渲染时读取**日文原页正文 `<a>`**（href + 日文文本），在每个中文句子/段落**末尾追加** `翻译文本【名称1】【名称2】` 标签，跳转绑定**原日文 href**（不依赖中文名匹配 → 译名不准也不丢跳转）。
+- 显示名取 glossary 中文译名：`_link_display_zh(ja)` 优先级 names→skills→terms→high_freq，全部查不到兜底日文原文（理论上超链接词都应有翻译）。
+- **表格特例**：单元格纯文本恰为单链接词（原文就只有这个词）→ 直接 `【名称】`（不重复显示译文）；单元格是句子 → `翻译文本【名称】`。
+- 实现位置 `pipeline/escah_pipeline/i18n.py` 的 `render_locale`：渲染前解析模板收集正文 `<a>`（按 `_BLK_ATTR` 祖先归属 `block_links[bid]`，不在块的进 `top_links`），`drop_tag()` 去掉所有 `<a>` 壳；块级回退用 `block_links[bid]` 在 blk_zh 末追加 `【名称】`（class=`escah-ilink`），节点级 `_sub` 对 `top_links` 匹配 key["ja"] 追加；例外页(artists/voice-actors) 日文原文+句末【日文名】。前端 `custom.css` 样式 `.mirror-content a.escah-ilink`（紫色小角标）。
+- 旧 `_apply_config_links`/`_wrap_block_links`/`_fill_block_keep_links`/`_fill_block_ja_links` 已不被主线调用（保留未删）；`glossary/link_terms.yaml` 仍被 `tools/_extract_link_todo.py` 离线工具用，但**渲染层不再依赖**（CI 不读它的链接匹配）。
+- 验证：`dist/zh` 全站 grep `escap-ilink` + 检查无残留 `{{key}}`/空 `<a>` 壳。build 需 `NODE_OPTIONS=--max-old-space-size=8192`（全站打包 OOM）。
 
 ## 关键架构
 - 原文 HTML → `sitegen._sanitize_html` → `site/.vitepress/frag/<slug>.{ja,zh}.json`；md 里 `import frag` + `MirrorContent.vue` `v-html`（不可 ?raw）。`site/*.md`/sidebar 由 sync-site 重生成，勿手改。图片走 `withBase('/img/')`。
