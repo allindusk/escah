@@ -418,6 +418,44 @@ def name_zh(ja: str) -> "str | None":
     return _GLOSSARY_NORM.get(_norm(ja))
 
 
+def _link_display_zh(ja: str) -> str:
+    """句末【】链接标签的显示名：优先 glossary 专有名词(names)→技能(skills)→术语(terms)
+    →高频词(high_freq)，全部查不到则回退日文原文（理论上所有超链接词都在词表有精准翻译）。
+    仅 zh 渲染调用。与渲染期名词覆盖同源，保证【】显示名与正文译名一致。"""
+    z = _name_override(ja)
+    if z:
+        return z
+    z = _term_override(ja)
+    if z:
+        return z
+    z = _high_freq_exact(ja) or _high_freq_all(ja)
+    if z:
+        return z
+    return ja
+
+
+def _normalize_link_href(href: str) -> "tuple[str, str]":
+    """链接 href 归一化：站内 'xxx.html' → '/escah/zh/xxx.html'（带 SITE_BASE 前缀，
+    新标签页打开）；外链原样。返回 (href, target)。
+
+    注意：必须带 SITE_BASE 前缀（默认 /escah/），否则在 base 部署下站内绝对链接
+    （/zh/xxx.html）会解析为 <base 根>/zh/xxx.html → 404。已带 SITE_BASE 的链接
+    （如配置里误写成 /escah/zh/...）不再重复加。"""
+    if href.startswith("http://") or href.startswith("https://"):
+        return href, ""  # 外链：保留原 href，不加 target（由浏览器/用户决定）
+    # 已带 SITE_BASE 前缀的站内链接：原样返回（避免重复前缀）
+    if href.startswith(config.SITE_BASE):
+        return href, ' target="_blank" rel="noopener"'
+    if href.startswith("/"):
+        # 以 / 开头的站内绝对路径（如 /zh/faq.html）：补 SITE_BASE 前缀
+        return config.SITE_BASE.rstrip("/") + href, ' target="_blank" rel="noopener"'
+    # 站内跳转：faq.html / raid.html → /escah/zh/faq.html（新标签页打开）
+    base = href.split("#", 1)[0].rstrip("/").split("/")[-1]
+    if not base:
+        return href, ""
+    return config.SITE_BASE + "zh/" + base, ' target="_blank" rel="noopener"'
+
+
 def _load_char_terms() -> None:
     """角色浮窗 UI 标签 / 常用游戏术语值的 zh 词表（glossary/terms.yaml 的
     char_labels / char_values，JA→ZH，归一化 ja 精确匹配）。"""
@@ -1699,28 +1737,85 @@ def render_locale(slug: str, locale: str) -> str | None:
     blocks = _blocks_of(entries)
 
     # 单个节点级 key 的 zh 取值（含 glossary 覆盖）。提前定义以便块级回退分支复用。
+    # 句末【】链接标签：节点级 key 若含「不在任何块内的模板 <a>」（top_links），在其
+    # 中文译文末追加【显示名】标签（链接绑定原日文 href，不依赖中文名匹配，译名不准也不丢跳转）。
     def _sub(m: "re.Match") -> str:
         ent = keys.get(f"key{m.group(1)}")
         if not ent:
             return m.group(0)
         if locale == "zh":
-            ov = _term_override(ent.get("ja", ""))  # 站点术语最高优先级覆盖
+            ja = ent.get("ja", "")
+            ov = _term_override(ja)  # 站点术语最高优先级覆盖
             if ov is not None:
-                return _html.escape(ov, quote=False)
-            ov = _name_override(ent.get("ja", ""))
-            if ov is not None:
-                return _html.escape(ov, quote=False)  # 独立名词直接覆盖
-            ov = _high_freq_exact(ent.get("ja", ""))  # 纯汉字高频词整词精确覆盖
-            if ov is None:
-                ov = _high_freq_all(ent.get("ja", ""))  # 含假名词条整词精确覆盖（如 レガリア）
-            if ov is not None:
-                return _html.escape(ov, quote=False)
-            text = ent.get("zh") or ent.get("ja", "")
-            text = _correct_text(text)  # 漏译/错译纠正 + 含假名高频词子串替换
-            return _html.escape(text, quote=False)
+                base = _html.escape(ov, quote=False)
+            else:
+                ov = _name_override(ja)
+                if ov is not None:
+                    base = _html.escape(ov, quote=False)  # 独立名词直接覆盖
+                else:
+                    ov = _high_freq_exact(ja)  # 纯汉字高频词整词精确覆盖
+                    if ov is None:
+                        ov = _high_freq_all(ja)  # 含假名词条整词精确覆盖（如 レガリア）
+                    if ov is not None:
+                        base = _html.escape(ov, quote=False)
+                    else:
+                        text = ent.get("zh") or ja
+                        text = _correct_text(text)  # 漏译/错译纠正 + 含假名高频词子串替换
+                        base = _html.escape(text, quote=False)
+            for href, ja_text in top_links:
+                if ja_text and ja_text in ja:
+                    href2, target = _normalize_link_href(href)
+                    name = _link_display_zh(ja_text)
+                    base += (
+                        f'<a href="{_html.escape(href2, quote=True)}"{target}'
+                        f' class="escah-ilink">【{_html.escape(name, quote=False)}】</a>'
+                    )
+            return base
         return _html.escape(ent.get("ja", ""), quote=False)
 
-    # 块级回退：zh 且块内有缺译且块级译文存在 → 整块换为纯文本 zh
+    # —— 新链接方案（句末【】标签，替代旧「句中切割注入」）——
+    # 收集模板内所有正文 <a>（规范化 href + 日文链接文本），按所属块(_BLK_ATTR) 归属记录；
+    # 随后 drop 掉 <a> 壳（链接不再在句中注入，改到句末【】标签）。
+    # 链接绑定原日文 href（不依赖中文名匹配 → 译名不准也不丢跳转）。
+    # 显示名取 glossary 中文译名（优先 names→skills→terms→high_freq，兜底日文原文）。
+    from collections import defaultdict
+    block_links: "dict[str, list[tuple[str, str]]]" = defaultdict(list)
+    top_links: "list[tuple[str, str]]" = []
+    if "<a" in tpl:
+        try:
+            lfrag = lxml_html.fragment_fromstring(tpl, create_parent="div")
+            for a in lfrag.xpath(".//a"):
+                href = (a.get("href") or "").strip()
+                if not href or href.startswith("#"):
+                    a.drop_tag()
+                    continue
+                ja_text = (a.text_content() or "").strip()
+                m = _KEY_RE.search(ja_text)
+                if m:
+                    k = "key" + m.group(1)
+                    ja_text = keys.get(k, {}).get("ja", ja_text) or ja_text
+                if not ja_text:
+                    a.drop_tag()
+                    continue
+                bid = None
+                p = a.getparent()
+                while p is not None:
+                    if _BLK_ATTR in p.attrib:
+                        bid = p.get(_BLK_ATTR)
+                        break
+                    p = p.getparent()
+                if bid:
+                    block_links[bid].append((href, ja_text))
+                else:
+                    top_links.append((href, ja_text))
+                a.drop_tag()
+            tpl = lxml_html.tostring(lfrag, method="html", encoding="unicode")
+            if tpl.startswith("<div>") and tpl.rstrip().endswith("</div>"):
+                tpl = tpl[len("<div>"):-len("</div>")]
+        except Exception:
+            log.warning("[i18n render] %s 模板链接收集失败", slug)
+
+    # 块级回退：zh 且块内有缺译且块级译文存在 → 整块换为纯文本 zh + 句末【】标签
     if _BLK_ATTR in tpl:
         try:
             frag = lxml_html.fragment_fromstring(tpl, create_parent="div")
@@ -1728,90 +1823,68 @@ def render_locale(slug: str, locale: str) -> str | None:
                 bid = el.get(_BLK_ATTR)
                 el.attrib.pop(_BLK_ATTR, None)
                 blk = blocks.get(bid)
-                if not blk or locale != "zh" or not blk.get("zh"):
+                if not blk or locale != "zh":
                     continue
-                # 例外页（artists / voice-actors）：带超链接的文本块恒为日文原文，
-                # 无论译文是否齐备，均保留 <a> 壳与 href、内文回退日文。
-                if slug in SKIP_LINK_SLUGS and any(d.tag == "a" for d in el.iter()):
-                    _fill_block_ja_links(el, blk, locale)
-                    continue
-                if all(keys.get(k, {}).get("zh") for k in blk.get("keys", [])):
-                    continue  # 节点级全有译文 → 保留行内结构
-                blk_zh = blk.get("zh")
-                if locale == "zh" and blk_zh:
-                    ov = _name_override(blk.get("ja", ""))
-                    if ov is not None:
-                        blk_zh = ov
-                    else:
-                        blk_zh = _correct_text(blk["zh"])
-                # 块级译文完整 → 填充。
-                #  - 含 <a> 的块：保留链接结构，仅替换文本节点（链接零丢失，见 _fill_block_keep_links）。
-                #  - 其余（纯文本）块：整块换成块级 zh 纯文本。
-                # 块级译文也缺译的极端情况才 continue 保结构（露日文但保图/表）。
-                if blk_zh:
-                    # 收集块内真实内链锚点：优先用块内 <a> 壳；壳在 i18n 提取时
-                    # 丢失（仅留纯文本）则回退日文原页真实链接。link_terms 只含
-                    # 原文有链接的词，不会给原文无链接的位置强加链接。
-                    src_links = []
-                    for a in el.iter("a"):
-                        href = (a.get("href") or "").strip()
-                        if href.lower().startswith("http"):
-                            continue
-                        ja_text = (a.text_content() or "").strip()
-                        # 模板把带链接的词替换成了 {{keyN}} 占位符，还原成日文原文
-                        # 才能与 link_terms 的 ja 匹配（否则匹配失败、链接丢失）。
-                        m = _KEY_RE.search(ja_text)
-                        if m:
-                            k = "key" + m.group(1)
-                            ja_text = keys.get(k, {}).get("ja", ja_text) or ja_text
-                        if ja_text and href:
-                            src_links.append((href, ja_text))
-                    if not src_links and slug:
-                        allp = _ja_link_pairs_for_slug(slug)
-                        src_links = [(h, t) for (t, h) in allp]
+                src_links = block_links.get(bid, [])
+                # 例外页（artists / voice-actors）：带链接块恒为日文原文，
+                # 句末追加【日文名】（保留 href，不翻译内文）。
+                if slug in SKIP_LINK_SLUGS:
+                    if not blk.get("ja"):
+                        continue
+                    blk_ja = blk["ja"]
                     if src_links:
-                        # 块级译文整块套链接（锚定原文有链接的位置）
-                        for child in list(el):
-                            el.remove(child)
-                        _set_block_html(el, _wrap_block_links(blk_zh, src_links))
+                        extra = ""
+                        for href, ja_text in src_links:
+                            href2, target = _normalize_link_href(href)
+                            extra += (
+                                f'<a href="{_html.escape(href2, quote=True)}"{target}'
+                                f' class="escah-ilink">【{_html.escape(ja_text, quote=False)}】</a>'
+                            )
+                        _set_block_html(el, blk_ja + extra)
                     else:
-                        for child in list(el):
-                            el.remove(child)
-                        el.text = blk_zh
+                        el.text = blk_ja
                     continue
-                # 块级无译文：含 img/table 保留结构（保图/表），由顶层 _sub 节点级回退；
-                # 其余（含 <a> 或纯文本）也保留结构，缺译 key 回退日文（不制造错乱）。
-                if any(d.tag in ("img", "table") for d in el.iter()):
+                if not blk.get("zh"):
                     continue
-                if any(d.tag == "a" for d in el.iter()):
-                    _fill_block_keep_links(el, blk, keys, "", locale)
+                # 节点级全有译文也走整块 blk_zh 替换（blk_zh 是完整中文整句）；
+                # 链接统一在句末追加（block_links[bid]），不再保留行内 <a> 壳。
+                blk_zh = blk["zh"]
+                ov = _name_override(blk.get("ja", ""))
+                if ov is not None:
+                    blk_zh = ov
+                else:
+                    blk_zh = _correct_text(blk["zh"])
+                if not src_links:
+                    el.text = blk_zh  # 无链接：纯文本块
                     continue
+                # 表格单元格特例：单元格纯文本恰为该单链接词（原文就只有这个词）
+                # → 直接【中文名】，不显示括号外译文（单元格文本本身就是译文）。
+                blk_ja = blk.get("ja", "")
+                if len(src_links) == 1 and _norm_ns(blk_ja) == _norm_ns(src_links[0][1]):
+                    href, ja_text = src_links[0]
+                    href2, target = _normalize_link_href(href)
+                    name = _link_display_zh(ja_text)
+                    _set_block_html(
+                        el,
+                        f'<a href="{_html.escape(href2, quote=True)}"{target}'
+                        f' class="escah-ilink">【{_html.escape(name, quote=False)}】</a>',
+                    )
+                    continue
+                # 普通句子：翻译文本 + 句末【名1】【名2】
+                extra = ""
+                for href, ja_text in src_links:
+                    href2, target = _normalize_link_href(href)
+                    name = _link_display_zh(ja_text)
+                    extra += (
+                        f'<a href="{_html.escape(href2, quote=True)}"{target}'
+                        f' class="escah-ilink">【{_html.escape(name, quote=False)}】</a>'
+                    )
+                _set_block_html(el, blk_zh + extra)
             tpl = lxml_html.tostring(frag, method="html", encoding="unicode")
             if tpl.startswith("<div>") and tpl.rstrip().endswith("</div>"):
                 tpl = tpl[len("<div>"):-len("</div>")]
         except Exception:
             log.warning("[i18n render] %s 块级回退失败，退回节点级渲染", slug)
-
-    def _normalize_href(href: str):
-        """配置里的 href 归一化：站内 'xxx.html' → '/escah/zh/xxx.html'（带 SITE_BASE 前缀，
-        新标签页打开）；外链原样。返回 (href, target)。
-
-        注意：必须带 SITE_BASE 前缀（默认 /escah/），否则在 base 部署下站内绝对链接
-        （/zh/xxx.html）会解析为 <base 根>/zh/xxx.html → 404。已带 SITE_BASE 的链接
-        （如配置里误写成 /escah/zh/...）不再重复加。"""
-        if href.startswith("http://") or href.startswith("https://"):
-            return href, None  # 外链：保留原 href，不加 target（由浏览器/用户决定）
-        # 已带 SITE_BASE 前缀的站内链接：原样返回（避免重复前缀）
-        if href.startswith(config.SITE_BASE):
-            return href, ' target="_blank" rel="noopener"'
-        if href.startswith("/"):
-            # 以 / 开头的站内绝对路径（如 /zh/faq.html）：补 SITE_BASE 前缀
-            return config.SITE_BASE.rstrip("/") + href, ' target="_blank" rel="noopener"'
-        # 站内跳转：faq.html / raid.html → /escah/zh/faq.html（新标签页打开）
-        base = href.split("#", 1)[0].rstrip("/").split("/")[-1]
-        if not base:
-            return href, None
-        return config.SITE_BASE + "zh/" + base, ' target="_blank" rel="noopener"'
 
     def _apply_config_links(html: str, ja_link_words: "set[str]") -> str:
         """zh 镜像页：按 glossary/link_terms.yaml 配置，把指定中文词包裹成 <a>。
@@ -1882,7 +1955,7 @@ def render_locale(slug: str, locale: str) -> str | None:
             # 先处理自身文本（标题跳过）
             if not is_heading:
                 for e in entries:
-                    href, target = _normalize_href(e["href"])
+                    href, target = _normalize_link_href(e["href"])
                     if wrap_text(el, e["zh"], href, target):
                         changed_any = True
                         break  # 一个文本节点只处理一次（长词优先已排序）

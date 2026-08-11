@@ -131,9 +131,33 @@
 .mirror-content a:hover { text-decoration: underline; }
 .dark .mirror-content a { color: var(--escah-pink-soft); }
 .mirror-content a.source-link { color: #7a7f8a; }
-/* 译文「指定词→超链接」由 glossary/link_terms.yaml 配置驱动（i18n._apply_config_links）生成，
-   渲染为标准 <a>（外链原样 / 站内归 /zh/xxx.html + target=_blank），样式沿用 internal-link。
-   原整句链接 escah-sentence-link 样式已废弃删除（2026-08-04）。 */
+/* 句末【中文名】链接标签（i18n 新链接方案，2026-08-11）：链接数据取自日文原页 <a>，
+   渲染时在中文句末追加【中文名】标签（绑定原日文 href，不依赖中文名匹配）。
+   显示名取 glossary 中文译名，跳转恒正确。样式为可点击下方小角标，与正文区分。 */
+.mirror-content a.escah-ilink {
+  display: inline-block;
+  margin-left: 2px;
+  padding: 0 4px;
+  font-size: 0.82em;
+  line-height: 1.4;
+  color: #fff;
+  background: var(--escah-purple);
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+.mirror-content a.escah-ilink:hover {
+  background: var(--escah-pink);
+  text-decoration: none;
+}
+.dark .mirror-content a.escah-ilink {
+  background: var(--escah-purple);
+  color: #fff;
+}
+.dark .mirror-content a.escah-ilink:hover {
+  background: var(--escah-pink-soft);
+}
 /* 角色引用（纯文本名 / 独立头像）的浮窗触发提示：非侵入式，悬停才显虚线下划线 */
 .mirror-content .char-ref { cursor: pointer; border-bottom: 1px dotted transparent; }
 .mirror-content .char-ref:hover { border-bottom-color: var(--escah-pink); }
