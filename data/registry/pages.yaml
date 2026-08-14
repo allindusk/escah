@@ -96,6 +96,11 @@ pages:
   slug: treasure-box
   category: system
   mode: watch
+- name: 公式ヘルプ
+  slug: official-help
+  category: misc
+  mode: static
+  url: "https://prod.e-heroines.net/server/product/AppSub#"
 - name: 交換所
   slug: exchange
   category: system

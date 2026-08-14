@@ -28,6 +28,17 @@ function deriveSlug(): string {
 }
 const pageSlug = computed(deriveSlug)
 
+// 当前语言（ja / zh）。日文站保留原位日文角色名，不执行「句末【】浮窗标签」方案
+// （该方案仅中文镜像页使用；日文站把角色名当成中文显示、移到句末属于误用）。
+function deriveLocale(): 'ja' | 'zh' {
+  const path = (typeof window !== 'undefined' && window.location?.pathname) || ''
+  const m = path.match(/\/(ja|zh)\//)
+  if (m) return m[1] as 'ja' | 'zh'
+  const rp = (useData().relativePath as string) || ''
+  return rp.startsWith('ja/') ? 'ja' : 'zh'
+}
+const pageLocale = computed(deriveLocale)
+
 // 片段内图片以 /img/<hash> 绝对路径写入，但站点 base 为 /escah/；
 // v-html 注入的字符串 URL 不会被 Vite 自动加 base，需在此手动补全，
 // 否则本地预览与线上均会 404。withBase 随 base 配置自动适应。
@@ -50,16 +61,30 @@ const plainDisplays = Object.keys(nameAliases)
   .filter((n) => Array.from(n).length >= 3)
   .sort((a, b) => Array.from(b).length - Array.from(a).length)
 const nameRegex = new RegExp(plainDisplays.map(escapeRegExp).join('|'), 'g')
+// 供「是否包含角色名」的布尔判定使用（不带 g 标志）。
+// ⚠️ 关键：带 g 的正则在被 test()/exec() 混用时 lastIndex 会残留，导致跨文本节点漏判，
+// 表现为「部分角色名浮窗失效」。布尔判定必须用无 g 副本，避免共享 lastIndex。
+const nameRegexTest = new RegExp(plainDisplays.map(escapeRegExp).join('|'))
 
 const root = ref<HTMLElement | null>(null)
 
 function tagCharLinks(el: HTMLElement) {
+  // 角色名是「单独处理逻辑」：原文本里指向角色详情页的 <a> 跳转链接降级为「不跳转」，
+  // 去掉 href 仅保留原文显示，浮窗触发统一转移到块末的【角色名】标签（见 collectBlockCharTags）。
   el.querySelectorAll('a').forEach((a) => {
+    // 句末【链接】标签（class=escah-ilink）由服务端生成，已是正确跳转超链接，不动。
+    if (a.classList.contains('escah-ilink')) return
     const href = a.getAttribute('href') || ''
     const m = href.match(/characters\/(.+)\.html$/)
     if (!m) return
     const name = decodeURIComponent(m[1])
-    if (nameSet.has(name)) a.setAttribute('data-char', name)
+    if (!nameSet.has(name)) return
+    // 降级：去掉跳转能力（角色名浮窗不跳转，由 char-ref 接管悬停/点击固定）。
+    // 角色名文本由后续 collectBlockCharTags 原位包裹为 char-ref（保留在 <a> 壳内、
+    // 显示中文名），故此处仅去跳转属性，不再做块末追加。
+    a.removeAttribute('href')
+    a.removeAttribute('target')
+    a.removeAttribute('rel')
   })
 }
 
@@ -67,6 +92,9 @@ function tagAvatars(el: HTMLElement) {
   el.querySelectorAll('img').forEach((img) => {
     // 已在角色容器内的头像：祖先 [data-char] 已覆盖，跳过避免重复
     if (img.closest('[data-char]')) return
+    // 角色一览/列表中「图片列」的头像：图片列已有独立的角色名浮窗 span，
+    // 头像本身不再打 data-char，避免重复浮窗。
+    if (img.closest('.escah-img-col')) return
     const src = img.getAttribute('src') || ''
     const m = src.match(/\/img\/([^"?#]+)/)
     if (!m) return
@@ -86,44 +114,121 @@ function tagAvatars(el: HTMLElement) {
   })
 }
 
-function wrapPlainTextNames(el: HTMLElement) {
+// 角色名统一处理逻辑（独立于正常跳转超链接 escah-ilink）：
+// 全页面（含评论区 .pcomment）正文里出现的角色名，无论原文是 <a> 跳转链接、
+// <span class="plugin-tooltip"> 蓝字气泡、还是裸 <span>/纯文本，
+// 一律「原位包裹」为 <span class="char-ref" data-char="日文名">显示名</span> 浮窗标签
+// （不跳转、悬停弹浮窗），**绝不移动到块末**。
+//
+// ⚠️ 为什么必须原位包裹、不能块末追加：
+// 原站「角色名 + 说明列表」结构里，角色名永远在 <ul> 之前（作为该条目标题，
+// 如 b-universe 的「登场角色」「时间停止」节：<li><角色名><ul>说明</ul></li>）。
+// 旧方案的「块末追加」会把角色名丢到外层 <li> 末尾（= <ul> 之后），
+// 既违背原排版、又破坏阅读顺序。原地包裹则角色名始终在原文出现处。
+function collectBlockCharTags(el: HTMLElement) {
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
       const p = node.parentElement
       if (!p) return NodeFilter.FILTER_REJECT
-      // 跳过已标记的 span、脚本/样式；但「非 /characters/ 的外部链接」内的角色名
-      // 仍要作为纯文本打 data-char（tagCharLinks 仅处理指向角色页的链接，会漏掉外链中的名字）
-      if (p.closest('[data-char], script, style')) return NodeFilter.FILTER_REJECT
+      // 已生成的 .char-ref 标签内部、脚本/样式内不再处理（避免二次包裹）。
+      // 已原位升级为 char-ref 的原站 plugin-tooltip 也跳过（upgradeTooltipCharNames 已处理）。
+      // 注：<a> 内的角色名「允许」被包裹（tagCharLinks 已去掉 href 降级为浮窗，
+      // 此处原位包成 char-ref 即可，不再 reject 'a'）。
+      if (p.closest('[data-char], .char-ref, script, style')) return NodeFilter.FILTER_REJECT
+      if (p.closest('.plugin-tooltip[data-char-upgraded]')) return NodeFilter.FILTER_REJECT
       return NodeFilter.FILTER_ACCEPT
     },
   })
-  const targets: Text[] = []
+  const hits: Text[] = []
   let n: Node | null
-  while ((n = walker.nextNode())) targets.push(n as Text)
-
-  for (const textNode of targets) {
-    const text = textNode.nodeValue || ''
+  while ((n = walker.nextNode())) {
+    const t = n as Text
+    if (nameRegexTest.test(t.nodeValue || '')) hits.push(t)
+  }
+  // 原位包裹：遍历文本节点，把每个命中的角色名替换为 <span class="char-ref">，
+  // 其余文字（如「5秒（覚醒7.5秒）」后缀）保留原位。从后往前切，避免节点位移影响。
+  for (const t of hits) {
+    const text = t.nodeValue || ''
     nameRegex.lastIndex = 0
-    if (!nameRegex.test(text)) continue
-    const frag = document.createDocumentFragment()
+    const parts: Array<{ txt: string; isName: boolean; key: string }> = []
     let last = 0
-    nameRegex.lastIndex = 0
     let m: RegExpExecArray | null
     while ((m = nameRegex.exec(text)) !== null) {
-      const idx = m.index
-      const matched = m[0]
-      if (idx > last) frag.appendChild(document.createTextNode(text.slice(last, idx)))
-      const span = document.createElement('span')
-      span.className = 'char-ref'
-      span.setAttribute('data-char', nameAliases[matched] || matched)
-      span.textContent = matched
-      frag.appendChild(span)
-      last = idx + matched.length
+      if (m.index > last) parts.push({ txt: text.slice(last, m.index), isName: false, key: '' })
+      parts.push({ txt: m[0], isName: true, key: nameAliases[m[0]] || m[0] })
+      last = m.index + m[0].length
       if (m.index === nameRegex.lastIndex) nameRegex.lastIndex++
     }
-    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)))
-    textNode.parentNode?.replaceChild(frag, textNode)
+    if (last < text.length) parts.push({ txt: text.slice(last), isName: false, key: '' })
+    // ⚠️ 仅当整段文本完全不含角色名时才跳过（此前误用 parts.length<=1，
+    // 会把「纯角色名、无前后缀」的文本节点（如「节拍婚礼·千麻」「神骑伊芙」）
+    // 误判为无角色名而漏包，导致浮窗失效）。
+    if (!parts.some((p) => p.isName)) continue
+    const parent = t.parentElement!
+    const frag = document.createDocumentFragment()
+    for (const part of parts) {
+      if (!part.isName) {
+        frag.appendChild(document.createTextNode(part.txt))
+      } else {
+        const tag = document.createElement('span')
+        tag.className = 'char-ref'
+        tag.setAttribute('data-char', part.key)
+        tag.textContent = nameAliasesInv(part.key)
+        frag.appendChild(tag)
+      }
+    }
+    parent.replaceChild(frag, t)
   }
+}
+
+// 原站角色 tooltip（class=plugin-tooltip，内蓝色字为角色名）是死壳（原站 JS 未迁移）。
+// ⚠️ 修复（2026-08-13）：旧方案把整个 plugin-tooltip 隐藏、交给 collectBlockCharTags
+// 在块末追加【角色名】，但原站 tooltip 蓝字位于 <ul> 之前（是 <li> 的标题/点评者），
+// 块末追加会把角色名丢到 <ul> 之后，违背「角色名原位保留、不移到句末」铁律。
+// 新方案：把 plugin-tooltip 原位升级为 char-ref 浮窗（保留在原 <ul> 前的位置，
+// 显示中文名、不跳转、悬停弹浮窗），并打 data-char-upgraded 标记让 walker 跳过，
+// 既保留原位、又避免「原位 + 句末」双重显示。
+function upgradeTooltipCharNames(el: HTMLElement) {
+  el.querySelectorAll('.plugin-tooltip').forEach((tip) => {
+    const txt = tip.textContent || ''
+    if (!nameRegexTest.test(txt)) return
+    nameRegex.lastIndex = 0
+    const m = nameRegex.exec(txt)
+    if (!m) return
+    const key = nameAliases[m[0]] || m[0]
+    const disp = nameAliasesInv(key)
+    const tag = document.createElement('span')
+    tag.className = 'char-ref'
+    tag.setAttribute('data-char', key)
+    tag.textContent = disp
+    tip.replaceWith(tag)
+    tag.setAttribute('data-char-upgraded', '')
+  })
+}
+
+// 角色名(key=日文名) → 显示名（优先中文名，否则日文名）。nameAliases 是 显示名→key，
+// 这里反向查一次构建 key→显示名。
+// ⚠️ 反向映射必须「优先中文显示名、跳过日文自映射」：nameAliases 里常含
+// `日文原名 → 日文原名` 这样的自映射（gen_char_refs 把原名也加入显示名列表），
+// 若直接「取最短」会被日文原名截胡，导致前端 char-ref 浮窗显示日文而非中文译名。
+// 因此：跳过 disp===key 的自映射；多个候选时优先含 CJK（中文）且最短者。
+const _hasCJK = (s: string) => /[㐀-鿿]/.test(s)
+const _nameAliasesInvMap: Record<string, string> = (() => {
+  const inv: Record<string, string> = {}
+  for (const [disp, key] of Object.entries(nameAliases)) {
+    if (disp === key) continue // 跳过日文原名自映射，避免污染显示名
+    const cur = inv[key]
+    if (!cur) { inv[key] = disp; continue }
+    // 已存在候选：优先中文；同为中文/同为日文时取较短者
+    const curCJK = _hasCJK(cur)
+    const dispCJK = _hasCJK(disp)
+    if (dispCJK && !curCJK) { inv[key] = disp }
+    else if (dispCJK === curCJK && Array.from(disp).length < Array.from(cur).length) { inv[key] = disp }
+  }
+  return inv
+})()
+function nameAliasesInv(key: string): string {
+  return _nameAliasesInvMap[key] || key
 }
 
 function findChar(target: EventTarget | null): string | null {
@@ -239,6 +344,12 @@ function onRgnClick(e: MouseEvent) {
 }
 
 function onClick(e: MouseEvent) {
+  const cc = (e.target as HTMLElement).closest('a.escah-ilink') as HTMLElement | null
+  // 句末【角色名】链接：是正文超链接，点击应跳转角色详情页（默认业内、中键新标签），
+  // 不 pin 浮窗。hover 仍由 onOver 委托触发预览。
+  if (cc && findChar(e.target)) {
+    return
+  }
   const name = findChar(e.target)
   if (name) {
     // 点击角色引用：不跳转，改为固定（pin）浮窗（全部信息、居中、可拖动）；
@@ -271,7 +382,13 @@ function onAnchorClick(e: MouseEvent) {
 function processEl(el: HTMLElement) {
   tagCharLinks(el)
   tagAvatars(el)
-  wrapPlainTextNames(el)
+  // 仅中文镜像页执行「句末【】浮窗标签」方案（collectBlockCharTags）与把原站
+  // tooltip 蓝色气泡原位升级为 char-ref 浮窗（upgradeTooltipCharNames）。
+  // 日文站保留原位日文角色名，不升级、不追加中文句末标签（避免把日文名误显示成中文并移动位置）。
+  if (pageLocale.value === 'zh') {
+    upgradeTooltipCharNames(el)
+    collectBlockCharTags(el)
+  }
   enhanceTables(el, pageSlug.value)
   // region 折叠块：先记初始展开基准（避免脏 inline 态导致无法重新折叠），
   // 再按基准+expanded 类规整 desc/content/图标。默认展开块保持展开，

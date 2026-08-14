@@ -126,6 +126,28 @@
 }
 .mirror-content h4 { margin: 0.9em 0 0.35em; font-size: 15px; font-weight: 600; }
 .mirror-content h4::before { content: "◆"; color: var(--escah-purple); margin-right: 4px; }
+/* 页内目录（仅 official-help 注入的 .oh-toc）：浅卡片容器，区分 L1/L2 层级节点。
+   注意：专属 class .oh-toc，不复用原站 .contents，避免污染 faq/raid 等原站目录样式。 */
+.mirror-content .oh-toc {
+  margin: 1em 0 1.4em; padding: 14px 18px;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--escah-border);
+  border-left: 4px solid var(--escah-purple);
+  border-radius: 10px; box-shadow: var(--escah-shadow);
+}
+.mirror-content .oh-toc > p { margin: 0 0 0.6em; font-weight: 700; font-size: 15px; color: var(--escah-purple); }
+.mirror-content .oh-toc ul { list-style: none; margin: 0.2em 0; padding-left: 0; }
+.mirror-content .oh-toc li { margin: 0.25em 0; line-height: 1.5; }
+.mirror-content .oh-toc li.toc-l1 { padding-left: 0; }
+.mirror-content .oh-toc li.toc-l2 { padding-left: 1.2em; }
+.mirror-content .oh-toc a { color: var(--vp-c-text-1); text-decoration: none; }
+.mirror-content .oh-toc a:hover { color: var(--escah-pink); text-decoration: underline; }
+/* 两级层级视觉区分：L1 加粗+左边框条；L2 缩进+虚线前缀、更小更浅 */
+.mirror-content .oh-toc li.toc-l1 { border-left: 3px solid var(--escah-border); padding-left: 0.6em; margin-top: 0.5em; }
+.mirror-content .oh-toc li.toc-l1:first-child { margin-top: 0; }
+.mirror-content .oh-toc li.toc-l1 > a { font-weight: 700; color: var(--escah-purple); }
+.mirror-content .oh-toc li.toc-l2 > a::before { content: "› "; color: var(--escah-border); }
+.mirror-content .oh-toc li.toc-l2 > a { font-size: 0.95em; color: var(--vp-c-text-2); }
 .mirror-content p { margin: 0.4em 0; }
 .mirror-content a { color: #d63384; text-decoration: none; }
 .mirror-content a:hover { text-decoration: underline; }
@@ -138,29 +160,59 @@
   display: inline-block;
   margin-left: 2px;
   padding: 0 4px;
-  font-size: 0.82em;
+  font-size: 1em;
   line-height: 1.4;
-  color: #fff;
-  background: var(--escah-purple);
+  color: var(--escah-purple);
+  background: rgba(156, 39, 176, 0.12);
   border-radius: 4px;
   text-decoration: none;
   white-space: nowrap;
   vertical-align: baseline;
 }
 .mirror-content a.escah-ilink:hover {
-  background: var(--escah-pink);
+  background: rgba(156, 39, 176, 0.22);
   text-decoration: none;
 }
 .dark .mirror-content a.escah-ilink {
-  background: var(--escah-purple);
-  color: #fff;
+  background: rgba(156, 39, 176, 0.18);
+  color: var(--escah-pink-soft);
 }
 .dark .mirror-content a.escah-ilink:hover {
-  background: var(--escah-pink-soft);
+  background: rgba(156, 39, 176, 0.3);
 }
-/* 角色引用（纯文本名 / 独立头像）的浮窗触发提示：非侵入式，悬停才显虚线下划线 */
-.mirror-content .char-ref { cursor: pointer; border-bottom: 1px dotted transparent; }
-.mirror-content .char-ref:hover { border-bottom-color: var(--escah-pink); }
+/* 角色名句末【角色名】浮窗标签（i18n 新链接方案的「角色」分支，2026-08-11）：
+   与 escah-ilink（紫底白字实心，表示可跳转）严格区分——角色标签为浅描边胶囊，
+   点击/悬停弹浮窗但不跳转。统一覆盖服务端生成的 <span class=char-ref> 与前端
+   按块末追加的【角色名】标签。 */
+.mirror-content .char-ref {
+  display: inline;
+  margin-left: 0;
+  padding: 0;
+  font-size: 1em;
+  line-height: inherit;
+  color: var(--escah-purple);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dotted var(--escah-purple);
+  border-radius: 0;
+  text-decoration: none;
+  white-space: normal;
+  vertical-align: baseline;
+  cursor: pointer;
+}
+.mirror-content .char-ref:hover {
+  background: var(--escah-purple);
+  color: #fff;
+  text-decoration: none;
+}
+.dark .mirror-content .char-ref {
+  color: var(--escah-pink-soft);
+  border-color: var(--escah-pink-soft);
+}
+.dark .mirror-content .char-ref:hover {
+  background: var(--escah-pink-soft);
+  color: #1b1b1f;
+}
 .mirror-content img[data-char] { cursor: pointer; display: inline-block; vertical-align: middle; }
 /* 正文内联头像（角色链接去链接化后的 <span data-char><img> 连续排列）需横向同行，
    覆盖 VitePress .vp-doc img 的 display:block，否则每个头像各占一行变成竖排 */
@@ -770,6 +822,70 @@
   white-space: normal;
 }
 .dark .escah-tbl-fs-scroll th { background: rgba(156, 39, 176, 0.55); }
+
+/* 全屏表格脱离了 .mirror-content，需在此补回链接样式（否则 escah-ilink/char-ref
+   的正文前缀规则不匹配，链接掉回默认 <a> 外观）。 */
+.escah-tbl-fs-scroll a.escah-ilink {
+  display: inline-block;
+  margin-left: 2px;
+  padding: 0 4px;
+  font-size: 1em;
+  line-height: 1.4;
+  color: var(--escah-purple);
+  background: rgba(156, 39, 176, 0.12);
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+.escah-tbl-fs-scroll a.escah-ilink:hover { background: rgba(156, 39, 176, 0.22); text-decoration: none; }
+.dark .escah-tbl-fs-scroll a.escah-ilink { background: rgba(156, 39, 176, 0.18); color: var(--escah-pink-soft); }
+.dark .escah-tbl-fs-scroll a.escah-ilink:hover { background: rgba(156, 39, 176, 0.3); }
+/* 与正文 .mirror-content .char-ref 完全一致的「底部虚线」样式（2026-08-12 统一：
+   全屏前是底部虚线、全屏后被椭圆实线包住文字，用户要求统一样式为底部虚线）。
+   保留 position:relative;z-index:5 层级提升（防吸顶表头遮挡），但不改变外观。 */
+.escah-tbl-fs-scroll .char-ref {
+  display: inline;
+  margin-left: 0;
+  padding: 0;
+  font-size: 1em;
+  line-height: inherit;
+  color: var(--escah-purple);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dotted var(--escah-purple);
+  border-radius: 0;
+  text-decoration: none;
+  white-space: normal;
+  vertical-align: baseline;
+  cursor: pointer;
+  position: relative;
+  z-index: 5;
+}
+.escah-tbl-fs-scroll .char-ref:hover {
+  background: var(--escah-purple);
+  color: #fff;
+  text-decoration: none;
+}
+.dark .escah-tbl-fs-scroll .char-ref {
+  color: var(--escah-pink-soft);
+  border-color: var(--escah-pink-soft);
+}
+.dark .escah-tbl-fs-scroll .char-ref:hover {
+  background: var(--escah-pink-soft);
+  color: #1b1b1f;
+}
+
+/* ⚠️ 关键修复（2026-08-12）：全屏滚动容器 .escah-tbl-fs-scroll{overflow:auto} 让
+   thead th 的 position:sticky;z-index:4 真正粘顶。body 单元格内的超链接原本无
+   position/z-index，层级低于 sticky 表头，竖向滚动后链接被实色表头覆盖 → 点击命中
+   表头而非链接（表现为「超链接全部失效」）。提升 body 链接层级到 z-index:5 反超表头，
+   确保全屏表格内链接始终可点、不被吸顶表头遮挡。 */
+.escah-tbl-fs-scroll td a,
+.escah-tbl-fs-scroll td .char-ref {
+  position: relative;
+  z-index: 5;
+}
 
 /* ========== 表格增强：表头吸顶 / 列宽按数据 / 多选筛选 ========== */
 /* 表头吸顶：滚动容器（.table-scroll 或全屏 .escah-tbl-fs-scroll）内滚动时 thead 固定。

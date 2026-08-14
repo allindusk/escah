@@ -42,8 +42,10 @@ def page_url(name: str) -> str:
 #   - <meta name="description" content="最終更新日時:YYYY-MM-DD (曜) HH:MM:SS...">
 #   - <div id="lastmodified">Last-modified: YYYY-MM-DD (曜) HH:MM:SS<span ...>
 # 两种形式都解析（兼容有无空格 / 是否含秒），保证全站覆盖。
+# 注意拼写变体：原文站部分页面用「最終更新時間」（時間）而非「最終更新日時」
+# （日時），两者都要命中（见 i18n.py _METADATA_RE 的 extract 过滤双保险）。
 LASTMOD_RE = re.compile(
-    r"(?:最終更新日時|Last-modified):\s*"
+    r"(?:最終更新日時|最終更新時間|Last-modified):\s*"
     r"(\d{4}-\d{2}-\d{2})\s*\(.\d?\)\s*"
     r"(\d{1,2}:\d{2}(?::\d{2})?)"
 )

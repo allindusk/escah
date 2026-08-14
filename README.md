@@ -21,7 +21,7 @@ escah/
 │   │   ├── ja/                    # 日文解析产物（HTML），由 parse 重建，不入库
 │   │   ├── characters/            # 角色 JSON（name/rarity/icon/sections）
 │   │   └── i18n/                  # ⚠️ 人工译文唯一真值，必入库（CI 直接读它，不跑 i18n 构建）
-│   └── assets/img/                # 图片（2386 图，LFS 入库）
+│   └── assets/img/                # 图片（约 2900 图，LFS 入库）
 ├── glossary/                      # 渲染期词表（仅 zh 生效，手工维护）
 │   ├── terms.yaml                 # 页面标题/章节/标签/术语
 │   ├── names.yaml                 # 专名（角色/声优/画师/技能名），翻译绝对权威
@@ -108,6 +108,8 @@ python -m escah_pipeline.cli parse      # 解析 ja HTML / 角色数据
 ## 不要碰的
 
 - `data/parsed/i18n/**`：译文真值，改完必须 commit，否则 CI 部署看不到。
+- `data/assets/img/**`：原站图片（LFS 入库），新增图片须 `git lfs track` 后随提交入库。
+- 官方帮助中心（公式ヘルプ）等由正文超链接进入的页面，仅经站内链接访问、不进导航栏；译文真值在 `data/parsed/i18n/<slug>.json`。
 - `site/*.md` 的 sidebar/目录结构：由 `sync-site` 生成，手改会被覆盖。
 - `recycle_bin/`：按约定只回收、不永久删除，勿手删。
 - `glossary/names.yaml` 等词表：改专名译名需同步角色 JSON 与 `charRefs.json`（详见代码注释），否则浮窗/跳转失效。

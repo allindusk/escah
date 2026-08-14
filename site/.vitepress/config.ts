@@ -163,12 +163,14 @@ const sidebarZhFixed = applySidebarBase(sidebarZh as any[])
 
 const navJa = [
   { text: 'ホーム', link: '/ja/' },
+  { text: '公式ヘルプ', link: '/ja/official-help.html' },
   { text: 'キャラクター', link: '/ja/characters.html' },
   { text: '更新履歴', link: '/ja/updates.html' },
   { text: '原WIKI站点', link: 'https://escalationheroines.wikiru.jp/' },
 ]
 const navZh = [
   { text: '首页', link: '/zh/' },
+  { text: '官方帮助中心', link: '/zh/official-help.html' },
   { text: '角色一览', link: '/zh/characters.html' },
   { text: '更新记录', link: '/zh/updates.html' },
   { text: '原WIKI站点', link: 'https://escalationheroines.wikiru.jp/' },

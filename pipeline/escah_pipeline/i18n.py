@@ -38,9 +38,9 @@ from __future__ import annotations
 
 import html as _html
 import json
-import posixpath
 import re
 import unicodedata
+import urllib.parse
 import yaml
 from pathlib import Path
 
@@ -63,7 +63,9 @@ _JA_RE = re.compile(r"[ぁ-んァ-ヶ一-龯々〆ヵヶ]")
 _KANA_RE = re.compile(r"[ぁ-んァ-ヶ]")
 # 模板占位符
 _KEY_RE = re.compile(r"\{\{key(\d+)\}\}")
-# 站内跨页面跳转链接（非页内锚点）：用于渲染期统一加 target=_blank
+# 站内跨页面跳转链接（非页内锚点）：渲染期统一**不加** target，
+# 让浏览器原生行为生效——左键同标签（业内）跳转，中键/Ctrl+点击新标签。
+# （浮窗跳角色详情页是例外，由 CharHoverModal.vue 用 target="_blank" 强制新标签。）
 _INTLINK_RE = re.compile(r'<a\b[^>]*class="[^"]*internal-link[^"]*"[^>]*href="([^"]*)"[^>]*>')
 # 待译/译文 txt 的 [N] / [keyN] / [blkN] 行（条目可跨行，直到下一个标记）
 _ENTRY_RE = re.compile(r"^\[(key\d+|blk\d+|\d+)\]\s?", re.M)
@@ -78,6 +80,115 @@ _INLINE_TAGS = {
 }
 _BLK_ATTR = "data-i18n-blk"
 
+
+def _slugify(text: str) -> str:
+    """把标题文本转为稳定、可用于锚点 id 的 slug。"""
+    text = (text or "").strip()
+    text = re.sub(r"<[^>]+>", "", text)  # 去残留标签
+    text = unicodedata.normalize("NFKC", text)
+    # 保留字母数字、中日韩、空白与连字符；其余去掉
+    text = re.sub(r"[^\w\s\-]", "", text, flags=re.UNICODE)
+    text = re.sub(r"\s+", "-", text).strip("-").lower()
+    return text or "sec"
+
+
+def _inject_toc(html: str, locale: str, slug: str | None = None) -> str:
+    """为 official-help 页面生成两级页内目录（TOC），注入到正文第一个 h2 之前。
+
+    节点层级（对应原站 help 的标题结构，按文档出现顺序构建）：
+      L1：<h2>（顶级章节，如「超昂大戦について」「初心者指南」等约 20~30 个）
+      L2：<h2 class="help-entry">（小条目标题，挂在最近的上一个 L1 下）
+    注意：只取 <h2>，不取 <h3>/<h4>（那些不属于这份两级目录）。
+    每个参与标题都会写入稳定 id 锚点；目录块按层级嵌套 <ul> 并加
+    toc-l1 / toc-l2 类，便于区分不同节点样式。
+    ライセンス 模块已在 build_page 中删除，其父/子标题自然不进入目录。
+    zh 站目录标题显示「目录」，ja 站显示「目次」。
+    仅 official-help 生效；其它页面原样返回。
+    """
+    if slug != "official-help":
+        return html
+    try:
+        frag = lxml_html.fragment_fromstring(html, create_parent="div")
+    except Exception:
+        return html
+    # 只取 h2（L1=非 help-entry，L2=help-entry）
+    heads = frag.xpath(".//h2")
+    if not heads:
+        return html
+
+    counter: "dict[str, int]" = {}
+    entries: "list[tuple[str, str, int]]" = []
+    for h in heads:
+        is_help_entry = "help-entry" in (h.get("class") or "")
+        txt = "".join(h.itertext()).strip()
+        if not txt:
+            continue
+        base = _slugify(txt)
+        n = counter.get(base, 0)
+        counter[base] = n + 1
+        anchor = base if n == 0 else f"{base}-{n}"
+        h.set("id", anchor)
+        level = 2 if is_help_entry else 1
+        entries.append((anchor, txt, level))
+
+    if not entries:
+        return html
+
+    # 两级嵌套：L1 为父，其后的 L2 作为子节点收集到父的 <ul> 内
+    cont = lxml_html.Element("div", attrib={"class": "oh-toc"})
+    title = lxml_html.Element("p")
+    title.text = "目录" if locale == "zh" else "目次"
+    cont.append(title)
+    root_ul = lxml_html.Element("ul")
+    cur_parent_li = None
+    cur_child_ul = None
+    for anchor, txt, level in entries:
+        if level == 1:
+            # 收尾上一个 L1 的子列表
+            if cur_parent_li is not None and cur_child_ul is not None:
+                cur_parent_li.append(cur_child_ul)
+            cur_parent_li = lxml_html.Element("li", attrib={"class": "toc-l1"})
+            a = lxml_html.Element("a", attrib={"href": f"#{anchor}"})
+            a.text = txt
+            cur_parent_li.append(a)
+            root_ul.append(cur_parent_li)
+            cur_child_ul = None
+        else:  # level == 2
+            if cur_child_ul is None:
+                cur_child_ul = lxml_html.Element("ul")
+            li = lxml_html.Element("li", attrib={"class": "toc-l2"})
+            a = lxml_html.Element("a", attrib={"href": f"#{anchor}"})
+            a.text = txt
+            li.append(a)
+            cur_child_ul.append(li)
+    # 最后一个 L1 的子列表收尾
+    if cur_parent_li is not None and cur_child_ul is not None:
+        cur_parent_li.append(cur_child_ul)
+    cont.append(root_ul)
+    # 插入到第一个 h2 之前（页面标题 h1 之后、正文之前）
+    first = heads[0]
+    parent = first.getparent()
+    if parent is None:
+        return html
+    parent.insert(parent.index(first), cont)
+    out = lxml_html.tostring(frag, method="html", encoding="unicode")
+    if out.startswith("<div>") and out.rstrip().endswith("</div>"):
+        out = out[len("<div>"):-len("</div>")]
+    return out
+
+# 块级整句（blk.ja / blk.zh）内的换行占位符。
+# 提取期把源 HTML 的 <br>（及 <br class="spacer"> 等）替换为该控制字符，
+# 使「排版换行」随 blk 字符串一起入库、回填、渲染，不被当空白分隔符吞掉；
+# 渲染期在 _set_block_html 内统一还原为 <br>。
+# 选用 \x01（SOH）：不属于 \s，不被 _norm/_norm_ns 的 \s+ 折叠，且不会出现在
+# 正常译文文本中，避免与正文混淆。
+_BR_PH = "\x01"
+
+
+def _strip_br(s: str) -> str:
+    """去掉块整句中的换行占位符（用于记忆匹配时消除排版粒度差异）。"""
+    return s.replace(_BR_PH, "")
+
 # 例外页：原画索引(artists) / 声优一览(voice-actors) 的带超链接文本块不翻译，
 # 直接用日文原文（项目规则，用户 2026-08-04）。这两个页 slug 恒为日文回退，
 # 即使日后内容新增也按此处理。
@@ -90,13 +201,20 @@ _DATE_SPAN_CLASS = "comment_date"
 _WEEKDAY_JA2ZH = {"月": "周一", "火": "周二", "水": "周三", "木": "周四",
                   "金": "周五", "土": "周六", "日": "周日"}
 _WEEKDAY_RE = re.compile(r"([（(])([月火水木金土日])([)）])")
-# 评论正文末尾的发送 ID 签名「 -- [xxxx] 」：不进翻译，模板保留字面量
+# 评论正文末尾的发送 ID 签名「 -- [xxxx] 」及「-- [ID]日期(曜日)时刻」整段：
+# 纯评论元数据，正文/角色名后绝不应显示（见 MEMORY 铁律）。模板生成期直接丢弃，
+# 不进翻译、不入模板字面量（旧逻辑曾保留字面量，导致签名硬编码进 HTML 残留）。
 _SIG_TAIL_RE = re.compile(r"(\s*(?:--|――|——|—)\s*\[[^\[\]]{1,48}\]\s*)$")
 # 旧版块条目尾巴「正文 -- [ID] 日期 (曜日) 时刻」：重建时剥尾入记忆，保住既有译文
 _OLD_TAIL_JA_RE = re.compile(
     r"\s*--\s*\[[^\[\]]{1,48}\]\s*\d{4}-\d{2}-\d{2}\s*[（(][月火水木金土日][)）]\s*\d{1,2}:\d{2}(?::\d{2})?\s*$")
 _OLD_TAIL_ZH_RE = re.compile(
     r"\s*(?:--|――|——|—)\s*\[[^\[\]]{1,48}\]\s*\d{4}-\d{2}-\d{2}\s*[（(][^（()）]{1,4}[)）]\s*\d{1,2}:\d{2}(?::\d{2})?\s*$")
+# 统一剥离评论签名（含带日期时间 / 仅 ID 两种形态），用于模板生成期丢弃尾巴、
+# 以及数据 JSON 批量清理。覆盖上面三种正则。
+_COMMENT_SIG_CLEAN_RE = re.compile(
+    r"\s*(?:--|――|——|—)\s*\[[^\[\]]{1,48}\]\s*"
+    r"(?:\d{4}-\d{2}-\d{2}\s*[（(][^（）()]{1,4}[)）]\s*\d{1,2}:\d{2}(?::\d{2})?)?\s*")
 
 
 def _date_span_zh(ja: str) -> str:
@@ -169,6 +287,15 @@ _LINK_TERMS: "dict[str, list[dict]] | None" = None  # slug -> [ {zh, href}, ... 
 # 全局 ja 原文 → zh 译文 索引（所有 slug 合并），供 _wrap_block_links 做 O(1) 查找，
 # 避免原实现遍历 _LINK_TERMS.values() 全站条目（大页 N块×M链接×全站条目 = 灾难级耗时）。
 _LINK_JA_ZH: "dict[str, str] | None" = None
+# 全局 href 基名 → 中文显示名 索引（所有 slug 合并）。用于「句末【】链接标签」的
+# 显示名兜底：当 ja_text 在 names/terms/high_freq 都查不到中文时，按链接 href 反查
+# link_terms 里配置的中文名（如日文原页 `SSRキャラ` → list-ssr.html → `SSR角色`）。
+# 取长度 <=8 且最短的 zh 作为显示名，避免审计长句/一覧变体污染。
+_LINK_HREF_ZH: "dict[str, str] | None" = None
+# 当前渲染 slug 的 ja→zh 译文映射（render_locale 进入时设置）。用于「句末【】/原地包裹」
+# 显示名首选：优先用 i18n 译文的中文（如日文 `SSRキャラ` → 译文 `SSR角色`），
+# 这天然「照搬译文」且不依赖 link_terms 的 ja 字段（link_terms 的 ja 多为中文，匹配不上日文原页）。
+_CUR_JA_ZH: "dict[str, str] | None" = None
 # 按 slug 缓存日文原页解析结果，避免块级回退分支对每个块重复解析 ja 文件（大页性能炸弹）。
 _JA_PAIRS_CACHE: "dict[str, list[tuple[str, str]]]" = {}
 
@@ -434,6 +561,55 @@ def _link_display_zh(ja: str) -> str:
     return ja
 
 
+def _link_zh_by_href(href: str) -> "str | None":
+    """按链接 href 反查 link_terms 配置的中文显示名（兜底用）。
+
+    当 ja_text 在 names/terms/high_freq 都查不到中文时（如日文原页 `SSRキャラ`
+    对应 list-ssr.html），用 href 基名反查 link_terms 里的中文名（`SSR角色`）。
+    查不到返回 None。"""
+    if not href:
+        return None
+    _load_link_terms()
+    if not _LINK_HREF_ZH:
+        return None
+    base = href.split("#", 1)[0].rstrip("/").split("/")[-1]
+    return _LINK_HREF_ZH.get(base)
+
+
+def _disp_name(ja_text: str, href: str, is_char: bool, locale: str = "") -> str:
+    """句末【】标签显示名解析优先级：
+    0) 站内页面链接（zh 渲染）：一律显示该页中文名，无视原日文锚点词（用户铁律）；
+    1) 角色名(is_char) 强制优先 names 词表（权威译名，绝不被 i18n 漏译遮蔽）；
+    2) 当前 slug 的 i18n 译文（ja→zh，最权威，天然照搬译文）；
+    3) 词表覆盖（names/terms/high_freq，_link_display_zh）；
+    4) 普通链接再按 href 反查 link_terms 中文名；
+    5) 兜底日文原文。"""
+    if is_char:
+        # 角色名显示名必须走 names.yaml 权威译名；i18n JSON 里该角色名若漏译/错填为
+        # 日文原文，也不应污染浮窗显示（用户铁律：角色名翻译不可变，names 绝对权威）。
+        nm = _name_override(ja_text)
+        if nm:
+            return nm
+    # 站内页面链接（zh 站）→ 显示页面中文名，无视原日文锚点词（D2P/突破极限 等）。
+    # ja 站保留日文原貌；角色页走浮窗逻辑不在此处理。
+    if locale == "zh":
+        pg = _page_name_for_href(href)
+        if pg:
+            return pg
+    if _CUR_JA_ZH:
+        z = _CUR_JA_ZH.get(ja_text)
+        if z:
+            return z
+    name = _link_display_zh(ja_text)
+    if name != ja_text:
+        return name
+    if not is_char:  # 角色名不按 href 反查（角色页链接无 link_terms 配置）
+        zh = _link_zh_by_href(href)
+        if zh:
+            return zh
+    return name
+
+
 def _normalize_link_href(href: str) -> "tuple[str, str]":
     """链接 href 归一化：站内 'xxx.html' → '/escah/zh/xxx.html'（带 SITE_BASE 前缀，
     新标签页打开）；外链原样。返回 (href, target)。
@@ -442,18 +618,162 @@ def _normalize_link_href(href: str) -> "tuple[str, str]":
     （/zh/xxx.html）会解析为 <base 根>/zh/xxx.html → 404。已带 SITE_BASE 的链接
     （如配置里误写成 /escah/zh/...）不再重复加。"""
     if href.startswith("http://") or href.startswith("https://"):
-        return href, ""  # 外链：保留原 href，不加 target（由浏览器/用户决定）
+        return href, ""  # 外链：保留原 href，不加 target（浏览器原生：左键同标签、中键新标签）
     # 已带 SITE_BASE 前缀的站内链接：原样返回（避免重复前缀）
     if href.startswith(config.SITE_BASE):
-        return href, ' target="_blank" rel="noopener"'
+        return href, ""
     if href.startswith("/"):
         # 以 / 开头的站内绝对路径（如 /zh/faq.html）：补 SITE_BASE 前缀
-        return config.SITE_BASE.rstrip("/") + href, ' target="_blank" rel="noopener"'
-    # 站内跳转：faq.html / raid.html → /escah/zh/faq.html（新标签页打开）
+        return config.SITE_BASE.rstrip("/") + href, ""
+    # 站内跳转：faq.html / raid.html → /escah/zh/faq.html
+    # 不加 target：默认同标签（业内）跳转，中键/Ctrl+点击才新标签页打开。
     base = href.split("#", 1)[0].rstrip("/").split("/")[-1]
     if not base:
         return href, ""
-    return config.SITE_BASE + "zh/" + base, ' target="_blank" rel="noopener"'
+    return config.SITE_BASE + "zh/" + base, ""
+
+
+# 站内页面链接（跳到镜像站内页）→ 中文页面名映射。
+# 用户要求：所有跳到站内科幻镜像页的超链接文字一律显示该页中文名（如 faq→常见问题），
+# 无视原日文锚点词（D2P / 突破极限 等）。仅 zh 渲染生效；ja 站保留日文原貌。
+# 角色页（characters）走浮窗逻辑、不跳转，不在此覆盖（避免角色名被改成「角色一览」）。
+_PAGE_SLUG_ZH_FALLBACK = {
+    "faq": "常见问题",
+    "gacha": "扭蛋",
+    "characters": "角色一览",
+    "list-ssr": "SSR角色一览",
+    "list-sr": "SR角色一览",
+    "list-r": "R角色一览",
+    "raid": "突袭战",
+    "battle": "战斗",
+    "equipment": "装备一览",
+    "awakening": "觉醒强化",
+    "main-quest": "主线任务",
+    "b-universe": "B宇宙",
+    "shop": "商店",
+    "item": "道具一览",
+    "mission": "任务一览",
+    "event": "活动一览",
+    "term-map": "日中用语对照表",
+    "bedroom-scenes": "寝室场景一览",
+    "artists": "原画索引",
+    "voice-actors": "声优一览",
+}
+
+
+def _build_page_slug_zh() -> "dict[str, str]":
+    m: "dict[str, str]" = {}
+    try:
+        g = _load_glossary()
+        pt = g.get("page_titles") if isinstance(g, dict) else None
+        if isinstance(pt, dict):
+            from .registry import load_registry
+
+            slug_map = load_registry().SLUG_MAP  # 日文页名 -> slug
+            for ja, zh in pt.items():
+                slug = slug_map.get(ja) if slug_map else None
+                if slug and isinstance(zh, str):
+                    m[slug] = zh
+    except Exception:
+        pass
+    m.update(_PAGE_SLUG_ZH_FALLBACK)
+    return m
+
+
+_PAGE_SLUG_ZH = _build_page_slug_zh()
+
+
+def _page_name_for_href(href: str) -> "str | None":
+    """若 href 指向站内镜像页（非外链、非纯锚点、非角色页），返回该页中文名；否则 None。"""
+    if not href:
+        return None
+    if href.startswith("http://") or href.startswith("https://"):
+        return None
+    base = href.split("#", 1)[0].rstrip("/").split("/")[-1]
+    if not base.endswith(".html"):
+        return None
+    slug = base[:-5]
+    if slug == "characters" or slug.startswith("characters/"):
+        return None
+    return _PAGE_SLUG_ZH.get(slug)
+
+
+# 匹配整段 HTML 标签（<...> 或 </...>），用于将「针」匹配限制在标签外的纯文本区域，
+# 避免已包裹链接的显示名（如 <a>SSR</a> 里的 SSR）干扰后续短词（SR/R）的唯一性判断。
+_TAG_RE = re.compile(r"</?[A-Za-z][^>]*>")
+
+
+def _strip_tag_pairs(text: str) -> str:
+    """递归移除所有 HTML 标签对（含其内部文本），仅保留标签外的纯文本。
+
+    例：'a <a href=x>SSR</a> b' -> 'a  b'（<a>SSR</a> 整体被剔除，
+    其显示文本 SSR 不再计入短词匹配）。"""
+    prev = None
+    cur = text
+    while prev != cur:
+        prev = cur
+        cur = re.sub(r"<[A-Za-z][^>]*>.*?</[A-Za-z][^>]*>", "", cur, flags=re.S)
+    return cur
+
+
+def _count_outside_tags(text: str, sub: str, boundary: bool = False) -> int:
+    """统计 sub 在标签外纯文本中的出现次数（标签及其中文本不计）。
+
+    boundary=True 时仅在 sub 前后非 ASCII 字母/数字处计（用于 ASCII 缩写
+    互为子串的场景，如 SSR/SR/R，避免 `R` 被 `SSR`/`SR` 内部的 R 误算）。"""
+    if not sub:
+        return 0
+    plain = _strip_tag_pairs(text)
+    if not boundary:
+        return plain.count(sub)
+    cnt = 0
+    start = 0
+    while True:
+        i = plain.find(sub, start)
+        if i < 0:
+            break
+        end = i + len(sub)
+        before_ok = i == 0 or not plain[i - 1].isascii() or not plain[i - 1].isalnum()
+        after_ok = end >= len(plain) or not plain[end].isascii() or not plain[end].isalnum()
+        if before_ok and after_ok:
+            cnt += 1
+        start = end
+    return cnt
+
+
+def _wrap_needles_outside_tags(text: str, pairs: "list[tuple[str, str]]",
+                               boundaries: "set[str] | None" = None) -> str:
+    """在标签外纯文本中，按 pairs（已按 needle 长度降序）逐词原地包裹。
+
+    每个标签外文本段独立处理：长词优先替换（replace(needle, repl, 1)），
+    替换产生的新 <a> 标签在段内不再被短词命中（短词只在段剩余文本查找），
+    从而 SR 不会钻进已包裹的 SSR 内部造成嵌套坏链。标签整体原样保留。
+    boundaries 集合中的 needle 启用边界匹配（ASCII 缩写防子串误伤）。"""
+    if not pairs:
+        return text
+    boundaries = boundaries or set()
+
+    def _seg_wrap(seg: str) -> str:
+        for needle, repl in pairs:
+            if not needle or needle not in seg:
+                continue
+            if needle in boundaries:
+                # 边界匹配：仅替换前后非 ASCII 字母数字的首次出现
+                m = re.search(r"(?<![A-Za-z0-9])" + re.escape(needle) + r"(?![A-Za-z0-9])", seg)
+                if m:
+                    seg = seg[:m.start()] + repl + seg[m.end():]
+            else:
+                seg = seg.replace(needle, repl, 1)
+        return seg
+
+    out = []
+    last = 0
+    for m in _TAG_RE.finditer(text):
+        out.append(_seg_wrap(text[last:m.start()]))
+        out.append(m.group(0))
+        last = m.end()
+    out.append(_seg_wrap(text[last:]))
+    return "".join(out)
 
 
 def _load_char_terms() -> None:
@@ -527,11 +847,12 @@ def _load_link_terms() -> None:
 
     按 slug 分组，每组 links 列表含 {ja, zh, href}；渲染时按 zh 词精确子串包裹 <a>。
     结构详见该 yaml 头部注释（含给 LLM 的说明）。失败不阻断渲染。"""
-    global _LINK_TERMS, _LINK_JA_ZH
+    global _LINK_TERMS, _LINK_JA_ZH, _LINK_HREF_ZH
     if _LINK_TERMS is not None:
         return
     _LINK_TERMS = {}
     _LINK_JA_ZH = {}
+    _LINK_HREF_ZH = {}
     if not _LINK_TERMS_FILE.exists():
         return
     try:
@@ -555,6 +876,26 @@ def _load_link_terms() -> None:
                 norm_links.append({"ja": ja, "zh": zh, "href": href})
                 if ja:  # 建全局 ja→zh 索引（O(1) 查找用）
                     _LINK_JA_ZH[ja] = zh
+                # 建全局 href 基名 → 中文显示名 索引（句末【】/原地包裹显示名兜底用）。
+                # 两类都收，但「纯 ASCII 短缩写」（如分类页裸链接 `SSR`/`SR`/`R`/`NPC`）
+                # 优先级最高——它才是日文原页链接文字本身，应照搬原文显示名；
+                # 含 CJK 的变体（如 `SSR角色`/`SSR角色一覧` 这种日语「词」）仅作词表
+                # 覆盖来源，绝不可反查覆盖裸缩写链接。同一 href 多条时：
+                #  - 纯 ASCII 缩写（len 1-4 全 ASCII）：优先采用，且不被含 CJK 覆盖；
+                #  - 含 CJK：取最短有效中文（去审计长句）。
+                base = href.split("#", 1)[0].rstrip("/").split("/")[-1]
+                if not base or not (1 <= len(zh) <= 8):
+                    continue
+                is_ascii = bool(re.fullmatch(r"[A-Za-z0-9]+", zh))
+                cur = _LINK_HREF_ZH.get(base)
+                if is_ascii:
+                    # 纯 ASCII 缩写：最高优先，无条件覆盖（含 CJK 旧值也覆盖掉）。
+                    if cur is None or not re.fullmatch(r"[A-Za-z0-9]+", cur) or len(zh) < len(cur):
+                        _LINK_HREF_ZH[base] = zh
+                elif re.search(r"[一-鿿]", zh):
+                    # 含 CJK：仅当当前尚无更优（纯 ASCII）值时采用，取最短。
+                    if cur is None or (not re.fullmatch(r"[A-Za-z0-9]+", cur) and len(zh) < len(cur)):
+                        _LINK_HREF_ZH[base] = zh
             if norm_links:
                 _LINK_TERMS.setdefault(slug, []).extend(norm_links)
     except Exception as e:  # 配置损坏不应阻断渲染
@@ -885,6 +1226,9 @@ def build_page(slug: str) -> dict | None:
             continue
         ja_old, zh_old = blk.get("ja", ""), blk["zh"]
         memory.setdefault(_norm(ja_old), zh_old)
+        # 兼容：旧 blk.ja 不含换行占位符（旧提取期吞掉了 <br>），新 plain 含 _BR_PH。
+        # 额外存「去 br」key，使新粒度(含 br)能命中旧译文(无 br)，避免重跑后漏译。
+        memory.setdefault(_norm(_strip_br(ja_old)), zh_old)
         # 旧块含「 -- [ID] 日期」尾巴：剥尾后再入一份记忆，衔接新的正文-only 块
         ja_strip = _OLD_TAIL_JA_RE.sub("", ja_old)
         if ja_strip != ja_old:
@@ -892,12 +1236,35 @@ def build_page(slug: str) -> dict | None:
     ns_memory = {_norm_ns(k): v for k, v in memory.items()}
 
     def _mem(ja: str) -> str:
-        return memory.get(_norm(ja)) or ns_memory.get(_norm_ns(ja), "")
+        # 先按原样查（中日同形/已含 br 的记忆优先），查不到再按「去 br」查，
+        # 兼容重跑前后 blk.ja 粒度变化导致的记忆失配。
+        z = memory.get(_norm(ja))
+        if z:
+            return z
+        z = memory.get(_norm(_strip_br(ja)))
+        if z:
+            return z
+        return ns_memory.get(_norm_ns(ja)) or ns_memory.get(_norm_ns(_strip_br(ja)), "")
 
     try:
         frag = lxml_html.fragment_fromstring(sanitized, create_parent="div")
     except Exception:
         frag = lxml_html.fromstring(f"<div>{sanitized}</div>")
+
+    # official-help：页末「ライセンス」模块（第三方著作物/字体商标声明）不展示，
+    # 在 build 阶段从 frag 直接移除（含其 h2 标题与后续 infotxt 整块）。
+    # 这样无论源 raw 如何变化，i18n build 都不再生该块，删除效果持久。
+    if slug == "official-help":
+        for h in frag.xpath(".//h2"):
+            if (h.text or "").strip() == "ライセンス":
+                parent = h.getparent()
+                nxt = h.getnext()
+                h.drop_tree()
+                while nxt is not None:
+                    nn = nxt.getnext()
+                    nxt.drop_tree()
+                    nxt = nn
+                break
 
     _wrap_runs(frag)  # 行内连续段预圈块（含评论正文，边界=日期 span/嵌套块级元素）
 
@@ -912,9 +1279,11 @@ def build_page(slug: str) -> dict | None:
             return None
         body, lit_tail = text, ""
         if in_cmt:
-            m = _SIG_TAIL_RE.search(text)
-            if m:
-                body, lit_tail = text[:m.start()], m.group(1)
+            # 评论正文末尾的发送签名（-- [ID] 或 -- [ID]日期(曜日)时刻）：纯元数据，
+            # 正文绝不应显示。直接丢弃，不进翻译、不入模板字面量。
+            body = _COMMENT_SIG_CLEAN_RE.sub("", text)
+            if body != text:
+                lit_tail = ""
         if not _JA_RE.search(body):
             if blk is not None:
                 blk["parts"].append(body)  # 块内非日文片段也参与整句拼接
@@ -925,7 +1294,7 @@ def build_page(slug: str) -> dict | None:
         if blk is not None:
             blk["keys"].append(k)
             blk["parts"].append(body)
-        return "{{" + k + "}}" + lit_tail
+        return "{{" + k + "}}"
 
     def _walk(el, blk: dict | None, in_cmt: bool) -> None:
         nonlocal kseq, bseq
@@ -956,6 +1325,19 @@ def build_page(slug: str) -> dict | None:
         if ph is not None:
             el.text = ph
         for child in el:
+            # <br>（含 <br class="spacer"> 等）：排版换行，提取期原样吞进块整句会丢排版。
+            # 改用占位符 _BR_PH 计入块 parts，使 blk.ja/blk.zh 携带换行信息，
+            # 渲染期 _set_block_html 还原为 <br>。模板（节点级 {{keyN}}）里的 <br>
+            # 由 tostring 原样保留，不受影响。
+            if isinstance(child.tag, str) and child.tag.lower() == "br":
+                if cur is not None:
+                    cur["parts"].append(_BR_PH)
+                # 关键：<br> 的 tail 文本（如「<br/>ある日突然終わりを告げた。」）
+                # 必须照常收进 key/块，否则会整句丢失。原代码 continue 跳过了 tail 处理。
+                ph = _take(child.tail, cur, in_cmt)
+                if ph is not None:
+                    child.tail = ph
+                continue
             if isinstance(child.tag, str):
                 _walk(child, cur, in_cmt)
             ph = _take(child.tail, cur, in_cmt)
@@ -1196,11 +1578,145 @@ def _one_line(ja: str) -> str:
     return (ja or "").replace("\r", "").replace("\n", " ").strip()
 
 
-def _untranslated_items(slug: str) -> list[dict]:
+def _glossary_covers(ja: str) -> bool:
+    """ja 整串是否已被词汇表（names/high_freq/skills）覆盖，渲染期会自动翻，无需列入待译清单。
+
+    仅做「整串精确」判断（归一化 ja 命中词表键），不子串匹配——
+    避免把『含 glossary 词但句子本身仍需翻译』的长句误删。
+    """
+    if not ja:
+        return False
+    _load_name_glossary()
+    _load_high_freq_glossary()
+    _load_skill_glossary()
+    n = _norm(ja)
+    if _GLOSSARY_NORM and n in _GLOSSARY_NORM:
+        return True
+    if _HF_ALL_NORM and n in _HF_ALL_NORM:
+        return True
+    if _SKILL_NORM and n in _SKILL_NORM:
+        return True
+    return False
+
+
+# 结构化数字模板（中日同形，仅数字变化，无需人工翻译）。
+# 形如「第459期」「阶梯抽卡1」「X次」「X-Y(消耗STN)」「灵魂xN」等。
+# 这些在 extract 阶段直接跳过（永不再进待译清单），渲染期由模板同形层复用原文。
+_NUMERIC_TEMPLATE_RE = re.compile(
+    r"(?:"
+    r"^第?\d+期$"                    # 第459期（整串，避免吞句子）
+    r"|^阶梯抽卡\d+$"                # 阶梯抽卡1
+    r"|^\d+次$"                      # 9次 / 19次
+    r"|^\d+-\d+（?:\s*消費ST\d+）$"  # 5-6(消費ST15)
+    r"|^（?:\s*第\d+段）$"           # （第2段）
+    r"|[^xX]*x\d+$"                  # 灵魂x10 / 階段抽卡x400（含英文专名 xN，行尾）
+    r"|^[^A-Za-z]*UP期間\d+$"        # 期間限定UP期間1
+    r")"
+)
+# 页面元数据 / 编辑戳类（PukiWiki 最后更新时间等），本就不该显示、更不该翻译。
+# 拼写变体：最終更新時間 / 最終更新日時 / Last-modified / 第N日：日期区间。
+_METADATA_RE = re.compile(
+    r"(?:"
+    r"最終更新時間|最終更新日時|Last-modified"   # 最后更新时间（多种拼写）
+    r"|第?\d+日："                                # 第4日：2025/12/10 〜 ...
+    r"|^\s*最終更新"
+    r")"
+)
+
+# 评论区发送签名（PukiWiki pcomment 插件）：「 -- [发送ID]YYYY-MM-DD(周X)HH:MM:SS 」。
+# 这些是评论元数据，正文/角色名后绝不应显示。原站把它们嵌在角色吐槽列表里，
+# 易与角色名拼在一起（如「超昂阿梅兹·幻梦……--[cn6xkqHPAqQ]2026-06-10(周三)20:07:20」）。
+# 解析期 _strip_edit_stamps 的 _EDIT_STAMP_RE 不含前置空格/「-- 」，漏删这类；
+# 渲染期兜底再剥一次，确保不进镜像页正文。
+_COMMENT_SIG_RE = re.compile(
+    r"\s*--\s*\[[^\]]*\]\d{4}-\d{2}-\d{2}\([^)]*\)\d{2}:\d{2}:\d{2}"
+)
+
+
+def _strip_comment_sig(text: str) -> str:
+    """删除评论发送签名（-- [ID]YYYY-MM-DD(周X)HH:MM:SS）。
+
+    同时应用更宽松的 _COMMENT_SIG_CLEAN_RE（覆盖中文破折号前缀
+    如「已经删掉了——--[ID]时间」这类 -- 前非空白的变体），
+    避免渲染期漏剥导致角色名/正文后拼接评论复发。
+    """
+    if not text:
+        return text
+    text = _COMMENT_SIG_RE.sub("", text)
+    text = _COMMENT_SIG_CLEAN_RE.sub("", text)
+    return text
+
+
+# 日语句末标点（判断「完整句子」用：以之结尾即视为句子，否则为名词/属性碎片）
+_SENT = set("。！？.!?")
+
+def _is_ui_fragment(ja: str) -> bool:
+    """UI 单词碎片：名词性标签 / 列表项 / 无句末标点的短名词属性词。
+
+    用户 2026-08-14 拍板「待译只给真正的完整句子（长句/段落），
+    排除 UI 单词碎片（ストーリー/クエスト/ステータス 等名词标签）」，
+    这些靠 glossary + 上下文自动处理，不进人工待译清单。返回 True 表示跳过。
+    """
+    if not ja:
+        return True
+    if ja.startswith("・"):                          # 列表项标签（・栄石x15 等）
+        return True
+    if ja[-1] not in _SENT and len(ja) <= 10:        # 无句末标点的短名词/属性标签
+        return True
+    return False
+
+
+def _should_skip_extract(ja: str, allow_ui_fragments: bool = False) -> bool:
+    """extract 阶段直接跳过的串：UI 单词碎片 + 元数据戳 + 结构化数字同形模板。
+
+    这些要么是 PukiWiki 页面元数据（按铁律解析期应剥离、永不翻译），
+    要么是「数字不同、日文一致」的中日同形模板（无需人工逐条翻译，
+    渲染期模板同形层会直接复用原文），要么是 UI 单词碎片（名词标签/列表项，
+    靠 glossary + 上下文自动处理，不进人工待译清单）。返回 True 表示不进待译清单。
+
+    allow_ui_fragments=True 时（如 official-help 需用户亲自翻译基础词）不跳过 UI 碎片，
+    使其进入待译清单。
+    """
+    if not ja:
+        return True
+    if _is_ui_fragment(ja) and not allow_ui_fragments:
+        return True
+    if _METADATA_RE.search(ja):
+        return True
+    # 数字模板：含至少一个数字且整体形如上述模板（命中即跳过）
+    if re.search(r"\d", ja) and _NUMERIC_TEMPLATE_RE.search(ja):
+        # 排除含假名的真实句子（如「〜のSTEP」之类），仅纯同形模板才跳过
+        if not re.search(r"[぀-ゟ゠-ヿ]", ja):
+            return True
+    return False
+
+
+def _numeric_template_zh(ja: str) -> str | None:
+    """渲染期模板同形层：对「含数字、中日同形」的串直接复用原文作 zh。
+
+    与 extract 过滤共用 _NUMERIC_TEMPLATE_RE，但这里是「渲染兜底」——
+    对 zh 缺失、且命中数字同形模板的节点，返回 ja 本身（中文下数字+汉字与日文
+    一致），避免把这类串当作漏译回退成日文整句。含假名的真实句子不命中，
+    仍走正常漏译流程。
+    """
+    if not ja or not re.search(r"\d", ja):
+        return None
+    if re.search(r"[぀-ゟ゠-ヿ]", ja):
+        return None
+    if _NUMERIC_TEMPLATE_RE.search(ja):
+        return ja
+    return None
+
+
+def _untranslated_items(slug: str, allow_ui_fragments: bool = False) -> list[dict]:
     """本页有效待译条目（确定性顺序），用于生成/回填待译清单。
 
     先块级整句（blk，整体未译的整句），后独立节点（key，未被已译块覆盖）。
     返回 [{kind:'block'|'key', id, ja}, ...]，顺序即清单中的 [N] 序号（N=index+1）。
+
+    词汇表（names/high_freq/skills）已能整串覆盖的词直接跳过——这些渲染期自动翻译，
+    列入清单只会让你重复翻译已有译文（见 glossary/*.yaml 的「来源：tools/_todo_translate」注释）。
+    allow_ui_fragments=True 时不跳过 UI 单词碎片（如 official-help 基础词需用户亲自翻译）。
     """
     entries = load_entries(slug)
     keys = _keys_of(entries)
@@ -1212,13 +1728,83 @@ def _untranslated_items(slug: str) -> list[dict]:
         if blk.get("zh") or all(keys.get(k, {}).get("zh") for k in members):
             covered.update(members)
             continue
-        items.append({"kind": "block", "id": bid, "ja": blk.get("ja", "")})
+        ja = blk.get("ja", "")
+        if _glossary_covers(ja):
+            covered.update(members)
+            continue
+        if _should_skip_extract(ja, allow_ui_fragments=allow_ui_fragments):
+            covered.update(members)
+            continue
+        items.append({"kind": "block", "id": bid, "ja": ja})
         covered.update(members)
     for k, ent in keys.items():
         if ent.get("zh") or k in covered:
             continue
-        items.append({"kind": "key", "id": k, "ja": ent.get("ja", "")})
+        ja = ent.get("ja", "")
+        if _glossary_covers(ja):
+            continue
+        if _should_skip_extract(ja, allow_ui_fragments=allow_ui_fragments):
+            continue
+        items.append({"kind": "key", "id": k, "ja": ja})
     return items
+
+
+def apply_glossary() -> dict:
+    """一次性把词汇表（names/high_freq/skills 整串命中的 ja）的规范 zh 直接回填进各页 i18n JSON。
+
+    这样 i18n JSON 成为完整翻译真值，渲染期检测到 zh 已有即跳过子串替换，既省时又避免
+    重复翻译（glossary/*.yaml 注释明言「来源：tools/_todo_translate 的精译回流」）。
+    仅填「zh 为空且整串精确命中 glossary」的条目，不子串匹配、不动已有译文，安全幂等。
+    """
+    _load_name_glossary()
+    _load_high_freq_glossary()
+    _load_skill_glossary()
+    gnorm: "dict[str, str]" = {}
+    if _GLOSSARY_NORM:
+        gnorm.update(_GLOSSARY_NORM)
+    if _HF_ALL_NORM:
+        gnorm.update(_HF_ALL_NORM)
+    if _SKILL_NORM:
+        gnorm.update(_SKILL_NORM)
+    if not gnorm:
+        return {"pages": 0, "filled": 0, "skipped": 0}
+    from .registry import load_registry
+    targets = [e["slug"] for e in load_registry()]
+    total_filled = 0
+    pages = 0
+    for slug in targets:
+        if not has_i18n(slug):
+            continue
+        entries = load_entries(slug)
+        filled = 0
+        for ent in _keys_of(entries).values():
+            if ent.get("zh"):
+                continue
+            zh = gnorm.get(_norm(ent.get("ja", "")))
+            if zh:
+                ent["zh"] = zh
+                filled += 1
+        for blk in _blocks_of(entries).values():
+            if blk.get("zh"):
+                continue
+            zh = gnorm.get(_norm(blk.get("ja", "")))
+            if zh:
+                blk["zh"] = zh
+                filled += 1
+        if filled:
+            _save_entries(slug, entries)
+            total_filled += filled
+            pages += 1
+    return {"pages": pages, "filled": total_filled, "skipped": len(targets) - pages}
+
+
+def cmd_glossary_fill(args) -> int:
+    """i18n glossary-fill：把词汇表已覆盖的词填进各页 i18n（一次性真值）。"""
+    res = apply_glossary()
+    log.info("[i18n glossary-fill] 回填 %d 个词，涉及 %d 页（跳过 %d 页）",
+             res["filled"], res["pages"], res["skipped"])
+    print(f"glossary-fill: 回填 {res['filled']} 个词 / {res['pages']} 页")
+    return 0
 
 
 def _todo_present_slugs(text: str) -> set[str]:
@@ -1267,7 +1853,8 @@ def extract_todo(slugs: list[str] | None = None, date: str | None = None) -> str
     for slug in targets:
         if slug in present or not has_i18n(slug):
             continue
-        items = _untranslated_items(slug)
+        # official-help 的基础 UI 词需用户亲自翻译，不跳过碎片
+        items = _untranslated_items(slug, allow_ui_fragments=(slug == "official-help"))
         if not items:
             continue
         label = _label(idx)
@@ -1302,6 +1889,142 @@ def extract_todo(slugs: list[str] | None = None, date: str | None = None) -> str
         todo_path.write_text(header + "".join(new_sections), encoding="utf-8")
     log.info("待译清单已生成/追加：%s（%d 页 %d 条）", todo_path, pages, total)
     return str(todo_path)
+
+
+# ----------------------------------------------------- dedup todo ------------
+# 跨页去重待译清单：同一 ja 只在清单里出现一次，译文回填时按出现位置写回所有页。
+# 产物：tools/_todo_translate/dedup_<YYYYMMDD>.txt（每个唯一 ja 一次，全局 [N]）
+#       tools/_todo_translate/dedup_<YYYYMMDD>_index.json（N → [{slug,kind,id,ja}]）
+_DEDUP_PREFIX = "dedup_"
+
+
+def extract_dedup(date: str | None = None) -> str:
+    """生成跨页去重待译清单：同一 ja 只列一次（你只需译一次），回填时按位置写回各页。
+
+    词汇表（names/high_freq/skills）已整串覆盖的词不列入——这些由 apply_glossary 填真值。
+    """
+    if date is None:
+        date = _today()
+    if not _DATE_RE.match(date):
+        raise ValueError(f"日期格式应为 YYYYMMDD（8 位），收到：{date}")
+    from .registry import load_registry
+
+    reg = load_registry()
+    targets = [e["slug"] for e in reg]
+
+    # 归一化 ja -> 首次出现原文 + 出现位置列表
+    seen_order: list[str] = []          # 去重后 ja（原文，_norm 后的键）
+    occ: "dict[str, list[dict]]" = {}   # norm(ja) -> [{slug, kind, id, ja}]
+    for slug in targets:
+        if not has_i18n(slug):
+            continue
+        for it in _untranslated_items(slug):
+            n = _norm(it["ja"])
+            if n not in occ:
+                occ[n] = []
+                seen_order.append(n)
+            occ[n].append({"slug": slug, "kind": it["kind"], "id": it["id"], "ja": it["ja"]})
+
+    TODO_DIR.mkdir(parents=True, exist_ok=True)
+    txt_path = TODO_DIR / f"{_DEDUP_PREFIX}{date}.txt"
+    idx_path = TODO_DIR / f"{_DEDUP_PREFIX}{date}_index.json"
+
+    lines = [_TODO_INSTRUCTION,
+             "# 跨页去重清单：同一日文只译一次，译文回填时自动写回所有出现页。",
+             f"# 共 {len(seen_order)} 条唯一待译（已排除词汇表已覆盖的词）。\n"]
+    index = {}
+    for i, n in enumerate(seen_order):
+        lst = occ[n]
+        ja0 = lst[0]["ja"]
+        lines.append(f"[{i + 1}] {_one_line(ja0)}")
+        index[str(i + 1)] = [
+            {"slug": o["slug"], "kind": o["kind"], "id": o["id"]} for o in lst
+        ]
+    txt_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    idx_path.write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
+    multi = sum(1 for n in seen_order if len(occ[n]) > 1)
+    log.info("[i18n dedup] %s：%d 条唯一（其中 %d 条跨页重复），索引 %s",
+             txt_path, len(seen_order), multi, idx_path)
+    print(f"dedup: {len(seen_order)} 条唯一待译（{multi} 条跨页重复）-> {txt_path.name}")
+    return str(txt_path)
+
+
+def cmd_extract_dedup(args) -> int:
+    """i18n extract-dedup：生成跨页去重待译清单。"""
+    date = getattr(args, "date", None)
+    extract_dedup(date=date)
+    return 0
+
+
+def apply_dedup(date: str | None = None) -> dict:
+    """读 dedup_<date>.txt 译文，按 ja 回填到索引中所有出现位置的页 i18n JSON。
+
+    仅填 zh 为空的 key/blk（不覆盖已有译文）；幂等，可重跑。
+    """
+    if date is None:
+        # 取最新 dedup 文件
+        cands = sorted(TODO_DIR.glob(f"{_DEDUP_PREFIX}*.txt"))
+        if not cands:
+            raise FileNotFoundError("未找到 dedup 清单，请先运行 i18n extract-dedup")
+        txt_path = cands[-1]
+        date = txt_path.stem[len(_DEDUP_PREFIX):]
+    else:
+        txt_path = TODO_DIR / f"{_DEDUP_PREFIX}{date}.txt"
+    idx_path = TODO_DIR / f"{_DEDUP_PREFIX}{date}_index.json"
+    if not txt_path.exists():
+        raise FileNotFoundError(f"未找到 {txt_path}")
+    if not idx_path.exists():
+        raise FileNotFoundError(f"未找到索引 {idx_path}（清单生成时未产出索引）")
+
+    index = json.loads(idx_path.read_text(encoding="utf-8"))
+    # 解析译文：N -> zh
+    trans: "dict[int, str]" = {}
+    for line in txt_path.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^\[(\d+)\]\s?(.*)$", line)
+        if m:
+            trans[int(m.group(1))] = m.group(2).strip()
+
+    # 按页聚合：slug -> {kind_id: zh}，避免重复 load/save 同页
+    by_page: "dict[str, list[tuple[str, str, str]]]" = {}
+    for n_str, locs in index.items():
+        zh = trans.get(int(n_str))
+        if not zh:
+            continue
+        for loc in locs:
+            by_page.setdefault(loc["slug"], []).append(
+                (loc["kind"], loc["id"], zh))
+
+    filled = 0
+    saved_pages = 0
+    for slug, edits in by_page.items():
+        if not has_i18n(slug):
+            continue
+        entries = load_entries(slug)
+        changed = False
+        for kind, kid, zh in edits:
+            target = (_keys_of(entries).get(kid) if kind == "key"
+                      else _blocks_of(entries).get(kid))
+            if target and not target.get("zh"):
+                target["zh"] = zh
+                filled += 1
+                changed = True
+        if changed:
+            _save_entries(slug, entries)
+            saved_pages += 1
+    return {"filled": filled, "pages": saved_pages}
+
+
+def cmd_apply_dedup(args) -> int:
+    """i18n apply-dedup：把去重译文回填到所有出现页。"""
+    date = getattr(args, "date", None)
+    try:
+        res = apply_dedup(date=date)
+    except FileNotFoundError as e:
+        log.error("%s", e)
+        print(f"错误：{e}")
+        return 1
+    print(f"apply-dedup: 回填 {res['filled']} 处 / {res['pages']} 页")
+    return 0
 
 
 # ----------------------------------------------------------------- fill ----
@@ -1365,7 +2088,9 @@ def fill_todo(filename: str, slugs: list[str] | None = None) -> None:
         nmap = sections.get(label)
         if not nmap:
             continue
-        items = _untranslated_items(slug)
+        # 与 extract 对称：official-help 清单生成时 allow_ui_fragments=True
+        # （含 UI 单词碎片），fill 须用同一模式，否则 [N] 整体错位导致 0 回填。
+        items = _untranslated_items(slug, allow_ui_fragments=(slug == "official-help"))
         entries = load_entries(slug)
         keys = _keys_of(entries)
         blocks = _blocks_of(entries)
@@ -1499,11 +2224,35 @@ def char_fill_all() -> None:
 
 # --------------------------------------------------------------- render ----
 
+def _insert_tail_before_tag(html: str, tail: str) -> str:
+    """把句尾链接片段 tail 插入到 html「最后一个真实标签 '<' 之前」。
+
+    设计意图（与用户确认）：句尾超链接应贴着正文，且在任何标签起点（<br> /
+    子标签闭合 </x> / 原地包裹 <a>）之前插入，从而：
+      - 块尾是 <br class="spacer"> → 链接落在换行之前（正文末尾），不被吞、不越界；
+      - 块尾是 </ul> 等子标签闭合 → 链接落在其之前，不跑到标签外破坏结构；
+      - 块尾是纯文本 → 无 '<' 则直接追加到末尾。
+    与「排版换行」(blk 字符串内 _BR_PH) 完全正交：两者各管各的，互不纠缠。
+    html 内真实 '<' 仅来自 <br>/<a> 等标签（正文 < 已被 _html.escape 转义为 &lt;），
+    故 rfind('<') 安全，不会误判转义字符。
+    """
+    if not tail:
+        return html
+    i = html.rfind("<")
+    if i < 0:
+        return html + tail
+    return html[:i] + tail + html[i:]
+
+
 def _set_block_html(el: "_Element", html_str: str) -> None:
     """把含 <a> 的 HTML 片段解析后写入 el，避免直接赋值 el.text 导致标签被实体转义。
 
     先清空 el（文本与子节点），再把 html_str 解析为 fragments 依次挂回。
+    html_str 中的换行占位符 _BR_PH 在此统一还原为 <br>（排版随 blk 字符串携带）。
     """
+    # 换行占位符 → 真实 <br>：让「排版」成为 blk 字符串自身属性，与句尾链接/
+    # 角色名浮窗等后处理彻底正交（链接只在下一个标签 '<' 之前插入，互不干扰）。
+    html_str = html_str.replace(_BR_PH, "<br>")
     for child in list(el):
         el.remove(child)
     el.text = None
@@ -1587,9 +2336,6 @@ def _wrap_block_links(blk_zh: str, src_links: "list[tuple[str, str]]") -> str:
         out.append(_html.escape(blk_zh[pos:s], quote=False))
         zt, href = cands[i]
         attrib = {"href": href}
-        if not str(href).lower().startswith("http"):
-            attrib["target"] = "_blank"
-            attrib["rel"] = "noopener"
         a = lxml_html.Element("a", attrib=attrib)
         a.text = zt
         out.append(lxml_html.tostring(a, encoding="unicode"))
@@ -1735,16 +2481,20 @@ def render_locale(slug: str, locale: str) -> str | None:
     entries = load_entries(slug)
     keys = _keys_of(entries)
     blocks = _blocks_of(entries)
+    global _CUR_JA_ZH
+    _CUR_JA_ZH = {v.get("ja"): v.get("zh") for v in keys.values() if v.get("ja") and v.get("zh")}
 
     # 单个节点级 key 的 zh 取值（含 glossary 覆盖）。提前定义以便块级回退分支复用。
-    # 句末【】链接标签：节点级 key 若含「不在任何块内的模板 <a>」（top_links），在其
-    # 中文译文末追加【显示名】标签（链接绑定原日文 href，不依赖中文名匹配，译名不准也不丢跳转）。
     def _sub(m: "re.Match") -> str:
         ent = keys.get(f"key{m.group(1)}")
         if not ent:
             return m.group(0)
         if locale == "zh":
             ja = ent.get("ja", "")
+            # PukiWiki 页面元数据（最后更新时间等）：按铁律永不显示、永不翻译。
+            # 解析期未剥离的残留（拼写变体最終更新時間），渲染期直接隐藏该节点。
+            if _METADATA_RE.search(ja) or _METADATA_RE.search(ent.get("zh", "")):
+                return ""
             ov = _term_override(ja)  # 站点术语最高优先级覆盖
             if ov is not None:
                 base = _html.escape(ov, quote=False)
@@ -1759,17 +2509,17 @@ def render_locale(slug: str, locale: str) -> str | None:
                     if ov is not None:
                         base = _html.escape(ov, quote=False)
                     else:
-                        text = ent.get("zh") or ja
-                        text = _correct_text(text)  # 漏译/错译纠正 + 含假名高频词子串替换
-                        base = _html.escape(text, quote=False)
-            for href, ja_text in top_links:
-                if ja_text and ja_text in ja:
-                    href2, target = _normalize_link_href(href)
-                    name = _link_display_zh(ja_text)
-                    base += (
-                        f'<a href="{_html.escape(href2, quote=True)}"{target}'
-                        f' class="escah-ilink">【{_html.escape(name, quote=False)}】</a>'
-                    )
+                        # 结构化数字模板（中日同形，仅数字变化）：直接复用原文作 zh，
+                        # 无需人工翻译。覆盖「第N期 / X次 / X-Y(消耗STN) / 灵魂xN」等，
+                        # 也兜住已入库但 zh 缺失的历史残留。
+                        tpl_zh = _numeric_template_zh(ja)
+                        if tpl_zh is not None:
+                            base = _html.escape(tpl_zh, quote=False)
+                        else:
+                            text = ent.get("zh") or ja
+                            text = _correct_text(text)  # 漏译/错译纠正 + 含假名高频词子串替换
+                            text = _strip_comment_sig(text)  # 评论签名兜底剥离
+                            base = _html.escape(text, quote=False)
             return base
         return _html.escape(ent.get("ja", ""), quote=False)
 
@@ -1778,37 +2528,141 @@ def render_locale(slug: str, locale: str) -> str | None:
     # 随后 drop 掉 <a> 壳（链接不再在句中注入，改到句末【】标签）。
     # 链接绑定原日文 href（不依赖中文名匹配 → 译名不准也不丢跳转）。
     # 显示名取 glossary 中文译名（优先 names→skills→terms→high_freq，兜底日文原文）。
+    # 角色链接（href 指向 characters/，或 <span data-char> 角色名）为「独立处理逻辑」：
+    # 生成【角色名】浮窗标签（class=char-ref，无 href，不跳转），与正常跳转超链接
+    # （class=escah-ilink，点击跳转）严格区分。
     from collections import defaultdict
-    block_links: "dict[str, list[tuple[str, str]]]" = defaultdict(list)
-    top_links: "list[tuple[str, str]]" = []
-    if "<a" in tpl:
+    block_links: "dict[str, list[tuple[str, str, bool]]]" = defaultdict(list)
+    # 链接源：①正文 <a>（站内跳转/外链）；②角色名 <span data-char="日文名">
+    # （sitegen 把指向角色详情页的 <a> 去链接化为 data-char，在此还原成句末【链接】）。
+    # 块内 <a> drop 句中壳（不注入），统一在块级回退阶段句末追加/原地包裹。
+    _HAS_LINK_SRC = ("<a" in tpl) or ('data-char=' in tpl)
+    # 过滤 PukiWiki 编辑/管理类链接（?cmd=edit / table_edit / backup / source 等）：
+    # 这些是 wiki 后台编辑入口（如表格「編集」按钮指向 ?cmd=table_edit&page=テーブル/SSR），
+    # 对镜像站读者无意义。中日两版都剥离，保证「照搬」的是内容超链接而非编辑后台。
+    if _HAS_LINK_SRC:
+        try:
+            _efrag = lxml_html.fragment_fromstring(tpl, create_parent="div")
+            for _ea in _efrag.xpath(".//a"):
+                _eh = (_ea.get("href") or "").strip()
+                if re.search(r"cmd=(edit|table_edit|backup|source|freeze|unfreeze|upload|referer|log|guiedit)", _eh):
+                    _ea.drop_tag()
+            _etpl = lxml_html.tostring(_efrag, method="html", encoding="unicode")
+            if _etpl.startswith("<div>") and _etpl.rstrip().endswith("</div>"):
+                _etpl = _etpl[len("<div>"):-len("</div>")]
+            tpl = _etpl
+        except Exception:
+            log.warning("[i18n render] %s 编辑链接剥离失败", slug)
+
+    # 仅 zh 走「句末【】」方案：drop 块内 <a> 壳、收集链接、块级回退时句末重造/原地包裹。
+    # 日文分支不进此逻辑 —— 保留模板 <a> 壳（href + 内文日文原文），忠实照搬原站链接，
+    # 绝不 drop（否则日文页超链接全部丢失，与中文页结构不一致，违背「中文链接照搬日文」）。
+    if _HAS_LINK_SRC and locale == "zh":
         try:
             lfrag = lxml_html.fragment_fromstring(tpl, create_parent="div")
-            for a in lfrag.xpath(".//a"):
-                href = (a.get("href") or "").strip()
-                if not href or href.startswith("#"):
-                    a.drop_tag()
-                    continue
-                ja_text = (a.text_content() or "").strip()
+
+            _seen_per_block: "dict[str, set]" = defaultdict(set)  # bid -> {(disp,is_char)}
+
+            def _collect_link(href: str, ja_text: str, el) -> None:
+                if not ja_text:
+                    el.drop_tag()
+                    return
+                # 过滤 PukiWiki 编辑/管理类链接（?cmd=edit / table_edit / backup / source /
+                # freeze 等）：这些是 wiki 后台编辑入口（如表格「編集」按钮指向
+                # ?cmd=table_edit&page=テーブル/SSR），对镜像站读者无意义，不照搬。
+                # 仅保留「阅读」链接（?page= 内容页 / list-*.html 分类页 / 角色详情页）。
+                if re.search(r"cmd=(edit|table_edit|backup|source|freeze|unfreeze|upload|referer|log|guiedit)", href):
+                    el.drop_tag()
+                    return
+                is_char = bool(re.search(r"characters/([^ \"#'?]+?)\.html", href))
                 m = _KEY_RE.search(ja_text)
                 if m:
                     k = "key" + m.group(1)
                     ja_text = keys.get(k, {}).get("ja", ja_text) or ja_text
-                if not ja_text:
-                    a.drop_tag()
-                    continue
+                disp = _disp_name(ja_text, href, is_char, locale)
                 bid = None
-                p = a.getparent()
+                p = el.getparent()
                 while p is not None:
                     if _BLK_ATTR in p.attrib:
                         bid = p.get(_BLK_ATTR)
                         break
                     p = p.getparent()
+                bkey = bid if bid is not None else "__top__"
+                if (disp, is_char) in _seen_per_block[bkey]:
+                    el.drop_tag()  # 同一块内同角色（不同形态 ja_text）只保留一次
+                    return
+                _seen_per_block[bkey].add((disp, is_char))
                 if bid:
-                    block_links[bid].append((href, ja_text))
+                    # 块内链接：drop 句中壳，统一到块级回退阶段处理（句末【】/原地包裹）
+                    block_links[bid].append((href, ja_text, is_char))
+                    el.drop_tag()
                 else:
-                    top_links.append((href, ja_text))
-                a.drop_tag()
+                    # 块级外链接（如 h2 标题里的并列链接）：保留 <a> 壳，原地中文化，
+                    # 行内并列显示（与日文原页结构一致，避免 drop 后凭空重造/嵌套）。
+                    # 角色名（is_char）降级为不跳转浮窗：去掉 href，加 data-char。
+                    if is_char:
+                        # 头像图标链接（<a><img></a>）：原页面图片列就只有头像图，
+                        # 没有名字文本。把 <img> 提升为独立图片（移到 <a> 之前），
+                        # 然后直接 drop 掉 <a> 壳，绝不凭空添加名字 span。
+                        imgs = el.xpath(".//img")
+                        if imgs:
+                            for img in imgs:
+                                el.addprevious(img)
+                        el.drop_tag()
+                    else:
+                        el.text = disp
+                        href2, target = _normalize_link_href(href)
+                        el.set("href", href2)
+                        if target:
+                            el.set("target", target.lstrip())
+                        el.set("class", "escah-ilink")
+
+            for a in lfrag.xpath(".//a"):
+                href = (a.get("href") or "").strip()
+                # 页内锚点（目录 .contents / 正文 #id 链接）：保留 <a> 壳，
+                # 让点击能跳转。drop 会移除 href 使目录变纯文本无法点击（回归 bug）。
+                if href.startswith("#"):
+                    continue
+                if not href:
+                    a.drop_tag()
+                    continue
+                # 含图片的 <a>（如角色头像链接 <a><img></a>）：这是图片不是纯文字链接，
+                # 用户铁律「图片绝不动」——原样保留整个 <a><img></a>（图片 + 跳转都在），
+                # 不参与 drop / 句末【】逻辑，照搬日文结构。
+                if a.xpath(".//img"):
+                    continue
+                # 角色详情页链接（可能带 __ROUTE__ 前缀或相对路径）：规范化为
+                # /zh/characters/<名>.html，避免 _normalize_link_href 后半段丢失 characters/。
+                cm = re.search(r"characters/([^ \"#'?]+?)\.html", href)
+                if cm:
+                    href = "/zh/characters/" + urllib.parse.quote(
+                        urllib.parse.unquote(cm.group(1))
+                    ) + ".html"
+                _collect_link(href, (a.text_content() or "").strip(), a)
+            # 角色名：<span data-char="日文名"> 原位转 char-ref（不移动、不句末追加）。
+            # 原站角色名（如 b-universe 的「角色吐槽」结构）位于 <ul> 评论列表之前，
+            # 必须保留原位——整块替换会把它丢到块末（ul 之后），违背原排版。
+            # → 仅把 span 原地升级为 class=char-ref（浮窗接管、不跳转），文本由后续
+            #   节点级渲染填中文显示名；绝不收进 src_links 做句末【】追加。
+            for sp in lfrag.xpath(".//span[@data-char]"):
+                # 原站角色 tooltip（class=plugin-tooltip）内的名字是装饰性蓝色气泡，
+                # 不作为链接源收集/丢弃；前端 collectBlockCharTags 会把它当纯文本角色名
+                # 在块末追加一次【角色名】浮窗标签（保留原 span 不重复处理）。
+                if sp.get("class") and "plugin-tooltip" in sp.get("class"):
+                    continue
+                # 头像图标 span（内部是 <img>，无文字）：这是行内头像图片，不是超链接/
+                # 角色名文本，用户明确要求"图片不要动"。原样保留整个 span（含 img），
+                # 不收集、不 drop、不让前端在句末重复追加文字【角色名】。
+                if sp.xpath(".//img"):
+                    continue
+                name = (sp.get("data-char") or "").strip()
+                if not name:
+                    continue
+                # 原位升级为 char-ref：保留 data-char（日文 key）、浮窗不跳转、不句末追加。
+                sp.set("class", "char-ref")
+                sp.set("data-char", name)
+                # 文本（{{keyN}} 占位）交由节点级渲染替换为中文显示名，此处不动。
+                # 不调用 _collect_link → 不进入 src_links，块级回退也不整块替换（见下）。
             tpl = lxml_html.tostring(lfrag, method="html", encoding="unicode")
             if tpl.startswith("<div>") and tpl.rstrip().endswith("</div>"):
                 tpl = tpl[len("<div>"):-len("</div>")]
@@ -1825,6 +2679,21 @@ def render_locale(slug: str, locale: str) -> str | None:
                 blk = blocks.get(bid)
                 if not blk or locale != "zh":
                     continue
+                # 块内含角色名标记（char-ref / data-char / plugin-tooltip，排除头像 img）：
+                # 整块纯文本替换会丢失其原位（被丢到块末 ul 之后），违背原排版，
+                # 且会清空 plugin-tooltip 结构导致浮窗丢失、块级 blk.zh 残留的评论签名
+                # （-- [ID]时间）拼进角色名。→ 退回节点级渲染，保留原位角色名
+                # （缺译 key 兜底显示日文），插件 tooltip 由前端升级为 char-ref 浮窗。
+                if el.xpath(
+                    ".//span[(@data-char or contains(concat(' ', normalize-space(@class), ' '), ' char-ref ') or contains(concat(' ', normalize-space(@class), ' '), ' plugin-tooltip '))]"
+                    "[not(.//img)]"
+                ):
+                    continue
+                # 块内含图片（<span data-char><img> 或 <a><img> 等任意 img）：
+                # 图片用户要求不动，整块纯文本替换会清空 img，因此跳过块级回退、
+                # 退回节点级渲染（节点级只替换 {{keyN}} 文本，保留 img 原样）。
+                if el.xpath(".//img"):
+                    continue
                 src_links = block_links.get(bid, [])
                 # 例外页（artists / voice-actors）：带链接块恒为日文原文，
                 # 句末追加【日文名】（保留 href，不翻译内文）。
@@ -1834,52 +2703,148 @@ def render_locale(slug: str, locale: str) -> str | None:
                     blk_ja = blk["ja"]
                     if src_links:
                         extra = ""
-                        for href, ja_text in src_links:
-                            href2, target = _normalize_link_href(href)
-                            extra += (
-                                f'<a href="{_html.escape(href2, quote=True)}"{target}'
-                                f' class="escah-ilink">【{_html.escape(ja_text, quote=False)}】</a>'
-                            )
-                        _set_block_html(el, blk_ja + extra)
+                        seen_links = set()
+                        for href, ja_text, is_char in src_links:
+                            disp = _disp_name(ja_text, href, is_char, locale)
+                            if (disp, is_char) in seen_links:
+                                continue
+                            seen_links.add((disp, is_char))
+                            if is_char:
+                                extra += (
+                                    f'<span class="char-ref" data-char="'
+                                    f'{_html.escape(ja_text, quote=True)}">'
+                                    f'【{_html.escape(disp, quote=False)}】</span>'
+                                )
+                            else:
+                                href2, target = _normalize_link_href(href)
+                                extra += (
+                                    f'<a href="{_html.escape(href2, quote=True)}"{target}'
+                                    f' class="escah-ilink">【{_html.escape(disp, quote=False)}】</a>'
+                                )
+                        _set_block_html(el, _insert_tail_before_tag(blk_ja, extra))
                     else:
-                        el.text = blk_ja
+                        _set_block_html(el, blk_ja)
                     continue
                 if not blk.get("zh"):
                     continue
                 # 节点级全有译文也走整块 blk_zh 替换（blk_zh 是完整中文整句）；
                 # 链接统一在句末追加（block_links[bid]），不再保留行内 <a> 壳。
                 blk_zh = blk["zh"]
+                # 安全阀：blk.zh 明显短于 blk.ja（且 ja 含多行/多句）时，判定为
+                # 「短词冒充整句」的损坏数据（fill 错位所致）。此时绝不整块替换清空正文，
+                # 退回「保留日文节点级渲染 + 仅句末追加链接」（句尾链接本质属插件，
+                # 不影响译文与排版）。原文正文原样保留，仅丢链接，符合铁律。
+                blk_ja_safe = blk.get("ja", "")
+                if (blk_ja_safe.count("\n") + blk_ja_safe.count(_BR_PH)
+                        and len(blk_zh) < len(blk_ja_safe) * 0.5):
+                    extra_safe = ""
+                    for href, ja_text, is_char in src_links:
+                        disp = _disp_name(ja_text, href, is_char, locale)
+                        if is_char:
+                            extra_safe += (
+                                f'<span class="char-ref" data-char="'
+                                f'{_html.escape(ja_text, quote=True)}">'
+                                f'【{_html.escape(disp, quote=False)}】</span>'
+                            )
+                        else:
+                            href2, target = _normalize_link_href(href)
+                            extra_safe += (
+                                f'<a href="{_html.escape(href2, quote=True)}"{target}'
+                                f' class="escah-ilink">【{_html.escape(disp, quote=False)}】</a>'
+                            )
+                    _set_block_html(el, _insert_tail_before_tag(blk_ja_safe, extra_safe))
+                    continue
                 ov = _name_override(blk.get("ja", ""))
                 if ov is not None:
                     blk_zh = ov
                 else:
                     blk_zh = _correct_text(blk["zh"])
+                # 评论发送签名（-- [ID]YYYY-MM-DD(周X)HH:MM:SS）兜底剥离：
+                # 节点级路径(2514)已剥离，但无链接块级整块替换路径此前漏剥离，
+                # 导致正文/角色名后拼接评论复发。此处统一兜底。
+                blk_zh = _strip_comment_sig(blk_zh)
                 if not src_links:
-                    el.text = blk_zh  # 无链接：纯文本块
+                    _set_block_html(el, blk_zh)  # 无链接：整块纯文本替换（清空内部残留占位）
                     continue
                 # 表格单元格特例：单元格纯文本恰为该单链接词（原文就只有这个词）
                 # → 直接【中文名】，不显示括号外译文（单元格文本本身就是译文）。
                 blk_ja = blk.get("ja", "")
                 if len(src_links) == 1 and _norm_ns(blk_ja) == _norm_ns(src_links[0][1]):
-                    href, ja_text = src_links[0]
-                    href2, target = _normalize_link_href(href)
-                    name = _link_display_zh(ja_text)
-                    _set_block_html(
-                        el,
-                        f'<a href="{_html.escape(href2, quote=True)}"{target}'
-                        f' class="escah-ilink">【{_html.escape(name, quote=False)}】</a>',
-                    )
+                    href, ja_text, is_char = src_links[0]
+                    name = _disp_name(ja_text, href, is_char, locale)
+                    if is_char:
+                        # 单元格纯文本恰为角色名 → 无括号「角色名」浮窗标签（隐藏原位，只显示浮窗名）
+                        _set_block_html(
+                            el,
+                            f'<span class="char-ref" data-char="'
+                            f'{_html.escape(ja_text, quote=True)}">'
+                            f'{_html.escape(name, quote=False)}</span>',
+                        )
+                    else:
+                        href2, target = _normalize_link_href(href)
+                        _set_block_html(
+                            el,
+                            f'<a href="{_html.escape(href2, quote=True)}"{target}'
+                            f' class="escah-ilink">【{_html.escape(name, quote=False)}】</a>',
+                        )
                     continue
-                # 普通句子：翻译文本 + 句末【名1】【名2】
+                # 普通句子：翻译文本 + 链接
+                # 规则（照搬日文、不重复、不丢失）：
+                #  - 角色名(is_char) 恒为句末【角色名】浮窗（不跳转），原位保留不替换。
+                #  - 普通链接：若正文 blk_zh 已含该链接的「日文原词」或「中文显示名」，
+                #    则原地包成可点击 <a>（日文词中文化 / 中文词加壳），不句末追加，防重复；
+                #    否则句末追加【中文名】（忠实照搬日文：日文句末才有的链接，中文也句末出现）。
                 extra = ""
-                for href, ja_text in src_links:
-                    href2, target = _normalize_link_href(href)
-                    name = _link_display_zh(ja_text)
-                    extra += (
-                        f'<a href="{_html.escape(href2, quote=True)}"{target}'
-                        f' class="escah-ilink">【{_html.escape(name, quote=False)}】</a>'
-                    )
-                _set_block_html(el, blk_zh + extra)
+                seen_links = set()
+                # 评论发送签名（-- [ID]时间）兜底剥离，避免拼进正文/角色名。
+                blk_zh_out = _strip_comment_sig(blk_zh)
+                # 原地包裹对：(needle, 替换后<a>串)；needle 优先日文原词(ja_text)，
+                # 其次中文显示名(disp)，且要求该针在「初始」正文标签外纯文本中仅出现一次
+                # （避免短词误伤）。所有对收集后按 needle 长度降序一次性包裹，
+                # 长词优先可避免 SR/R 钻进已包裹的 SSR 内部造成嵌套坏链。
+                wrap_pairs: "list[tuple[str, str]]" = []
+                wrap_boundaries: "set[str]" = set()
+                for href, ja_text, is_char in src_links:
+                    disp = _disp_name(ja_text, href, is_char, locale)
+                    if (disp, is_char) in seen_links:
+                        continue
+                    seen_links.add((disp, is_char))
+                    if is_char:
+                        extra += (
+                            f'<span class="char-ref" data-char="'
+                            f'{_html.escape(ja_text, quote=True)}">'
+                            f'【{_html.escape(disp, quote=False)}】</span>'
+                        )
+                        continue
+                    needle = None
+                    for cand in (ja_text, disp):
+                        is_ascii = bool(re.fullmatch(r"[A-Za-z0-9]+", cand or ""))
+                        # 全 ASCII 缩写（如 SSR/SR/R）启用边界匹配，避免被更长缩写
+                        # 子串误算（SSR 内的 R 不应算作独立 R 的出现）。
+                        cnt = _count_outside_tags(blk_zh, cand, boundary=is_ascii) if is_ascii \
+                            else _count_outside_tags(blk_zh, cand)
+                        if cand and cnt == 1:
+                            needle = cand
+                            if is_ascii:
+                                wrap_boundaries.add(cand)
+                            break
+                    if needle:
+                        wrap_pairs.append((
+                            needle,
+                            f'<a href="{_html.escape(_normalize_link_href(href)[0], quote=True)}"'
+                            f'{_normalize_link_href(href)[1]}'
+                            f' class="escah-ilink">{_html.escape(disp, quote=False)}</a>',
+                        ))
+                    else:
+                        href2, target = _normalize_link_href(href)
+                        extra += (
+                            f'<a href="{_html.escape(href2, quote=True)}"{target}'
+                            f' class="escah-ilink">【{_html.escape(disp, quote=False)}】</a>'
+                        )
+                if wrap_pairs:
+                    wrap_pairs.sort(key=lambda p: -len(p[0]))
+                    blk_zh_out = _wrap_needles_outside_tags(blk_zh_out, wrap_pairs, wrap_boundaries)
+                _set_block_html(el, _insert_tail_before_tag(blk_zh_out, extra))
             tpl = lxml_html.tostring(frag, method="html", encoding="unicode")
             if tpl.startswith("<div>") and tpl.rstrip().endswith("</div>"):
                 tpl = tpl[len("<div>"):-len("</div>")]
@@ -1933,9 +2898,6 @@ def render_locale(slug: str, locale: str) -> str | None:
                 before = node.text[:idx]
                 after = node.text[idx + len(word):]
                 attrib = {"href": href}
-                if target:
-                    attrib["target"] = "_blank"
-                    attrib["rel"] = "noopener"
                 a = lxml_html.Element("a", attrib=attrib)
                 a.text = word
                 # 把 node 的文本切分：before 保留，a 插入，after 成为 a.tail
@@ -1980,23 +2942,14 @@ def render_locale(slug: str, locale: str) -> str | None:
     # 站内跨页面跳转（internal-link 且非页内锚点）一律新标签页打开，避免打断阅读。
     # 例外：跳到「当前页」（同名文件，含带 #anchor 的同页锚点）则不新开，原地跳转。
     if _INTLINK_RE is not None:
-        cur_html = posixpath.basename(slug) + ".html"  # 当前页文件名
-
-        def _open_new(m: "re.Match") -> str:
+        def _strip_target(m: "re.Match") -> str:
+            # 站内跨页面跳转链接默认同标签（业内）打开；中键/Ctrl+点击才新标签。
+            # 兜底：清除任何残留的 target/rel，确保渲染期统一行为。
             tag = m.group(0)
-            if "target=" in tag:
-                return tag
-            href = m.group(1)
-            if href.startswith("#"):
-                return tag
-            # 解析 href 的文件名（去掉锚点 / 目录前缀 / './' 前缀）
-            basename = href.split("#", 1)[0].rstrip("/").split("/")[-1]
-            if basename in ("", cur_html):
-                return tag  # 跳当前页 → 不新开
-            # 注意：tag 以 '>' 结尾，仅需去掉末尾 '>'（保留 href/title 的闭合引号），
-            # 否则 tag[:-2] 会误删闭合引号，使 target= 被塞进 href/title 属性值内导致 404。
-            return tag[:-1] + ' target="_blank" rel="noopener">'
-        html = _INTLINK_RE.sub(_open_new, html)
+            tag = re.sub(r'\s+target="[^"]*"', "", tag)
+            tag = re.sub(r'\s+rel="[^"]*"', "", tag)
+            return tag
+        html = _INTLINK_RE.sub(_strip_target, html)
     # 末尾读音归一化（zh 仅）：部分页面（数据表/散文）的文本经自定义渲染落地，
     # 不经过节点级 _correct_text，导致旧读音（梅加艾尔/玛雅艾尔）以子串残留。
     # 此处对整段 html 做子串纠正（名字唯一，无误伤风险）。
@@ -2004,6 +2957,8 @@ def render_locale(slug: str, locale: str) -> str | None:
         for old, new in _READING_CORR.items():
             if old in html:
                 html = html.replace(old, new)
+    # 页内目录（仅 official-help 生效）
+    html = _inject_toc(html, locale, slug)
     return html
 
 

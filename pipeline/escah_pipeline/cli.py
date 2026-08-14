@@ -64,8 +64,12 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("sync-site", help="生成 VitePress 站点内容（ja/zh）")
 
     pi = sub.add_parser("i18n", help="key 化 i18n：模板+双语 JSON（取代 zh_patch 正则替换）")
-    pi.add_argument("action", choices=["build", "migrate", "extract", "fill", "char-fill"],
-                    help="build=生成模板+JSON；migrate=旧[N]译文按页迁移；extract=生成待译清单(<日期>.txt + 空白 <日期>_translated.txt)；fill=从 <日期>_translated.txt 取[N]中文回填(成功后移入 _translated_texts)；char-fill=角色数据 JSON 补 zh（取代 char_zh）")
+    pi.add_argument("action", choices=["build", "migrate", "extract", "extract-dedup",
+                                        "fill", "char-fill", "glossary-fill", "apply-dedup"],
+                    help="build=生成模板+JSON；migrate=旧[N]译文按页迁移；extract=生成按页待译清单；"
+                         "extract-dedup=生成跨页去重待译清单(每句只译一次)；fill=从<日期>_translated.txt回填；"
+                         "char-fill=角色JSON补zh；glossary-fill=把词汇表已覆盖的词一次性填进各页i18n(真值)；"
+                         "apply-dedup=把去重译文按出现位置写回所有页")
     pi.add_argument("--pages", nargs="*", help="只处理指定 slug（缺省全部）")
     pi.add_argument("--todo", help="fill 时指定待译清单文件名（默认用 _todo_translate/ 下最新一份 <日期>.txt）")
     return p
@@ -120,6 +124,12 @@ def main(argv: list[str] | None = None) -> None:
                 i18n.fill_todo(args.todo, slugs=args.pages)
             else:
                 i18n.fill_latest_todo(slugs=args.pages)
+        elif args.action == "glossary-fill":
+            i18n.cmd_glossary_fill(args)
+        elif args.action == "extract-dedup":
+            i18n.cmd_extract_dedup(args)
+        elif args.action == "apply-dedup":
+            i18n.cmd_apply_dedup(args)
 
 
 if __name__ == "__main__":

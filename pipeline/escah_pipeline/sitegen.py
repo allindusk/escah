@@ -162,11 +162,12 @@ def _sanitize_html(html: str) -> str:
     # ---- 清理导航/工具类超链接（用户要求：已有目录，不必保留这些导航）----
     _strip_nav_links(frag)
 
-    # ---- 角色名/头像去链接化（用户要求：已有浮窗，无需跳转/打开图片）----
-    # 正文的角色名与头像以「指向 characters/名.html 的 <a>」形式存在，在 /escah/
-    # base 下会解析成 404 死链，且视觉上像可点击链接。这里把它改成
-    # <span data-char="日文名">（保留内部文字与头像）：既消除死链，又让浮窗逻辑
-    # （按 data-char 触发、点击已被 preventDefault + stopPropagation 拦截）继续生效。
+    # ---- 角色链接保留（不再去链接化）----
+    # 角色详情页（/zh/characters/名.html，370+ 个）真实存在，站内链接可直接跳转不
+    # 会 404。保留正文内「<a href=characters/名.html>」后：i18n 的「句末【链接】」
+    # 方案会把它提取到句末【角色名】（统一全站超链接行为）；客户端 tagCharLinks
+    # 对其打 data-char，浮窗 hover/点击固定窗照常。不再改写成 <span data-char>，
+    # 以免译文被注入替换（用户要求：正文不做注入）。
     _neutralize_char_links(frag)
 
     # ---- 页内目录（wiki .contents）锚点修正：PukiWiki 的 TOC 链接指向内层
@@ -174,6 +175,11 @@ def _sanitize_html(html: str) -> str:
     #      剥离（仅保留 <hX id="content_1_0">）。导致页内目录点击无反应。这里按
     #      文本匹配把 TOC 链接重指向真实存在的标题 id，恢复页内跳转。----
     _relink_toc(frag)
+
+    # ---- 剥离 PukiWiki 行署名编辑戳（--[page]YYYY-MM-DD(周X)HH:MM:SS）----
+    # 这是 wiki 元数据（谁在何时编辑该行），任何语言页都不应显示，且会污染译文
+    # （LLM 把「角色名+编辑戳」整行当句子翻译，导致角色名被错译）。在解析期就删掉。
+    _strip_edit_stamps(frag)
 
     # ---- 表格：去空白表 + 外包横向滚动容器（多列属性/对比表可横滑，避免裁切）----
     for tbl in frag.xpath(".//table"):
@@ -199,6 +205,30 @@ def _sanitize_html(html: str) -> str:
         out,
     )
     return out
+
+
+_EDIT_STAMP_RE = re.compile(
+    r"--\[[^\]]*\][0-9]{4}-[0-9]{2}-[0-9]{2}\([^)]*\)[0-9]{2}:[0-9]{2}:[0-9]{2}"
+)
+
+
+def _strip_edit_stamps(frag) -> None:
+    """删除 PukiWiki 行署名编辑戳（--[编辑者]YYYY-MM-DD(周X)HH:MM:SS）。
+
+    这是 wiki 元数据，正文不应显示，且会污染译文（LLM 易把「角色名+编辑戳」整行
+    当成句子翻译，导致角色名被错译成「已经删掉了——--[...]」之类）。解析期剥离。
+    """
+    for el in frag.iter():
+        if not isinstance(el.tag, str):
+            continue
+        if el.text:
+            new = _EDIT_STAMP_RE.sub("", el.text)
+            if new != el.text:
+                el.text = new
+        if el.tail:
+            new = _EDIT_STAMP_RE.sub("", el.tail)
+            if new != el.tail:
+                el.tail = new
 
 
 def _strip_nav_links(frag) -> None:
@@ -228,34 +258,19 @@ def _strip_nav_links(frag) -> None:
 
 
 def _neutralize_char_links(frag) -> None:
-    """把正文内指向角色页的 <a> 去链接化，改为 <span data-char="日文名">。
+    """正文内指向角色详情页的 <a href="characters/名.html"> 保留原样。
 
-    角色名/头像在原站以「<a class="internal-link" href="characters/名.html">」形式出现，
-    站点已有浮窗（按 data-char 触发）无需跳转、也无需打开图片。保留 <a> 会在 /escah/
-    base 下解析出 404 死链且呈链接观感。改为 <span data-char> 后：
-      - 死链消除（不再有 href）；
-      - 浮窗逻辑继续生效（findChar 向上查任意 [data-char]，点击由 onClick 的
-        preventDefault + stopPropagation 拦截，不会跳转/弹灯箱）；
-      - 内联头像随 <a>→<span> 变为独立 <img>，由 tagAvatars 打 data-char（同一容器
-        已带 data-char，findChar 向上命中，不会误触灯箱）。
+    角色详情页（/zh/characters/名.html，共 370+ 个）真实存在，站内链接可直接跳转，
+    不会 404。保留 <a> 后：
+      - i18n「句末【链接】」方案会把句中角色名提取到句末【角色名】（绑定该 href），
+        统一全站超链接行为（左键业内跳转、中键新标签）；
+      - 客户端 tagCharLinks 对「<a href=characters/名.html>」打 data-char，
+        浮窗 hover / 点击固定窗照常生效；
+      - 不再把正文角色名改写成 <span data-char>（即「注入替换」），避免译文被改写。
+    内联头像（<img>）由 tagAvatars 另行打 data-char，与此无关。
     """
-    for a in frag.xpath(".//a[contains(@href, 'characters/')]"):
-        href = a.get("href", "")
-        m = re.search(r"characters/([^ \"#'?]+?)\.html", href)
-        if not m:
-            continue
-        name = unquote(m.group(1))
-        a.tag = "span"
-        a.set("data-char", name)
-        if "href" in a.attrib:
-            del a.attrib["href"]
-        # 去掉 internal-link 链接样式类，避免呈现为可点击链接
-        cls = a.get("class", "")
-        cls = " ".join(c for c in cls.split() if c != "internal-link")
-        if cls:
-            a.set("class", cls)
-        elif "class" in a.attrib:
-            del a.attrib["class"]
+    # 保留 <a>，不做去链接化。此处留空函数以维持调用点稳定（历史去链接化逻辑已废弃）。
+    return
 
 
 def _neutralize_char_links_html(html: str) -> str:
@@ -287,7 +302,10 @@ def _relink_toc(frag) -> None:
         hid = h.get("id")
         if not hid:
             continue
+        # 标题 text 可能含 anchor_super 残留符号（如 †），剥除非 CJK/字母数字符号再
+        # 去空白，使其与 TOC 纯文本项（"概要"）匹配，否则 relink 失败、目录仍指向旧 hash。
         txt = re.sub(r"\s+", "", h.text_content() or "")
+        txt = re.sub(r"[^\w\u3000-\u9fff\u3040-\u30ff]", "", txt)
         if txt:
             head_map.setdefault(txt, hid)
     if not head_map:
@@ -486,7 +504,12 @@ def sync_site() -> None:
         name, slug = e["name"], e["slug"]
         route_slug = slug
         synced = (manifest.page(name) or {}).get("fetched_at", "")[:10]
-        source_url = (manifest.page(name) or {}).get("url") or f"{config.SOURCE_BASE}?{name}"
+        # 原网页链接优先级：registry(pages.yaml) 显式 url > manifest 抓取 url > SOURCE_BASE 兜底
+        source_url = (
+            e.get("url")
+            or (manifest.page(name) or {}).get("url")
+            or f"{config.SOURCE_BASE}?{name}"
+        )
         source_updated = _source_mtime(name)
         use_i18n = i18n.has_i18n(slug)
         # 预取 ja 片段，供 zh 词条标题补原日文（术语/俗语页）配对使用

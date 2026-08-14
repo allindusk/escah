@@ -41,6 +41,57 @@ function build() {
     observer = null
   }
   if (!root) return
+
+  // official-help 等页面在正文内注入了专属 .oh-toc 节点目录（两级：toc-l1 / toc-l2）。
+  // 优先复用该目录数据（与页内目录完全一致，避免右侧大纲与页内目录结构/文案脱节）。
+  const ohToc = root.querySelector('.oh-toc')
+  if (ohToc) {
+    const items: HNode[] = []
+    const lis = Array.from(ohToc.querySelectorAll('li')) as HTMLElement[]
+    for (const li of lis) {
+      const a = li.querySelector('a')
+      if (!a) continue
+      const href = a.getAttribute('href') || ''
+      if (!href.startsWith('#')) continue
+      const id = href.slice(1)
+      const txt = (a.textContent || '').trim()
+      if (!id || !txt) continue
+      const isL2 = li.classList.contains('toc-l2')
+      const node: HNode = { id, text: txt, level: isL2 ? 2 : 1, children: [] }
+      if (isL2 && items.length) {
+        // 挂到最近的 L1 下
+        for (let i = items.length - 1; i >= 0; i--) {
+          if (items[i].level === 1) {
+            items[i].children.push(node)
+            break
+          }
+        }
+      } else {
+        items.push(node)
+      }
+    }
+    if (items.length) {
+      tree.value = items
+      if (items.length) {
+        observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .map((e) => e.target as HTMLElement)
+              .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)
+            if (visible.length) activeId.value = visible[0].id
+          },
+          { rootMargin: '0px 0px -70% 0px', threshold: 0 },
+        )
+        items.forEach((n) => {
+          const el = document.getElementById(n.id)
+          if (el) observer!.observe(el)
+        })
+      }
+      return
+    }
+  }
+
   const heads = Array.from(
     root.querySelectorAll('h2[id], h3[id], h4[id]'),
   )

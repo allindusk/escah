@@ -50,13 +50,30 @@ tools/*.log
 tools/*.err
 tools/_*.txt
 tools/_tmp_*.py
+tools/_*.json
 # 后台任务护栏：锁文件与运行日志（由 tools/_bg.py 与 tools/_rebuild.bat 生成，不入库）
 tools/_bg.lock
 tools/_rebuild.lock
 tools/_logs/
 tools/_rebuild.log
+# 翻译/导出中间产物（真值已落在 data/parsed/i18n/，以下仅为过程文件，不入库）
+tools/_docx_out/
+tools/_translated_texts/
+tools/_todo_translate/
+tools/_merged_chars/
+tools/_texts_for_translation/
 .playwright-cli/
 
 # 本地预览/构建临时日志（由 node build.mjs preview/build 生成，不入库）
 site/_build*.log
 site/_preview*.log
+
+# 根目录开发/调试临时产物（不入库）
+__dev_*.log
+_chk_*.py
+_dbg_*.py
+_dom.html
+_list_imgs.py
+_verify_dist.py
+help_build_log.txt
+*.log.bak

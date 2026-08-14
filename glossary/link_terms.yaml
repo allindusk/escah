@@ -16,7 +16,7 @@
     zh: 行动速度
     href: battle.html#s60c38ee
   - ja: 強化
-    zh: 強化
+    zh: 强化
     href: awakening.html
 - slug: awakening
   links:
@@ -97,7 +97,7 @@
     zh: VIP等等级
     href: faq.html#t551f5f1
   - ja: 消費
-    zh: 消費
+    zh: 消耗
     href: item-value-guide.html
   - ja: 顔アイコンの上に並ぶ☆の数
     zh: 顔アイコンの上に並ぶ☆の数
@@ -484,7 +484,7 @@
     zh: 配备有2种寝室场景
     href: bedroom-scenes.html
   - ja: 寝室
-    zh: 寝室
+    zh: 卧室
     href: bedroom-scenes.html
   - ja: 详情请参考“低成本获取☆5角色”。
     zh: 详情请参考“低成本获取☆5角色”。
@@ -521,14 +521,14 @@
     href: raid.html#qcfc1c22
 - slug: characters
   links:
-  - ja: SSR角色
-    zh: SSR角色
+  - ja: SSR
+    zh: SSR
     href: list-ssr.html
-  - ja: SR角色
-    zh: SR角色
+  - ja: SR
+    zh: SR
     href: list-sr.html
-  - ja: R角色
-    zh: R角色
+  - ja: R
+    zh: R
     href: list-r.html
 - slug: collection
   links:
@@ -682,7 +682,7 @@
     zh: 顽强
     href: equip-024.html
   - ja: 納豆
-    zh: 納豆
+    zh: 纳豆
     href: equip-059.html
 - slug: equip-070
   links:
@@ -947,7 +947,7 @@
     zh: 相关链接：想自动补充消耗品
     href: faq.html#rc658b28
   - ja: 絵馬
-    zh: 絵馬
+    zh: 绘马
     href: limit-break.html
   - ja: 2025压岁钱
     zh: 2025压岁钱
@@ -1215,7 +1215,7 @@
     zh: 超昂大戦初心者講座
     href: https://www.alicesoft.com/information/2022/entry003123.html
   - ja: 参照
-    zh: 参照
+    zh: 参考
     href: getting-started.html#t42b1920
   - ja: 拡張可能
     zh: 拡張可能
@@ -1644,7 +1644,7 @@
     zh: 超昂大战月間博客人2023年12月号
     href: https://www.alicesoft.com/information/2023/entry003307.html
   - ja: 交換
-    zh: 交換
+    zh: 兑换
     href: exchange.html#m745b289
   - ja: レベルアップ や 限界突破 等に応じて成長するステータス
     zh: 画面左侧：根据等级提升和限界突破等成长的属性
@@ -2591,9 +2591,6 @@
   - ja: 汎用的な編成
     zh: 汎用的な編成
     href: raid-formations.html
-  - ja: 育成
-    zh: 育成
-    href: faq.html#f48d09ba
   - ja: 優先1
     zh: 優先1
     href: faq.html#zf3f762f
@@ -3240,7 +3237,7 @@
     zh: 相关链接关于『トレジャーボックス』及『パンドラボックス』
     href: main-quest.html#a9a3c03e
   - ja: 報酬
-    zh: 報酬
+    zh: 报酬
     href: faq.html#h0224273
   - ja: VIPランク
     zh: VIP等等级
@@ -3616,7 +3613,7 @@
     zh: 实惠吸尘器
     href: equip-064.html
   - ja: 覚醒
-    zh: 覚醒
+    zh: 觉醒
     href: awakening.html
   - ja: 第3部分/25区
     zh: 第3部分/25区
@@ -3628,7 +3625,7 @@
     zh: 第 2 部分 / 区域 34
     href: mq-108.html
   - ja: 期間限定ガチャの開催履歴
-    zh: 期間限定ガチャの開催履歴
+    zh: 扭蛋
     href: gacha.html#m4a34baf
   - ja: 第3部分/区域21
     zh: 第3部分/区域21
@@ -3682,7 +3679,7 @@
     zh: Area23
     href: mq-023.html
   - ja: イベント
-    zh: イベント
+    zh: 活动
     href: events.html
   - ja: 特効勢力
     zh: 特効勢力
@@ -3751,7 +3748,7 @@
     zh: 第二部分/36区
     href: mq-110.html
   - ja: テトリス
-    zh: テトリス
+    zh: 俄罗斯方块
     href: treasure-box.html
   - ja: 增长所需的物品数量
     zh: 增长所需的物品数量
@@ -3895,7 +3892,7 @@
     zh: 咆哮猛虎
     href: equip-007.html
   - ja: 報酬
-    zh: 報酬
+    zh: 报酬
     href: raid.html#b40c88e0
   - ja: 第 2 部分/区域 27
     zh: 第 2 部分/区域 27
@@ -4030,7 +4027,7 @@
     zh: 超昂金滴-シズク-（防御）
     href: equip-096.html
   - ja: 装備
-    zh: 装備
+    zh: 装备
     href: equipment.html
   - ja: 参考链接：团队战的基本机制
     zh: 参考链接：团队战的基本机制
@@ -4192,7 +4189,7 @@
     zh: こちら
     href: raid.html#b40c88e0
   - ja: メインシナリオ・イベントシナリオ時系列まとめ
-    zh: メインシナリオ・イベントシナリオ時系列まとめ
+    zh: 表格/全剧情实装顺序
     href: scenario-order.html
   - ja: 交換所
     zh: 交換所
@@ -4223,7 +4220,7 @@
 - slug: battle
   links:
   - ja: レイドバトル
-    zh: レイドバトル
+    zh: 讨伐战
     href: raid.html
   - ja: レイド
     zh: レイド
@@ -4363,18 +4360,18 @@
 - slug: equip-069
   links:
   - ja: ロケット
-    zh: ロケット
+    zh: 火箭
     href: equip-051.html
   - ja: タイガー
-    zh: タイガー
+    zh: 泰格
     href: equip-007.html
   - ja: ガッツ
-    zh: ガッツ
+    zh: 顽强
     href: equip-024.html
 - slug: equip-082
   links:
   - ja: 昂る種
-    zh: 昂る種
+    zh: 昂扬种子
     href: items.html#ib634de4
   - ja: キャラクター交換
     zh: 角色交换
@@ -4406,7 +4403,7 @@
     zh: コレクション
     href: collection.html
   - ja: フェスキャラ
-    zh: フェスキャラ
+    zh: 活动限定角色
     href: special-attributes.html#v1c6d343
 - slug: exchange
   links:
@@ -4653,7 +4650,7 @@
     zh: 超昂大戦初心者講座
     href: https://www.alicesoft.com/information/2022/entry003123.html
   - ja: 参照
-    zh: 参照
+    zh: 参考
     href: getting-started.html#t42b1920
   - ja: 拡張可能
     zh: 拡張可能
@@ -4662,7 +4659,7 @@
     zh: 觉醒之木
     href: awakening.html
   - ja: クエスト
-    zh: クエスト
+    zh: 任务
     href: main-quest.html
   - ja: 元気の原液
     zh: 元気の原液
@@ -4799,7 +4796,7 @@
 - slug: getting-started
   links:
   - ja: よくある質問
-    zh: よくある質問
+    zh: 常见问题
     href: faq.html#kd038537
   - ja: キャラクター交換所
     zh: キャラクター交換所
@@ -4905,7 +4902,7 @@
 - slug: limit-break
   links:
   - ja: ステータス
-    zh: ステータス
+    zh: 属性
     href: battle.html#ed5f3d74
   - ja: 昂るつぼみ
     zh: 昂るつぼみ
@@ -4963,7 +4960,7 @@
     zh: グナガン
     href: raid.html#q40a23f1
   - ja: 昂る種
-    zh: 昂る種
+    zh: 昂扬种子
     href: character-exchange.html#v410cd20
   - ja: レイド：初心者向け解説
     zh: レイド：初心者向け解説
@@ -5052,7 +5049,7 @@
 - slug: wide-battle
   links:
   - ja: 昂る種
-    zh: 昂る種
+    zh: 昂扬种子
     href: character-exchange.html
   - ja: '[初心者用]アイテム価値早見表'
     zh: '[初心者用]アイテム価値早見表'
@@ -5102,7 +5099,7 @@
     zh: 超昂金 パルシオン(防御)
     href: equip-095.html
   - ja: ミッション
-    zh: ミッション
+    zh: 任务
     href: missions.html
   - ja: コンボの謎
     zh: コンボの謎
@@ -5114,7 +5111,7 @@
     zh: 衝撃のあるタイガー
     href: equip-080.html
   - ja: レイドイベント
-    zh: レイドイベント
+    zh: 讨伐活动
     href: raid.html
   - ja: 超昂金 パルシオン(スタミナ)
     zh: 超昂金 パルシオン(スタミナ)
@@ -5192,7 +5189,7 @@
     zh: イベント一覧
     href: events.html
   - ja: スキン
-    zh: スキン
+    zh: 皮肤
     href: exchange.html#i6d20aa7
   - ja: 長髪まねき猫
     zh: 長髪まねき猫
@@ -5228,7 +5225,7 @@
     zh: 灭忍菊理＆铁（B宇宙）
     href: buniv-011.html
   - ja: 期間限定ガチャの開催履歴
-    zh: 期間限定ガチャの開催履歴
+    zh: 扭蛋
     href: gacha.html#m4a34baf
   - ja: 突破ポイント
     zh: 突破点数已达到（超越）上限，或者本次获取会导致超越上限时赠送
@@ -5294,7 +5291,7 @@
     zh: 由于此项变更，个人与整体各项分数都有可能下降，
     href: raid.html#b40c88e0
   - ja: メインシナリオ・イベントシナリオ時系列まとめ
-    zh: メインシナリオ・イベントシナリオ時系列まとめ
+    zh: 表格/全剧情实装顺序
     href: scenario-order.html
   - ja: レイドとは何ですか？
     zh: 讨伐战（Raid）是什么？
