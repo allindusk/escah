@@ -19,7 +19,7 @@ escah/
 │   ├── manifest.json              # 抓取清单（页面列表/配置）
 │   ├── parsed/
 │   │   ├── ja/                    # 日文解析产物（HTML），由 parse 重建，不入库
-│   │   ├── characters/            # 角色 JSON（name/rarity/icon/sections）
+│   │   ├── characters/            # 角色 JSON（name/name_zh/rarity/icon/release_date/sections）
 │   │   └── i18n/                  # ⚠️ 人工译文唯一真值，必入库（CI 直接读它，不跑 i18n 构建）
 │   └── assets/img/                # 图片（约 2900 图，LFS 入库）
 ├── glossary/                      # 渲染期词表（仅 zh 生效，手工维护）

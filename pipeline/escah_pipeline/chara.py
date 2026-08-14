@@ -46,6 +46,36 @@ def _section_key_of(text: str) -> str | None:
     return None
 
 
+def _extract_release_dates() -> dict[str, str]:
+    """从「キャラクター一覧」解析后的 ja 页前 3 个表（SSR/SR/R）提取 角色名→実装日。
+
+    读 data/parsed/ja/characters.html（parse_all 已先于本函数生成）。
+    各表表头相同，実装日列位于第 24 列（索引 23），SR/R 表索引为 22。
+    sitegen 解析时已把源站混在実装日单元格里的「常設交換/主线加入」等说明
+    规范为纯日期（YYYY/MM/DD）或留空，故此处取到的值直接是规范日期。
+    """
+    path = config.PARSED_JA_DIR / "characters.html"
+    if not path.exists():
+        return {}
+    soup = BeautifulSoup(path.read_text(encoding="utf-8", errors="replace"), "lxml")
+    tables = soup.find_all("table")
+    out: dict[str, str] = {}
+    for ti in range(min(3, len(tables))):
+        ths = [th.get_text("", strip=True) for th in tables[ti].find_all("th")]
+        if "実装日" not in ths:
+            continue
+        idx = ths.index("実装日")
+        for r in tables[ti].find_all("tr")[1:]:
+            tds = r.find_all("td")
+            if len(tds) <= idx:
+                continue
+            name = tds[1].get_text("", strip=True)
+            if not name or name in out:
+                continue
+            out[name] = tds[idx].get_text("", strip=True)
+    return out
+
+
 def extract_character(name: str, raw_html: str) -> dict | None:
     """从角色详情页提取六个信息区。返回 None 表示结构不匹配。"""
     soup = BeautifulSoup(raw_html, "lxml")
@@ -55,8 +85,17 @@ def extract_character(name: str, raw_html: str) -> dict | None:
 
     sections: dict[str, dict] = {}
     for th in body.find_all("th"):
-        key = _section_key_of(th.get_text(strip=True))
-        if key is None or key in sections:
+        th_text = th.get_text(strip=True)
+        key = _section_key_of(th_text)
+        if key is None:
+            # 部分角色页「基本情報」表直接以「名前」开头，没有显式「プロフィール」表头列。
+            # 把整张基本情報表归为 プロフィール 模块（含 フレーバーテキスト 人物档案文字），
+            # 否则该角色浮窗的「人物档案」模块会整块缺失。
+            if th_text == "名前" and "プロフィール" not in sections:
+                key = "プロフィール"
+            else:
+                continue
+        if key in sections:
             continue
         tr = th.find_parent("tr")
         table = th.find_parent("table")
@@ -67,8 +106,11 @@ def extract_character(name: str, raw_html: str) -> dict | None:
             start = next(i for i, r in enumerate(rows) if r is tr)
         except StopIteration:
             continue
+        # 「名前」直接开头的表：th 所在行本身就是数据首行（名前/本名/…），需包含；
+        # 常规表：th=プロフィール 是标题行，数据从下一行开始。
+        first_is_data = key == "プロフィール" and th_text == "名前"
         out_rows: list[list[dict]] = []
-        for r in rows[start + 1:]:
+        for r in rows[start + (0 if first_is_data else 1):]:
             # 遇到下一个信息区表头则结束
             r_ths = r.find_all("th", recursive=False)
             if any(_section_key_of(t.get_text(strip=True)) for t in r_ths):
@@ -92,7 +134,7 @@ def extract_character(name: str, raw_html: str) -> dict | None:
                 cells.append(cell)
             if cells:
                 out_rows.append(cells)
-        sections[key] = {"label": th.get_text(strip=True), "rows": out_rows}
+        sections[key] = {"label": ("プロフィール" if key == "プロフィール" and th_text != "プロフィール" else th.get_text(strip=True)), "rows": out_rows}
 
     if not sections:
         return None
@@ -106,6 +148,7 @@ def extract_all_characters(force: bool = False) -> None:
     # 头像本地名（img/<sha256>）以当前命名规则从「キャラクター一覧」快照重算，
     # 修正 pages.yaml 中残留的旧命名（attach2/<hex>）导致浮窗头像 404 的问题。
     icon_map: dict[str, str] = {}
+    release_map: dict[str, str] = {}
     charlist_raw = config.RAW_DIR / page_filename(config.CHARLIST_PAGE)
     if charlist_raw.exists():
         try:
@@ -113,6 +156,14 @@ def extract_all_characters(force: bool = False) -> None:
                 icon_map[c["name"]] = c["icon"]
         except Exception as err:  # noqa: BLE001
             log.warning("重算角色头像本地名失败：%s", err)
+        # 从「キャラクター一覧」解析后的 ja 页前 3 个表（SSR/SR/R）的「実装日」列
+        # 提取 角色名→実装日 映射，写入角色 JSON 供浮窗「人物档案」展示。
+        # 必须用解析后的 ja/characters.html（sitegen 已把说明文本规范为纯日期），
+        # 不能直接读源站快照大宽表（其实装日列混了「常設交換/主线加入」等说明，非纯日期）。
+        try:
+            release_map = _extract_release_dates()
+        except Exception as err:  # noqa: BLE001
+            log.warning("提取角色实装日期失败：%s", err)
     ok = failed = skipped = 0
     for i, e in enumerate(entries, 1):
         name = e["name"]
@@ -136,6 +187,8 @@ def extract_all_characters(force: bool = False) -> None:
         data["rarity"] = e.get("rarity")
         data["icon"] = icon_map.get(name) or e.get("icon")
         data["name_zh"] = i18n.name_zh(name)
+        if name in release_map:
+            data["release_date"] = release_map[name]  # 实装日期（原样，可能为空字符串）
         out_path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
         ok += 1
     log.info("角色提取完成：成功 %d，跳过 %d，失败 %d", ok, skipped, failed)

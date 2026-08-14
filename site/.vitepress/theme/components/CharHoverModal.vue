@@ -12,6 +12,7 @@ interface CharData {
   name_zh?: string
   rarity?: string
   icon?: string
+  release_date?: string
   sections: Record<string, Section>
 }
 
@@ -157,6 +158,20 @@ function onHoverViewportChange() {
   if (store.visible && store.mode === 'hover') placeHover()
 }
 
+// 在「人物档案」(プロフィール) 末尾追加「实装日期」一行：
+// 数据取角色 JSON 顶层 release_date（原样，可能为空）；中文站标签显示「实装日期」，日文站显示「実装日」。
+function withReleaseRow(rows: Cell[][]): Cell[][] {
+  const d = data.value
+  if (!d || !d.sections['プロフィール']) return rows
+  if (d.release_date === undefined) return rows
+  const dateVal = d.release_date
+  const row: Cell[] = [
+    { h: true, t: '実装日', zh: '实装日期' },
+    { h: false, t: dateVal, zh: dateVal },
+  ]
+  return [...rows, row]
+}
+
 const allSections = computed(() => {
   if (!data.value) return []
   return SECTION_ORDER.filter((k) => data.value!.sections[k]).map((k) => {
@@ -164,7 +179,7 @@ const allSections = computed(() => {
     return {
       key: k,
       label: sec.label,
-      rows: sec.rows,
+      rows: k === 'プロフィール' ? withReleaseRow(sec.rows) : sec.rows,
     }
   })
 })

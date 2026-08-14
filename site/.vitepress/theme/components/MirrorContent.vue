@@ -88,27 +88,42 @@ function tagCharLinks(el: HTMLElement) {
   })
 }
 
+// 由头像图片解析其真实所属角色名（avatarMap 优先，alt/title 兜底）。
+// wiki 头像 alt 形如 "花のチルカ_icon.png"，去掉 _icon 与扩展名即得角色名，
+// 再经 nameAliases 回 key。命中返回角色日文 key，否则 null。
+function resolveAvatarName(img: HTMLImageElement): string | null {
+  const src = img.getAttribute('src') || ''
+  const m = src.match(/\/img\/([^"?#]+)/)
+  if (!m) return null
+  let name = avatarMap[m[1]]
+  if (!name) {
+    const alt = (img.getAttribute('alt') || img.getAttribute('title') || '').trim()
+    if (alt) {
+      const nm = alt.replace(/\.(png|gif|jpe?g)$/i, '').replace(/_icon$/i, '').trim()
+      const key = nameAliases[nm] || (nameSet.has(nm) ? nm : null)
+      if (key) name = key
+    }
+  }
+  return name || null
+}
+
 function tagAvatars(el: HTMLElement) {
   el.querySelectorAll('img').forEach((img) => {
-    // 已在角色容器内的头像：祖先 [data-char] 已覆盖，跳过避免重复
-    if (img.closest('[data-char]')) return
+    const name = resolveAvatarName(img)
     // 角色一览/列表中「图片列」的头像：图片列已有独立的角色名浮窗 span，
     // 头像本身不再打 data-char，避免重复浮窗。
     if (img.closest('.escah-img-col')) return
-    const src = img.getAttribute('src') || ''
-    const m = src.match(/\/img\/([^"?#]+)/)
-    if (!m) return
-    let name = avatarMap[m[1]]
-    // 兜底：avatarMap 未命中（同一角色在「角色一览缩略图」与「正文内联头像」用了
-    // 不同图片 hash）时，用 alt/title 里的角色名解析。wiki 头像 alt 形如
-    // "花のチルカ_icon.png"，去掉 _icon 与扩展名即得角色名，再经 nameAliases 回 key。
-    if (!name) {
-      const alt = (img.getAttribute('alt') || img.getAttribute('title') || '').trim()
-      if (alt) {
-        const nm = alt.replace(/\.(png|gif|jpe?g)$/i, '').replace(/_icon$/i, '').trim()
-        const key = nameAliases[nm] || (nameSet.has(nm) ? nm : null)
-        if (key) name = key
+    // 已在角色容器内的头像：祖先 [data-char] 已覆盖。
+    const ancestor = img.closest('[data-char]') as HTMLElement | null
+    if (ancestor) {
+      // 源站偶发数据错位：头像 img 被包在「角色名与图片不符」的 [data-char] 里
+      // （如 img 是バレンタインマドカ 头像、外层却写 data-char="エスカアメイズ・ファンタスマ"）。
+      // 当图片能解析出有效且不同的角色、且该祖先 span 仅含此 img（无角色名文本）时，
+      // 以图片真实所属角色覆盖，确保浮窗指向正确角色。含文本名的真实角色名标签不动。
+      if (name && ancestor.getAttribute('data-char') !== name && !ancestor.textContent?.trim()) {
+        ancestor.setAttribute('data-char', name)
       }
+      return
     }
     if (name) img.setAttribute('data-char', name)
   })
