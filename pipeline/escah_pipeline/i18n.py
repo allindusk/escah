@@ -2682,12 +2682,46 @@ def render_locale(slug: str, locale: str) -> str | None:
                 # 块内含角色名标记（char-ref / data-char / plugin-tooltip，排除头像 img）：
                 # 整块纯文本替换会丢失其原位（被丢到块末 ul 之后），违背原排版，
                 # 且会清空 plugin-tooltip 结构导致浮窗丢失、块级 blk.zh 残留的评论签名
-                # （-- [ID]时间）拼进角色名。→ 退回节点级渲染，保留原位角色名
+                # （-- [ID]时间）拼进角色名。默认退回节点级渲染，保留原位角色名
                 # （缺译 key 兜底显示日文），插件 tooltip 由前端升级为 char-ref 浮窗。
-                if el.xpath(
+                char_span_in_block = el.xpath(
                     ".//span[(@data-char or contains(concat(' ', normalize-space(@class), ' '), ' char-ref ') or contains(concat(' ', normalize-space(@class), ' '), ' plugin-tooltip '))]"
                     "[not(.//img)]"
-                ):
+                )
+                if char_span_in_block:
+                    # 节点级全译 → 维持原位 char-ref 浮窗（正常情况，行为不变）。
+                    node_keys = blk.get("keys", [])
+                    _all_trans = bool(node_keys) and all(
+                        (keys.get(k, {}).get("zh") or "").strip() for k in node_keys
+                    )
+                    if _all_trans:
+                        continue
+                    # 节点级有缺译、但块级 blk.zh 完整：用块级中文作正文、句末补【角色名】
+                    # 浮窗，避免整块回退日文（用户反馈 raid-formations 等页因此露日文）。
+                    blk_zh_full = (blk.get("zh") or "").strip()
+                    if blk_zh_full:
+                        blk_zh_out = _strip_comment_sig(_correct_text(blk_zh_full))
+                        extra = ""
+                        for _sp in char_span_in_block:
+                            _cls = _sp.get("class") or ""
+                            if "plugin-tooltip" in _cls:
+                                # 插件 tooltip：前端 collectBlockCharTags 会按原 span 在块末
+                                # 追加一次【角色名】浮窗，这里不再重复收集。
+                                continue
+                            if _sp.xpath(".//img"):
+                                continue
+                            _name = (_sp.get("data-char") or "").strip()
+                            if not _name:
+                                continue
+                            _disp = _disp_name(_name, "", True, locale)
+                            extra += (
+                                f'<span class="char-ref" data-char="'
+                                f'{_html.escape(_name, quote=True)}">'
+                                f'【{_html.escape(_disp, quote=False)}】</span>'
+                            )
+                        _set_block_html(el, _insert_tail_before_tag(blk_zh_out, extra))
+                        continue
+                    # 块级也无译文 → 退回节点级（日文兜底， unavoidable）
                     continue
                 # 块内含图片（<span data-char><img> 或 <a><img> 等任意 img）：
                 # 图片用户要求不动，整块纯文本替换会清空 img，因此跳过块级回退、

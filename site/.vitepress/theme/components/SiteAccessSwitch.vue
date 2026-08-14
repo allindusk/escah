@@ -13,7 +13,7 @@ const cfUrl = 'https://escah.pages.dev'
 // 两者保持一致；改动前端后务必 commit+push 到 main，否则线上版本号与改动不生效。
 // 注意 changelog.json 位于 theme/ 源码目录（入库），不要放回 .gen-data/（那里是 sync-site 生成的
 // page-times.json，被 gitignore，会导致 CI 构建因文件缺失而失败）。
-const SITE_VERSION = '1.2.6'
+const SITE_VERSION = '1.2.7'
 
 const options = computed(() => {
   const list: { key: string; label: string; url: string }[] = []
