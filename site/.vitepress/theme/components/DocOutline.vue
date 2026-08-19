@@ -16,7 +16,25 @@ interface HNode {
 const route = useRoute()
 const tree = ref<HNode[]>([])
 const activeId = ref('')
+const navEl = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
+
+// 当前阅读项变化时，让右侧目录（自身 overflow 滚动）跟随滚动，
+// 使高亮项保持在目录可视区内（只滚目录栏，不影响页面主体）。
+function ensureActiveVisible() {
+  const nav = navEl.value
+  if (!nav || !activeId.value) return
+  let target: HTMLAnchorElement | null = null
+  nav.querySelectorAll('a').forEach((a) => {
+    if (!target && a.getAttribute('href') === '#' + activeId.value) target = a as HTMLAnchorElement
+  })
+  if (!target) return
+  const navRect = nav.getBoundingClientRect()
+  const aRect = target.getBoundingClientRect()
+  if (aRect.top < navRect.top + 8 || aRect.bottom > navRect.bottom - 8) {
+    nav.scrollTop += aRect.top - navRect.top - nav.clientHeight / 2 + target.offsetHeight / 2
+  }
+}
 
 function cleanText(el: HTMLElement): string {
   const c = el.cloneNode(true) as HTMLElement
@@ -196,6 +214,7 @@ watch(
   () => route.path,
   () => nextTick(build),
 )
+watch(activeId, () => nextTick(ensureActiveVisible))
 onBeforeUnmount(() => {
   document.removeEventListener('escah:table-toc-built', onTocBuilt)
   if (observer) observer.disconnect()
@@ -203,7 +222,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <nav class="escah-doc-outline" v-if="tree.length">
+  <nav class="escah-doc-outline" ref="navEl" v-if="tree.length">
     <p class="escah-doc-outline-title">目录</p>
     <ul class="escah-outline-list">
       <li
