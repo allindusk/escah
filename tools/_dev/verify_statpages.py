@@ -79,8 +79,12 @@ def main() -> int:
             root = _lxml_html.fragment_fromstring(html, create_parent="div")
         except Exception:  # noqa: BLE001
             return 0
-        return sum(1 for el in root.xpath("//td|//th")
+        # 块标题（<h3 class="stat-cap">）也是数据源里的单元格文本 ✓（分块后不再占表格首行 ✓），
+        # 所以要一并计入 ✓，否则"非空单元格数"会少算、被误判成"信息丢了" ✗。
+        caps = sum(1 for el in root.xpath("//*[contains(@class,'stat-cap')]")
                    if (el.text_content() or "").strip())
+        return caps + sum(1 for el in root.xpath("//td|//th")
+                          if (el.text_content() or "").strip())
 
     total_json = total_html = 0
     for page in statpages.PAGES:

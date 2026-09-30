@@ -236,51 +236,128 @@ def _sub_matcher(labels: "dict[str, str]"):
     return pat
 
 
-def render_table(t: dict, labels: "dict[str, str]", locale: str) -> str:
-    """一张表 → HTML。空表头时把**首个有内容行**提升为表头 ✓（Google 导出的真表头就是首行 ✓）。"""
-    header = t.get("header") or []
-    rows = list(t.get("rows") or [])
+def _nonempty(r: "list[dict]") -> int:
+    return sum(1 for c in r if (c.get("t") or "").strip())
 
-    def cell_html(c: dict, tag: str) -> str:
+
+def split_segments(rows: "list[list[dict]]") -> "list[list[list[dict]]]":
+    """把一张 sheet 的行**按空行切成若干块** ✓（空行是作者天然的"分块边界" ✓）。
+
+    为什么必须分块（2026-09-30 用户反馈"本来不一样的数据被放进了同一张表"✗）：
+    一个 sheet 里常纵向堆着**好几块结构完全不同的数据** ✗。实测 `結果(合計)`：
+      · 行 0-2   目录标题 + 运行条件（元信息）
+      · 行 4-15  消费道具「合计/平均」**16 列矩阵**（列=各配置）
+      · 行 18-25 `種別 / 獲得スタミナ(平均)` **2 列小表**
+      · 行 28-50 `装備アイテム/合計/平均/確率/ランキング` **17 列排行榜**
+    原实现把它们当**一张 19 列的表**渲染 ✗ → 2 列小表被拉成 19 列、还共用错表头 ✗✗。
+    分块后每块有自己的列宽、自己的表头、自己的排序/筛选 ✓。
+    """
+    segs: "list[list[list[dict]]]" = []
+    cur: "list[list[dict]]" = []
+    for r in rows:
+        if any((c.get("t") or "").strip() for c in r):
+            cur.append(r)
+        elif cur:
+            segs.append(cur)
+            cur = []
+    if cur:
+        segs.append(cur)
+    return segs
+
+
+def _render_block(rows: "list[list[dict]]", cap: "list[dict] | None",
+                  labels: "dict[str, str]", locale: str) -> str:
+    """一块数据 → 一个独立表格（可选块标题 ✓）。"""
+    def cell_html(c: dict, tag: str, cls: str = "") -> str:
         span = ""
         if c.get("cs", 1) > 1:
             span += f' colspan="{c["cs"]}"'
         if c.get("rs", 1) > 1:
             span += f' rowspan="{c["rs"]}"'
+        cattr = f' class="{cls}"' if cls else ""
         txt = label(c.get("t", ""), labels, locale)
-        return f"<{tag}{span}>{html.escape(txt)}</{tag}>" if txt else f"<{tag}{span}></{tag}>"
+        return f"<{tag}{cattr}{span}>{html.escape(txt)}</{tag}>" if txt else f"<{tag}{cattr}{span}></{tag}>"
 
-    if not header and rows:
-        while rows and not any(c.get("t", "").strip() for c in rows[0]):
-            rows.pop(0)
-        # 挑表头行：在前 5 行里选**非空单元格最多**的那行 ✓（≥2 才认，否则退回首行 ✓）。
-        # 为什么不能简单取首行 ✗：作者的表首行常是 `目次`、`宝箱数と蝶鉱石` 这类
-        # **单格标题行** ✓，而真正的列标题在第 2 行（如 `開封箱数 | 結果シート名 | 結果(...)` ✓），
-        # 一提错行就变成"19 列表格只配 1 格表头" → 顶部一大片空白 ✗（2026-09-30 实测所见 ✗）。
-        # 另外：列排序由站点既有 tableEnhancer 依赖 **th 行** ✓，所以必须产出真正的表头行 ✓。
-        if rows:
-            cnt = lambda i: sum(1 for c in rows[i] if c.get("t", "").strip())  # noqa: E731
-            k = max(range(min(5, len(rows))), key=cnt)
-            header = [rows.pop(k if cnt(k) >= 2 else 0)]
+    body = [r for r in rows if _nonempty(r)]
+    out: "list[str]" = []
+    if cap is not None:
+        # ⚠️ 标题要取**第一个非空格** ✗不要取 cap[0] ✗：作者的标题行常是 ` | ・何か` 这种
+        # 首格为空、文字在第 2 格的形式 ✗，取首格会得到空串 ⇒ 标题被丢掉 ✗
+        # （2026-09-30 实测：正是这个 bug 让 19 格文本在页面上消失 ✗）。
+        ctext = ""
+        for c in cap:
+            ctext = label(c.get("t", ""), labels, locale)
+            if ctext:
+                break
+        if ctext:
+            # 块标题用 <h3>：① 进右侧大纲 ⇒ 长页面可按块跳转 ✓；
+            # ② 不再占表格首行 ⇒ 每块的表头就是它自己的真表头 ✓。
+            out.append(f'<h3 class="stat-cap">{html.escape(ctext)}</h3>')
+    if not body:
+        return "\n".join(out)
+    width = max(len(r) for r in body)
+    # 表头：块内前 5 行里非空最多的那行（≥2 才认 ✓，否则退回首行 ✓）；
+    # 站点 tableEnhancer 的排序/筛选依赖真 <th> 行 ✓，所以必须选出真表头 ✓。
+    # ⚠️ 但**小块（<4 行）不选表头** ✓：实测"运行条件"这类元信息块只有 1-3 行、行间形态
+    # 还不一致（1 格 / 13 格 / 14 格 ✓），硬挑一行当表头会挑中一行条件 ⇒ 页面上出现
+    # 一个毫无意义的表头 ✗（2026-09-30 截图确认 ✓）。这类块直接当普通数据表渲染 ✓。
+    if len(body) >= 4:
+        cnt = lambda i: _nonempty(body[i])  # noqa: E731
+        k = max(range(min(5, len(body))), key=cnt)
+        header = [body.pop(k if cnt(k) >= 2 else 0)]
+    else:
+        header = []
+    if header and len(header[0]) < width:
+        # 表头补齐到块宽度 ✓：短表头在大块上会拉出一条空白带 ✗，也会少列导致筛选项缺失 ✗
+        header[0] = header[0] + [{"t": ""}] * (width - len(header[0]))
+    # 小块（<5 行）**不挂 `escah-tbl`** ✓：分块后小表很多（宝箱页共 180+ 块 ✓），
+    # 每块都生成一整套"排序/筛选/全屏"工具条会铺满整页 ✗✗ —— 而两三行的表本来也不需要排序 ✓。
+    # 大块保留 escah-tbl ✓，照旧获得排序/筛选/全屏 ✓。
+    cls = "escah-tbl" if len(body) >= 4 else "stat-tbl"
+    out.append(f'<div class="table-scroll"><table class="{cls}">')
     if header:
-        # 表头**补齐到整表宽度** ✓（补空 th）：否则短表头行在大表上会拉出一条空白带 ✗，
-        # 也会让筛选行/列宽计算少列 ✗。
-        w = max([len(r) for r in rows] + [len(r) for r in header])
-        if len(header[0]) < w:
-            header[0] = header[0] + [{"t": ""}] * (w - len(header[0]))
-    out = ['<div class="table-scroll"><table class="escah-tbl">']
-    if header:
-        out.append("<thead>")
-        for r in header:
-            out.append("<tr>" + "".join(cell_html(c, "th") for c in r) + "</tr>")
-        out.append("</thead>")
+        out.append("<thead><tr>" + "".join(cell_html(c, "th") for c in header[0]) + "</tr></thead>")
     out.append("<tbody>")
-    for r in rows:
-        if not any(c.get("t", "").strip() for c in r):
-            continue
+    for r in body:
         out.append("<tr>" + "".join(cell_html(c, "td") for c in r) + "</tr>")
     out.append("</tbody></table></div>")
     return "\n".join(out)
+
+
+def _min_col(seg: "list[list[dict]]") -> int:
+    """一段的**缩进**（最小非空列号）✓ —— 实测这是最准的分块判据 ✓。"""
+    return min(min(i for i, c in enumerate(r) if (c.get("t") or "").strip()) for r in seg)
+
+
+def render_table(t: dict, labels: "dict[str, str]", locale: str) -> str:
+    """一张 sheet → HTML：**先按空行切段 ✓，再按"缩进"合并成块 ✓，每块独立成表 ✓**。
+
+    为什么不是"一段一块" ✗（2026-09-30 实测）：那样宝箱页会从 23 张暴增到 **183 张** ✗✗ ——
+    记录型 sheet（`検証` 190 行 / `参照用` 272 行）里散布着大量零星空行 ✗，它们只是"两次测量
+    之间的间隔" ✓，不是换了一块数据 ✓。实测判据：
+      · `結果(合計)`：4 块的缩进分别是 0 / 1 / 1 / 1 ✓，配合"单格标题另起一块"正好切成 **4 块** ✓
+        （元信息 / 16 列矩阵 / 2 列小表 / 17 列排行榜 ✓ —— 正是用户指出"被塞进同一张表"的那四块 ✓）；
+      · `検証`：各段缩进**全是 1** ✓ ⇒ 合并成 **1 张表** ✓（37 → 1 ✓）。
+    """
+    rows = list(t.get("header") or []) + list(t.get("rows") or [])
+    segs = split_segments(rows)
+    items: "list[dict]" = []                      # {"cap": 标题行|None, "min": 缩进, "rows": [...]}
+    pending: "list[dict] | None" = None
+    for seg in segs:
+        # 单独成段的"单格标题行"（如 `・入手できるスタミナの平均` ✓）→ 作为下一块的标题 ✓
+        if len(seg) == 1 and _nonempty(seg[0]) <= 1:
+            if pending is None:
+                pending = seg[0]
+                continue
+        mc = _min_col(seg)
+        if items and pending is None and items[-1]["min"] == mc:
+            items[-1]["rows"].extend(seg)         # 缩进相同 ⇒ 仍属同一块 ✓
+            continue
+        items.append({"cap": pending, "min": mc, "rows": list(seg)})
+        pending = None
+    if pending is not None:                       # 末尾孤立的标题
+        items.append({"cap": pending, "min": 0, "rows": []})
+    return "\n".join(_render_block(it["rows"], it["cap"], labels, locale) for it in items)
 
 
 def render_page(page: dict, labels: "dict[str, str]", locale: str) -> str:
