@@ -501,6 +501,26 @@ _MIRROR_CSS = """
   .tab.on { background: #fff; color: #1a73e8; font-weight: 600; }
   .tabmeta { flex: 0 0 auto; align-self: center; font-size: 12px; color: #5f6368;
        padding: 0 8px 6px 4px; white-space: nowrap; }
+
+  /* ---- 版式改成"像办公软件"：表头区固定在上、工作表区域**自己滚动**、标签栏固定在底部 ✓ ----
+     为什么工作表区域要自己滚动 ✗：`position: sticky` 的冻结是相对于**最近的滚动祖先** ✓，
+     若滚动的是整页 ✗，表内单元格就"贴"不住 ✗（2026-09-30 实测确认 ✓）。 */
+  html, body { height: 100%; }
+  body { display: flex; flex-direction: column; }
+  header { flex: 0 0 auto; }
+  main { flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 0 16px; }
+  section.sheet { height: 100%; overflow: auto; }
+  .tabbar { position: static; flex: 0 0 auto; }
+
+  /* ---- 冻结行列 ✓ ------------------------------------------------------------------
+     原始 Google 导出里**不含用户的冻结设置** ✗，所以按最通用的做法：冻结**首行**
+     （A B C 列字母行 ✓）与**首列**（1 2 3 行号列 ✓）—— 与办公软件默认观感一致 ✓。
+     两个坑：① sticky 单元格必须是**不透明背景** ✓，否则滚动时下层内容透出来 ✗
+     （导出带底色的格子以内联色优先 ✓ —— 内联样式优先于样式表 ✓ —— 无底色的补白 ✓）；
+     ② 冻结行与冻结列交叉的那格要更高 z-index ✓，否则会被互相盖住 ✗。 */
+  table.waffle tr:first-child > * { position: sticky; top: 0; z-index: 3; background-color: #fff; }
+  table.waffle tr > *:first-child { position: sticky; left: 0; z-index: 2; background-color: #fff; }
+  table.waffle tr:first-child > *:first-child { z-index: 4; }
 """
 
 # 左下角标签栏的切换逻辑（内联 ✓，不引外部依赖 ✓）。注意这是**普通字符串** ✗不是 f-string ✗
@@ -617,8 +637,10 @@ def write_mirror_pages(public_dir: "Path", raw_root: "Path | None" = None) -> in
         return 0
     out_dir = public_dir / "mirror"
     out_dir.mkdir(parents=True, exist_ok=True)
+    # ⚠️ 相对链接要**相对于本页所在的 mirror/ 目录** ✓✗：写成 `mirror/xxx.html` 会变成
+    # `/escah/mirror/mirror/xxx.html` ⇒ 404 ✗（2026-09-30 用户实测发现 ✓）。页与页同目录 ⇒ 直接写文件名 ✓。
     links = "".join(
-        f'<a href="mirror/{k}.html">{k}</a>' for k in MIRROR_PKGS
+        f'<a href="{k}.html">{k}</a>' for k in MIRROR_PKGS
     )
     written = 0
     for key, prefix in MIRROR_PKGS.items():
