@@ -144,6 +144,20 @@ def load_labels() -> "dict[str, str]":
             labels.update(json.loads(harvest.read_text(encoding="utf-8")))
         except Exception:  # noqa: BLE001
             pass
+    # ②.5 「原样镜像」页的人工作译文（`data/statdata/mirror_texts.yaml` ✓）。
+    # 镜像覆盖**全部工作表**（含数据页未收录的记录表 ✓），所以它有自己的一批译文 ✓；
+    # 与 stat_labels 同属**人工层** ✓（键要原样保留空格 ✗不要 strip ✗）。
+    mirror_texts = STAT_DIR / "mirror_texts.yaml"
+    if mirror_texts.exists():
+        try:
+            import yaml
+            data = yaml.safe_load(mirror_texts.read_text(encoding="utf-8")) or {}
+            for k, v in (data.get("texts") or {}).items():
+                if str(v).strip():
+                    labels[str(k)] = str(v).strip()
+        except Exception:  # noqa: BLE001
+            pass
+
     # ① 本页专属标签（高优先级，覆盖上面）
     if LABELS_PATH.exists():
         try:
