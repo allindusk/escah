@@ -552,22 +552,66 @@ _MIRROR_JS = """<script>
     [].slice.call(sec.querySelectorAll('table.waffle')).forEach(function (tb) {
       var rows = [].slice.call(tb.rows);
       if (!rows.length) return;
-      var hdr = -1, i, j;
-      for (i = 1; i < Math.min(rows.length, 6); i++) {
-        var ne = [].slice.call(rows[i].cells).filter(function (c) {
-          return c.textContent.trim();
-        });
-        if (ne.length >= 3) { hdr = i; break; }
+      // 角色分类（用户要求"理解表头/描述/数据，再推理该冻什么"✓，而不是找一行"像表头"的 ✗）
+      function txts(r) {
+        return [].slice.call(r.cells).map(function (c) { return (c.textContent || '').trim(); });
       }
-      var nR = hdr >= 0 ? hdr + 1 : 1;          // 冻到表头行为止（含）✓
-      var nC = 1;
-      if (hdr >= 0) {
-        var hs = [].slice.call(rows[hdr].cells);
-        for (j = 0; j < hs.length; j++) {
-          var t = hs[j].textContent.trim();
-          if (t && !/^[\\d.,%\\-+\\/]+$/.test(t)) { nC = j + 1; break; }
+      function isNum(t) { return /^[-\\d.,%()（）\\s]+$/.test(t); }
+      var LETTERS = /^[A-Z]{1,3}$/;
+      var nR = 0, k, c;
+      // ① **行角色**：列字母行 / 只有行号的空行 / 说明行 / 表头行 / 数据行 ——
+      //    从顶往下扫到"数据开始"为止 ✓；之间那些都要冻 ✓（否则冻结块不连续、会留一条缝 ✗）。
+      // 统计某行的内容时**跳过第 1 列（行号列 `1 2 3`）** ✗ —— 它不是内容 ✗，
+      // 否则 `2 | 宝箱数` 会被数成 2 格 ⇒ 单格说明行被误判成数据行 ✗（2026-09-30 实测踩到 ✓）。
+      function contentTxts(r) {
+        var out = [];
+        for (var q = 1; q < r.cells.length; q++) {
+          var t = (r.cells[q].textContent || '').trim();
+          if (t) out.push(t);
         }
+        return out;
       }
+      for (k = 0; k < rows.length; k++) {
+        var ts = contentTxts(rows[k]);
+        var role = 'data';
+        if (!ts.length) {
+          role = 'blank';
+        } else if (ts.every(function (t) { return LETTERS.test(t); })) {
+          role = 'letters';                      // `A B C…` 列字母行 ✓
+        } else if (ts.length === 1) {
+          role = 'note';                         // 单格文本 ⇒ 小节标题/说明/描述 ✓
+        } else {
+          // 表头判据：本行文字格够多 ✓ 且**严格多于下一行** ✗（数据行里也有名称文字 ✓ ⇒
+          // 用"≥"会把数据行也判成表头 ✓ ——实测 `box/結果` 因此一路数到第 11 行 ✗✗）。
+          var tx = ts.filter(function (t) { return !isNum(t); }).length;
+          var nt = 0;
+          if (k + 1 < rows.length) {
+            nt = contentTxts(rows[k + 1]).filter(function (t) { return !isNum(t); }).length;
+          }
+          role = (tx >= 2 && tx > nt) ? 'header' : 'data';
+        }
+        if (role === 'data') break;
+        nR = k + 1;
+        // ⚠️ 上限 4 行：实测真表头最深在第 4 行 ✓（`box/調査`：行3 是 `宝箱数` 小节、行4 才是表头 ✓）。
+        // 更重要的是**兜底** ✗ —— 见下：`概要 / 目次 / 参照用` 这类"整张表都是文字"的描述表 ✓，
+        // 永远扫不到"数据行" ✗，没有上限就会冻掉 48 行 ✗✗（2026-09-30 实测 ✓）。
+        if (nR >= 4) break;
+      }
+      if (nR < 1) nR = 1;
+      // ② **列角色**：行号列 / 空列 / 文本型关键列（名称·编号·条件 ✓）都冻 ✓；
+      //    碰到**首个纯数字列** ⇒ 数据区开始，停 ✓。上限 3 列，防止整表都是文字时冻一大片 ✗。
+      var nC = 1, maxCols = rows[0] ? rows[0].cells.length : 1;
+      for (c = 0; c < maxCols && c < 3; c++) {
+        var vals = [];
+        for (k = nR; k < Math.min(rows.length, nR + 12); k++) {
+          var t2 = rows[k].cells[c] ? (rows[k].cells[c].textContent || '').trim() : '';
+          if (t2) vals.push(t2);
+        }
+        var allNum = vals.length > 0 && vals.every(isNum);
+        if (c === 0 || vals.length === 0 || !allNum) nC = c + 1;
+        else break;
+      }
+      var i, j;
       var lefts = [], acc = 0, first = rows[0];
       for (j = 0; j < nC; j++) {
         lefts.push(acc);
