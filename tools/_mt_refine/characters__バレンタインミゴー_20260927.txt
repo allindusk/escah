@@ -1,0 +1,17 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/バレンタインミゴー｜条数：4｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk10#1] 觉醒是否赋予无视防御的能力？撇开属性不谈，单就效果而言，它比泳装埃克希尔要好。
+# ja: 覚醒で防御力無視付くのか。ステは兎も角、効果だけなら水着エクシールより上だな。 
+[blk10#2] 我希望他们至少能加强一下最初限时推出的角色。[O9Fnp8/HPA.]
+# ja: 初期限定キャラだけでも強化してくれないかね。[O9Fnp8/HPA.]
+[blk11#1] SD角色很可爱，但可惜画风欠佳。
+# ja: SDは可愛いのに絵が残念なのが。 
+[blk11#2] 因为我和插画师的关系，我不能要求重画之类的。[CwfiiXmLikw]
+# ja: イラストレーターとの関係性でリテイクとか出せないのかしら。[CwfiiXmLikw]

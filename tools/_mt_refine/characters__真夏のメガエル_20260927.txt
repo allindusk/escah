@@ -1,0 +1,15 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/真夏のメガエル｜条数：3｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk17#1] 如果你能及时培养他们，那么挖掘宝箱、活动循环等都可以作为便捷的选择。
+# ja: 宝箱掘り、イベント周回などなど、育成が間に合うなら便利枠 
+[blk17#2] 为防止事故发生而采取的持续措施也值得称赞。
+# ja: 事故防止の継続回復も偉い 
+[blk17#3] 在我这里，我把司、新年Nono Nono和运动会Mutsumi Kaho列为我挖宝箱的首要目标[uoxCVpkbUlg]
+# ja: うちではツカサ、正月ノノノ、体育祭ムツカと並べて宝箱掘りの優先1にしてる[uoxCVpkbUlg]

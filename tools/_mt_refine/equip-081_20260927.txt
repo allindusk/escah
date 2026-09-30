@@ -1,0 +1,13 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：equip-081｜条数：2｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk9#1] 你打算改用普通的腰带吗？
+# ja: 普通のベルトと重複するの？ 
+[blk9#2] 所以，如果你体力/生命值低且无法撤退，或者如果你有天然纳豆，可以在濒死时恢复体力/生命值，那么你是否可以使用火箭筒、腰带和钻头腰带组成双腰带装备？[a41EoZ3OqLc]
+# ja: じゃあスタミナ減少で撤退しないや、天然納豆持ち、瀕死時スタミナ回復持ちは、ロケット、ベルト、ドリルベルトでＷベルトいける？[a41EoZ3OqLc]

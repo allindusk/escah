@@ -1,0 +1,17 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/リバースバニー・カノープス｜条数：4｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk16#1] 解释中的“最大程度的暴露”是什么意思？
+# ja: 説明の「露出度MAX」って 
+[blk16#2] 在一个有穿着裸体斗篷的荡妇的组织里，她明明遮住了肚子，怎么还能显得如此性感？[XPbY3lPcj.A]
+# ja: 裸マントの痴女がいる組織で、お腹隠してどこがMAXなんだよ[XPbY3lPcj.A]
+[blk17#1] 我以为竹轮被换成了胡萝卜，但看来其他人也都这么想。
+# ja: ちくわが人参に変わったって思ったけどやっぱみんなそう思ってたんだな 
+[blk17#2] 顺便说一句，如果他们是巡逻队员，至少应该让他们在衣服外面套点东西。[BIxfEG7fMGg]
+# ja: ところでパトロールならせめて何か羽織るくらいさせてやりなよ[BIxfEG7fMGg]

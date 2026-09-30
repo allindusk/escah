@@ -1,0 +1,21 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/ビートアイドル・ポピー｜条数：6｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk14#1] 你一直把头扭向一边不看我，我差点也低下头，以为你中了什么魔法之类的。
+# ja: 君ちょくちょく後ろを向くからてっきり魅了でもされたかと思って下げそうになっちゃうよ。
+[blk14#2] 那个动作很可爱，但是……[xlJrIce9uKY]
+# ja:  そのモーションは可愛いんだけども。[xlJrIce9uKY]
+[blk15#1] 这个女孩真是太棒了。
+# ja: ちょっとこの子最高すぎる
+[blk15#2] 现在有点早，但我想要另一个版本 [szKV8V.CWLM]
+# ja:  気が早いけど別ver欲しい[szKV8V.CWLM]
+[blk16#1] 正如故事中提到的，除了身体发育速度缓慢之外，这的确是一项强大的天赋，不是吗？
+# ja: イベストでも言ってる通りスタミナの伸びが悪い事以外は配布としては強いよね
+[blk16#2] 合法的双面萝莉很棒 [q1JxXcNRngM]
+# ja:  合法二面性ロリいいゾー[q1JxXcNRngM]

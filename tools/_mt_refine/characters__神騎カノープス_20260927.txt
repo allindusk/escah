@@ -1,0 +1,23 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/神騎カノープス｜条数：7｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk17#1] 查看最初的插图草稿
+# ja: 初期イラストラフを見て
+[blk17#2] 制片人：“篇幅太长了……需要修改。”
+# ja: プロデューサー「大きすぎる・・・修正が必要だ」[38E8xn6YXlE]
+[blk18#1] 魔法攻击很容易被咆哮虎之术化解。
+# ja: 魔法攻撃はしゃーべりタイガーの都合がつき易い
+[blk18#2] 如果用栗子来弥补眩晕率高的问题，并用十姐妹来提高特殊招式的旋转速度，那么在战斗中应该会很有用。
+# ja: 高いスタン発動率を栗で底上げして十姉妹で必殺技の回転率を上げれば、レイドでは役に立ってくれる筈
+[blk18#3] 它至少比 *Gymnocalycium mihanovichii* 更实用。
+# ja: 少なくともミモザよりは充分使える[l/G9m5DUtOM]
+[blk19#1] Kanopus-chan的纯爱H真的很好……
+# ja: カノープスちゃんの純愛Hとても良いですね……。
+[blk19#2] 保持神秘感很棒 [J/1WFVKr7dA]
+# ja: むっつりはいいぞ[J/1WFVKr7dA]

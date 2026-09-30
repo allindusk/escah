@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
-import { useData } from 'vitepress'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { useData, useRoute } from 'vitepress'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import CharHoverModal from './components/CharHoverModal.vue'
 import DocOutline from './components/DocOutline.vue'
 import MetaBar from './components/MetaBar.vue'
+import MobileToc from './components/MobileToc.vue'
 import ScrollButtons from './components/ScrollButtons.vue'
 import SiteAccessSwitch from './components/SiteAccessSwitch.vue'
 // 搜索功能已禁用（性能开销）
@@ -12,10 +13,12 @@ import SiteAccessSwitch from './components/SiteAccessSwitch.vue'
 // import VPNavBarSearch from './components/VPNavBarSearch.vue'
 import { useI18n } from './i18n'
 import { uiPrefs, applyUiClasses } from './uiPrefs'
+import { initMobileUX, refreshMobileUX } from './mobileUX'
 
 const { Layout } = DefaultTheme
 const { t } = useI18n()
 const { lang } = useData()
+const route = useRoute()
 
 // 图片灯箱（镜像内容图片点击放大）
 const lbSrc = ref('')
@@ -49,11 +52,19 @@ onMounted(() => {
   document.addEventListener('click', onDocClick)
   window.addEventListener('wheel', onShiftWheel, { passive: false })
   applyUiClasses()
+  // 移动端增强：表格横滑提示 + 页内目录折叠（≤767px 才生效）
+  initMobileUX()
 })
 onUnmounted(() => {
   document.removeEventListener('click', onDocClick)
   window.removeEventListener('wheel', onShiftWheel)
 })
+
+// 路由切换后重跑移动端增强（新页面的目录与表格需要重新判定）
+watch(
+  () => route.path,
+  () => nextTick(() => refreshMobileUX()),
+)
 
 const homeHref = () => {
   const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '')
@@ -108,7 +119,12 @@ const homeHref = () => {
     </template>
   </Layout>
   <CharHoverModal />
-  <ScrollButtons />
+  <!-- 右下角悬浮控件栈：桌面端 .escah-dock 为 display:contents（子元素各自 fixed 定位，
+       外观与改造前完全一致）；移动端才收成一个纵向悬浮栈（见 mobile.css）。 -->
+  <div class="escah-dock">
+    <MobileToc />
+    <ScrollButtons />
+  </div>
   <!-- 搜索功能已禁用 <SearchLoading /> -->
   <div v-if="lbSrc" class="lightbox-mask" @click="lbSrc = ''">
     <img :src="lbSrc" alt="" />

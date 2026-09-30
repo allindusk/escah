@@ -94,7 +94,7 @@
       "link": "/zh/raid.html",
       "items": [
        {
-        "text": "突袭推荐角色",
+        "text": "raid推荐角色",
         "link": "/zh/raid-recommended.html"
        },
        {
@@ -102,7 +102,7 @@
         "link": "/zh/raid-buff-debuff.html"
        },
        {
-        "text": "突袭编队示例",
+        "text": "raid编队示例",
         "link": "/zh/raid-formations.html"
        }
       ]
@@ -254,6 +254,28 @@
    {
     "text": "Tips一览",
     "link": "/zh/tips.html"
+   },
+   {
+    "text": "数据统计",
+    "link": "/zh/statistics.html",
+    "items": [
+     {
+      "text": "歼灭战报酬",
+      "link": "/zh/stat-annihilation.html"
+     },
+     {
+      "text": "D2P 扭蛋",
+      "link": "/zh/stat-d2p-gacha.html"
+     },
+     {
+      "text": "战斗箱子掉落",
+      "link": "/zh/stat-box.html"
+     },
+     {
+      "text": "宝箱开箱效率",
+      "link": "/zh/stat-treasure-open.html"
+     }
+    ]
    },
    {
     "text": "更新记录",

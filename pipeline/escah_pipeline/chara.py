@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import re
+from pathlib import Path
 
 from bs4 import BeautifulSoup
 
@@ -141,15 +142,76 @@ def extract_character(name: str, raw_html: str) -> dict | None:
     return {"name": name, "sections": sections}
 
 
+# 依赖这些字段存在，缺任一即视为「历史产物」需要重建（如早期版本没有 release_date）
+_REQUIRED_FIELDS = ("rarity", "icon", "name_zh", "release_date")
+
+
+def _needs_update(out_path: Path, raw_path: Path, deps: "list[Path]") -> bool:
+    """增量判断：角色 JSON 是否需要重新提取。
+
+    旧逻辑是「文件存在且未 force 就跳过」，后果是：源站角色页更新、一览页快照刷新
+    （icon/実装日）、glossary/names.yaml 译名订正、以及缺失字段的补齐，全都不会生效，
+    必须人工跑 `parse --force`。改为：
+      1) 输出不存在 → 重建；
+      2) 任一依赖（角色 raw 页 / 一览页 / names.yaml）比输出新 → 重建；
+      3) 输出缺关键字段 → 重建（兼容历史产物）。
+    """
+    if not out_path.exists():
+        return True
+    try:
+        out_m = out_path.stat().st_mtime
+    except OSError:
+        return True
+    for p in (raw_path, *deps):
+        try:
+            if p.exists() and p.stat().st_mtime > out_m:
+                return True
+        except OSError:
+            continue
+    try:
+        data = json.loads(out_path.read_text(encoding="utf-8"))
+    except Exception:
+        return True
+    return any(k not in data for k in _REQUIRED_FIELDS)
+
+
 def extract_all_characters(force: bool = False) -> None:
-    """批量提取全部角色详情页 → data/parsed/characters/*.json。"""
+    """批量提取全部角色详情页 → data/parsed/characters/*.json。
+
+    默认增量：只重解析「输出缺失 / 源文件更新 / 字段不全」的角色（见 _needs_update），
+    force=True 则全量重建。zh 字段在此只做 glossary 精确匹配，块级整句译文由
+    i18n.char_fill_all() 补齐——故调用顺序必须是：本函数 → char_fill_all。
+    """
     config.ensure_dirs()
     entries = [e for e in load_registry() if e.get("category") == "character-detail"]
+    charlist_raw = config.RAW_DIR / page_filename(config.CHARLIST_PAGE)
+    # 增量依赖：这些文件比输出新时，对应角色必须重解析
+    # （一览页快照 → icon/実装日；names.yaml → name_zh 译名）
+    deps: "list[Path]" = []
+    if charlist_raw.exists():
+        deps.append(charlist_raw)
+    names_yaml = config.ROOT / "glossary" / "names.yaml"
+    if names_yaml.exists():
+        deps.append(names_yaml)
+
+    # 第一遍只比 mtime 与字段完整性（不解析任何 HTML）→ 无变化时构建零开销
+    todo: "list[tuple[str, Path, Path, dict]]" = []
+    for e in entries:
+        name = e["name"]
+        raw_path = config.RAW_DIR / page_filename(name)
+        if not raw_path.exists():
+            continue
+        out_path = config.PARSED_CHAR_DIR / f"{safe_id(name)}.json"
+        if force or _needs_update(out_path, raw_path, deps):
+            todo.append((name, raw_path, out_path, e))
+    if not todo:
+        log.info("角色浮窗数据均为最新（%d 个，无需重提取）", len(entries))
+        return
+
     # 头像本地名（img/<sha256>）以当前命名规则从「キャラクター一覧」快照重算，
     # 修正 pages.yaml 中残留的旧命名（attach2/<hex>）导致浮窗头像 404 的问题。
     icon_map: dict[str, str] = {}
     release_map: dict[str, str] = {}
-    charlist_raw = config.RAW_DIR / page_filename(config.CHARLIST_PAGE)
     if charlist_raw.exists():
         try:
             for c in extract_characters(charlist_raw.read_text(encoding="utf-8", errors="replace")):
@@ -164,25 +226,18 @@ def extract_all_characters(force: bool = False) -> None:
             release_map = _extract_release_dates()
         except Exception as err:  # noqa: BLE001
             log.warning("提取角色实装日期失败：%s", err)
-    ok = failed = skipped = 0
-    for i, e in enumerate(entries, 1):
-        name = e["name"]
-        raw_path = config.RAW_DIR / page_filename(name)
-        if not raw_path.exists():
-            continue
-        out_path = config.PARSED_CHAR_DIR / f"{safe_id(name)}.json"
-        if out_path.exists() and not force:
-            skipped += 1
-            continue
+
+    ok = failed = 0
+    for i, (name, raw_path, out_path, e) in enumerate(todo, 1):
         try:
             data = extract_character(name, raw_path.read_text(encoding="utf-8", errors="replace"))
         except Exception as err:  # noqa: BLE001
             failed += 1
-            log.error("[%d/%d] 角色提取异常 %s：%s", i, len(entries), name, err)
+            log.error("[%d/%d] 角色提取异常 %s：%s", i, len(todo), name, err)
             continue
         if data is None:
             failed += 1
-            log.warning("[%d/%d] 角色信息区未匹配 %s", i, len(entries), name)
+            log.warning("[%d/%d] 角色信息区未匹配 %s", i, len(todo), name)
             continue
         data["rarity"] = e.get("rarity")
         data["icon"] = icon_map.get(name) or e.get("icon")
@@ -191,4 +246,5 @@ def extract_all_characters(force: bool = False) -> None:
             data["release_date"] = release_map[name]  # 实装日期（原样，可能为空字符串）
         out_path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
         ok += 1
-    log.info("角色提取完成：成功 %d，跳过 %d，失败 %d", ok, skipped, failed)
+    log.info("角色提取完成：重提取 %d，跳过 %d（已是最新），失败 %d",
+             ok, len(entries) - len(todo), failed)

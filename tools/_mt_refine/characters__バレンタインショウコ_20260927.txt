@@ -1,0 +1,17 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/バレンタインショウコ｜条数：4｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk17#1] 攻击方向为水平线的特殊招式在实战中通常很难使用。
+# ja: 横1列の必殺技って微妙に使いづらいんだよなぁ
+[blk17#2] Koshuku 的白色，但又不会太白 [Vkb/RdqjJkA]
+# ja: 小祝の白だけど[Vkb/RdqjJkA]
+[blk18#1] 在突袭中，似乎在生命值降至 5% 以下之前，战斗就会变得无法无天。
+# ja: レイドだと5％以下になる前に戦闘不能になりそうだしな
+[blk18#2] 独特的特殊攻击还不错，但不知为何整体表现却略显不足。
+# ja: 固有も必殺も悪くはないんだがなんというか微妙に物足りない感じが[Xu5egewHtSE]

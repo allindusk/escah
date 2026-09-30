@@ -819,6 +819,30 @@ mirrored:
   - name: 魔法少女ヒトミ
     slug: characters/魔法少女ヒトミ
     url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F
+  - name: 真夏のエスカ・オニキス
+    slug: characters/真夏のエスカ・オニキス
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%AA%E3%83%8B%E3%82%AD%E3%82%B9
+  - name: 盛夏のエスカレイヤー
+    slug: characters/盛夏のエスカレイヤー
+    url: https://escalationheroines.wikiru.jp/?%E7%9B%9B%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC
+  - name: 真夏のキクリ
+    slug: characters/真夏のキクリ
+    url: https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%AD%E3%82%AF%E3%83%AA
+  - name: エスカ・セブン
+    slug: characters/エスカ・セブン
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%BB%E3%83%96%E3%83%B3
+  - name: バニーガールゲッカ
+    slug: characters/バニーガールゲッカ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%8B%E3%83%BC%E3%82%AC%E3%83%BC%E3%83%AB%E3%82%B2%E3%83%83%E3%82%AB
+  - name: バトラー・ヘプタスロン
+    slug: characters/バトラー・ヘプタスロン
+    url: https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%88%E3%83%A9%E3%83%BC%E3%83%BB%E3%83%98%E3%83%97%E3%82%BF%E3%82%B9%E3%83%AD%E3%83%B3
+  - name: 神騎ハウゼル
+    slug: characters/神騎ハウゼル
+    url: https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%8F%E3%82%A6%E3%82%BC%E3%83%AB
+  - name: 閃忍ホーネット
+    slug: characters/閃忍ホーネット
+    url: https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%9B%E3%83%BC%E3%83%8D%E3%83%83%E3%83%88
   キャラクター一覧SR:
   - name: ビートスラッシャー・ショウコ
     slug: characters/ビートスラッシャー・ショウコ
@@ -901,6 +925,9 @@ mirrored:
   - name: SR
     slug: list-sr
     url: https://escalationheroines.wikiru.jp/?SR
+  - name: ビートマジカル・マジック
+    slug: characters/ビートマジカル・マジック
+    url: https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%9E%E3%82%B8%E3%82%AB%E3%83%AB%E3%83%BB%E3%83%9E%E3%82%B8%E3%83%83%E3%82%AF
   キャラクター一覧R:
   - name: エスカ・ルビー
     slug: characters/エスカ・ルビー
@@ -1253,6 +1280,9 @@ mirrored:
     slug: events
     url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7
   その他:
+  - name: 公式ヘルプ
+    slug: official-help
+    url: https://escalationheroines.wikiru.jp/?%E5%85%AC%E5%BC%8F%E3%83%98%E3%83%AB%E3%83%97
   - name: 用語集
     slug: glossary
     url: https://escalationheroines.wikiru.jp/?%E7%94%A8%E8%AA%9E%E9%9B%86
@@ -1262,3 +1292,741 @@ mirrored:
   - name: Tips一覧
     slug: tips
     url: https://escalationheroines.wikiru.jp/?Tips%E4%B8%80%E8%A6%A7
+  - name: 1ダースべべたー
+    slug: equip-001
+    url: https://escalationheroines.wikiru.jp/?1%E3%83%80%E3%83%BC%E3%82%B9%E3%81%B9%E3%81%B9%E3%81%9F%E3%83%BC
+  - name: あの日の決意
+    slug: equip-002
+    url: https://escalationheroines.wikiru.jp/?%E3%81%82%E3%81%AE%E6%97%A5%E3%81%AE%E6%B1%BA%E6%84%8F
+  - name: うなぎの鞄焼き
+    slug: equip-003
+    url: https://escalationheroines.wikiru.jp/?%E3%81%86%E3%81%AA%E3%81%8E%E3%81%AE%E9%9E%84%E7%84%BC%E3%81%8D
+  - name: お年玉2025
+    slug: equip-004
+    url: https://escalationheroines.wikiru.jp/?%E3%81%8A%E5%B9%B4%E7%8E%892025
+  - name: お茶会セット
+    slug: equip-005
+    url: https://escalationheroines.wikiru.jp/?%E3%81%8A%E8%8C%B6%E4%BC%9A%E3%82%BB%E3%83%83%E3%83%88
+  - name: しいたて
+    slug: equip-006
+    url: https://escalationheroines.wikiru.jp/?%E3%81%97%E3%81%84%E3%81%9F%E3%81%A6
+  - name: しゃーべりタイガー
+    slug: equip-007
+    url: https://escalationheroines.wikiru.jp/?%E3%81%97%E3%82%83%E3%83%BC%E3%81%B9%E3%82%8A%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC
+  - name: すっぽんぽん鍋
+    slug: equip-008
+    url: https://escalationheroines.wikiru.jp/?%E3%81%99%E3%81%A3%E3%81%BD%E3%82%93%E3%81%BD%E3%82%93%E9%8D%8B
+  - name: そこそこ倉庫
+    slug: equip-009
+    url: https://escalationheroines.wikiru.jp/?%E3%81%9D%E3%81%93%E3%81%9D%E3%81%93%E5%80%89%E5%BA%AB
+  - name: てかるせっかち
+    slug: equip-010
+    url: https://escalationheroines.wikiru.jp/?%E3%81%A6%E3%81%8B%E3%82%8B%E3%81%9B%E3%81%A3%E3%81%8B%E3%81%A1
+  - name: てかる十姉妹
+    slug: equip-011
+    url: https://escalationheroines.wikiru.jp/?%E3%81%A6%E3%81%8B%E3%82%8B%E5%8D%81%E5%A7%89%E5%A6%B9
+  - name: てかる栗
+    slug: equip-012
+    url: https://escalationheroines.wikiru.jp/?%E3%81%A6%E3%81%8B%E3%82%8B%E6%A0%97
+  - name: のーこんぶるま
+    slug: equip-013
+    url: https://escalationheroines.wikiru.jp/?%E3%81%AE%E3%83%BC%E3%81%93%E3%82%93%E3%81%B6%E3%82%8B%E3%81%BE
+  - name: ひまわらない・赤
+    slug: equip-014
+    url: https://escalationheroines.wikiru.jp/?%E3%81%B2%E3%81%BE%E3%82%8F%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E8%B5%A4
+  - name: ひまわらない・青
+    slug: equip-015
+    url: https://escalationheroines.wikiru.jp/?%E3%81%B2%E3%81%BE%E3%82%8F%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%9D%92
+  - name: ひまわらない・黄
+    slug: equip-016
+    url: https://escalationheroines.wikiru.jp/?%E3%81%B2%E3%81%BE%E3%82%8F%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%BB%84
+  - name: べべたーの刃
+    slug: equip-017
+    url: https://escalationheroines.wikiru.jp/?%E3%81%B9%E3%81%B9%E3%81%9F%E3%83%BC%E3%81%AE%E5%88%83
+  - name: エンジんスパッツ
+    slug: equip-018
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%93%E3%82%B9%E3%83%91%E3%83%83%E3%83%84
+  - name: カット調味料・中
+    slug: equip-019
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AB%E3%83%83%E3%83%88%E8%AA%BF%E5%91%B3%E6%96%99%E3%83%BB%E4%B8%AD
+  - name: カット調味料・和
+    slug: equip-020
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AB%E3%83%83%E3%83%88%E8%AA%BF%E5%91%B3%E6%96%99%E3%83%BB%E5%92%8C
+  - name: カット調味料・洋
+    slug: equip-021
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AB%E3%83%83%E3%83%88%E8%AA%BF%E5%91%B3%E6%96%99%E3%83%BB%E6%B4%8B
+  - name: ガッツのあるベルト
+    slug: equip-022
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AC%E3%83%83%E3%83%84%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88
+  - name: ガッツタイガー
+    slug: equip-023
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AC%E3%83%83%E3%83%84%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC
+  - name: ガッツ十姉妹
+    slug: equip-024
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AC%E3%83%83%E3%83%84%E5%8D%81%E5%A7%89%E5%A6%B9
+  - name: キラメキグローブ
+    slug: equip-025
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AD%E3%83%A9%E3%83%A1%E3%82%AD%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%96
+  - name: クリア・ゲタスキー
+    slug: equip-026
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%BB%E3%82%B2%E3%82%BF%E3%82%B9%E3%82%AD%E3%83%BC
+  - name: クリスタルベアー
+    slug: equip-027
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AF%E3%83%AA%E3%82%B9%E3%82%BF%E3%83%AB%E3%83%99%E3%82%A2%E3%83%BC
+  - name: コンボの謎
+    slug: equip-028
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%B3%E3%83%9C%E3%81%AE%E8%AC%8E
+  - name: コンボ納豆
+    slug: equip-029
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%B3%E3%83%9C%E7%B4%8D%E8%B1%86
+  - name: ゴブスレー
+    slug: equip-030
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B4%E3%83%96%E3%82%B9%E3%83%AC%E3%83%BC
+  - name: スタンダードスクみず
+    slug: equip-031
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%89%E3%82%B9%E3%82%AF%E3%81%BF%E3%81%9A
+  - name: スタン帽子
+    slug: equip-032
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B9%E3%82%BF%E3%83%B3%E5%B8%BD%E5%AD%90
+  - name: スーパーカー
+    slug: equip-033
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%82%AB%E3%83%BC
+  - name: スーパーコンボ
+    slug: equip-034
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%82%B3%E3%83%B3%E3%83%9C
+  - name: スーパードリル
+    slug: equip-035
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%83%89%E3%83%AA%E3%83%AB
+  - name: タツノオトシドコロ
+    slug: equip-036
+    url: https://escalationheroines.wikiru.jp/?%E3%82%BF%E3%83%84%E3%83%8E%E3%82%AA%E3%83%88%E3%82%B7%E3%83%89%E3%82%B3%E3%83%AD
+  - name: チョコットGPT
+    slug: equip-037
+    url: https://escalationheroines.wikiru.jp/?%E3%83%81%E3%83%A7%E3%82%B3%E3%83%83%E3%83%88GPT
+  - name: トキサダ手作りチョコ
+    slug: equip-038
+    url: https://escalationheroines.wikiru.jp/?%E3%83%88%E3%82%AD%E3%82%B5%E3%83%80%E6%89%8B%E4%BD%9C%E3%82%8A%E3%83%81%E3%83%A7%E3%82%B3
+  - name: ドラ猫の鈴
+    slug: equip-039
+    url: https://escalationheroines.wikiru.jp/?%E3%83%89%E3%83%A9%E7%8C%AB%E3%81%AE%E9%88%B4
+  - name: ドリル十姉妹
+    slug: equip-040
+    url: https://escalationheroines.wikiru.jp/?%E3%83%89%E3%83%AA%E3%83%AB%E5%8D%81%E5%A7%89%E5%A6%B9
+  - name: ドリル掃除機
+    slug: equip-041
+    url: https://escalationheroines.wikiru.jp/?%E3%83%89%E3%83%AA%E3%83%AB%E6%8E%83%E9%99%A4%E6%A9%9F
+  - name: ヌンジャスプレー
+    slug: equip-042
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8C%E3%83%B3%E3%82%B8%E3%83%A3%E3%82%B9%E3%83%97%E3%83%AC%E3%83%BC
+  - name: ハミング・ジャミング
+    slug: equip-043
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%9F%E3%83%B3%E3%82%B0%E3%83%BB%E3%82%B8%E3%83%A3%E3%83%9F%E3%83%B3%E3%82%B0
+  - name: フンバル三兄弟・三男
+    slug: equip-044
+    url: https://escalationheroines.wikiru.jp/?%E3%83%95%E3%83%B3%E3%83%90%E3%83%AB%E4%B8%89%E5%85%84%E5%BC%9F%E3%83%BB%E4%B8%89%E7%94%B7
+  - name: フンバル三兄弟・次男
+    slug: equip-045
+    url: https://escalationheroines.wikiru.jp/?%E3%83%95%E3%83%B3%E3%83%90%E3%83%AB%E4%B8%89%E5%85%84%E5%BC%9F%E3%83%BB%E6%AC%A1%E7%94%B7
+  - name: フンバル三兄弟・長男
+    slug: equip-046
+    url: https://escalationheroines.wikiru.jp/?%E3%83%95%E3%83%B3%E3%83%90%E3%83%AB%E4%B8%89%E5%85%84%E5%BC%9F%E3%83%BB%E9%95%B7%E7%94%B7
+  - name: フーマンキラー
+    slug: equip-047
+    url: https://escalationheroines.wikiru.jp/?%E3%83%95%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%AD%E3%83%A9%E3%83%BC
+  - name: ヘイトのパンツ
+    slug: equip-048
+    url: https://escalationheroines.wikiru.jp/?%E3%83%98%E3%82%A4%E3%83%88%E3%81%AE%E3%83%91%E3%83%B3%E3%83%84
+  - name: ヘビースターメン
+    slug: equip-049
+    url: https://escalationheroines.wikiru.jp/?%E3%83%98%E3%83%93%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%A1%E3%83%B3
+  - name: マリナの衣装
+    slug: equip-050
+    url: https://escalationheroines.wikiru.jp/?%E3%83%9E%E3%83%AA%E3%83%8A%E3%81%AE%E8%A1%A3%E8%A3%85
+  - name: ロケットエンジン
+    slug: equip-051
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3
+  - name: ロケットベルト
+    slug: equip-052
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%83%99%E3%83%AB%E3%83%88
+  - name: ロケット十姉妹
+    slug: equip-053
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E5%8D%81%E5%A7%89%E5%A6%B9
+  - name: ロケット納豆
+    slug: equip-054
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E7%B4%8D%E8%B1%86
+  - name: 一斬の剣
+    slug: equip-055
+    url: https://escalationheroines.wikiru.jp/?%E4%B8%80%E6%96%AC%E3%81%AE%E5%89%A3
+  - name: 亀甲の刃
+    slug: equip-056
+    url: https://escalationheroines.wikiru.jp/?%E4%BA%80%E7%94%B2%E3%81%AE%E5%88%83
+  - name: 仁王タイガー
+    slug: equip-057
+    url: https://escalationheroines.wikiru.jp/?%E4%BB%81%E7%8E%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC
+  - name: 仁王ドリル
+    slug: equip-058
+    url: https://escalationheroines.wikiru.jp/?%E4%BB%81%E7%8E%8B%E3%83%89%E3%83%AA%E3%83%AB
+  - name: 仁王納豆
+    slug: equip-059
+    url: https://escalationheroines.wikiru.jp/?%E4%BB%81%E7%8E%8B%E7%B4%8D%E8%B1%86
+  - name: 内縛陣
+    slug: equip-060
+    url: https://escalationheroines.wikiru.jp/?%E5%86%85%E7%B8%9B%E9%99%A3
+  - name: 命中の刃
+    slug: equip-061
+    url: https://escalationheroines.wikiru.jp/?%E5%91%BD%E4%B8%AD%E3%81%AE%E5%88%83
+  - name: 太陽のトウ
+    slug: equip-062
+    url: https://escalationheroines.wikiru.jp/?%E5%A4%AA%E9%99%BD%E3%81%AE%E3%83%88%E3%82%A6
+  - name: 小得のスーパーカー
+    slug: equip-063
+    url: https://escalationheroines.wikiru.jp/?%E5%B0%8F%E5%BE%97%E3%81%AE%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%82%AB%E3%83%BC
+  - name: 小得の掃除機
+    slug: equip-064
+    url: https://escalationheroines.wikiru.jp/?%E5%B0%8F%E5%BE%97%E3%81%AE%E6%8E%83%E9%99%A4%E6%A9%9F
+  - name: 星のカーフィー
+    slug: equip-065
+    url: https://escalationheroines.wikiru.jp/?%E6%98%9F%E3%81%AE%E3%82%AB%E3%83%BC%E3%83%95%E3%82%A3%E3%83%BC
+  - name: 月のウサギ
+    slug: equip-066
+    url: https://escalationheroines.wikiru.jp/?%E6%9C%88%E3%81%AE%E3%82%A6%E3%82%B5%E3%82%AE
+  - name: 無名の祭祀書
+    slug: equip-067
+    url: https://escalationheroines.wikiru.jp/?%E7%84%A1%E5%90%8D%E3%81%AE%E7%A5%AD%E7%A5%80%E6%9B%B8
+  - name: 牛女縛り
+    slug: equip-068
+    url: https://escalationheroines.wikiru.jp/?%E7%89%9B%E5%A5%B3%E7%B8%9B%E3%82%8A
+  - name: 牛女肉襦袢
+    slug: equip-069
+    url: https://escalationheroines.wikiru.jp/?%E7%89%9B%E5%A5%B3%E8%82%89%E8%A5%A6%E8%A2%A2
+  - name: 白ヒゲここ一発
+    slug: equip-070
+    url: https://escalationheroines.wikiru.jp/?%E7%99%BD%E3%83%92%E3%82%B2%E3%81%93%E3%81%93%E4%B8%80%E7%99%BA
+  - name: 白色のスカーフ
+    slug: equip-071
+    url: https://escalationheroines.wikiru.jp/?%E7%99%BD%E8%89%B2%E3%81%AE%E3%82%B9%E3%82%AB%E3%83%BC%E3%83%95
+  - name: 直前煮
+    slug: equip-072
+    url: https://escalationheroines.wikiru.jp/?%E7%9B%B4%E5%89%8D%E7%85%AE
+  - name: 純白スクみず
+    slug: equip-073
+    url: https://escalationheroines.wikiru.jp/?%E7%B4%94%E7%99%BD%E3%82%B9%E3%82%AF%E3%81%BF%E3%81%9A
+  - name: 細菌兵器
+    slug: equip-074
+    url: https://escalationheroines.wikiru.jp/?%E7%B4%B0%E8%8F%8C%E5%85%B5%E5%99%A8
+  - name: 縛りせっかち
+    slug: equip-075
+    url: https://escalationheroines.wikiru.jp/?%E7%B8%9B%E3%82%8A%E3%81%9B%E3%81%A3%E3%81%8B%E3%81%A1
+  - name: 縛りべべたー
+    slug: equip-076
+    url: https://escalationheroines.wikiru.jp/?%E7%B8%9B%E3%82%8A%E3%81%B9%E3%81%B9%E3%81%9F%E3%83%BC
+  - name: 縛り亀甲
+    slug: equip-077
+    url: https://escalationheroines.wikiru.jp/?%E7%B8%9B%E3%82%8A%E4%BA%80%E7%94%B2
+  - name: 縛り仁王
+    slug: equip-078
+    url: https://escalationheroines.wikiru.jp/?%E7%B8%9B%E3%82%8A%E4%BB%81%E7%8E%8B
+  - name: 聖剣コスモス
+    slug: equip-079
+    url: https://escalationheroines.wikiru.jp/?%E8%81%96%E5%89%A3%E3%82%B3%E3%82%B9%E3%83%A2%E3%82%B9
+  - name: 衝撃のあるタイガー
+    slug: equip-080
+    url: https://escalationheroines.wikiru.jp/?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC
+  - name: 衝撃のあるドリル
+    slug: equip-081
+    url: https://escalationheroines.wikiru.jp/?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%89%E3%83%AA%E3%83%AB
+  - name: 衝撃のあるベルト
+    slug: equip-082
+    url: https://escalationheroines.wikiru.jp/?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88
+  - name: 衝撃の仁王
+    slug: equip-083
+    url: https://escalationheroines.wikiru.jp/?%E8%A1%9D%E6%92%83%E3%81%AE%E4%BB%81%E7%8E%8B
+  - name: 謙信の兜
+    slug: equip-084
+    url: https://escalationheroines.wikiru.jp/?%E8%AC%99%E4%BF%A1%E3%81%AE%E5%85%9C
+  - name: 超昂人ロック
+    slug: equip-085
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E4%BA%BA%E3%83%AD%E3%83%83%E3%82%AF
+  - name: 超昂金 ソル・クラウン(スタミナ)
+    slug: equip-086
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E3%82%BD%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%B3%28%E3%82%B9%E3%82%BF%E3%83%9F%E3%83%8A%29
+  - name: 超昂金 ソル・クラウン(攻撃)
+    slug: equip-087
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E3%82%BD%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%B3%28%E6%94%BB%E6%92%83%29
+  - name: 超昂金 パルシオン(スタミナ)
+    slug: equip-088
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E3%83%91%E3%83%AB%E3%82%B7%E3%82%AA%E3%83%B3%28%E3%82%B9%E3%82%BF%E3%83%9F%E3%83%8A%29
+  - name: 超昂金 パルシオン(攻撃)
+    slug: equip-089
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E3%83%91%E3%83%AB%E3%82%B7%E3%82%AA%E3%83%B3%28%E6%94%BB%E6%92%83%29
+  - name: 超昂金 滴－シズク－(スタミナ)
+    slug: equip-090
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E6%BB%B4%EF%BC%8D%E3%82%B7%E3%82%BA%E3%82%AF%EF%BC%8D%28%E3%82%B9%E3%82%BF%E3%83%9F%E3%83%8A%29
+  - name: 超昂金 滴－シズク－(攻撃)
+    slug: equip-091
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E6%BB%B4%EF%BC%8D%E3%82%B7%E3%82%BA%E3%82%AF%EF%BC%8D%28%E6%94%BB%E6%92%83%29
+  - name: 超昂金 紫竜－シリュウ－(スタミナ)
+    slug: equip-092
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E7%B4%AB%E7%AB%9C%EF%BC%8D%E3%82%B7%E3%83%AA%E3%83%A5%E3%82%A6%EF%BC%8D%28%E3%82%B9%E3%82%BF%E3%83%9F%E3%83%8A%29
+  - name: 超昂金 紫竜－シリュウ－(攻撃)
+    slug: equip-093
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E7%B4%AB%E7%AB%9C%EF%BC%8D%E3%82%B7%E3%83%AA%E3%83%A5%E3%82%A6%EF%BC%8D%28%E6%94%BB%E6%92%83%29
+  - name: 超昂金ソル・クラウン（防御）
+    slug: equip-094
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%E3%82%BD%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%B3%EF%BC%88%E9%98%B2%E5%BE%A1%EF%BC%89
+  - name: 超昂金パルシオン（防御）
+    slug: equip-095
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%E3%83%91%E3%83%AB%E3%82%B7%E3%82%AA%E3%83%B3%EF%BC%88%E9%98%B2%E5%BE%A1%EF%BC%89
+  - name: 超昂金滴-シズク-（防御）
+    slug: equip-096
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%E6%BB%B4-%E3%82%B7%E3%82%BA%E3%82%AF-%EF%BC%88%E9%98%B2%E5%BE%A1%EF%BC%89
+  - name: 超昂金紫竜-シリュウ-（防御）
+    slug: equip-097
+    url: https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%E7%B4%AB%E7%AB%9C-%E3%82%B7%E3%83%AA%E3%83%A5%E3%82%A6-%EF%BC%88%E9%98%B2%E5%BE%A1%EF%BC%89
+  - name: 身代わりの樹Ⅱ
+    slug: equip-098
+    url: https://escalationheroines.wikiru.jp/?%E8%BA%AB%E4%BB%A3%E3%82%8F%E3%82%8A%E3%81%AE%E6%A8%B9%E2%85%A1
+  - name: 身代わりの肉襦袢
+    slug: equip-099
+    url: https://escalationheroines.wikiru.jp/?%E8%BA%AB%E4%BB%A3%E3%82%8F%E3%82%8A%E3%81%AE%E8%82%89%E8%A5%A6%E8%A2%A2
+  - name: 身軽の羽
+    slug: equip-100
+    url: https://escalationheroines.wikiru.jp/?%E8%BA%AB%E8%BB%BD%E3%81%AE%E7%BE%BD
+  - name: 長髪まねきドリル
+    slug: equip-101
+    url: https://escalationheroines.wikiru.jp/?%E9%95%B7%E9%AB%AA%E3%81%BE%E3%81%AD%E3%81%8D%E3%83%89%E3%83%AA%E3%83%AB
+  - name: 長髪まねき猫
+    slug: equip-102
+    url: https://escalationheroines.wikiru.jp/?%E9%95%B7%E9%AB%AA%E3%81%BE%E3%81%AD%E3%81%8D%E7%8C%AB
+  - name: 電光せっかち
+    slug: equip-103
+    url: https://escalationheroines.wikiru.jp/?%E9%9B%BB%E5%85%89%E3%81%9B%E3%81%A3%E3%81%8B%E3%81%A1
+  - name: 電光べべたー
+    slug: equip-104
+    url: https://escalationheroines.wikiru.jp/?%E9%9B%BB%E5%85%89%E3%81%B9%E3%81%B9%E3%81%9F%E3%83%BC
+  - name: 電光王子
+    slug: equip-105
+    url: https://escalationheroines.wikiru.jp/?%E9%9B%BB%E5%85%89%E7%8E%8B%E5%AD%90
+  - name: 青い羽根
+    slug: equip-106
+    url: https://escalationheroines.wikiru.jp/?%E9%9D%92%E3%81%84%E7%BE%BD%E6%A0%B9
+  - name: 風火二輪・Ｂ
+    slug: equip-107
+    url: https://escalationheroines.wikiru.jp/?%E9%A2%A8%E7%81%AB%E4%BA%8C%E8%BC%AA%E3%83%BB%EF%BC%A2
+  - name: 鬼霧の剣
+    slug: equip-108
+    url: https://escalationheroines.wikiru.jp/?%E9%AC%BC%E9%9C%A7%E3%81%AE%E5%89%A3
+  - name: １ダースまねき猫
+    slug: equip-109
+    url: https://escalationheroines.wikiru.jp/?%EF%BC%91%E3%83%80%E3%83%BC%E3%82%B9%E3%81%BE%E3%81%AD%E3%81%8D%E7%8C%AB
+  - name: ２コンの一撃
+    slug: equip-110
+    url: https://escalationheroines.wikiru.jp/?%EF%BC%92%E3%82%B3%E3%83%B3%E3%81%AE%E4%B8%80%E6%92%83
+  - name: ３セットメモリー
+    slug: equip-111
+    url: https://escalationheroines.wikiru.jp/?%EF%BC%93%E3%82%BB%E3%83%83%E3%83%88%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%BC
+  - name: ＤＤアクセラレーター
+    slug: equip-112
+    url: https://escalationheroines.wikiru.jp/?%EF%BC%A4%EF%BC%A4%E3%82%A2%E3%82%AF%E3%82%BB%E3%83%A9%E3%83%AC%E3%83%BC%E3%82%BF%E3%83%BC
+  - name: イベント12_レイドイベント『ゴールデンハニー』
+    slug: raid-001
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8812_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%87%E3%83%B3%E3%83%8F%E3%83%8B%E3%83%BC%E3%80%8F
+  - name: イベント08_レイドイベント『グナガン』
+    slug: raid-002
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8808_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E3%82%B0%E3%83%8A%E3%82%AC%E3%83%B3%E3%80%8F
+  - name: イベント14_レイドイベント『ウールタール』
+    slug: raid-003
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8814_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E3%82%A6%E3%83%BC%E3%83%AB%E3%82%BF%E3%83%BC%E3%83%AB%E3%80%8F
+  - name: イベント22_レイドイベント『堕威大仏』
+    slug: raid-004
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8822_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A0%95%E5%A8%81%E5%A4%A7%E4%BB%8F%E3%80%8F
+  - name: イベント32_レイドイベント『大往嬢』
+    slug: raid-005
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8832_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A4%A7%E5%BE%80%E5%AC%A2%E3%80%8F
+  - name: イベント46_レイドイベント『狂王』
+    slug: raid-006
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8846_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E7%8B%82%E7%8E%8B%E3%80%8F
+  - name: イベント60_レイドイベント『ヴリトラ』
+    slug: raid-007
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8860_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E3%83%B4%E3%83%AA%E3%83%88%E3%83%A9%E3%80%8F
+  - name: ウェーブフラスト（Bユニバース）
+    slug: buniv-001
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A6%E3%82%A7%E3%83%BC%E3%83%96%E3%83%95%E3%83%A9%E3%82%B9%E3%83%88%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: エスカレイヤー・リバース＆ハルカ・リバース（Bユニバース）
+    slug: buniv-002
+    url: https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%86%E3%83%8F%E3%83%AB%E3%82%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: オルタナ四天王（Bユニバース）
+    slug: buniv-003
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AA%E3%83%AB%E3%82%BF%E3%83%8A%E5%9B%9B%E5%A4%A9%E7%8E%8B%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: オルバ（Bユニバース）
+    slug: buniv-004
+    url: https://escalationheroines.wikiru.jp/?%E3%82%AA%E3%83%AB%E3%83%90%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: サイエンフラスト（Bユニバース）
+    slug: buniv-005
+    url: https://escalationheroines.wikiru.jp/?%E3%82%B5%E3%82%A4%E3%82%A8%E3%83%B3%E3%83%95%E3%83%A9%E3%82%B9%E3%83%88%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: ディストバーン（Bユニバース）
+    slug: buniv-006
+    url: https://escalationheroines.wikiru.jp/?%E3%83%87%E3%82%A3%E3%82%B9%E3%83%88%E3%83%90%E3%83%BC%E3%83%B3%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: ムービーフラスト（Bユニバース）
+    slug: buniv-007
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A0%E3%83%BC%E3%83%93%E3%83%BC%E3%83%95%E3%83%A9%E3%82%B9%E3%83%88%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: レールフラスト（Bユニバース）
+    slug: buniv-008
+    url: https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%83%BC%E3%83%AB%E3%83%95%E3%83%A9%E3%82%B9%E3%83%88%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: 殲忍カゲリ（Bユニバース）
+    slug: buniv-009
+    url: https://escalationheroines.wikiru.jp/?%E6%AE%B2%E5%BF%8D%E3%82%AB%E3%82%B2%E3%83%AA%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: 殲忍ハガネ（Bユニバース）
+    slug: buniv-010
+    url: https://escalationheroines.wikiru.jp/?%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: 滅忍キクリ＆コテツ（Bユニバース）
+    slug: buniv-011
+    url: https://escalationheroines.wikiru.jp/?%E6%BB%85%E5%BF%8D%E3%82%AD%E3%82%AF%E3%83%AA%EF%BC%86%E3%82%B3%E3%83%86%E3%83%84%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: メインクエスト/Area1
+    slug: mq-001
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area1
+  - name: メインクエスト/Area2
+    slug: mq-002
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area2
+  - name: メインクエスト/Area3
+    slug: mq-003
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area3
+  - name: メインクエスト/Area4
+    slug: mq-004
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area4
+  - name: メインクエスト/Area5
+    slug: mq-005
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area5
+  - name: メインクエスト/Area6
+    slug: mq-006
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area6
+  - name: メインクエスト/Area7
+    slug: mq-007
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area7
+  - name: メインクエスト/Area8
+    slug: mq-008
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area8
+  - name: メインクエスト/Area9
+    slug: mq-009
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area9
+  - name: メインクエスト/Area10
+    slug: mq-010
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area10
+  - name: メインクエスト/Area11
+    slug: mq-011
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area11
+  - name: メインクエスト/Area12
+    slug: mq-012
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area12
+  - name: メインクエスト/Area13
+    slug: mq-013
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area13
+  - name: メインクエスト/Area14
+    slug: mq-014
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area14
+  - name: メインクエスト/Area15
+    slug: mq-015
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area15
+  - name: メインクエスト/Area16
+    slug: mq-016
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area16
+  - name: メインクエスト/Area17
+    slug: mq-017
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area17
+  - name: メインクエスト/Area18
+    slug: mq-018
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area18
+  - name: メインクエスト/Area19
+    slug: mq-019
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area19
+  - name: メインクエスト/Area20
+    slug: mq-020
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area20
+  - name: メインクエスト/Area21
+    slug: mq-021
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area21
+  - name: メインクエスト/Area22
+    slug: mq-022
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area22
+  - name: メインクエスト/Area23
+    slug: mq-023
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area23
+  - name: メインクエスト/Area24
+    slug: mq-024
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area24
+  - name: メインクエスト/Area25
+    slug: mq-025
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area25
+  - name: メインクエスト/Area26
+    slug: mq-026
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area26
+  - name: メインクエスト/Area27
+    slug: mq-027
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area27
+  - name: メインクエスト/Area28
+    slug: mq-028
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area28
+  - name: メインクエスト/Area29
+    slug: mq-029
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area29
+  - name: メインクエスト/Area30
+    slug: mq-030
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area30
+  - name: メインクエスト/Area31
+    slug: mq-031
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area31
+  - name: メインクエスト/Area32
+    slug: mq-032
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area32
+  - name: メインクエスト/Area33
+    slug: mq-033
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area33
+  - name: メインクエスト/Area34
+    slug: mq-034
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area34
+  - name: メインクエスト/Area35
+    slug: mq-035
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area35
+  - name: メインクエスト/Area36
+    slug: mq-036
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area36
+  - name: メインクエスト/Area37
+    slug: mq-037
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area37
+  - name: メインクエスト/Area38
+    slug: mq-038
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area38
+  - name: メインクエスト/Area39
+    slug: mq-039
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area39
+  - name: メインクエスト/Area40
+    slug: mq-040
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area40
+  - name: メインクエスト/Area41
+    slug: mq-041
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area41
+  - name: メインクエスト/Area42
+    slug: mq-042
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area42
+  - name: メインクエスト/Area43
+    slug: mq-043
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area43
+  - name: メインクエスト/Area44
+    slug: mq-044
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area44
+  - name: メインクエスト/Area45
+    slug: mq-045
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area45
+  - name: メインクエスト/Area46
+    slug: mq-046
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area46
+  - name: メインクエスト/第2部/Area1
+    slug: mq-047
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area1
+  - name: メインクエスト/第3部/Area1
+    slug: mq-048
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area1
+  - name: メインクエスト/第2部/Area2
+    slug: mq-049
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area2
+  - name: メインクエスト/第3部/Area2
+    slug: mq-050
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area2
+  - name: メインクエスト/第2部/Area3
+    slug: mq-051
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area3
+  - name: メインクエスト/第3部/Area3
+    slug: mq-052
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area3
+  - name: メインクエスト/第2部/Area4
+    slug: mq-053
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area4
+  - name: メインクエスト/第3部/Area4
+    slug: mq-054
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area4
+  - name: メインクエスト/第2部/Area5
+    slug: mq-055
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area5
+  - name: メインクエスト/第3部/Area5
+    slug: mq-056
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area5
+  - name: メインクエスト/第2部/Area6
+    slug: mq-057
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area6
+  - name: メインクエスト/第3部/Area6
+    slug: mq-058
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area6
+  - name: メインクエスト/第2部/Area7
+    slug: mq-059
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area7
+  - name: メインクエスト/第3部/Area7
+    slug: mq-060
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area7
+  - name: メインクエスト/第2部/Area8
+    slug: mq-061
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area8
+  - name: メインクエスト/第3部/Area8
+    slug: mq-062
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area8
+  - name: メインクエスト/第2部/Area9
+    slug: mq-063
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area9
+  - name: メインクエスト/第3部/Area9
+    slug: mq-064
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area9
+  - name: メインクエスト/第2部/Area10
+    slug: mq-065
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area10
+  - name: メインクエスト/第3部/Area10
+    slug: mq-066
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area10
+  - name: メインクエスト/第2部/Area11
+    slug: mq-067
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area11
+  - name: メインクエスト/第3部/Area11
+    slug: mq-068
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area11
+  - name: メインクエスト/第2部/Area12
+    slug: mq-069
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area12
+  - name: メインクエスト/第3部/Area12
+    slug: mq-070
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area12
+  - name: メインクエスト/第2部/Area13
+    slug: mq-071
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area13
+  - name: メインクエスト/第3部/Area13
+    slug: mq-072
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area13
+  - name: メインクエスト/第2部/Area14
+    slug: mq-073
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area14
+  - name: メインクエスト/第3部/Area14
+    slug: mq-074
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area14
+  - name: メインクエスト/第2部/Area15
+    slug: mq-075
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area15
+  - name: メインクエスト/第3部/Area15
+    slug: mq-076
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area15
+  - name: メインクエスト/第2部/Area16
+    slug: mq-077
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area16
+  - name: メインクエスト/第3部/Area16
+    slug: mq-078
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area16
+  - name: メインクエスト/第2部/Area17
+    slug: mq-079
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area17
+  - name: メインクエスト/第3部/Area17
+    slug: mq-080
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area17
+  - name: メインクエスト/第2部/Area18
+    slug: mq-081
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area18
+  - name: メインクエスト/第3部/Area18
+    slug: mq-082
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area18
+  - name: メインクエスト/第2部/Area19
+    slug: mq-083
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area19
+  - name: メインクエスト/第3部/Area19
+    slug: mq-084
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area19
+  - name: メインクエスト/第2部/Area20
+    slug: mq-085
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area20
+  - name: メインクエスト/第3部/Area20
+    slug: mq-086
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area20
+  - name: メインクエスト/第2部/Area21
+    slug: mq-087
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area21
+  - name: メインクエスト/第3部/Area21
+    slug: mq-088
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area21
+  - name: メインクエスト/第2部/Area22
+    slug: mq-089
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area22
+  - name: メインクエスト/第3部/Area22
+    slug: mq-090
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area22
+  - name: メインクエスト/第2部/Area23
+    slug: mq-091
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area23
+  - name: メインクエスト/第3部/Area23
+    slug: mq-092
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area23
+  - name: メインクエスト/第2部/Area24
+    slug: mq-093
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area24
+  - name: メインクエスト/第3部/Area24
+    slug: mq-094
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area24
+  - name: メインクエスト/第2部/Area25
+    slug: mq-095
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area25
+  - name: メインクエスト/第3部/Area25
+    slug: mq-096
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area25
+  - name: メインクエスト/第2部/Area26
+    slug: mq-097
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area26
+  - name: メインクエスト/第3部/Area26
+    slug: mq-098
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area26
+  - name: メインクエスト/第2部/Area27
+    slug: mq-099
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area27
+  - name: メインクエスト/第3部/Area27
+    slug: mq-100
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area27
+  - name: メインクエスト/第2部/Area28
+    slug: mq-101
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area28
+  - name: メインクエスト/第3部/Area28
+    slug: mq-102
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area28
+  - name: メインクエスト/第2部/Area29
+    slug: mq-103
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area29
+  - name: メインクエスト/第2部/Area30
+    slug: mq-104
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area30
+  - name: メインクエスト/第2部/Area31
+    slug: mq-105
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area31
+  - name: メインクエスト/第2部/Area32
+    slug: mq-106
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area32
+  - name: メインクエスト/第2部/Area33
+    slug: mq-107
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area33
+  - name: メインクエスト/第2部/Area34
+    slug: mq-108
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area34
+  - name: メインクエスト/第2部/Area35
+    slug: mq-109
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area35
+  - name: メインクエスト/第2部/Area36
+    slug: mq-110
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area36
+  - name: メインクエスト/第2部/Area37
+    slug: mq-111
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area37
+  - name: メインクエスト/第2部/Area38
+    slug: mq-112
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area38
+  - name: メインクエスト/第2部/Area39
+    slug: mq-113
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area39
+  - name: メインクエスト/第2部/Area40
+    slug: mq-114
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area40
+  - name: メインクエスト/第2部/Area41
+    slug: mq-115
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area41
+  - name: メインクエスト/第2部/Area42
+    slug: mq-116
+    url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC2%E9%83%A8/Area42

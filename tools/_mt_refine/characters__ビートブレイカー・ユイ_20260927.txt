@@ -1,0 +1,25 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/ビートブレイカー・ユイ｜条数：8｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk17#1] 岳母！
+# ja: お義母様！
+[blk17#2] 请让我娶你的女儿，或者更确切地说，娶你！[plpxNAJDtho]
+# ja: 娘さんと、いや、あなたと結婚させてください！[plpxNAJDtho]
+[blk18#1] 但她已婚吗？
+# ja: もしかして人妻かな？
+[blk18#2] 差 [WHkdNMjtPqA]
+# ja: 残念[WHkdNMjtPqA]
+[blk19#1] AliceSoft，请制作一款以美国国防部为主题的衍生游戏吧！
+# ja: アリスソフト様、国防軍でスピンオフ作品を作ってください！
+[blk19#2] 求求你了！我什么都愿意做！
+# ja: 何卒、何卒！なんでもしますかr[ly7EehYsuCs]
+[blk20#1] 根据乌塔尔最新舞台剧的指导方针
+# ja: 今回のウールタール退場シナリオの流れからすると
+[blk20#2] 如果创作出一部独立作品，我不知道它的标题会是“国防专辑”还是“国防日记”之类的……[6Dj.kqJ9Rx6]
+# ja: 独立作品ができた場合『KOKUBOU ALBUM』とか『KOKUBOU DAYS』みたいなタイトルになる予感しかしないんですが…[6Dj.kqJ9Rx6]

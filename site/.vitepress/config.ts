@@ -194,6 +194,8 @@ export default defineConfig({
       themeConfig: {
         nav: navJa,
         sidebar: sidebarJaFixed,
+        // 移动端本地导航条（VPLocalNav）上「打开全站页面树」的按钮文案
+        sidebarMenuLabel: 'ページ一覧',
         // 默认 outline 关闭：改用自定义树状目录 DocOutline（见 Layout.vue #aside-top）
         outline: false,
         docFooter: { prev: '前のページ', next: '次のページ' },
@@ -209,6 +211,8 @@ export default defineConfig({
       themeConfig: {
         nav: navZh,
         sidebar: sidebarZhFixed,
+        // 移动端本地导航条（VPLocalNav）上「打开全站页面树」的按钮文案
+        sidebarMenuLabel: '全站页面',
         // 默认 outline 关闭：改用自定义树状目录 DocOutline（见 Layout.vue #aside-top）
         outline: false,
         docFooter: { prev: '上一页', next: '下一页' },

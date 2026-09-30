@@ -163,8 +163,9 @@ function onHoverViewportChange() {
 function withReleaseRow(rows: Cell[][]): Cell[][] {
   const d = data.value
   if (!d || !d.sections['プロフィール']) return rows
-  if (d.release_date === undefined) return rows
-  const dateVal = d.release_date
+  // 実装日为空**不是**缺数据：一覧表该列留空 = 开服时即已实装的角色，
+  // 空值本身携带含义，因此这一行必须照常显示（值留白），不能隐藏。
+  const dateVal = d.release_date ?? ''
   const row: Cell[] = [
     { h: true, t: '実装日', zh: '实装日期' },
     { h: false, t: dateVal, zh: dateVal },
@@ -512,7 +513,11 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
   font-weight: 600;
   white-space: nowrap;
 }
-.char-hover-body td.long-text { white-space: normal; }
+/* 单元格文本里的 \n = 原 wiki 的换行（浮窗 zh 由 i18n 块级译文带出排版）。
+   pre-line：保留换行、合并多余空白、超长仍自动折行（不会横向溢出）。 */
+.char-hover-body td,
+.char-modal-body td { white-space: pre-line; }
+.char-hover-body td.long-text { white-space: pre-line; }
 .char-hover-hint {
   margin-top: 8px; font-size: 14px; font-weight: 700;
   color: var(--vp-c-brand-1, #3451b2);

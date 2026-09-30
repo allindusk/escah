@@ -25,11 +25,19 @@ from .snapshot import Manifest, page_filename
 log = get_logger()
 
 # 需要当作翻译块的内层块级标签
-BLOCK_TAGS = ("p", "li", "h1", "h2", "h3", "h4", "h5", "h6", "td", "th", "dt", "dd", "caption", "blockquote")
-# 块内内容保持原样不翻译的标签
-SKIP_TRANSLATE_TAGS = ("pre", "code", "script", "style")
+# `pre` 于 2026-09-26 加入：PukiWiki 里「行頭スペース / #pre」写成的**正文段落**（如
+# 主线任务页关于潘多拉宝箱的说明）就是 <pre>，原先被当成"保持原样"→ 全站 34 页 / 约 98 块
+# 日文正文永远不翻译（用户实测 http://localhost:5173/escah/zh/main-quest.html 有日文残留）。
+BLOCK_TAGS = ("p", "li", "h1", "h2", "h3", "h4", "h5", "h6", "td", "th", "dt", "dd", "caption", "blockquote", "pre")
+# 块内内容保持原样不翻译的标签（`pre` 已移出：它常承载可译正文；纯 ASCII 图/公式
+# 因不含日文假名/汉字，在提取期 `needs_translation` 判定下自动跳过，不受影响）
+SKIP_TRANSLATE_TAGS = ("code", "script", "style")
 # 需要翻译的日文字符
 _JA_RE = re.compile(r"[ぁ-んァ-ヶ一-龯々〆ヵヶ]")
+# pcomment 评论尾部签名「 -- [发送ID] 」（ID 由用户提交时带的 12 位左右随机串）
+_SIG_ID_RE = re.compile(r"\s*(?:--|――|——|—)\s*(\[[^\[\]]{1,48}\])\s*$")
+# 评论日期 span 的 class（与 i18n.py 的 _DATE_SPAN_CLASS 一致）
+_DATE_SPAN_CLASS = "comment_date"
 # Windows 文件名非法字符 → 全角替代
 _INVALID_FILENAME = str.maketrans({"/": "／", "\\": "＼", ":": "：", "*": "＊", "?": "？", '"': "″", "<": "＜", ">": "＞", "|": "｜"})
 
@@ -98,6 +106,48 @@ def needs_translation(text: str) -> bool:
 
 
 def _keep_pcomments(body: BeautifulSoup) -> None:
+    """保留 pcomment 评论（含 [发送ID] 与 comment_date），并补上此前被丢掉的发送 ID。"""
+    _keep_pcomments_body(body)
+    _extract_comment_ids(body)
+
+
+def _extract_comment_ids(body: BeautifulSoup) -> None:
+    """把评论签名里的**发送 ID** 摘成独立元素保留下来。
+
+    背景（2026-09-26 用户反馈）：原站评论尾巴是「正文 -- [mO0HB0es/ik] <span
+    class="comment_date">2021-01-05 (火) 08:50:31</span>」。i18n 侧为避免签名粘在正文/
+    角色名后面，把整段「 -- [ID] 」当元数据**直接丢弃** → 结果评论区内**看不到投稿者 ID**
+    （中日文页面都缺）。
+
+    正解不是把签名塞回正文，而是拆成元素：正文文本不再含签名（译文依旧干净），ID 以
+    `<span class="comment_id">[ID]</span>` 形式原位保留（正文之后、日期之前），
+    中日两侧共用同一份解析产物，因此一次修好两端。
+    """
+    for li in body.find_all("li", class_="pcmt"):
+        for st in list(li.find_all(string=True)):
+            par = st.parent
+            if par is None:
+                continue
+            if par.name == "span" and _DATE_SPAN_CLASS in (par.get("class") or []):
+                continue
+            m = _SIG_ID_RE.search(str(st))
+            if not m:
+                continue
+            # ⚠️ 必须在**该字符串的父节点**内定位：评论正文既可能直接是 <li> 的文本，
+            #    也可能被包在内层元素里。早期版本写死 li.contents.index(st)，
+            #    遇到嵌套字符串直接 ValueError（实测 458 页解析失败）。
+            try:
+                idx = par.contents.index(st)
+            except ValueError:
+                continue
+            st.replace_with(str(st)[:m.start()])   # 正文去掉签名尾巴
+            tag = par.new_tag("span")
+            tag["class"] = "comment_id"
+            tag.string = m.group(1)                # 含方括号：[mO0HB0es/ik]
+            par.insert(idx + 1, tag)               # 位置：正文之后、comment_date 之前
+
+
+def _keep_pcomments_body(body: BeautifulSoup) -> None:
     """保留 pcomment 插件的网友评论（含 [发送ID] 与 comment_date 时间），从被删的 form 中解救。
 
     PukiWiki 的 pcomment 把评论 <ul class="list1">（含 li.pcmt 与嵌套回复 ul.list2/3）
@@ -202,6 +252,11 @@ def _rewrite_images(body: BeautifulSoup, pending_assets: dict[str, str]) -> None
     for img in body.find_all("img", src=True):
         src = img["src"].strip()
         if src.startswith("data:"):
+            continue
+        if src.startswith("/img/"):
+            # 已经是**本地化路径**（重新解析已处理过的片段时会出现）→ 不能拿它去 urljoin，
+            # 否则会拼成「源站的 /img/<hash>.png」登记进 pending_assets：源站没有这个路径，
+            # 永远 404，而 pending_assets 只增不删 → 每次同步都白跑一轮（实测 172 条常驻）。
             continue
         abs_url = urljoin(config.SOURCE_BASE, src)
         digest = hashlib.sha256(abs_url.encode("utf-8")).hexdigest()[:16]

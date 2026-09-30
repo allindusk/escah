@@ -1,0 +1,13 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/神騎ステアール｜条数：2｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk10#1] 仔细观察，她似乎没有穿紧身衣，而是直接将私处暴露在外，一直到下半身？
+# ja: よく見たらレオタード着てるんじゃなくてエリの部分が直接下半身までいってる？ 
+[blk10#2] 这身衣服从侧面看岂不是丑爆了？[4vldsRTaTks]
+# ja: この衣装横から見たらとんでもなくマズイのでは[4vldsRTaTks]

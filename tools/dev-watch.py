@@ -3,9 +3,15 @@
 dev 服务器实现「改完即热刷新」的闭环。纯标准库，无第三方依赖。
 
 监听目标（项目根目录下）：
-  - data/parsed/ja, data/parsed/zh, data/parsed/characters
-  - tools/_manual_zh.json            （译文真值，由 inject_translations.py 重建）
-  - glossary/terms.yaml              （站点 UI 文案词表）
+  - data/parsed/ja, data/parsed/characters   （正文片段 / 角色数据）
+  - data/parsed/i18n                          （**译文真值**：*.json + *.template.html）
+  - data/registry                             （pages.yaml / mirror_plan.yaml：页面集合变化）
+  - glossary                                  （terms / phrases_manual / names / high_freq / retain_ja）
+
+⚠️ 2026-09-27 修正：原监听列表里的 `data/parsed/zh` 与 `tools/_manual_zh.json` **都已不存在**
+（译文真值早已迁到 `data/parsed/i18n/` 与 `glossary/phrases_manual.yaml`）—— 结果是**改译文
+根本不会触发 sync-site** ✗，而 start-dev.bat 头部却承诺"改译文会自动 sync-site 并热刷新"。
+两个失效路径已移除，并补上 `data/parsed/i18n` 与 `data/registry`。
 
 运行：python tools/dev-watch.py   （由 start-dev.bat 自动拉起，Ctrl+C 退出）
 """
@@ -18,13 +24,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 WATCH = [
     os.path.join(ROOT, "data", "parsed", "ja"),
-    os.path.join(ROOT, "data", "parsed", "zh"),
     os.path.join(ROOT, "data", "parsed", "characters"),
-    os.path.join(ROOT, "tools", "_manual_zh.json"),
-    os.path.join(ROOT, "glossary", "terms.yaml"),
+    os.path.join(ROOT, "data", "parsed", "i18n"),
+    os.path.join(ROOT, "data", "registry"),
+    os.path.join(ROOT, "glossary"),
 ]
 
-DEBOUNCE = 1.5  # 秒，避免大批量写入时频繁触发
+POLL = 2.0       # 秒，轮询间隔（监听文件约 3000+，2 秒足够灵敏且省 CPU）
+DEBOUNCE = 1.5   # 秒，避免大批量写入时频繁触发
 
 
 def snapshot():
@@ -63,9 +70,11 @@ def sync():
 def main():
     prev = snapshot()
     print("[dev-watch] watching content sources (Ctrl+C to stop) ...", flush=True)
+    print("[dev-watch] %d files under: %s" % (
+        len(prev), ", ".join(os.path.relpath(p, ROOT) for p in WATCH)), flush=True)
     try:
         while True:
-            time.sleep(1)
+            time.sleep(POLL)
             cur = snapshot()
             if cur == prev:
                 continue

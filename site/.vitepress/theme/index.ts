@@ -10,6 +10,7 @@ import MirrorChangelog from './components/MirrorChangelog.vue'
 import CategoryCards from './components/CategoryCards.vue'
 import MirrorContent from './components/MirrorContent.vue'
 import './custom.css'
+import './mobile.css' // 移动端专项布局（≤959px，全部在媒体查询内，桌面零影响）
 
 export default {
   extends: DefaultTheme,

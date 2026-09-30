@@ -1,0 +1,21 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/正月ナリカ｜条数：6｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk20#1] 我醒来时，看到上面写着“新年快乐”！
+# ja: 覚醒するとでっかく賀正の文字がッ！ 
+[blk20#2] 为什么我们不使用斗锅之类的东西，而要用饭勺呢？[RqjmBzN94Tw]
+# ja: ・・・しゃもじじゃなくて羽子板とかでやりませんか？[RqjmBzN94Tw]
+[blk21#1] 我不知道她是否强壮，但她的一切都很可爱。
+# ja: 強いかどうかわからんけどなりかは全部なんもかも可愛い 
+[blk21#2] 要是能有Hikini之类的就好了，不过既然是Naruka，估计不会有[yDTmk6Ry/bk]
+# ja: ビキニとかあってもいいけどナリカだし無いよなぁ[yDTmk6Ry/bk]
+[blk22#1] 而Ringo酱的情况则完全不同。
+# ja: りんごちゃん…はまた別だしね 
+[blk22#2] 我只学过如何使用这些工具。[OecGuuddgj.]
+# ja: 道具の使い方だけ教わってたけども[OecGuuddgj.]

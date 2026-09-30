@@ -1,0 +1,21 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/ナイトドレス・レグルス｜条数：6｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk16#1] 固有的被动效果是造成正常伤害，然后提升友军的暴击能量槽，对吗？
+# ja: 固有効果は普通にダメージを与えた上で味方の必殺ゲージを上げるんだよね？ 
+[blk16#2] 调整暴击能量槽时，它不会不算作一次攻击吧？[utrEYSyeoH6]
+# ja: 必殺ゲージ上げた時は攻撃したことにならないって扱いではないんだよね？[utrEYSyeoH6]
+[blk17#1] 它非常可爱，睡眠区也很不错。
+# ja: 非常にかわいくて寝室も良き。 
+[blk17#2] 我记起了那位系着蓝色绳子的女神。[E5eW2B/di2Y]
+# ja: 青い紐の女神様を思い出した。[E5eW2B/di2Y]
+[blk18#1] Haruka R 连续攻击 50 次，加上 Super Narika/Maid Puppy/Ballet Clarice/Kotoba，全自动 FEVER 两次。
+# ja: 連撃50のハルカRに超ナリカ/メイドコイヌ/バレクラリス/小斗羽付けてフルオートFEVER2回。 
+[blk18#2] 数了五遍之后，Haruka R 的行动次数是 35-35-34-35-35。一英里 30 左右是不是太少了？玄元石司的特殊行动模式是不是太慢了？[HpfM3RYKzf2]
+# ja: 5回カウントしてハルカRの行動回数は35-35-34-35-35だった。30前後は低く見過ぎではないかな。レグルスが特別モーション遅い？[HpfM3RYKzf2]

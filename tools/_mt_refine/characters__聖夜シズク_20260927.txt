@@ -1,0 +1,17 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/聖夜シズク｜条数：4｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk13#1] 我喜欢这个角色故事给人的感觉，就像一个迷你版的圣诞节场景。
+# ja: キャラストがミニクリスマスシナリオみたいな感じで好き 
+[blk13#2] 虽然有各种人物的裸体插图，但这幅画很不错，与其说是色情，不如说是温馨……[0nuapjVIlaU]
+# ja: 色んなキャラの全裸絵が出たけど、エロよりほっこりの方が勝る良作だった…[0nuapjVIlaU]
+[blk14#1] 配音演员是Neru-chan和其他人，对吧？
+# ja: CVはねるちゃんと一緒だったんね 
+[blk14#2] 一个角色拥有 50% 的攻击力、50% 的命中率和 50% 的速度，看起来简单易用。
+# ja: 1人で攻撃50%命中50%速度50%はシンプルで使いやすそう[0YrmO2S2qLg]

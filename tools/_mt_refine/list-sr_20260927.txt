@@ -1,0 +1,13 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：list-sr｜条数：2｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk31#1] 你会推荐哪些人使用天赋SR卡和插图SR卡来提升自身能力？
+# ja: 配布ＳＲ、絵馬ＳＲ使って凸った方が良いお勧めは誰なんだろう、 
+[blk31#2] 我目前已经成功获得了乌尔扎，但我不知道接下来该选择谁。[NlU9R4Lz.yw]
+# ja: 取り合えずウルザは凸ったけど、次は誰にしようか悩み中[NlU9R4Lz.yw]

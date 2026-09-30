@@ -34,6 +34,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import shutil
 import sys
@@ -44,12 +45,19 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "tools"
 TODO_DIR = TOOLS / "_todo_translate"
+GLOSSARY_TODO_DIR = TODO_DIR / "glossary"   # 词表待译单独放这个子目录（与页面待译分离）
 TEXTS_FOR_TRANS_DIR = TOOLS / "_texts_for_translation"
 TRANSLATED_DIR = TOOLS / "_translated_texts"
 GLOSSARY_DIR = ROOT / "glossary"
+HF_FILE = GLOSSARY_DIR / "high_freq.yaml"
 
-for _d in (TODO_DIR, TEXTS_FOR_TRANS_DIR, TRANSLATED_DIR, GLOSSARY_DIR):
+for _d in (TODO_DIR, GLOSSARY_TODO_DIR, TEXTS_FOR_TRANS_DIR, TRANSLATED_DIR, GLOSSARY_DIR):
     _d.mkdir(parents=True, exist_ok=True)
+
+# 文件开头固定指令（与 i18n extract 页面待译保持一致，见 i18n.py _TODO_INSTRUCTION）。
+_TODO_INSTRUCTION = (
+    "你是一名专业的日语翻译简体中文的游戏本地化翻译员，负责游戏《超昂大战》（エスカレーション・ヒロインズ）WIKI 内容翻译。严格遵循：每行格式为 `[N] 日文`，你必须返回 `[N] 中文`，N 与输入完全一致，不得遗漏、合并、重排或增删任何行，翻译的时候需要结合整个文本的上下文翻译。\n"
+)
 
 # 含长音 ー，覆盖片假名名词
 _KANA_RE = re.compile(r"[ぁ-んァ-ヶー]")
@@ -123,84 +131,103 @@ def _write_list(path: Path, jas: list[str], header: str) -> None:
 
 # -------------------------------------------------------------------------- 子命令
 def cmd_template(args: argparse.Namespace) -> None:
+    """从 glossary/high_freq.yaml 读 zh 为空的词，生成「页面格式」待译到 _todo_translate/glossary/。
+
+    页面格式（与 i18n extract --per-page 一致）：
+      - 首行翻译指令 _TODO_INSTRUCTION（原样）
+      - 第二行 `# 页 glossary 卷 1/1（v2 key 模式：条目 [keyN]/[blkN] 直接对应 i18n id）`
+      - 每行 `[N] 日文`（N 从 1 起）
+    同时生成 <stem>_index.json：{N: {ja, vol, kind}}（供 merge 对齐）。
+    """
     date = args.date
-    freq_path = TODO_DIR / f"high_freq_terms_{date}.txt"
-    if not freq_path.exists():
-        sys.exit(f"[err] 频率清单不存在：{freq_path}（先跑 tools/_analyze_freq.py）")
-    freq_list = load_freq_list(freq_path)
-    out = TODO_DIR / f"high_freq_terms_{date}_translated.txt"
-    lines = [
-        "# 空白译文文件 — 全站高频词汇精翻（与 high_freq_terms_<date>.txt 一一对应）",
-        "# 格式：日文<TAB>中文   （请在 TAB 后填写中文，不要删除日文或改动 TAB）",
-        "# 不翻译的词请留空；翻译完把本文件发回，脚本按行回流进 glossary。",
-        "# ⚠️ 本文件绝不带频率列；勿在带频率清单上翻译（会覆盖日文列导致无法回流）。",
-        "",
-    ]
-    for _, ja in freq_list:
-        lines.append(f"{ja}\t")
+    # 从 high_freq.yaml 读空译词（zh 为空 → 待翻译）
+    todo_words: list[str] = []
+    if HF_FILE.exists():
+        try:
+            loaded = yaml.safe_load(HF_FILE.read_text(encoding="utf-8")) or {}
+            hf = loaded.get("high_freq", {}) or {}
+            todo_words = [k for k, v in hf.items() if k and not v]
+        except Exception as e:
+            sys.exit(f"[err] 读取 {HF_FILE} 失败：{e}")
+    if not todo_words:
+        print(f"[done] {HF_FILE} 无待翻译词（zh 全空或文件为空）")
+        return
+
+    stem = f"glossary_high_freq_{date}"
+    fname = f"{stem}.txt"
+    out = GLOSSARY_TODO_DIR / fname
+    lines = [_TODO_INSTRUCTION,
+             f"# 页 glossary 卷 1/1（v2 key 模式：条目 [keyN]/[blkN] 直接对应 i18n id）\n"]
+    for i, ja in enumerate(todo_words, 1):
+        lines.append(f"[{i}] {ja}")
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"[done] 空白译文模板：{out}（{len(freq_list)} 条）")
+    index = {str(i): {"ja": ja, "vol": fname, "kind": "key"} for i, ja in enumerate(todo_words, 1)}
+    (GLOSSARY_TODO_DIR / f"{stem}_index.json").write_text(
+        json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"[done] 待译（页面格式）：{out}（{len(todo_words)} 条）→ {GLOSSARY_TODO_DIR}")
 
 
 def cmd_merge(args: argparse.Namespace) -> None:
+    """读 _todo_translate/glossary/ 下翻译完成的待译文件（页面格式 [N] 中文），回写 high_freq.yaml。
+
+    用 <stem>_index.json 的 N→ja 对齐（与 i18n fill 的 index 机制一致，非位置匹配）：
+      - 译文文件 = <stem>_translated.txt，每行 `[N] 中文`（可含 `[N] 日文` 未翻行，跳过）。
+      - 对 zh 非空且 != ja 的词，更新 high_freq.yaml 对应 ja 的译文（zh 空者回填）。
+    只更新 high_freq.yaml 里已存在的键；新增键不写入（防止拼写错误污染词表）。
+    """
     date = args.date
-    freq_path = TODO_DIR / f"high_freq_terms_{date}.txt"
-    tr_path = TODO_DIR / f"high_freq_terms_{date}_translated.txt"
-    freq_list = load_freq_list(freq_path)
-    tr_rows, mode = load_translated(tr_path)
+    stem = f"glossary_high_freq_{date}"
+    idx_path = GLOSSARY_TODO_DIR / f"{stem}_index.json"
+    tr_path = GLOSSARY_TODO_DIR / f"{stem}_translated.txt"
+    if not idx_path.exists():
+        sys.exit(f"[err] 找不到 {idx_path}（先跑 template）")
+    if not tr_path.exists():
+        sys.exit(f"[err] 找不到译文文件 {tr_path}")
 
-    paired: dict[str, str] = {}
-    if mode == "numeric":
-        if len(tr_rows) != len(freq_list):
-            sys.exit(f"[err] 译文行数 {len(tr_rows)} ≠ 频率清单行数 {len(freq_list)}，无法按行号对齐")
-        for (freq, ja), (c0, zh) in zip(freq_list, tr_rows):
-            if _is_numeric(c0) and int(c0) != freq:
-                print(f"[warn] 行号对齐不一致：译文频率 {c0} ≠ 清单频率 {freq}（{ja}）", file=sys.stderr)
-            paired[ja] = zh.strip()
-    else:  # ja 模式：直接配对
-        for ja, zh in tr_rows:
-            paired[ja] = zh.strip()
+    index: dict[str, dict] = json.loads(idx_path.read_text(encoding="utf-8"))
+    # 解析译文文件每行 `[N] 中文`
+    translations: dict[str, str] = {}  # N -> zh
+    for ln in tr_path.read_text(encoding="utf-8").splitlines():
+        s = ln.strip()
+        if not s or s.startswith("#") or not s.startswith("["):
+            continue
+        m = re.match(r"^\[(\d+)\]\s*(.*)$", s)
+        if not m:
+            continue
+        n, zh = m.group(1), m.group(2).strip()
+        translations[n] = zh
 
-    # 叠加补翻清单（格式 A：日文<TAB>中文）
-    if args.overlay:
-        ov_path = Path(args.overlay)
-        if not ov_path.exists():
-            ov_path = TODO_DIR / args.overlay
-        if not ov_path.exists():
-            sys.exit(f"[err] overlay 文件不存在：{ov_path}")
-        ov_rows, ov_mode = load_translated(ov_path)
-        if ov_mode != "ja":
-            print("[warn] overlay 应为 日文<TAB>中文 格式，跳过", file=sys.stderr)
-        else:
-            n = 0
-            for ja, zh in ov_rows:
-                zh = zh.strip()
-                if zh and zh != ja:
-                    paired[ja] = zh
-                    n += 1
-            print(f"[overlay] 叠加 {n} 条补翻")
+    if not HF_FILE.exists():
+        sys.exit(f"[err] 找不到 {HF_FILE}")
+    loaded = yaml.safe_load(HF_FILE.read_text(encoding="utf-8")) or {}
+    hf: dict = loaded.get("high_freq", {}) or {}
 
-    # 拆出 漏翻 / 同形
-    order = {ja: i for i, (_, ja) in enumerate(freq_list)}
-    missing, same_shape = [], []
-    for ja, zh in paired.items():
-        if not zh or zh == ja:
-            if _KANA_RE.search(ja):
-                missing.append(ja)           # 含假名 + 原样未翻 = 真漏翻
-            else:
-                same_shape.append(ja)        # 纯汉字 + 同形 = 一般无需翻
-    missing.sort(key=lambda j: order.get(j, 1 << 30))
-    same_shape.sort(key=lambda j: order.get(j, 1 << 30))
+    filled = 0
+    for n, meta in index.items():
+        ja = meta.get("ja", "")
+        zh = translations.get(n, "")
+        if not ja or not zh or zh == ja:
+            continue
+        if ja in hf and not hf.get(ja):  # 只回填 zh 为空的既有键
+            hf[ja] = zh
+            filled += 1
 
-    paired_path = TODO_DIR / f"high_freq_terms_{date}_paired.txt"
-    missing_path = TODO_DIR / f"high_freq_terms_{date}_missing.txt"
-    same_path = TODO_DIR / f"high_freq_terms_{date}_same_shape.txt"
-    _write_pairs(paired_path, paired, freq_list, "完整配对（回流权威源）")
-    _write_list(missing_path, missing, "真·漏翻清单（含假名、原样未翻；请填写）")
-    _write_list(same_path, same_shape, "中日同形词确认清单（中文写法与日文相同，一般无需翻译；如需译法可填）")
-
-    n_done = sum(1 for ja, zh in paired.items() if zh and zh != ja)
-    print(f"[done] paired={len(paired)}  已译(ja!=zh)={n_done}  漏翻={len(missing)}  同形={len(same_shape)}")
+    header = (
+        "# ============================================================================\n"
+        "# 全站高频游戏术语（日 → 中），render-time / inject 子串最高优先级覆盖\n"
+        "# ----------------------------------------------------------------------------\n"
+        "# 重生成：pipeline/escah_pipeline/glossary_scan.py；待译回流：tools/translate_glossary.py\n"
+        "# 新规则(2026-08-19)：频次≥3、长度不限、符号剥离、纯符号排除、同形词排除（同形由 inject 层处理）\n"
+        "# 应用：i18n.py 三级 inject 第 4 级（high_freq）；仅 zh 站；ja 站不受影响。\n"
+        "# 维护：重跑 glossary_scan.py 即可刷新；zh 留空者由 inject 同形层/人工补全。\n"
+        "# ============================================================================\n"
+    )
+    body = yaml.safe_dump(
+        {"high_freq": hf},
+        allow_unicode=True, sort_keys=False, default_flow_style=False,
+    )
+    HF_FILE.write_text(header + body, encoding="utf-8")
+    print(f"[done] 回写 {HF_FILE}：已填 {filled} 条（仍空 {sum(1 for v in hf.values() if not v)} 条）")
 
 
 def cmd_build(args: argparse.Namespace) -> None:
@@ -242,43 +269,35 @@ def cmd_build(args: argparse.Namespace) -> None:
     print(f"[done] glossary/high_freq.yaml：{len(pairs)} 条（长词优先）")
 
 
-def _classify(date: str) -> tuple[list[Path], list[Path]]:
-    """按角色分类 _todo_translate 内本批次文件。
-
-    待翻译（参考/确认类）：频率清单 <date>.txt + _same_shape.txt
-    已翻译（成果类）    ：_translated.txt + _paired.txt + _missing.txt
-    """
-    pending, translated = [], []
-    prefix = f"high_freq_terms_{date}"
-    for p in sorted(TODO_DIR.glob(f"{prefix}*")):
-        name = p.name
-        if name.endswith("_same_shape.txt") or name == f"{prefix}.txt":
-            pending.append(p)
-        elif (name.endswith("_translated.txt") or name.endswith("_paired.txt")
-              or name.endswith("_missing.txt")):
-            translated.append(p)
-        else:
-            translated.append(p)  # 兜底：未知后缀按已翻译处理，避免遗留在 _todo_translate
-    return pending, translated
-
-
 def cmd_archive(args: argparse.Namespace) -> None:
+    """把 glossary 待译批次归档：待译（未填译文）+ 已译（_translated.txt + index）分开留存。
+
+    待翻译（参考/确认类）：<stem>.txt（原始待译，未翻译时留存）
+    已翻译（成果类）    ：<stem>_translated.txt + <stem>_index.json
+    """
     date = args.date
-    pending, translated = _classify(date)
+    prefix = f"glossary_high_freq_{date}"
+    pending: list[Path] = []
+    translated: list[Path] = []
+    for p in sorted(GLOSSARY_TODO_DIR.glob(f"{prefix}*")):
+        name = p.name
+        if name.endswith("_translated.txt"):
+            translated.append(p)
+        elif name.endswith("_index.json"):
+            translated.append(p)  # index 随已译留存
+        else:
+            pending.append(p)     # 原始待译（未翻译）
     for p in pending:
-        dst = TEXTS_FOR_TRANS_DIR / p.name
-        shutil.move(str(p), str(dst))
+        shutil.move(str(p), str(TEXTS_FOR_TRANS_DIR / p.name))
         print(f"[待翻译] {p.name} → _texts_for_translation/")
     for p in translated:
-        dst = TRANSLATED_DIR / p.name
-        shutil.move(str(p), str(dst))
+        shutil.move(str(p), str(TRANSLATED_DIR / p.name))
         print(f"[已翻译] {p.name} → _translated_texts/")
-    print(f"[done] 归档完成：待翻译 {len(pending)} / 已翻译 {len(translated)}；_todo_translate 已清空")
+    print(f"[done] 归档完成：待翻译 {len(pending)} / 已翻译 {len(translated)}；glossary 待译目录已清空")
 
 
 def cmd_process(args: argparse.Namespace) -> None:
-    cmd_merge(args)
-    cmd_build(args)
+    cmd_merge(args)      # merge 已直接回写 high_freq.yaml（不再需要 build）
     cmd_archive(args)
 
 

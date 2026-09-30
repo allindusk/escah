@@ -1,0 +1,251 @@
+name: Weekly Sync from Source Wiki
+
+# 每周二（日本时间 00:00 = UTC 周一 15:00）自动检测原站更新/新增，
+# 下载镜像化 → 解析 → i18n 构建+词表注入 → 生成待译清单 → 更新 updates 表 → commit/push。
+# 亦可手动 workflow_dispatch 触发。
+#
+# ⚠️ 2026-09-28 方针变更（用户决定）：**CI 不再做任何机器翻译** ✗
+#   · 只做：镜像（discover/fetch/update/sync-stale/sync-recent）→ parse → assets
+#           → i18n build/glossary-fill/char-fill → sync-site → **生成待译清单** → 提交
+#   · 机翻步骤已注释（见文件末尾），`update` 也加了 `--no-gtrans`。
+#   · 原因：免费谷歌端点质量不可控（详见 tools/_dev/probe_mt_quality.py 的实测对照：
+#     旧"预替换"路径会把日文改成中日混合语，导致「抗眩光低血糖症列表」这类乱译 ✗✗），
+#     改为由用户有空时人工/自然语言精翻。
+#   · 待译清单不入库（.gitignore）→ 现在改为**上传为 CI artifact**，从运行页下载即可 ✓。
+on:
+  schedule:
+    - cron: '0 15 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build LFS file list
+        run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
+
+      - name: Cache LFS objects
+        uses: actions/cache@v4
+        with:
+          path: .git/lfs
+          key: lfs-${{ hashFiles('.lfs-assets-id') }}
+          restore-keys: lfs-
+
+      - name: Pull LFS objects
+        run: git lfs pull && git lfs checkout
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e pipeline
+
+      # 预检（fail-fast）：CI 拿到的是「一次 commit 的内容」，被 .gitignore 忽略的文件**不存在**。
+      # 2026-09-26 实测一次全新检出：缺 glossary/phrases.yaml + phrases_manual.yaml + retain_ja.yaml
+      # → glossary-fill 只注入 143 词（本地 6,080 词）、extract 冒出 2,171 条待译（本地 0 条）。
+      # 这类缺失**不报错**、只会静默跑错，所以放在最前面显式拦住。
+      - name: Preflight check (truth files must be committed)
+        run: python tools/_dev/ci_preflight.py
+
+      # ① 发现新页（MenuBar → 观察页；キャラクター一覧 → 角色详情页）并重建 mirror_plan。
+      #    ⚠️ 2026-09-26 修正：原工作流**没有这一步**，注册表永不增长 →
+      #    原站新增的页面永远不会被镜像进来（"新增页面"从流程上就漏了）。
+      - name: Discover new pages
+        run: python -m escah_pipeline.cli discover
+
+      # ①' 抓取**尚无快照**的页面（= discover 刚登记的新页；已有快照者一律跳过）。
+      #     ⚠️ 2026-09-26 修正：sync_plan 把"已注册"直接当作"已镜像"（plan.build_mirror_plan
+      #     用整个 registry 生成 mirrored），因此新页**不会**进 planned → update 也不抓它；
+      #     实测本地 discover 新登记 9 个角色页，update 却"重处理 0 页"，
+      #     结果是 11 页注册表有记录、却没有快照也没有 i18n（站点上等于不存在）。
+      #     这一条 plain fetch 正好补上（不带 --mode watch，也不带 --force → 只补缺的）。
+      - name: Fetch pages missing snapshots
+        run: python -m escah_pipeline.cli fetch
+
+      # ② 增量更新主流程（= 本地 update.ps1 走的那条，CI 原先绕开了它）：
+      #    planned（新页）→ RSS 变更检测（∩ mode=watch）→ 仅重抓/重解析**变更页**
+      #    → 角色重抽 → 变更页定向机翻 → fill → 补图 → sync-site。
+      #    ⚠️ 原步骤是 `fetch --mode watch`，而该命令对**已有快照的页直接 skip**
+      #    （fetcher.fetch_registered_pages：`if path.exists() and not force: continue`），
+      #    并不比对 manifest 里的 wiki_last_modified → 已存在页面的更新**永远不会被重抓**
+      #    （实测：47 个 watch 页全部"跳过 47、成功 0"，整轮同步对更新是空转）。
+      #    ⚠️ 2026-09-28：加 `--no-gtrans` —— 只做镜像/解析/词表应用与待译清单生成，
+      #    不再调用谷歌机翻（`--no-translate` 会把 build/char-fill 也跳过，故不用它）。
+      - name: Update changed pages (planned + RSS diff; NO machine translation)
+        run: python -m escah_pipeline.cli update
+
+      # 更新履歴驱动的**廉价增量通道**：1 次请求读原站「更新履歴ページ」（PukiWiki #recent，
+      #   实测 100 条 ≈ 21 天窗口，按页面去重、严格倒序）→ 把候选集从 675 页缩到 ~38 页，
+      #   只对候选页比对「最終更新日時」→ 变更页落快照（语义与 sync-stale 完全一致，共用
+      #   updater._probe_and_save）。
+      #   为什么要在全量比对之前再加这一条（2026-09-27）：
+      #     · RSS（update 默认路径）只与 49 个 mode=watch 页求交集，静态页/角色页的更新
+      #       根本不在覆盖范围内；
+      #     · 全量 sync-stale 覆盖全 ✓ 但 675 次请求（~1 分钟），只适合每周兜底；
+      #     · 本通道 1 次请求，适合"每天跑"，让新增/更新当天就能进站（也可手动
+      #       workflow_dispatch 触发）。
+      #   高可用保障（见 updater.sync_recent_pages 的完整说明）：
+      #     ① 窗口覆盖不足（最旧日期没覆盖到上次同步）或解析为空 → **自动回退全量比对**，
+      #        宁慢不错（更新履歴是"最新 100 条"的截断列表，实测触顶是常态，所以判据用的是
+      #        "窗口是否够深"而不是"是否触顶"）；
+      #     ② 并行探测失败的页会用 PoliteFetcher 串行重试（失败≠未变更，不能静默跳过）；
+      #     ③ 更新履歴里出现、但 registry 未登记且未被排除规则排除的页面名会打 WARNING
+      #        （实测首次运行就抓到 `サイゼル`、`英田牧子` 两个原站新增角色页尚未 discover）；
+      #     ④ 状态写 data/recent_state.json（随提交入库），供下次算窗口余量与事后追查。
+      - name: Incremental diff via source update-history page
+        run: python -m escah_pipeline.cli sync-recent
+        # HA：这是**廉价的机会型通道**（1 次请求 + ~37 次探测），它自己已经内置了
+        # "不可用/窗口不够深 → 回退全量"的逻辑（见 updater.sync_recent_pages）。
+        # 万一出现预料之外的崩溃，也不该阻断紧随其后的**权威通道** sync-stale 与整条流水线
+        # （否则就是"便宜的优化把兜底搞挂了"）。失败会留在 CI 日志里可见。
+        continue-on-error: true
+
+      # 全量比对（逐页抓取比对页面自带的「最終更新日時」）。
+      # ⚠️ 2026-09-27 修正两处：
+      #   ① 原步骤带 `if: github.event.schedule == '0 20 1 * *'`，而 workflow 的
+      #      `on.schedule` 里**根本没有这个 cron** → 条件恒假 → 全量比对**从未执行**。
+      #      后果：update 的增量模式只覆盖 mode=watch 的 49 页，其余 626 个静态页的更新
+      #      永远发现不了。实测（tools/_dev/check_stale_pages.py）有 **163 页**原站早已更新、
+      #      本地停在几个月前（如 raid-buff-debuff：本地 2025-10-28 / 原站 2026-09-18；
+      #      キャラクター一覧页因新增角色没抓到头像 → 站点上 404）。
+      #   ② 改用 `sync-stale`（并行检测 + 只落变更页快照，~1 分钟）：`update --full` 走
+      #      串行礼貌抓取（2–4s/请求），675 页要 30+ 分钟，因此改为每周固定执行也吃得消。
+      #      后续 parse / assets / extract / fill 步骤自动接续处理这些变更页。
+      - name: Full diff (catch updates on static pages)
+        run: python -m escah_pipeline.cli sync-stale
+
+      # 本地解析快照 → data/parsed（无需联网）。
+      # update 只重解析"变更页"，这里再跑一次全量 parse 作兜底：吸收任何以其它途径
+      # 落地的新快照（幂等、按 sha256 跳过未变更者，实测约 2s）。
+      - name: Parse snapshots
+        run: python -m escah_pipeline.cli parse
+
+      # 下载图片资源：parse 阶段已将正文图片 src 改写为 /img/<hash>
+      # 并把源 URL 登记进 data/pending_assets.json；此步真正把图片下载到
+      # data/assets/img/（LFS 跟踪），否则后续 sync-site 复制 0 张 → 构建后图片 404。
+      # 必须放在 parse 之后、sync-site 之前。不加 continue-on-error，使下载失败可见。
+      - name: Download images from source
+        # 注意：cli.py 的 assets 子命令只接受 --force，没有位置参数（写 `assets download` 会
+        # 被 argparse 判为 unrecognized arguments 并以退出码 2 失败，进而中断整个工作流）。
+        run: python -m escah_pipeline.cli assets
+
+      # 生成 i18n 模板+双语 JSON（无词表注入，仅结构化）
+      # 安全说明：build 默认按 **ja 文本内容** 回贴已有译文（不是按 key 编号），
+      #   因此原站增删段落时：句子没变的保住译文，变了的留空进待译。
+      #   ⚠️ 切勿加 --fresh：那会清空全站 21 万条译文，等同于每周全量重翻。
+      - name: Build i18n templates
+        run: python -m escah_pipeline.cli i18n build
+
+      # 三级 inject：专名/同形自填/符号剥离/high_freq/terms → 回填 i18n.zh
+      - name: Inject glossary into i18n
+        run: python -m escah_pipeline.cli i18n glossary-fill
+
+      # 角色数据 JSON 补 zh（技能名/评价/适性等角色页专有字段）。
+      # ⚠️ 2026-09-26 补：原工作流只有 glossary-fill，**漏了 char-fill**，
+      #    而本地 update 流程（updater._run_zh_patch）是以 char-fill 收尾的 →
+      #    CI 侧角色数据一直缺这一步（本地正常、CI 侧偏瘦，属"只在流水线上才暴露"的差异）。
+      - name: Fill character data zh
+        run: python -m escah_pipeline.cli i18n char-fill
+
+      # 重生成 VitePress 站点内容（frag/md/public）+ updates.json（进度/状态表）
+      - name: Generate site content
+        run: python -m escah_pipeline.cli sync-site
+
+      # 生成按页待译清单（产物在 tools/_todo_translate/，已被 .gitignore 忽略，不入库）
+      - name: Extract per-page translation todos
+        run: python -m escah_pipeline.cli i18n extract --per-page
+        continue-on-error: true
+
+      # ⭐ 2026-09-28 新增：把待译清单**上传为 CI 产物**。
+      #   为什么必须加：清单目录 tools/_todo_translate/ 被 .gitignore 忽略 ✗，
+      #   不随提交入库 → 以前这些清单跑完就消失了，用户无从下载 ✗。
+      #   用户人工精翻的流程：下载 artifact → 改译文 → `mt apply <文件> --write`
+      #   （或 `i18n fill --per-page`，若沿用 *_translated.txt 命名）。
+      #   if: always() ⇒ 即使上面某步失败也照样打包，便于排查。
+      - name: Upload translation todos (artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: translation-todos
+          path: tools/_todo_translate/
+          if-no-files-found: ignore
+          retention-days: 90
+
+      # ============================================================================
+      # ⛔ 机器翻译（谷歌免费端点）—— 2026-09-28 由用户决定**停用**，保留以便将来恢复。
+      #
+      # 为什么停用（实测，见 tools/_dev/probe_mt_quality.py 与 tools/_dev/mt_tune.py）：
+      #   · 旧"预替换"路径把术语就地换成中文 → 送翻的是**中日混合语** ✗✗
+      #     （`掩护が发动不コンテンツなので…` → 「由于封面未激活，唯一可行的做法是避免
+      #      闪光灯并降低价格」✗；`眩晕抗性降低 一覧` → 「抗眩光低血糖症列表」✗✗）；
+      #   · 金标准评测（368 条人工精校译文）显示旧路径 chrF3 仅 0.175、术语命中 37.8% ✗；
+      #   · 已改为「占位符保护」路径（chrF3 0.234、术语命中 ~85%，+34% / 2.3 倍 ✓），
+      #     但仍不足以直接上线 → 改由用户人工/自然语言精翻 ✓。
+      #
+      # 恢复方法（三步）：
+      #   ① 取消下面两步的注释；
+      #   ② 把上面的 `update` 改成 `update --gtrans`（机翻现在默认关闭，见 cli.py 的说明）；
+      #   ③ 若要沿用「占位符保护」路径，保持默认即可（回退旧行为：ESCAH_GTRANS_PRESUB=1）。
+      # 验证工具（恢复前请先跑，确认方向确实变好）：
+      #   python tools/_dev/mt_tune.py --limit 200       # 金标准打分
+      #   python tools/_dev/probe_mt_quality.py          # 库存 vs 旧路径 vs 新路径对照
+      # ============================================================================
+      # - name: Machine-translate todos (Google free)
+      #   run: python -m escah_pipeline.cli gtrans
+      #   continue-on-error: true
+
+      # 按 key id 精确回填 data/parsed/i18n/*.json（真值，随后入库）
+      # ⚠️ 2026-09-28：机翻停用后，没有 *_translated.txt 时这步是**空操作** ✓。
+      #   保留它是为了「用户手工提供译文文件」时仍能回填（命名须为 <stem>_translated.txt）。
+      - name: Fill translations back into i18n
+        run: python -m escah_pipeline.cli i18n fill --per-page
+        continue-on-error: true
+
+      # 机翻留档：把本次由谷歌机翻**真正落库**的条目（原文 + 机翻译文）单独存进
+      #   data/mt/<页>.json（**入库**），供后续用别的方式精翻：
+      #     mt export → tools/_mt_refine/ → 改译文 → mt apply <目录> --write
+      #   ⚠️ 必须放在 fill 之后（只有 fill 完才知道哪条真的落库了）；它不做二次翻译。
+      #   ⚠️ 2026-09-28：机翻停用后本步为空操作 ✓（保留以便恢复时无需改）。
+      - name: Record machine-translated entries
+        run: python -m escah_pipeline.cli mt record
+        continue-on-error: true
+
+      # 译文已进 i18n 真值 → 重新生成站点内容与进度表，使 updates.json 反映最新进度
+      - name: Regenerate site content after fill
+        run: python -m escah_pipeline.cli sync-site
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "escah-bot"
+          git config user.email "escah-bot@users.noreply.github.com"
+          # 入库范围：data/raw（新快照）、data/parsed/i18n（注入译文）、
+          #   data/manifest.json、data/registry、data/assets、glossary 等真值。
+          #   site/**/*.md、frag、dist、.gen-data 由构建期重建，不入库。
+          # ⚠️ 2026-09-26 补 glossary/：phrases.yaml / retain_ja.yaml 是「词表覆盖」的来源，
+          #   不随提交走的话下次 CI 会缺表 → 注入失效、待译清单暴增（实测 2,171 条）。
+          #   charRefs.json 实际在 site/.vitepress/theme/ 下，原来的根目录路径不存在（无害但无效）。
+          # ⚠️ 2026-09-27 补 data/mt/：机翻产物的留档目录（原文+机翻译文），
+          #   是「后续精翻」的待办清单来源，必须随提交入库，否则每轮 CI 都白记一遍。
+          #   （2026-09-28 机翻停用后该目录不再增长，但保留入库路径无害 ✓）
+          # ⚠️ 2026-09-27 补 data/recent_state.json：更新履歴通道的状态（本次窗口、
+          #   候选数、变更集、是否回退、疑似漏登记页）。它不入库的话，下一轮就无法判断
+          #   "更新履歴窗口是否覆盖到上次同步"，饱和回退判据会失效（退化成永远回退全量）。
+          git add data/raw data/parsed/i18n data/mt data/manifest.json data/registry data/assets \
+                  data/recent_state.json data/statdata \
+                  glossary site/.vitepress/theme/charRefs.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "无实质变更，跳过提交。"
+          else
+            git commit -m "chore(sync): 自动同步原站更新 $(date -u +%Y-%m-%d)"
+            git push
+          fi

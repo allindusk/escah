@@ -1,0 +1,17 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：mq-038｜条数：4｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk22#1] 特殊任务/首领关卡
+# ja: 特別クエスト・ボスステージ
+[blk22#2] Aurtnat Aurora拥有惊人的体能。
+# ja: オルタナテオトルは膨大なスタミナを持っています。
+[blk22#3] 反复交战，造成大量伤亡，然后撤退。
+# ja: 戦闘を繰り返し、ダメージを蓄積させて撃退しましょう。
+[blk22#4] *一旦你击败并撤退了奥尔特纳伊·奥托鲁，你就无法再次与他战斗。
+# ja: ※オルタナテオトルは撃退すると再度戦闘することはできません。

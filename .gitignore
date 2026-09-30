@@ -80,3 +80,16 @@ _list_imgs.py
 _verify_dist.py
 help_build_log.txt
 *.log.bak
+
+# ---- 本地临时/调试产物（2026-09-30 清理时补齐，避免再次冒进 git status）----
+tools/_dev/_*
+tools/_dev/shots/
+tools/_dev/_tr/
+tools/_dev/_wf/
+tools/_ab_dump/
+tools/_char_fill_check.py
+tools/_skill_*.py
+data/mt/
+site/.vitepress/.temp/
+site/.vitepress/dist_prev_*/
+site/.vitepress/config.ts.timestamp-*

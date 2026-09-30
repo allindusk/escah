@@ -1,0 +1,21 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/ビートチューリップ・マリア｜条数：6｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk35#1] 我读过原著。
+# ja: 原作履修済み。
+[blk35#2] 说实话，让我感到兴奋的是一些原著中并没有的场景。
+# ja: 正直な話、原作だとあまりないシーンで興奮した[vViy5PoqrPg]
+[blk36#1] 我想看到重清酱受尽折磨（半生气）。
+# ja: ぼくはリセットちゃんがひどい目にあうのが見たいです(半ギレ)
+[blk36#2] 但我不想太糟糕，所以我希望它和 Yi Yi 的 [jrlaWQZhVG6] 差不多糟糕。
+# ja: でもあんまりひどいのはかわいそうなのでイーイーくらいのひどさでひとつ頼む[jrlaWQZhVG6]
+[blk37#1] 可爱的
+# ja: カワイイ
+[blk37#2] 我想亲吻凪和大家的脸颊。[5fPvgO49I5Q]
+# ja: ナギと一緒にほっぺにチューしたい[5fPvgO49I5Q]

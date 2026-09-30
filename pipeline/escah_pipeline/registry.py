@@ -33,7 +33,14 @@ NAV_CATEGORIES: dict[str, list[str]] = {
         "メインストーリー", "全シナリオ実装順", "メインクエスト",
         "デイリークエスト", "ミッション一覧", "イベント一覧",
     ],
-    "misc": ["用語集", "俗語集", "Tips一覧", "ゲーム外企画", "事前登録特典"],
+    # ⚠️ 2026-09-27 用户约束：**左侧导航栏不允许新增镜像页**。
+    #    原先这里被加进了「ゲーム外企画」「事前登録特典」，但 `sitegen._write_sidebars` 对
+    #    `misc`（以及 `guide`）是**按 registry 原顺序平铺**的 —— 只要注册表里多一条，
+    #    左侧栏就必然多一项 ✗。允许新增的只有**不进侧栏**的类型（character-detail /
+    #    subpage，见 sitegen 里 `if e.get("category") in ("character-detail", "subpage"): continue`），
+    #    也就是用户说的"角色页、装备页那种不在导航栏的"。
+    #    因此本清单只保留**既有**导航页；`discover` 也据此只刷新、不新增（见 discover() 的注释）。
+    "misc": ["用語集", "俗語集", "Tips一覧"],
 }
 
 # 站点路由 slug 映射（观察页用英文 slug；角色详情页用日文名）
@@ -85,8 +92,8 @@ SLUG_MAP: dict[str, str] = {
     "用語集": "glossary",
     "俗語集": "slang",
     "Tips一覧": "tips",
-    "ゲーム外企画": "external-projects",
-    "事前登録特典": "prereg-bonus",
+    # 「ゲーム外企画」「事前登録特典」的 slug 于 2026-09-27 连同 NAV_CATEGORIES 里的条目一并移除：
+    # 它们是**导航页**（会出现在左侧栏），属于"不允许新增"的那一类（见 NAV_CATEGORIES 注释）。
 }
 
 # 菜单名称与实际页面名的差异修正（实测 wikiru 站点结构 2026-07）
@@ -127,6 +134,35 @@ def _norm(s: str) -> str:
 
 def _fallback_slug(name: str) -> str:
     return "p-" + hashlib.md5(name.encode("utf-8")).hexdigest()[:10]
+
+
+# ============================================================================
+# 自动更新排除（用户 2026-09-27 指示）
+# ----------------------------------------------------------------------------
+# 原站有个别页面**永远读不出「最終更新日時」**：典型是反爬挑战页 `公式ヘルプ`
+# （实测 manifest 里 `status=challenged`、`wiki_last_modified=None`、sha256 是空串哈希）。
+# 后果有两个，都不小：
+#   ① 每轮 `sync-stale` / `sync-recent` 都会把它探测一遍 → 报成"失败" → 再进礼貌重试
+#      白跑一次：报告里长期挂着假失败，真正的失败被淹没 ✗；
+#   ② 它的内容**早已镜像完成**（raw 172 KB、i18n 562 KB，站点照常渲染、也在左侧栏里），
+#      我们并不需要它的"更新" —— 继续探测只是徒增请求与噪声。
+# 用 `no_auto_update: true` 标记这类页：**站点上照常渲染**，但不进入任何自动抓取/探测流程。
+# 与 `update` 里"跳过 status=challenged"的区别：那是**隐式**的、依赖当轮抓取结果；
+# 本标记是**显式**的站点配置，且同时挡住 `fetch --force`（否则一次强制重抓会把
+# 已经镜像好的快照换成挑战页提示，虽然有 is_challenge_page 兜底，但没必要冒险）。
+# ============================================================================
+AUTO_UPDATE_FLAG = "no_auto_update"
+
+
+def is_auto_update(entry: dict) -> bool:
+    """该镜像页是否参与自动更新（抓取 / 变更探测）。"""
+    return not entry.get(AUTO_UPDATE_FLAG)
+
+
+def auto_update_entries(pages: "list[dict] | None" = None) -> list[dict]:
+    """过滤出参与自动更新的注册表条目（默认取整张注册表）。"""
+    src = load_registry() if pages is None else pages
+    return [e for e in src if is_auto_update(e)]
 
 
 def load_registry() -> list[dict]:
@@ -248,6 +284,7 @@ def discover() -> None:
             norm_to_actual.setdefault(_norm(name), name)
 
         watch_count = 0
+        skipped_new: list[str] = []
         for category, names in NAV_CATEGORIES.items():
             for want in names:
                 want_resolved = ALIAS_MAP.get(want, want)
@@ -257,19 +294,33 @@ def discover() -> None:
                         actual = want_resolved
                         log.info("「%s」按别名登记为「%s」", want, actual)
                     else:
-                        log.warning("MenuBar 中未找到「%s」，按原名登记（抓取时校验）", want)
                         actual = want
+                # ⚠️ 2026-09-27 用户约束：**只刷新已登记的导航页，绝不新增**。
+                #    上一版此处是 `entry = pages_by_name.get(actual, {})` —— 对未登记的
+                #    MenuBar 页也会凭空建条目；而 `sitegen._write_sidebars` 对 `guide`/`misc`
+                #    是"按 registry 原顺序平铺"，于是**注册表多一条 = 左侧导航栏多一项** ✗
+                #    （实测就是这样混进了「ゲーム外企画」「事前登録特典」）。
+                #    导航栏属于站点骨架，新增必须经人工确认（写进 pages.yaml）后才会被刷新；
+                #    需要自动增长的只有不进侧栏的类型（character-detail / subpage，见 Phase 2）。
+                if actual not in pages_by_name:
+                    skipped_new.append(actual)
+                    continue
                 slug = SLUG_MAP.get(want) or SLUG_MAP.get(actual) or _fallback_slug(actual)
-                entry = pages_by_name.get(actual, {})
+                entry = pages_by_name[actual]
                 entry.update({
                     "name": actual,
                     "slug": slug,
                     "category": category,
                     "mode": "watch",
                 })
-                pages_by_name[actual] = entry
                 watch_count += 1
-        log.info("Phase 1 完成：登记观察页 %d 个", watch_count)
+        log.info("Phase 1 完成：刷新观察页 %d 个", watch_count)
+        if skipped_new:
+            log.warning(
+                "Phase 1 跳过 %d 个未登记的导航页（**不会**自动加入，避免左侧栏新增）——"
+                "如确需镜像请人工确认后写入 %s：%s",
+                len(skipped_new), config.REGISTRY_FILE.name, "、".join(skipped_new[:10]),
+            )
 
         # ---- Phase 2: キャラクター一覧 → 角色详情页 ----
         log.info("Phase 2: 抓取「%s」解析 SSR/SR/R 角色链接…", config.CHARLIST_PAGE)

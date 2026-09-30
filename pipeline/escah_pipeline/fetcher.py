@@ -129,7 +129,12 @@ def fetch_registered_pages(
     from .snapshot import Manifest, page_filename, save_snapshot
 
     config.ensure_dirs()
-    entries = load_registry()
+    from .registry import auto_update_entries
+
+    # 排除 `no_auto_update: true` 的页（如反爬挑战页「公式ヘルプ」，见 registry.AUTO_UPDATE_FLAG）：
+    # 它们的**内容已镜像完成**、站点照常渲染，只是永远读不出更新时刻，
+    # 继续抓取只会白耗请求（`--force` 时更可能把好快照换成挑战页提示）。
+    entries = auto_update_entries(load_registry())
     if mode != "all":
         entries = [e for e in entries if e.get("mode") == mode]
     if only:

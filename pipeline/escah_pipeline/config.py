@@ -41,7 +41,11 @@ SITE_BASE = _SITE_BASE
 
 MENUBAR_PAGE = "MenuBar"
 CHARLIST_PAGE = "キャラクター一覧"
-RECENT_CHANGES_PAGE = "RecentChanges"
+# 原站「更新履歴ページ」：PukiWiki 的 `#recent` 插件页，一次请求即可拿到「最新 100 条 =
+# 精确日期 + 页面名」的清单（实测窗口约 21 天）。`sync-recent` 的增量检测入口。
+# 原名 RECENT_CHANGES_PAGE = "RecentChanges" 是**从未被引用的死常量**（且 RecentChanges 被
+# registry 的排除规则挡在镜像范围外），2026-09-27 换成实际使用的页面名。
+RECENT_HISTORY_PAGE = "更新履歴ページ"
 
 # ---- 礼貌抓取参数 ----
 FETCH_MIN_INTERVAL = float(os.getenv("FETCH_MIN_INTERVAL", "2.0"))

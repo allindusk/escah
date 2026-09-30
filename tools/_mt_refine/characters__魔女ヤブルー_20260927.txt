@@ -1,0 +1,17 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/魔女ヤブルー｜条数：4｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk17#1] 特殊攻击的附加效果是降低敌人的能量槽。
+# ja: 必殺技の追加効果の敵ゲージ減少効果
+[blk17#2] 希望它对乌尔萨的小猫能量罐也有效。[l/G9m5DUtOM]
+# ja: ウルタールの子猫ゲージにも効いてくれるといいなぁ[l/G9m5DUtOM]
+[blk18#1] 如果战败不是一种不幸，那才不合常理，不是吗？
+# ja: 敗北なんだから不幸じゃないと不自然でしょ 
+[blk18#2] 他们越可怜越好。[9kAF/WM8Poc]
+# ja: 可哀想であればあるほどいい[9kAF/WM8Poc]

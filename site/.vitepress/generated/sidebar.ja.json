@@ -256,6 +256,28 @@
     "link": "/ja/tips.html"
    },
    {
+    "text": "データ調査",
+    "link": "/ja/statistics.html",
+    "items": [
+     {
+      "text": "殲滅戦報酬",
+      "link": "/ja/stat-annihilation.html"
+     },
+     {
+      "text": "D2Pガチャ",
+      "link": "/ja/stat-d2p-gacha.html"
+     },
+     {
+      "text": "ボックスドロップ",
+      "link": "/ja/stat-box.html"
+     },
+     {
+      "text": "宝箱開封",
+      "link": "/ja/stat-treasure-open.html"
+     }
+    ]
+   },
+   {
     "text": "更新履歴",
     "link": "/ja/updates.html"
    }

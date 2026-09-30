@@ -100,7 +100,8 @@ pages:
   slug: official-help
   category: misc
   mode: static
-  url: "https://prod.e-heroines.net/server/product/AppSub#"
+  no_auto_update: true
+  url: https://prod.e-heroines.net/server/product/AppSub#
 - name: 交換所
   slug: exchange
   category: system
@@ -3397,3 +3398,57 @@ pages:
   slug: mq-116
   category: subpage
   subgroup: main-quest
+- name: 真夏のエスカ・オニキス
+  slug: characters/真夏のエスカ・オニキス
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/a65e86bf43427e17.png
+- name: 盛夏のエスカレイヤー
+  slug: characters/盛夏のエスカレイヤー
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/2df7b48e444f6dff.png
+- name: 真夏のキクリ
+  slug: characters/真夏のキクリ
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/a6449fe641249dca.png
+- name: エスカ・セブン
+  slug: characters/エスカ・セブン
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/90460d1b35f3f6f3.png
+- name: バニーガールゲッカ
+  slug: characters/バニーガールゲッカ
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/4131f7275d8486ba.png
+- name: バトラー・ヘプタスロン
+  slug: characters/バトラー・ヘプタスロン
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/acd737c0497a1809.png
+- name: 神騎ハウゼル
+  slug: characters/神騎ハウゼル
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/5afd6268c6a8dc9f.png
+- name: 閃忍ホーネット
+  slug: characters/閃忍ホーネット
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/04014bd051e51451.png
+- name: ビートマジカル・マジック
+  slug: characters/ビートマジカル・マジック
+  category: character-detail
+  mode: static
+  rarity: SR
+  icon: img/012352f2d006b8f6.png

@@ -1,0 +1,15 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：equip-062｜条数：3｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk4#1] 这就是你所谓的游戏终局内容吗？
+# ja: エンドコンテンツってやつか
+[blk4#2] 我很好奇是否真的有人能在实践中运用这项技术……
+# ja: これ実用レベルにする奴出てくるんかな・・・
+[blk4#3] 坦白说，这简直是疯子才会做的事。[pSP.Cw4ZViU]
+# ja: はっきり言って狂人の所業ゾ[pSP.Cw4ZViU]

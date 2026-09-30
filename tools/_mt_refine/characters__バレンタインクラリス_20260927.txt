@@ -1,0 +1,15 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/バレンタインクラリス｜条数：3｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk10] “掩护与封印”能力对付疯狂之王、B宇宙四大天王以及挫败型敌人等首领非常有效。
+# ja: かばう封印はレイドボスの狂王や、Bユニバースのオルタナ四天王やフラスト系で有効。
+[blk13] 保护封印对奥特纳四天王和弗鲁斯特型敌人有效果，其独特的被动效果也很方便。
+# ja: かばう封印がオルタナ四天王やフラスト系に有効、ついでの固有効果も便利
+[blk16#2] 带袖子 [X4TesK5fZYQ]
+# ja: リボン付き[X4TesK5fZYQ]

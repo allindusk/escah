@@ -1,0 +1,17 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/真夏のニコール｜条数：4｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk16#1] 如果角色的表演非常精彩呢……？
+# ja: キャラ性能凄まじかったらどうしよう… 
+[blk16#2] 泳装祈祷和搭配创造协同效应和人权……或者更确切地说，泳装整体上成为人权[c02uhBuoBek]
+# ja: 水着イノリとマッチでシナジって人権化とか… むしろ水着全体が人権化とか[c02uhBuoBek]
+[blk17#1] 总的来说，就作品数量而言，这是历史上最强的人物吗？
+# ja: 全体アタッカーとしては歴代でも最強かな？ 
+[blk17#2] （月马是辅助型角色，泉是治疗型角色）[OKxluEgWKm2]
+# ja: （ムーンライズはサポーターだしイズミはヒーラーとする）[OKxluEgWKm2]

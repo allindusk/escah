@@ -887,6 +887,21 @@
   z-index: 5;
 }
 
+/* ========== 纯锚点链接隐藏（i18n build v2 标记 class=escah-anchor，2026-08-19）======
+   原站 TOC/文内锚点（href 以 # 开头）仅用于页内跳转，可见符号（▲/#）对中文读者无意义。
+   保留 <a> 元素以维持跳转锚点功能，但隐藏其可见文本与下划线。 */
+.mirror-content a.escah-anchor {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: auto;
+}
+.mirror-content a.escah-anchor::before { content: ""; }
+.escah-tbl-fs-scroll a.escah-anchor {
+  color: inherit;
+  text-decoration: none;
+}
+.escah-tbl-fs-scroll a.escah-anchor::before { content: ""; }
+
 /* ========== 表格增强：表头吸顶 / 列宽按数据 / 多选筛选 ========== */
 /* 表头吸顶：滚动容器（.table-scroll 或全屏 .escah-tbl-fs-scroll）内滚动时 thead 固定。
    给 thead 单元格底色，避免下方内容透出。
@@ -1205,3 +1220,34 @@
 /* .VPNavBarSearch {
   display: none !important;
 } */
+
+/* ========== 原站页内目录 <div class="contents">（2026-09-26 补） ==========
+   用户反馈：正文内的目录和正文一样是不带格式的黑字，难以区分。
+   原因：此前只给 official-help 注入的专属 class `.oh-toc` 写了样式（见上方注释
+   「不复用原站 .contents」），而 PukiWiki 生成的 `<div class="contents"><ul class="list1">`
+   一直没有任何规则 → 目录裸奔成普通列表。
+   这里补上与 .oh-toc 一致的卡片样式，层级按原站结构 `ul.list1`（一级）/ `ul.list2`（二级）。
+   ⚠️ 必须放在文件**末尾**：目录里的 <a> 带 class="escah-anchor"，而上面
+   `.mirror-content a.escah-anchor { color: inherit }` 与本节同优先级，靠顺序决胜。 */
+.mirror-content .contents {
+  margin: 1em 0 1.4em; padding: 12px 18px;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--escah-border);
+  border-left: 4px solid var(--escah-purple);
+  border-radius: 10px; box-shadow: var(--escah-shadow);
+}
+.mirror-content .contents ul { list-style: none; margin: 0.2em 0; padding-left: 0; }
+.mirror-content .contents li { margin: 0.25em 0; line-height: 1.5; }
+.mirror-content .contents a { color: var(--vp-c-text-1); text-decoration: none; }
+.mirror-content .contents a:hover { color: var(--escah-pink); text-decoration: underline; }
+/* 一级条目：左侧色条 + 加粗紫字（与 .oh-toc 的 toc-l1 同视觉） */
+.mirror-content .contents > ul > li {
+  border-left: 3px solid var(--escah-border);
+  padding-left: 0.6em; margin-top: 0.5em;
+}
+.mirror-content .contents > ul > li:first-child { margin-top: 0; }
+.mirror-content .contents > ul > li > a { font-weight: 700; color: var(--escah-purple); }
+/* 二级条目（嵌套 ul.list2）：缩进 + 前缀符号 + 更小更浅 */
+.mirror-content .contents ul ul { margin: 0.2em 0 0.2em 0.15em; padding-left: 0.6em; }
+.mirror-content .contents ul ul li > a { font-size: 0.95em; color: var(--vp-c-text-2); }
+.mirror-content .contents ul ul li > a::before { content: "› "; color: var(--escah-border); }

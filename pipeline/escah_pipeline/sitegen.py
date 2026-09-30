@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import hashlib
-import html as _html
 import json
 import os
 import posixpath
@@ -103,6 +102,13 @@ SIDEBAR_TREE = [
     ]},
     {"cat": "misc", "flat": True, "collapsed": True},
 ]
+# 「平铺」分类（= 侧栏按 registry 原顺序列出**全部**该分类页）。这意味着**注册表里多一条
+# 这类页，左侧导航栏就多一项** —— 用户的硬约束是导航栏不允许新增镜像页（2026-09-27）。
+# 其它分类由上面的 SIDEBAR_TREE 用**显式 slug** 列举，新增条目不会自动出现在侧栏里。
+# 这里从 SIDEBAR_TREE 派生（单一来源），供 updater 判断"某个 planned 项会不会新增进侧栏"。
+SIDEBAR_FLAT_CATEGORIES: tuple[str, ...] = tuple(
+    g["cat"] for g in SIDEBAR_TREE if g.get("flat")
+)
 _MTIME_RE = re.compile(r"Last-modified:\s*([0-9]{4}-[0-9]{2}-[0-9]{2}[^<\n]*)")
 
 MD_TEMPLATE = """---
@@ -432,20 +438,9 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
         rel=rel,
         prevnext=prevnext,
     )
-    # 注入正文文本（隐藏块），供 VitePress 本地搜索索引；否则 md 仅含组件、索引无内容
-    try:
-        _tree = lxml_html.fragment_fromstring(sanitized, create_parent="div")
-        _raw = re.sub(r"\s+", " ", _tree.text_content()).strip()
-        if _raw:
-            # 前置 <h1>页面标题</h1>：让 VitePress 搜索索引（_splitIntoSections）能切出
-            # 带页面标题的上下文面包屑（titles），否则平铺纯文本会被切成 titles:[] 的大块，
-            # 搜索结果列表不显示任何上下文/页面标题。
-            body += '\n\n<div class="search-index" style="display:none" aria-hidden="true"><h1>{}</h1>{}</div>\n'.format(
-                _html.escape(title, quote=False),
-                _html.escape(_raw, quote=False),
-            )
-    except Exception:
-        pass
+    # 不再注入 search-index 隐藏块：搜索已禁用（config.ts 整段注释），该块此前每页
+    # 冗余内嵌最长 ~258KB 的纯文本，既撑大 md 又让 VitePress 逐页 chunk 与 SSR 处理
+    # 巨量无用 HTML，是构建慢/卡的主要加重因素。正文实际渲染仍走 <MirrorContent>。
     path.write_text(body, encoding="utf-8")
 
 
@@ -548,6 +543,22 @@ def sync_site() -> None:
             body = f'---\ntitle: "{title}"\nlayout: doc\n---\n\n{component}\n'
             (site_dir / f"{slug_key}.md").write_text(body, encoding="utf-8")
 
+    # ---- 2.5 统计数据页（攻略作者「しらべるくん」的实测数据）----
+    # 为什么走这条路径（2026-09-28）：这些页**不是镜像页** ✗ —— 原站没有、registry 里也没有；
+    # 数据来自 `data/statdata/*.json`（由 tools/_dev/parse_shiraberu.py 从作者的 Google 表格
+    # HTML 解析而来，**已入库** ✓，因为原始素材在被 .gitignore 的 recycle_bin/ 里、CI 拿不到 ✗）。
+    # 若把它们注册成 registry 页，会污染首页统计/进度表、并触发"镜像页自动进导航"的硬约束 ✗；
+    # 故直接渲染 md + frag ✓，侧栏由 `_write_sidebars` 显式注入「数据统计」分组 ✓。
+    # 表格带 `class="escah-tbl"` → 站点既有 tableEnhancer 自动加排序/筛选/全屏 ✓。
+    try:
+        from . import statpages  # 局部 import：避免与 sitegen 形成模块级循环
+        stat_written = statpages.write_pages(
+            _write_md, {"ja": config.SITE_JA_DIR, "zh": config.SITE_ZH_DIR}
+        )
+        log.info("统计数据页：写入 %d 个 md", stat_written)
+    except Exception as e:  # noqa: BLE001 数据页失败不应阻断整站构建
+        log.warning("统计数据页生成失败：%s", e)
+
     # ---- 3. 首页门户 ----
     stats = _compute_stats(entries)
     for locale, site_dir in (("ja", config.SITE_JA_DIR), ("zh", config.SITE_ZH_DIR)):
@@ -569,6 +580,16 @@ def sync_site() -> None:
 
     char_out = public_data / "char"
     char_out.mkdir(exist_ok=True)
+    # 浮窗骨架（sections / icon / name_zh / release_date）增量重提取：
+    # 只在「源文件更新 / 字段缺失」时才真正重解析，保证每次构建拿到的都是新数据，
+    # 不需要人工跑 `parse --force`。必须放在 char_fill_all 之前 —— 提取只做
+    # glossary 精确匹配，译文由下一步的 i18n 回填补齐（顺序颠倒会丢译文）。
+    try:
+        from .chara import extract_all_characters
+
+        extract_all_characters()
+    except Exception as err:  # 提取失败不阻断构建，沿用既有 JSON
+        log.warning("角色浮窗数据增量提取失败（沿用既有 JSON）：%s", err)
     # 浮窗 JSON 的 zh 必须由「角色自己页面的 i18n 词典」回填（节点级 keyN + 整句块
     # 回退 blkN），与详情页 render_locale 用同一数据源。否则 extract_all_characters
     # 只做了 glossary 精确匹配（无块级回退），浮窗会比详情页少译大量技能/效果文本。
@@ -646,25 +667,61 @@ layout: doc
 
 
 def _updates_data(entries: list[dict], manifest: Manifest) -> dict:
-    by_date: dict[str, list[dict]] = {}
+    """更新记录表数据（扁平全量 watch 页）。
+
+    每条 page：
+      name/zhName/slug/date（镜像抓取日期）
+      type: "new"（镜像尚无 i18n 译文）→ "updated"
+      latest: 本期 run 抓到的页（fetched_at 日期 == 最近一次 run 日期）
+      progress: 译文进度%（无 i18n 为 None）
+      wikiTime/mirrorTime: 原站最后编辑 / 镜像抓取时间
+    stats 给出各类型/状态计数，供表格顶栏摘要。
+    """
+    last_run = manifest.data.get("last_update_run") or ""
+    run_date = last_run[:10]
+    glossary_titles = _load_glossary().get("page_titles", {})
+
+    pages: list[dict] = []
     for e in entries:
-        m = manifest.page(e["name"])
+        name = e["name"]
+        m = manifest.page(name)
         if not m or m.get("status") != "ok":
             continue
-        date = (m.get("fetched_at") or "")[:10]
+        fetched = m.get("fetched_at") or ""
+        date = fetched[:10]
         if not date:
             continue
-        by_date.setdefault(date, []).append({
-            "name": e["name"], "slug": e["slug"], "status": m["status"],
+        zh_name = glossary_titles.get(name, name)
+        progress = i18n.compute_translation_progress(e["slug"])
+        has_tr = progress is not None
+        pages.append({
+            "name": name,
+            "zhName": zh_name,
+            "slug": e["slug"],
+            "date": date,
+            "type": "new" if not has_tr else "updated",
+            "latest": date == run_date,
+            "progress": progress,
+            "wikiTime": (m.get("wiki_last_modified") or "")[:16].replace("T", " "),
+            "mirrorTime": fetched[:16].replace("T", " "),
         })
-    changed = [
-        {"date": d, "pages": sorted(ps, key=lambda p: p["name"])}
-        for d, ps in sorted(by_date.items(), reverse=True)
-    ][:14]
+    # 按镜像抓取时间倒序（最新在前）；同日按日文名
+    pages.sort(key=lambda p: (p["date"], p["name"]), reverse=True)
+
+    watch_count = sum(1 for e in entries if e.get("mode") == "watch")
+    stats = {
+        "total": len(pages),
+        "new": sum(1 for p in pages if p["type"] == "new"),
+        "updated": sum(1 for p in pages if p["type"] == "updated"),
+        "latest": sum(1 for p in pages if p["latest"]),
+        "translated": sum(1 for p in pages if p["progress"] is not None and p["progress"] >= 95),
+        "untranslated": sum(1 for p in pages if p["progress"] is None or p["progress"] < 95),
+    }
     return {
-        "lastRun": manifest.data.get("last_update_run"),
-        "watchCount": sum(1 for e in entries if e.get("mode") == "watch"),
-        "changed": changed,
+        "lastRun": last_run,
+        "watchCount": watch_count,
+        "stats": stats,
+        "pages": pages,
     }
 
 
@@ -803,6 +860,26 @@ def _write_sidebars(entries: list[dict]) -> None:
                             "link": f"/{locale}/{s}.html",
                         })
             if cat == "misc":
+                # 站点栏目：**数据统计**（2026-09-28 新增）
+                # 它和下面的「更新记录」一样**不是 registry 条目** ✗，所以不能走 SIDEBAR_TREE 的
+                # slug 查找（`_sb_node` 在 registry 里找不到就返回 None ✗）→ 这里直接注入 ✓。
+                # 页面本体由 sync_site 的 2.5 节生成（statpages.write_pages ✓）。
+                try:
+                    from . import statpages as _sp
+                    hub = _sp.PAGES[0]
+                    items.append({
+                        "text": hub["title_ja"] if locale == "ja" else hub["title_zh"],
+                        "link": f"/{locale}/{hub['slug']}.html",
+                        "items": [
+                            {
+                                "text": ja if locale == "ja" else zh,
+                                "link": f"/{locale}/{slug}.html",
+                            }
+                            for slug, zh, ja in hub.get("children", [])
+                        ],
+                    })
+                except Exception:  # noqa: BLE001 数据页缺失不应让侧栏生成失败
+                    pass
                 # 站点栏目：更新记录（非 registry 条目）
                 items.append({
                     "text": "更新履歴" if locale == "ja" else "更新记录",

@@ -1,0 +1,19 @@
+# 机翻待精翻清单（由 `python -m escah_pipeline.cli mt export` 生成）
+# 页：characters/聖夜ブロクミエル｜条数：5｜机翻引擎：gtrans｜导出日期：20260927
+# 怎么用：
+#   1) 逐条把 `[id]` 后面的机翻译文改写成精翻译文（**保持 [id] 与条目行结构不变**）；
+#   2) 把整份/整目录交给别的方式（LLM、人工）处理都可以，`#` 开头的行会被忽略；
+#   3) 改完运行：
+#        python -m escah_pipeline.cli mt apply D:\D11_DeveloperProject\150_HTML_Project\escalation_heroines\escah\tools\_mt_refine --write
+#      —— 会按 id 覆盖写回 i18n 真值，并把已精翻条目从留档中销账。
+# `# ja:` 行是日文原文参考，保留或删除都不影响 apply。
+[blk17#1] 欢迎你，怪物猎人，Yoko (*'ω'*)
+# ja: 魔物ハンターようこそ妖子(*'ω'*) 
+[blk17#2] 一款讲述小型偶像经纪公司猎杀怪物生产精液的游戏！[CM201Jb4WOw]
+# ja: 弱小アイドルプロダクションが魔物狩りで精○を出すゲームさ！”[CM201Jb4WOw]
+[blk18#1] 圣诞纯罗库米艾尔是出口色
+# ja: 聖夜ブロクミエルはアタッカー 
+[blk18#2] 城云加奈子是支援型吗？ [LFQQGkrOY6E]
+# ja: 女郎蜘蛛奏子はサポーター ?[LFQQGkrOY6E]
+[blk19] 我会对此保密，因为这会暴露卧室的情况，但看起来失败的情节也正常地插入到了普通版本中……[lc.tI.3n5CQ]
+# ja: 一応寝室バレだから伏せとくけど通常の方も敗北は普通に挿入されてたような…[lc.tI.3n5CQ]
