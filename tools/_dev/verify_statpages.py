@@ -102,6 +102,16 @@ def main() -> int:
                     total_json += sum(1 for c in r if (c.get("t") or "").strip())
         html = statpages.render_page(page, labels, "zh")
         total_html += count_nonempty(html)
+        # ⚠️ **明细页必须一起算** ✗（2026-09-30 踩坑）：把 `集計(…)` 明细改成单独成页后 ✓，
+        # 这里只统计了 5 个汇总页 ✗ → 顶层立刻误报"JSON 57193 vs 页面 20358 不一致"✗✗，
+        # 而逐页数字其实全等 ✓。这已经是**第三次**栽在"校验器口径"上 ✗（见 feedback 记忆 ✓）：
+        # 口径不一致 ⇒ 假警报 ⇒ 白查一轮 ✓。凡"页面 vs 数据"的比对，必须覆盖**全部**页面 ✓。
+        for _i, _nm in enumerate(
+                [s["name"] for s in data["sheets"]
+                 if any(t.get("detail") for t in s["tables"])], 1):
+            _dpage = {"slug": f'{page["slug"]}-detail-{_i}', "package": page["package"],
+                      "detail_sheet": _nm, "title_zh": "", "title_ja": _nm}
+            total_html += count_nonempty(statpages.render_page(_dpage, labels, "zh"))
     ok = total_json == total_html
     print(f"非空单元格：JSON {total_json} vs 页面 {total_html} → {'✓ 一致（信息未丢）' if ok else '✗ 不一致！'}")
     if not ok:

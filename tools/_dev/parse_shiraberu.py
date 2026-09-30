@@ -235,10 +235,14 @@ def parse_package(key: str, dirname: str) -> dict:
             if not (t["nrows"] or t["header"]):
                 continue
             if t["raw"]:
-                # ⚠️ 原始明细**不收录数据**（只留规模）：实测收录后 treasure-open.json 会到 4MB ✗，
-                #    而站点根本不渲染它们（上万格）→ 只记 nrows/ncols 供页面如实说明 ✓。
+                # ⚠️ 原来这里 `continue` 掉**不收录数据** ✗（怕 JSON 涨到 4MB ✗）。
+                # 2026-09-30 用作者 PDF **交叉校验**后推翻了这个决定 ✓：
+                # 宝箱包 PDF 有 33044 个数值 token ✓，而当时 JSON 只有 14181 个 ✗✗ ——
+                # **18863 个数值（57%）在 PDF 里有、本站没有** ✗✗。那不是"排版取舍" ✗，
+                # 是**内容缺失** ✗。故：照样入库 ✓，只打 `detail` 标记 ✓，
+                # 由页面把它们归到"原始明细"页 ✓（主分析页仍不被上万格拖重 ✓）。
+                t["detail"] = 1
                 raw_meta.append({"nrows": t["nrows"], "ncols": t["ncols"]})
-                continue
             tables.append(t)
         sheets.append({
             "file": html.name,

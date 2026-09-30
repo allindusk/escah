@@ -430,24 +430,50 @@ def render_page(page: dict, labels: "dict[str, str]", locale: str) -> str:
                 parts.append(f'<h2>{head2}</h2>\n<p class="stat-credit">{lead}</p>\n<p>{links}</p>')
     data = _pkg(page["package"]) if page.get("package") else None
     if data:
+        only = page.get("detail_sheet")     # 明细页：只渲染该 sheet 的原始明细 ✓
         no_data: "list[str]" = []
         for sheet in _pick_sheets(data, page.get("sheets") or []):
             name = sheet["name"]
-            if not sheet["tables"]:
-                # 解析期被"大表闸门"挡下的明细表：**合并成末尾一条说明** ✓，
-                # 而不是排成一串空小节 ✗（宝箱开箱包有 10 张这种 ✓，会很吵 ✗）。
+            normals = [t for t in sheet["tables"] if not t.get("detail")]
+            details = [t for t in sheet["tables"] if t.get("detail")]
+            if only is not None:
+                if name != only:
+                    continue
+                parts.append(f"<h2>{html.escape(label(name, labels, locale))}</h2>")
+                for t in details:
+                    parts.append(render_table(t, labels, locale))
+                msg = ("※ 作者の集計シートの**生データ**です（各配置の計測記録）。"
+                       "結論はデータ統計トップの各結果表を参照してください。"
+                       if locale == "ja" else
+                       "※ 这是作者「集計」工作表的**原始数据**（各配置的逐次计测记录）。"
+                       "结论请看数据统计首页的各结果表。")
+                parts.append(f'<p class="stat-note">{msg}</p>')
+                continue
+            if details and not normals:
+                # 纯明细 sheet（如 `集計(クイック配置１…)`）：**不在汇总页渲染** ✓ ——
+                # 一张上万格 ✗，10 张会把页面压垮 ✗；改为**单独成页** ✓（见 `write_pages` ✓），
+                # 这里只列**链接** ✓（信息不缺 ✓、页面不重 ✓）。
                 no_data.append(name)
                 continue
-            parts.append(f"<h2>{html.escape(label(name, labels, locale))}</h2>")
-            for t in sheet["tables"]:
-                parts.append(render_table(t, labels, locale))
+            if normals:
+                parts.append(f"<h2>{html.escape(label(name, labels, locale))}</h2>")
+                for t in normals:
+                    parts.append(render_table(t, labels, locale))
         if no_data:
-            names = "／".join(no_data)
-            msg = (f"※ 次の {len(no_data)} シート（集計明細）は未収録です：{names}"
-                   if locale == "ja" else
-                   f"※ 以下 {len(no_data)} 张「集計（明细）」工作表未收录（每张上万单元格，"
-                   f"属于各配置的原始明细，汇总结论见上方各结果表）：{names}")
-            parts.append(f'<p class="stat-note">{html.escape(msg)}</p>')
+            dn = [s["name"] for s in data["sheets"]
+                  if any(t.get("detail") for t in s["tables"])]
+            links = []
+            for nm in no_data:
+                i = dn.index(nm) + 1 if nm in dn else 0
+                if i:
+                    links.append(
+                        f'<a href="{page["slug"]}-detail-{i}.html">'
+                        f'{html.escape(label(nm, labels, locale))}</a>')
+            head = (f"※ 生データ（集計明細 {len(no_data)} シート）は別ページに分けました："
+                    if locale == "ja" else
+                    f"※ 原始明细（{len(no_data)} 张「集計」工作表，每张上万格）"
+                    f"已单独成页，数据一格未删：")
+            parts.append(f'<p class="stat-note">{head}{"／".join(links)}</p>')
         # 页脚：说明略去了哪些表 ✓（透明 ✓，读者知道"信息没缺"还是"有意省略" ✓）
         hidden = [s["name"] for s in data["sheets"]
                   if s["name"].startswith(_SKIP_SHEET_PREFIXES)]
@@ -882,6 +908,38 @@ def write_pages(write_md, site_dirs: "dict[str, Path]", labels: "dict[str, str] 
                 no_prevnext=True,
             )
             written += 1
+    # ---- 明细页：`集計(…)` 原始明细，**每张单独一页** ✓ ----
+    # 为什么必须分开（2026-09-30 用作者 PDF 交叉校验后决定 ✓）：这些明细合计 10 万格 ✗，
+    # 塞进汇总页会把页面压成数 MB ✗；但**一个数都不能删** ✗ —— PDF 里它们全在 ✓
+    #（曾因不收录，宝箱包少掉 18863 个数值 ✗✗）。故：数据全收 ✓、页面分开 ✓、
+    # 汇总页只列链接 ✓（`render_page` 的 no_data 分支 ✓）。
+    for page in PAGES:
+        if not page.get("package"):
+            continue
+        data = _pkg(page["package"])
+        if not data:
+            continue
+        names = [s["name"] for s in data["sheets"]
+                 if any(t.get("detail") for t in s["tables"])]
+        for i, name in enumerate(names, 1):
+            dpage = {
+                "slug": f'{page["slug"]}-detail-{i}',
+                "package": page["package"],
+                "detail_sheet": name,
+                "title_zh": label(name, labels, "zh"),
+                "title_ja": name,
+            }
+            for locale, site_dir in site_dirs.items():
+                frag = render_page(dpage, labels, locale)
+                if not frag:
+                    continue
+                title = dpage["title_ja"] if locale == "ja" else dpage["title_zh"]
+                write_md(
+                    site_dir / f'{dpage["slug"]}.md', title, frag, dpage["slug"],
+                    "", "", "", locale == "zh", locale == "zh", locale,
+                    pre_sanitized=True, no_prevnext=True,
+                )
+                written += 1
     return written
 
 
