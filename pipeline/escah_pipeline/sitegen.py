@@ -552,10 +552,13 @@ def sync_site() -> None:
     # 表格带 `class="escah-tbl"` → 站点既有 tableEnhancer 自动加排序/筛选/全屏 ✓。
     try:
         from . import statpages  # 局部 import：避免与 sitegen 形成模块级循环
+        # 先出「原样镜像」静态页 ✓：数据页里有指向它们的链接，而链接按"文件是否存在"决定
+        # 是否输出 ✓ ⇒ 必须先生成镜像、再渲染数据页 ✓（2026-09-30）。
+        n_mirror = statpages.write_mirror_pages(config.SITE_PUBLIC_DIR)
         stat_written = statpages.write_pages(
             _write_md, {"ja": config.SITE_JA_DIR, "zh": config.SITE_ZH_DIR}
         )
-        log.info("统计数据页：写入 %d 个 md", stat_written)
+        log.info("统计数据页：写入 %d 个 md（原样镜像 %d 页）", stat_written, n_mirror)
     except Exception as e:  # noqa: BLE001 数据页失败不应阻断整站构建
         log.warning("统计数据页生成失败：%s", e)
 

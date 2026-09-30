@@ -383,6 +383,25 @@ def render_page(page: dict, labels: "dict[str, str]", locale: str) -> str:
                 if locale == "ja"
                 else "※ 以上数据均来自攻略作者 <strong>しらべるくん</strong> 的公开实测工具，本站仅作整理与中文标注。")
         parts.append(f'<p class="stat-credit">{note}</p>')
+        # 原样镜像入口 ✓（只在镜像文件确实生成过时才输出 ✓，避免 CI 上出现死链 ✗）
+        mirror_dir = config.SITE_PUBLIC_DIR / "mirror"
+        if mirror_dir.exists():
+            # ⚠️ 必须标成**外链**（`rel="external" target="_blank"`）✓✗：
+            # `public/mirror/*.html` 是**静态文件**、不是 VitePress 路由 ✗，而站点 SPA 路由会
+            # 拦截站内链接做客户端跳转 ⇒ 直接渲染成 **404 视图** ✗（2026-09-30 浏览器实测复现：
+            # 点击后 URL 正确但标题是 `404 | 超昂大戦 Wiki`、0 张表 ✗ —— 直接输入 URL 反而正常 ✓，
+            # 所以只测直连是测不出来的 ✗）。标成外链后走整页加载 ✓，正常显示 ✓。
+            links = "".join(
+                f'<a href="../mirror/{k}.html" rel="external" target="_blank">{k}</a>　'
+                for k in MIRROR_PKGS
+                if (mirror_dir / f"{k}.html").exists()
+            )
+            if links:
+                head2 = "原様ミラー（未翻訳・原文ママ）" if locale == "ja" else "原样镜像对照（未翻译·格式原样）"
+                lead = ("元の Google スプレッドシート出力をそのまま表示（翻訳・並べ替えなし）。"
+                        if locale == "ja" else
+                        "直接渲染原始导出内容（未翻译、未重排、未删空行空列），用于核对镜像保真度。")
+                parts.append(f'<h2>{head2}</h2>\n<p class="stat-credit">{lead}</p>\n<p>{links}</p>')
     data = _pkg(page["package"]) if page.get("package") else None
     if data:
         no_data: "list[str]" = []
@@ -414,6 +433,94 @@ def render_page(page: dict, labels: "dict[str, str]", locale: str) -> str:
                        + "／".join(hidden) + "）。")
             parts.append(f'<p class="stat-note">{html.escape(msg)}</p>')
     return "\n".join(parts)
+
+
+# ------------------------------------------------------------------ 原样镜像 ----
+# 用户要求（2026-09-30）："完全不改原来的格式，也不用项目里的表格样式，先用 HTML 完全镜像
+# 展示静态数据，看看能不能镜像到一模一样"。
+#
+# 做法：**不经过我们解析出的 JSON** ✓ —— 那一步会丢掉 Google 导出的**内联样式**
+# （背景色 / 加粗 / 字号 / 对齐 ✓，实测每 sheet 33~204 处 `style=` ✓，正是原表的视觉信息 ✓）。
+# 而是把原始 `.html` 里的 `<table class="waffle">…</table>` **整块原样**搬进一个
+# **独立静态页**（`site/public/mirror/<key>.html` ✓）：
+#   · 不进 VitePress 主题 ✗（自带页面壳 + 最小 CSS ✓）⇒ 不会被站点样式改写 ✓
+#   · 不翻译 ✗、不重排 ✗、不删空行空列 ✗ ⇒ 与导出结果逐格一致 ✓
+# 注意 `site/public/` 在 .gitignore 里 ✓ —— 这些页由 `sync_site` 从
+# `recycle_bin/data/`（本机素材 ✓，CI 没有 ✓）现场生成 ✓，不会进仓库 ✓。
+
+MIRROR_PKGS = {
+    "annihilation": "殲滅戦報酬調べるくん",
+    "d2p-gacha": "D2Pガチャしらべるくん",
+    "box": "ボックスしらべるくん",
+    "treasure-open": "宝箱開封しらべるくん",
+}
+
+_MIRROR_TABLE_RE = re.compile(r'<table[^>]*class="[^"]*waffle[^"]*".*?</table>', re.S | re.I)
+_MIRROR_ANY_TABLE_RE = re.compile(r"<table\b.*?</table>", re.S | re.I)
+_SCRIPT_RE = re.compile(r"<script\b.*?</script>", re.S | re.I)
+
+_MIRROR_CSS = """
+  body { margin: 16px; font-family: system-ui, "Segoe UI", "Yu Gothic UI", sans-serif;
+         color: #202124; background: #fff; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .lead { color: #5f6368; font-size: 13px; margin: 0 0 14px; }
+  .nav { font-size: 13px; margin: 0 0 18px; }
+  .nav a { margin-right: 12px; }
+  h2 { font-size: 15px; margin: 26px 0 6px; padding: 4px 8px; background: #f1f3f4;
+       border-left: 4px solid #9aa0a6; }
+  /* 只保证"像 Google 表格"的最小骨架（边框 ✓）；其余观感由导出内联样式决定 ✓ */
+  .sheet { overflow: auto; max-width: 100%; }
+  table.waffle { border-collapse: collapse; font-size: 12px; }
+  table.waffle td, table.waffle th { border: 1px solid #dadce0; padding: 2px 6px;
+       vertical-align: top; white-space: pre-wrap; }
+"""
+
+
+def _mirror_sheets(pkg_dir: "Path") -> "list[tuple[str, str]]":
+    out: "list[tuple[str, str]]" = []
+    for f in sorted(pkg_dir.glob("*.html")):
+        text = f.read_text(encoding="utf-8", errors="replace")
+        m = _MIRROR_TABLE_RE.search(text) or _MIRROR_ANY_TABLE_RE.search(text)
+        if not m:
+            continue
+        out.append((f.stem, _SCRIPT_RE.sub("", m.group(0))))
+    return out
+
+
+def write_mirror_pages(public_dir: "Path", raw_root: "Path | None" = None) -> int:
+    """生成 4 个"原样镜像"静态页（`site/public/mirror/<key>.html` ✓）。返回写出数 ✓。
+
+    源素材缺失时（如 CI ✗）**静默跳过** ✓，不影响建站 ✓。
+    """
+    raw_root = raw_root or (config.ROOT / "recycle_bin" / "data")
+    if not raw_root.exists():
+        return 0
+    out_dir = public_dir / "mirror"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    links = "".join(
+        f'<a href="mirror/{k}.html">{k}</a>' for k in MIRROR_PKGS
+    )
+    written = 0
+    for key, prefix in MIRROR_PKGS.items():
+        pkg_dir = next((p for p in raw_root.glob(prefix + "*") if p.is_dir()), None)
+        if pkg_dir is None:
+            continue
+        sheets = _mirror_sheets(pkg_dir)
+        if not sheets:
+            continue
+        body = [f"<h1>原样镜像 · {key}</h1>",
+                '<p class="lead">直接取自原始导出的 &lt;table&gt;（含内联样式），'
+                '未翻译、未重排、未删空行空列。</p>',
+                f'<p class="nav">{links}</p>']
+        for name, frag in sheets:
+            body.append(f"<h2>{html.escape(name)}</h2>")
+            body.append(f'<div class="sheet">{frag}</div>')
+        doc = ("<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n"
+               f"<title>原样镜像 · {key}</title>\n<style>{_MIRROR_CSS}</style>\n</head>\n<body>\n"
+               + "\n".join(body) + "\n</body>\n</html>\n")
+        (out_dir / f"{key}.html").write_text(doc, encoding="utf-8", newline="\n")
+        written += 1
+    return written
 
 
 # ------------------------------------------------------------------ 站点落盘 ----

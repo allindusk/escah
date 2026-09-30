@@ -46,6 +46,9 @@ def main() -> int:
     print(f"\n全部页面表格行合计 {total_rows}")
 
     if write:
+        # 顺序同 sync_site：**先镜像、后数据页** ✓（数据页的镜像链接按文件存在性输出 ✓）
+        n_mirror = statpages.write_mirror_pages(config.SITE_PUBLIC_DIR)
+        print(f"已生成原样镜像 {n_mirror} 页 → site/public/mirror/")
         n = statpages.write_pages(sitegen._write_md, dirs)
         print(f"已落盘 {n} 个 md")
         # ② frag 检查
