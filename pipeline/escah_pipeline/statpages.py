@@ -529,6 +529,65 @@ _MIRROR_JS = """<script>
 (function () {
   var tabs = [].slice.call(document.querySelectorAll('.tab'));
   var sheets = [].slice.call(document.querySelectorAll('section.sheet'));
+
+  // 冻结行列用的一次性样式（由本脚本注入 ✓，避免再改 CSS 段 ✓）。
+  var st = document.createElement('style');
+  st.textContent = '.frz-cell{position:sticky;background-color:#fff;' +
+    'background-clip:padding-box}';
+  document.head.appendChild(st);
+
+  // ---- 冻结行列：**逐表按内容判断** ✓ ------------------------------------------------
+  // 用户要求（2026-09-30）："我不是说让你理解表格内容再定冻结行列吗，为什么你统一处理" ✗ ——
+  // 统一冻"首行+首列"是错的 ✗，实测各表结构并不一样：
+  //   · `box/結果`：行1 是 `A B C` 列字母行、行2 只有行号 `1`（空行 ✗）、**行3** 才是真表头
+  //     `アイテム / 合計 / 確率` ⇒ 应冻 **3 行** ✓；
+  //   · `box/調査`：行3 是 `宝箱数` 小节标题、**行4** 才是真表头 `調査No./ステージ/アイテム`
+  //     ⇒ 应冻 **4 行** ✓；
+  //   · 标签列同理：列1 是 `1 2 3` 行号 ✓、列2 常是空列 ✗、**列3** 才是名称列 ✓。
+  // 判据（对每张表现算 ✓）：
+  //   ① 表头行 = 从第 2 行起，**第一个非空单元格 ≥3 的行** ✓（跳过字母行与"只有行号"的空行 ✓）；
+  //   ② 标签列 = 该表头行里**第一个有文字**（非纯数字）的格所在列 ✓（它左边的都是行号/空列 ✓）；
+  //   ③ 偏移用**实测**的行高/列宽累加 ✓ —— 每行每列宽高不同，写死像素必然错位 ✗。
+  function applyFreeze(sec) {
+    [].slice.call(sec.querySelectorAll('table.waffle')).forEach(function (tb) {
+      var rows = [].slice.call(tb.rows);
+      if (!rows.length) return;
+      var hdr = -1, i, j;
+      for (i = 1; i < Math.min(rows.length, 6); i++) {
+        var ne = [].slice.call(rows[i].cells).filter(function (c) {
+          return c.textContent.trim();
+        });
+        if (ne.length >= 3) { hdr = i; break; }
+      }
+      var nR = hdr >= 0 ? hdr + 1 : 1;          // 冻到表头行为止（含）✓
+      var nC = 1;
+      if (hdr >= 0) {
+        var hs = [].slice.call(rows[hdr].cells);
+        for (j = 0; j < hs.length; j++) {
+          var t = hs[j].textContent.trim();
+          if (t && !/^[\\d.,%\\-+\\/]+$/.test(t)) { nC = j + 1; break; }
+        }
+      }
+      var lefts = [], acc = 0, first = rows[0];
+      for (j = 0; j < nC; j++) {
+        lefts.push(acc);
+        acc += first.cells[j] ? first.cells[j].getBoundingClientRect().width : 0;
+      }
+      var top = 0;
+      for (i = 0; i < rows.length; i++) {
+        var r = rows[i], isHead = (i < nR);
+        for (j = 0; j < nC && j < r.cells.length; j++) {
+          var c = r.cells[j];
+          c.classList.add('frz-cell');
+          c.style.left = lefts[j] + 'px';
+          if (isHead) c.style.top = top + 'px';
+          c.style.zIndex = isHead ? 5 : 2;      // 行列交叉格最高 ✓，否则互相盖住 ✗
+        }
+        if (isHead) top += r.getBoundingClientRect().height;
+      }
+    });
+  }
+
   function show(i) {
     if (i < 0 || i >= sheets.length) i = 0;
     sheets.forEach(function (s, j) { s.hidden = (j !== i); });
@@ -537,6 +596,8 @@ _MIRROR_JS = """<script>
     if (t && t.scrollIntoView) t.scrollIntoView({ block: 'nearest', inline: 'center' });
     document.title = t.textContent + ' · 原样镜像';
     try { history.replaceState(null, '', '#' + encodeURIComponent(t.textContent)); } catch (e) {}
+    // 必须在**显示之后**测量 ✓：隐藏元素的高度/宽度都是 0 ✗，冻结偏移会全算成 0 ✗。
+    applyFreeze(sheets[i]);
   }
   tabs.forEach(function (t) {
     t.addEventListener('click', function () { show(parseInt(t.dataset.i, 10)); });
@@ -546,6 +607,7 @@ _MIRROR_JS = """<script>
   var idx = -1;
   tabs.forEach(function (t, j) { if (t.textContent === h) idx = j; });
   show(idx >= 0 ? idx : 0);
+  window.addEventListener('resize', function () { applyFreeze(sheets[0] && sheets.find(function (s) { return !s.hidden; }) || sheets[0]); });
 })();
 </script>
 """
