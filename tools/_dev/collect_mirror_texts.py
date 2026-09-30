@@ -34,6 +34,15 @@ import lxml.html as LH  # noqa: E402
 OUT = Path(__file__).resolve().parent / "_mirror_todo.tsv"
 KANA = re.compile(r"[\u3041-\u3096\u30a1-\u30fa\u30fd-\u30ff]")
 
+# 只检查假名是不够的 ✗：日文里大量的词是**纯汉字**（`発行日` / `改訂内容` / `選択` ✓），
+# 假名检测看不见它们 ✗（2026-09-30 实测：用户会一眼看出这是日文 ✓）。
+# 下表收录"简体中文里不会出现"的日文专用字形 ✓ —— 出现任一即视为仍需翻译 ✓。
+JP_ONLY = (
+    "発実変売価帰広対経説読悪圧弁険験権観覧難鳥黒図団囲気済訳蔵戦単拠毎報増検査質適選択"
+    "確認設縮闘値収円塩齢絵仮処断融資産権益頼覧週曜駅歳弐壱派遣雇継続総額鉄鉱脈扉帯服装"
+    "備蓄庫補填育成闘技獄麗磨鎧翼弾銃剣盾具翼"
+)
+
 
 def texts_of(frag: str) -> "list[str]":
     root = LH.fragment_fromstring(frag, create_parent="div")
@@ -62,8 +71,10 @@ def main() -> int:
             if not frag:
                 continue
             for t in texts_of(frag):
-                out = statpages.label(t, labels, "zh")
-                if KANA.search(out):          # 译完仍有假名 ⇒ 缺译 ✓
+                # 用**镜像实际走的翻译函数**判定 ✓（含"去掉空白再查一遍"的容错 ✓），
+                # 否则会误报一堆其实已经译好的串 ✗（2026-09-30 实测：`装備アイテム` 就是这种 ✓）。
+                out = statpages._label_mirror(t, labels, "zh")
+                if statpages._still_ja(out):
                     cnt[t] += 1
         per_pkg[key] = cnt
         print(f"{key:<16} 缺译 {len(cnt):>4} 种（合计 {sum(cnt.values()):>6} 处）")

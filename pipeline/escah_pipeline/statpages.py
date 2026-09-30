@@ -531,6 +531,35 @@ _MIRROR_JS = """<script>
 """
 
 
+# 日文专用字形（简体中文里不会出现 ✓）：`発実変売価帰広対経説読…`。用于判断"这段文字
+# 是否仍是日文" ✓ —— 只看假名是不够的 ✗（`発行日` / `改訂内容` / `選択` 都是纯汉字日文 ✓）。
+_JP_ONLY = (
+    "発実変売価帰広対経説読悪圧弁険験権観覧難鳥黒図団囲気済訳蔵戦単拠毎報増検査質適選択"
+    "確認設縮闘値収円塩齢絵仮処融資産益頼週曜駅歳弐壱派遣雇継続総額鉄鉱脈扉帯服装備蓄庫"
+    "補填育成技獄麗磨鎧翼弾銃剣盾具"
+)
+
+
+def _still_ja(s: str) -> bool:
+    return bool(_KANA_RE.search(s)) or any(c in _JP_ONLY for c in s)
+
+
+def _label_mirror(raw: str, labels: "dict[str, str]", locale: str) -> str:
+    """镜像翻译：先按原样查 ✓；**若结果仍是日文，就去掉所有空白再查一遍** ✓。
+
+    为什么需要（2026-09-30 实测）：源里同一内容常带**全角空格 / 换行**变体 ✗ ——
+    例如单元格里其实是 `装備アイテム` 或 `（例：経験値　計測前…）` ✓，精确匹配全落空 ✗，
+    页面上就留了一堆日文 ✗。`\\s` 在 Python 里**包含全角空格 `\\u3000`** ✓，所以一次压掉即可 ✓。
+    """
+    out = label(raw, labels, locale)
+    if _still_ja(out):
+        squeezed = re.sub(r"\s+", "", raw)
+        out2 = label(squeezed, labels, locale)
+        if not _still_ja(out2):
+            out = out2
+    return out
+
+
 def _translate_table(frag: str, labels: "dict[str, str]", locale: str) -> "tuple[str, int, int]":
     """把镜像表格里的**文字**翻成中文 ✓，**除此之外一律不动** ✓。
 
@@ -557,7 +586,7 @@ def _translate_table(frag: str, labels: "dict[str, str]", locale: str) -> "tuple
             for attr in ("text", "tail"):
                 raw = getattr(holder, attr, None)
                 if raw and raw.strip():
-                    new = label(raw, labels, locale)
+                    new = _label_mirror(raw, labels, locale)
                     if new != raw:
                         setattr(holder, attr, new)
                         changed += 1
