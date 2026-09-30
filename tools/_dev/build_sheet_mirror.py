@@ -54,7 +54,16 @@ def extract_table(path: Path) -> str:
 
 
 def verify() -> int:
-    """保真校验：镜像页里必须逐字节包含源文件的 `<table>` 原文 ✓（一个字都不能变 ✓）。"""
+    """结构校验：镜像页必须与源文件**结构逐格一致** ✓，只允许文字不同（已翻译 ✓）。
+
+    判据（2026-09-30 改：翻译后"逐字节一致"不再适用 ✓）：
+      · 工作表数量与顺序一致 ✓
+      · 每张表的**单元格数**一致 ✓
+      · 每个单元格的 `tag / colspan / rowspan / style` 指纹一致 ✓
+        ⇒ 版式（底色 / 加粗 / 合并 / 空行空列）一格没动 ✓，只有文字变成了中文 ✓
+    """
+    import lxml.html as LH
+
     page_dir = ROOT / "site" / "public" / "mirror"
     bad = 0
     for key, prefix in PKGS.items():
@@ -63,23 +72,34 @@ def verify() -> int:
             print(f"!! {page.name} 不存在（先跑 verify_statpages.py --write ✓）")
             bad += 1
             continue
-        text = page.read_text(encoding="utf-8", errors="replace")
+        proot = LH.fragment_fromstring(page.read_text(encoding="utf-8", errors="replace"),
+                                      create_parent="div")
+        secs = proot.xpath("//section[contains(@class,'sheet')]")
         d = next((p for p in RAW.glob(prefix + "*") if p.is_dir()), None)
         if d is None:
             continue
+        src = [(f.stem, extract_table(f)) for f in sorted(d.glob("*.html"))]
+        src = [(n, g) for n, g in src if g]
         n_ok = n_bad = 0
-        for f in sorted(d.glob("*.html")):
-            frag = extract_table(f)
-            if not frag:
-                continue
-            if frag in text:
+        if len(src) != len(secs):
+            print(f"   ✗ [{key}] 工作表数不一致：源 {len(src)} vs 页面 {len(secs)}")
+            bad += 1
+            continue
+        for (name, frag), sec in zip(src, secs):
+            a = LH.fragment_fromstring(frag, create_parent="div").xpath("//td|//th")
+            b = sec.xpath(".//td|.//th")
+            fa = [(c.tag, c.get("colspan"), c.get("rowspan"), c.get("style")) for c in a]
+            fb = [(c.tag, c.get("colspan"), c.get("rowspan"), c.get("style")) for c in b]
+            if fa == fb:
                 n_ok += 1
             else:
                 n_bad += 1
-                print(f"   ✗ [{key}] {f.stem} 的表在镜像页里**对不上**")
-        print(f"{key:<16} 逐字节一致 {n_ok} / 不一致 {n_bad}")
+                print(f"   ✗ [{key}] {name} 结构对不上"
+                      f"（单元格 {len(a)} vs {len(b)} ✓ 指纹差异 "
+                      f"{sum(1 for x, y in zip(fa, fb) if x != y)} 处）")
+        print(f"{key:<16} 结构一致 {n_ok} / 不一致 {n_bad}")
         bad += n_bad
-    print("✓ 全部逐字节一致" if bad == 0 else f"✗ 有 {bad} 个 sheet 对不上")
+    print("✓ 结构与原始导出逐格一致（仅文字已译）" if bad == 0 else f"✗ 有 {bad} 个工作表对不上")
     return 0 if bad == 0 else 2
 
 

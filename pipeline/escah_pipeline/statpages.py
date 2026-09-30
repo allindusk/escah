@@ -460,20 +460,97 @@ _MIRROR_ANY_TABLE_RE = re.compile(r"<table\b.*?</table>", re.S | re.I)
 _SCRIPT_RE = re.compile(r"<script\b.*?</script>", re.S | re.I)
 
 _MIRROR_CSS = """
-  body { margin: 16px; font-family: system-ui, "Segoe UI", "Yu Gothic UI", sans-serif;
-         color: #202124; background: #fff; }
-  h1 { font-size: 18px; margin: 0 0 4px; }
-  .lead { color: #5f6368; font-size: 13px; margin: 0 0 14px; }
-  .nav { font-size: 13px; margin: 0 0 18px; }
-  .nav a { margin-right: 12px; }
-  h2 { font-size: 15px; margin: 26px 0 6px; padding: 4px 8px; background: #f1f3f4;
-       border-left: 4px solid #9aa0a6; }
-  /* 只保证"像 Google 表格"的最小骨架（边框 ✓）；其余观感由导出内联样式决定 ✓ */
-  .sheet { overflow: auto; max-width: 100%; }
+  html, body { margin: 0; padding: 0; background: #fff; color: #202124;
+       font-family: system-ui, "Segoe UI", "Yu Gothic UI", sans-serif; }
+  header { padding: 12px 16px 4px; }
+  h1 { font-size: 17px; margin: 0 0 4px; }
+  .lead { font-size: 12px; color: #5f6368; margin: 2px 0; }
+  .nav { font-size: 12px; margin: 4px 0 0; }
+  .nav a { margin-right: 10px; }
+  /* 正文区：底部留出标签栏高度 ✓；一个页面**只显示一个工作表** ✓ */
+  main { padding: 8px 16px 68px; }
+  section.sheet { overflow: auto; max-width: 100%; }
+  section.sheet[hidden] { display: none; }
+  /* 只保证"像 Google 表格"的最小骨架（边框 ✓）；底色/加粗等观感仍由导出的内联样式决定 ✓ */
   table.waffle { border-collapse: collapse; font-size: 12px; }
   table.waffle td, table.waffle th { border: 1px solid #dadce0; padding: 2px 6px;
        vertical-align: top; white-space: pre-wrap; }
+  /* 左下角工作表标签栏（模拟 Google 表格 / Excel 的底部 sheet 切换 ✓） */
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 2px;
+       align-items: flex-end; background: #f1f3f4; border-top: 1px solid #dadce0;
+       padding: 6px 8px 0; overflow-x: auto; scrollbar-width: thin; z-index: 10; }
+  .tab { flex: 0 0 auto; border: 1px solid #dadce0; border-bottom: none; background: #e8eaed;
+       color: #3c4043; font-size: 12px; line-height: 1.4; padding: 5px 10px;
+       border-radius: 8px 8px 0 0; cursor: pointer; max-width: 220px; white-space: nowrap;
+       overflow: hidden; text-overflow: ellipsis; font-family: inherit; }
+  .tab:hover { background: #dee1e6; }
+  .tab.on { background: #fff; color: #1a73e8; font-weight: 600; }
+  .tabmeta { flex: 0 0 auto; align-self: center; font-size: 12px; color: #5f6368;
+       padding: 0 8px 6px 4px; white-space: nowrap; }
 """
+
+# 左下角标签栏的切换逻辑（内联 ✓，不引外部依赖 ✓）。注意这是**普通字符串** ✗不是 f-string ✗
+# —— 里面有大量 `{}` ✓，放进 f-string 会被当占位符而报错 ✓。
+_MIRROR_JS = """<script>
+(function () {
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  var sheets = [].slice.call(document.querySelectorAll('section.sheet'));
+  function show(i) {
+    if (i < 0 || i >= sheets.length) i = 0;
+    sheets.forEach(function (s, j) { s.hidden = (j !== i); });
+    tabs.forEach(function (t, j) { t.classList.toggle('on', j === i); });
+    var t = tabs[i];
+    if (t && t.scrollIntoView) t.scrollIntoView({ block: 'nearest', inline: 'center' });
+    document.title = t.textContent + ' · 原样镜像';
+    try { history.replaceState(null, '', '#' + encodeURIComponent(t.textContent)); } catch (e) {}
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { show(parseInt(t.dataset.i, 10)); });
+  });
+  var h = '';
+  try { h = decodeURIComponent((location.hash || '').slice(1)); } catch (e) { h = ''; }
+  var idx = -1;
+  tabs.forEach(function (t, j) { if (t.textContent === h) idx = j; });
+  show(idx >= 0 ? idx : 0);
+})();
+</script>
+"""
+
+
+def _translate_table(frag: str, labels: "dict[str, str]", locale: str) -> "tuple[str, int, int]":
+    """把镜像表格里的**文字**翻成中文 ✓，**除此之外一律不动** ✓。
+
+    为什么只改文本节点（2026-09-30 用户要求"翻译一下"，同时版式要原样 ✓）：
+      · `style=`（背景色 / 加粗 / 字号 ✓）、`colspan/rowspan`（合并 ✓）、
+        空行空列 ✓、标签层级 ✓ 全部逐字保留 ⇒ **版式与原始导出一致，只换语言** ✓；
+      · 逐**文本节点**翻译（而不是整格 textContent ✗）还能保住单元格内的 `<br>` 换行 ✓
+        与 `<a>` 链接 ✓（整格替换会把它们吃掉 ✗）。
+    查不到译文的串由 `label()` 原样保留 ✓（不瞎编 ✓）。
+    返回 (html, 改动的文本节点数, 单元格总数) ✓ 便于报告翻译覆盖率 ✓。
+    """
+    import lxml.html as _lxml_html
+
+    try:
+        root = _lxml_html.fragment_fromstring(frag, create_parent="div")
+    except Exception:  # noqa: BLE001
+        return frag, 0, 0
+    changed = total = 0
+    for el in root.iter():
+        if not isinstance(el.tag, str) or el.tag not in ("td", "th"):
+            continue
+        total += 1
+        for holder in [el] + [x for x in el.iter() if x is not el]:
+            for attr in ("text", "tail"):
+                raw = getattr(holder, attr, None)
+                if raw and raw.strip():
+                    new = label(raw, labels, locale)
+                    if new != raw:
+                        setattr(holder, attr, new)
+                        changed += 1
+    out = _lxml_html.tostring(root, encoding="unicode")
+    if out.startswith("<div>") and out.rstrip().endswith("</div>"):
+        out = out[len("<div>"):-len("</div>")].strip()
+    return out, changed, total
 
 
 def _mirror_sheets(pkg_dir: "Path") -> "list[tuple[str, str]]":
@@ -508,17 +585,39 @@ def write_mirror_pages(public_dir: "Path", raw_root: "Path | None" = None) -> in
         sheets = _mirror_sheets(pkg_dir)
         if not sheets:
             continue
-        body = [f"<h1>原样镜像 · {key}</h1>",
-                '<p class="lead">直接取自原始导出的 &lt;table&gt;（含内联样式），'
-                '未翻译、未重排、未删空行空列。</p>',
-                f'<p class="nav">{links}</p>']
-        for name, frag in sheets:
-            body.append(f"<h2>{html.escape(name)}</h2>")
-            body.append(f'<div class="sheet">{frag}</div>')
-        doc = ("<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n"
+        labels = load_labels()
+        sections: "list[str]" = []
+        tabs: "list[str]" = []
+        n_change = n_cells = 0
+        for i, (name, frag) in enumerate(sheets):
+            t_frag, ch, tot = _translate_table(frag, labels, "zh")
+            n_change += ch
+            n_cells += tot
+            sections.append(
+                f'<section class="sheet" id="sheet-{i}" data-name="{html.escape(name)}">'
+                f"{t_frag}</section>"
+            )
+            tabs.append(
+                f'<button class="tab" type="button" data-i="{i}">{html.escape(name)}</button>'
+            )
+        # 一个页面**只显示一个工作表** ✓（其余 `hidden` ✓，左下角标签切换 ✓ —— 用户要求
+        # "模拟办公软件那样左下角可以切换工作表" ✓）。标签用 `<button>` + 少量内联 JS ✓，
+        # 不引外部依赖 ✓；当前工作表写进 `location.hash` ✓（可直达 / 可分享 ✓）。
+        body = [f"<h1>原样镜像 · {html.escape(key)}</h1>",
+                '<p class="lead">版式与原始导出一致（背景色 / 加粗 / 合并单元格 / 空行空列全保留），'
+                '仅将文字译为中文；未重排、未删行列。</p>',
+                f'<p class="nav">{links}</p>',
+                '<main id="sheets">' + "".join(sections) + "</main>",
+                '<nav class="tabbar" id="tabbar">' + "".join(tabs)
+                + f'<span class="tabmeta">共 {len(sheets)} 个工作表 · 点底部标签切换</span></nav>',
+                _MIRROR_JS]
+        doc = ('<!doctype html>\n<html lang="zh-CN">\n<head>\n<meta charset="utf-8">\n'
+               '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
                f"<title>原样镜像 · {key}</title>\n<style>{_MIRROR_CSS}</style>\n</head>\n<body>\n"
                + "\n".join(body) + "\n</body>\n</html>\n")
         (out_dir / f"{key}.html").write_text(doc, encoding="utf-8", newline="\n")
+        print(f"    镜像 {key}: {len(sheets)} 个工作表，"
+              f"已译文本 {n_change} 处 / 单元格 {n_cells} 个")
         written += 1
     return written
 
