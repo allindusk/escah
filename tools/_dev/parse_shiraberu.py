@@ -111,6 +111,43 @@ def _strip_sheet_chrome(header_rows, body_rows):
     return header_rows, body_rows
 
 
+# ---- 作者配色 = **语义编码** ✓，必须沿用 ✓（2026-09-30 用户质问"为什么你不沿用"✓）----
+# 实测（前提条件表 ✓）：浅蓝 `#9fc5e8` 的 27 格正是"要你填写的单元格" ✓，作者说明原文写着
+# 「・水色の背景のセルだけ入力します(他のセルは変更しない)」✓ ⇒ 丢掉颜色 = 把这条说明
+# 变成废话 ✗✗。颜色有两个来源：① 单元格内联 `style="background-color:…"` ✓；
+# ② 文件 `<style>` 里的 `.sN { … }` 类（实测 28 条 ✓）。
+_CLS_STYLE: "dict[str, tuple[str, bool]]" = {}
+_BG_RE = re.compile(r"background-color:\s*([^;\"']+)", re.I)
+_BOLD_RE = re.compile(r"font-weight:\s*(?:bold|[6-9]00)", re.I)
+_STYLE_RULE_RE = re.compile(r"\.(s\d+)\s*\{([^}]*)\}", re.I)
+_WHITE = {"#ffffff", "#fff", "white", "transparent", "rgba(0,0,0,0)", ""}
+
+
+def _class_style_map(raw: str) -> "dict[str, tuple[str, bool]]":
+    """导出文件的 `<style>` → `.sN ⇒ (背景色, 是否加粗)` ✓。"""
+    out: "dict[str, tuple[str, bool]]" = {}
+    for m in _STYLE_RULE_RE.finditer(raw):
+        body = m.group(2)
+        bg = _BG_RE.search(body)
+        out[m.group(1)] = ((bg.group(1).strip().lower() if bg else ""),
+                           bool(_BOLD_RE.search(body)))
+    return out
+
+
+def _cell_style(c, cls: "dict[str, tuple[str, bool]]") -> "tuple[str, bool]":
+    """单元格的 (背景色, 加粗)：**内联样式优先** ✓，其次查 `.sN` 类 ✓。"""
+    style = c.get("style") or ""
+    bg = _BG_RE.search(style)
+    color = bg.group(1).strip().lower() if bg else ""
+    bold = bool(_BOLD_RE.search(style))
+    if not color or not bold:
+        for name in (c.get("class") or ""):
+            cbg, cb = cls.get(name, ("", False))
+            color = color or cbg
+            bold = bold or cb
+    return ("" if color in _WHITE else color, bold)
+
+
 def parse_table(tbl) -> dict:
     header_rows: "list[list[dict]]" = []
     body_rows: "list[list[dict]]" = []
@@ -122,7 +159,8 @@ def parse_table(tbl) -> dict:
         for c in cells:
             # 紧凑编码（2026-09-28）：默认值不写 ✓ —— 每个单元格都带 cs/rs/th 时
             # treasure-open.json 到 1.17MB ✗；只写非默认后体积降一个量级 ✓。
-            # 约定：t=文本；cs=colspan(>1 才写)；rs=rowspan(>1 才写)；h=1 表示表头格
+            # 约定：t=文本；cs=colspan(>1 才写)；rs=rowspan(>1 才写)；h=1 表示表头格；
+            #       bg=背景色（只写非白色 ✓，形如 `9fc5e8` 不带 # ✓）；b=1 表示加粗
             cell = {"t": _text(c)}
             cs = int(c.get("colspan") or 1)
             rs = int(c.get("rowspan") or 1)
@@ -130,6 +168,11 @@ def parse_table(tbl) -> dict:
                 cell["cs"] = cs
             if rs > 1:
                 cell["rs"] = rs
+            bg, bold = _cell_style(c, _CLS_STYLE)
+            if bg:
+                cell["bg"] = bg.lstrip("#")
+            if bold:
+                cell["b"] = 1
             if c.name == "th":
                 cell["h"] = 1
             entry.append(cell)
@@ -181,6 +224,9 @@ def parse_package(key: str, dirname: str) -> dict:
         except ImportError:
             print("!! 需要 beautifulsoup4（pip install beautifulsoup4）")
             raise SystemExit(2)
+        # 每个 sheet 文件自带一份配色表（`<style>` 里的 `.sN` ✓）→ 解析前刷新全局映射 ✓
+        _CLS_STYLE.clear()
+        _CLS_STYLE.update(_class_style_map(raw))
         soup = BeautifulSoup(raw, "html.parser")
         tables = []
         raw_meta = []

@@ -289,8 +289,20 @@ def _render_block(rows: "list[list[dict]]", cap: "list[dict] | None",
         if c.get("rs", 1) > 1:
             span += f' rowspan="{c["rs"]}"'
         cattr = f' class="{cls}"' if cls else ""
+        # **沿用作者的配色** ✓（2026-09-30 用户质问"作者给表格做了很好区分的颜色，为什么你不沿用"✓）：
+        # 颜色是**语义编码** ✓ —— 实测浅蓝 `#9fc5e8` 的格子正是"需要你填写的单元格" ✓，
+        # 而作者的说明原文写着「只填写浅蓝色背景的单元格」✓ ⇒ 不还原颜色，那条说明就是废话 ✗。
+        # 用**内联 style** ✓（而非 class ✓）：站点 tableEnhancer 排序/筛选会移动单元格 ✓，
+        # 内联样式跟着单元格走 ✓，且能盖住增强器自带的斑马纹/悬浮底色 ✓。
+        sty = ""
+        if c.get("bg"):
+            sty += f'background-color:#{c["bg"]};'
+        if c.get("b"):
+            sty += "font-weight:700;"
+        sattr = f' style="{sty}"' if sty else ""
         txt = label(c.get("t", ""), labels, locale)
-        return f"<{tag}{cattr}{span}>{html.escape(txt)}</{tag}>" if txt else f"<{tag}{cattr}{span}></{tag}>"
+        return (f"<{tag}{cattr}{sattr}{span}>{html.escape(txt)}</{tag}>" if txt
+                else f"<{tag}{cattr}{sattr}{span}></{tag}>")
 
     body = [r for r in rows if _nonempty(r)]
     out: "list[str]" = []
@@ -472,6 +484,14 @@ MIRROR_PKGS = {
 _MIRROR_TABLE_RE = re.compile(r'<table[^>]*class="[^"]*waffle[^"]*".*?</table>', re.S | re.I)
 _MIRROR_ANY_TABLE_RE = re.compile(r"<table\b.*?</table>", re.S | re.I)
 _SCRIPT_RE = re.compile(r"<script\b.*?</script>", re.S | re.I)
+
+# 作者的**配色**在导出文件的 `<style>` 里，形如 `.s12 { background-color: #9fc5e8; … }` ✓。
+# 镜像要把它们**内联化**到单元格上 ✓，否则颜色不会跟着 `<table>` 走 ✗（实测见 `_mirror_sheets` ✓）。
+_MIRROR_STYLE_RULE_RE = re.compile(r"\.([A-Za-z0-9_]+)\s*\{([^}]*)\}", re.I)
+_MIRROR_BG_RE = re.compile(r"background-color:\s*([^;\"']+)", re.I)
+_MIRROR_BOLD_RE = re.compile(r"font-weight:\s*(?:bold|[6-9]00)", re.I)
+
+import lxml.html as lxml_html  # noqa: E402  （仅镜像内联化用 ✓；lxml 本就是项目依赖 ✓）
 
 _MIRROR_CSS = """
   html, body { margin: 0; padding: 0; background: #fff; color: #202124;
@@ -723,13 +743,49 @@ def _translate_table(frag: str, labels: "dict[str, str]", locale: str) -> "tuple
 
 
 def _mirror_sheets(pkg_dir: "Path") -> "list[tuple[str, str]]":
+    """取每张表的原始 `<table>` ✓，并把作者的**配色内联化** ✓。
+
+    ⚠️ 2026-09-30 实测纠错 ✗✓：我原以为"整块搬运 `<table>` ⇒ 颜色自然保留" ✓ 是**错的** ✗ ——
+    作者的颜色写在导出文件 `<style>` 的 `.sN` **类**里 ✓，而 `<table>` 上只有 `class="s1"` ✗，
+    样式表没搬过去 ⇒ 浏览器里**全是白底** ✗✗（浏览器实测：镜像页内联底色 0 ✗、浅蓝格 0 ✗，
+    而数据页 2377/25 ✓）。这里把 `.sN` 的背景色/加粗**落到内联 style** ✓，镜像才真正"保真" ✓。
+    """
     out: "list[tuple[str, str]]" = []
     for f in sorted(pkg_dir.glob("*.html")):
         text = f.read_text(encoding="utf-8", errors="replace")
         m = _MIRROR_TABLE_RE.search(text) or _MIRROR_ANY_TABLE_RE.search(text)
         if not m:
             continue
-        out.append((f.stem, _SCRIPT_RE.sub("", m.group(0))))
+        frag = _SCRIPT_RE.sub("", m.group(0))
+        cls = {}
+        for mm in _MIRROR_STYLE_RULE_RE.finditer(text):
+            body = mm.group(2)
+            bg = _MIRROR_BG_RE.search(body)
+            if bg:
+                cls[mm.group(1)] = bg.group(1).strip()
+            if _MIRROR_BOLD_RE.search(body):
+                cls.setdefault(mm.group(1), "")
+                cls[mm.group(1) + "__b"] = "1"
+        if cls:
+            try:
+                root = lxml_html.fragment_fromstring(frag, create_parent="div")
+                for c in root.xpath("//td|//th"):
+                    names = c.get("class") or ""
+                    add = ""
+                    for name in names.split():
+                        col = cls.get(name, "")
+                        if col:
+                            add += f"background-color:{col};"
+                        if cls.get(name + "__b"):
+                            add += "font-weight:700;"
+                    if add:
+                        c.set("style", (c.get("style") or "") + add)
+                frag = lxml_html.tostring(root, encoding="unicode")
+                if frag.startswith("<div>") and frag.rstrip().endswith("</div>"):
+                    frag = frag[len("<div>"):-len("</div>")].strip()
+            except Exception:  # noqa: BLE001 内联化失败也不该阻断镜像生成
+                pass
+        out.append((f.stem, frag))
     return out
 
 
