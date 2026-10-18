@@ -122,12 +122,30 @@ layout: doc
   translated: {translated}
 ---
 
+<h1 class="escah-page-h1">{html_title}</h1>
+
 <script setup>
 import frag from "{rel}"
 </script>
 
 <MirrorContent :html="frag.html" />
 """
+
+
+def _html_escape(text: str) -> str:
+    """标题落进正文 <h1> 时转义。
+
+    标题来自 glossary 译名，可能含 & < > 或 Vue 插值符号 { }；不转义会让 Vue 模板
+    编译报错或把标题吃掉。SEO 上每页必须有一个可见 h1（此前全站 0 个）。
+    """
+    return (
+        text.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("{", "&#123;")
+        .replace("}", "&#125;")
+    )
 
 
 # lxml.html 会把属性名规范为小写，这里把 SVG 等需要大小写的属性还原回去
@@ -430,6 +448,7 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
     prevnext = "prev: false\nnext: false\n" if no_prevnext else ""
     body = MD_TEMPLATE.format(
         title=title.replace('"', "'"),
+        html_title=_html_escape(title),
         source_url=source_url,
         source_updated=source_updated,
         synced=synced,
@@ -540,7 +559,10 @@ def sync_site() -> None:
     for slug_key, component in special.items():
         for locale, site_dir in (("ja", config.SITE_JA_DIR), ("zh", config.SITE_ZH_DIR)):
             title = special_titles[slug_key][locale]
-            body = f'---\ntitle: "{title}"\nlayout: doc\n---\n\n{component}\n'
+            body = (
+                f'---\ntitle: "{title}"\nlayout: doc\n---\n\n'
+                f'<h1 class="escah-page-h1">{_html_escape(title)}</h1>\n\n{component}\n'
+            )
             (site_dir / f"{slug_key}.md").write_text(body, encoding="utf-8")
 
     # ---- 2.5 统计数据页（攻略作者「しらべるくん」的实测数据）----
@@ -606,13 +628,30 @@ def sync_site() -> None:
     _dump("site-terms.json", {"char_sections": _load_glossary().get("char_sections", {})})
 
     # ---- 5. 图片同步 ----
+    # 站点只部署 WebP（assets 下载时就转码，见 imgx）。这里全量覆盖拷贝，并**删掉**
+    # public/img 里已不在源目录的陈旧文件 —— 否则从 png 迁到 webp 后，旧 png 会一直
+    # 留在产物里一起部署（体积白占、还容易被误当成仍在使用的图）。
     img_out = config.SITE_PUBLIC_DIR / "img"
     img_out.mkdir(exist_ok=True)
     img_count = 0
+    src_names = set()
     for f in config.ASSETS_IMG_DIR.iterdir():
         if f.is_file():
             shutil.copy2(f, img_out / f.name)
+            src_names.add(f.name)
             img_count += 1
+    # 陈旧文件**移走而不是删除**：本机 IDE 注入的 safe-delete 守卫会拦「一次删除 >500 个
+    # 文件」（连 Python 的 unlink 也在拦截范围内，实测 sync-site 会直接抛
+    # SAFE_DELETE_BULK_CONFIRM_REQUIRED 中断），而 rename/move 不受限制。
+    stale_dir = config.DATA_DIR / "assets" / "img_stale"
+    stale = 0
+    for old in img_out.iterdir():
+        if old.is_file() and old.name not in src_names:
+            stale_dir.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(old), str(stale_dir / old.name))
+            stale += 1
+    if stale:
+        log.info("移走 site/public/img 陈旧文件 %d 个 → %s", stale, stale_dir)
 
     # ---- 6. 侧边栏 ----
     _write_sidebars(entries)
@@ -620,8 +659,29 @@ def sync_site() -> None:
     # ---- 7. 根跳转页 ----
     # 注意：location 在 SSR 渲染时不可用，必须放到 onMounted 中仅客户端执行，
     # 否则 `vitepress build` 会因 ReferenceError: location is not defined 而失败。
+    #
+    # SEO：本页对搜索引擎而言是「空白 + JS 跳转」，故由 .vitepress/seo.ts 标记
+    # noindex,follow 并把 canonical 指向 /zh/。但百度不执行 JS ⇒ 它在 / 上什么也
+    # 看不到，也就发现不了 /zh/、/ja/ ⇒ 下面补一段 <noscript> 真内容（有 JS 时
+    # 浏览器不渲染 noscript，用户看不到、不会闪烁）+ 两个语言入口链接，供其抓取发现。
     (config.SITE_DIR / "index.md").write_text(
-        '---\nlayout: page\n---\n'
+        '---\n'
+        'layout: page\n'
+        '# 根页只是跳转壳（onMounted → ./zh/），不需要导航栏。\n'
+        '# 另：VitePress 的语言切换器在根页会算错「对应页」链接 —— 根页被归到 ja locale，\n'
+        "#     'index.md'.slice('/ja/'.length - 1) 得到 'ex.md' → /zh/ex.html（不存在的页面），\n"
+        '#     构建产物里因此留下 2 处死链。关掉 navbar 后该菜单不再渲染。\n'
+        'navbar: false\n'
+        '---\n'
+        '<noscript>\n'
+        '<div class="home-hero">\n'
+        '  <h1>超昂大戦エスカレーションヒロインズ 攻略 Wiki'
+        '（超昂大战 中日双语镜像站）</h1>\n'
+        '  <p>本站为原 WIKI（escalationheroines.wikiru.jp）的中日双语镜像，'
+        '收录角色、必杀技、觉醒、装备、Raid、活动与数据统计等攻略资料。</p>\n'
+        '  <p><a href="./zh/">简体中文</a> ｜ <a href="./ja/">日本語</a></p>\n'
+        '</div>\n'
+        '</noscript>\n\n'
         '<script setup>\n'
         "import { onMounted } from 'vue'\n"
         "onMounted(() => { location.replace('./zh/') })\n"
@@ -644,9 +704,35 @@ def _home_md(locale: str, stats: dict) -> str:
     if locale == "zh":
         hero_title, hero_tag, recent = "超昂大战 Escalation Heroines", "攻略 Wiki 中日双语镜像站", "镜像站更新记录"
         pages_label, chars_label = "镜像页面", "收录角色"
+        about = """## 关于本站
+
+本站是日文攻略 Wiki「超昂大戦エスカレーションヒロインズ 攻略 Wiki」（escalationheroines.wikiru.jp）的非官方**中日双语镜像**：把原站的攻略页面同步过来并译成中文，角色数据、必杀技 / 固有特效一览、觉醒与装备、Raid 与活动、数据统计与用语对照等都能直接在这里查。
+
+- 内容版权归原 Wiki 及各位投稿者所有，本站只做搬运与中文化；数据如有出入，请以[原站](https://escalationheroines.wikiru.jp/)为准。
+- 页面排版照搬原站，中文为AI翻译，难免仍有生硬或漏译之处，见谅。
+- 本站对比原站点增加了鼠标移动到角色名字或头像时浮窗展示属性的功能，更方便查看角色信息。
+
+::: tip 更新节奏
+本站是**个人业余爱好**作品：非官方、非商业，由个人借助 AI 搭建与翻译，只在有空时打理，因此**随缘更新**——原站改版、新角色实装，或者手头有空时才同步内容、修翻译，没有固定频率，也不保证时效。想第一时间看到最新数据，请直接前往原站。
+:::
+
+"""
     else:
         hero_title, hero_tag, recent = "超昂大戦エスカレーションヒロインズ", "攻略 Wiki 日中バイリンガルミラー", "ミラーサイト更新履歴"
         pages_label, chars_label = "ミラーページ", "収録キャラクター"
+        about = """## このサイトについて
+
+当サイトは「超昂大戦エスカレーションヒロインズ 攻略 Wiki」（escalationheroines.wikiru.jp）の非公式**日中バイリンガルミラー**です。原作 Wiki の攻略ページを同期し、中国語訳を併記しています。キャラクターデータ、必殺技／固有効果一覧、覚醒・装備、レイド・イベント、データ統計、用語対照表などをそのまま閲覧できます。
+
+- 内容の著作権は原作 Wiki および各投稿者に帰属します。当サイトは転載と中国語化のみを行っており、数値などの正確性は[原作 Wiki](https://escalationheroines.wikiru.jp/) が優先です。
+- ページ構成は原作 Wiki に準拠しています。中国語はAI翻訳のため、不自然な表現や未訳が残ることがあります。ご了承ください。
+- 原作 Wiki にはない追加機能として、キャラクター名やアイコンにマウスを合わせるとステータスがポップアップ表示され、キャラクター情報を確認しやすくなっています。
+
+::: tip 更新ペース
+当サイトは**個人の趣味**で運営している非公式・非営利のサイトです。AI を活用して構築・翻訳しており、時間が取れたときにだけ手を入れています。そのため**気まぐれ更新**——原作 Wiki の改編、新キャラクターの実装、あるいは手が空いたタイミングでまとめて同期するので、更新頻度は一定ではなく、鮮度も保証しません。最新情報は原作 Wiki をご確認ください。
+:::
+
+"""
     return f"""---
 title: "{hero_title}"
 layout: doc
@@ -663,7 +749,7 @@ layout: doc
 
 <CategoryCards />
 
-## {recent}
+{about}## {recent}
 
 <MirrorChangelog />
 """

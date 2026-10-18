@@ -63,8 +63,15 @@ jobs:
         working-directory: site
         run: npm install
 
+      # SEO：canonical / sitemap / robots.txt 的主站地址由 seo.ts 依 BASE 推导（self-canonical）。
+      # 若要在 Search Console / 百度站长平台收敛到单一主站，配 repository variable
+      # SEO_ORIGIN（如 https://escah.pages.dev）即可，两处构建都会指向它。
       - name: Build site
         working-directory: site
+        env:
+          SEO_ORIGIN: ${{ vars.SEO_ORIGIN }}
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+          BAIDU_SITE_VERIFICATION: ${{ vars.BAIDU_SITE_VERIFICATION }}
         run: node build.mjs build
 
       - name: Upload Pages artifact
@@ -81,11 +88,24 @@ jobs:
       # 配了 secret → 正常部署到 CF；没配/失败 → 步骤标黄但不影响 GH Pages 主部署。
       # CF 构建环境不支持 Git LFS（图片会变指针文件），因此不在 CF 侧构建，
       # 而是在此处用 BASE=/ 重建一份根路径版 dist 后直传 CF。
+      #
+      # 必须先以 ESCAH_BASE=/ 重跑一次 sync-site：正文片段里的站内绝对链接
+      # （/zh/xxx.html）在生成期就带上了 base 前缀，若沿用 /escah/ 那一版，CF
+      # （根路径部署）站内所有正文链接都会 404 —— 对爬虫是成片的死链。
+      - name: Regenerate content for Cloudflare (root base)
+        continue-on-error: true
+        env:
+          ESCAH_BASE: /
+        run: python -m escah_pipeline.cli sync-site
+
       - name: Rebuild for Cloudflare (BASE=/)
         continue-on-error: true
         working-directory: site
         env:
           BASE: /
+          SEO_ORIGIN: ${{ vars.SEO_ORIGIN }}
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+          BAIDU_SITE_VERIFICATION: ${{ vars.BAIDU_SITE_VERIFICATION }}
         run: |
           rm -rf .vitepress/dist .vitepress/cache
           node build.mjs build

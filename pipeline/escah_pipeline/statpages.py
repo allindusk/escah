@@ -864,8 +864,11 @@ def write_mirror_pages(public_dir: "Path", raw_root: "Path | None" = None) -> in
                 '<nav class="tabbar" id="tabbar">' + "".join(tabs)
                 + f'<span class="tabmeta">共 {len(sheets)} 个工作表 · 点底部标签切换</span></nav>',
                 _MIRROR_JS]
+        # noindex：这些页是原始导出的逐格对照版，与「数据统计」页内容重复，
+        # 且没有任何导航/摘要 —— 让搜索引擎收录只会稀释正文页的权重。
         doc = ('<!doctype html>\n<html lang="zh-CN">\n<head>\n<meta charset="utf-8">\n'
                '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+               '<meta name="robots" content="noindex,follow">\n'
                f"<title>原样镜像 · {key}</title>\n<style>{_MIRROR_CSS}</style>\n</head>\n<body>\n"
                + "\n".join(body) + "\n</body>\n</html>\n")
         (out_dir / f"{key}.html").write_text(doc, encoding="utf-8", newline="\n")

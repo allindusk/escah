@@ -4,3 +4,8 @@ lxml
 beautifulsoup4
 httpx
 python-dotenv
+Pillow>=10  # 图片统一转 WebP（pipeline/escah_pipeline/imgx.py）
+# 可选：原站 2026-10-19 起有 Cloudflare 无感 JS 挑战，只有 `changelog fetch --browser`
+# 的浏览器兜底需要它（CI 里还会跑 `playwright install --with-deps chromium`）。
+# 装不上也不影响其它命令（代码里是按需 import，缺失时明确报错并降级）。
+playwright

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 
 from .logutil import get_logger
 
@@ -87,6 +88,26 @@ def build_parser() -> argparse.ArgumentParser:
                     help="交叉校验：本次额外跑一遍全量比对，报告两条通道的变更集差异")
     pr.add_argument("--margin-days", type=int, default=1,
                     help="窗口余量：更新履歴最旧日期须比上次同步再早这么多天，否则回退（默认 1）")
+
+    # 原站「更新履歴ページ」周存档（2026-10-19 起 CI 只做这一件事）：
+    # 1 次请求拿最新 100 条 → 与 registry/manifest 对照 → 落 data/upstream/ 入库。
+    # 本地更新前拉 latest.json 就知道哪些页是新增、哪些需重抓，不必全量爬取比对。
+    pc = sub.add_parser("changelog",
+                        help="原站「更新履歴ページ」周存档：fetch=抓取落盘；show=摘要；names=待处理页面名")
+    pc.add_argument("action", nargs="?", default="fetch", choices=["fetch", "show", "names"],
+                    help="fetch=抓取并写 data/upstream/（latest.json + weekly/<周>.json/.md）；"
+                         "show=打印最新存档摘要；names=只打印需要处理（new/update）的页面名")
+    pc.add_argument("--all", action="store_true",
+                    help="names 专用：连 unchanged/excluded/frozen 一起输出")
+    pc.add_argument("--html",
+                    help="fetch 专用：解析本地 HTML 而不联网（原站对本机直连会返回"
+                         "「少々お待ちください…」等待页，可在浏览器另存该页后用此参数）")
+    pc.add_argument("--cookie",
+                    help="fetch 专用：附加 Cookie（可填浏览器里的 cf_clearance 以通过 "
+                         "Cloudflare 验证；也可用环境变量 WIKIRU_COOKIE 注入）")
+    pc.add_argument("--browser", action="store_true",
+                    help="fetch 专用：HTTP 被验证页拦截时，改用真实浏览器(playwright+chromium)"
+                         "重试——能执行 JS，Cloudflare 的无感挑战通常会在 reload 后放行")
 
     sub.add_parser("sync-plan", help="重建 mirror_plan.yaml 的 mirrored（planned 保留）")
     sub.add_parser("sync-site", help="生成 VitePress 站点内容（ja/zh）")
@@ -290,6 +311,40 @@ def main(argv: list[str] | None = None) -> None:
             )
             for n in out["missed_by_recent"]:
                 log.warning("[verify] 履歴漏检：%s", n)
+    elif args.cmd == "changelog":
+        import json
+
+        from . import changelog
+
+        if args.action == "fetch":
+            html = Path(args.html).read_text(encoding="utf-8") if args.html else None
+            cookie = args.cookie or os.environ.get("WIKIRU_COOKIE") or None
+            snap = changelog.build(html=html, cookie=cookie, browser=args.browser)
+            if not snap["items"]:
+                # 原站返回等待页/结构变化时解析为 0 条 —— 若照写会用空存档覆盖上周的，
+                # 那比"没有存档"更糟（本地据此以为原站啥也没动）。宁可失败保留旧档。
+                raise SystemExit("[changelog] 解析到 0 条（疑似反爬等待页或页面结构变化），"
+                                 "已放弃写入以保留上次存档")
+            paths = changelog.save(snap)
+            c = snap["counts"]
+            log.info("[changelog] %s｜窗口 %s→%s｜新增 %d / 需更新 %d / 无变化 %d / 排除 %d / 冻结 %d",
+                     snap["iso_week"], snap["window"][0], snap["window"][1],
+                     c.get("new", 0), c.get("update", 0), c.get("unchanged", 0),
+                     c.get("excluded", 0), c.get("frozen", 0))
+            print(json.dumps(paths, ensure_ascii=False, indent=1))
+        elif args.action == "show":
+            snap = changelog.latest()
+            if not snap:
+                raise SystemExit("尚无存档，先跑：python -m escah_pipeline.cli changelog fetch")
+            print(changelog._to_markdown(snap))
+        else:
+            snap = changelog.latest()
+            if not snap:
+                raise SystemExit("尚无存档，先跑：python -m escah_pipeline.cli changelog fetch")
+            for n in changelog.actionable_names(
+                snap, None if args.all else changelog.ACTIONABLE,
+            ):
+                print(n)
     elif args.cmd == "mt":
         # 机翻留档 → 精翻闭环（见 escah_pipeline/mt.py 顶部说明）
         from . import mt

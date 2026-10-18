@@ -19,8 +19,22 @@ class FetchError(Exception):
 
 
 def is_challenge_page(text: str) -> bool:
-    """检测 Cloudflare Turnstile 海外验证页（不自动提交，标记后跳过）。"""
-    return "cf-turnstile" in text or "海外からのアクセス" in text
+    """检测 Cloudflare / 原站的反爬验证页（不自动提交，标记后跳过）。
+
+    2026-10-19 补两类特征：原站**新加了 Cloudflare 无感 JS 挑战**
+    （`<title>One moment, please...</title>` + 5 秒后 `window.location.reload()`，
+    早先的日文版是「少々お待ちください…」）。旧版只认 `cf-turnstile` 与
+    「海外からのアクセス」，**认不出这一种** → 会把 12KB 的挑战页当正文存进
+    `data/raw`（sha256 变化 → 触发重解析/重翻译，等于污染真值）✗。
+    """
+    markers = (
+        "cf-turnstile",
+        "海外からのアクセス",
+        "One moment, please",
+        "少々お待ちください",
+        "request is being verified",
+    )
+    return any(m in text for m in markers)
 
 
 def is_missing_page(text: str) -> bool:
@@ -90,12 +104,13 @@ class PoliteFetcher:
             time.sleep(wait - delta)
         self._last_ts = time.monotonic()
 
-    def get(self, url: str) -> httpx.Response:
+    def get(self, url: str, headers: "dict[str, str] | None" = None) -> httpx.Response:
+        """`headers` 用于单次请求覆盖/追加（典型：注入浏览器里的 cf_clearance Cookie）。"""
         last_err: Exception | None = None
         for attempt in range(config.FETCH_MAX_RETRIES + 1):
             self._throttle()
             try:
-                resp = self._client.get(url)
+                resp = self._client.get(url, headers=headers)
             except httpx.HTTPError as e:
                 last_err = e
                 wait = config.FETCH_BACKOFF_SECONDS[

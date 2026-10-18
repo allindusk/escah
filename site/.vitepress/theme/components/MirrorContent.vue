@@ -71,20 +71,30 @@ const root = ref<HTMLElement | null>(null)
 function tagCharLinks(el: HTMLElement) {
   // 角色名是「单独处理逻辑」：原文本里指向角色详情页的 <a> 跳转链接降级为「不跳转」，
   // 去掉 href 仅保留原文显示，浮窗触发统一转移到块末的【角色名】标签（见 collectBlockCharTags）。
+  //
+  // ⚠️ 2026-10-19 修复：此前无条件跳过 class=escah-ilink（认为它是「句末【】可跳转标签」），
+  // 但 i18n 流水线对**块外**角色链接（典型是表格单元格里的角色名，如 unique-effects /
+  // skills / gacha 整列名字）也打了 escah-ilink 并保留 href，于是这些名字仍会跳走，
+  // 与「角色一览」等页（点名字弹固定浮窗）行为不一致——hover 小窗还提示「点击固定」，
+  // 点了却跳页。
+  // 判定标准改为「href 是否指向角色详情页」，而非 class：只要是角色链接就降级为浮窗标签。
+  // 普通站内跳转链接（每日任务 / 术语等）href 不含 characters/，完全不受影响。
   el.querySelectorAll('a').forEach((a) => {
-    // 句末【链接】标签（class=escah-ilink）由服务端生成，已是正确跳转超链接，不动。
-    if (a.classList.contains('escah-ilink')) return
     const href = a.getAttribute('href') || ''
     const m = href.match(/characters\/(.+)\.html$/)
     if (!m) return
     const name = decodeURIComponent(m[1])
     if (!nameSet.has(name)) return
     // 降级：去掉跳转能力（角色名浮窗不跳转，由 char-ref 接管悬停/点击固定）。
-    // 角色名文本由后续 collectBlockCharTags 原位包裹为 char-ref（保留在 <a> 壳内、
-    // 显示中文名），故此处仅去跳转属性，不再做块末追加。
     a.removeAttribute('href')
     a.removeAttribute('target')
     a.removeAttribute('rel')
+    // 该 <a> 自身即角色名容器：打 data-char（日文 key）并换成 char-ref 样式
+    // （虚线下划线，与「角色一览」一致；去掉 escah-ilink 免得显示成紫色可跳转胶囊），
+    // 使悬停预览 / 点击固定在整块 <a> 上都能命中（不再依赖内层文本节点被包裹）。
+    a.setAttribute('data-char', name)
+    a.classList.remove('escah-ilink')
+    a.classList.add('char-ref')
   })
 }
 
@@ -99,7 +109,7 @@ function resolveAvatarName(img: HTMLImageElement): string | null {
   if (!name) {
     const alt = (img.getAttribute('alt') || img.getAttribute('title') || '').trim()
     if (alt) {
-      const nm = alt.replace(/\.(png|gif|jpe?g)$/i, '').replace(/_icon$/i, '').trim()
+      const nm = alt.replace(/\.(png|gif|jpe?g|webp|pngv2)$/i, '').replace(/_icon$/i, '').trim()
       const key = nameAliases[nm] || (nameSet.has(nm) ? nm : null)
       if (key) name = key
     }
@@ -359,20 +369,18 @@ function onRgnClick(e: MouseEvent) {
 }
 
 function onClick(e: MouseEvent) {
-  const cc = (e.target as HTMLElement).closest('a.escah-ilink') as HTMLElement | null
-  // 句末【角色名】链接：是正文超链接，点击应跳转角色详情页（默认业内、中键新标签），
-  // 不 pin 浮窗。hover 仍由 onOver 委托触发预览。
-  if (cc && findChar(e.target)) {
-    return
-  }
   const name = findChar(e.target)
-  if (name) {
-    // 点击角色引用：不跳转，改为固定（pin）浮窗（全部信息、居中、可拖动）；
-    // 阻断冒泡，避免头像同时触发 Layout 的图片灯箱
-    e.preventDefault()
-    e.stopPropagation()
-    store.pin(name)
-  }
+  if (!name) return // 非角色名：普通正文超链接，保持默认跳转
+  // 仍带 href 的正文超链接（句末【术语/页面】等 escah-ilink）优先跳转，
+  // 不被其内部恰好出现的角色名浮窗劫持（角色链接的 href 已由 tagCharLinks 摘除，
+  // 并打了 data-char，走不到这里）。
+  const a = (e.target as HTMLElement).closest('a') as HTMLAnchorElement | null
+  if (a && a.getAttribute('href') && !a.hasAttribute('data-char')) return
+  // 点击角色引用：不跳转，改为固定（pin）浮窗（全部信息、居中、可拖动）；
+  // 阻断冒泡，避免头像同时触发 Layout 的图片灯箱
+  e.preventDefault()
+  e.stopPropagation()
+  store.pin(name)
 }
 
 // 页内锚点跳转（wiki .contents 目录 / 正文内 #xxx 链接）：
@@ -394,7 +402,37 @@ function onAnchorClick(e: MouseEvent) {
   if (typeof history.replaceState === 'function') history.replaceState(null, '', '#' + id)
 }
 
+/* ------------------------------------------------------------------------
+ * 站内绝对链接的 base 归一化（2026-10-18）
+ * ------------------------------------------------------------------------
+ * frag 是 pipeline 在生成阶段就拼好的 HTML，里面的站内链接写死了 SITE_BASE
+ * （默认 /escah/）。但同一个 dist 结构被部署到两个不同 base 上：
+ *   GitHub Pages  https://<user>.github.io/escah/   → base = /escah/
+ *   Cloudflare    https://escah.pages.dev/          → base = /
+ * base=/ 那份的 SSR 产物仍然带着 /escah/ 前缀 → 点「每日任务」等站内链接全 404
+ * （用户实测 https://escah.pages.dev/zh/getting-started.html）。
+ *
+ * 这里在客户端把 href 里的「部署前缀」剥掉、换成当前构建的 BASE_URL：
+ *   /escah/zh/missions.html  →  /zh/missions.html   （CF）
+ *   /zh/missions.html        →  /escah/zh/missions.html（GH Pages）
+ * 规则只匹配「(任意前缀/)ja|zh/...」，图片等其它绝对路径不受影响；幂等。
+ */
+const DEPLOY_BASE = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '') // '' 或 '/escah'
+
+function fixInternalLinks(el: HTMLElement): void {
+  el.querySelectorAll<HTMLAnchorElement>('a[href^="/"]').forEach((a) => {
+    const raw = a.getAttribute('href') || ''
+    if (!raw.startsWith('/') || raw.startsWith('//')) return
+    // 站内页面路径一定以 /ja/ 或 /zh/ 开头；前面挂的前缀是某个部署 base
+    const m = raw.match(/^\/(?:[^/]+\/)?((?:ja|zh)\/.*)$/)
+    if (!m) return
+    const next = DEPLOY_BASE + '/' + m[1]
+    if (next !== raw) a.setAttribute('href', next)
+  })
+}
+
 function processEl(el: HTMLElement) {
+  fixInternalLinks(el)
   tagCharLinks(el)
   tagAvatars(el)
   // 仅中文镜像页执行「句末【】浮窗标签」方案（collectBlockCharTags）与把原站

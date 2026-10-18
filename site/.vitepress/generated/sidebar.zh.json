@@ -90,11 +90,11 @@
     "link": "/zh/battle.html",
     "items": [
      {
-      "text": "突袭战",
+      "text": "Raid",
       "link": "/zh/raid.html",
       "items": [
        {
-        "text": "raid推荐角色",
+        "text": "Raid推荐角色",
         "link": "/zh/raid-recommended.html"
        },
        {
@@ -102,7 +102,7 @@
         "link": "/zh/raid-buff-debuff.html"
        },
        {
-        "text": "raid编队示例",
+        "text": "Raid编队示例",
         "link": "/zh/raid-formations.html"
        }
       ]

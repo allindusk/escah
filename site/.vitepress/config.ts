@@ -4,6 +4,10 @@ import sidebarZh from './generated/sidebar.zh.json'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 import { existsSync, readFileSync } from 'node:fs'
+import { seoHead, seoTransformPageData, seoTransformHead } from './seo'
+
+// 站点 base：GitHub Pages 为 /escah/，Cloudflare Pages 为 /（CI 用 BASE 环境变量区分）
+const BASE = process.env.BASE || '/escah/'
 
 // frag 片段目录（站点正文在此，而非 markdown 内）。
 // 注意：VitePress 会把 config.ts 打包到临时目录，import.meta.url 不可靠，
@@ -141,7 +145,7 @@ const FRAG_DIR = existsSync(_fragCandidate)
 // VitePress 只给 "link" 字段补 base、不会处理 text 内的 HTML 链接，
 // 在 /escah/ base 下会变成 /zh/...（缺前缀）→ 404。这里统一用 withBase 补全。
 function applySidebarBase(sidebar: any[]): any[] {
-  const base = process.env.BASE || '/escah/'
+  const base = BASE
   const fixText = (s: string): string =>
     typeof s === 'string'
       ? s.replace(/<a\s+([^>]*?)href="(\/[^"]*)"([^>]*)>/gi,
@@ -177,7 +181,7 @@ const navZh = [
 ]
 
 export default defineConfig({
-  base: process.env.BASE || '/escah/',
+  base: BASE,
   // dev 模式 vite 的 optimizeDeps 自动扫描在本机环境会陷入预构建卡死（进程常驻、内存飙到 800MB+ 且不监听端口）。
   // 关闭启动期自动扫描入口，改为请求时按需优化，避免 dev server 起不来。
   vite: {
@@ -186,11 +190,21 @@ export default defineConfig({
   title: '超昂大戦 Wiki',
   description: '超昂大戦エスカレーションヒロインズ攻略 Wiki 中日双语镜像站',
   ignoreDeadLinks: true,
+  // ===== SEO（见 .vitepress/seo.ts）=====
+  // head：favicon / robots / og 基础标签 / 站长平台校验
+  head: seoHead(),
+  // 每页独立的 meta description（默认取正文首段）
+  transformPageData: seoTransformPageData,
+  // 每页 canonical / hreflang / og:url / JSON-LD 结构化数据
+  transformHead: seoTransformHead,
   locales: {
     root: {
       label: '日本語',
       lang: 'ja-JP',
       link: '/ja/',
+      // <title> 模板（只影响 title 标签，不影响顶部站点名）：带上「攻略」二字，
+      // 这是本类站点最主要的中日文搜索意图词
+      titleTemplate: ':title | 超昂大戦 攻略Wiki',
       themeConfig: {
         nav: navJa,
         sidebar: sidebarJaFixed,
@@ -208,6 +222,8 @@ export default defineConfig({
       label: '简体中文',
       lang: 'zh-CN',
       link: '/zh/',
+      // 中文页用简体游戏名 + 「攻略」，匹配中文用户的搜索词（超昂大战 攻略 / wiki）
+      titleTemplate: ':title | 超昂大战攻略Wiki',
       themeConfig: {
         nav: navZh,
         sidebar: sidebarZhFixed,
@@ -224,7 +240,7 @@ export default defineConfig({
   },
   themeConfig: {
     // 顶部标题左侧 logo：エスカレイヤー头像（public/img，withBase 自动处理双部署 base）
-    logo: '/img/63de516dca671d22.png',
+    logo: '/img/63de516dca671d22.webp',
     // 导航栏最右侧 GitHub 图标（官方 mark），点击打开项目仓库
     socialLinks: [
       { icon: 'github', link: 'https://github.com/allindusk/escah' },

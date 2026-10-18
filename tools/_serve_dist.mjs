@@ -8,6 +8,7 @@ const types = {
   '.html': 'text/html', '.json': 'application/json', '.woff2': 'font/woff2',
   '.woff': 'font/woff', '.png': 'image/png', '.jpg': 'image/jpeg',
   '.svg': 'image/svg+xml', '.gif': 'image/gif', '.ico': 'image/x-icon',
+  '.webp': 'image/webp',
 }
 const port = 8088
 const server = http.createServer(async (req, res) => {

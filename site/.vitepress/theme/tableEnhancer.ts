@@ -643,40 +643,81 @@ function shrinkColumnsToData(table: HTMLTableElement): void {
   // 筛选行的「筛选 ▾」按钮下限：fixed 布局下单元格的 min-width 不生效（列宽只认 <col>），
   // 所以必须让 <col> 本身 ≥ 按钮宽，否则窄数字列的筛选按钮会溢出、与相邻列重叠（标签重合）。
   const FILTER_BTN_MIN = 76
-
-  // 测量：用「脱离表格布局」的临时 span 读取每个单元格内容的真实像素宽，
-  // 完全不受 table-layout:auto/fixed 或相邻列约束干扰（之前用 cell.scrollWidth
-  // 在 auto 布局下会被整行列宽分配虚高，导致 col 宽度远大于真实内容宽，
-  // 列虚胖、名字虽不换行却留大片空白）。span 取 display:inline-block + nowrap，
-  // 直接反映内容最小宽；padding（单元格左右各 10px）单独补偿。
-  // ⚠️ 关键（2026-08-02 修复）：测量 span 必须继承**表格实际单元格**的 font-size/font-family，
-  // 否则脱离文档流后它继承 body 默认 16px（而 shrink 表单元格实际是 13px）→ 测宽虚高约 23%，
-  // 名称列被撑到 217px 而视觉最长名字远没那么宽。这里从首个数据单元格取计算样式套上去。
-  const sampleCell = rows[0]?.children[0] as HTMLElement | undefined
-  const cs = sampleCell ? getComputedStyle(sampleCell) : null
-  const span = document.createElement('span')
-  span.style.cssText =
-    'position:absolute;left:-99999px;top:0;visibility:hidden;white-space:nowrap;display:inline-block;' +
-    `font-size:${cs ? cs.fontSize : '13px'};font-family:${cs ? cs.fontFamily : 'inherit'};`
-  document.body.appendChild(span)
   const CELL_PAD = 20 // 单元格 padding 左右之和（5px 10px → 10+10）
-  // 数据行（tbody）
-  for (const r of rows) {
-    for (let c = 0; c < ncols; c++) {
-      const cell = r.children[c] as HTMLElement | undefined
-      if (!cell) continue
-      const img = cell.querySelector('img')
-      if (img) {
+
+  // 图片列先扫一遍（纯 DOM 查询，不触发布局）：列宽取图片自身 width，跳过文本测量。
+  // 仅在表里确实有图时才扫，避免大数据表白跑几千次 querySelector。
+  if (getBody(table).querySelector('img')) {
+    for (const r of rows) {
+      for (let c = 0; c < ncols; c++) {
+        const cell = r.children[c] as HTMLElement | undefined
+        if (!cell) continue
+        const img = cell.querySelector('img')
+        if (!img) continue
         isImgCol[c] = true
         const w = parseInt(img.getAttribute('width') || '', 10)
         if (!isNaN(w) && w > imgWidth) imgWidth = Math.min(w, 280)
-        continue
       }
-      // 克隆单元格内部 HTML 进 span（保留 <a>/<br> 等结构），测真实内容宽
-      span.innerHTML = cell.innerHTML
-      const w = span.getBoundingClientRect().width + CELL_PAD
-      if (w > maxPx[c]) maxPx[c] = w
     }
+  }
+
+  // ===== 列宽测量（2026-10-18 重写）=====
+  // 旧实现：逐格把 cell.innerHTML 拷进同一个临时 span，每格读一次
+  // getBoundingClientRect()。每次 innerHTML 赋值都会让文档样式/布局失效，紧接着的
+  // 读操作就触发一次「整页强制重排」—— 角色一览（432 行 × 6 列 ≈ 2600 格）实测
+  // 单次长任务 2.4s（4× CPU 节流下 9.6s），是全站最重的阻塞源。
+  //
+  // 新实现：把所有待测单元格的 innerHTML **一次性**拼进同一个隐藏容器（每格一个
+  // nowrap inline-block 的 span），DOM 只解析/失效一次，然后连续读 N 个宽度（读操作
+  // 彼此不触发重排）。测量结果与旧实现逐格量取的语义完全一致（同样的字体、同样的
+  // nowrap、同样的单元格内联结构），只是把 2600 次重排压成 1 次。
+  //
+  // 为什么不直接读真实表格的列宽（更省事）：表格是 auto 布局 + max-content 时列宽
+  // 还受**表头**与 min-width:100% 拉伸影响，实测名称列会被表头/撑开的分配算成 481px
+  // （正确值 193px）、备注列 290px→103px，列宽整体错乱，故不可用。
+  const sampleCell0 = rows[0]?.children[0] as HTMLElement | undefined
+  const cs0 = sampleCell0 ? getComputedStyle(sampleCell0) : null
+  const measureFont =
+    `font-size:${cs0 ? cs0.fontSize : '13px'};font-family:${cs0 ? cs0.fontFamily : 'inherit'};`
+  const parts: string[] = []
+  const partCols: number[] = []
+  for (const r of rows) {
+    for (let c = 0; c < ncols; c++) {
+      const cell = r.children[c] as HTMLElement | undefined
+      if (!cell || isImgCol[c]) continue
+      // 克隆单元格内部 HTML（保留 <a>/<br> 等结构），测真实内容宽
+      parts.push(`<span style="display:inline-block;white-space:nowrap">${cell.innerHTML}</span>`)
+      partCols.push(c)
+    }
+  }
+  if (parts.length) {
+    const box = document.createElement('div')
+    box.style.cssText = `position:absolute;left:-99999px;top:0;visibility:hidden;${measureFont}`
+    box.innerHTML = parts.join('')
+    document.body.appendChild(box)
+    const spans = box.children
+    // 结构异常（单元格 HTML 里有未闭合标签把相邻 span 吞掉）时退回逐格测量，保证正确性
+    if (spans.length === parts.length) {
+      for (let i = 0; i < partCols.length; i++) {
+        const w = (spans[i] as HTMLElement).getBoundingClientRect().width + CELL_PAD
+        if (w > maxPx[partCols[i]]) maxPx[partCols[i]] = w
+      }
+    } else {
+      const single = document.createElement('span')
+      single.style.cssText = `position:absolute;left:-99999px;top:0;visibility:hidden;white-space:nowrap;display:inline-block;${measureFont}`
+      document.body.appendChild(single)
+      for (const r of rows) {
+        for (let c = 0; c < ncols; c++) {
+          const cell = r.children[c] as HTMLElement | undefined
+          if (!cell || isImgCol[c]) continue
+          single.innerHTML = cell.innerHTML
+          const w = single.getBoundingClientRect().width + CELL_PAD
+          if (w > maxPx[c]) maxPx[c] = w
+        }
+      }
+      document.body.removeChild(single)
+    }
+    document.body.removeChild(box)
   }
   // 筛选行（thead 内 .escah-tbl-filter-row，enhanceTable 先于 shrink 创建）：
   // 把每列筛选按钮的真实宽纳入列宽下限，保证按钮不被压窄。
@@ -691,7 +732,6 @@ function shrinkColumnsToData(table: HTMLTableElement): void {
       if (w > maxPx[c]) maxPx[c] = w
     }
   }
-  document.body.removeChild(span)
 
   const colgroup = document.createElement('colgroup')
   for (let c = 0; c < ncols; c++) {
@@ -726,6 +766,16 @@ function measureHeadHeight(table: HTMLTableElement): void {
     h += r.getBoundingClientRect().height
   }
   if (h > 0) table.style.setProperty('--escah-thead-h', Math.ceil(h) + 'px')
+}
+
+// 表头高度必须读 getBoundingClientRect（强制布局）。若每增强一张表就读一次，前一张表
+// 刚做的 DOM 变更会让下一张表的读操作重新布局整页 —— 技能一览这类上百张表的页面，
+// 这项「写-读」交替实测占主线程 ~10%。改为先排队、等所有表增强完（DOM 变更收敛）
+// 再统一读，全页只多付出一次布局。
+const pendingHeadMeasures: HTMLTableElement[] = []
+function flushHeadMeasures(): void {
+  const list = pendingHeadMeasures.splice(0)
+  for (const t of list) measureHeadHeight(t)
 }
 
 function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
@@ -769,7 +819,7 @@ function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
 
   requestAnimationFrame(() => syncFullBtnFor(container, wrapper, toolbar, btnFull))
   bindFullBtnResize()
-  measureHeadHeight(table)
+  pendingHeadMeasures.push(table)
 
   table.setAttribute('data-escah', '1')
 }
@@ -781,6 +831,8 @@ export function enhanceTables(root: HTMLElement, pageSlug?: string): void {
   )) {
     enhanceTable(tbl as HTMLTableElement, pageSlug)
   }
+  // 所有表增强完（DOM 变更收敛）后再统一测表头高度，避免「写-读」交替反复重排整页
+  flushHeadMeasures()
   // bedroom-scenes 等「每个表格前已有 strong 标题」的页面：在正文开头插入一个
   // 表格目录（列出各表标题并锚点跳转）。标题文字直接取表格前已有的 strong，不重复添加。
   if (pageSlug === 'bedroom-scenes') buildTableToc(root)

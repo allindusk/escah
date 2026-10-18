@@ -17,7 +17,7 @@ from urllib.parse import quote, urljoin
 
 from bs4 import BeautifulSoup, Comment, Tag
 
-from . import config
+from . import config, imgx
 from .logutil import get_logger
 from .registry import extract_characters, href_to_page_name, load_registry
 from .snapshot import Manifest, page_filename
@@ -248,7 +248,12 @@ def _rewrite_links(body: BeautifulSoup, slug_by_name: dict[str, str]) -> None:
 
 
 def _rewrite_images(body: BeautifulSoup, pending_assets: dict[str, str]) -> None:
-    """图片 → 本地 /img/<hash>.<ext>；源 URL 登记进 pending_assets 供下载。"""
+    """图片 → 本地 /img/<hash>.webp；源 URL 登记进 pending_assets 供下载。
+
+    扩展名**不再沿用源 URL 后缀**（源站有 png / gif / jpg / pngv2 四种），而是固定 webp：
+    下载环节 `assets._download_one` 会把图转成 WebP 再落盘（见 `imgx`），
+    文件名主干仍是 `sha256(源URL)[:16]`，所以同一 URL 的哈希与历史记录一致。
+    """
     for img in body.find_all("img", src=True):
         src = img["src"].strip()
         if src.startswith("data:"):
@@ -260,9 +265,7 @@ def _rewrite_images(body: BeautifulSoup, pending_assets: dict[str, str]) -> None
             continue
         abs_url = urljoin(config.SOURCE_BASE, src)
         digest = hashlib.sha256(abs_url.encode("utf-8")).hexdigest()[:16]
-        ext = src.rsplit(".", 1)[-1].lower() if "." in src.rsplit("/", 1)[-1] else "png"
-        ext = re.sub(r"[^a-z0-9]", "", ext)[:5] or "png"
-        local = f"{digest}.{ext}"
+        local = f"{digest}.{imgx.CANONICAL_EXT}"
         pending_assets[abs_url] = local
         img["src"] = "/img/" + local
         img["loading"] = "lazy"

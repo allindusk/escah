@@ -6,7 +6,7 @@ import os
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from . import config
+from . import config, imgx
 from .fetcher import FetchError, PoliteFetcher, is_challenge_page
 from .logutil import get_logger
 from .snapshot import Manifest, sha256_bytes
@@ -44,8 +44,21 @@ def _download_one(url: str, filename: str, path) -> tuple:
         if is_challenge_page(text):
             return (url, filename, None, False, "challenge")
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(resp.content)
-    return (url, filename, sha256_bytes(resp.content), True, None)
+    # 落盘即转 WebP（源站是 png/gif/jpg/pngv2，站点只部署 webp）。
+    # 目标名不是 .webp 说明是迁移前的旧记录 → 按原样存，保持向后兼容。
+    if path.suffix.lower() == "." + imgx.CANONICAL_EXT:
+        try:
+            raw_len, new_len = imgx.download_and_convert(resp.content, path)
+            log.debug("转 WebP %s：%d → %d 字节", filename, raw_len, new_len)
+        except Exception as first_err:  # noqa: BLE001
+            try:
+                out = imgx.convert_bytes(resp.content, quality=100)  # 兜底：高质量重试一次
+                path.write_bytes(out)
+            except Exception as second_err:  # noqa: BLE001
+                return (url, filename, None, False, f"webp 转码失败: {first_err} / {second_err}")
+    else:
+        path.write_bytes(resp.content)
+    return (url, filename, sha256_bytes(path.read_bytes()), True, None)
 
 
 def download_assets(force: bool = False) -> None:

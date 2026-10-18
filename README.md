@@ -70,15 +70,18 @@ node build.mjs dev                       # 开发 5173
 │   ├── i18n.py                # key 化 i18n 引擎（模板 + 双语 JSON）
 │   ├── gtrans.py              # 谷歌免费翻译（translate-pa 内部接口）
 │   ├── glossary_scan.py       # 词表扫描
+│   ├── changelog.py           # 原站「更新履歴」存档（sync-cron 周存档用）
+│   ├── imgx.py                # 图片转码（下载即转 WebP）
 │   ├── statpages.py           # 「数据统计」页生成（data/statdata → md + frag）
-│   └── sitegen.py             # 生成 VitePress 内容（md / frag / public / sidebar）
+│   └── sitegen.py             # 生成 VitePress 内容（md / frag / public / sidebar / 首页）
 ├── site/
 │   ├── .vitepress/
 │   │   ├── config.ts          # 双 locale（root=ja、zh）、nav、sidebar
+│   │   ├── seo.ts             # 每页 canonical / hreflang / 结构化数据、sitemap 口径
 │   │   ├── frag/              # <slug>.<locale>.json 正文片段（构建期生成）
 │   │   ├── generated/         # sidebar.ja.json / sidebar.zh.json（sync-site 生成）
 │   │   └── theme/             # Vue 组件、changelog.json、charRefs.json
-│   ├── ja/ zh/                # 生成的 .md（勿手改）
+│   ├── ja/ zh/                # 生成的 .md（勿手改，含首页 index.md —— 见 §12.1）
 │   ├── public/                # 数据与图片（构建期生成）
 │   └── build.mjs              # build / preview / dev
 ├── tools/                     # 辅助脚本 + 翻译工作目录
@@ -237,6 +240,31 @@ escah-pipeline sync-site                   # 5. 重建站点
   质量自检：`python -m escah_pipeline.statpages --kana`（还剩多少日文）与
   `python tools/_dev/verify_statpages.py`（表格数 / 表头数 / 非空单元格数与数据源是否一致）。
 
+### 8.1 SEO（Google / 百度）
+
+全部在**构建期**生成，产物是静态标签，不依赖客户端 JS（百度爬虫不执行 JS）：
+
+| 产物 | 实现位置 | 说明 |
+|---|---|---|
+| 每页独立摘要、canonical、hreflang、Open Graph、JSON-LD | `site/.vitepress/seo.ts`（`transformPageData` / `transformHead`） | description 取该页正文首段可读文本（不是全站共用一句）；canonical / hreflang 用绝对地址，按 `BASE` 推导 |
+| `sitemap.xml` | `site/build.mjs` → `writeSitemap()` | 按 dist 里真实存在的页面生成，ja ↔ zh 用 `xhtml:link` 互指（含 `x-default`），日文文件名做百分号编码 |
+| `robots.txt` | `site/build.mjs` → `writeRobots()` | 含 `Sitemap:` 声明；`404.html` 另外注入 `noindex` |
+| 正文页可见 `<h1>` | `sitegen.MD_TEMPLATE` + `custom.css` 的 `.escah-page-h1` | 此前全站 0 个 h1 |
+
+**主站地址（canonical / sitemap 域名）默认 self-canonical**：`BASE=/escah/` → `https://allindusk.github.io/escah`，
+`BASE=/` → `https://escah.pages.dev`。两个镜像各自 canonical 到自己，任一镜像下线都不会把搜索引擎指向死链。
+若要收敛到单一主站（放弃另一个镜像的收录），构建时设 `SEO_ORIGIN`（如 `SEO_ORIGIN=https://escah.pages.dev`）；
+CI 里配 repository variable 即可让两地构建同步指向它。站长平台校验用 `GOOGLE_SITE_VERIFICATION` /
+`BAIDU_SITE_VERIFICATION` 环境变量（不配则不输出对应 meta）。
+
+> ⚠️ GitHub Pages 是项目页（`/escah/` 子路径），而爬虫只读**域名根**的 `robots.txt`，
+> 因此 `.../escah/robots.txt` 对它不生效 ⇒ 需在 Search Console / 百度站长平台**手工提交**
+> `https://allindusk.github.io/escah/sitemap.xml`。Cloudflare Pages 是根路径部署，`robots.txt` 直接生效。
+> 首次上线后还应在两个站长平台各提交一次「站点地图 + 首页」，收录才会开始。
+
+> sitemap 不用 VitePress 内置实现：内置版会对**每个页面**跑一次 `git log -1` 取 lastmod（1300+ 次子进程，
+> 构建被拖到数分钟），且取到的只是 CI checkout 时间，对爬虫无意义。
+
 ## 9. 数据：真值 vs 可重建
 
 **必须入库（不可重建）**
@@ -268,16 +296,51 @@ escah-pipeline sync-site                   # 5. 重建站点
 5. Node 20 → `npm install` → `node build.mjs build`
 6. 上传 Pages artifact → 部署 GitHub Pages
 7. 可选：以 `BASE=/` 重建并部署到 Cloudflare Pages（需
-   `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`；未配置则跳过，标黄但不影响主部署）
+   `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`；未配置则跳过，标黄但不影响主部署）。
+   重建前会用 `ESCAH_BASE=/` 重跑一次 `sync-site`：正文片段里的站内绝对链接带生成期 base 前缀，
+   不重跑的话根路径部署的镜像站内链接全部 404（成片死链，直接影响收录）
 
-**`sync-cron.yml`** — 每周二 JST 00:00（UTC 周一 15:00）或手动触发
+**`sync-cron.yml`（2026-10-19 起只做一件事：原站更新履歴存档）** — ⏸️ **定时暂关闭**，
+目前只能**手动触发**（Actions → Weekly Upstream Changelog → Run workflow）
 
-`fetch --mode watch` → `parse` → `assets` → `i18n build` → `i18n glossary-fill`
-→ `sync-site` → `i18n extract --per-page` → `gtrans` → `i18n fill --per-page`
-→ `sync-site` → 有变更则 commit & push。
+> 定时（`cron: '0 15 * * 1'`）已注释掉：先手动跑一次确认 CI 能穿过原站的 Cloudflare
+> 验证、正常生成存档，确认可用后把那三行的注释删掉即可恢复每周自动跑。
 
-提交范围为真值目录：`data/raw`、`data/parsed/i18n`、`data/manifest.json`、
-`data/registry`、`data/assets`、`charRefs.json`。
+`changelog fetch` → 有变更则 commit & push `data/upstream/`。
+
+- ⚠️ **CI 不再自动同步/建站**：原先的 `discover → fetch → update → sync-recent →
+  sync-stale → parse → assets → i18n build/glossary-fill/char-fill → sync-site →
+  extract` 整条流水线已移除（历史版本见 git），镜像与发布**全部在本地完成后推送**。
+- 它只发 **1 次请求**读原站「更新履歴ページ」（PukiWiki `#recent`，最新 100 条 =
+  日期 + 页面名），与仓库里的 `registry`/`manifest` 对照后落存档：
+
+  | 产物 | 用途 |
+  |---|---|
+  | `data/upstream/latest.json` | 最新一份（本地更新时读它） |
+  | `data/upstream/weekly/<ISO周>.json` / `.md` | 按周存档 + 人类可读摘要 |
+  | `data/upstream/history.ndjson` | 累积流水，可查"某页哪周动过" |
+
+- 条目 `status`：`new`（原站有、本地未登记 → 需 `discover` + 抓取）／`update`
+  （原站比本地快照新）／`unchanged`（本地已覆盖）／`frozen`（`no_auto_update`，
+  站点照常渲染但不自动更新）／`excluded`（命中 `registry.EXCLUDE_PATTERNS`，
+  **不单独建页**：MenuBar/SideBar/ヘッダ/フッタ 等 wiki 系统·导航页、練習/雛形
+  模板页、`コメント/`·掲示板 等独立页）。
+  ⚠️ 注意：**评论区是页面正文的一部分**（每个页面底部都有），随所属页面一起镜像；
+  这里排除的是 PukiWiki 的**独立评论页**，不是页面里的评论区。
+- 本地用法：`git pull` → `python -m escah_pipeline.cli changelog show`（看摘要）→
+  `changelog names`（列出要处理的页面名）→ 定向 `fetch` / `update`，不必全量爬取比对。
+- 解析到 0 条时命令**主动失败不落盘**（原站反爬等待页会把页面换成
+  「少々お待ちください…」），以免空存档覆盖上周数据。
+- ⚠️ **原站加了 Cloudflare 无感 JS 挑战**（2026-10-19 起，标题 `One moment, please...`
+  + 5 秒后 JS reload，早先是日文「少々お待ちください…」）：不执行 JS 的客户端一律只
+  拿得到 12KB 的挑战页。应对（按成本递增）：
+  1. `changelog fetch --browser`：HTTP 被拦时改用真实浏览器（playwright+chromium）
+     重试，能执行 JS，挑战通常会在 reload 后放行 —— CI 默认就带这个参数；
+  2. `WIKIRU_COOKIE` 环境变量 / `--cookie`：填浏览器里的 `cf_clearance=...` 直接通过
+     （CI 侧可配同名 repository secret）；
+  3. `changelog fetch --html <文件>`：浏览器打开更新履歴页另存 HTML，离线解析兜底。
+  另外 `fetcher.is_challenge_page` 已补上这两类特征 —— 避免把挑战页当正文存进
+  `data/raw`（那会触发重解析/重翻译，等于污染真值）。
 
 ## 11. 环境变量
 
@@ -287,16 +350,47 @@ escah-pipeline sync-site                   # 5. 重建站点
 | `BASE` | `/escah/` | VitePress 侧 base（CF 部署时设为 `/`） |
 | `FETCH_MIN_INTERVAL` / `FETCH_MAX_INTERVAL` | `2.0` / `4.0` | 抓取间隔（秒） |
 | `FETCH_UA` | `escah-bilingual-mirror/0.1 …` | 抓取 User-Agent |
+| `SEO_ORIGIN` / `SEO_SITE_PATH` | 按 `BASE` 推导（self-canonical） | 覆盖 canonical / sitemap 的主站地址（见 §8.1） |
+| `GOOGLE_SITE_VERIFICATION` / `BAIDU_SITE_VERIFICATION` | 空 | 站长平台校验 meta，不配则不输出 |
 
 `.env`（被 gitignore）由 `config.py` 通过 `python-dotenv` 自动加载。
 
 ## 12. 版本号与更新记录
+
+当前站点版本：**1.2.12**（2026-10-19）。
 
 前端版本号常量 `SITE_VERSION` 定义在
 `site/.vitepress/theme/components/SiteAccessSwitch.vue`，更新记录数据位于
 `site/.vitepress/theme/changelog.json`（由 `MirrorChangelog.vue`、`UpdateRecord.vue` 渲染）。
 
 源码注释中明确要求：**改动前端后递增 `SITE_VERSION` 并同步维护 `changelog.json`，两者保持一致**。
+
+### 12.1 生成物：哪些文件不要手改
+
+| 生成物 | 生成者 |
+|---|---|
+| `site/{ja,zh}/<slug>.md`（镜像页） | `sync-site`（`sitegen._write_md`） |
+| **`site/{ja,zh}/index.md`（首页）** | `sync-site`（`sitegen._home_md`）——加内容请改生成器 |
+| `site/.vitepress/frag/*.json` | `sync-site` |
+| `site/.vitepress/generated/sidebar.*.json` | `sync-site` |
+| `site/.vitepress/theme/.gen-data/*` | `sync-site` |
+| `site/index.md`（根跳转壳） | `sync-site` |
+
+⚠️ 直接编辑上表文件会在下一次 `sync-site` 被覆盖，且因为内容与 HEAD 相同，`git diff`
+里**看不出改动**（2026-10-19 首页「关于本站」就是这么丢的）。
+
+### 12.2 术语与命名约定
+
+- 玩法名统一写作 **Raid**（首个字母大写），不再使用「突袭战 / 突袭 / 讨伐」混称；
+  正文、导航、页标题一致。**URL slug 仍为小写**（`raid.html` / `raid-recommended.html`），
+  改大小写会断链、丢外链。
+- 改页标题/侧栏文字需同时改两处：`glossary/terms.yaml` 的 `page_titles`，
+  以及 `pipeline/escah_pipeline/i18n.py` 的 `_PAGE_SLUG_ZH_FALLBACK`
+  （后者在 page_titles 之后 `update()`，会覆盖前者）。
+- 技能文本的两个易混概念（详见 `glossary/` 词表注释）：
+  `ダメージを回復` = 恢复**所受的伤害**（治疗/吸血）；`スタミナを回復` = 恢复**体力**，不可互译。
+- 角色名一律不跳转：正文里的角色名（含角色页链接）统一降级为浮窗标签，
+  悬停出预览、点击出固定浮窗（浮窗内提供「打开角色页」）。
 
 ## 13. 常用操作速查
 

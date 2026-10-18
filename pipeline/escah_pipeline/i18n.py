@@ -659,6 +659,54 @@ def _disp_name(ja_text: str, href: str, is_char: bool, locale: str = "") -> str:
     return name
 
 
+_CHAR_SLUG_CACHE: "frozenset[str] | None" = None
+
+
+def _char_slugs() -> "frozenset[str]":
+    """角色详情页的 slug 集合（data/parsed/i18n/characters/*.json，约 379 个）。
+
+    用途：PukiWiki 源站页面是平铺命名的，正文里指向角色页的链接写成
+    `エスカレイヤー.html`；但镜像站里角色页实际落在 `/zh/characters/エスカレイヤー.html`。
+    若照搬成 `/zh/エスカレイヤー.html` 就是死链（实测 3248 处 404）。
+    这里列出角色页 slug，供 _normalize_link_href 补回 characters/ 路径段。
+
+    与普通页 slug 无交集（实测 0 个重名），故可直接用集合判定。
+    """
+    global _CHAR_SLUG_CACHE
+    if _CHAR_SLUG_CACHE is None:
+        try:
+            _CHAR_SLUG_CACHE = frozenset(
+                p.stem for p in (I18N_DIR / "characters").glob("*.json")
+            )
+        except Exception:
+            _CHAR_SLUG_CACHE = frozenset()
+    return _CHAR_SLUG_CACHE
+
+
+def _insert_char_dir(path: str) -> str:
+    """给指向角色详情页的站内路径补上 characters/ 段（保留 #anchor 与原编码）。
+
+    `/zh/エスカレイヤー.html`   → `/zh/characters/エスカレイヤー.html`
+    `/escah/ja/FM77.html#x`   → `/escah/ja/characters/FM77.html#x`
+    非角色页 / 已带 characters/ 的路径原样返回（幂等）。
+    """
+    slugs = _char_slugs()
+    if not slugs:
+        return path
+    p, sep, anchor = path.partition("#")
+    p = p.split("?", 1)[0]
+    m = re.match(r"^(.*/)?([^/]+)\.html$", p)
+    if not m:
+        return path
+    prefix = m.group(1) or ""
+    slug_raw = m.group(2)
+    if "characters/" in prefix:
+        return path
+    if urllib.parse.unquote(slug_raw) not in slugs:
+        return path
+    return prefix + "characters/" + slug_raw + ".html" + (sep + anchor if sep else "")
+
+
 def _normalize_link_href(href: str) -> "tuple[str, str]":
     """链接 href 归一化：站内 'xxx.html' → '/escah/zh/xxx.html'（带 SITE_BASE 前缀，
     新标签页打开）；外链原样。返回 (href, target)。
@@ -670,16 +718,17 @@ def _normalize_link_href(href: str) -> "tuple[str, str]":
         return href, ""  # 外链：保留原 href，不加 target（浏览器原生：左键同标签、中键新标签）
     # 已带 SITE_BASE 前缀的站内链接：原样返回（避免重复前缀）
     if href.startswith(config.SITE_BASE):
-        return href, ""
+        return _insert_char_dir(href), ""
     if href.startswith("/"):
         # 以 / 开头的站内绝对路径（如 /zh/faq.html）：补 SITE_BASE 前缀
-        return config.SITE_BASE.rstrip("/") + href, ""
+        return config.SITE_BASE.rstrip("/") + _insert_char_dir(href), ""
     # 站内跳转：faq.html / raid.html → /escah/zh/faq.html
+    # 角色页（エスカレイヤー.html）→ /escah/zh/characters/エスカレイヤー.html
     # 不加 target：默认同标签（业内）跳转，中键/Ctrl+点击才新标签页打开。
     base = href.split("#", 1)[0].rstrip("/").split("/")[-1]
     if not base:
         return href, ""
-    return config.SITE_BASE + "zh/" + base, ""
+    return config.SITE_BASE + _insert_char_dir("zh/" + base), ""
 
 
 # 站内页面链接（跳到镜像站内页）→ 中文页面名映射。
@@ -693,7 +742,7 @@ _PAGE_SLUG_ZH_FALLBACK = {
     "list-ssr": "SSR角色一览",
     "list-sr": "SR角色一览",
     "list-r": "R角色一览",
-    "raid": "突袭战",
+    "raid": "Raid",
     "battle": "战斗",
     "equipment": "装备一览",
     "awakening": "觉醒强化",
@@ -1808,6 +1857,18 @@ def build_page(slug: str, fresh: bool = False) -> dict | None:
     if out.startswith("<div>") and out.rstrip().endswith("</div>"):
         out = out[len("<div>"):-len("</div>")]
 
+    # 块内嵌 <img> 标记：渲染期为保图片会跳过这类块的块级回退，成员 key 的节点级译文
+    # 才是唯一显示源 → extract/统计必须把成员视为「未被块覆盖」。否则空 zh 的 key
+    # 既不进待译队列也不被回填，页面静默露日文（2026-10-18 实测 620 条 / 133 页）。
+    try:
+        _mfrag = lxml_html.fragment_fromstring(out, create_parent="div")
+        for _mel in _mfrag.xpath(f".//*[@{_BLK_ATTR}]"):
+            if _mel.xpath(".//img"):
+                _mbid = _mel.get(_BLK_ATTR)
+                if _mbid in blocks:
+                    blocks[_mbid]["img"] = True
+    except Exception:
+        log.warning("[i18n build] %s 块内 img 标记失败", slug)
     if blocks:
         entries["_blocks"] = blocks
     # 链接壳表（显示名 key 已在 entries，此处仅登记壳+目标元信息，供渲染期/校验消费）
@@ -1899,18 +1960,27 @@ def _fill_from_page_map(slug: str, page_map: dict[str, str]) -> dict:
 
 
 def _count_untranslated(entries: dict) -> int:
-    """有效待译数：块内 keyN 若可被块级 zh 覆盖则不算缺。"""
+    """有效待译数：块内 keyN 若可被块级 zh 覆盖则不算缺。
+
+    例外：块内嵌 `<img>`（blk["img"]）时，渲染期 render_locale 为保图片会**跳过该块的
+    块级回退**，成员 key 的节点级译文才是唯一显示源 → 这类块**不得**把成员视为已覆盖，
+    否则空 zh 的 key 既不进待译队列也不被回填，页面静默露日文（2026-10-18 实测 620 条）。
+    """
     keys = _keys_of(entries)
     blocks = _blocks_of(entries)
     covered: set[str] = set()
     for blk in blocks.values():
-        if blk.get("zh"):
+        if blk.get("zh") and not blk.get("img"):
             covered.update(blk.get("keys", []))
     n = sum(1 for k, e in keys.items() if not e.get("zh") and k not in covered)
-    n += sum(
-        1 for blk in blocks.values()
-        if not blk.get("zh") and not all(keys.get(k, {}).get("zh") for k in blk.get("keys", []))
-    )
+    for blk in blocks.values():
+        if blk.get("zh"):
+            continue
+        if all(keys.get(k, {}).get("zh") for k in blk.get("keys", [])):
+            continue
+        # 含 img 的未译块：块级译文将来也用不上（渲染走节点级），其成员已逐条计入上面，
+        # 块本身不再重复计数，避免虚高。
+        n += 0 if blk.get("img") else 1
     return n
 
 
@@ -2560,7 +2630,9 @@ def _untranslated_items(slug: str, allow_ui_fragments: bool = False) -> list[dic
         zh = blk.get("zh", "")
         ja = blk.get("ja", "")
         if _is_translated(zh, ja) and _block_segments_complete(zh, ja):
-            covered.update(members)
+            # 含 img 的块：渲染期跳过块级回退，成员必须各自有译文，否则页面露日文
+            if not blk.get("img"):
+                covered.update(members)
             continue
         if not _is_japanese_needs_translate(ja):
             covered.update(members)
@@ -2581,7 +2653,8 @@ def _untranslated_items(slug: str, allow_ui_fragments: bool = False) -> list[dic
             # 而正文 key 得以正常进入待译。
             continue
         items.append({"kind": "block", "id": bid, "ja": ja})
-        covered.update(members)
+        if not blk.get("img"):
+            covered.update(members)
     for k, ent in keys.items():
         if k in covered:
             continue
@@ -3875,7 +3948,8 @@ def compute_translation_progress(slug: str) -> "float | None":
     # 否则会出现「进度低却无待译」的悖论（block 覆盖的空 key 被计入未译）。
     block_covered: set[str] = set()
     for blk in blocks.values():
-        if blk.get("zh"):
+        # 含 img 的块渲染期不走块级回退（见 _count_untranslated 注释），不能算覆盖
+        if blk.get("zh") and not blk.get("img"):
             block_covered.update(blk.get("keys", []))
     total = 0
     done = 0
@@ -4919,7 +4993,8 @@ def zh_ratio(slug: str) -> float:
         return 0.0
     covered: set[str] = set()
     for blk in _blocks_of(entries).values():
-        if blk.get("zh"):
+        # 含 img 的块渲染期不走块级回退（见 _count_untranslated 注释），不能算覆盖
+        if blk.get("zh") and not blk.get("img"):
             covered.update(blk.get("keys", []))
     done = sum(1 for k, e in keys.items() if e.get("zh") or k in covered)
     return done / len(keys)

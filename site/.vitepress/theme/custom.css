@@ -84,6 +84,23 @@
 }
 .VPNavBar .title { font-weight: 700; }
 
+/* ========== 正文页可见标题（SEO：每页唯一 h1）========== */
+/* 此前全站 0 个 h1（标题只在 <title> 与侧栏里），搜索引擎只能靠 h2 猜主题。
+   由 sitegen 的 MD_TEMPLATE 在正文最前面输出 <h1 class="escah-page-h1">。 */
+.vp-doc .escah-page-h1 {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  font-size: 26px;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--vp-c-text-1);
+  border-bottom: 2px solid var(--vp-c-brand-soft);
+}
+@media (max-width: 767px) {
+  .vp-doc .escah-page-h1 { font-size: 20px; margin-bottom: 10px; padding-bottom: 8px; }
+}
+
 /* ========== 镜像内容：忠实 PukiWiki 排版 + 轻度美化 ========== */
 /* 横向滚动容器：宽表格（如对比表/多列属性表）超出内容区时可横滑，避免被裁切 */
 .mirror-content { font-size: 14px; line-height: 1.55; color: var(--vp-c-text-1); overflow-x: auto; }

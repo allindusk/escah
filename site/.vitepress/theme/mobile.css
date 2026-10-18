@@ -143,6 +143,11 @@
     padding: 1px 6px;
     margin-left: 1px;
   }
+  /* 角色名浮窗标签：同上（表格里的角色名由跳转链接降级为 char-ref 后，
+     原本 escah-ilink 的放大触摸区随之消失，这里补回，手机上更好点） */
+  .mirror-content .char-ref {
+    padding: 1px 4px;
+  }
   /* 头像、缩略图不撑破屏幕 */
   .mirror-content img {
     border-radius: 5px;

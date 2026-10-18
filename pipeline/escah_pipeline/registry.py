@@ -8,7 +8,7 @@ from urllib.parse import unquote_plus, urljoin, urlparse
 import yaml
 from bs4 import BeautifulSoup
 
-from . import config
+from . import config, imgx
 from .logutil import get_logger
 
 log = get_logger()
@@ -218,17 +218,15 @@ def _resolve_name(want: str, norm_to_actual: dict[str, str]) -> str | None:
 
 
 def _img_local_name(src: str) -> str:
-    """把 wiki 原始图片 src 转成本地存储名（与 sitegen._img_local_name 完全一致）：img/<sha256[:16]>.<ext>。
+    """把 wiki 原始图片 src 转成本地存储名（与 parser_puki._rewrite_images 完全一致）：
+    `img/<sha256(源URL)[:16]>.webp`。
 
-    角色头像图经 assets 管线以该名下载到 data/assets/img（构建进 dist/img）。
+    角色头像图经 assets 管线以该名下载（下载时转成 WebP）到 data/assets/img（构建进 dist/img）。
     浮窗组件据此路径 withBase('img/'+icon) 显示头像。
     """
     abs_url = urljoin(config.SOURCE_BASE, src)
     digest = hashlib.sha256(abs_url.encode()).hexdigest()[:16]
-    m = re.search(r"\.([a-zA-Z0-9]+)$", src.rsplit("/", 1)[-1])
-    ext = (m.group(1).lower() if m else "png")
-    ext = re.sub(r"[^a-z0-9]", "", ext)[:5] or "png"
-    return f"img/{digest}.{ext}"
+    return f"img/{digest}.{imgx.CANONICAL_EXT}"
 
 
 def extract_characters(html: str) -> list[dict]:
