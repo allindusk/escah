@@ -56,6 +56,12 @@ node build.mjs dev                       # 开发 5173
 > `build.mjs` 是 vitepress 编程式 API 的封装（避免被本机 harness 当成 watch 服务强杀），
 > `build` 会额外写入 `.nojekyll`。
 
+**构建产物不留档**（2026-10-19 用户要求）：`build` 开始前会把旧的 `dist` / `.temp`
+改名让开（本机 safe-delete 守卫会拦 >500 文件的删除），**构建成功后直接删除**这些快照，
+不再像以前那样堆进 `recycle_bin/_build_snapshots/`（那个目录一度攒到 11.7 万文件 / 8.7 GB）。
+构建失败时保留现场便于排查。手动清理：`cd site && node build.mjs prune`；
+确实想留一份 dist 回滚：`ESCAH_KEEP_DIST_SNAPSHOTS=1 node build.mjs prune`。
+
 ## 4. 目录结构
 
 ```
@@ -300,13 +306,20 @@ CI 里配 repository variable 即可让两地构建同步指向它。站长平�
    重建前会用 `ESCAH_BASE=/` 重跑一次 `sync-site`：正文片段里的站内绝对链接带生成期 base 前缀，
    不重跑的话根路径部署的镜像站内链接全部 404（成片死链，直接影响收录）
 
-**`sync-cron.yml`（2026-10-19 起只做一件事：原站更新履歴存档）** — ⏸️ **定时暂关闭**，
+**`sync-cron.yml`（2026-10-19 起只做一件事：原站更新履歴存档）** — ⏸️ **定时仍关闭**，
 目前只能**手动触发**（Actions → Weekly Upstream Changelog → Run workflow）
 
-> 定时（`cron: '0 15 * * 1'`）已注释掉：先手动跑一次确认 CI 能穿过原站的 Cloudflare
-> 验证、正常生成存档，确认可用后把那三行的注释删掉即可恢复每周自动跑。
+> 初次手动运行已成功（2026-10-18，run 39156499263：HTTP 通道 1 次请求即拿到正文、
+> 没用上浏览器兜底，产出 2026-W42 存档并自动提交）。要恢复每周自动跑，把
+> `on.schedule` 那三行的 `# ` 删掉即可。
 
 `changelog fetch` → 有变更则 commit & push `data/upstream/`。
+
+- **抓取分两步（2026-10-19 起）**：先跑纯 HTTP 的 `changelog fetch`（内部已含 3 次
+  退避重试）；**只有它失败**才安装 playwright chromium 并用 `--browser` 重试。
+  之前是无条件下载 120 MiB 的 chromium，绝大多数周次根本用不上。
+- **artifact 保留 90 天 ≠ 存档丢失**：artifact 只是「不 clone 也能下载本周结果」的
+  临时件；真值是提交进 `data/upstream/` 的文件，跟 git 历史一起长期保存。
 
 - ⚠️ **CI 不再自动同步/建站**：原先的 `discover → fetch → update → sync-recent →
   sync-stale → parse → assets → i18n build/glossary-fill/char-fill → sync-site →
@@ -335,7 +348,9 @@ CI 里配 repository variable 即可让两地构建同步指向它。站长平�
   + 5 秒后 JS reload，早先是日文「少々お待ちください…」）：不执行 JS 的客户端一律只
   拿得到 12KB 的挑战页。应对（按成本递增）：
   1. `changelog fetch --browser`：HTTP 被拦时改用真实浏览器（playwright+chromium）
-     重试，能执行 JS，挑战通常会在 reload 后放行 —— CI 默认就带这个参数；
+     重试，能执行 JS，挑战通常会在 reload 后放行。**CI 只在 HTTP 失败时才装 chromium
+     并走这条**；本机实测（2026-10-19）HTTP 3 次全被拦（末次 11976 字节挑战页），
+     本地直接加 `--browser` 更省事；
   2. `WIKIRU_COOKIE` 环境变量 / `--cookie`：填浏览器里的 `cf_clearance=...` 直接通过
      （CI 侧可配同名 repository secret）；
   3. `changelog fetch --html <文件>`：浏览器打开更新履歴页另存 HTML，离线解析兜底。

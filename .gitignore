@@ -92,8 +92,8 @@ tools/_ab_dump/
 tools/_char_fill_check.py
 tools/_skill_*.py
 data/mt/
-site/.vitepress/.temp/
-site/.vitepress/dist_prev_*/
+site/.vitepress/.temp*/
+site/.vitepress/dist*/
 site/.vitepress/config.ts.timestamp-*
 
 # 图片转 WebP 的原始文件备份（本地保留即可，git 历史里已有原图）
