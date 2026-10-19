@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-19T06:16:54+00:00",
+ "generated_at": "2026-10-19T07:40:13+00:00",
  "iso_week": "2026-W43",
  "source": "https://escalationheroines.wikiru.jp/?%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4%E3%83%9A%E3%83%BC%E3%82%B8",
  "window": [
@@ -8,32 +8,32 @@
  ],
  "truncated": true,
  "counts": {
-  "new": 12,
   "excluded": 50,
-  "unchanged": 26,
+  "unchanged": 28,
+  "new": 10,
   "update": 12
  },
  "items": [
+  {
+   "name": "コメント/雑談掲示板",
+   "url": "https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF",
+   "date": null,
+   "within_days": 0,
+   "section": "最新の100件",
+   "slug": null,
+   "status": "excluded",
+   "local_updated": null,
+   "needs_update": false
+  },
   {
    "name": "パイレーツハダル",
    "url": "https://escalationheroines.wikiru.jp/?%E3%83%91%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%84%E3%83%8F%E3%83%80%E3%83%AB",
    "date": null,
    "within_days": 0,
    "section": "最新の100件",
-   "slug": null,
-   "status": "new",
-   "local_updated": null,
-   "needs_update": true
-  },
-  {
-   "name": "コメント/雑談掲示板",
-   "url": "https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF",
-   "date": null,
-   "within_days": 1,
-   "section": "最新の100件",
-   "slug": null,
-   "status": "excluded",
-   "local_updated": null,
+   "slug": "characters/パイレーツハダル",
+   "status": "unchanged",
+   "local_updated": "2026-10-19",
    "needs_update": false
   },
   {
@@ -50,8 +50,8 @@
   {
    "name": "イベント86_殲滅戦",
    "url": "https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6",
-   "date": null,
-   "within_days": 1,
+   "date": "2026-10-18",
+   "within_days": 2,
    "section": "最新の100件",
    "slug": "annihilation",
    "status": "unchanged",
@@ -61,8 +61,8 @@
   {
    "name": "コメント/イベント86_殲滅戦",
    "url": "https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6",
-   "date": null,
-   "within_days": 1,
+   "date": "2026-10-18",
+   "within_days": 2,
    "section": "最新の100件",
    "slug": null,
    "status": "excluded",
@@ -72,8 +72,8 @@
   {
    "name": "コメント/CO報告掲示板",
    "url": "https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF",
-   "date": null,
-   "within_days": 1,
+   "date": "2026-10-18",
+   "within_days": 2,
    "section": "最新の100件",
    "slug": null,
    "status": "excluded",
@@ -161,7 +161,7 @@
    "name": "テーブル/レイドおすすめアタッカー所属別",
    "url": "https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%A2%E3%82%BF%E3%83%83%E3%82%AB%E3%83%BC%E6%89%80%E5%B1%9E%E5%88%A5",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": null,
    "status": "excluded",
@@ -172,7 +172,7 @@
    "name": "ビートファインダー・フェリニ",
    "url": "https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/ビートファインダー・フェリニ",
    "status": "unchanged",
@@ -183,7 +183,7 @@
    "name": "ゲーム外企画",
    "url": "https://escalationheroines.wikiru.jp/?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": null,
    "status": "new",
@@ -194,7 +194,7 @@
    "name": "コメント/レイドおすすめキャラ",
    "url": "https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": null,
    "status": "excluded",
@@ -746,10 +746,10 @@
    "date": "2026-10-07",
    "within_days": 5,
    "section": "最新の100件",
-   "slug": null,
-   "status": "new",
-   "local_updated": null,
-   "needs_update": true
+   "slug": "characters/アイドルの藤宮火咲",
+   "status": "unchanged",
+   "local_updated": "2026-10-07",
+   "needs_update": false
   },
   {
    "name": "コメント/神騎ハウゼル",
