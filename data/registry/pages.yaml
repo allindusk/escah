@@ -3913,3 +3913,18 @@ pages:
   category: subpage
   subgroup: equipment
   mode: static
+- name: ムシトリラケット
+  slug: equip-119
+  category: subpage
+  subgroup: equipment
+  mode: static
+- name: 怨念がおんねん
+  slug: equip-120
+  category: subpage
+  subgroup: equipment
+  mode: static
+- name: 死神ライト
+  slug: equip-121
+  category: subpage
+  subgroup: equipment
+  mode: static

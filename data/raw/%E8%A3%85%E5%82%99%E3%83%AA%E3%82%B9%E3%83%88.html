@@ -1,0 +1,1072 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+<script>(function(){try{var m=document.cookie.match(/(?:^|;\s*)wkr_theme=(dark|light)/);document.documentElement.setAttribute('data-theme',m?m[1]:'light');}catch(e){}})();</script>
+<link rel="canonical" href="https://escalationheroines.wikiru.jp/?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" /><!-- OGP -->
+<meta property="og:site_name" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:title" content="装備リスト">
+<meta property="og:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://escalationheroines.wikiru.jp/?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88">
+<meta property="og:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="装備リスト">
+<meta name="twitter:description" content="超昂大戦エスカレーションヒロインズ攻略 Wiki">
+<meta name="twitter:image" content="https://escalationheroines.wikiru.jp/image/ogp.jpg">
+
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+ <meta http-equiv="content-style-type" content="text/css" />
+
+ <title>装備リスト - 超昂大戦エスカレーションヒロインズ攻略 Wiki</title>
+
+ <link rel="SHORTCUT ICON" href="image/favicon.ico" />
+ <link rel="stylesheet" type="text/css" media="screen,print" href="skin/pukiwiki.css?222202020230911" />
+ <link rel="stylesheet" type="text/css" href="skin/wkr-dark.css?v1" /> <link rel="stylesheet" type="text/css" media="print" href="skin/pukiwiki.print.css" />
+ <link rel="alternate" type="application/rss+xml" title="RSS" href="./?cmd=rss" /> <script type="text/javascript" src="skin/default.js?1"></script>
+ <script type="text/javascript" src="skin/wkr-theme.js?v1" defer></script>
+ <meta name="viewport" content="width=1024">
+
+
+<link rel="stylesheet" href="skin/sortabletable.css?20260914c" />
+<script defer charset="utf-8" src="skin/sortabletable.js?20260914c"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	var topBtn = $('#page-top');	
+	topBtn.hide();
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 100) {
+			topBtn.fadeIn();
+		} else {
+			topBtn.fadeOut();
+		}
+	});
+	//スクロールしてトップ
+    topBtn.click(function () {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 500);
+		return false;
+    });
+});
+
+// pcommentプラグイン用の名前空間を作成
+var PCommentPlugin = {
+    originalFormParents: {},
+    originalFormNextSiblings: {},
+
+    showCommentForm: function(event) {
+        console.log('PComment: showCommentForm');
+        var radio = event.target;
+        var commentId = radio.value;
+        var formId = radio.closest('.pcomment').id;
+        console.log('PComment: commentId: ' + commentId + ', formId: ' + formId);
+
+        var commentElement = document.querySelector('#' + formId + ' [data-comment-id="comment_' + commentId + '"]');
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        
+        if (!form) {
+            console.error('PComment: pcomment form not found for ' + formId);
+            return;
+        }
+
+        console.log('PComment: form: ' + form);
+
+        if (!this.originalFormParents[formId]) {
+            this.originalFormParents[formId] = form.parentNode;
+            this.originalFormNextSiblings[formId] = form.nextSibling;
+        }
+
+        var existingCancelLink = form.querySelector('.cancel-link');
+        if (existingCancelLink) {
+            existingCancelLink.remove();
+        }
+
+        var cancelLink = document.createElement('div');
+        cancelLink.className = 'cancel-link';
+        cancelLink.innerHTML = `
+            <a class="js-abonelink" style="cursor: pointer; color: #215dc6; background-color: inherit; text-decoration: none;" onclick="PCommentPlugin.cancelForm('${commentId}', '${formId}')">返信をキャンセル</a>
+        `;
+        form.insertBefore(cancelLink, form.firstChild);
+
+        ['digest', 'refer', 'page', 'nodate', 'dir', 'count'].forEach(function(name) {
+            var input = form.querySelector('input[name="' + name + '"]');
+            if (input) {
+                input.value = document.querySelector('#' + formId + ' input[name="' + name + '"]').value;
+            }
+        });
+
+        commentElement.parentNode.insertBefore(form, commentElement.nextSibling);
+
+        // フォームまで自動スクロール
+        //setTimeout(function() {
+        //    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        //}, 100);
+    },
+
+    cancelForm: function(commentId, formId) {
+        var form = document.querySelector('#' + formId + ' #pcomment-form');
+        if (form && this.originalFormParents[formId]) {
+            var cancelLink = form.querySelector('.js-abonelink').parentNode;
+            if (cancelLink) {
+                cancelLink.remove();
+            }
+            this.originalFormParents[formId].insertBefore(form, this.originalFormNextSiblings[formId]);
+            var radio = document.querySelector('#' + formId + ' input[name="reply"][value="' + commentId + '"]');
+            if (radio) {
+                radio.checked = false;
+            }
+        }
+    },
+
+    init: function() {
+        var pcommentDivs = document.querySelectorAll('.pcomment');
+        pcommentDivs.forEach(function(div, index) {
+            if (!div.id) {
+                div.id = 'pcomment-' + index;
+            }
+            var radios = div.querySelectorAll('input[type="radio"][name="reply"]');
+            radios.forEach(function(radio) {
+                radio.addEventListener('change', function(event) {
+                    PCommentPlugin.showCommentForm(event);
+                });
+            });
+        });
+    }
+};
+
+// DOMContentLoadedイベントでpcommentプラグインの初期化
+document.addEventListener('DOMContentLoaded', function() {
+    PCommentPlugin.init();
+});
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S8SSE7XDQV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-S8SSE7XDQV');
+</script>
+
+
+<meta name="description" content=" メイン装備  通常装備（メイン枠）  逸品装備・D2P産（メイン枠）  逸品装備・イベント交換品（メイン枠）  サブ装備  通常サブ装備（サブ枠）  逸品サブ装備・D2P産（サブ枠）" />
+<!-- 外部リンクを別ウインドウで開く -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">  
+    jQuery(document).ready(function(){
+        jQuery('a[href^=http]')
+        .not('[href*="'+location.hostname+'"]')
+        .not('.exclude-icon')
+        .attr({target:"_blank"})
+        .append(' 🌐')
+    });
+</script> 
+
+<script async src="https://fundingchoicesmessages.google.com/i/pub-6756084042400545?ers=1" nonce="15dEpUr9AJY8eX0-XD7UvQ"></script><script nonce="15dEpUr9AJY8eX0-XD7UvQ">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
+
+<script>
+function getResolution() {
+  return screen.width + ' x ' + screen.height + 'px';
+}
+
+function getCookieId() {
+  var cookieId = document.cookie.replace(/(?:(?:^|.*;\s*)pukiwiki_cookie_id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (!cookieId) {
+    cookieId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    document.cookie = "pukiwiki_cookie_id=" + cookieId + "; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+  }
+  return cookieId;
+}
+
+document.cookie = "resolution=" + getResolution() + "; path=/";
+document.cookie = "cookie_id=" + getCookieId() + "; path=/";
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<!-- Geniee Wrapper Head Tag -->
+<script>
+  window.gnshbrequest = window.gnshbrequest || {cmd:[]};
+  window.gnshbrequest.cmd.push(function(){
+    window.gnshbrequest.registerPassback("1475070");
+    window.gnshbrequest.registerPassback("1536316");
+    window.gnshbrequest.registerPassback("1548387");
+    window.gnshbrequest.registerPassback("1551138");
+    window.gnshbrequest.registerPassback("1558324");
+    window.gnshbrequest.registerPassback("1558325");
+    window.gnshbrequest.forceInternalRequest();
+  });
+</script>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script async src="https://cpt.geniee.jp/hb/v1/179425/666/wrapper.min.js"></script>
+<!-- /Geniee Wrapper Head Tag -->
+</head>
+<body>
+
+<div id="header">
+ <a href="./"><img id="logo" src="image/pukiwiki.png" width="80" height="80" alt="[PukiWiki]" title="[PukiWiki]" /></a>
+
+ <h1 class="title"><a href="./?plugin=related&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88">装備リスト</a> </h1>
+
+    <span class="small">
+   <span class="topicpath-top"><a href="./?%E8%B6%85%E6%98%82%E5%A4%A7%E6%88%A6%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%92%E3%83%AD%E3%82%A4%E3%83%B3%E3%82%BA%E6%94%BB%E7%95%A5+Wiki" title="超昂大戦エスカレーションヒロインズ攻略 Wiki" class="" data-mtime="">Top</a><span class="topicpath-slash"> / </span></span>装備リスト   </span>
+ 
+</div>
+
+<div id="navigator">
+ [ <a href="./" >トップ</a> ] &nbsp;
+
+ [
+ 	<a href="./?cmd=edit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" >編集</a> |
+<a href="./?cmd=guiedit&page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88">編集（GUI）</a> |
+			<a href="./?cmd=freeze&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" >凍結</a> |
+	  <a href="./?cmd=diff&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" >差分</a> 	| <a href="./?cmd=backup&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" >バックアップ</a>  	| <a href="./?plugin=attach&amp;pcmd=upload&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" >添付</a>  | <a href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" >リロード</a> ] &nbsp;
+
+ [
+ 	<a href="./?plugin=newpage&amp;refer=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" >新規</a> |
+    <a href="./?cmd=list" >一覧</a>  | <a href="./?cmd=search" >検索</a> | <a href="./?RecentChanges" >最終更新</a> | <a href="./?Help" >ヘルプ</a> ]
+
+</div>
+
+<hr class="full_hr" />
+<table border="0" style="width:100%">
+ <tr>
+  <td class="menubar">
+<a href="chgsp.php?rd=http://escalationheroines.wikiru.jp/?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88" rel="nofollow">スマホ版表示に切り替える</a>
+<br><br>
+<br><br>
+<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'ja', includedLanguages: 'en,ko,zh-TW,ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, gaTrack: true, gaId: 'UA-48994870-1'}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- PC_300x250_menu_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="6243394662"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+   <div id="menubar"><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/escalationheroines.wikiru.jp\/?E8A385E58299E383AAE382B9E38388"},"url":"https:\/\/escalationheroines.wikiru.jp\/?E8A385E58299E383AAE382B9E38388","headline":"\u88c5\u5099\u30ea\u30b9\u30c8 | \u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","author":{"@type":"Person","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki\u7ba1\u7406\u4eba"},"publisher":{"@type":"Organization","name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki"},"datePublished":"2026-10-07T00:20:51+00:00","dateModified":"2026-10-07T00:20:51+00:00"}</script><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"\u8d85\u6602\u5927\u6226\u30a8\u30b9\u30ab\u30ec\u30fc\u30b7\u30e7\u30f3\u30d2\u30ed\u30a4\u30f3\u30ba\u653b\u7565 Wiki","item":"https:\/\/escalationheroines.wikiru.jp\/"},{"@type":"ListItem","position":2,"name":"\u88c5\u5099\u30ea\u30b9\u30c8","item":"https:\/\/escalationheroines.wikiru.jp\/?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"}]}</script>
+<p>現在、<strong>256人</strong>が閲覧中です</p>
+<h2 id="content_7_0">サイト内検索</h2>
+<form action="./?cmd=search" method="post"> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div> 
+<div><input type="hidden" name="encode_hint" value="ぷ" /></div>
+ <div>
+  <input type="text"  name="word" value="" size="20" />
+  <label><input type="radio" name="type" value="AND"  checked="checked" /> AND検索</label>
+  <label><input type="radio" name="type" value="OR"  /> OR検索</label>
+  &nbsp;<input type="submit" value="検索" />
+ </div>
+
+</form>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>メンテナンス情報</strong></span><br />
+毎週水曜日 10:00 ～ 16:00</p>
+<hr class="full_hr" />
+<p><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><span style="color:red"><strong><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="" data-mtime="">イベント</a></strong></span></span></p>
+<p><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8892_%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%81%AB%E8%B8%8A%E3%82%8B%E4%BA%BA%E5%BD%A2" title="イベント92_ハロウィンに踊る人形" class="" data-mtime=""><img src="attach2/E382A4E38399E383B3E3838839325FE3838FE383ADE382A6E382A3E383B3E381ABE8B88AE3828BE4BABAE5BDA2_62616E6E65722E6A7067.jpg" alt="banner.jpg" title="banner.jpg" width="265" height="149" /></a><br />
+<a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8892_%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%81%AB%E8%B8%8A%E3%82%8B%E4%BA%BA%E5%BD%A2" title="イベント92_ハロウィンに踊る人形" class="" data-mtime="">＜復刻＞ハロウィンに踊る人形</a><br />
+10/14 [水曜] 16:00 ～ 10/21 09:59</p>
+
+<div style="text-align:right"><a href="./?cmd=edit&amp;page=%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="Edit イベント一覧/開催イベント"><img src="image/edit.png" width="20" height="20" alt="Edit" title="Edit イベント一覧/開催イベント" />EDIT</a></div>
+<hr class="full_hr" />
+<p><strong><span style="color:red">10/7新キャラ</span></strong><br />
+SSR「<a href="./?%E3%83%91%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%84%E3%83%8F%E3%83%80%E3%83%AB" class="" data-mtime="">パイレーツハダル</a>」<br />
+<strong><span style="color:red">9/30新キャラ</span></strong><br />
+SSR「<a href="./?%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%81%AE%E8%97%A4%E5%AE%AE%E7%81%AB%E5%92%B2" class="" data-mtime="">アイドルの藤宮火咲</a>」<br />
+<strong><span style="color:red">9/23新キャラ</span></strong><br />
+SSR「<a href="./?%E9%96%83%E5%BF%8D%E3%83%9B%E3%83%BC%E3%83%8D%E3%83%83%E3%83%88" class="" data-mtime="">閃忍ホーネット</a>」</p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>キャンペーン</strong></span><br />
+◆<strong><a href="https://x.com/EscaH_PR/status/2110188914430578766" rel="nofollow">えちシーン人気投票2026開催中</a></strong><br />
+10月14日 ～ 10月25日 23:59まで</p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>シリアルコード配布</strong></span><br />
+◆<strong>超昂月間ブログ</strong><br />
+<span style="color:blue">プレミアムガチャチケット×1 (最下段記載）</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry004043.html" rel="nofollow">11月号</a> 11月16日 23:59まで</p>
+<p>◆<strong>アリスソフト放送局</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<span style="color:blue">※歯抜け有(動画内で英数字の発表)</span><br />
+<a href="https://www.alicesoft.com/information/2026/entry004040.html" rel="nofollow">第56回</a> 10月22日 17:59まで</p>
+<p>◆<strong>1分でわかる！超昂大戦</strong><br />
+<span style="color:blue">単発ガチャチケット×1（コメント欄にコード有）</span><br />
+<a href="https://www.youtube.com/shorts/EMgbaMAEUXo" rel="nofollow">第21回</a></p>
+<p>◆<strong>BugBug.NEWS</strong><br />
+<span style="color:blue">単発ガチャチケット×1</span><br />
+<a href="https://www.bugbug.news/b_game/279356/" rel="nofollow">10月16日付記事</a> 10月28日 23:59まで</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_1">お知らせ</h2>
+<p><span style="color:red"><strong>アップデート情報</strong></span><br />
+10月14日(水)<br />
+・期間限定復刻イベント実装<br />
+　「ハロウィンに踊る人形」<br />
+・ショップに無料セレクトPUガチャチケット<br />
+・ショップに商品追加<br />
+・えちシーン人気投票2026開催中<br />
+<strong><span style="color:blue">10月14日 11:00 ～ 10月25日 23:59まで</span></strong></p>
+<p>・特定の装備およびキャラクターの固有効果において<br />
+　「確定連撃効果」が発生しなかった不具合の修正</p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>不具合情報</strong></span><br />
+10月8日(木)<br />
+・9/2　メンテナンス後から特定の装備およびキャラクターの固有効果において<br />
+　「確定連撃効果」が発生しない不具合<br />
+　対象装備：<br />
+　　謙信の兜<br />
+　対象キャラ：<br />
+　　血の切裂余命<br />
+　　九の護銃メイファール<br />
+　　閃忍リコリス<br />
+　　超昂閃忍スバル<br />
+　　閃忍ハータン<br />
+　　バレンタインリコリス<br />
+　　ビートストーム・ハヅキ</p>
+<p>→10月14日(木)　<br />
+　全ユーザーに<br />
+　・D2P × 500<br />
+　・銀の巫女絵馬 × 2<br />
+　・カクセイの木・中 × 1<br />
+　を補填</p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>期間限定ガチャ</strong></span><br />
+<strong>10月14日 16:00 ～ 10月21日 9:59</strong><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" class="" data-mtime="">ハロウィンニコール</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%9D%E3%83%94%E3%83%BC" class="" data-mtime="">ハロウィンポピー</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AB%E3%83%8D" class="" data-mtime="">ハロウィンアカネ</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AD%E3%82%A8" class="" data-mtime="">ハロウィンアキエ</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" class="" data-mtime="">ハロウィンイーイー</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8E%E3%83%89%E3%82%AB" class="" data-mtime="">ハロウィンノドカ</a></p>
+<p><span style="color:red"><strong>セレクトガチャ</strong></span><br />
+<strong>10月14日 16:00 ～ 10月26日 23:59</strong><br />
+<strong>対象（以下から1体選択）</strong><br />
+要：'26復刻ハロウィンセレクトPUガチャチケット(別売)<br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" class="" data-mtime="">ハロウィンニコール</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%9D%E3%83%94%E3%83%BC" class="" data-mtime="">ハロウィンポピー</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AB%E3%83%8D" class="" data-mtime="">ハロウィンアカネ</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AD%E3%82%A8" class="" data-mtime="">ハロウィンアキエ</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC" class="" data-mtime="">ハロウィンイーイー</a><br />
+◆<a href="./?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8E%E3%83%89%E3%82%AB" class="" data-mtime="">ハロウィンノドカ</a></p>
+<hr class="full_hr" />
+<p><span style="color:red"><strong>商品追加</strong></span><br />
+<strong>10月14日 16:00 ～ 10月21日 09:59</strong><br />
+◆'26超・復刻ハロウィンＳＵセット　ステップ1～5<br />
+◆'26復刻ハロウィンセレクトPUガチャチケットセット　3種</p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_2">掲示板</h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_7_3">交流用掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">雑談掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_7_4">攻略掲示板</h3>
+<ul class="list1 list-indent1"><li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">質問掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E6%83%85%E5%A0%B1%E6%8F%90%E4%BE%9B%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">情報提供掲示板</a></span></li>
+<li><span style="font-size:16px;display:inline-block;line-height:130%;text-indent:0px"><a href="./?%E3%83%90%E3%82%B0%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">バグ報告掲示板</a></span></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_7_5">管理掲示板</h3>
+<ul class="list1 list-indent1"><li><a href="./?CO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">CO報告掲示板</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E8%80%85%E7%94%A8%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">編集者用掲示板</a></li>
+<li><a href="./?Wiki%E7%AE%A1%E7%90%86%E6%8E%B2%E7%A4%BA%E6%9D%BF" class="" data-mtime="">Wiki管理掲示板</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_6">はじめに</h2>
+<ul class="list1 list-indent1"><li><a href="./?Wiki%E5%88%A9%E7%94%A8%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">Wiki利用のガイドライン</a></li>
+<li><a href="./?%E7%B7%A8%E9%9B%86%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="" data-mtime="">編集のガイドライン</a></li>
+<li><a href="./?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%81%AENGID%E6%A9%9F%E8%83%BD" class="" data-mtime="">コメント欄のNGID機能</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_7">ゲームガイド</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E5%BA%8F%E7%9B%A4%E3%81%AE%E6%89%8B%E5%BC%95%E3%81%8D" class="" data-mtime="">序盤の手引き</a></li>
+<li><a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F" class="" data-mtime="">よくある質問</a></li>
+<li><a href="./?%E5%B0%8F%E3%83%8D%E3%82%BF%E3%83%BB%E5%B0%8F%E3%83%AF%E3%82%B6%E9%9B%86" class="" data-mtime="">小ネタ・小ワザ集</a></li></ul>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AC%E3%83%81%E3%83%A3" class="" data-mtime="">ガチャ</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_8">キャラクター</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7" class="" data-mtime="">キャラクター一覧</a><br />
+├ <a href="./?SSR" class="" data-mtime="">SSR</a> | <a href="./?SR" class="" data-mtime="">SR</a> | <a href="./?R" class="" data-mtime="">R</a><br />
+├ <a href="./?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">サポーター</a><br />
+└ <a href="./?NPC" class="" data-mtime="">NPC</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%BF%85%E6%AE%BA%E6%8A%80%E4%B8%80%E8%A6%A7" class="" data-mtime="">必殺技一覧</a></li>
+<li><a href="./?%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C%E4%B8%80%E8%A6%A7" class="" data-mtime="">固有効果一覧</a></li>
+<li><a href="./?%E7%89%B9%E6%AE%8A%E5%B1%9E%E6%80%A7%E4%B8%80%E8%A6%A7" class="" data-mtime="">特殊属性一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">寝室シーン一覧</a><span style="color:red">(R18)</span></li>
+<li><a href="./?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95" class="" data-mtime="">原画別索引</a></li>
+<li><a href="./?CV%E4%B8%80%E8%A6%A7" class="" data-mtime="">CV一覧</a></li>
+<li><a href="./?%E5%AE%9F%E8%A3%85%E5%B1%A5%E6%AD%B4" class="" data-mtime="">実装履歴</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_9">システム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E6%88%A6%E9%97%98" class="" data-mtime="">戦闘</a><br />
+├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a><br />
+│　├ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9" class="" data-mtime="">レイドおすすめキャラ</a><br />
+│　├ <a href="./?%E3%83%90%E3%83%95%E3%83%BB%E3%83%87%E3%83%90%E3%83%95%E8%83%BD%E5%8A%9B%E3%82%AD%E3%83%A3%E3%83%A9%E3%80%80%E4%B8%80%E8%A6%A7%E3%81%BE%E3%81%A8%E3%82%81" title="バフ・デバフ能力キャラ　一覧まとめ" class="" data-mtime="">レイドバフ・デバフ別キャラ一覧</a><br />
+│　└ <a href="./?%E3%83%AC%E3%82%A4%E3%83%89%E7%94%A8%E7%B7%A8%E6%88%90%E4%BE%8B" class="" data-mtime="">レイド用編成例</a><br />
+├ <a href="./?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" title="Bユニバース" class="" data-mtime="">Bユニバース（強敵戦）</a><br />
+├ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8850_%E5%BA%83%E5%9F%9F%E6%88%A6" title="イベント50_広域戦" class="" data-mtime="">広域戦</a><br />
+│　└ <a href="./?%E5%BA%83%E5%9F%9F%E6%88%A6%E3%83%9E%E3%83%83%E3%83%97/%E3%83%9E%E3%83%83%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88" title="広域戦マップ/マップリスト" class="" data-mtime="">マップリスト</a><br />
+└ <a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" title="イベント86_殲滅戦" class="" data-mtime="">殲滅戦</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" class="" data-mtime="">限界突破</a></li>
+<li><a href="./?%E8%A6%9A%E9%86%92%E5%BC%B7%E5%8C%96" class="" data-mtime="">覚醒強化</a></li>
+<li><a href="./?%E3%83%AC%E3%83%99%E3%83%AB%E4%B8%8A%E9%99%90UP" class="" data-mtime="">レベル上限UP</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E5%AE%9D%E7%AE%B1" class="" data-mtime="">宝箱</a></li>
+<li><a href="./?%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">交換所</a><br />
+└ <a href="./?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%BA%A4%E6%8F%9B%E6%89%80" class="" data-mtime="">キャラクター交換所</a></li>
+<li><a href="./?%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3" class="" data-mtime="">コレクション</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ショップ" class="" data-mtime="">ショップ（VIPランク）</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_10">装備･アイテム</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7" class="" data-mtime="">装備一覧</a><br />
+└ <a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a></li>
+<li><a href="./?%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7" class="" data-mtime="">アイテム一覧</a><br />
+└ <a href="./?SandBox/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%BE%A1%E5%80%A4%E6%97%A9%E8%A6%8B%E8%A1%A8" title="SandBox/アイテム価値早見表" class="" data-mtime="">[初心者用]アイテム価値早見表</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_11">クエスト･ミッション</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC" class="" data-mtime="">メインストーリー</a><br />
+└ <a href="./?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86" title="テーブル/全ストーリー実装順" class="" data-mtime="">全シナリオ実装順</a></li>
+<li><a href="./?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">メインクエスト</a></li>
+<li><a href="./?%E3%83%87%E3%82%A4%E3%83%AA%E3%83%BC%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" class="" data-mtime="">デイリークエスト</a></li>
+<li><a href="./?%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E4%B8%80%E8%A6%A7" class="" data-mtime="">ミッション一覧</a></li></ul>
+<hr class="full_hr" />
+<ul class="list1 list-indent1"><li><a href="./?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" class="" data-mtime="">イベント一覧</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_12">その他</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E7%94%A8%E8%AA%9E%E9%9B%86" class="" data-mtime="">用語集</a> / <a href="./?%E4%BF%97%E8%AA%9E%E9%9B%86" class="" data-mtime="">俗語集</a></li>
+<li><a href="./?Tips%E4%B8%80%E8%A6%A7" class="" data-mtime="">Tips一覧</a></li>
+<li><a href="./?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" class="" data-mtime="">ゲーム外企画</a></li>
+<li><a href="./?%E4%BA%8B%E5%89%8D%E7%99%BB%E9%8C%B2%E7%89%B9%E5%85%B8" class="" data-mtime="">事前登録特典</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_13">公式リンク</h2>
+<ul class="list1 list-indent1"><li><a href="https://pc-play.games.dmm.com/play/escalationheroines/" rel="nofollow">ゲーム開始URL</a></li>
+<li><a href="https://www.dmm.co.jp/netgame/community/-/commu/detail/=/id=5633/" rel="nofollow">公式コミュニティ(FANZA)</a></li>
+<li><a href="https://www.alicesoft.com/" rel="nofollow">アリスソフト公式サイト</a><br />
+├ <a href="https://www.alicesoft.com/escalationheroines/" rel="nofollow">超昂大戦公式サイト</a><br />
+└ <a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow">超昂大戦公式ニュース</a></li>
+<li><a href="https://twitter.com/EscaH_PR" rel="nofollow">公式X(Twitter)</a></li>
+<li><a href="https://prod.e-heroines.net/server/product/AppSub" rel="nofollow">おしらせ・ヘルプ</a></li>
+<li><a href="https://www.bugbug.news/tag/post_tag-7528/" rel="nofollow">超昂大戦特集(BugBug.NEWS)</a></li></ul>
+<p><a href="https://www.alicesoft.com/information/2022/entry003123.html" rel="nofollow"><img src="attach2/696D67_E8B685E69882E5A4A7E688A6E5889DE5BF83E88085E8AC9BE5BAA75F62616E6E65722E6A7067.jpg" alt="超昂大戦初心者講座_banner.jpg" title="超昂大戦初心者講座_banner.jpg" width="265" height="47" /><br class="spacer" />超昂大戦初心者講座</a><br />
+<a href="https://www.alicesoft.com/information/game/cat377/" rel="nofollow"><img src="attach2/696D67_E69C88E99693E38396E383ADE382B05FE383ADE382B42E706E67.png" alt="月間ブログ_ロゴ.png" title="月間ブログ_ロゴ.png" width="265" height="46" /><br class="spacer" />超昂大戦公式ニュース</a><br />
+<a href="https://www.alicesoft.com/escalationheroines/special/comic/" rel="nofollow"><img src="attach2/696D67_E38286E3828BE382ABE383AC5F62616E6E65722E706E67.png" alt="ゆるカレ_banner.png" title="ゆるカレ_banner.png" width="265" height="47" /><br class="spacer" />ゆるっとエスカレーション(公式4コマ漫画)</a><br />
+<a href="https://www.alicesoft.com/information/radio/" rel="nofollow"><img src="attach2/696D67_E382A2E383AAE382B9E382BDE38395E38388E694BEE98081E5B1805F62616E6E65722E706E67.png" alt="アリスソフト放送局_banner.png" title="アリスソフト放送局_banner.png" width="265" height="47" /><br class="spacer" />アリスソフト放送局(ネットラジオ)</a><br />
+<a href="https://www.youtube.com/watch?v=xFC3s77AV0I&amp;list=PLG0kE08S6G8TfS9alOQFTOYtPU5tJlTWO" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A65F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦_banner.png" title="1分でわかる！超昂大戦_banner.png" width="138" height="40" /><br class="spacer" />1分でわかる！超昂大戦（初心者動画）</a><br />
+<a href="https://www.youtube.com/playlist?list=PLG0kE08S6G8Rt_A7hvfsJoN0QYyFZXV4_" rel="nofollow"><img src="attach2/696D67_31E58886E381A7E3828FE3818BE3828BEFBC81E8B685E69882E5A4A7E688A620E383A1E383A2E383A1E383A2E38380E382A4E3838AE383A25F62616E6E65722E706E67.png" alt="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" title="1分でわかる！超昂大戦 メモメモダイナモ_banner.png" width="139" height="50" /><br class="spacer" />1分でわかる！超昂大戦 メモメモダイナモ!!</a></p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_14">編集者用ページ</h2>
+<ul class="list1 list-indent1"><li><a href="./?%E9%9B%9B%E5%BD%A2" title="雛形" class="" data-mtime="">雛形一覧</a></li>
+<li><a href="./?img" title="img" class="" data-mtime="">共通画像保管庫</a></li>
+<li><a href="./?%E7%B7%B4%E7%BF%92%E7%94%A8%E3%81%8A%E7%A0%82%E5%A0%B4" class="" data-mtime="">練習用お砂場</a></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_15">更新履歴</h2>
+<h5>最新の30件</h5>
+<div><h5>1時間以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/雑談掲示板 ">コメント/雑談掲示板</a> </li>
+</ul><h5>3時間以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%91%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%84%E3%83%8F%E3%83%80%E3%83%AB" title="パイレーツハダル ">パイレーツハダル</a> </li>
+</ul><h5>1日以内に更新</h5>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E8%B3%AA%E5%95%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/質問掲示板 ">コメント/質問掲示板</a> </li>
+</ul><h5>1週間以内に更新</h5>
+<ul class="recent_list"></ul><strong>2026-10-18</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" title="イベント86_殲滅戦 ">イベント86_殲滅戦</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" title="コメント/イベント86_殲滅戦 ">コメント/イベント86_殲滅戦</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2FCO%E5%A0%B1%E5%91%8A%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="コメント/CO報告掲示板 ">コメント/CO報告掲示板</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7" title="コメント/寝室シーン一覧 ">コメント/寝室シーン一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="殲忍ハガネ（Bユニバース） ">殲忍ハガネ（Bユニバース）</a> </li>
+</ul><strong>2026-10-17</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9" title="Bユニバース ">Bユニバース</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E9%9D%92%E7%AB%9C%E5%A4%A9%E3%82%AF%E3%83%81%E3%83%8A%E3%83%AF%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89" title="青竜天クチナワ（Bユニバース） ">青竜天クチナワ（Bユニバース）</a> </li>
+</ul><strong>2026-10-16</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?MenuBar" title="MenuBar ">MenuBar</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%AF%9D%E5%AE%A4SSR" title="テーブル/寝室SSR ">テーブル/寝室SSR</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%AF%9D%E5%AE%A4SSR%EF%BC%88%E9%99%90%E5%AE%9A%EF%BC%89" title="テーブル/寝室SSR（限定） ">テーブル/寝室SSR（限定）</a> </li>
+</ul><strong>2026-10-15</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%A2%E3%82%BF%E3%83%83%E3%82%AB%E3%83%BC%E6%89%80%E5%B1%9E%E5%88%A5" title="テーブル/レイドおすすめアタッカー所属別 ">テーブル/レイドおすすめアタッカー所属別</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B" title="ビートファインダー・フェリニ ">ビートファインダー・フェリニ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E4%BC%81%E7%94%BB" title="ゲーム外企画 ">ゲーム外企画</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9" title="コメント/レイドおすすめキャラ ">コメント/レイドおすすめキャラ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC" title="テーブル/レイドおすすめサポーター ">テーブル/レイドおすすめサポーター</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%83%92%E3%83%BC%E3%83%A9%E3%83%BC" title="テーブル/レイドおすすめヒーラー ">テーブル/レイドおすすめヒーラー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8892_%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%81%AB%E8%B8%8A%E3%82%8B%E4%BA%BA%E5%BD%A2" title="イベント92_ハロウィンに踊る人形 ">イベント92_ハロウィンに踊る人形</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%9D%E3%83%94%E3%83%BC" title="ハロウィンポピー ">ハロウィンポピー</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8E%E3%83%89%E3%82%AB" title="ハロウィンノドカ ">ハロウィンノドカ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E3%83%A1%E3%82%A4%E3%83%89%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A" title="コメント/メイドユリッペ ">コメント/メイドユリッペ</a> </li>
+</ul><strong>2026-10-14</strong>
+<ul class="recent_list"> <li><a href="https://escalationheroines.wikiru.jp/?SandBox%2F%E4%BA%BA%E6%B0%97%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E7%AD%89%E3%81%AE%E8%A8%98%E5%BF%B5%E5%A0%B1%E9%85%AC%E4%B8%80%E8%A6%A7" title="SandBox/人気ランキング等の記念報酬一覧 ">SandBox/人気ランキング等の記念報酬一覧</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB" title="ハロウィンニコール ">ハロウィンニコール</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95" title="原画別索引 ">原画別索引</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%AC%E3%83%81%E3%83%A3" title="ガチャ ">ガチャ</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%2F%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF%2F154" title="コメント/雑談掲示板/154 ">コメント/雑談掲示板/154</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7%2F%E9%96%8B%E5%82%AC%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="イベント一覧/開催イベント ">イベント一覧/開催イベント</a> </li>
+ <li><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧 ">イベント一覧</a> </li>
+</ul></div>
+<hr class="full_hr" />
+<p><a href="./?%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4%E3%83%9A%E3%83%BC%E3%82%B8" title="更新履歴ページ" class="" data-mtime="">更新履歴をもっとみる</a></p>
+<hr class="full_hr" />
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_7_16">カウンター</h2>
+<ul class="list1 list-indent1"><li>合計：21873</li>
+<li>今日：3</li>
+<li>昨日：3</li></ul>
+<hr class="full_hr" />
+<p><span style="font-size:11px;display:inline-block;line-height:130%;text-indent:0px">〔<a href="./?cmd=edit&amp;page=MenuBar" title="Edit MenuBar">MENU編集</a></span>〕</p>
+</div>
+<!-- 300x600_1枠目_wikiru汎用 -->
+<script src="//i2ad.jp/customer/ads/ad.php?id=AYAMQFxEEER31b4v8YZnKA"></script>
+<br>
+<h2>
+<span style="font-size:12px;display:inline-block;line-height:130%;text-indent:0px">Official Tweet</span>
+</h2>
+<a class="twitter-timeline" data-lang="ja" data-height="500" width="300" href="https://twitter.com/EscaH_PR" width="200">Tweets by EscaH_PR</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<div class="sticky-ads">
+
+<!-- 300x600_2枠目_wikiru汎用 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="4423084522"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<br>
+  <td valign="top">
+<!-- 728x90_wikiru汎用 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<div style="display:flex;align-items:flex-start;gap:10px;">
+  <div style="flex:0 0 336px;">
+    <!-- wikiru汎用_336x280_header -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:336px;height:280px"
+         data-ad-client="ca-pub-6756084042400545"
+         data-ad-slot="8665749617"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <div style="flex:0 0 auto;">
+    <!-- インストリーム -->
+    <div data-cptid="1554669" style="display:block;">
+    <script>
+      window.gnshbrequest = window.gnshbrequest || { cmd: [] };
+      window.gnshbrequest.cmd.push(function() {
+        window.gnshbrequest.applyThirdPartyTag("1554669", "[data-cptid='1554669']");
+      });
+    </script>
+    </div>
+  </div>
+</div>
+<br>
+<div id="boxArea" style="display:table;padding:0 0 0 2px;"><div style="width:74px;height:22px;float:left;"><a href="https://twitter.com/share" class="twitter-share-button"{count} data-lang="ja" data-hashtags="エスカレーションヒロインズ"data-dnt="true">ツイート</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></div>
+<br>
+      <div id="body"><div class="contents">
+<a id="contents_1"></a>
+<ul class="list1 list-indent1"><li><a href="#wa074ddb"> メイン装備 </a>
+<ul class="list2 list-indent1"><li><a href="#ib634de4"> 通常装備（メイン枠） </a></li>
+<li><a href="#tffa40da"> 逸品装備・D2P産（メイン枠） </a></li>
+<li><a href="#g1c582dd"> 逸品装備・イベント交換品（メイン枠） </a></li></ul></li>
+<li><a href="#t565253c"> サブ装備 </a>
+<ul class="list2 list-indent1"><li><a href="#ga1350d1"> 通常サブ装備（サブ枠） </a></li>
+<li><a href="#jd01d7be"> 逸品サブ装備・D2P産（サブ枠） </a></li>
+<li><a href="#pd98cda2"> 逸品サブ装備・イベント交換品（サブ枠） </a></li></ul></li>
+<li><a href="#md73c0ca"> 消耗品 </a>
+<ul class="list2 list-indent1"><li><a href="#o1cfcc0c"> 消耗品サブ装備（サブ枠） </a></li>
+<li><a href="#n7d05acf"> 消耗品サブ装備・イベント交換品（サブ枠） </a></li></ul></li>
+<li><a href="#de68f6a2"> プレイヤー装備 </a></li>
+<li><a href="#d0c20368"> 超昂装備 </a>
+<ul class="list2 list-indent1"><li><a href="#wc18a664"> 超昂装備 </a></li>
+<li><a href="#xa51ff63"> パッチ </a></li></ul></li>
+<li><a href="#g461171f"> 装備強化用アイテム </a>
+<ul class="list2 list-indent1"><li><a href="#le543e2f"> 装備強化オススメ逸品 </a></li></ul></li></ul>
+</div>
+<br /><table><tr><td><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"     crossorigin="anonymous"></script><ins class="adsbygoogle"     style="display:inline-block;width:336px;height:280px"     data-ad-client="ca-pub-6756084042400545"     data-ad-slot="1068224613"></ins><script>     (adsbygoogle = window.adsbygoogle || []).push({});</script></td><td><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"     crossorigin="anonymous"></script><ins class="adsbygoogle"     style="display:inline-block;width:336px;height:280px"     data-ad-client="ca-pub-6756084042400545"     data-ad-slot="8035210137"></ins><script>     (adsbygoogle = window.adsbygoogle || []).push({});</script></td></tr></table><br />
+<ul class="list1 list-indent1"><li>装備効果の欄に(★)が付いているものは必殺技や固有効果、他の装備などで同等の効果があっても重複しない。</li>
+<li>備考欄の強化や売却についてのコメントは、レイドなどのエンドコンテンツを見据えたものが多いためあくまで参考程度に。
+<script>
+// 折りたたみ切り替え関数
+function tglRgn(button) {
+    var container = button.closest('.rgn-container');
+    var description = container.querySelector('.rgn-description');
+    var content = container.querySelector('.rgn-content');
+    var plusIcon = button.querySelector('.plus-icon');
+    var minusIcon = button.querySelector('.minus-icon');
+    var isCollapsed = description.style.display != 'none';
+    
+    description.style.display = isCollapsed ? 'none' : 'block';
+    content.style.display = isCollapsed ? 'block' : 'none';
+    plusIcon.style.display = isCollapsed ? 'none' : 'block';
+    minusIcon.style.display = isCollapsed ? 'block' : 'none';
+    
+    if (isCollapsed) {
+        // 展開時、内容が空の場合のみ全角スペースを追加
+        if (content.innerHTML.trim() === '') {
+            content.innerHTML = '　';
+        }
+    } else {
+        // 折りたたみ時、内容が全角スペースのみの場合、それを削除
+        if (content.innerHTML === '　') {
+            content.innerHTML = '';
+        }
+    }
+}
+
+// ハッシュ変更時の処理
+function openAllParentRegions(element) {
+    let currentElement = element;
+    const openedRegions = [];
+    
+    // 親方向に向かってすべてのregionを探索
+    while (currentElement) {
+        const regionContainer = currentElement.closest('.rgn-container');
+        if (!regionContainer) break;
+        
+        const content = regionContainer.querySelector('.rgn-content');
+        const button = regionContainer.querySelector('.rgn-button');
+        
+        if (content && content.style.display === 'none') {
+            tglRgn(button);
+            openedRegions.push(regionContainer);
+        }
+        
+        // 次の親要素の探索のため、現在のregionの外側から検索を開始
+        currentElement = regionContainer.parentElement;
+    }
+    
+    return openedRegions;
+}
+
+function handleHashChange() {
+    if (location.hash) {
+        const targetId = location.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+            // すべての親regionを開く
+            const openedRegions = openAllParentRegions(targetElement);
+            
+            // アニメーションが完了してから要素までスクロール
+            if (openedRegions.length > 0) {
+                setTimeout(function() {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }, 100 * openedRegions.length); // regionの数に応じて待ち時間を調整
+            } else {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+}
+
+// イベントリスナーの設定
+window.addEventListener('hashchange', handleHashChange);
+window.addEventListener('load', handleHashChange);
+</script>
+<style>
+.plus-icon, .minus-icon {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: -3px;
+}
+.rgn-container {
+    transition: all 0.3s ease-in-out;
+}
+.rgn-content {
+    transition: display 0.3s ease-in-out;
+}
+</style><div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>一覧表左マス レア度・カラー対比表</p>
+</div><div class="rgn-content" style="display: none">
+
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th">カラー</th><th class="style_th">レア度(背景色)</th><th class="style_th">ガチャ演出</th></tr>
+<tr><td class="style_td" style="background-color:burlywood;"></td><td class="style_td">銅</td><td class="style_td">黒</td></tr>
+<tr><td class="style_td" style="background-color:silver;"></td><td class="style_td">銀</td><td class="style_td">金</td></tr>
+<tr><td class="style_td" style="background-color:gold;"></td><td class="style_td">金</td><td class="style_td">虹</td></tr>
+<tr><td class="style_td" style="background-color:pink;"></td><td class="style_td">虹・逸品</td><td class="style_td">昇格</td></tr>
+</tbody></table></div></li></ul>
+</div></div>
+<h2 id="content_1_0">メイン装備  <a class="anchor_super" id="wa074ddb" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#wa074ddb" title="wa074ddb">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=wa074ddb" title="Edit #wa074ddb"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #wa074ddb" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=1" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_1">通常装備（メイン枠）  <a class="anchor_super" id="ib634de4" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#ib634de4" title="ib634de4">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=ib634de4" title="Edit #ib634de4"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #ib634de4" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=2" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th><th class="style_th">備考（売却の可否について）<br class="spacer" />（<a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>強化用に別途一定数が必要になる場合あり）</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%83%89%E3%83%AA%E3%83%AB" title="スーパードリル" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382B9E383BCE38391E383BCE38389E383AAE383AB2E706E67.png" alt="スーパードリル.png" title="スーパードリル.png" width="45" height="45" />スーパードリル</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">初期必殺ゲージup</td><td class="style_td" rowspan="3"><a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a>用の多麺編成を視野に入れ<br class="spacer" />最高ランク品30個ほどを目指したい</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%A6%E3%81%8B%E3%82%8B%E6%A0%97" title="てかる栗" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E381A6E3818BE3828BE6A0972E706E67.png" alt="てかる栗.png" title="てかる栗.png" width="45" height="45" />てかる栗</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタン発動率up</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E5%8D%81%E5%A7%89%E5%A6%B9" title="ガッツ十姉妹" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382ACE38383E38384E58D81E5A789E5A6B92E706E67.png" alt="ガッツ十姉妹.png" title="ガッツ十姉妹.png" width="45" height="45" />ガッツ十姉妹</a></td><td class="style_td" style="text-align:center; width:50px;">3</td><td class="style_td" style="width:255px;">必殺充填量up</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E9%95%B7%E9%AB%AA%E3%81%BE%E3%81%AD%E3%81%8D%E7%8C%AB" title="長髪まねき猫" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E995B7E9ABAAE381BEE381ADE3818DE78CAB2E706E67.png" alt="長髪まねき猫.png" title="長髪まねき猫.png" width="45" height="45" />長髪まねき猫</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">敵に狙われやすくなる+<br class="spacer" />物理ダメージ軽減</td><td class="style_td">最高ランクの物を5つほど作れば残りは売却して問題ない<br class="spacer" />超昂装備「<a href="./?%E5%86%85%E7%B8%9B%E9%99%A3" class="" data-mtime="">内縛陣</a>」を入手・強化する予定があるなら余分に必要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3" title="ロケットエンジン" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E383ADE382B1E38383E38388E382A8E383B3E382B8E383B32E706E67.png" alt="ロケットエンジン.png" title="ロケットエンジン.png" width="45" height="45" />ロケットエンジン</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">行動速度割合短縮(物理)(★)</td><td class="style_td">レイド用の多麺編成を視野に入れ<br class="spacer" />最終的には最高ランクの物目安30～40個を目指す<br class="spacer" />（出撃50名から逸品装備キャラと魔法キャラを除いた分）</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%97%E3%82%83%E3%83%BC%E3%81%B9%E3%82%8A%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="しゃーべりタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E38197E38283E383BCE381B9E3828AE382BFE382A4E382ACE383BC2E706E67.png" alt="しゃーべりタイガー.png" title="しゃーべりタイガー.png" width="45" height="45" />しゃーべりタイガー</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">行動速度割合短縮(魔法)(★)</td><td class="style_td">レイド用の多麺編成を視野に入れ<br class="spacer" />現状では最高ランクの物20～30個程度が目途となる<br class="spacer" />（魔法攻撃キャラは物理攻撃キャラほど数は居ない為）</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%B3%E3%83%B3%E3%83%9C%E3%81%AE%E8%AC%8E" title="コンボの謎" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382B3E383B3E3839CE381AEE8AC8E2E706E67.png" alt="コンボの謎.png" title="コンボの謎.png" width="45" height="45" />コンボの謎</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">連撃率up</td><td class="style_td">最高ランクの物を5つほど作れば残りは売却して問題ないが<br class="spacer" />連撃適性のあるキャラが増加しつつあるため需要が増加傾向にある<br class="spacer" />超昂装備の「<a href="./?%E7%84%A1%E5%90%8D%E3%81%AE%E7%A5%AD%E7%A5%80%E6%9B%B8" class="" data-mtime="">無名の祭祀書</a>」を入手・強化する予定があるなら余分に必要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%82%AB%E3%83%BC" title="スーパーカー" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382B9E383BCE38391E383BCE382ABE383BC2E706E67.png" alt="スーパーカー.png" title="スーパーカー.png" width="45" height="45" />スーパーカー</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">反撃率up</td><td class="style_td">使用場面はそれほど多くない為<br class="spacer" />最高ランクの物を3～5つほど作れば残りは売却して問題ない</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%89%9B%E5%A5%B3%E8%82%89%E8%A5%A6%E8%A2%A2" title="牛女肉襦袢" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E7899BE5A5B3E88289E8A5A6E8A2A22E706E67.png" alt="牛女肉襦袢.png" title="牛女肉襦袢.png" width="45" height="45" />牛女肉襦袢</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">物理ダメージ軽減</td><td class="style_td">現状、最高ランクの物を5つほど作れば残りは売却しても攻略に支障はない<br class="spacer" />ただ、万が一新しい需要(素材としてなど)が生まれた場合、集め直すのに時間がかかるため売却は自己責任で</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:gold; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88" title="衝撃のあるベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E8A19DE69283E381AEE38182E3828BE38399E383ABE383882E706E67.png" alt="衝撃のあるベルト.png" title="衝撃のあるベルト.png" width="45" height="45" />衝撃のあるベルト</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃力＆魔法力up</td><td class="style_td">レイド用の多麺編成を視野に入れ<br class="spacer" />最高ランク品30個以上を目指したい<br class="spacer" />超昂装備の育成素材として最高ランクが一定数必要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:gold; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E4%BB%81%E7%8E%8B%E7%B4%8D%E8%B1%86" title="仁王納豆" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E4BB81E78E8BE7B48DE8B1862E706E67.png" alt="仁王納豆.png" title="仁王納豆.png" width="45" height="45" />仁王納豆</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタミナ減少量down(★)</td><td class="style_td">レイド用の多麺編成を視野に入れ<br class="spacer" />最終的には最高ランクの物40個以上を目指す<br class="spacer" />（出撃50名から逸品装備キャラと納豆不要キャラを除いた分）<br class="spacer" />超昂装備の育成素材として最高ランクが一定数必要</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_2">逸品装備・D2P産（メイン枠）  <a class="anchor_super" id="tffa40da" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#tffa40da" title="tffa40da">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=tffa40da" title="Edit #tffa40da"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #tffa40da" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=3" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th><th class="style_th">備考（強化の優先度について）</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E4%BB%81%E7%8E%8B" title="衝撃の仁王" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8A19DE69283E381AEE4BB81E78E8B2E706E67.png" alt="衝撃の仁王.png" title="衝撃の仁王.png" width="45" height="45" />衝撃の仁王</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃力＆魔法力up<br class="spacer" />スタミナ減少量down(★)</td><td class="style_td">幅広いコンテンツで活躍できる高性能装備<br class="spacer" />強化にあたっては<strong>最優先候補</strong></td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%EF%BC%91%E3%83%80%E3%83%BC%E3%82%B9%E3%81%BE%E3%81%AD%E3%81%8D%E7%8C%AB" title="１ダースまねき猫" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_EFBC91E38380E383BCE382B9E381BEE381ADE3818DE78CAB2E706E67.png" alt="１ダースまねき猫.png" title="１ダースまねき猫.png" width="45" height="45" />１ダースまねき猫</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">移動速度up<br class="spacer" />敵に狙われやすくなる+<br class="spacer" />物理ダメージ軽減</td><td class="style_td">移動速度上昇系は有用だが優先度は低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E9%95%B7%E9%AB%AA%E3%81%BE%E3%81%AD%E3%81%8D%E3%83%89%E3%83%AA%E3%83%AB" title="長髪まねきドリル" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E995B7E9ABAAE381BEE381ADE3818DE38389E383AAE383AB2E706E67.png" alt="長髪まねきドリル.png" title="長髪まねきドリル.png" width="45" height="45" />長髪まねきドリル</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">初期必殺ゲージup<br class="spacer" />敵に狙われやすくなる+<br class="spacer" />物理ダメージ軽減</td><td class="style_td">現状では積極的に強化する必要性は低い<br class="spacer" />どうしてもドリル系逸品が必要で他に手持ちが無い場合は強化候補となる</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%A6%E3%81%8B%E3%82%8B%E5%8D%81%E5%A7%89%E5%A6%B9" title="てかる十姉妹" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E381A6E3818BE3828BE58D81E5A789E5A6B92E6A7067.jpg" alt="てかる十姉妹.jpg" title="てかる十姉妹.jpg" width="45" height="45" />てかる十姉妹</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタン発動率up<br class="spacer" />必殺充填量up</td><td class="style_td">レイドのバフ・デバフ役向けの有用な装備<br class="spacer" />逸品ベルト・逸品ドリル・逸品納豆と比べると汎用性は低いが、<br class="spacer" />レイドなら必ず使うのでなるべく強化したい</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88" title="ガッツのあるベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ACE38383E38384E381AEE38182E3828BE38399E383ABE383882E706E67.png" alt="ガッツのあるベルト.png" title="ガッツのあるベルト.png" width="45" height="42" />ガッツのあるベルト</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃力＆魔法力up<br class="spacer" />必殺充填量up</td><td class="style_td">幅広いコンテンツで活躍できる高性能装備、強化にあたっては優先候補<br class="spacer" />レイドではスタミナ減少の減少または停止の固有効果がないと持てないため、<br class="spacer" />他のベルト系逸品よりやや優先度が低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%82%B3%E3%83%B3%E3%83%9C" title="スーパーコンボ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382B9E383BCE38391E383BCE382B3E383B3E3839C2E706E67.png" alt="スーパーコンボ.png" title="スーパーコンボ.png" width="45" height="45" />スーパーコンボ</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">連撃率up<br class="spacer" />反撃率up</td><td class="style_td"><a href="./?%E3%82%B3%E3%83%B3%E3%83%9C%E7%B4%8D%E8%B1%86" class="" data-mtime="">コンボ納豆</a>の強化が優先される<br class="spacer" />連撃適性を有したキャラに付ける連撃用逸品が不足してる場合のみ強化候補となる<br class="spacer" />現状では上記以外の場面で強化の必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%89%E3%83%AA%E3%83%AB%E6%8E%83%E9%99%A4%E6%A9%9F" title="ドリル掃除機" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38389E383AAE383ABE68E83E999A4E6A99F2E706E67.png" alt="ドリル掃除機.png" title="ドリル掃除機.png" width="45" height="45" />ドリル掃除機</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">初期必殺ゲージup<br class="spacer" />獲得出来る資金の量が増える</td><td class="style_td">デイリークエストを含め獲得資金を増やしたい場合は有力候補だが、<br class="spacer" />より有用な逸品ドリル系の逸品が増えた為、そちらの強化が優先される</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%97%E3%81%84%E3%81%9F%E3%81%A6" title="しいたて" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38197E38184E3819FE381A62E706E67.png" alt="しいたて.png" title="しいたて.png" width="45" height="46" />しいたて</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">確率で通常攻撃を反射</td><td class="style_td" rowspan="2">現状では積極的に強化する必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%EF%BC%92%E3%82%B3%E3%83%B3%E3%81%AE%E4%B8%80%E6%92%83" title="２コンの一撃" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_EFBC92E382B3E383B3E381AEE4B880E692832E706E67.png" alt="２コンの一撃.png" title="２コンの一撃.png" width="45" height="43" />２コンの一撃</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">確率でダメージが倍になる</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AF%E3%83%AA%E3%82%B9%E3%82%BF%E3%83%AB%E3%83%99%E3%82%A2%E3%83%BC" title="クリスタルベアー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382AFE383AAE382B9E382BFE383ABE38399E382A2E383BC2E706E67.png" alt="クリスタルベアー.png" title="クリスタルベアー.png" width="45" height="45" />クリスタルベアー</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">通常攻撃時、ダメージ拡散</td><td class="style_td">初期値からMAXであるため強化不要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%A6%E3%81%8B%E3%82%8B%E3%81%9B%E3%81%A3%E3%81%8B%E3%81%A1" title="てかるせっかち" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E381A6E3818BE3828BE3819BE381A3E3818BE381A12E706E67.png" alt="てかるせっかち.png" title="てかるせっかち.png" width="45" height="44" />てかるせっかち</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタン発動率up<br class="spacer" />出撃速度up</td><td class="style_td">レイドで有用な装備<br class="spacer" /><a href="./?%E3%81%A6%E3%81%8B%E3%82%8B%E5%8D%81%E5%A7%89%E5%A6%B9" class="" data-mtime="">てかる十姉妹</a>には劣るが、出来るだけ強化したい</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E5%B0%8F%E5%BE%97%E3%81%AE%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%82%AB%E3%83%BC" title="小得のスーパーカー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E5B08FE5BE97E381AEE382B9E383BCE38391E383BCE382ABE383BC2E706E67.png" alt="小得のスーパーカー.png" title="小得のスーパーカー.png" width="45" height="45" />小得のスーパーカー</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">反撃率up<br class="spacer" />獲得出来る資金の量が増える</td><td class="style_td">デイリークエストの資金獲得量増加が期待出来るが<br class="spacer" />現状では積極的に強化する必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%89%9B%E5%A5%B3%E7%B8%9B%E3%82%8A" title="牛女縛り" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E7899BE5A5B3E7B89BE3828A2E706E67.png" alt="牛女縛り.png" title="牛女縛り.png" width="45" height="44" />牛女縛り</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">物理ダメージ軽減<br class="spacer" />前列キャラを後列に出撃可能にする</td><td class="style_td">現状では積極的に強化する必要性は低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%B3%E3%83%B3%E3%83%9C%E7%B4%8D%E8%B1%86" title="コンボ納豆" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382B3E383B3E3839CE7B48DE8B1862E706E67.png" alt="コンボ納豆.png" title="コンボ納豆.png" width="45" height="43" />コンボ納豆</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">連撃率up<br class="spacer" />スタミナ減少量down(★)</td><td class="style_td">レイドで<strong>強い連撃キャラ</strong>（<a href="./?%E3%83%90%E3%83%93%E3%83%AD%E3%83%8B%E3%82%A2%E3%83%BB%E3%83%8B%E3%83%AB" class="" data-mtime="">バビロニア・ニル</a>など）を使う場合、<br class="spacer" /><strong>最優先での強化候補</strong></td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%83%99%E3%83%AB%E3%83%88" title="ロケットベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E383ADE382B1E38383E38388E38399E383ABE383882E706E67.png" alt="ロケットベルト.png" title="ロケットベルト.png" width="45" height="45" />ロケットベルト</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃力＆魔法力up<br class="spacer" />行動速度割合短縮(物理)(★)</td><td class="style_td">幅広いコンテンツで活躍できる高性能装備<br class="spacer" />強化にあたっては<strong>最優先候補</strong></td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="衝撃のあるタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8A19DE69283E381AEE38182E3828BE382BFE382A4E382ACE383BC2E706E67.png" alt="衝撃のあるタイガー.png" title="衝撃のあるタイガー.png" width="45" height="45" />衝撃のあるタイガー</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃力＆魔法力up<br class="spacer" />行動速度割合短縮(魔法)(★)</td><td class="style_td">魔法攻撃のエースアタッカーが存在する場合は<br class="spacer" />強化にあたっては最優先候補</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91+%E3%83%91%E3%83%AB%E3%82%B7%E3%82%AA%E3%83%B3%28%E6%94%BB%E6%92%83%29" title="超昂金 パルシオン(攻撃)" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E9879120E38391E383ABE382B7E382AAE383B328E694BBE69283292E706E67.png" alt="超昂金 パルシオン(攻撃).png" title="超昂金 パルシオン(攻撃).png" width="45" height="44" />超昂金 パルシオン(攻撃)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">所持している[戦士]の人数に応じて<br class="spacer" />攻撃力＆魔法力up</td><td class="style_td" rowspan="4">手元キャラ数が揃わなければ性能が発揮できないため<br class="spacer" />キャラ数の不足する段階では強化の必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91+%E6%BB%B4%EF%BC%8D%E3%82%B7%E3%82%BA%E3%82%AF%EF%BC%8D%28%E6%94%BB%E6%92%83%29" title="超昂金 滴－シズク－(攻撃)" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E9879120E6BBB4EFBC8DE382B7E382BAE382AFEFBC8D28E694BBE69283292E706E67.png" alt="超昂金 滴－シズク－(攻撃).png" title="超昂金 滴－シズク－(攻撃).png" width="45" height="44" />超昂金 滴－シズク－(攻撃)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">所持している[閃忍]の人数に応じて<br class="spacer" />攻撃力＆魔法力up</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91+%E3%82%BD%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%B3%28%E6%94%BB%E6%92%83%29" title="超昂金 ソル・クラウン(攻撃)" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E9879120E382BDE383ABE383BBE382AFE383A9E382A6E383B328E694BBE69283292E706E67.png" alt="超昂金 ソル・クラウン(攻撃).png" title="超昂金 ソル・クラウン(攻撃).png" width="44" height="44" />超昂金 ソル・クラウン(攻撃)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">所持している[神騎]の人数に応じて<br class="spacer" />攻撃力＆魔法力up</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91+%E7%B4%AB%E7%AB%9C%EF%BC%8D%E3%82%B7%E3%83%AA%E3%83%A5%E3%82%A6%EF%BC%8D%28%E6%94%BB%E6%92%83%29" title="超昂金 紫竜－シリュウ－(攻撃)" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E9879120E7B4ABE7AB9CEFBC8DE382B7E383AAE383A5E382A6EFBC8D28E694BBE69283292E706E67.png" alt="超昂金 紫竜－シリュウ－(攻撃).png" title="超昂金 紫竜－シリュウ－(攻撃).png" width="45" height="44" />超昂金 紫竜－シリュウ－(攻撃)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">所持している[魔女]の人数に応じて<br class="spacer" />攻撃力＆魔法力up</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%BA%AB%E4%BB%A3%E3%82%8F%E3%82%8A%E3%81%AE%E8%82%89%E8%A5%A6%E8%A2%A2" title="身代わりの肉襦袢" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8BAABE4BBA3E3828FE3828AE381AEE88289E8A5A6E8A2A22E706E67.png" alt="身代わりの肉襦袢.png" title="身代わりの肉襦袢.png" width="44" height="44" />身代わりの肉襦袢</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">物理攻撃ダメージ軽減<br class="spacer" />確率でかばう</td><td class="style_td">Bユニバース用<br class="spacer" />現状では積極的に強化する必要性は低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%8F%E3%83%8B%E5%99%9B%E3%81%BF%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="ハニ噛みタイガー" class="" data-mtime=""><img src="attach2/E3838FE3838BE5999BE381BFE382BFE382A4E382ACE383BC_E3838FE3838BE5999BE381BFE382BFE382A4E382ACE383BC2E706E67.png" alt="ハニ噛みタイガー.png" title="ハニ噛みタイガー.png" width="45" height="44" />ハニ噛みタイガー</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">行動速度割合短縮(魔法)(★)<br class="spacer" />魔法無効を貫通する+<br class="spacer" />ダメージ増加(★)</td><td class="style_td">レイドのゴールデンハニー戦では有用<br class="spacer" />どちらかと言えばバフ・デバフ役向け<br class="spacer" />現状では積極的に強化する必要性は低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91%E3%83%91%E3%83%AB%E3%82%B7%E3%82%AA%E3%83%B3%EF%BC%88%E9%98%B2%E5%BE%A1%EF%BC%89" title="超昂金パルシオン（防御）" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E9879120E38391E383ABE382B7E382AAE383B328E998B2E5BEA1292E706E67.png" alt="超昂金 パルシオン(防御).png" title="超昂金 パルシオン(防御).png" width="44" height="44" />超昂金 パルシオン(防御)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">所持している［戦士］の人数に応じた回数<br class="spacer" />敵からのダメージを0にする</td><td class="style_td" rowspan="4">手元キャラ数が揃わなければ性能が発揮できないため<br class="spacer" />キャラ数の不足する段階では強化の必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91%E6%BB%B4-%E3%82%B7%E3%82%BA%E3%82%AF-%EF%BC%88%E9%98%B2%E5%BE%A1%EF%BC%89" title="超昂金滴-シズク-（防御）" class="" data-mtime=""><img src="attach2/E8B685E69882E98791E6BBB42DE382B7E382BAE382AF2DEFBC88E998B2E5BEA1EFBC89_E8B685E69882E98791E6BBB42DE382B7E382BAE382AF2DEFBC88E998B2E5BEA1EFBC892E706E67.png" alt="超昂金滴-シズク-（防御）.png" title="超昂金滴-シズク-（防御）.png" width="45" height="45" />超昂金 滴-シズク-(防御)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">所持している［閃忍］の人数に応じた回数<br class="spacer" />敵からのダメージを0にする</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91%E3%82%BD%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%B3%EF%BC%88%E9%98%B2%E5%BE%A1%EF%BC%89" title="超昂金ソル・クラウン（防御）" class="" data-mtime=""><img src="attach2/E8B685E69882E98791E382BDE383ABE383BBE382AFE383A9E382A6E383B3EFBC88E998B2E5BEA1EFBC89_E8B685E69882E98791E382BDE383ABE383BBE382AFE383A9E382A6E383B3EFBC88E998B2E5BEA1EFBC892E706E67.png" alt="超昂金ソル・クラウン（防御）.png" title="超昂金ソル・クラウン（防御）.png" width="45" height="45" />超昂金 ソル・クラウン(防御)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">所持している［神騎］の人数に応じた回数<br class="spacer" />敵からのダメージを0にする</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91%E7%B4%AB%E7%AB%9C-%E3%82%B7%E3%83%AA%E3%83%A5%E3%82%A6-%EF%BC%88%E9%98%B2%E5%BE%A1%EF%BC%89" title="超昂金紫竜-シリュウ-（防御）" class="" data-mtime=""><img src="attach2/E8B685E69882E98791E7B4ABE7AB9C2DE382B7E383AAE383A5E382A62DEFBC88E998B2E5BEA1EFBC89_E8B685E69882E98791E7B4ABE7AB9C2DE382B7E383AAE383A5E382A62DEFBC88E998B2E5BEA1EFBC892E706E67.png" alt="超昂金紫竜-シリュウ-（防御）.png" title="超昂金紫竜-シリュウ-（防御）.png" width="45" height="45" />超昂金 紫竜-シリュウ-(防御)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">所持している［魔女］の人数に応じた回数<br class="spacer" />敵からのダメージを0にする</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E7%B4%8D%E8%B1%86" title="ロケット納豆" class="" data-mtime=""><img src="attach2/E383ADE382B1E38383E38388E7B48DE8B186_E383ADE382B1E38383E38388E7B48DE8B1862E706E67.png" alt="ロケット納豆.png" title="ロケット納豆.png" width="45" height="45" />ロケット納豆</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタミナ減少量down(★)<br class="spacer" />行動速度割合短縮(物理)(★)</td><td class="style_td" rowspan="2">幅広いコンテンツで活躍できる高性能装備<br class="spacer" />レイドではどちらかと言えばバフ・デバフ役向け<br class="spacer" />強化にあたっては最優先候補</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E4%BB%81%E7%8E%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="仁王タイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E4BB81E78E8BE382BFE382A4E382ACE383BC2E706E67.png" alt="仁王タイガー.png" title="仁王タイガー.png" width="44" height="44" />仁王タイガー</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタミナ減少量down(★)<br class="spacer" />行動速度割合短縮(魔法)(★)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%89%E3%83%AA%E3%83%AB%E5%8D%81%E5%A7%89%E5%A6%B9" title="ドリル十姉妹" class="" data-mtime=""><img src="attach2/E38389E383AAE383ABE58D81E5A789E5A6B9_E38389E383AAE383ABE58D81E5A789E5A6B92E706E67.png" alt="ドリル十姉妹.png" title="ドリル十姉妹.png" width="45" height="45" />ドリル十姉妹</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">初期必殺ゲージup<br class="spacer" />必殺充填量up</td><td class="style_td" rowspan="3">幅広いコンテンツで活躍できる高性能装備<br class="spacer" />ドリル系逸品を強化する際は最優先候補</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%89%E3%83%AA%E3%83%AB" title="衝撃のあるドリル" class="" data-mtime=""><img src="attach2/E8A19DE69283E381AEE38182E3828BE38389E383AAE383AB_E8A19DE69283E381AEE38182E3828BE38389E383AAE383AB2E706E67.png" alt="衝撃のあるドリル.png" title="衝撃のあるドリル.png" width="45" height="45" />衝撃のあるドリル</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">初期必殺ゲージup<br class="spacer" />攻撃力＆魔法力up</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E4%BB%81%E7%8E%8B%E3%83%89%E3%83%AA%E3%83%AB" title="仁王ドリル" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E4BB81E78E8BE38389E383AAE383AB2E706E67.png" alt="仁王ドリル.png" title="仁王ドリル.png" width="45" height="45" />仁王ドリル</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタミナ減少量down(★)<br class="spacer" />初期必殺ゲージup</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%B8%9B%E3%82%8A%E4%BB%81%E7%8E%8B" title="縛り仁王" class="" data-mtime=""><img src="attach2/696D67_E4BBAEE794BBE5838F2E706E67.png" alt="仮画像.png" title="仮画像.png" width="45" height="45" />縛り仁王</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタミナ減少量down(★)<br class="spacer" />前列キャラを後列に出撃可能にする</td><td class="style_td">他のスタミナ減少効果付き逸品と比較すると優先度は落ちる<br class="spacer" />他に強化すべき納豆系逸品が無くなったら最後に強化する程度</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91+%E3%83%91%E3%83%AB%E3%82%B7%E3%82%AA%E3%83%B3%28%E3%82%B9%E3%82%BF%E3%83%9F%E3%83%8A%29" title="超昂金 パルシオン(スタミナ)" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E9879120E38391E383ABE382B7E382AAE383B328E382B9E382BFE3839FE3838A292E706E67.png" alt="超昂金 パルシオン(スタミナ).png" title="超昂金 パルシオン(スタミナ).png" width="44" height="44" />超昂金 パルシオン(スタミナ)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">装備者のスタミナが50％以下になった時、<br class="spacer" />所持している[戦士]の人数に応じて<br class="spacer" />自身のスタミナを回復する。<br class="spacer" />(1回のみ発動)<br class="spacer" />スタミナ減少量down(★)</td><td class="style_td" rowspan="4">手元キャラ数が揃わなければ性能が発揮できないため<br class="spacer" />キャラ数の不足する段階では強化の必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91+%E6%BB%B4%EF%BC%8D%E3%82%B7%E3%82%BA%E3%82%AF%EF%BC%8D%28%E3%82%B9%E3%82%BF%E3%83%9F%E3%83%8A%29" title="超昂金 滴－シズク－(スタミナ)" class="" data-mtime=""><img src="attach2/696D67_E4BBAEE794BBE5838F2E706E67.png" alt="仮画像.png" title="仮画像.png" width="45" height="45" />超昂金 滴－シズク－(スタミナ)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">装備者のスタミナが50％以下になった時、<br class="spacer" />所持している[閃忍]の人数に応じて<br class="spacer" />自身のスタミナを回復する。<br class="spacer" />(1回のみ発動)<br class="spacer" />スタミナ減少量down(★)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91+%E3%82%BD%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%B3%28%E3%82%B9%E3%82%BF%E3%83%9F%E3%83%8A%29" title="超昂金 ソル・クラウン(スタミナ)" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E9879120E382BDE383ABE383BBE382AFE383A9E382A6E383B328E382B9E382BFE3839FE3838A292E706E67.png" alt="超昂金 ソル・クラウン(スタミナ).png" title="超昂金 ソル・クラウン(スタミナ).png" width="45" height="45" />超昂金 ソル・クラウン(スタミナ)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">装備者のスタミナが50％以下になった時、<br class="spacer" />所持している[神騎]の人数に応じて<br class="spacer" />自身のスタミナを回復する。<br class="spacer" />(1回のみ発動)<br class="spacer" />スタミナ減少量down(★)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E9%87%91+%E7%B4%AB%E7%AB%9C%EF%BC%8D%E3%82%B7%E3%83%AA%E3%83%A5%E3%82%A6%EF%BC%8D%28%E3%82%B9%E3%82%BF%E3%83%9F%E3%83%8A%29" title="超昂金 紫竜－シリュウ－(スタミナ)" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E9879120E7B4ABE7AB9CEFBC8DE382B7E383AAE383A5E382A6EFBC8D28E382B9E382BFE3839FE3838A292E706E67.png" alt="超昂金 紫竜－シリュウ－(スタミナ).png" title="超昂金 紫竜－シリュウ－(スタミナ).png" width="45" height="45" />超昂金 紫竜－シリュウ－(スタミナ)</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">装備者のスタミナが50％以下になった時、<br class="spacer" />所持している[魔女]の人数に応じて<br class="spacer" />自身のスタミナを回復する。<br class="spacer" />(1回のみ発動)<br class="spacer" />スタミナ減少量down(★)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E5%8D%81%E5%A7%89%E5%A6%B9" title="ロケット十姉妹" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E383ADE382B1E38383E38388E58D81E5A789E5A6B92E706E67.png" alt="ロケット十姉妹.png" title="ロケット十姉妹.png" width="44" height="44" />ロケット十姉妹</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">行動速度割合短縮(物理)(★)<br class="spacer" />必殺充填量up</td><td class="style_td" rowspan="2">幅広いコンテンツで活躍できる高性能装備<br class="spacer" />レイドではどちらかと言えばバフ・デバフ役向け<br class="spacer" />強化にあたっては優先候補</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="ガッツタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ACE38383E38384E382BFE382A4E382ACE383BC2E706E67.png" alt="ガッツタイガー.png" title="ガッツタイガー.png" width="44" height="44" />ガッツタイガー</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">行動速度割合短縮(魔法)(★)<br class="spacer" />必殺充填量up</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_3">逸品装備・イベント交換品（メイン枠）  <a class="anchor_super" id="g1c582dd" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#g1c582dd" title="g1c582dd">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=g1c582dd" title="Edit #g1c582dd"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #g1c582dd" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=4" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E9%A2%A8%E7%81%AB%E4%BA%8C%E8%BC%AA%E3%83%BB%EF%BC%A2" title="風火二輪・Ｂ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E9A2A8E781ABE4BA8CE8BCAAE383BBEFBCA22E706E67.png" alt="風火二輪・Ｂ.png" title="風火二輪・Ｂ.png" width="45" height="43" />風火二輪・Ｂ</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">行動速度up<br class="spacer" />移動速度up<br class="spacer" />※行動速度(割合)と効果は重複する。</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%AC%99%E4%BF%A1%E3%81%AE%E5%85%9C" title="謙信の兜" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8AC99E4BFA1E381AEE5859C2E706E67.png" alt="謙信の兜.png" title="謙信の兜.png" width="45" height="42" />謙信の兜</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃力up(物理のみ)<br class="spacer" />通常攻撃時、<br class="spacer" />1回は必ず連撃が発生する(★)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%9E%E3%83%AA%E3%83%8A%E3%81%AE%E8%A1%A3%E8%A3%85" title="マリナの衣装" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E3839EE383AAE3838AE381AEE8A1A3E8A3852E706E67.png" alt="マリナの衣装.png" title="マリナの衣装.png" width="45" height="45" />マリナの衣装</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">出撃完了時、<br class="spacer" />自身に継続回復2%(★)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%99%BD%E8%89%B2%E3%81%AE%E3%82%B9%E3%82%AB%E3%83%BC%E3%83%95" title="白色のスカーフ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E799BDE889B2E381AEE382B9E382ABE383BCE383952E706E67.png" alt="白色のスカーフ.png" title="白色のスカーフ.png" width="45" height="45" />白色のスカーフ</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">出撃完了時、<br class="spacer" />敵全体の速度、回避をダウンさせる(★)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%BB%E3%82%B2%E3%82%BF%E3%82%B9%E3%82%AD%E3%83%BC" title="クリア・ゲタスキー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382AFE383AAE382A2E383BBE382B2E382BFE382B9E382ADE383BC2E706E67.png" alt="クリア・ゲタスキー.png" title="クリア・ゲタスキー.png" width="45" height="45" />クリア・ゲタスキー</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">行動速度up<br class="spacer" />出撃速度up<br class="spacer" />※行動速度(割合)と効果は重複する</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%AE%E3%83%BC%E3%81%93%E3%82%93%E3%81%B6%E3%82%8B%E3%81%BE" title="のーこんぶるま" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E381AEE383BCE38193E38293E381B6E3828BE381BE2E706E67.png" alt="のーこんぶるま.png" title="のーこんぶるま.png" width="45" height="45" />のーこんぶるま</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">必殺技ダメージup<br class="spacer" /><span style="color:#ff0000">自身の通常攻撃が必ず当たらなくなる</span></td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%93%E3%82%B9%E3%83%91%E3%83%83%E3%83%84" title="エンジんスパッツ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382A8E383B3E382B8E38293E382B9E38391E38383E383842E706E67.png" alt="エンジんスパッツ.png" title="エンジんスパッツ.png" width="45" height="45" />エンジんスパッツ</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">行動速度up<br class="spacer" />レアリティが低いほどスタミナup</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%89%E3%82%B9%E3%82%AF%E3%81%BF%E3%81%9A" title="スタンダードスクみず" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382B9E382BFE383B3E38380E383BCE38389E382B9E382AFE381BFE3819A2E706E67.png" alt="スタンダードスクみず.png" title="スタンダードスクみず.png" width="45" height="45" />スタンダードスクみず</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃対象をスタン状態にする確率up<br class="spacer" />出撃完了時、<br class="spacer" />敵全体にスタン効果</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%B4%94%E7%99%BD%E3%82%B9%E3%82%AF%E3%81%BF%E3%81%9A" title="純白スクみず" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E7B494E799BDE382B9E382AFE381BFE3819A2E706E67.png" alt="純白スクみず.png" title="純白スクみず.png" width="45" height="45" />純白スクみず</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃対象をスタン状態にする確率up<br class="spacer" />出撃完了時、<br class="spacer" />敵全体に呪縛効果</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E4%B8%80%E6%96%AC%E3%81%AE%E5%89%A3" title="一斬の剣" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E4B880E696ACE381AEE589A32E706E67.png" alt="一斬の剣.png" title="一斬の剣.png" width="45" height="45" />一斬の剣</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃力up(物理のみ)<br class="spacer" />物理ダメージ軽減<br class="spacer" /><span style="color:#ff0000">後列に出撃できなくなる</span></td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E9%AC%BC%E9%9C%A7%E3%81%AE%E5%89%A3" title="鬼霧の剣" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E9ACBCE99CA7E381AEE589A32E706E67.png" alt="鬼霧の剣.png" title="鬼霧の剣.png" width="45" height="45" />鬼霧の剣</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">攻撃力up(物理のみ)<br class="spacer" />魔法ダメージ軽減<br class="spacer" /><span style="color:#ff0000">後列に出撃できなくなる</span></td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%81%E3%83%A7%E3%82%B3%E3%83%83%E3%83%88GPT" title="チョコットGPT" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38381E383A7E382B3E38383E383884750542E706E67.png" alt="チョコットGPT.png" title="チョコットGPT.png" width="45" height="45" />チョコットGPT</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">連撃率up<br class="spacer" />連撃のダメージ減衰無効</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?mDDD-BED" title="mDDD-BED" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_6D4444442D4245442E706E67.png" alt="mDDD-BED.png" title="mDDD-BED.png" width="45" height="45" />mDDD-BED</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;"><span style="color:#ff0000">行動速度down（遅くなる）</span><br class="spacer" />必殺技威力up<br class="spacer" />※戦士(現界・異界)のみ装備可能。</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%B7%E3%81%8E%E3%81%BE%E3%82%8B%E3%81%AC%E3%81%84" title="ぷぎまるぬい" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E381B7E3818EE381BEE3828BE381ACE381842E706E67.png" alt="ぷぎまるぬい.png" title="ぷぎまるぬい.png" width="45" height="45" />ぷぎまるぬい</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">必殺充填量up</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756084042400545"
+     crossorigin="anonymous"></script>
+<!-- wikiru_PC_h2_responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="9804070536"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><br><h2 id="content_1_4">サブ装備  <a class="anchor_super" id="t565253c" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#t565253c" title="t565253c">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=t565253c" title="Edit #t565253c"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #t565253c" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=5" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_5">通常サブ装備（サブ枠）  <a class="anchor_super" id="ga1350d1" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#ga1350d1" title="ga1350d1">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=ga1350d1" title="Edit #ga1350d1"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #ga1350d1" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=6" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th><th class="style_th">備考（売却の可否について）<br class="spacer" />（<a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>強化用に別途一定数が必要になる場合あり</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:burlywood; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%B8%9B%E3%82%8A%E4%BA%80%E7%94%B2" title="縛り亀甲" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E7B89BE3828AE4BA80E794B22E706E67.png" alt="縛り亀甲.png" title="縛り亀甲.png" width="45" height="45" />縛り亀甲</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">前列キャラを<br class="spacer" />後列に出撃可能にする</td><td class="style_td">序盤は手元に5つほどあれば残りは売却して問題ない<br class="spacer" />近距離攻撃キャラが渋滞を起こさない程度に数を準備し残りは売却する</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?1%E3%83%80%E3%83%BC%E3%82%B9%E3%81%B9%E3%81%B9%E3%81%9F%E3%83%BC" title="1ダースべべたー" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_31E38380E383BCE382B9E381B9E381B9E3819FE383BC2E706E67.png" alt="1ダースべべたー.png" title="1ダースべべたー.png" width="45" height="45" />1ダースべべたー</a></td><td class="style_td" style="text-align:center; width:50px;">3</td><td class="style_td" style="width:255px;">移動速度up</td><td class="style_td">レイド用の多麺編成を視野に入れ<br class="spacer" />最終的には最高ランクの物50個を目指す<br class="spacer" />付け替えが面倒な場合はそれ以上増やしても構わない</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E5%B0%8F%E5%BE%97%E3%81%AE%E6%8E%83%E9%99%A4%E6%A9%9F" title="小得の掃除機" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E5B08FE5BE97E381AEE68E83E999A4E6A99F2E706E67.png" alt="小得の掃除機.png" title="小得の掃除機.png" width="45" height="45" />小得の掃除機</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">獲得出来る資金の量が増える</td><td class="style_td">最高ランクの物を5つ作れば残りは売却して問題ない<br class="spacer" />超昂装備の「<a href="./?%EF%BC%A4%EF%BC%A4%E3%82%A2%E3%82%AF%E3%82%BB%E3%83%A9%E3%83%AC%E3%83%BC%E3%82%BF%E3%83%BC" class="" data-mtime="">ＤＤアクセラレーター</a>」を入手・強化する予定があるなら余分に必要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E9%9B%BB%E5%85%89%E3%81%9B%E3%81%A3%E3%81%8B%E3%81%A1" title="電光せっかち" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E99BBBE58589E3819BE381A3E3818BE381A12E706E67.png" alt="電光せっかち.png" title="電光せっかち.png" width="45" height="45" />電光せっかち</a></td><td class="style_td" style="text-align:center; width:50px;">3</td><td class="style_td" style="width:255px;">出撃速度up</td><td class="style_td">レイド用の多麺編成を視野に入れ<br class="spacer" />最終的には最高ランクの物50個を目指す<br class="spacer" />付け替えが面倒な場合はそれ以上増やしても構わない</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%BA%AB%E4%BB%A3%E3%82%8F%E3%82%8A%E3%81%AE%E6%A8%B9%E2%85%A1" title="身代わりの樹Ⅱ" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E8BAABE4BBA3E3828FE3828AE381AEE6A8B949492E706E67.png" alt="身代わりの樹II.png" title="身代わりの樹II.png" width="45" height="45" />身代わりの樹Ⅱ</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">確率でかばう</td><td class="style_td">現状、最高ランクの物を5つほど作れば残りは売却しても攻略に支障はない<br class="spacer" />ただ、万が一新しい需要(素材としてなど)が生まれた場合、集め直すのに時間がかかるため売却は自己責任で</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%8F%E3%83%8B%E5%99%9B%E3%81%BF%E7%8E%8B%E5%AD%90" title="ハニ噛み王子" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E3838FE3838BE5999BE381BFE78E8BE5AD902E706E67.png" alt="ハニ噛み王子.png" title="ハニ噛み王子.png" width="45" height="45" />ハニ噛み王子</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">魔法無効を貫通する+<br class="spacer" />ダメージ増加(★)</td><td class="style_td">レイドのゴールデンハニー戦用に<br class="spacer" />最高ランク品を手元魔法キャラに行き渡る数量産したい</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E5%91%BD%E4%B8%AD%E3%81%AE%E5%88%83" title="命中の刃" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E591BDE4B8ADE381AEE588832E706E67.png" alt="命中の刃.png" title="命中の刃.png" width="45" height="45" />命中の刃</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">命中力up</td><td class="style_td">一部命中の低いキャラを補助するため出来るだけ最高ランク品を量産したい<br class="spacer" />ただしレイドでは不要な点は注意</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%95%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%AD%E3%83%A9%E3%83%BC" title="フーマンキラー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38395E383BCE3839EE383B3E382ADE383A9E383BC2E706E67.png" alt="フーマンキラー.png" title="フーマンキラー.png" width="45" height="43" />フーマンキラー</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">フーマン系に対して<br class="spacer" />弱点効果が発生</td><td class="style_td" rowspan="6"><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" rel="nofollow">殲滅戦</a>用途に10～20個ほど確保しておく。それ以上は売却して問題ない。<br class="spacer" />（必要となる個数は方針や手元戦力によって変動する）<br class="spacer" />（一般的な傾向として初心者ほど多めに必要となる）</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%B4%E3%83%96%E3%82%B9%E3%83%AC%E3%83%BC" title="ゴブスレー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382B4E38396E382B9E383ACE383BC2E706E67.png" alt="ゴブスレー.png" title="ゴブスレー.png" width="45" height="46" />ゴブスレー</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">ゴブリン族に対して<br class="spacer" />弱点効果が発生</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%8C%E3%83%B3%E3%82%B8%E3%83%A3%E3%82%B9%E3%83%97%E3%83%AC%E3%83%BC" title="ヌンジャスプレー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E3838CE383B3E382B8E383A3E382B9E38397E383ACE383BC2E706E67.png" alt="ヌンジャスプレー.png" title="ヌンジャスプレー.png" width="44" height="44" />ヌンジャスプレー</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">滅忍系、ゲニン系に対して<br class="spacer" />弱点効果が発生</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%8F%E3%83%9F%E3%83%B3%E3%82%B0%E3%83%BB%E3%82%B8%E3%83%A3%E3%83%9F%E3%83%B3%E3%82%B0" title="ハミング・ジャミング" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E3838FE3839FE383B3E382B0E383BBE382B8E383A3E3839FE383B3E382B02E706E67.png" alt="ハミング・ジャミング.png" title="ハミング・ジャミング.png" width="44" height="44" />ハミング・ジャミング</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">タレット系に対して<br class="spacer" />弱点効果が発生</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AD%E3%83%A9%E3%83%A1%E3%82%AD%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%96" title="キラメキグローブ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ADE383A9E383A1E382ADE382B0E383ADE383BCE383962E706E67.png" alt="キラメキグローブ.png" title="キラメキグローブ.png" width="44" height="44" />キラメキグローブ</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">ザイン系に対して<br class="spacer" />弱点効果が発生</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%A0%E3%82%B7%E3%83%88%E3%83%AA%E3%83%A9%E3%82%B1%E3%83%83%E3%83%88" title="ムシトリラケット" class="" data-mtime="">  File not found: &quot;ムシトリラケット.png&quot; at page &quot;装備リスト&quot;[添付]ムシトリラケット</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">昆虫系に対して<br class="spacer" />弱点効果が発生</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_6">逸品サブ装備・D2P産（サブ枠）  <a class="anchor_super" id="jd01d7be" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#jd01d7be" title="jd01d7be">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=jd01d7be" title="Edit #jd01d7be"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #jd01d7be" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=7" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th><th class="style_th">備考（強化の優先度について）</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E9%9B%BB%E5%85%89%E3%81%B9%E3%81%B9%E3%81%9F%E3%83%BC" title="電光べべたー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E99BBBE58589E381B9E381B9E3819FE383BC2E706E67.png" alt="電光べべたー.png" title="電光べべたー.png" width="45" height="45" />電光べべたー</a></td><td class="style_td" style="text-align:center; width:50px;">3</td><td class="style_td" style="width:255px;">出撃速度up<br class="spacer" />移動速度up</td><td class="style_td">出撃および移動速度上昇系の中では最優秀のため強化候補</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%BA%AB%E8%BB%BD%E3%81%AE%E7%BE%BD" title="身軽の羽" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8BAABE8BBBDE381AEE7BEBD2E706E67.png" alt="身軽の羽.png" title="身軽の羽.png" width="45" height="45" />身軽の羽</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">移動時間が0になる</td><td class="style_td" rowspan="2">初期値からMAXであるため強化不要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%99%BD%E3%83%92%E3%82%B2%E3%81%93%E3%81%93%E4%B8%80%E7%99%BA" title="白ヒゲここ一発" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E799BDE38392E382B2E38193E38193E4B880E799BA2E706E67.png" alt="白ヒゲここ一発.png" title="白ヒゲここ一発.png" width="45" height="43" />白ヒゲここ一発</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">通常攻撃に<br class="spacer" />「即死効果2％」がつく(★)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%B8%9B%E3%82%8A%E3%81%B9%E3%81%B9%E3%81%9F%E3%83%BC" title="縛りべべたー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E7B89BE3828AE381B9E381B9E3819FE383BC2E706E67.png" alt="縛りべべたー.png" title="縛りべべたー.png" width="45" height="44" />縛りべべたー</a></td><td class="style_td" style="text-align:center; width:50px;">3</td><td class="style_td" style="width:255px;">移動速度up<br class="spacer" />後列に出撃可能にする</td><td class="style_td">移動速度上昇系は有用だが優先度は低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%98%E3%82%A4%E3%83%88%E3%81%AE%E3%83%91%E3%83%B3%E3%83%84" title="ヘイトのパンツ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38398E382A4E38388E381AEE38391E383B3E383842E706E67.png" alt="ヘイトのパンツ.png" title="ヘイトのパンツ.png" width="45" height="45" />ヘイトのパンツ</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">ヘイトdown(★)</td><td class="style_td">レイドにおいて、<br class="spacer" />回復またはバフ持ちだが自分に効果がないキャラには<br class="spacer" />有用のため強化候補</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%9B%B4%E5%89%8D%E7%85%AE" title="直前煮" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E79BB4E5898DE785AE2E706E67.png" alt="直前煮.png" title="直前煮.png" width="45" height="43" />直前煮</a></td><td class="style_td" style="text-align:center; width:50px;">3</td><td class="style_td" style="width:255px;">離脱時、<br class="spacer" />必殺ゲージ25%を仲間に分配</td><td class="style_td">現状では積極的に強化する必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%B8%9B%E3%82%8A%E3%81%9B%E3%81%A3%E3%81%8B%E3%81%A1" title="縛りせっかち" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E7B89BE3828AE3819BE381A3E3818BE381A12E4A5047.JPG" alt="縛りせっかち.JPG" title="縛りせっかち.JPG" width="45" height="45" />縛りせっかち</a></td><td class="style_td" style="text-align:center; width:50px;">3</td><td class="style_td" style="width:255px;">出撃速度up<br class="spacer" />後列に出撃可能にする</td><td class="style_td">出撃速度上昇系は有用だが優先度は低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E4%BA%80%E7%94%B2%E3%81%AE%E5%88%83" title="亀甲の刃" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E4BA80E794B2E381AEE588832E706E67.png" alt="亀甲の刃.png" title="亀甲の刃.png" width="45" height="45" />亀甲の刃</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">命中力up<br class="spacer" />後列に出撃可能にする</td><td class="style_td">現状では積極的に強化する必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%95%E3%83%B3%E3%83%90%E3%83%AB%E4%B8%89%E5%85%84%E5%BC%9F%E3%83%BB%E9%95%B7%E7%94%B7" title="フンバル三兄弟・長男" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38395E383B3E38390E383ABE4B889E58584E5BC9FE383BBE995B7E794B72E706E67.png" alt="フンバル三兄弟・長男.png" title="フンバル三兄弟・長男.png" width="45" height="45" />フンバル三兄弟・長男</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" rowspan="3" style="width:255px;">呪縛無効</td><td class="style_td" rowspan="3">初期値からMAXであるため強化不要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%95%E3%83%B3%E3%83%90%E3%83%AB%E4%B8%89%E5%85%84%E5%BC%9F%E3%83%BB%E6%AC%A1%E7%94%B7" title="フンバル三兄弟・次男" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_3232303832345F30335F302E706E67.png" alt="220824_03_0.png" title="220824_03_0.png" width="45" height="45" />フンバル三兄弟・次男</a></td><td class="style_td" style="text-align:center; width:50px;">1</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%95%E3%83%B3%E3%83%90%E3%83%AB%E4%B8%89%E5%85%84%E5%BC%9F%E3%83%BB%E4%B8%89%E7%94%B7" title="フンバル三兄弟・三男" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38395E383B3E38390E383ABE4B889E58584E5BC9FE383BBE4B889E794B72E706E67.png" alt="フンバル三兄弟・三男.png" title="フンバル三兄弟・三男.png" width="45" height="44" />フンバル三兄弟・三男</a></td><td class="style_td" style="text-align:center; width:50px;">1</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%B2%E3%81%BE%E3%82%8F%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E8%B5%A4" title="ひまわらない・赤" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E381B2E381BEE3828FE38289E381AAE38184E383BBE8B5A42E706E67.png" alt="ひまわらない・赤.png" title="ひまわらない・赤.png" width="45" height="45" />ひまわらない・赤</a></td><td class="style_td" style="text-align:center; width:50px;">3</td><td class="style_td" rowspan="3" style="width:255px;">魅了の時間短縮</td><td class="style_td" rowspan="3">現状では積極的に強化する必要性は無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%B2%E3%81%BE%E3%82%8F%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%9D%92" title="ひまわらない・青" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E381B2E381BEE3828FE38289E381AAE38184E383BBE99D922E706E67.png" alt="ひまわらない・青.png" title="ひまわらない・青.png" width="45" height="45" />ひまわらない・青</a></td><td class="style_td" style="text-align:center; width:50px;">3</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%B2%E3%81%BE%E3%82%8F%E3%82%89%E3%81%AA%E3%81%84%E3%83%BB%E9%BB%84" title="ひまわらない・黄" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E381B2E381BEE3828FE38289E381AAE38184E383BBE9BB842E706E67.png" alt="ひまわらない・黄.png" title="ひまわらない・黄.png" width="45" height="45" />ひまわらない・黄</a></td><td class="style_td" style="text-align:center; width:50px;">3</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%B9%E3%81%B9%E3%81%9F%E3%83%BC%E3%81%AE%E5%88%83" title="べべたーの刃" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E381B9E381B9E3819FE383BCE381AEE588832E706E67.png" alt="べべたーの刃.png" title="べべたーの刃.png" width="45" height="44" />べべたーの刃</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">命中力up<br class="spacer" />移動速度up</td><td class="style_td">移動速度上昇系は有用だが優先度は低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AB%E3%83%83%E3%83%88%E8%AA%BF%E5%91%B3%E6%96%99%E3%83%BB%E5%92%8C" title="カット調味料・和" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ABE38383E38388E8AABFE591B3E69699E383BBE5928C2E706E67.png" alt="カット調味料・和.png" title="カット調味料・和.png" width="45" height="44" />カット調味料・和</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" rowspan="3" style="width:255px;">毒、呪縛、スタンの時間短縮</td><td class="style_td" rowspan="3">初期値からMAXであるため強化不要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AB%E3%83%83%E3%83%88%E8%AA%BF%E5%91%B3%E6%96%99%E3%83%BB%E6%B4%8B" title="カット調味料・洋" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ABE38383E38388E8AABFE591B3E69699E383BBE6B48B2E706E67.png" alt="カット調味料・洋.png" title="カット調味料・洋.png" width="45" height="44" />カット調味料・洋</a></td><td class="style_td" style="text-align:center; width:50px;">1</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%AB%E3%83%83%E3%83%88%E8%AA%BF%E5%91%B3%E6%96%99%E3%83%BB%E4%B8%AD" title="カット調味料・中" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ABE38383E38388E8AABFE591B3E69699E383BBE4B8AD2E706E67.png" alt="カット調味料・中.png" title="カット調味料・中.png" width="45" height="44" />カット調味料・中</a></td><td class="style_td" style="text-align:center; width:50px;">1</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E9%9B%BB%E5%85%89%E7%8E%8B%E5%AD%90" title="電光王子" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E99BBBE58589E78E8BE5AD902E706E67.png" alt="電光王子.png" title="電光王子.png" width="45" height="45" />電光王子</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">出撃速度up<br class="spacer" />魔法無効を貫通する+<br class="spacer" />ダメージ増加(★)</td><td class="style_td">レイドのゴールデンハニー戦では有用<br class="spacer" />出撃速度上昇系は有用だが優先度は低い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E6%80%A8%E5%BF%B5%E3%81%8C%E3%81%8A%E3%82%93%E3%81%AD%E3%82%93" title="怨念がおんねん" class="" data-mtime=""><img src="attach2/696D67_E4BBAEE794BBE5838F2E706E67.png" alt="仮画像.png" title="仮画像.png" width="45" height="45" />怨念がおんねん</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">撤退時、<br class="spacer" />敵単体～全体に確定呪縛</td><td class="style_td" rowspan="2">特定の場面で実用性は高い<br class="spacer" />他に優先して強化すべき逸品が手元に無く<br class="spacer" />鈴に余裕のある状態なら強化対象となる</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E6%AD%BB%E7%A5%9E%E3%83%A9%E3%82%A4%E3%83%88" title="死神ライト" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E6ADBBE7A59EE383A9E382A4E383882E706E67.png" alt="死神ライト.png" title="死神ライト.png" width="45" height="45" />死神ライト</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">撤退時、<br class="spacer" />敵単体～全体に確定即死</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_7">逸品サブ装備・イベント交換品（サブ枠）  <a class="anchor_super" id="pd98cda2" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#pd98cda2" title="pd98cda2">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=pd98cda2" title="Edit #pd98cda2"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #pd98cda2" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=8" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%8A%E8%8C%B6%E4%BC%9A%E3%82%BB%E3%83%83%E3%83%88" title="お茶会セット" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E3818AE88CB6E4BC9AE382BBE38383E383882E706E67.png" alt="お茶会セット.png" title="お茶会セット.png" width="45" height="45" />お茶会セット</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">装備者のスタミナが50％以下になった時、<br class="spacer" />装備者の同列のスタミナを回復する。<br class="spacer" />(1回のみ発動)</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%82%E3%81%AE%E6%97%A5%E3%81%AE%E6%B1%BA%E6%84%8F" title="あの日の決意" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38182E381AEE697A5E381AEE6B1BAE6848F2E706E67.png" alt="あの日の決意.png" title="あの日の決意.png" width="45" height="45" />あの日の決意</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">物理・魔法攻撃ダメージ軽減。<br class="spacer" />装備者のレアリティがRの場合、攻撃力＆魔法力up<br class="spacer" />※戦士(現界・異界)のみ装備可能。</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%88%E3%82%AD%E3%82%B5%E3%83%80%E6%89%8B%E4%BD%9C%E3%82%8A%E3%83%81%E3%83%A7%E3%82%B3" title="トキサダ手作りチョコ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38388E382ADE382B5E38380E6898BE4BD9CE3828AE38381E383A7E382B32E706E67.png" alt="トキサダ手作りチョコ.png" title="トキサダ手作りチョコ.png" width="45" height="45" />トキサダ手作りチョコ</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">装備者のスタミナが20％以下になった時、<br class="spacer" />20秒間装備者の攻撃力up(★)+<br class="spacer" />装備者のダメージ回復<br class="spacer" />(1回のみ発動)</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_8">消耗品  <a class="anchor_super" id="md73c0ca" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#md73c0ca" title="md73c0ca">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=md73c0ca" title="Edit #md73c0ca"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #md73c0ca" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=9" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_9">消耗品サブ装備（サブ枠）  <a class="anchor_super" id="o1cfcc0c" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#o1cfcc0c" title="o1cfcc0c">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=o1cfcc0c" title="Edit #o1cfcc0c"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #o1cfcc0c" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=10" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<p>装備中にキャラの装備画面で「再装備設定」ボタンをクリックすると、倉庫内に同名アイテムがあれば回数消耗後に自動で再装備される。<br />
+<a href="./?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F#rc658b28" title="よくある質問" class="" data-mtime="">関連リンク：消耗品を自動再補充したい</a></p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">耐久<br class="spacer" />回数</th><th class="style_th" style="width:255px;">装備効果</th><th class="style_th">備考（売却の可否について）<br class="spacer" />（<a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>入手・強化用に別途一定数が必要になる場合あり）</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:burlywood; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%98%E3%83%93%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%A1%E3%83%B3" title="ヘビースターメン" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E38398E38393E383BCE382B9E382BFE383BCE383A1E383B32E706E67.png" alt="ヘビースターメン.png" title="ヘビースターメン.png" width="45" height="45" />ヘビースターメン</a></td><td class="style_td" style="text-align:center; width:50px;">10</td><td class="style_td" style="width:255px;">戦闘の最初に出撃する<br class="spacer" />初期出撃人数+1</td><td class="style_td">イベントやレイド等で<br class="spacer" />自分が日常的に使用する以上の余分は売却して構わない</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:burlywood; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?DENAI" title="DENAI" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_44454E41492E706E67.png" alt="DENAI.png" title="DENAI.png" width="45" height="45" />DENAI</a></td><td class="style_td" style="text-align:center; width:50px;">10</td><td class="style_td" style="width:255px;">出撃順が後回しになる<br class="spacer" />壊れた時好感度up</td><td class="style_td">使用した場合と売却した場合で<br class="spacer" />メリットが異なる為、個別記事内の考察を参照</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:burlywood; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E7%B4%B0%E8%8F%8C%E5%85%B5%E5%99%A8" title="細菌兵器" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E7B4B0E88F8CE585B5E599A82E706E67.png" alt="細菌兵器.png" title="細菌兵器.png" width="45" height="45" />細菌兵器</a></td><td class="style_td" style="text-align:center; width:50px;">10</td><td class="style_td" style="width:255px;">全体毒無効</td><td class="style_td"><a href="https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6" rel="nofollow">殲滅戦</a>用途に10～20個ほど確保しておく。それ以上は売却して問題ない。<br class="spacer" />（必要となる個数は方針や手元戦力によって変動する）<br class="spacer" />（一般的な傾向として初心者ほど多めに必要となる）</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:burlywood; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%B9%E3%82%BF%E3%83%B3%E5%B8%BD%E5%AD%90" title="スタン帽子" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382B9E382BFE383B3E5B8BDE5AD902E706E67.png" alt="スタン帽子.png" title="スタン帽子.png" width="45" height="45" />スタン帽子</a></td><td class="style_td" style="text-align:center; width:50px;">10</td><td class="style_td" style="width:255px;">全体スタン無効</td><td class="style_td">スタン防止のため必需品だが<br class="spacer" />消費スピードは遅いため余った分は売却すると良い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%82%BF%E3%83%84%E3%83%8E%E3%82%AA%E3%83%88%E3%82%B7%E3%83%89%E3%82%B3%E3%83%AD" title="タツノオトシドコロ" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382BFE38384E3838EE382AAE38388E382B7E38389E382B3E383AD2E706E67.png" alt="タツノオトシドコロ.png" title="タツノオトシドコロ.png" width="45" height="45" />タツノオトシドコロ</a></td><td class="style_td" style="text-align:center; width:50px;">10</td><td class="style_td" style="width:255px;">壊れた時突破ポイント追加</td><td class="style_td"><a href="./?%E9%99%90%E7%95%8C%E7%AA%81%E7%A0%B4" title="限界突破" class="" data-mtime="">絵馬</a>の代用品となる貴重品<br class="spacer" />売却せずに必ず使用しよう</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:silver; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%8F%E3%83%8B%E3%83%BC%E3%82%B8%E3%83%83%E3%83%9D" title="ハニージッポ" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E3838FE3838BE383BCE382B8E38383E3839D2E706E67.png" alt="ハニージッポ.png" title="ハニージッポ.png" width="45" height="45" />ハニージッポ</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">戦闘不能になると全快する<br class="spacer" />※助っ人時は無効</td><td class="style_td"><a href="./?%E3%83%AC%E3%82%A4%E3%83%89" class="" data-mtime="">レイド</a>でハイスコアを狙う為の貴重品<br class="spacer" />売却せずレイド用に温存しよう</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_10">消耗品サブ装備・イベント交換品（サブ枠）  <a class="anchor_super" id="n7d05acf" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#n7d05acf" title="n7d05acf">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=n7d05acf" title="Edit #n7d05acf"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #n7d05acf" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=11" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:gold; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%8A%E5%B9%B4%E7%8E%892025" title="お年玉2025" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E3818AE5B9B4E78E89323032352E706E67.png" alt="お年玉2025.png" title="お年玉2025.png" width="45" height="45" />お年玉2025</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">好感度10と資金を付与</td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_11">プレイヤー装備  <a class="anchor_super" id="de68f6a2" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#de68f6a2" title="de68f6a2">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=de68f6a2" title="Edit #de68f6a2"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #de68f6a2" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=12" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th><th class="style_th">備考（強化の優先度について）</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%86%E3%81%AA%E3%81%8E%E3%81%AE%E9%9E%84%E7%84%BC%E3%81%8D" title="うなぎの鞄焼き" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38186E381AAE3818EE381AEE99E84E784BCE3818D2E706E67.png" alt="うなぎの鞄焼き.png" title="うなぎの鞄焼き.png" width="45" height="36" />うなぎの鞄焼き</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタミナ最大値UP</td><td class="style_td">非常に有用な装備<br class="spacer" /><strong>強化にあたっては最優先候補</strong></td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%EF%BC%93%E3%82%BB%E3%83%83%E3%83%88%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%BC" title="３セットメモリー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_EFBC93E382BBE38383E38388E383A1E383A2E383AAE383BC2E706E67.png" alt="３セットメモリー.png" title="３セットメモリー.png" width="44" height="36" />３セットメモリー</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">無料宝箱の在庫枠+1</td><td class="style_td">初期値からMAXであるため強化不要</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E8%B6%85%E6%98%82%E4%BA%BA%E3%83%AD%E3%83%83%E3%82%AF" title="超昂人ロック" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8B685E69882E4BABAE383ADE38383E382AF2E706E67.png" alt="超昂人ロック.png" title="超昂人ロック.png" width="45" height="35" />超昂人ロック</a></td><td class="style_td" style="text-align:center; width:50px;">50</td><td class="style_td" style="width:255px;">キャラクターを出撃不可にする</td><td class="style_td" rowspan="4">現状では積極的に強化する必要性は<strong>全く</strong>無い</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E5%A4%AA%E9%99%BD%E3%81%AE%E3%83%88%E3%82%A6" title="太陽のトウ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E5A4AAE999BDE381AEE38388E382A62E706E67.png" alt="太陽のトウ.png" title="太陽のトウ.png" width="45" height="35" />太陽のトウ</a></td><td class="style_td" style="text-align:center; width:50px;">50</td><td class="style_td" style="width:255px;">[太陽]属性のダメージ追加</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E6%9C%88%E3%81%AE%E3%82%A6%E3%82%B5%E3%82%AE" title="月のウサギ" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E69C88E381AEE382A6E382B5E382AE2E706E67.png" alt="月のウサギ.png" title="月のウサギ.png" width="45" height="34" />月のウサギ</a></td><td class="style_td" style="text-align:center; width:50px;">50</td><td class="style_td" style="width:255px;">[月]属性のダメージ追加</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E6%98%9F%E3%81%AE%E3%82%AB%E3%83%BC%E3%83%95%E3%82%A3%E3%83%BC" title="星のカーフィー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E6989FE381AEE382ABE383BCE38395E382A3E383BC2E706E67.png" alt="星のカーフィー.png" title="星のカーフィー.png" width="45" height="36" />星のカーフィー</a></td><td class="style_td" style="text-align:center; width:50px;">50</td><td class="style_td" style="width:255px;">[星]属性のダメージ追加</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%9D%E3%81%93%E3%81%9D%E3%81%93%E5%80%89%E5%BA%AB" title="そこそこ倉庫" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E3819DE38193E3819DE38193E58089E5BAAB2E706E67.png" alt="そこそこ倉庫.png" title="そこそこ倉庫.png" width="45" height="37" />そこそこ倉庫</a></td><td class="style_td" style="text-align:center; width:50px;">20</td><td class="style_td" style="width:255px;">ランクアップ毎に倉庫の所有枠+5</td><td class="style_td">倉庫の空きが厳しく鈴に余裕があるなら強化候補となるが初心者向けではない</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E9%9D%92%E3%81%84%E7%BE%BD%E6%A0%B9" title="青い羽根" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E99D92E38184E7BEBDE6A0B92E706E67.png" alt="青い羽根.png" title="青い羽根.png" width="45" height="37" />青い羽根</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">アクティブサポーターの消費SP減少</td><td class="style_td">アクティブサポーターを常用している場合は強化候補となる</td></tr>
+<tr><td class="style_td" colspan="2" style="background-color:pink; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%81%99%E3%81%A3%E3%81%BD%E3%82%93%E3%81%BD%E3%82%93%E9%8D%8B" title="すっぽんぽん鍋" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E38199E381A3E381BDE38293E381BDE38293E98D8B2E706E67.png" alt="すっぽんぽん鍋.png" title="すっぽんぽん鍋.png" width="45" height="37" />すっぽんぽん鍋</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="width:255px;">スタミナ最大値UP</td><td class="style_td">非常に有用な装備<br class="spacer" /><strong>強化にあたっては最優先候補</strong></td></tr>
+</tbody></table></div>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_12">超昂装備  <a class="anchor_super" id="d0c20368" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#d0c20368" title="d0c20368">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=d0c20368" title="Edit #d0c20368"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #d0c20368" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=13" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<p>詳細は<a href="./?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99" class="" data-mtime="">超昂装備</a>を参照。</p>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_13">超昂装備  <a class="anchor_super" id="wc18a664" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#wc18a664" title="wc18a664">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=wc18a664" title="Edit #wc18a664"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #wc18a664" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=14" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="includex" style="padding:0px;margin:0px;"></div>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" colspan="2" style="text-align:center;">画像/名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="text-align:center;">装備条件</th><th class="style_th">装備効果</th></tr>
+</thead><tbody><tr><td class="style_td" colspan="2" style="text-align:center;"><a href="./?%EF%BC%A4%EF%BC%A4%E3%82%A2%E3%82%AF%E3%82%BB%E3%83%A9%E3%83%AC%E3%83%BC%E3%82%BF%E3%83%BC" title="ＤＤアクセラレーター" class="" data-mtime=""><img src="attach2/E8B685E69882E8A385E58299_4444E382A2E382AFE382BBE383A9E383ACE383BCE382BFE383BC2E706E67.png" alt="DDアクセラレーター.png" title="DDアクセラレーター.png" width="45" height="45" /><br class="spacer" />ＤＤアクセラレーター</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="text-align:center;">装備不可:超昂フェス</td><td class="style_td">攻撃力・魔法力を飛躍的に上昇させる。</td></tr>
+<tr><td class="style_td" colspan="2" style="text-align:center;"><a href="./?%E5%86%85%E7%B8%9B%E9%99%A3" title="内縛陣" class="" data-mtime=""><img src="attach2/E8B685E69882E8A385E58299_E58685E7B89BE999A32E706E67.png" alt="内縛陣.png" title="内縛陣.png" width="45" height="45" /><br class="spacer" />内縛陣</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="text-align:center;">装備不可:超昂フェス</td><td class="style_td">必殺技後にパッチの効果を３つまで発動。</td></tr>
+<tr><td class="style_td" colspan="2" style="text-align:center;"><a href="./?%E8%81%96%E5%89%A3%E3%82%B3%E3%82%B9%E3%83%A2%E3%82%B9" title="聖剣コスモス" class="" data-mtime=""><img src="attach2/E8B685E69882E8A385E58299_E88196E589A3E382B3E382B9E383A2E382B92E706E67.png" alt="聖剣コスモス.png" title="聖剣コスモス.png" width="45" height="45" /><br class="spacer" />聖剣コスモス</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="text-align:center;">装備不可:超昂フェス</td><td class="style_td">装備者は全ての所属、特殊属性を持つ。</td></tr>
+<tr><td class="style_td" colspan="2" style="text-align:center;"><a href="./?%E7%84%A1%E5%90%8D%E3%81%AE%E7%A5%AD%E7%A5%80%E6%9B%B8" title="無名の祭祀書" class="" data-mtime=""><img src="attach2/E8B685E69882E8A385E58299_E784A1E5908DE381AEE7A5ADE7A580E69BB82E706E67.png" alt="無名の祭祀書.png" title="無名の祭祀書.png" width="45" height="45" /><br class="spacer" />無名の祭祀書</a></td><td class="style_td" style="text-align:center; width:50px;">5</td><td class="style_td" style="text-align:center;">装備不可:超昂フェス</td><td class="style_td">戦闘時のスタミナの減少速度を大きく抑える。</td></tr>
+</tbody></table></div>
+
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_14">パッチ  <a class="anchor_super" id="xa51ff63" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#xa51ff63" title="xa51ff63">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=xa51ff63" title="Edit #xa51ff63"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #xa51ff63" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=15" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<div class="includex" style="padding:0px;margin:0px;"></div>
+<p>追加ダメージ系</p>
+<ul class="list1 list-indent1"><li>必殺技の発動時に敵がいない、もしくは必殺技によって敵が全員撤退した場合は発動せず回数も消費しない。</li>
+<li>必殺技ではないため、必殺技威力アップは適応されない。攻撃アップや与ダメアップ等は適応される。</li></ul>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" colspan="2">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="text-align:center;">装備効果</th><th class="style_th">入手先(必要レジデュー数)</th></tr>
+</thead><tbody><tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81A1.png" title="パッチA1.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838141312E706E67.png" alt="パッチA1.png" title="パッチA1.png" width="45" height="45" /></a>パッチA1</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『敵単体に物理2倍ダメージ』（8回まで）<br class="spacer" />［物理攻撃］手段を持つキャラのみ有効</td><td class="style_td">ハガネ(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81A2.png" title="パッチA2.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838141322E706E67.png" alt="パッチA2.png" title="パッチA2.png" width="45" height="45" /></a>パッチA2</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『敵単体に魔法2倍ダメージ』（8回まで）<br class="spacer" />［魔法攻撃］手段を持つキャラのみ有効</td><td class="style_td">ディストバーン(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=img&amp;openfile=%E4%BB%AE%E7%94%BB%E5%83%8F.png" title="仮画像.png"><img src="attach2/696D67_E4BBAEE794BBE5838F2E706E67.png" alt="仮画像.png" title="仮画像.png" width="45" height="45" /></a>パッチA3</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『敵横一列に物理1.5倍ダメージ』（8回まで）<br class="spacer" />［物理攻撃］手段を持つキャラのみ有効</td><td class="style_td">キクリ＆コテツ(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=img&amp;openfile=%E4%BB%AE%E7%94%BB%E5%83%8F.png" title="仮画像.png"><img src="attach2/696D67_E4BBAEE794BBE5838F2E706E67.png" alt="仮画像.png" title="仮画像.png" width="45" height="45" /></a>パッチA4</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『敵横一列に魔法1.5倍ダメージ』（8回まで）<br class="spacer" />［魔法攻撃］手段を持つキャラのみ有効</td><td class="style_td">キクリ＆コテツ(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=img&amp;openfile=%E4%BB%AE%E7%94%BB%E5%83%8F.png" title="仮画像.png"><img src="attach2/696D67_E4BBAEE794BBE5838F2E706E67.png" alt="仮画像.png" title="仮画像.png" width="45" height="45" /></a>パッチA5</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『敵全体に物理0.6倍ダメージ』（8回まで）<br class="spacer" />［物理攻撃］手段を持つキャラのみ有効</td><td class="style_td">カゲリ(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=img&amp;openfile=%E4%BB%AE%E7%94%BB%E5%83%8F.png" title="仮画像.png"><img src="attach2/696D67_E4BBAEE794BBE5838F2E706E67.png" alt="仮画像.png" title="仮画像.png" width="45" height="45" /></a>パッチA6</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『敵全体に魔法0.6倍ダメージ』（8回まで）<br class="spacer" />［魔法攻撃］手段を持つキャラのみ有効</td><td class="style_td">カゲリ(400)</td></tr>
+</tbody></table></div>
+<p>バフ・デバフ系</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" colspan="2">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="text-align:center;">装備効果</th><th class="style_th">入手先(必要レジデュー数)</th></tr>
+</thead><tbody><tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B1.png" title="パッチB1.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142312E706E67.png" alt="パッチB1.png" title="パッチB1.png" width="45" height="45" /></a>パッチB1</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、自軍全体の攻撃力30%アップ』<br class="spacer" />（8回まで）</td><td class="style_td">ウェーブフラスト(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B2.png" title="パッチB2.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142322E706E67.png" alt="パッチB2.png" title="パッチB2.png" width="45" height="45" /></a>パッチB2</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、自軍全体の防御30%アップ』<br class="spacer" />（8回まで）</td><td class="style_td">レールフラスト(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B3.png" title="パッチB3.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142332E706E67.png" alt="パッチB3.png" title="パッチB3.png" width="45" height="45" /></a>パッチB3</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、自軍全体の速度20%アップ』<br class="spacer" />（8回まで）</td><td class="style_td">ムービーフラスト(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B4.png" title="パッチB4.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142342E706E67.png" alt="パッチB4.png" title="パッチB4.png" width="45" height="45" /></a>パッチB4</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、自軍フィールドの攻撃力20%アップ』<br class="spacer" />（8回まで）</td><td class="style_td">ウェーブフラスト(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B5.png" title="パッチB5.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142352E706E67.png" alt="パッチB5.png" title="パッチB5.png" width="45" height="45" /></a>パッチB5</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、自軍フィールドの防御30%アップ』<br class="spacer" />（8回まで）</td><td class="style_td">レールフラスト(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B6.png" title="パッチB6.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142362E706E67.png" alt="パッチB6.png" title="パッチB6.png" width="45" height="45" /></a>パッチB6</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、自軍フィールドの速度20%アップ』<br class="spacer" />（8回まで）</td><td class="style_td">ムービーフラスト(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B7.png" title="パッチB7.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142372E706E67.png" alt="パッチB7.png" title="パッチB7.png" width="45" height="45" /></a>パッチB7</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、敵全体の攻撃30%ダウン』<br class="spacer" />（8回まで）</td><td class="style_td">サイエンフラスト(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B8.png" title="パッチB8.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142382E706E67.png" alt="パッチB8.png" title="パッチB8.png" width="45" height="45" /></a>パッチB8</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、敵全体の防御30%ダウン』<br class="spacer" />（8回まで）</td><td class="style_td">ハガネ(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B9.png" title="パッチB9.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E3838142392E706E67.png" alt="パッチB9.png" title="パッチB9.png" width="45" height="45" /></a>パッチB9</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、敵全体の速度20%ダウン』<br class="spacer" />（8回まで）</td><td class="style_td">ディストバーン(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B10.png" title="パッチB10.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E383814231302E706E67.png" alt="パッチB10.png" title="パッチB10.png" width="45" height="45" /></a>パッチB10</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、敵フィールドの攻撃30%ダウン』<br class="spacer" />（8回まで）</td><td class="style_td">サイエンフラスト(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B11.png" title="パッチB11.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E383814231312E706E67.png" alt="パッチB11.png" title="パッチB11.png" width="45" height="45" /></a>パッチB11</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、敵フィールドの防御30%ダウン』<br class="spacer" />（8回まで）</td><td class="style_td">ハガネ(400)</td></tr>
+<tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99&amp;openfile=%E3%83%91%E3%83%83%E3%83%81B12.png" title="パッチB12.png"><img src="attach2/E8B685E69882E8A385E58299_E38391E38383E383814231322E706E67.png" alt="パッチB12.png" title="パッチB12.png" width="45" height="45" /></a>パッチB12</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『20秒間、敵フィールドの速度20%ダウン』<br class="spacer" />（8回まで）</td><td class="style_td">ディストバーン(400)</td></tr>
+</tbody></table></div>
+<p>ヘイト系</p>
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th" colspan="2">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="text-align:center;">装備効果</th><th class="style_th">入手先(必要レジデュー数)</th></tr>
+</thead><tbody><tr><td class="style_td" colspan="2"><a href="./?plugin=attach&amp;refer=img&amp;openfile=%E4%BB%AE%E7%94%BB%E5%83%8F.png" title="仮画像.png"><img src="attach2/696D67_E4BBAEE794BBE5838F2E706E67.png" alt="仮画像.png" title="仮画像.png" width="45" height="45" /></a>パッチC1</td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="text-align:center;">一部の超昂装備のみ、必殺技発動後に効果発動<br class="spacer" />『30秒間、自身のヘイト増加』（8回まで）</td><td class="style_td">カゲリ(400)</td></tr>
+</tbody></table></div>
+<div class="rgn-container" style="
+    position:relative;
+    padding-left:35px;
+    margin-bottom: 1em;
+"><div class="rgn-button" onclick="tglRgn(this)" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    height:26px;
+    left:0;
+    position:absolute;
+    top:0;
+    width:26px;
+"><svg class="plus-icon" style="display: block" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96l0 320c0 17.7 14.3 32 32 32l320 0c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L64 64zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM208 352l0-80-80 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l80 0 0-80c0-8.8 7.2-16 16-16s16 7.2 16 16l0 80 80 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-80 0 0 80c0 8.8-7.2 16-16 16s-16-7.2-16-16z"/></svg><svg class="minus-icon" style="display: none" viewBox="0 0 448 512"><path fill="currentColor" d="M64 64C46.3 64 32 78.3 32 96V416c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32H64zM0 96C0 60.7 28.7 32 64 32H416c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM128 256c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16z"/></svg></div><div class="rgn-description" style="display: block"><p>パッチ　フィルター機能利用用一覧</p>
+</div><div class="rgn-content" style="display: none">
+<ul class="list1 list-indent1"><li>各項共通事項
+<ul class="list2 list-indent1"><li>一部の超昂装備のみ、必殺技発動後に効果発動</li></ul></li></ul>
+<div class="st-wrap" data-st="1" data-st-id="sortabletable1" data-st-types="String,Number,String,String,String,String,String,String,String,Number,String" data-st-filter="1">
+<div class="ie5"><table id="sortabletable1" class="style_table" cellspacing="1" border="0"><thead><tr><th class="style_th">名称</th><th class="style_th">最大<br class="spacer" />RANK</th><th class="style_th">系統</th><th class="style_th">装備効果<br class="spacer" />対象</th><th class="style_th">効果<br class="spacer" />項目</th><th class="style_th">割合</th><th class="style_th">時間</th><th class="style_th">回数</th><th class="style_th">Bユニバース<br class="spacer" />ボス名</th><th class="style_th">必要<br class="spacer" />レジデュー数</th><th class="style_th">補足</th></tr>
+</thead><tbody><tr><td class="style_td" style="text-align:center;">パッチA1</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">追加ダメージ</td><td class="style_td" style="text-align:center;">敵単体</td><td class="style_td" style="text-align:center;">物理</td><td class="style_td" style="text-align:center;">2倍ダメージ</td><td class="style_td" style="text-align:center;">-</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ハガネ</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;">［物理攻撃］手段を持つキャラのみ有効</td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチA2</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">追加ダメージ</td><td class="style_td" style="text-align:center;">敵単体</td><td class="style_td" style="text-align:center;">魔法</td><td class="style_td" style="text-align:center;">2倍ダメージ</td><td class="style_td" style="text-align:center;">-</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ディストバーン</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;">［魔法攻撃］手段を持つキャラのみ有効</td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチA3</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">追加ダメージ</td><td class="style_td" style="text-align:center;">敵横一列</td><td class="style_td" style="text-align:center;">物理</td><td class="style_td" style="text-align:center;">1.5倍ダメージ</td><td class="style_td" style="text-align:center;">-</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">キクリ＆コテツ</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;">［物理攻撃］手段を持つキャラのみ有効</td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチA4</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">追加ダメージ</td><td class="style_td" style="text-align:center;">敵横一列</td><td class="style_td" style="text-align:center;">魔法</td><td class="style_td" style="text-align:center;">1.5倍ダメージ</td><td class="style_td" style="text-align:center;">-</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">キクリ＆コテツ</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;">［魔法攻撃］手段を持つキャラのみ有効</td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチA5</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">追加ダメージ</td><td class="style_td" style="text-align:center;">敵全体</td><td class="style_td" style="text-align:center;">物理</td><td class="style_td" style="text-align:center;">0.6倍ダメージ</td><td class="style_td" style="text-align:center;">-</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">カゲリ</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;">［物理攻撃］手段を持つキャラのみ有効</td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチA6</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">追加ダメージ</td><td class="style_td" style="text-align:center;">敵全体</td><td class="style_td" style="text-align:center;">魔法</td><td class="style_td" style="text-align:center;">0.6倍ダメージ</td><td class="style_td" style="text-align:center;">-</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">カゲリ</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;">［魔法攻撃］手段を持つキャラのみ有効</td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB1</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">バフ</td><td class="style_td" style="text-align:center;">自軍全体</td><td class="style_td" style="text-align:center;">攻撃力</td><td class="style_td" style="text-align:center;">30%アップ</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ウェーブフラスト</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB2</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">バフ</td><td class="style_td" style="text-align:center;">自軍全体</td><td class="style_td" style="text-align:center;">防御</td><td class="style_td" style="text-align:center;">30%アップ</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">レールフラスト</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB3</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">バフ</td><td class="style_td" style="text-align:center;">自軍全体</td><td class="style_td" style="text-align:center;">速度</td><td class="style_td" style="text-align:center;">20%アップ</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ムービーフラスト</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB4</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">バフ</td><td class="style_td" style="text-align:center;">自軍フィールド</td><td class="style_td" style="text-align:center;">攻撃力</td><td class="style_td" style="text-align:center;">20%アップ</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ウェーブフラスト</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB5</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">バフ</td><td class="style_td" style="text-align:center;">自軍フィールド</td><td class="style_td" style="text-align:center;">防御</td><td class="style_td" style="text-align:center;">30%アップ</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">レールフラスト</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB6</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">バフ</td><td class="style_td" style="text-align:center;">自軍フィールド</td><td class="style_td" style="text-align:center;">速度</td><td class="style_td" style="text-align:center;">20%アップ</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ムービーフラスト</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB7</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">デバフ</td><td class="style_td" style="text-align:center;">敵全体</td><td class="style_td" style="text-align:center;">攻撃</td><td class="style_td" style="text-align:center;">30%ダウン</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">サイエンフラスト</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB8</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">デバフ</td><td class="style_td" style="text-align:center;">敵全体</td><td class="style_td" style="text-align:center;">防御</td><td class="style_td" style="text-align:center;">30%ダウン</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ハガネ</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB9</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">デバフ</td><td class="style_td" style="text-align:center;">敵全体</td><td class="style_td" style="text-align:center;">速度</td><td class="style_td" style="text-align:center;">20%ダウン</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ディストバーン</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB10</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">デバフ</td><td class="style_td" style="text-align:center;">敵フィールド</td><td class="style_td" style="text-align:center;">攻撃</td><td class="style_td" style="text-align:center;">30%ダウン</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">サイエンフラスト</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB11</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">デバフ</td><td class="style_td" style="text-align:center;">敵フィールド</td><td class="style_td" style="text-align:center;">防御</td><td class="style_td" style="text-align:center;">30%ダウン</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ハガネ</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチB12</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">デバフ</td><td class="style_td" style="text-align:center;">敵フィールド</td><td class="style_td" style="text-align:center;">速度</td><td class="style_td" style="text-align:center;">20%ダウン</td><td class="style_td" style="text-align:center;">20秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">ディストバーン</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+<tr><td class="style_td" style="text-align:center;">パッチC1</td><td class="style_td" style="text-align:center;">1</td><td class="style_td" style="text-align:center;">ヘイト</td><td class="style_td" style="text-align:center;">自身</td><td class="style_td" style="text-align:center;">ヘイト</td><td class="style_td" style="text-align:center;">増加</td><td class="style_td" style="text-align:center;">30秒間</td><td class="style_td" style="text-align:center;">8回まで</td><td class="style_td" style="text-align:center;">カゲリ</td><td class="style_td" style="text-align:center;">400</td><td class="style_td" style="text-align:left;"></td></tr>
+</tbody></table></div>
+
+</div>
+</div></div>
+
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h2 id="content_1_15">装備強化用アイテム  <a class="anchor_super" id="g461171f" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#g461171f" title="g461171f">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=g461171f" title="Edit #g461171f"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #g461171f" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=16" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h2>
+<ul class="list1 list-indent1"><li>倉庫画面左下に所有数が表示されており、強化先の装備を選ぶ時の画面下部から選択し使用できる。
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><tbody><tr><th class="style_th" colspan="2" style="text-align:center;"></th><th class="style_th" style="width:230px;">画像/<br class="spacer" />名称</th><th class="style_th" style="text-align:center; width:50px;">最大<br class="spacer" />RANK</th><th class="style_th" style="width:255px;">装備効果</th></tr>
+<tr><td class="style_td" colspan="2" style="background-color:gold; text-align:center;"></td><td class="style_td" style="width:230px;"><a href="./?%E3%83%89%E3%83%A9%E7%8C%AB%E3%81%AE%E9%88%B4" title="ドラ猫の鈴" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E38389E383A9E78CABE381AEE988B42E706E67.png" alt="ドラ猫の鈴.png" title="ドラ猫の鈴.png" width="45" height="45" />ドラ猫の鈴</a></td><td class="style_td" style="text-align:center; width:50px;">1</td><td class="style_td" style="width:255px;">装備を強化する</td></tr>
+</tbody></table></div></li></ul>
+
+<div class="jumpmenu"><a href="#navigator">&uarr;</a></div><h3 id="content_1_16">装備強化オススメ逸品  <a class="anchor_super" id="le543e2f" href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88#le543e2f" title="le543e2f">&dagger;</a> <a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=guiedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=le543e2f" title="Edit #le543e2f"><img src="image/guiedit.png" width="20" height="20" alt="Edit" title="Edit #le543e2f" /> </a><a class="anchor_super" href="https://escalationheroines.wikiru.jp/?cmd=secedit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88&amp;id=17" title="Edit"> <img src="image/paraedit.png" width="9" height="9" alt="Edit" title="Edit" /></a></h3>
+<ul class="list1 list-indent1"><li>うなぎの鞄焼き、すっぽんぽん鍋<br />
+レベルアップするたびに増やしたST分多く回復できるため、早くRankを上げるほどお得。</li>
+<li>ロケットエンジン、しゃーべりタイガー合体逸品<br />
+ほぼすべてのコンテンツで、ほぼすべてのキャラが活用できる。</li>
+<li>衝撃のあるベルト合体逸品<br />
+ほぼすべてのコンテンツで、ほぼすべてのアタッカーが活用できる。通常の衝撃のあるベルトと合わせたWベルトはアタッカーの定番装備。</li>
+<li>仁王納豆　合体逸品<br />
+レイドバトルで、ほぼすべてのキャラが活用できる。
+<ul class="list2 list-indent1"><li>コンボ納豆<br />
+<a href="./?%E3%83%90%E3%83%93%E3%83%AD%E3%83%8B%E3%82%A2%E3%83%BB%E3%83%8B%E3%83%AB" class="" data-mtime="">バビロニア・ニル</a>が活用できる。アタッカー性能が突き抜けて高いため、育てて使うなら最優先で強化したい逸品。</li></ul></li>
+<li>ガッツ十姉妹、スーパードリル　合体逸品<br />
+これ自体は一部の場面やキャラで活用できる程度だが、前述4種類の合体相手としては無難に悪くない効果。</li>
+<li>前述6種合体逸品一覧
+<div class="ie5"><table class="style_table" cellspacing="1" border="0"><thead><tr><td class="style_td" style="background-color:silver;"></td><td class="style_td" style="background-color:silver;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3" title="ロケットエンジン" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E383ADE382B1E38383E38388E382A8E383B3E382B8E383B32E706E67.png" alt="ロケットエンジン.png" title="ロケットエンジン.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:silver;"><a href="./?%E3%81%97%E3%82%83%E3%83%BC%E3%81%B9%E3%82%8A%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="しゃーべりタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E38197E38283E383BCE381B9E3828AE382BFE382A4E382ACE383BC2E706E67.png" alt="しゃーべりタイガー.png" title="しゃーべりタイガー.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:gold;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88" title="衝撃のあるベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E8A19DE69283E381AEE38182E3828BE38399E383ABE383882E706E67.png" alt="衝撃のあるベルト.png" title="衝撃のあるベルト.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:gold;"><a href="./?%E4%BB%81%E7%8E%8B%E7%B4%8D%E8%B1%86" title="仁王納豆" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E4BB81E78E8BE7B48DE8B1862E706E67.png" alt="仁王納豆.png" title="仁王納豆.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:silver;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E5%8D%81%E5%A7%89%E5%A6%B9" title="ガッツ十姉妹" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382ACE38383E38384E58D81E5A789E5A6B92E706E67.png" alt="ガッツ十姉妹.png" title="ガッツ十姉妹.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:silver;"><a href="./?%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%83%89%E3%83%AA%E3%83%AB" title="スーパードリル" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382B9E383BCE38391E383BCE38389E383AAE383AB2E706E67.png" alt="スーパードリル.png" title="スーパードリル.png" width="45" height="45" /> </a></td></tr>
+</thead><tbody><tr><td class="style_td" style="background-color:silver;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3" title="ロケットエンジン" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E383ADE382B1E38383E38388E382A8E383B3E382B8E383B32E706E67.png" alt="ロケットエンジン.png" title="ロケットエンジン.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:silver;"></td><td class="style_td" style="background-color:silver;"></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%83%99%E3%83%AB%E3%83%88" title="ロケットベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E383ADE382B1E38383E38388E38399E383ABE383882E706E67.png" alt="ロケットベルト.png" title="ロケットベルト.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E7%B4%8D%E8%B1%86" title="ロケット納豆" class="" data-mtime=""><img src="attach2/E383ADE382B1E38383E38388E7B48DE8B186_E383ADE382B1E38383E38388E7B48DE8B1862E706E67.png" alt="ロケット納豆.png" title="ロケット納豆.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E5%8D%81%E5%A7%89%E5%A6%B9" title="ロケット十姉妹" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E383ADE382B1E38383E38388E58D81E5A789E5A6B92E706E67.png" alt="ロケット十姉妹.png" title="ロケット十姉妹.png" width="44" height="44" /> </a></td><td class="style_td"></td></tr>
+<tr><td class="style_td" style="background-color:silver;"><a href="./?%E3%81%97%E3%82%83%E3%83%BC%E3%81%B9%E3%82%8A%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="しゃーべりタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E38197E38283E383BCE381B9E3828AE382BFE382A4E382ACE383BC2E706E67.png" alt="しゃーべりタイガー.png" title="しゃーべりタイガー.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:silver;"></td><td class="style_td" style="background-color:silver;"></td><td class="style_td" style="background-color:pink;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="衝撃のあるタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8A19DE69283E381AEE38182E3828BE382BFE382A4E382ACE383BC2E706E67.png" alt="衝撃のあるタイガー.png" title="衝撃のあるタイガー.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E4%BB%81%E7%8E%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="仁王タイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E4BB81E78E8BE382BFE382A4E382ACE383BC2E706E67.png" alt="仁王タイガー.png" title="仁王タイガー.png" width="44" height="44" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="ガッツタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ACE38383E38384E382BFE382A4E382ACE383BC2E706E67.png" alt="ガッツタイガー.png" title="ガッツタイガー.png" width="44" height="44" /> </a></td><td class="style_td"></td></tr>
+<tr><td class="style_td" style="background-color:gold;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88" title="衝撃のあるベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E8A19DE69283E381AEE38182E3828BE38399E383ABE383882E706E67.png" alt="衝撃のあるベルト.png" title="衝撃のあるベルト.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%83%99%E3%83%AB%E3%83%88" title="ロケットベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E383ADE382B1E38383E38388E38399E383ABE383882E706E67.png" alt="ロケットベルト.png" title="ロケットベルト.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="衝撃のあるタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8A19DE69283E381AEE38182E3828BE382BFE382A4E382ACE383BC2E706E67.png" alt="衝撃のあるタイガー.png" title="衝撃のあるタイガー.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:silver;"></td><td class="style_td" style="background-color:pink;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E4%BB%81%E7%8E%8B" title="衝撃の仁王" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8A19DE69283E381AEE4BB81E78E8B2E706E67.png" alt="衝撃の仁王.png" title="衝撃の仁王.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88" title="ガッツのあるベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ACE38383E38384E381AEE38182E3828BE38399E383ABE383882E706E67.png" alt="ガッツのあるベルト.png" title="ガッツのあるベルト.png" width="45" height="42" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%89%E3%83%AA%E3%83%AB" title="衝撃のあるドリル" class="" data-mtime=""><img src="attach2/E8A19DE69283E381AEE38182E3828BE38389E383AAE383AB_E8A19DE69283E381AEE38182E3828BE38389E383AAE383AB2E706E67.png" alt="衝撃のあるドリル.png" title="衝撃のあるドリル.png" width="45" height="45" /> </a></td></tr>
+<tr><td class="style_td" style="background-color:gold;"><a href="./?%E4%BB%81%E7%8E%8B%E7%B4%8D%E8%B1%86" title="仁王納豆" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E4BB81E78E8BE7B48DE8B1862E706E67.png" alt="仁王納豆.png" title="仁王納豆.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E7%B4%8D%E8%B1%86" title="ロケット納豆" class="" data-mtime=""><img src="attach2/E383ADE382B1E38383E38388E7B48DE8B186_E383ADE382B1E38383E38388E7B48DE8B1862E706E67.png" alt="ロケット納豆.png" title="ロケット納豆.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E4%BB%81%E7%8E%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="仁王タイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E4BB81E78E8BE382BFE382A4E382ACE383BC2E706E67.png" alt="仁王タイガー.png" title="仁王タイガー.png" width="44" height="44" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E4%BB%81%E7%8E%8B" title="衝撃の仁王" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E8A19DE69283E381AEE4BB81E78E8B2E706E67.png" alt="衝撃の仁王.png" title="衝撃の仁王.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:silver;"></td><td class="style_td"></td><td class="style_td" style="background-color:pink;"><a href="./?%E4%BB%81%E7%8E%8B%E3%83%89%E3%83%AA%E3%83%AB" title="仁王ドリル" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E4BB81E78E8BE38389E383AAE383AB2E706E67.png" alt="仁王ドリル.png" title="仁王ドリル.png" width="45" height="45" /></a></td></tr>
+<tr><td class="style_td" style="background-color:silver;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E5%8D%81%E5%A7%89%E5%A6%B9" title="ガッツ十姉妹" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382ACE38383E38384E58D81E5A789E5A6B92E706E67.png" alt="ガッツ十姉妹.png" title="ガッツ十姉妹.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E5%8D%81%E5%A7%89%E5%A6%B9" title="ロケット十姉妹" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E383ADE382B1E38383E38388E58D81E5A789E5A6B92E706E67.png" alt="ロケット十姉妹.png" title="ロケット十姉妹.png" width="44" height="44" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC" title="ガッツタイガー" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ACE38383E38384E382BFE382A4E382ACE383BC2E706E67.png" alt="ガッツタイガー.png" title="ガッツタイガー.png" width="44" height="44" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%82%AC%E3%83%83%E3%83%84%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88" title="ガッツのあるベルト" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E382ACE38383E38384E381AEE38182E3828BE38399E383ABE383882E706E67.png" alt="ガッツのあるベルト.png" title="ガッツのあるベルト.png" width="45" height="42" /> </a></td><td class="style_td"></td><td class="style_td" style="background-color:silver;"></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%83%89%E3%83%AA%E3%83%AB%E5%8D%81%E5%A7%89%E5%A6%B9" title="ドリル十姉妹" class="" data-mtime=""><img src="attach2/E38389E383AAE383ABE58D81E5A789E5A6B9_E38389E383AAE383ABE58D81E5A789E5A6B92E706E67.png" alt="ドリル十姉妹.png" title="ドリル十姉妹.png" width="45" height="45" /> </a></td></tr>
+<tr><td class="style_td" style="background-color:silver;"><a href="./?%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%83%89%E3%83%AA%E3%83%AB" title="スーパードリル" class="" data-mtime=""><img src="attach2/E8A385E58299E4B880E8A6A7_E382B9E383BCE38391E383BCE38389E383AAE383AB2E706E67.png" alt="スーパードリル.png" title="スーパードリル.png" width="45" height="45" /> </a></td><td class="style_td"></td><td class="style_td"></td><td class="style_td" style="background-color:pink;"><a href="./?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%89%E3%83%AA%E3%83%AB" title="衝撃のあるドリル" class="" data-mtime=""><img src="attach2/E8A19DE69283E381AEE38182E3828BE38389E383AAE383AB_E8A19DE69283E381AEE38182E3828BE38389E383AAE383AB2E706E67.png" alt="衝撃のあるドリル.png" title="衝撃のあるドリル.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:pink;"><a href="./?%E4%BB%81%E7%8E%8B%E3%83%89%E3%83%AA%E3%83%AB" title="仁王ドリル" class="" data-mtime=""><img src="attach2/E8A385E58299E383AAE382B9E38388_E4BB81E78E8BE38389E383AAE383AB2E706E67.png" alt="仁王ドリル.png" title="仁王ドリル.png" width="45" height="45" /></a></td><td class="style_td" style="background-color:pink;"><a href="./?%E3%83%89%E3%83%AA%E3%83%AB%E5%8D%81%E5%A7%89%E5%A6%B9" title="ドリル十姉妹" class="" data-mtime=""><img src="attach2/E38389E383AAE383ABE58D81E5A789E5A6B9_E38389E383AAE383ABE58D81E5A789E5A6B92E706E67.png" alt="ドリル十姉妹.png" title="ドリル十姉妹.png" width="45" height="45" /> </a></td><td class="style_td" style="background-color:silver;"></td></tr>
+</tbody></table></div></li></ul>
+</div>
+   <br>
+<div class="sticky-ads">
+<table>
+<tr>
+<td>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="1109012249"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+<td>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280_2枠目_wikiru汎用 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-6756084042400545"
+     data-ad-slot="8922900187"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+</tr>
+</table>
+  </td>
+ </tr>
+</table>
+<p id="page-top"><a href="#wrap"><b><font size="7">↑</font></b></a></p>
+
+
+
+<hr class="full_hr" />
+<!-- Toolbar -->
+<div id="toolbar">
+ <a href="./"><img src="image/top.png" width="20" height="20" alt="トップ" title="トップ" /></a>
+ &nbsp;
+ 	<a href="./?cmd=edit&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/edit.png" width="20" height="20" alt="編集" title="編集" /></a>			<a href="./?cmd=freeze&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/freeze.png" width="20" height="20" alt="凍結" title="凍結" /></a>	  <a href="./?cmd=diff&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/diff.png" width="20" height="20" alt="差分" title="差分" /></a>	<a href="./?cmd=backup&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/backup.png" width="20" height="20" alt="バックアップ" title="バックアップ" /></a>			<a href="./?plugin=attach&amp;pcmd=upload&amp;page=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/file.png" width="20" height="20" alt="添付" title="添付" /></a>		<a href="./?plugin=template&amp;refer=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/copy.png" width="20" height="20" alt="複製" title="複製" /></a>	<a href="./?plugin=rename&amp;refer=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/rename.png" width="20" height="20" alt="名前変更" title="名前変更" /></a> <a href="./?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/reload.png" width="20" height="20" alt="リロード" title="リロード" /></a> &nbsp;
+	<a href="./?plugin=newpage&amp;refer=%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88"><img src="image/new.png" width="20" height="20" alt="新規" title="新規" /></a> <a href="./?cmd=list"><img src="image/list.png" width="20" height="20" alt="一覧" title="一覧" /></a> <a href="./?cmd=search"><img src="image/search.png" width="20" height="20" alt="検索" title="検索" /></a> <a href="./?RecentChanges"><img src="image/recentchanges.png" width="20" height="20" alt="最終更新" title="最終更新" /></a> &nbsp; <a href="./?Help"><img src="image/help.png" width="20" height="20" alt="ヘルプ" title="ヘルプ" /></a> &nbsp; <a href="./?cmd=rss&amp;ver=1.0"><img src="image/rss.png" width="36" height="14" alt="最終更新のRSS" title="最終更新のRSS" /></a></div>
+
+<div id="lastmodified">Last-modified: 2026-10-07 (水) 09:20:51<span class="page_passage" data-mtime="2026-10-07T09:20:51+09:00"></span></div>
+
+
+<script>
+/* double post */
+$(function () { $("div.pcomment form").submit(function () { $(this).find(':submit').attr('disabled', 'disabled'); }); }); 
+</script>
+<div id="footer">
+
+運営中のwiki一覧: <a href="https://bungo.wikiru.jp/" class="exclude-icon">文豪とアルケミスト(文アル)攻略 Wiki</a> | <a href="https://otogi.wikiru.jp/" class="exclude-icon">オトギフロンティア(オトフロ)攻略 Wiki</a> | <a href="https://azurlane.wikiru.jp/" class="exclude-icon">アズールレーン(アズレン)攻略 Wiki</a> | <a href="https://taimanin-rpg.wikiru.jp/" class="exclude-icon">対魔忍RPG攻略 Wiki</a> | <a href="https://arknights.wikiru.jp/" class="exclude-icon">アークナイツ攻略 Wiki</a> | <a href="https://langrisser.wikiru.jp/" class="exclude-icon">ラングリッサーモバイル攻略 Wiki</a> | <a href="https://artwhirl.wikiru.jp/" class="exclude-icon">アートワール攻略 Wiki</a> | <a href="https://ayarabu.wikiru.jp/" class="exclude-icon">あやかしランブル！(あやらぶ)攻略 Wiki</a> | <a href="https://twst.wikiru.jp/" class="exclude-icon">ツイステッドワンダーランド(ツイステ)攻略 Wiki</a> | <a href="https://detarikiz.wikiru.jp/" class="exclude-icon">デタリキZ攻略 Wiki</a> | <a href="https://tonofura.wikiru.jp/" class="exclude-icon">Deep One 虚無と夢幻のフラグメント攻略Wiki</a> | <a href="https://bluearchive.wikiru.jp/" class="exclude-icon">ブルーアーカイブ（ブルアカ）攻略 Wiki</a> | <a href="https://misttraingirls.wikiru.jp/" class="exclude-icon">ミストトレインガールズ攻略 Wiki</a> | <a href="https://minashigo.wikiru.jp/" class="exclude-icon">ミナシゴノシゴト攻略 Wiki</a> | <a href="https://edensgrenze.wikiru.jp/" class="exclude-icon">エデンズリッターグレンツェ攻略 Wiki</a> | <a href="https://senkoi.wikiru.jp/" class="exclude-icon">戦国†恋姫オンライン～奥宴新史～攻略 Wiki</a> | <a href="https://umamusume.wikiru.jp/" class="exclude-icon">ウマ娘 プリティダービー 攻略 Wiki</a> | <a href="https://angelic.wikiru.jp/" class="exclude-icon">エンジェリックリンク（エンクリ）攻略 Wiki</a> | <a href="https://neural-cloud.wikiru.jp/" class="exclude-icon">ニューラルクラウド攻略 Wiki</a> | <a href="https://legeclo.wikiru.jp/" class="exclude-icon">れじぇくろ！ ～レジェンド・クローバー～攻略 Wiki</a> | <a href="https://tenkafuma.wikiru.jp/" class="exclude-icon">天下布魔攻略 Wiki</a> | <a href="https://monmusu-td.wikiru.jp/" class="exclude-icon">モンスター娘TD攻略 Wiki</a> | <a href="https://crimson-youmataisen.wikiru.jp/" class="exclude-icon">クリムゾン妖魔大戦攻略 Wiki</a> | <a href="https://arknights-endfield.wikiru.jp/" class="exclude-icon">アークナイツ エンドフィールド攻略 Wiki</a> | <a href="https://dollsfrontline2.wikiru.jp/" class="exclude-icon">ドールズフロントライン2：エクシリウム攻略 Wiki</a> | <a href="https://v-rising.wikiru.jp/" class="exclude-icon">V Rising日本語攻略 Wiki</a> | <a href="https://nikke.wikiru.jp/" class="exclude-icon">勝利の女神：NIKKE攻略 Wiki</a> | <a href="https://dolphin-wave.wikiru.jp/" class="exclude-icon">ドルフィンウェーブ（ドルウェブ）攻略Wiki</a> | <a href="https://jewel-reincarnation.wikiru.jp/" class="exclude-icon">宝石姫 Reincarnation攻略Wiki</a> | <a href="https://alliancesages.wikiru.jp/" class="exclude-icon">アライアンスセージ攻略Wiki</a> | <a href="https://cravesaga.wikiru.jp/" class="exclude-icon">クレイヴ・サーガ（クレサガ）攻略Wiki</a> | <a href="https://aethergazer.wikiru.jp/" class="exclude-icon">エーテルゲイザー攻略Wiki</a> | <a href="https://twinklestarknights.wikiru.jp/" class="exclude-icon">ティンクルスターナイツ（クルスタ）攻略Wiki</a> | <a href="https://reverse1999.wikiru.jp/" class="exclude-icon">リバース：1999攻略Wiki</a> | <a href="https://kfk.wikiru.jp/" class="exclude-icon">Kemono Friends：Kingdom Wiki</a> | <a href="https://snowbreak.wikiru.jp/" class="exclude-icon">スノウブレイク 攻略 Wiki</a> | <a href="https://honeycome.wikiru.jp/" class="exclude-icon">ハニカム 攻略wiki</a> | <a href="https://girlscreation.wikiru.jp/" class="exclude-icon">ガールズクリエイション（ガークリ）攻略 Wiki</a> | <a href="https://sweethomemaid.wikiru.jp/" class="exclude-icon">スイートホームメイド攻略 Wiki</a> | <a href="https://modernwarships.wikiru.jp/" class="exclude-icon">Modern Warships 攻略 Wiki</a> | <a href="https://ashechoes.wikiru.jp/" class="exclude-icon">アッシュエコーズ-白荊回廊-攻略 Wiki</a> | <a href="https://lilyange.wikiru.jp/" class="exclude-icon">りりぃあんじぇ（りりあん） 攻略Wiki</a> | <a href="https://unlightrevive.wikiru.jp/" class="exclude-icon">UNLIGHT：Revive 攻略Wiki</a> | <a href="https://azurpromilia.wikiru.jp/" class="exclude-icon">アズールプロミリア 有志Wiki</a> | <a href="https://sakurazimarpfer.wikiru.jp/" class="exclude-icon">桜島RPサーバーWiki</a> | <a href="https://madisland.wikiru.jp/" class="exclude-icon">Mad Island 攻略Wiki</a> | <a href="https://tenshoku-maou.wikiru.jp/" class="exclude-icon">転職魔王～リストラ勇者のお仕置きセレナーデ～ 攻略Wiki</a> | <a href="https://svs.wikiru.jp/" class="exclude-icon">サマバケ！すくらんぶる 攻略wiki</a> | <a href="https://orisries.wikiru.jp/" class="exclude-icon">オリスライズ 攻略wiki</a> | <a href="https://noctilucent.wikiru.jp/" class="exclude-icon">ノクティルセント：暁の前に 攻略Wiki</a> | <a href="https://suzuran.wikiru.jp/" class="exclude-icon">鈴蘭の剣攻略Wiki</a> | <a href="https://donguri.wikiru.jp/" class="exclude-icon">5chどんぐり非公式まとめwiki</a> | <a href="https://mugenrou.wikiru.jp/" class="exclude-icon">夢幻楼と眠れぬ蝶 攻略Wiki</a> | <a href="https://resonance.wikiru.jp/" class="exclude-icon">レゾナンス：無限号列車 攻略 Wiki</a> | <a href="https://vtuber-database.wikiru.jp/" class="exclude-icon">Vtuber総合データベースwiki</a> | <a href="https://aigiscenario.wikiru.jp/" class="exclude-icon">千年戦争アイギスシナリオwiki</a> | <a href="https://angelica-aster.wikiru.jp/" class="exclude-icon">ANGELICA ASTER 攻略Wiki</a> | <a href="https://elins-inn.wikiru.jp/" class="exclude-icon">Elin 攻略有志wiki</a> | <a href="https://karin-lk.wikiru.jp/" class="exclude-icon">魔王カリンちゃんRPG ～恋姫建国奔走記～攻略 Wiki</a> | <a href="https://etechrore.wikiru.jp/" class="exclude-icon">エタクロニクル：Re攻略考察wiki</a> | <a href="https://touhou-dm.wikiru.jp/" class="exclude-icon">東方ダンジョンメーカー攻略wiki</a> | <a href="https://dnabyss.wikiru.jp/" class="exclude-icon">デュエットナイトアビス(二重螺旋)攻略 Wiki</a> | <a href="https://madodra.wikiru.jp/" class="exclude-icon">魔法少女まどか☆マギカ Magia Exedra（まどドラ）攻略有志Wiki</a> | <a href="https://touhounomeikyuu-tri.wikiru.jp/" class="exclude-icon">東方の迷宮Tri 夢見る乙女と神秘の宝珠 攻略有志Wiki</a> | <a href="https://siprj.wikiru.jp/" class="exclude-icon">STELLAR IDOL PROJECT（ステラP）攻略Wiki</a> | <a href="https://adult-seiyu.wikiru.jp/" class="exclude-icon">エロゲー・エロアニメ声優総合Wiki</a> | <a href="https://stellasora.wikiru.jp/" class="exclude-icon">ステラソラ攻略有志 Wiki</a> | <a href="https://muvluv-girls-garden.wikiru.jp/" class="exclude-icon">マブラヴ ガールズガーデン攻略 Wiki</a> | <a href="https://horizon-walker.wikiru.jp/" class="exclude-icon">ホライゾンウォーカー攻略 Wiki</a> | <a href="https://reet.wikiru.jp/" class="exclude-icon">エターナルツリー新生(REエタツリ)攻略 Wiki</a> | <a href="https://aicomi.wikiru.jp/" class="exclude-icon">アイコミ 攻略wiki</a> | <a href="https://kaiitoumetsutan-trpg.wikiru.jp/" class="exclude-icon">TRPG怪異討滅譚5版対応Wiki</a> | <a href="https://koihime-taisen.wikiru.jp/" class="exclude-icon">恋姫大戦 攻略Wiki</a> | <a href="https://techcronoss.wikiru.jp/" class="exclude-icon">テクロノス攻略 Wiki</a> | <a href="https://taimaninsquad.wikiru.jp/" class="exclude-icon">対魔忍スクワッド攻略 Wiki</a> | <a href="https://bloxd.wikiru.jp/" class="exclude-icon">bloxd攻略 Wiki</a> | <a href="https://rlyehshoujotai.wikiru.jp/" class="exclude-icon">邪神戦記ルルイエ少女隊攻略 Wiki</a> | <a href="https://killer-inn.wikiru.jp/" class="exclude-icon">キラーイン攻略 Wiki</a> | <a href="https://acacia.wikiru.jp/" class="exclude-icon">Acacia総合有志wiki</a> | <a href="https://drapline.wikiru.jp/" class="exclude-icon">DRAPLINE攻略 Wiki</a> | <a href="https://rezoriri.wikiru.jp/" class="exclude-icon">レゾナンスリリウム（レゾリリ）攻略 Wiki</a> | <a href="https://dotabyss.wikiru.jp/" class="exclude-icon">ドットアビスX攻略 Wiki</a> | <a href="https://astraeoratio.wikiru.jp/" class="exclude-icon">アストラエ・オラティオ（アスオラ）攻略 Wiki</a> | <a href="https://amaloke.wikiru.jp/" class="exclude-icon">甘夏ろけーしょん 攻略wiki</a> | <a href="https://starward.wikiru.jp/" class="exclude-icon">星の翼（Starward）日本語wiki</a> | <a href="https://iv-n-tight.wikiru.jp/" class="exclude-icon">イヴンタイト攻略 Wiki</a> | <a href="https://fareidolia.wikiru.jp/" class="exclude-icon">ファレイドリア攻略 Wiki</a> | <a href="https://aroplapunch.wikiru.jp/" class="exclude-icon">アロプラパンチ Wiki</a> | <a href="https://shintousenki.wikiru.jp/" class="exclude-icon">神刀戦姫攻略 Wiki</a> | <a href="https://project-rusher.wikiru.jp/" class="exclude-icon">Project：RUSHER 非公式日本語 Wiki</a> | <a href="https://kurisute.wikiru.jp/" class="exclude-icon">クリステの遺宝攻略 Wiki</a> | <a href="https://osawari-re.wikiru.jp/" class="exclude-icon">おさわり勇者さま Re：Quest攻略 Wiki</a> | <a href="https://omngtkwn.wikiru.jp/" class="exclude-icon">大物が来たわね♥wiki</a> | <a href="https://ideal.wikiru.jp/" class="exclude-icon">ideal eve＇s room攻略 Wiki</a><br><br>
+ Site admin: <a href="https://escalationheroines.wikiru.jp/script/mailform/escalationheroines/">超昂大戦エスカレーションヒロインズ攻略 Wiki管理人</a><br>
+ <a href="https://wikiru.jp/">無料レンタルwiki by wikiru.jp</a><br>
+ <p>
+ <strong>PukiWiki 1.5.2</strong> &copy; 2001-2024 .
+ Powered by PHP 7.4.33. HTML convert time: 0.098 sec.
+ </p>
+<a href="https://greasyfork.org/ja/scripts/393034" class="exclude-icon">wikiru.jp コメントあぼーん</a> Copyright © 2017 Shikikan. License is <a href="https://www.apache.org/licenses/LICENSE-2.0" class="exclude-icon">Apache License 2.0</a><br>
+<a href="https://wikiru.jp/privacypolicy.html">wikiru.jpのプライバシーポリシー</a> | <a href="https://wikiru.jp/emergency_support.html">wikiru.jp運営の緊急サポートについて</a>
+</div>
+</div>
+<script type="text/javascript" src="skin/modalAnimation.js?111"></script>
+<script type="text/javascript" src="skin/modal.js?111"></script>
+</body>
+</html>
