@@ -30,6 +30,11 @@ on:
         type: boolean
         required: false
         default: false
+      pages:
+        description: '强制重抓指定页面名（空格或逗号分隔；留空=按增量流程抓）'
+        type: string
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -61,9 +66,15 @@ jobs:
         id: fetch
         env:
           WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+          FORCE_PAGES: ${{ inputs.pages }}
         run: |
           set +e
-          if [ "${{ inputs.full }}" = "true" ]; then
+          if [ -n "$FORCE_PAGES" ]; then
+            # 补漏专用：强制重抓指定页（空格或逗号分隔）。
+            # 用于「时间戳冻死」那类页 —— 它们即使被改过，sync-* 也比不出变化。
+            pages=$(echo "$FORCE_PAGES" | tr ',' ' ')
+            python -m escah_pipeline.cli fetch --force --pages $pages | tee fetch.txt
+          elif [ "${{ inputs.full }}" = "true" ]; then
             python -m escah_pipeline.cli sync-stale --workers 13 | tee fetch.txt
           else
             python -m escah_pipeline.cli sync-recent --workers 13 | tee fetch.txt
@@ -94,6 +105,31 @@ jobs:
           echo "exit=$code" >> "$GITHUB_OUTPUT"
           set -e
 
+      # ---- ②b 发现新增角色页（原站新角色只在这里能自动进来）----
+      # `discover` Phase 1 只刷新**已登记**的导航页（绝不新增，左侧栏是站点骨架）；
+      # Phase 2 从刷新后的「キャラクター一覧」解析 SSR/SR/R 分区，把**新角色页**登记进
+      # data/registry/pages.yaml。因此这一跑在 parse 之前，新增页当轮就能被下面的
+      # `fetch`（断点续抓）补齐快照，不必等下一轮。
+      # 反爬挑战下会失败，但不阻断后续步骤（与 fetch 一样 fail-soft）。
+      - name: Discover new character pages
+        env:
+          WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+        run: |
+          set +e
+          python -m escah_pipeline.cli discover | tee -a fetch.txt
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          set -e
+
+      # ---- ②c 补抓新登记的页（断点续抓：已有快照的自动跳过）----
+      - name: Fetch newly registered pages
+        env:
+          WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+        run: |
+          set +e
+          python -m escah_pipeline.cli fetch --mode all | tee -a fetch.txt
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          set -e
+
       # ---- ③ 解析一次：**只为产出 data/pending_assets.json**（新增图的下载清单）----
       #    --no-mark：不写 parsed_sha256（本地才知道自己的解析进度，见文件头注释）。
       - name: Parse snapshots (for pending assets only)
@@ -121,7 +157,7 @@ jobs:
           git config user.name "escah-bot"
           git config user.email "escah-bot@users.noreply.github.com"
           git add data/raw data/manifest.json data/pending_assets.json \
-                  data/recent_state.json data/upstream
+                  data/recent_state.json data/upstream data/registry
           if git diff --cached --quiet; then
             echo "本轮无变更（data/raw 与清单均无变化）。"
           else

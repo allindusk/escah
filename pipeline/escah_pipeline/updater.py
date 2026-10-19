@@ -11,7 +11,7 @@ import sys
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 
-from . import config
+from . import config, deps
 from .chara import extract_all_characters
 from .fetcher import (
     FetchError,
@@ -141,10 +141,18 @@ def _probe_and_save(
     workers: int,
     tag: str,
     retry_serial: bool = True,
+    force_hash: "set[str] | None" = None,
 ) -> "tuple[list[str], list[str]]":
     """并行探测候选页的「最終更新日時」，对漂移页落快照。
 
     返回 (变更页名列表, 探测失败/无时间戳的页名列表)。
+
+    `force_hash`：**忽略时间戳、直接比正文 sha256** 的页名集合。用于两类时间戳不可信的页
+    （详见 `deps.py` 与本节末尾注释）：
+      · 表格绑定页（`テーブル/xxx` 渲染进正文，宿主页自身时间戳不动）；
+      · 出现在「更新履歴」里的页（履歴比页面自己的 `Last-modified` 权威，实测原站有
+        114 页共享 `2022-12-22 10:04:23` 这个冻结时间戳）。
+    正文本来就已经 GET 下来了，多算一次哈希零额外请求。
 
     由 `sync_stale_pages`（全量 675 页）与 `sync_recent_pages`（更新履歴驱动的候选择）
     **共用**：两条通道的"判定口径 + 落盘动作"必须逐字一致 —— 否则 `sync-recent --verify`
@@ -165,9 +173,10 @@ def _probe_and_save(
     import httpx
 
     from .fetcher import LASTMOD_RE, page_url, parse_wiki_lastmod
-    from .snapshot import Manifest
+    from .snapshot import Manifest, sha256_bytes
 
     manifest = Manifest()
+    force = set(force_hash or ())
     lock = threading.Lock()
     local = threading.local()
     failed: "list[str]" = []
@@ -195,9 +204,19 @@ def _probe_and_save(
         """
         text = resp.text
         remote = parse_wiki_lastmod(text)
+        # ⚠️ 时间戳解析不出来的页（反爬挑战页 / 结构变化）**必须先拦掉**，
+        #    哪怕它在 force 集合里 —— 否则「哈希不同」会把挑战页正文当成新快照写进
+        #    data/raw，一次就把镜像好的页面污染成「One moment, please…」✗
         if not remote or not LASTMOD_RE.search(text):
             return "unknown", None
-        old = (manifest.page(name) or {}).get("wiki_last_modified")
+        old_entry = manifest.page(name) or {}
+        old = old_entry.get("wiki_last_modified")
+        if name in force:
+            # 时间戳不可信（表格绑定页 / 更新履歴已确认改过的页）→ 内容哈希才是判据。
+            # 哈希相同 = 真的没变（不写盘，避免无意义的 git churn）。
+            if old_entry.get("sha256") == sha256_bytes(resp.content):
+                return "unchanged", None
+            return "changed", (name, resp, remote, old)
         if old == remote:
             return "unchanged", None
         return "changed", (name, resp, remote, old)
@@ -274,6 +293,32 @@ def _probe_and_save(
     return changed, failed
 
 
+def _recent_names_safe(tag: str) -> "set[str]":
+    """容错地取「更新履歴」里的页名集合；失败只告警（退回纯时间戳判定）。"""
+    from . import recent as recent_mod
+
+    try:
+        hist = recent_mod.fetch_recent_history()
+    except Exception as err:  # noqa: BLE001 更新履歴挂了不该让同步停摆
+        log.warning("[%s] 更新履歴不可用，本轮只能按时间戳判定：%s", tag, err)
+        return set()
+    return set(hist.names)
+
+
+def _force_hash_names(hist_names: "set[str]", known: "set[str]") -> "set[str]":
+    """需要**忽略时间戳、按正文 sha256 判定**的页名集合（只取注册表内的页）。
+
+    两类页的时间戳不可信：
+      ① 表格绑定页：`#table(テーブル/xxx)` 渲染进正文，子页改动不动宿主页时间戳；
+      ② 更新履歴里出现的页：履歴比页面自己的 `Last-modified` 权威 —— 实测原站有 114 页
+         共享 `2022-12-22 10:04:23` 这个冻死的时间戳（装备页、原画別索引都在其中），
+         而它们在更新履歴里分别标着 2026-10-08 / 10-10 / 10-14，属于「明明改了、时间戳不变」。
+    """
+    table_hosts = deps.table_dep_hosts() & known
+    hist_hit = hist_names & known
+    return table_hosts | hist_hit
+
+
 def sync_stale_pages(dry_run: bool = False, workers: int = 13) -> list[str]:
     """**并行全量**检测原站「最終更新日時」漂移，只对变更页落快照（`update --full` 的快版）。
 
@@ -299,7 +344,14 @@ def sync_stale_pages(dry_run: bool = False, workers: int = 13) -> list[str]:
     if excluded:
         log.info("[sync-stale] 自动更新排除 %d 页（%s）：%s",
                  len(excluded), AUTO_UPDATE_FLAG, "、".join(excluded))
-    changed, _ = _probe_and_save(registry, dry_run, workers, "sync-stale")
+    known = {e["name"] for e in registry}
+    table_hosts = deps.table_dep_hosts() & known
+    hist_hit = _recent_names_safe("sync-stale") & known
+    force = table_hosts | hist_hit
+    if force:
+        log.info("[sync-stale] %d 页改用内容 sha256 判定（时间戳不可信）："
+                 "表格绑定 %d 页 + 更新履歴 %d 页", len(force), len(table_hosts), len(hist_hit))
+    changed, _ = _probe_and_save(registry, dry_run, workers, "sync-stale", force_hash=force)
     return changed
 
 
@@ -391,6 +443,7 @@ def sync_recent_pages(
         "window": [None, None],
         "truncated": False,
         "candidates": 0,
+        "hash_forced": 0,        # 按正文 sha256 判定（忽略时间戳）的页数
         "changed": [],
         "failed": [],
         "unregistered": [],      # 未登记、且非导航类 → 多为新增角色页（允许自动登记的那类）
@@ -436,6 +489,34 @@ def sync_recent_pages(
             # 正是允许自动新增的那一类（由 discover Phase 2 从「キャラクター一覧」登记）。
             # 本通道只做**提示**，绝不自行登记。
             report["unregistered"].append(name)
+    # ---- ②b 表格绑定页补入候选 ----
+    # `テーブル/xxx` 由 `#table()` 渲染进宿主页正文，**子页改动不动宿主页的「最終更新日時」**，
+    # 所以宿主页只靠自己的时间戳**永远判 unchanged**（用户反馈的正是这个：list-ssr/sr/r
+    # 的 raw 停在 2026-07-22，而 `テーブル/SSR` 2026-10-07 就改过）。
+    # 精确做法：更新履歴里出现了哪个 `テーブル/xxx`，就把它的宿主页拉进来 ——
+    # 既覆盖到、又不至于每轮无条件多抓 180 个宿主页（角色页各自内嵌「別衣装」表格）。
+    known = set(by_name)
+    seen = {e["name"] for e in candidates}
+    table_hits: "dict[str, list[str]]" = {}
+    for name in hist.names:
+        if not name.startswith("テーブル/"):
+            continue
+        for host in deps.hosts_of(name):
+            if host in known:
+                table_hits.setdefault(host, []).append(name)
+    added = [
+        by_name[h] for h in sorted(table_hits)
+        if h not in seen and is_auto_update(by_name[h])
+    ]
+    candidates.extend(added)
+    if table_hits:
+        log.info("[sync-recent] 更新履歴命中 %d 个テーブル子页 → 连带重抓宿主页 %d 个：%s",
+                 len({t for v in table_hits.values() for t in v}), len(added),
+                 "、".join(sorted(table_hits)[:8]))
+    # 本轮所有候选一律按正文 sha256 判定（更新履歴里出现的页同样不信时间戳：
+    # 实测原站有 114 页共享 2022-12-22 这个冻死的时间戳，装备页/原画別索引都在其中）
+    force = {e["name"] for e in candidates}
+    report["hash_forced"] = len(force)
     report["candidates"] = len(candidates)
     if report["unregistered"]:
         log.info(
@@ -476,7 +557,8 @@ def sync_recent_pages(
     else:
         if need_full and not fallback:
             log.warning("[sync-recent] %s（--no-fallback：仅报告）", report["reason"])
-        changed, failed = _probe_and_save(candidates, dry_run, workers, "sync-recent")
+        changed, failed = _probe_and_save(
+            candidates, dry_run, workers, "sync-recent", force_hash=force)
         report.update(changed=changed, failed=failed)
 
     # ---- ④ 状态落盘（供下次算窗口余量；dry_run 不写）----
@@ -487,6 +569,7 @@ def sync_recent_pages(
             "window": report["window"],
             "truncated": report["truncated"],
             "candidates": report["candidates"],
+            "hash_forced": report["hash_forced"],
             "changed": report["changed"],
             "fell_back": report["fell_back"],
             "reason": report["reason"],
@@ -500,10 +583,10 @@ def sync_recent_pages(
         )
 
     log.info(
-        "[sync-recent] 窗口 %s→%s（%d 条，触顶=%s）｜候选 %d 页｜%s %d 页｜回退=%s｜"
-        "自动更新排除命中 %d 页",
+        "[sync-recent] 窗口 %s→%s（%d 条，触顶=%s）｜候选 %d 页（其中 %d 页按内容哈希判定）｜"
+        "%s %d 页｜回退=%s｜自动更新排除命中 %d 页",
         report["window"][0], report["window"][1], report["entries"], report["truncated"],
-        report["candidates"], "将更新" if dry_run else "已更新",
+        report["candidates"], report["hash_forced"], "将更新" if dry_run else "已更新",
         len(report["changed"]), report["fell_back"], len(report["frozen"]),
     )
     return report
@@ -526,10 +609,14 @@ def verify_recent_vs_stale(workers: int = 13) -> dict:
     except Exception as err:  # noqa: BLE001
         log.warning("[verify] 更新履歴不可用：%s", err)
         hist = recent_mod.RecentHistory()
-    cand = [by_name[n] for n in hist.names if n in by_name]
+    known = set(by_name)
+    force = _force_hash_names(set(hist.names), known)
+    cand_names = [n for n in hist.names if n in by_name]
+    cand_names += [n for n in sorted(deps.table_dep_hosts() & known) if n not in cand_names]
+    cand = [by_name[n] for n in cand_names]
 
-    r1, _ = _probe_and_save(cand, True, workers, "verify-recent")
-    r2, _ = _probe_and_save(registry, True, workers, "verify-stale")
+    r1, _ = _probe_and_save(cand, True, workers, "verify-recent", force_hash=force)
+    r2, _ = _probe_and_save(registry, True, workers, "verify-stale", force_hash=force)
     s1, s2 = set(r1), set(r2)
     return {
         "recent": sorted(s1),
