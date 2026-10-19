@@ -42,6 +42,43 @@ MAX_STEM = 90
 INDEX_JSON = "img_index.json"
 INDEX_MD = "img_index.md"
 
+# GitHub 上「直接打开了就是图片而不是 LFS 指针」的那个端点。
+# ⚠️ 不能用 raw.githubusercontent.com —— 它对 LFS 文件返回的是指针文本：
+#    version https://git-lfs.github.com/spec/v1
+#    oid sha256:xxxx  size 5980
+# 而 media.githubusercontent.com 才返回真实二进制（实测 content-type: image/webp ✓）。
+_MEDIA_TMPL = "https://media.githubusercontent.com/media/{owner}/{repo}/{branch}/data/assets/img/"
+_BLOB_TMPL = "https://github.com/{owner}/{repo}/blob/{branch}/data/assets/img/"
+_REMOTE_RE = re.compile(
+    r"(?:https://github\.com/|git@github\.com:)(?P<owner>[\w.\-]+)/(?P<repo>[\w.\-]+?)(?:\.git)?/?$")
+
+
+def github_base() -> dict[str, str] | None:
+    """当前仓库在 GitHub 上的图片 URL 前缀（media / blob 两个端点）。
+
+    从 `git remote` + 当前分支推导，不写死 owner/repo —— 换远端地址也不会失效。
+    """
+    try:
+        import subprocess
+
+        def git(*args: str) -> str:
+            out = subprocess.run(["git", *args], capture_output=True, text=True,
+                                 encoding="utf-8", errors="replace", timeout=15)
+            return out.stdout.strip()
+
+        remote = git("remote", "get-url", "origin")
+        branch = git("rev-parse", "--abbrev-ref", "HEAD")
+    except Exception:  # noqa: BLE001  没有 git / 超时都当作拿不到
+        return None
+    m = _REMOTE_RE.match(remote)
+    if not m or not branch:
+        return None
+    owner, repo = m.group("owner"), m.group("repo")
+    return {
+        "media": _MEDIA_TMPL.format(owner=owner, repo=repo, branch=branch),
+        "blob": _BLOB_TMPL.format(owner=owner, repo=repo, branch=branch),
+    }
+
 
 def _unhex_seg(seg: str) -> str | None:
     """单段十六进制 → UTF-8 文本；解不出返回 None（宁可保留哈希，也不要乱码名）。"""
@@ -152,6 +189,8 @@ def build_index() -> dict:
             if p.is_file():
                 on_disk[p.name] = p.stat().st_size
 
+    gh = github_base()
+    prefix = (gh or {}).get("media", "")
     page_refs = _scan_pages()
     entries: list[dict] = []
     for url, local in pending.items():
@@ -164,6 +203,8 @@ def build_index() -> dict:
             "bytes": on_disk.get(local),
             "exists": local in on_disk,
             "pages": pages,
+            # 点开就是图片的那个地址（GitHub media 端点；raw 端点只会给 LFS 指针）
+            "github_url": (prefix + local) if prefix else None,
         })
 
     known_files = {e["file"] for e in entries}
@@ -221,8 +262,9 @@ def _to_markdown(index: dict) -> str:
         "",
         index["note"],
         "",
-        "**用法**：Ctrl+F 搜日文原图名（如 `単発ガチャケット`），同行第 2 列就是它在磁盘上的文件名，"
-        "想看图就打开 `data/assets/img/<第2列>`。"
+        "**用法**：Ctrl+F 搜日文原图名（如 `単発ガチャケット`），同行第 2 列就是它的磁盘文件名，"
+        "**点那个链接直接在浏览器里打开这张图**（GitHub media 端点，返回真图；"
+        "`raw.githubusercontent.com` 对 LFS 文件只会给一段指针文本，别改用那个）。"
         "名字是 `01_02` 这类编号的，看最后一列「所在页」定位。",
         "",
         "⚠️ **别照着这张表去改文件名**：文件名 `sha256(源URL)[:16]` 被 12284 处引用"
@@ -236,7 +278,9 @@ def _to_markdown(index: dict) -> str:
         shown = "、".join(pages[:2])
         if len(pages) > 2:
             shown += f" 等 {len(pages)} 页"
-        lines.append(f"| {e['name']} | `{e['file']}` | {_human(e['bytes'])} | {shown or '-'} |")
+        gh_url = e.get("github_url")
+        file_cell = f"[{e['file']}]({gh_url})" if gh_url else f"`{e['file']}`"
+        lines.append(f"| {e['name']} | {file_cell} | {_human(e['bytes'])} | {shown or '-'} |")
 
     if index["orphans"]:
         lines += [

@@ -527,9 +527,13 @@ python -X utf8 tools/_dev/_where_mt.py 特殊技能 特殊招式 招募
 `data/assets/img/` 里的文件名是 `sha256(源URL)[:16].webp`，肉眼认不出内容。
 评估过真改名，**用户决定不改**，改用旁路对照表：
 
-- **找图**：打开 `data/assets/img_index.md`，Ctrl+F 搜日文原图名 → 同行就是磁盘文件名；
+- **找图**：打开 `data/assets/img_index.md`，Ctrl+F 搜日文原图名 → 同行第 2 列是磁盘文件名，
+  **而且它是个链接，点一下直接在浏览器里打开这张图**；
   最后一列「所在页」标出它出现在哪些页面（`01_02` 这类纯编号图就靠这列定位）。
-  机器要用的话读同目录的 `img_index.json`（含源 URL）。
+  机器要用的话读同目录的 `img_index.json`（含源 URL 与 `github_url`）。
+- ⚠️ 直链端点必须是 `media.githubusercontent.com`：图片走 Git LFS，而
+  `raw.githubusercontent.com` 对 LFS 文件只会返回一段指针文本
+  （`version https://git-lfs.github.com/spec/v1` + `oid`/`size`），不是图。
 - **刷新**：`escah-pipeline assets --index-only`；每次 `cli assets` 下载完也会自动重建。
   它由 `pending_assets.json` 现场生成，**不要手工编辑**。
 
