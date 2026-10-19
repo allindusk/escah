@@ -80,7 +80,7 @@ def _run_zh_patch(pages: list[str] | None = None,
     → char-fill（角色数据 JSON）。全程查表，无正则。
 
     `use_gtrans=True` 时在 fill 之前先用谷歌免费机翻把 `todo_files` 翻成译文文件
-    （见 _gtrans_todo_files），使本地 update 与 CI（sync-cron.yml）一样闭环出中文，
+    （见 _gtrans_todo_files），使本地 update 与 CI（sync-fetch.yml）一样闭环出中文，
     不必再手工补 `gtrans` 一步。
     """
     from . import i18n

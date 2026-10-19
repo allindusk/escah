@@ -76,7 +76,7 @@ node build.mjs dev                       # 开发 5173
 │   ├── i18n.py                # key 化 i18n 引擎（模板 + 双语 JSON）
 │   ├── gtrans.py              # 谷歌免费翻译（translate-pa 内部接口）
 │   ├── glossary_scan.py       # 词表扫描
-│   ├── changelog.py           # 原站「更新履歴」存档（sync-cron 周存档用）
+│   ├── changelog.py           # 原站「更新履歴」存档（sync-fetch 第 ⑤ 步周存档用）
 │   ├── imgx.py                # 图片转码（下载即转 WebP）
 │   ├── statpages.py           # 「数据统计」页生成（data/statdata → md + frag）
 │   └── sitegen.py             # 生成 VitePress 内容（md / frag / public / sidebar / 首页）
@@ -108,7 +108,7 @@ node build.mjs dev                       # 开发 5173
 │   ├── registry/              # pages.yaml、mirror_plan.yaml（入库）
 │   ├── statdata/              # ★ 攻略作者实测数据 JSON（入库；「数据统计」页数据源）
 │   └── manifest.json / pending_assets.json
-└── .github/workflows/         # deploy.yml、sync-cron.yml
+└── .github/workflows/         # deploy.yml、sync-fetch.yml、probe.yml
 ```
 
 ## 5. 流水线命令
@@ -290,6 +290,7 @@ CI 里配 repository variable 即可让两地构建同步指向它。站长平�
 - `site/.vitepress/dist`、`cache`、`theme/.gen-data`
 - `tools/_todo_translate/`、`_translated_texts/`、`_texts_for_translation/`
 - `data/logs/`、`recycle_bin/`
+- `data/assets/img_orig/`、`data/assets/img_stale/`（WebP 转码前后的原始备份与弃用旧图，见 §14）
 
 ## 10. 自动化（GitHub Actions）
 
@@ -306,18 +307,22 @@ CI 里配 repository variable 即可让两地构建同步指向它。站长平�
    重建前会用 `ESCAH_BASE=/` 重跑一次 `sync-site`：正文片段里的站内绝对链接带生成期 base 前缀，
    不重跑的话根路径部署的镜像站内链接全部 404（成片死链，直接影响收录）
 
-**`sync-cron.yml`（2026-10-19 起只做一件事：原站更新履歴存档）** — ⏸️ **定时仍关闭**，
-目前只能**手动触发**（Actions → Weekly Upstream Changelog → Run workflow）
+**每周存档原站更新履歴**（原 `sync-cron.yml`，2026-10-20 起并入 `sync-fetch.yml` 第 ⑤ 步）
 
-> 初次手动运行已成功（2026-10-18，run 39156499263：HTTP 通道 1 次请求即拿到正文、
-> 没用上浏览器兜底，产出 2026-W42 存档并自动提交）。要恢复每周自动跑，把
-> `on.schedule` 那三行的 `# ` 删掉即可。
+每周一 UTC 15:30 随抓取一起跑：抓完执行 `changelog fetch --browser`，有变更则由
+escah-bot commit & push `data/upstream/`（与 `data/raw` 同一个 `chore(fetch)` 提交）。
 
-`changelog fetch` → 有变更则 commit & push `data/upstream/`。
+> ⚠️ 这里原本是一条**独立**工作流（`sync-cron.yml`）：它 15:00 跑、抓**之前**归档，
+> `new/update` 计数最有参考价值；但 `sync-fetch.yml` 15:30 抓完后又归档一次，
+> 写的是同一批文件（`latest.json` / `weekly/<周>.*`）→ 后者把前者的产出覆盖了。
+> 两者做的是同一件事且有先后覆盖关系，故 2026-10-20 删掉前者，存档收敛到这里。
+> 代价是现在的 counts 是**抓取后**的对照结果（多数条目已回落成 `unchanged`）；
+> 想看"这周原站新增/更新了哪些页"，读本轮 `chore(fetch)` 提交与 CI Summary 即可。
 
-- **抓取分两步（2026-10-19 起）**：先跑纯 HTTP 的 `changelog fetch`（内部已含 3 次
-  退避重试）；**只有它失败**才安装 playwright chromium 并用 `--browser` 重试。
-  之前是无条件下载 120 MiB 的 chromium，绝大多数周次根本用不上。
+- **抓取分两步**：`changelog fetch --browser` 内部先跑纯 HTTP（含 3 次退避重试），
+  被 Cloudflare 拦住才用 playwright chromium 重试。⚠️ 本工作流只在第 ① 步抓取失败时
+  才安装 chromium；万一走到浏览器兜底又没装中，这一⑤步会红但不阻断提交，
+  手动重跑一次即可（`--browser` 多数周次其实用不上）。
 - **artifact 保留 90 天 ≠ 存档丢失**：artifact 只是「不 clone 也能下载本周结果」的
   临时件；真值是提交进 `data/upstream/` 的文件，跟 git 历史一起长期保存。
 
@@ -474,3 +479,40 @@ python -X utf8 tools/_dev/_where_mt.py 特殊技能 特殊招式 招募
 **出现在正确语境之外**的词就是机翻残留；`_verify_frag_terms.py` 里 `GOOD` 段的词
 （`扭蛋券` / `扭蛋`）是应当大量出现的规范译名。
 ⚠️ 残留计数长期不降时，先确认它是不是来自 `glossary` 兜底（见 §12.2）——那要改词表，不是改 `<slug>.json`。
+
+## 14. 清理约定与临时产物
+
+**唯一垃圾桶 = `recycle_bin/<本次日期>/`。清理一律「移动」，不要「删除」**：
+
+- 本机有守卫会拦截 >500 文件的删除（连 `__pycache__` 这种也删不掉，只能靠移动）；
+- 移动同时保留了可逆性，事后发现误清可以直接搬回来。
+- `recycle_bin/` 本身被 `.gitignore` 忽略。**要真正释放磁盘**，直接删掉里面不需要的历史归档即可，不影响仓库。
+
+### 14.1 可以放心丢弃的本地产物
+
+| 路径 | 性质 | 处理方式 |
+|---|---|---|
+| `site/.vitepress/dist`、`cache` | VitePress 构建产物与缓存，`node build.mjs build` 会重建 | 丢（或 `node build.mjs prune`） |
+| `data/logs/` | 流水线运行日志 | 丢 |
+| `data/assets/img_stale/` | 全站转 WebP 后**不再使用**的旧 png/gif | 丢（本次腾出 467 MB） |
+| `__pycache__/` | Python 字节码缓存 | 丢（删不掉就移动） |
+| `.playwright-cli/` | agent 浏览器运行时缓存 | 丢 |
+| `site/public` | `sync-site` 从 `data/assets/img` 拷出的 ~239 MB 图片 | 可重建，但每次重建要复制 225 MB，**本地开发建议留着** |
+
+### 14.2 别删的东西
+
+- **`data/assets/img_orig/`（约 561 MB）**：转 WebP **之前**的原始 png/gif，本地唯一副本。
+  站点只用 `img/` 里的 WebP，删了站点照样能跑，但原图拿不回来 —— `.gitignore` 里已注明
+  「本地保留即可」。想要空间时再单独决定，**不要把它当成垃圾顺手清掉**。
+- `site/node_modules/`：依赖，删了要重 `npm install`。
+- **`data/parsed/`**：尤其 `i18n/` 是**入库的译文真值**，整目录删 = 人工重翻。
+- `recycle_bin/`：归档留痕区，它存在本身就是「清理可追溯」的一部分。
+
+### 14.3 清理记录
+
+- **2026-10-20**：清 `data/assets/img_stale`（467 MB / 2478 文件）、`site/.vitepress/{dist,cache}`、
+  `data/logs`、`.playwright-cli`、3 处 `__pycache__` → `recycle_bin/_cleanup_20261020/`；
+  同时删掉冗余工作流 `sync-cron.yml`（见 §10）。仓库 `data/` 从 1.56 GB 降到 786 MB。
+- **2026-09-30 / 2026-10-19**：根 `_*.txt`、`tools/_rg_*`、`tools/_print*` 等调试草稿，见
+  `recycle_bin/_cleanup_20260930`、`_cleanup_20261019*`；`.gitignore` 的 `tools/_*`、`/*.log`、
+  `site/_build*.log` 等几条也是那时补的。

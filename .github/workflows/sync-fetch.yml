@@ -12,8 +12,16 @@ name: Fetch Upstream (raw + images)
 #
 # ⏸️→▶️ 定时已启用（2026-10-19）：当天手动成功跑通 3 轮（raw / 新页 / 图片全部入库），
 #   证实 Actions 出口能穿过原站 Cloudflare 无感挑战，当初"先手动验证再开定时"的前提已满足。
-#   每周一 UTC 15:00（日本周二 00:00）先由 sync-cron 归档更新履歴，本工作流在其后半小时跑，
-#   增量抓取该周变更页/新增页 raw 与新图并入库。
+#   每周一 UTC 15:00（日本周二 00:00）跑：更新履歴驱动的增量抓取 + 新图入库。
+#
+# ---- ⚠️ 2026-10-20：sync-cron.yml 已删除 ----
+#   原先 `Weekly Upstream Changelog` 是单独一条工作流、15:00 跑，只为在**抓之前**
+#   归档「本周原站动了哪些页」（new/update 计数最有参考价值）；本工作流 15:30 跑完
+#   抓取后，第 ⑤ 步又归档一次，写的是同一批文件（latest.json / weekly/<周>.*），
+#   于是前者每周的产出被后者覆盖 —— 实际只保留了"抓之后"的那份。
+#   两条工作流做的是同一件事、且有先后覆盖关系，故删掉前者，周存档收敛到本工作流的第 ⑤ 步。
+#   现在 ⑤ 产出的 counts 是**抓取后**的对照结果（大量条目已回落成 unchanged），
+#   想知道"本周新增/更新了哪些页"看 commit message 与本轮 Summary 里的 `changelog` 输出即可。
 #
 # 提交内容（全部入库；data/parsed/ 与图片以外的派生产物一概不入库）：
 #   data/raw/**                页面原始快照（镜像的唯一真值来源）
@@ -135,8 +143,20 @@ jobs:
 
       # ---- ③ 解析一次：**只为产出 data/pending_assets.json**（新增图的下载清单）----
       #    --no-mark：不写 parsed_sha256（本地才知道自己的解析进度，见文件头注释）。
+      #    continue-on-error（2026-10-20）：parse 崩掉不该让整周白跑 ——
+      #      后续 assets 仍能按**上一版** pending_assets.json 把已排队的图补齐，
+      #      ⑤ 的更新履歴存档与 ⑥ 的提交照旧执行，raw 快照一点不丢。
+      #      代价只是本轮新增页的图排不进清单（要等下一周），下面一步会显式告警。
       - name: Parse snapshots (for pending assets only)
+        id: parse
+        continue-on-error: true
         run: python -m escah_pipeline.cli parse --no-mark
+
+      - name: Warn if parse failed
+        if: steps.parse.outcome == 'failure'
+        run: |
+          echo "::warning::parse 失败：本轮新增/变更页的图片没排进 pending_assets.json，" \
+               "下周 CI 才会下载；可手动 Run workflow 重跑，或本地有网时跑 cli parse && cli assets。"
 
       # ---- ④ 下载新图（下载即转 WebP；已有文件自动跳过）----
       - name: Download new images

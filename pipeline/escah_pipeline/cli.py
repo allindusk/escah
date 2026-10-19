@@ -70,7 +70,7 @@ def build_parser() -> argparse.ArgumentParser:
     # ⚠️ 2026-09-28 方针变更（用户决定）：**默认不再调用谷歌机翻** ✓ ——
     #   免费端点质量不可控（实测旧"预替换"路径 chrF3 仅 0.175、术语命中 37.8%，且会产出
     #   「抗眩光低血糖症列表」这类乱译 ✗✗），改为人工/自然语言精翻。
-    #   要与 CI 一致（CI 已停用机翻，见 .github/workflows/sync-cron.yml），故默认关闭 ✓。
+    #   要与 CI 一致（CI 只抓 raw、不翻译，见 .github/workflows/sync-fetch.yml），故默认关闭 ✓。
     #   需要临时开启：`update --gtrans`（仍只翻本次变更页产出的待译清单，不扫整目录 ✓）。
     pu.add_argument("--gtrans", action="store_true",
                     help="启用谷歌机翻（**默认关闭**：只翻本次变更页产出的待译清单再 fill 回填）")
