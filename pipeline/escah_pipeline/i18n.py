@@ -2562,24 +2562,27 @@ def _residue_outside_annot(zh: str, ja: str = "") -> bool:
     """
     outside_annot = _ANNOT_PAREN_RE.sub("", zh or "")
     outside = _QUOTED_LITERAL_RE.sub("", outside_annot)
-    # ① 剥「译文中与日文原文相同的假名」= 译者刻意保留的专名
+    # ① 剥「译文中与日文原文相同的假名串」= 译者刻意保留的专名
     if ja:
         ja_runs = set(re.findall(r"[\u30a0-\u30ff\u30fc]{2,}", ja))
         if ja_runs:
             kept = re.compile("|".join(re.escape(r) for r in sorted(ja_runs, key=len, reverse=True)))
             outside = kept.sub(" ", outside)
-        # 单个假名也要剥：中文译名里常保留日文助词，如「七の賢腕シャムエル」的「の」。
-        # 不剥的话它会被当成残留假名，整块每轮重复导出（实测 ランス/ハルヒーナ 等页）。
-        ja_kana = set(re.findall(r"[\u3040-\u30ff]", ja))
-        if ja_kana:
-            outside = "".join(" " if c in ja_kana else c for c in outside)
-    # ② 剥词表/保留名单里登记的日文专名（双保险）
+    # ② 剥词表/保留名单里登记的日文专名（**必须早于单假名剥离**）
+    #    原站同一个专名常有多种写法（战部タカムネ：页名タカムネ／正文タカマル・タカムル），
+    #    先把整串剥掉，才不会让单假名那一步把「タカムル」逐个字符啃到只剩一个
+    #    不在日文里的字（实测残留一个「ム」→ 整块每轮重导出）。
     _load_retain_ja()
     _load_name_glossary()
     if _RETAIN_RAW_RE is not None:
         outside = _RETAIN_RAW_RE.sub(" ", outside)
     if _NAME_RE is not None:
         outside = _NAME_RE.sub(" ", outside)
+    # ③ 最后剥单个假名：中文译名里常保留日文助词，如「七の賢腕シャムエル」的「の」。
+    if ja:
+        ja_kana = set(re.findall(r"[\u3040-\u30ff]", ja))
+        if ja_kana:
+            outside = "".join(" " if c in ja_kana else c for c in outside)
     if _contains_japanese_strict(outside):
         return True
     # 括号外已干净：仅当整条「只剩括号里的日文」时才仍判未译（退化译文，如 zh=「（テスト）」）。
@@ -2673,15 +2676,15 @@ def _block_segments_complete(zh: str, ja: str) -> bool:
             if not (z or "").strip():
                 return False
         return True
-    # 段数不一致 ≠ 没译完：人工翻译常把**相邻几段并成一句**（译文在 <pre> 里按真换行
-    # 显示，视觉完全正确）。判据：非空译文段数 < 非空日文段数，且译文总字数
-    # ≥ 日文总字数 50% → 认为是「合并译完」，放行。
+    # 段数不一致 ≠ 没译完：人工翻译常把**相邻几段并成一句**，也常把**一句拆成两段**
+    # （译文在 <pre> 里按真换行显示，视觉完全正确）。判据：非空译文段数与日文不同，
+    # 且译文总字数 ≥ 日文总字数 50% → 认为是「已译完，只是分段不同」，放行。
     # 阈值取 50% 而非更高：日文译成中文字数本就只有 0.55~0.75 倍（汉字信息密度高），
     # 实测 annihilation blk2 完整译文 169 字 / 日文 251 字 = 0.67；只译一半的块
     # 大约在 0.3 左右，仍会被拦下继续进清单。
     jnz = [s for s in jsegs if _one_line(s).strip()]
     znz = [s for s in zsegs if s.strip()]
-    if znz and len(znz) < len(jnz):
+    if znz and len(znz) != len(jnz):
         jlen = sum(len(_one_line(s)) for s in jnz)
         zlen = sum(len(s.strip()) for s in znz)
         if jlen and zlen >= jlen * 0.5:
