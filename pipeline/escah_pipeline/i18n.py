@@ -383,6 +383,8 @@ _PHRASE_TPL: "dict[str, str] | None" = None     # 数值模板：把「速度 2.
 # 于是光「清空 + 写短语」压不住：必须让手工短语在渲染期压过 ent.zh 才稳定。
 _PHRASE_MANUAL: "dict[str, str] | None" = None
 _RETAIN_TPL: "set[str] | None" = None           # 保留原文的数值模板（如 第<N>部 / ※<N>年<N>月更新）
+_RETAIN_RAW: "list[str]" = []                   # 保留名单的原始串（判「已译」时从译文里剥掉）
+_RETAIN_RAW_RE: "re.Pattern | None" = None      # 上面那串的长词优先替换正则
 
 
 def _load_name_glossary() -> None:
@@ -1207,11 +1209,12 @@ def _load_retain_ja() -> None:
       retain: ["葵渚", ...]         # 列表
       retain: {葵渚: 画师, ...}      # 映射（值只是备注，不参与判定）
     """
-    global _RETAIN_SET, _RETAIN_TPL
+    global _RETAIN_SET, _RETAIN_TPL, _RETAIN_RAW, _RETAIN_RAW_RE
     if _RETAIN_SET is not None:
         return
     _RETAIN_SET = set()
     _RETAIN_TPL = set()
+    _RETAIN_RAW = []
     if not _RETAIN_FILE.exists():
         return
     try:
@@ -1235,12 +1238,19 @@ def _load_retain_ja() -> None:
             continue
         n = _norm(it)
         _RETAIN_SET.add(n)
+        _RETAIN_RAW.append(it)
         # 含数值的条目额外登记「数值模板」：如「第2部」→ 第<N>部（第3部 也保留原文），
         # 「※26年3月更新」→ ※<N>年<N>月更新。这些串在中文里本就同形，整族保留是正确的。
         if _TPL_NUM_RE.search(n):
             _RETAIN_TPL.add(_num_template(n))
     log.debug("[i18n retain] 保留原文名单 %d 条（数值模板 %d）",
               len(_RETAIN_SET), len(_RETAIN_TPL))
+    # 原始串替换正则（长词优先）：判「译文是否已译完」时，先把这些**按站点规矩保留日文**
+    # 的专名从译文里剥掉，再查残留假名。否则 ダイビート/アルダーク/ユーノ 这类名字
+    # 会被当成「未译完的日文残留」，导致整块每个 run 都被重新导出、反复机翻（实测 2061 条
+    # 待译里绝大多数正是这种：块级 zh 早已是中文，只因为句中含有保留日文专名）。
+    raw = sorted({s for s in _RETAIN_RAW if s}, key=len, reverse=True)
+    _RETAIN_RAW_RE = re.compile("|".join(re.escape(s) for s in raw)) if raw else None
 
 
 def _retained_ja(ja: str) -> bool:
@@ -2535,7 +2545,7 @@ _CJK_ANY_RE = re.compile(r"[\u4e00-\u9fff\u3040-\u309f\u30a0-\u30ff]")
 _QUOTED_LITERAL_RE = re.compile(r"「[^」]*」|『[^』]*』|“[^”]*”|\"[^\"]*\"")
 
 
-def _residue_outside_annot(zh: str) -> bool:
+def _residue_outside_annot(zh: str, ja: str = "") -> bool:
     """括号（标注体例）**之外**是否仍有日文残留 —— 这才是真正的未译。
 
     2026-09-27 补充：**引号内**的日文同样属「标注体例」，不算残留。实测 83 条
@@ -2544,9 +2554,32 @@ def _residue_outside_annot(zh: str) -> bool:
     读音或文件名，对它们是**正确译法**；原先只认 `（…）`，于是这些条目被判未译、
     反复进队列，CI 每次还会把读音/文件名再机翻破坏一遍 ✗。
     退化保护不变：整条只剩引号内日文（如 zh=「日本語」）仍判未译（见下方兜底）。
+
+    2026-10-19 再补充：**译文里与日文原文相同的假名串**同样是刻意保留的专名
+    （ダイビート／アルダーク／エスカ・ルビー…），按站点规矩这些名字保留日文原名。
+    判定前先把它们剥掉，否则整块每个 run 都被判「未译」而反复重译 ——
+    实测 2061 条待译里绝大多数正是这种（块级 zh 早已是中文）。
     """
     outside_annot = _ANNOT_PAREN_RE.sub("", zh or "")
     outside = _QUOTED_LITERAL_RE.sub("", outside_annot)
+    # ① 剥「译文中与日文原文相同的假名」= 译者刻意保留的专名
+    if ja:
+        ja_runs = set(re.findall(r"[\u30a0-\u30ff\u30fc]{2,}", ja))
+        if ja_runs:
+            kept = re.compile("|".join(re.escape(r) for r in sorted(ja_runs, key=len, reverse=True)))
+            outside = kept.sub(" ", outside)
+        # 单个假名也要剥：中文译名里常保留日文助词，如「七の賢腕シャムエル」的「の」。
+        # 不剥的话它会被当成残留假名，整块每轮重复导出（实测 ランス/ハルヒーナ 等页）。
+        ja_kana = set(re.findall(r"[\u3040-\u30ff]", ja))
+        if ja_kana:
+            outside = "".join(" " if c in ja_kana else c for c in outside)
+    # ② 剥词表/保留名单里登记的日文专名（双保险）
+    _load_retain_ja()
+    _load_name_glossary()
+    if _RETAIN_RAW_RE is not None:
+        outside = _RETAIN_RAW_RE.sub(" ", outside)
+    if _NAME_RE is not None:
+        outside = _NAME_RE.sub(" ", outside)
     if _contains_japanese_strict(outside):
         return True
     # 括号外已干净：仅当整条「只剩括号里的日文」时才仍判未译（退化译文，如 zh=「（テスト）」）。
@@ -2616,22 +2649,44 @@ def _block_segments_complete(zh: str, ja: str) -> bool:
     if _BR_PH not in ja:
         return True
     jsegs = ja.split(_BR_PH)
-    zsegs = zh.split(_BR_PH)
-    if len(zsegs) != len(jsegs):
-        return False
-    for j, z in zip(jsegs, zsegs):
-        body = _one_line(j)
-        if not body.strip():
-            continue
-        if _glossary_covers(body) or _seg_reuse_as_is(body) or _retained_ja(body):
-            continue
-        # 与导出口径对齐：extract 不会导出的段（UI 框架词、数字模板、孤立单字假名等）
-        # 自然也不该让整块被判「不完整」，否则会陷入「导不出 → 判不完整 → 反复导出」的空转。
-        if _should_skip_extract(body):
-            continue
-        if not (z or "").strip():
-            return False
-    return True
+    # ⚠️ 译文里的换行写法不统一：有的用内部占位符 \x01，有的直接写了真换行 \n
+    #   （人工翻译时常这样）。两者语义相同，判「逐段完整」前先归一化，否则段数
+    #   对不上就被判未译 → 整块每个 run 反复重导出（实测 annihilation/raid 等页
+    #   几百条待译正是这么来的）。
+    zsegs = (zh or "").replace("\r\n", "\n").replace("\n", _BR_PH).split(_BR_PH)
+    # 尾部的空段是「占位符/连续 <br>」的产物，两边都先丢掉再比：
+    #   · 译文侧：5 段真译文 + 5 个空占位会被当成 10 段，与日文 6 段永远对不上；
+    #   · 日文侧：`A\x01B\x01` 这种尾随占位会让日文多算一段，译文却已经译完。
+    while zsegs and not zsegs[-1].strip():
+        zsegs.pop()
+    while jsegs and not _one_line(jsegs[-1]).strip():
+        jsegs.pop()
+    if len(zsegs) == len(jsegs):
+        for j, z in zip(jsegs, zsegs):
+            body = _one_line(j)
+            if not body.strip():
+                continue
+            if _glossary_covers(body) or _seg_reuse_as_is(body) or _retained_ja(body):
+                continue
+            if _should_skip_extract(body):
+                continue
+            if not (z or "").strip():
+                return False
+        return True
+    # 段数不一致 ≠ 没译完：人工翻译常把**相邻几段并成一句**（译文在 <pre> 里按真换行
+    # 显示，视觉完全正确）。判据：非空译文段数 < 非空日文段数，且译文总字数
+    # ≥ 日文总字数 50% → 认为是「合并译完」，放行。
+    # 阈值取 50% 而非更高：日文译成中文字数本就只有 0.55~0.75 倍（汉字信息密度高），
+    # 实测 annihilation blk2 完整译文 169 字 / 日文 251 字 = 0.67；只译一半的块
+    # 大约在 0.3 左右，仍会被拦下继续进清单。
+    jnz = [s for s in jsegs if _one_line(s).strip()]
+    znz = [s for s in zsegs if s.strip()]
+    if znz and len(znz) < len(jnz):
+        jlen = sum(len(_one_line(s)) for s in jnz)
+        zlen = sum(len(s.strip()) for s in znz)
+        if jlen and zlen >= jlen * 0.5:
+            return True
+    return False
 
 
 def _untranslated_items(slug: str, allow_ui_fragments: bool = False) -> list[dict]:
@@ -2672,7 +2727,7 @@ def _untranslated_items(slug: str, allow_ui_fragments: bool = False) -> list[dic
         if not zh:
             return False
         if zh != ja:
-            return not _residue_outside_annot(zh)
+            return not _residue_outside_annot(zh, ja)
         return (_glossary_covers(ja)
                 or _should_skip_extract(ja)
                 or not _is_japanese_needs_translate(ja))
