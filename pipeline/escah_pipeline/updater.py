@@ -513,6 +513,25 @@ def sync_recent_pages(
         log.info("[sync-recent] 更新履歴命中 %d 个テーブル子页 → 连带重抓宿主页 %d 个：%s",
                  len({t for v in table_hits.values() for t in v}), len(added),
                  "、".join(sorted(table_hits)[:8]))
+    # ---- ②c 表格绑定宿主页**每轮必探**（2026-10-19 补）----
+    # ②b 只在「テーブル/xxx 恰好落进更新履歴窗口」时才连带宿主页，但更新履歴是
+    # **最新 100 条的截断列表**（实测窗口约 21 天）：子页改动若被挤出窗口，
+    # 就再也没有任何信号能把宿主页拉回来 —— 时间戳又永远不动 ⇒ 该变更**永久丢失**
+    # （这正是用户反馈「SR / R 角色列表不更新」的根因：テーブル/SR、テーブル/R
+    #  本周根本没出现在履歴里，于是 SR/R 两页本轮完全没被探测）。
+    # 判据很直接：**时间戳不可信的页，就必须每轮探测**，没有别的选择。
+    # 代价：182 个宿主页 = 182 次 GET（约十几秒）；而 sha256 判定是免费的
+    # —— 探测本来就要下载正文，多算一次哈希不增加任何请求。相比"静默丢更新"，值得。
+    seen2 = {e["name"] for e in candidates}
+    always = [
+        by_name[h] for h in sorted(deps.table_dep_hosts() & known)
+        if h not in seen2 and is_auto_update(by_name[h])
+    ]
+    if always:
+        candidates.extend(always)
+        log.info("[sync-recent] 表格绑定宿主页每轮必探：补入 %d 个（共 %d 个绑定页）",
+                 len(always), len(deps.table_dep_hosts() & known))
+    report["table_always"] = len(always)
     # 本轮所有候选一律按正文 sha256 判定（更新履歴里出现的页同样不信时间戳：
     # 实测原站有 114 页共享 2022-12-22 这个冻死的时间戳，装备页/原画別索引都在其中）
     force = {e["name"] for e in candidates}
