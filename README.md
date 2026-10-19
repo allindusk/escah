@@ -372,7 +372,7 @@ CI 里配 repository variable 即可让两地构建同步指向它。站长平�
 
 ## 12. 版本号与更新记录
 
-当前站点版本：**1.2.14**（2026-10-19）。
+当前站点版本：**1.2.15**（2026-10-19）。
 
 前端版本号常量 `SITE_VERSION` 定义在
 `site/.vitepress/theme/components/SiteAccessSwitch.vue`，更新记录数据位于

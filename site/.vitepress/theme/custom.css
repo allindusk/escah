@@ -230,6 +230,10 @@
   background: var(--escah-pink-soft);
   color: #1b1b1f;
 }
+/* 头像链接（a.char-ref 包裹 img）去掉角色名标签的虚线底边，避免图像下方出现虚线；
+   文本型【角色名】浮窗标签的虚线底边保留 */
+.mirror-content td.escah-img-col a.char-ref,
+.mirror-content td.escah-img-stack a.char-ref { border-bottom: none; }
 .mirror-content img[data-char] { cursor: pointer; display: inline-block; vertical-align: middle; }
 /* 正文内联头像（角色链接去链接化后的 <span data-char><img> 连续排列）需横向同行，
    覆盖 VitePress .vp-doc img 的 display:block，否则每个头像各占一行变成竖排 */
