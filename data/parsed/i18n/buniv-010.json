@@ -1652,9 +1652,9 @@
  },
  "_links": {
   "L1": {
-   "href": "https://escalationheroines.wikiru.jp/?%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D",
-   "kind": "external",
-   "target_slug": "",
+   "href": "characters/%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D.html",
+   "kind": "site",
+   "target_slug": "%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D",
    "has_img": "",
    "display_key": "key15"
   },
