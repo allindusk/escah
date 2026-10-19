@@ -3,6 +3,18 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # ===== 第一层闸门：零成本 =====
+    # 只有「版本号文件」本身在本次 push 里被改动，工作流才会被触发。
+    # 于是绝大多数提交（文档、tools/ 脚本、原站更新履歴存档…）**连 run 记录都不会产生**，
+    # 不占 runner、不占 Actions 分钟、不占 Pages 构建额度。
+    #
+    # 版本号唯一来源 = site/.vitepress/theme/components/SiteAccessSwitch.vue 的 SITE_VERSION
+    #   （项目规矩：升版本号必须同步维护 theme/changelog.json，二者天然一致）
+    #
+    # ⚠️ 若将来版本号换了地方住，这里要同步改路径，否则闸门会失效。
+    paths:
+      - 'site/.vitepress/theme/components/SiteAccessSwitch.vue'
+  # 手工触发 = 强制部署（无视版本是否变化），唯一可靠的应急通道。
   workflow_dispatch:
 
 permissions:
@@ -15,7 +27,77 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # ===== 第二层闸门：版本号真变了才继续 =====
+  # 第一层（paths 过滤）只保证「版本号文件被碰过」；这里再比一次**数字本身**，
+  # 挡住「只改了版本号附近的注释 / 格式，没升版本号」这种情况。
+  # 这一步要起一个极小的 runner（只有 checkout + 一个 shell 步骤，约 10~20 秒），
+  # 因为 GitHub 的 if 条件读不到仓库文件内容，想彻底零 runner 只能靠上面的 paths 过滤。
+  #
+  # 判定规则：
+  #   · 比较基准 = 本次 push 之前的提交（github.event.before），因此一次 push 里有多个提交、
+  #     版本号在中途递增也能正确识别（不用 HEAD~1）
+  #   · 放行（deploy=true）：版本号变化 / 手工触发 / commit message 含 [deploy] /
+  #     无法判定（强推、基准提交取不到）—— 一律「宁可多部署一次」
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy: ${{ steps.gate.outputs.deploy }}
+      version: ${{ steps.gate.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Compare SITE_VERSION
+        id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          EVENT: ${{ github.event_name }}
+          MSG: ${{ github.event.head_commit.message }}
+        run: |
+          set -uo pipefail
+          VFILE="site/.vitepress/theme/components/SiteAccessSwitch.vue"
+          read_version() { grep -m1 -oE "SITE_VERSION[[:space:]]*=[[:space:]]*'[^']+'" | sed -E "s/.*'([^']+)'/\1/"; }
+          decide() {
+            echo "deploy=$1" >> "$GITHUB_OUTPUT"
+            echo "::notice::$2"
+          }
+
+          new=$(read_version < "$VFILE")
+          echo "version=${new:-unknown}" >> "$GITHUB_OUTPUT"
+
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            decide true "手工触发 → 强制部署（v${new:-unknown}）"
+            exit 0
+          fi
+          case "$MSG" in
+            # 应急：既碰了版本号文件、commit message 又带 [deploy] 时强制部署
+            *"[deploy]"*) decide true "commit message 含 [deploy] → 强制部署（v${new:-unknown}）"; exit 0 ;;
+          esac
+          if [ -z "$new" ]; then
+            decide true "读不到 SITE_VERSION（$VFILE）→ 保守放行"
+            exit 0
+          fi
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            decide true "首次推送 / 新分支，无比较基准 → 放行（v$new）"
+            exit 0
+          fi
+          if ! git fetch --depth=1 --quiet origin "$BEFORE" 2>/dev/null; then
+            decide true "取不到基准提交 $BEFORE → 保守放行（v$new）"
+            exit 0
+          fi
+
+          old=$(git show "$BEFORE:$VFILE" 2>/dev/null | read_version)
+          if [ "$old" != "$new" ]; then
+            decide true "版本变更 ${old:-（无）} → $new，执行部署"
+          else
+            decide false "版本未变（v$new），本次不构建不部署。确需重新发布：在 Actions 页手动 Run workflow（workflow_dispatch 会无视版本强制部署）。"
+          fi
+
   build:
+    needs: check
+    if: needs.check.outputs.deploy == 'true'
     runs-on: ubuntu-latest
     steps:
       # 不在 checkout 阶段拉 LFS，改为“缓存 + 增量 pull”节省 LFS 带宽配额：
