@@ -1,0 +1,106 @@
+name: Probe Upstream (go/no-go)
+
+# ===== 这个工作流只有一个目的：回答一个问题 =====
+#   **GitHub Actions 的出口 IP 能不能穿过原站（wikiru.jp）的 Cloudflare 无感 JS 挑战？**
+#
+# 为什么必须先答：2026-10-19 起的新分工是「CI 联网抓 data/raw + 图片，本地离线镜像化」。
+# 本机直连原站已被挑战挡住（实测 40 秒过不去，cf-ray 落 SIN → 出口 IP 层面的持续挑战），
+# 而 Actions 出口同样是数据中心 IP。若这里 FAIL，整套抓取分工就不成立，得回到
+# 「人工在浏览器取 cf_clearance（WIKIRU_COOKIE）」或更强的浏览器通道。
+#
+# 它只抓**一页**、不写任何盘、30~90 秒出结论，失败时把判定与特征串打进日志。
+# 结论 PASS 后，才去开 sync-fetch.yml 的定时（当前也是注释状态）。
+on:
+  workflow_dispatch:
+    inputs:
+      page:
+        description: '探针页面名（默认「キャラクター一覧」，角色多、正文长，最容易判别）'
+        required: false
+        default: 'キャラクター一覧'
+      browser:
+        description: 'HTTP 失败后再起真实浏览器（playwright+chromium）重试'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e pipeline
+
+      # 常规通道：纯 HTTP 抓一页。
+      - name: Probe (HTTP)
+        id: http
+        env:
+          WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+        run: |
+          set +e
+          python -m escah_pipeline.cli probe \
+            --page '${{ inputs.page }}' --attempts 3 | tee probe-http.txt
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          set -e
+
+      # 兜底通道：只有 HTTP 没过才装 chromium（120 MiB + 装依赖，绝大多数情况用不上）。
+      - name: Install Playwright chromium (fallback only)
+        if: steps.http.outputs.exit != '0'
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Probe (browser fallback)
+        id: browser
+        if: steps.http.outputs.exit != '0'
+        env:
+          WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+        run: |
+          set +e
+          python -m escah_pipeline.cli probe \
+            --page '${{ inputs.page }}' --attempts 1 --browser | tee -a probe-http.txt
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Summary
+        env:
+          HTTP_EXIT: ${{ steps.http.outputs.exit }}
+          BR_EXIT: ${{ steps.browser.outputs.exit }}
+        run: |
+          {
+            echo "### 探针结果"
+            echo ""
+            if [ "$HTTP_EXIT" = "0" ]; then
+              echo "✅ **HTTP 通道拿到正文** —— Actions 直连可用，`sync-fetch.yml` 可以开定时。"
+            elif [ "$BR_EXIT" = "0" ]; then
+              echo "⚠️ HTTP 被挑战，**浏览器兜底通过** —— 可用，但每轮要多装 chromium（慢、费额度）。"
+              echo ""
+              echo "建议：sync-fetch.yml 保持**只在需要时手动触发**，不要开每周定时。"
+            else
+              echo "❌ **两条通道都没拿到正文** —— CI 抓取方案暂不可行。"
+              echo ""
+              echo "后续动作：在浏览器访问一次原站 → DevTools 里取 \`cf_clearance\`，"
+              echo "配成仓库 secret \`WIKIRU_COOKIE\` 后重跑本工作流。"
+            fi
+            echo ""
+            echo "<details><summary>原始输出</summary>"
+            echo ""
+            echo '```'
+            cat probe-http.txt
+            echo '```'
+            echo ""
+            echo "</details>"
+          } >> "$GITHUB_STEP_SUMMARY"

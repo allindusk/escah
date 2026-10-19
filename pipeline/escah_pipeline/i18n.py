@@ -1681,6 +1681,9 @@ def build_page(slug: str, fresh: bool = False) -> dict | None:
     # ---- 旧译文索引：按 ja 文本归一化建立，与 key 编号无关 ----
     _old_key: dict[str, str] = {}   # 节点级：{_norm_ns(ja): zh}
     _old_blk: dict[str, str] = {}   # 块级：{_norm_ns(_strip_br(ja)): zh}（忽略排版差异）
+    _old_src: dict[str, str] = {}   # 归一化 ja → 原文（失效报告用）
+    _old_zh: dict[str, str] = {}    # 归一化 ja → **旧译文**（失效报告要带出来，见返回处）
+    _used: set[str] = set()          # 本次实际命中回贴的归一化 ja
     if not fresh:
         old = load_entries(slug)
         for k, v in old.items():
@@ -1689,18 +1692,26 @@ def build_page(slug: str, fresh: bool = False) -> dict | None:
                 zh = (v.get("zh") or "").strip()
                 if ja and zh:
                     _old_key.setdefault(_norm_ns(ja), zh)
+                    _old_src.setdefault(_norm_ns(ja), ja)
+                    _old_zh.setdefault(_norm_ns(ja), zh)
         for bv in (old.get("_blocks") or {}).values():
             if isinstance(bv, dict):
                 ja = (bv.get("ja") or "").strip()
                 zh = (bv.get("zh") or "").strip()
                 if ja and zh:
                     _old_blk.setdefault(_norm_ns(_strip_br(ja)), zh)
+                    _old_src.setdefault(_norm_ns(_strip_br(ja)), ja)
+                    _old_zh.setdefault(_norm_ns(_strip_br(ja)), zh)
 
     def _mem(ja: str) -> str:
         """节点级（keyN）回贴：按 ja 文本查节点级索引。"""
         if not ja:
             return ""
-        return _old_key.get(_norm_ns(ja)) or ""
+        nk = _norm_ns(ja)
+        zh = _old_key.get(nk)
+        if zh:
+            _used.add(nk)
+        return zh or ""
 
     def _mem_blk(plain: str) -> str:
         """块级（blkN）回贴：按块整句查块级索引，再把换行数对齐到 ja。
@@ -1711,10 +1722,16 @@ def build_page(slug: str, fresh: bool = False) -> dict | None:
         """
         if not plain:
             return ""
-        zh = _old_blk.get(_norm_ns(_strip_br(plain))) or ""
-        if not zh:
+        nk = _norm_ns(_strip_br(plain))
+        zh = _old_blk.get(nk)
+        if zh:
+            _used.add(nk)
+        else:
             # 单句块：块整句可能恰好等于某个 keyN 的文本，退回节点级索引
-            zh = _old_key.get(_norm_ns(plain)) or ""
+            nk2 = _norm_ns(plain)
+            zh = _old_key.get(nk2)
+            if zh:
+                _used.add(nk2)
             if not zh:
                 return ""
         return _align_br(zh, plain.count(_BR_PH))
@@ -1886,17 +1903,30 @@ def build_page(slug: str, fresh: bool = False) -> dict | None:
 
     keys = _keys_of(entries)
     filled = sum(1 for e in keys.values() if e.get("zh"))
-    return {"slug": slug, "keys": len(keys), "zh": filled, "blocks": len(blocks)}
+    # **旧译文失效**（2026-10-19）：旧库里有译文、但本次遍历再也没遇到相同 ja 的条目
+    #   —— 原站把那句话改了/删了 → 这些人工译文被静默丢弃。不报出来的话，
+    #   「同页更新后 build 了一次」看起来毫无损失，实际上可能丢了几十条精校成果。
+    #   `lost_samples` **连旧译文正文一起给出**：重译时能参照原译文改，而不是从零翻
+    #   （否则只能去 git 历史里刨）。样例上限 10 条/页，够用又不至于把报告撑爆。
+    lost = sorted((set(_old_key) | set(_old_blk)) - _used) if not fresh else []
+    lost_samples = [{"ja": (_old_src.get(k, k))[:120], "zh": _old_zh.get(k, "")[:160]}
+                    for k in lost[:10]]
+    return {"slug": slug, "keys": len(keys), "zh": filled, "blocks": len(blocks),
+            "lost": len(lost), "lost_samples": lost_samples}
 
 
 def build_all(slugs: list[str] | None = None, fresh: bool = False) -> None:
+    from . import config as _cfg
     from .registry import load_registry
+    from .snapshot import utcnow_iso
 
     targets = [e["slug"] for e in load_registry()]
     if slugs:
         wanted = set(slugs)
         targets = [s for s in targets if s in wanted or s.split("/")[-1] in wanted]
     ok = miss = reused = 0
+    lost_pages: list[dict] = []
+    lost_total = 0
     for i, slug in enumerate(targets, 1):
         r = build_page(slug, fresh=fresh)
         if r is None:
@@ -1904,11 +1934,33 @@ def build_all(slugs: list[str] | None = None, fresh: bool = False) -> None:
         else:
             ok += 1
             reused += r.get("zh", 0)
+            if r.get("lost"):
+                lost_total += r["lost"]
+                lost_pages.append({"slug": slug, "lost": r["lost"],
+                                   "samples": r.get("lost_samples", [])})
         if i % 50 == 0 or i == len(targets):
             log.info("[i18n build] %d/%d（成功 %d，无源 %d，已回贴译文 %d）",
                      i, len(targets), ok, miss, reused)
     log.info("i18n build 完成：%d 页模板+JSON，%d 页无 ja 源，回贴旧译文 %d 条%s",
              ok, miss, reused, "（--fresh：全量重翻，未回贴）" if fresh else "")
+
+    # 失效报告（入库留痕）：原站改了/删掉的句子，其人工译文不会被继承 —— 必须可见。
+    if not fresh:
+        out_dir = _cfg.DATA_DIR / "upstream"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "build_report.json").write_text(json.dumps({
+            "generated_at": utcnow_iso(),
+            "pages": ok,
+            "keys_zh": reused,
+            "lost_total": lost_total,
+            "lost_pages": sorted(lost_pages, key=lambda d: -d["lost"])[:50],
+            "note": "lost = 旧译文因原站改文/删段而失效；samples 带**旧译文**，重译时据此改",
+        }, ensure_ascii=False, indent=1), encoding="utf-8")
+        if lost_total:
+            top = "、".join(f"{d['slug']}({d['lost']})"
+                            for d in sorted(lost_pages, key=lambda d: -d["lost"])[:8])
+            log.warning("[i18n build] ⚠️ %d 条旧译文因原站改文/删段而失效（明细见 "
+                        "data/upstream/build_report.json）：%s", lost_total, top)
 
 
 # -------------------------------------------------------------- migrate ----

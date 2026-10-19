@@ -50,6 +50,10 @@ def build_parser() -> argparse.ArgumentParser:
     pp = sub.add_parser("parse", help="解析快照 → 日文 Markdown / 角色 JSON")
     pp.add_argument("--pages", nargs="*")
     pp.add_argument("--force", action="store_true")
+    pp.add_argument("--no-mark", dest="mark", action="store_false", default=True,
+                    help="**不**写 manifest 的 parsed_sha256 解析进度标记。"
+                         "CI 专用：它跑 parse 只是为了产出 pending_assets.json（下载图片用），"
+                         "若写标记会让本地 pull 后误判「已解析」而跳过重解析 → 站点用旧内容且无报错")
 
     pa = sub.add_parser("assets", help="下载页面引用的图片资源（哈希命名去重）")
     pa.add_argument("--force", action="store_true")
@@ -109,8 +113,41 @@ def build_parser() -> argparse.ArgumentParser:
                     help="fetch 专用：HTTP 被验证页拦截时，改用真实浏览器(playwright+chromium)"
                          "重试——能执行 JS，Cloudflare 的无感挑战通常会在 reload 后放行")
 
+    # go/no-go 探针：只抓一页，判定「HTTP/浏览器通道能不能拿到正文」。
+    # 新分工（CI 抓 raw / 本地离线镜像化）能否成立全看这一条 —— 本机被 Cloudflare
+    # 挑战挡住，而 Actions 出口同样是数据中心 IP，必须先实测。
+    pprobe = sub.add_parser("probe", help="只抓一页并判定是否拿到正文（不写盘，CI go/no-go 用）")
+    pprobe.add_argument("--page", default="キャラクター一覧", help="探针页面名（默认角色一览）")
+    pprobe.add_argument("--cookie", help="附加 Cookie（cf_clearance）；也可用 WIKIRU_COOKIE")
+    pprobe.add_argument("--browser", action="store_true", help="HTTP 失败后改用真实浏览器重试")
+    pprobe.add_argument("--attempts", type=int, default=3, help="HTTP 重试次数（默认 3，退避 6s×n）")
+
     sub.add_parser("sync-plan", help="重建 mirror_plan.yaml 的 mirrored（planned 保留）")
     sub.add_parser("sync-site", help="生成 VitePress 站点内容（ja/zh）")
+
+    # 2026-10-19 新分工下的**本地**主命令：零网络请求，从已入库的 data/raw 重建一切。
+    # 起因是本机直连原站会被 Cloudflare 无感挑战挡住 → 抓取交给 CI（见 sync-fetch.yml），
+    # 本地只做镜像化。详见 local_sync.py 顶部说明。
+    pls = sub.add_parser("local-sync",
+                         help="离线本地重建：parse → i18n build（仅落后的页）→ char-fill → "
+                              "待译清单 → sync-site。**全程不联网**（raw 由 CI 抓好入库）")
+    pls.add_argument("--pages", nargs="*", help="只处理指定页（页名或 slug 均可）")
+    pls.add_argument("--force", action="store_true", help="强制重解析（默认按 sha256 增量）")
+    pls.add_argument("--rebuild-i18n", action="store_true",
+                     help="忽略内容指纹，强制重跑 i18n build（仍按 ja 文本回贴，不丢译文）")
+    pls.add_argument("--fresh", action="store_true",
+                     help="i18n build 不回贴旧译文（全量重翻，慎用）")
+    pls.add_argument("--no-translate", action="store_true", help="跳过 i18n build / char-fill")
+    pls.add_argument("--no-char-fill", action="store_true", help="跳过角色 JSON 的 zh 回填")
+    pls.add_argument("--no-extract", action="store_true", help="不生成待译清单")
+    pls.add_argument("--no-site", action="store_true", help="不跑 sync-site")
+    pls.add_argument("--dry-run", action="store_true", help="只报告将要做什么，不写盘")
+
+    pm2 = sub.add_parser("manifest",
+                         help="合并 CI 抓取侧与本地重建侧写的 manifest.json / pending_assets.json")
+    pm2.add_argument("action", choices=["merge", "status"],
+                     help="merge=合并（另一侧先改名成 *.merge-theirs.json）；status=概览")
+    pm2.add_argument("--dry-run", action="store_true", help="merge 专用：只报告差异，不写盘")
 
     pi = sub.add_parser("i18n", help="key 化 i18n：模板+双语 JSON（取代 zh_patch 正则替换）")
     pi.add_argument("action", choices=["build", "migrate", "extract", "extract-dedup", "verify-links",
@@ -182,7 +219,7 @@ def main(argv: list[str] | None = None) -> None:
         fetch_registered_pages(force=args.force, mode=args.mode, only=args.pages)
     elif args.cmd == "parse":
         from .parser_puki import parse_all
-        parse_all(pages=args.pages, force=args.force)
+        parse_all(pages=args.pages, force=args.force, mark=args.mark)
         from .chara import extract_all_characters
         extract_all_characters(force=args.force)
     elif args.cmd == "assets":
@@ -206,6 +243,15 @@ def main(argv: list[str] | None = None) -> None:
         # 否则中文页的角色名无法映射回日文 key → 悬停浮窗失效（日文页正常）。
         # 旧流程需手动跑 tools/gen_char_refs.py，容易漏；这里接入自动重生成。
         _regen_char_refs()
+    elif args.cmd == "local-sync":
+        from .local_sync import cmd_local_sync
+        cmd_local_sync(args)
+    elif args.cmd == "probe":
+        from .probe import cmd_probe
+        raise SystemExit(cmd_probe(args))
+    elif args.cmd == "manifest":
+        from .manifest_merge import cmd_manifest
+        cmd_manifest(args)
     elif args.cmd == "i18n":
         from . import i18n
         if args.action == "build":

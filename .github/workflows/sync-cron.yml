@@ -22,6 +22,14 @@ name: Weekly Upstream Changelog
 #   条目 status：new=原站有、本地未登记（需 discover+抓取）／update=原站比本地快照新
 #                ／unchanged=本地已覆盖／excluded=刻意不镜像（评论、沙盒等）
 #                ／frozen=no_auto_update（如反爬的公式ヘルプ，站点照常渲染）
+#
+# ---- 与另外两个工作流的分工（2026-10-19 新增，别混）----
+#   probe.yml      手动触发的 go/no-go 探针：只抓一页，判定 Actions 出口能否穿过
+#                  原站的 Cloudflare 无感挑战（**先跑它，再决定要不要开另外两个**）。
+#   sync-fetch.yml 手动触发的抓取：更新履歴 → 抓变更页/新增页 raw → parse --no-mark
+#                  → 下载新图（下载即转 WebP）→ 提交 data/raw 等入库。定时保持注释状态。
+#   本工作流      只做「更新履歴存档」，是本地更新时的**待办清单来源**。
+#   deploy.yml     push main 且版本号变化时，从已入库的 data/raw 无网重建站点并部署。
 on:
   # ⏸️ 定时触发**已暂时关闭**（2026-10-19 用户决定）：
   #   先手动跑一次，确认 CI 能否穿过原站新加的 Cloudflare 无感 JS 挑战、

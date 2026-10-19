@@ -1,0 +1,141 @@
+name: Fetch Upstream (raw + images)
+
+# ===== CI 只做「本地做不到的那件事」：联网抓原站 =====
+# 新分工（2026-10-19，用户决定）：
+#   CI   ：读更新履歴 → 抓变更页/新增页 raw → 解析一次(仅为产出待下载图清单) → 下载新图 → 提交入库
+#   本地 ：git pull → `cli local-sync`（零网络：解析 → i18n 回贴 → 待译清单 → sync-site）→ 翻译 → 发布
+#
+# 为什么这样切：① 本机直连原站被 Cloudflare 无感 JS 挑战挡住，CI 是目前唯一可能通的网络出口；
+#          ② 译文真值（data/parsed/i18n/）与站点产物只应在本地产生，CI 不碰就不会污染译文；
+#          ③ 解析进度标记 parsed_sha256 **绝不能**由 CI 推进 —— 否则本地 pull 后 parse 会
+#             误判「已解析」而跳过，站点静默用旧内容（见 parse --no-mark 的注释）。
+#
+# ⚠️ 本工作流的定时**默认注释**：先跑 probe.yml 确认能拿到正文，再删掉下面两行行首的 `# `。
+#   （cf_clearance 属于 secret WIKIRU_COOKIE；配了它通常就不必开定时，手动触发即可。）
+#
+# 提交内容（全部入库；data/parsed/ 与图片以外的派生产物一概不入库）：
+#   data/raw/**                页面原始快照（镜像的唯一真值来源）
+#   data/manifest.json         每页 URL/时间戳/sha256/状态
+#   data/pending_assets.json   待下载图清单（本地据此判断缺哪张图）
+#   data/recent_state.json     上次同步窗口（供下次算余量）
+#   data/upstream/**           更新履歴存档 / 构建报告
+on:
+  # ⏸️ 定时触发**保持关闭**（2026-10-19）：等 probe.yml 出 PASS 再决定。打开方式：删掉下面两行的 `# `。
+  # schedule:
+  #   - cron: '0 15 * * 1'
+  workflow_dispatch:
+    inputs:
+      full:
+        description: '全量逐页比对「最終更新日時」（675 次请求，约 1 分钟；平时用不到）'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-upstream
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e pipeline
+
+      # ---- ① 抓变更页（更新履歴驱动的增量；窗口不够深时内部自动回退全量）----
+      - name: Fetch changed pages
+        id: fetch
+        env:
+          WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+        run: |
+          set +e
+          if [ "${{ inputs.full }}" = "true" ]; then
+            python -m escah_pipeline.cli sync-stale --workers 13 | tee fetch.txt
+          else
+            python -m escah_pipeline.cli sync-recent --workers 13 | tee fetch.txt
+          fi
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Install Playwright chromium (fallback only)
+        if: steps.fetch.outputs.exit != '0'
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+
+      # ---- ② 重试：命中反爬时用真实浏览器再抓一轮 ----
+      # sync-recent/sync-stale 在被挑战时**不会**把验证页写进 data/raw
+      # （_judge 读不出「最終更新日時」→ 判 unknown → 不落盘），所以这一步是安全的补抓。
+      - name: Retry fetch (browser)
+        id: fetch_browser
+        if: steps.fetch.outputs.exit != '0'
+        env:
+          WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+        run: |
+          # fetch 注册表驱动的整页抓取没有 browser 通道，这里用探针先确认浏览器能过，
+          # 过不了就明确失败（不提交），过得了则改走「逐页 browser 抓取」由 probe 结论决定。
+          set +e
+          python -m escah_pipeline.cli probe --browser --attempts 1 | tee -a fetch.txt
+          code=${PIPESTATUS[0]}
+          echo "exit=$code" >> "$GITHUB_OUTPUT"
+          set -e
+
+      # ---- ③ 解析一次：**只为产出 data/pending_assets.json**（新增图的下载清单）----
+      #    --no-mark：不写 parsed_sha256（本地才知道自己的解析进度，见文件头注释）。
+      - name: Parse snapshots (for pending assets only)
+        run: python -m escah_pipeline.cli parse --no-mark
+
+      # ---- ④ 下载新图（下载即转 WebP；已有文件自动跳过）----
+      - name: Download new images
+        env:
+          WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+        run: python -m escah_pipeline.cli assets
+
+      # ---- ⑤ 更新履歴存档（新增页 / 已更新页清单，供本地一眼看清要做什么）----
+      - name: Archive upstream update history
+        env:
+          WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
+        run: |
+          set +e
+          python -m escah_pipeline.cli changelog fetch --browser | tee -a fetch.txt
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          set -e
+
+      # ---- ⑥ 提交（仅上述入库范围；不碰 data/parsed/ 与译文）----
+      - name: Commit and push
+        run: |
+          git config user.name "escah-bot"
+          git config user.email "escah-bot@users.noreply.github.com"
+          git add data/raw data/manifest.json data/pending_assets.json \
+                  data/recent_state.json data/upstream
+          if git diff --cached --quiet; then
+            echo "本轮无变更（data/raw 与清单均无变化）。"
+          else
+            git commit -m "chore(fetch): 原站增量镜像 $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### 本轮抓取"
+            echo ""
+            echo '```'
+            cat fetch.txt 2>/dev/null || echo "（无输出）"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

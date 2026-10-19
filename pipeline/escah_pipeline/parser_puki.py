@@ -358,8 +358,19 @@ def _parse_one(args: tuple) -> tuple:
     return (name, True, None, frag_rel, chunks_rel, fragment, chunks, index_entry, local_pending)
 
 
-def parse_all(pages: list[str] | None = None, force: bool = False) -> None:
-    """解析全部快照 → data/parsed/ja/ 片段与文本块；更新 parsed 索引。"""
+def parse_all(pages: list[str] | None = None, force: bool = False,
+              mark: bool = True) -> None:
+    """解析全部快照 → data/parsed/ja/ 片段与文本块；更新 parsed 索引。
+
+    `mark=False`（CLI `parse --no-mark`）：**不**写 manifest 里的 `parsed_sha256`。
+    给「只产出 `data/pending_assets.json`、不参与本地解析状态」的调用方用 —— 目前是 CI。
+    为什么必须有这个开关：`parsed_sha256` 是**本机**解析进度标记，判断式
+    `frag 存在 且 parsed_sha256 == sha256 → 跳过重解析`（见下方断点续解析段）。
+    CI 跑一遍 parse 就会把标记推进到**远端刚抓到的新 sha**，而 CI 机器上没有
+    `data/parsed/`（不入库）—— 本地 pull 之后，frag 存在（内容是旧版 A）而
+    标记已经是新版 B 的 sha → parse 静默跳过 → 站点继续用旧内容，
+    且没有任何报错。CI 必须用 `--no-mark`。
+    """
     config.ensure_dirs()
     entries = load_registry()
     if pages:
@@ -415,7 +426,7 @@ def parse_all(pages: list[str] | None = None, force: bool = False) -> None:
             index[name] = index_entry
             pending_assets.update(local_pending)
             m = manifest.page(name)
-            if m:
+            if m and mark:
                 m["parsed_sha256"] = m.get("sha256")
                 manifest.data["pages"][name] = m
             ok += 1
