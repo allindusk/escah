@@ -158,10 +158,24 @@ jobs:
         run: |
           git config user.name "escah-bot"
           git config user.email "escah-bot@users.noreply.github.com"
+          # ⚠️ data/assets 必须一起提交：图片是 `assets` 步下载的产物（LFS 托管），
+          #    漏掉它就会出现「图下载了、但仓库里没有、本地永远缺图」——
+          #    实测 2026-10-19 一轮：138 张新图被下载后未入库，且因 raw/manifest 无变化，
+          #    整个 commit 步直接走「本轮无变更」分支，图片全丢。
           git add data/raw data/manifest.json data/pending_assets.json \
-                  data/recent_state.json data/upstream data/registry
+                  data/recent_state.json data/upstream data/registry data/assets
+          # 新增图片走 LFS：checkout 默认 `lfs: false` 不会装 filter，
+          # 不显式 install 的话新 .webp 会以「原始二进制」入库，之后别人 checkout
+          # 反而被 git-lfs 当成指针坏掉。这里一次 install 就够。
+          if git diff --cached --name-only | grep -q '^data/assets/'; then
+            git lfs install --local \
+              || echo "::warning::git lfs 不可用，本次图片将以普通二进制入库（不影响构建）"
+            git add --renormalize data/assets
+          fi
+          echo "本轮暂存：" $(git diff --cached --name-only | wc -l) "个文件" \
+               "（图片" $(git diff --cached --name-only | grep -c '^data/assets/' || true) "张）"
           if git diff --cached --quiet; then
-            echo "本轮无变更（data/raw 与清单均无变化）。"
+            echo "本轮无变更（raw / 清单 / 图片均无变化）。"
           else
             git commit -m "chore(fetch): 原站增量镜像 $(date -u +%Y-%m-%d)"
             git push
