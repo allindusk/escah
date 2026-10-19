@@ -10,8 +10,10 @@ name: Fetch Upstream (raw + images)
 #          ③ 解析进度标记 parsed_sha256 **绝不能**由 CI 推进 —— 否则本地 pull 后 parse 会
 #             误判「已解析」而跳过，站点静默用旧内容（见 parse --no-mark 的注释）。
 #
-# ⚠️ 本工作流的定时**默认注释**：先跑 probe.yml 确认能拿到正文，再删掉下面两行行首的 `# `。
-#   （cf_clearance 属于 secret WIKIRU_COOKIE；配了它通常就不必开定时，手动触发即可。）
+# ⏸️→▶️ 定时已启用（2026-10-19）：当天手动成功跑通 3 轮（raw / 新页 / 图片全部入库），
+#   证实 Actions 出口能穿过原站 Cloudflare 无感挑战，当初"先手动验证再开定时"的前提已满足。
+#   每周一 UTC 15:00（日本周二 00:00）先由 sync-cron 归档更新履歴，本工作流在其后半小时跑，
+#   增量抓取该周变更页/新增页 raw 与新图并入库。
 #
 # 提交内容（全部入库；data/parsed/ 与图片以外的派生产物一概不入库）：
 #   data/raw/**                页面原始快照（镜像的唯一真值来源）
@@ -20,9 +22,8 @@ name: Fetch Upstream (raw + images)
 #   data/recent_state.json     上次同步窗口（供下次算余量）
 #   data/upstream/**           更新履歴存档 / 构建报告
 on:
-  # ⏸️ 定时触发**保持关闭**（2026-10-19）：等 probe.yml 出 PASS 再决定。打开方式：删掉下面两行的 `# `。
-  # schedule:
-  #   - cron: '0 15 * * 1'
+  schedule:
+    - cron: '30 15 * * 1'
   workflow_dispatch:
     inputs:
       full:

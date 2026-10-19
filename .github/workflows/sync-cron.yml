@@ -31,12 +31,11 @@ name: Weekly Upstream Changelog
 #   本工作流      只做「更新履歴存档」，是本地更新时的**待办清单来源**。
 #   deploy.yml     push main 且版本号变化时，从已入库的 data/raw 无网重建站点并部署。
 on:
-  # ⏸️ 定时触发**已暂时关闭**（2026-10-19 用户决定）：
-  #   先手动跑一次，确认 CI 能否穿过原站新加的 Cloudflare 无感 JS 挑战、
-  #   正常生成存档；确认可用后再打开定时。
-  #   打开方式：删掉下面三行行首的 `# `。
-  # schedule:
-  #   - cron: '0 15 * * 1'
+  # ▶️ 定时已启用（2026-10-19）：当天手动成功跑通 3 轮（raw / 新页 / 图片全部入库），
+  #   证实 Actions 出口能穿过原站 Cloudflare 无感挑战，当初"先手动验证再开定时"的前提已满足。
+  #   每周一 UTC 15:00（日本周二 00:00）归档原站更新履歴；半小时后 sync-fetch 接力做增量抓取。
+  schedule:
+    - cron: '0 15 * * 1'
   workflow_dispatch:
 
 permissions:

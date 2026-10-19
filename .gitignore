@@ -70,6 +70,7 @@ site/_preview*.log
 
 # 其他 agent 运行时记忆副本（主记忆在 .codebuddy/memory/）
 .workbuddy/
+prompt.md
 
 # 根目录开发/调试临时产物（不入库）
 /*.log
