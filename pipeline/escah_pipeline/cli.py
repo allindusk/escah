@@ -40,7 +40,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("discover", help="两阶段发现：MenuBar → 观察页；キャラクター一覧 → 角色详情页")
+    pd = sub.add_parser(
+        "discover",
+        help="三段发现：MenuBar → 观察页（只刷新）；角色目录 → 角色详情页；装备目录 → 装备子页")
+    pd.add_argument("--offline", action="store_true",
+                    help="不联网：只读 data/raw 已入库快照（CI 抓好 raw 后本地登记新页用）")
 
     pf = sub.add_parser("fetch", help="按注册表抓取页面（断点续抓）")
     pf.add_argument("--force", action="store_true", help="忽略已有快照全部重抓")
@@ -211,7 +215,7 @@ def main(argv: list[str] | None = None) -> None:
     args = build_parser().parse_args(argv)
     if args.cmd == "discover":
         from .registry import discover
-        discover()
+        discover(offline=getattr(args, "offline", False))
         from .plan import sync_plan
         sync_plan()
     elif args.cmd == "fetch":

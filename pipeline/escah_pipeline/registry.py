@@ -345,22 +345,47 @@ def _nav_names() -> "set[str]":
     return out
 
 
-def discover() -> None:
+def discover(offline: bool = False) -> None:
     """三段发现：MenuBar → 观察页（只刷新）；角色目录 → 角色详情页（自动新增）；
-    装备目录 → 装备子页（自动新增）。详见模块顶部说明。"""
+    装备目录 → 装备子页（自动新增）。详见模块顶部说明。
+
+    `offline=True`：**完全不联网**，只读 data/raw 里已入库的快照，Phase 1 直接跳过
+    （MenuBar 不入库）。用途：CI 把新 raw 抓好推回来后，本地立刻登记新页并解析，
+    与「CI 抓 raw / 本地零网络重建」的分工一致。
+    """
     from .fetcher import PoliteFetcher, page_url
-    from .snapshot import save_snapshot
+    from .snapshot import page_filename, save_snapshot
 
     config.ensure_dirs()
     pages_by_name: dict[str, dict] = {p["name"]: p for p in load_registry()}
 
-    with PoliteFetcher() as f:
+    class _NoFetcher:
+        def __enter__(self):
+            return None
+
+        def __exit__(self, *_a) -> bool:
+            return False
+
+    with (_NoFetcher() if offline else PoliteFetcher()) as f:
+        def _page_text(name: str) -> "str | None":
+            """取目录页正文：离线=读 raw 快照；在线=抓取并落快照。缺失返回 None 由调用方跳过。"""
+            if offline:
+                p = config.RAW_DIR / page_filename(name)
+                if not p.exists():
+                    log.warning("[discover] 离线模式缺少快照，跳过「%s」", name)
+                    return None
+                return p.read_text(encoding="utf-8", errors="replace")
+            r = f.get(page_url(name))
+            save_snapshot(name, r.content)
+            return r.content.decode(r.encoding or "utf-8", errors="replace")
+
         # ---- Phase 1: MenuBar → 观察页 ----
-        log.info("Phase 1: 抓取 MenuBar 解析左侧导航…")
-        resp = f.get(page_url(config.MENUBAR_PAGE))
-        save_snapshot(config.MENUBAR_PAGE, resp.content)
-        menubar_text = resp.content.decode(resp.encoding or "utf-8", errors="replace")
-        links = extract_wiki_links(menubar_text)
+        menubar_text = "" if offline else _page_text(config.MENUBAR_PAGE)
+        if offline:
+            log.info("Phase 1: 离线模式跳过（MenuBar 不入库；导航页无需刷新）")
+        else:
+            log.info("Phase 1: 抓取 MenuBar 解析左侧导航…")
+        links = extract_wiki_links(menubar_text or "")
 
         norm_to_actual: dict[str, str] = {}
         for name in links:
@@ -368,7 +393,8 @@ def discover() -> None:
 
         watch_count = 0
         skipped_new: list[str] = []
-        for category, names in NAV_CATEGORIES.items():
+        # 离线模式不刷新导航页：没有 MenuBar 快照，硬刷会把 slug 退回哈希兜底
+        for category, names in ([] if offline else NAV_CATEGORIES.items()):
             for want in names:
                 want_resolved = ALIAS_MAP.get(want, want)
                 actual = _resolve_name(want_resolved, norm_to_actual)
@@ -413,10 +439,10 @@ def discover() -> None:
         char_new = 0
         for dir_name, sections in CHAR_DIR_SECTIONS.items():
             label = "/".join(sections) + " 分区" if sections else "整页"
-            log.info("Phase 2: 抓取「%s」解析角色链接（%s）…", dir_name, label)
-            r = f.get(page_url(dir_name))
-            save_snapshot(dir_name, r.content)
-            text = r.content.decode(r.encoding or "utf-8", errors="replace")
+            log.info("Phase 2: 读取「%s」解析角色链接（%s）…", dir_name, label)
+            text = _page_text(dir_name)
+            if text is None:
+                continue
             rows = extract_char_rows(text, sections)
             added = 0
             for c in rows:
@@ -450,10 +476,10 @@ def discover() -> None:
         equip_next = _next_equip_index(pages_by_name)
         sub_new = 0
         for dir_name in SUBPAGE_DIRS:
-            log.info("Phase 3: 抓取「%s」解析装备子页链接…", dir_name)
-            r = f.get(page_url(dir_name))
-            save_snapshot(dir_name, r.content)
-            text = r.content.decode(r.encoding or "utf-8", errors="replace")
+            log.info("Phase 3: 读取「%s」解析装备子页链接…", dir_name)
+            text = _page_text(dir_name)
+            if text is None:
+                continue
             for name in extract_content_links(text):
                 if name in pages_by_name or name in nav_names:
                     continue
