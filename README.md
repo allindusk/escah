@@ -73,6 +73,7 @@ node build.mjs dev                       # 开发 5173
 │   ├── fetcher.py / snapshot.py   # 礼貌抓取、快照与 manifest
 │   ├── parser_puki.py / chara.py  # PukiWiki 解析、角色数据抽取
 │   ├── assets.py              # 图片下载（哈希命名去重）
+│   ├── imgindex.py            # 生成图片「可读名 ↔ 磁盘名」对照表（data/assets/img_index.*）
 │   ├── i18n.py                # key 化 i18n 引擎（模板 + 双语 JSON）
 │   ├── gtrans.py              # 谷歌免费翻译（translate-pa 内部接口）
 │   ├── glossary_scan.py       # 词表扫描
@@ -105,6 +106,8 @@ node build.mjs dev                       # 开发 5173
 │   │   ├── characters/        # 角色数据（可重建）
 │   │   └── index.json / comment_zh.json
 │   ├── assets/img/            # 图片（Git LFS 跟踪，入库）
+│   ├── assets/img_index.json  # 图片可读名 ↔ 磁盘哈希名对照（自动生成，入库）
+│   ├── assets/img_index.md    # 人读版对照表：找图请 Ctrl+F 这里（见 §14.4）
 │   ├── registry/              # pages.yaml、mirror_plan.yaml（入库）
 │   ├── statdata/              # ★ 攻略作者实测数据 JSON（入库；「数据统计」页数据源）
 │   └── manifest.json / pending_assets.json
@@ -120,7 +123,7 @@ node build.mjs dev                       # 开发 5173
 | `discover` | 两阶段发现页面（MenuBar → 观察页；角色一览 → 角色详情），随后自动 `sync-plan` | — |
 | `fetch` | 按注册表抓取页面（断点续抓） | `--force`、`--mode all\|watch\|static`、`--pages` |
 | `parse` | 解析快照 → 日文片段 / 角色 JSON | `--pages`、`--force` |
-| `assets` | 下载页面引用的图片（哈希命名去重） | `--force` |
+| `assets` | 下载页面引用的图片（哈希命名去重） | `--force`、`--index-only`（只重建对照表） |
 | `translate` | 应用翻译（`i18n build → migrate → fill → char-fill`） | `--pages` |
 | `update` | 自动更新：处理 planned + 检测变更 → 重抓 / 重解析 / 重翻译 | `--full`、`--no-translate` |
 | `sync-plan` | 重建 `mirror_plan.yaml` 的 mirrored（planned 保留） | — |
@@ -519,6 +522,29 @@ python -X utf8 tools/_dev/_where_mt.py 特殊技能 特殊招式 招募
   safe-delete 守卫会拦 PowerShell 的 `Remove-Item`（**连 400 个一批也拦**，报
   `SAFE_DELETE_BULK_GUARD_ERROR` 且一个都没删），所以批量删除要改用 Python
   （`shutil.rmtree`，脚本范例：`recycle_bin/_purge_img_orig.py`）。
+### 14.4 图片为什么不改名（2026-10-20 定，别再提二次改造）
+
+`data/assets/img/` 里的文件名是 `sha256(源URL)[:16].webp`，肉眼认不出内容。
+评估过真改名，**用户决定不改**，改用旁路对照表：
+
+- **找图**：打开 `data/assets/img_index.md`，Ctrl+F 搜日文原图名 → 同行就是磁盘文件名；
+  最后一列「所在页」标出它出现在哪些页面（`01_02` 这类纯编号图就靠这列定位）。
+  机器要用的话读同目录的 `img_index.json`（含源 URL）。
+- **刷新**：`escah-pipeline assets --index-only`；每次 `cli assets` 下载完也会自动重建。
+  它由 `pending_assets.json` 现场生成，**不要手工编辑**。
+
+当初的实测结论（省得下次重做调研）：
+
+- 源 URL 里藏着可读名（`attach2/E382A2E382A4…png` 是 UTF-8 十六进制），
+  2805 条**全部**能还原出 `アイテム一覧_単発ガチャケット.webp` 这样的名字，且**零撞车**。
+- 12284 处引用里：i18n 模板 11831、`registry/pages.yaml` 450（角色头像，每次重算）、
+  `manifest.json` 151（历史记录）、站点源码 3 处（这 3 处是唯一要手工改的），
+  **而 i18n 双语字典是 0 处** —— 也就是说图片路径不在任何 `ja` 文本里，
+  改名不会让 `build_page` 的按 ja 回贴失效、不会丢人工译文。
+- 换言之技术上可行；放弃的理由是「3129 个 LFS 重命名 + 巨大 diff」换来的收益不值，
+  而且对照表已经解决了「看名字知道是什么」这个真实痛点。
+  真要改名时的正确姿势见 §14.3 提到的 imgindex 调研脚本（`tools/_dev/_img_rename_dryrun.py`）。
+
 - **2026-09-30 / 2026-10-19**：根 `_*.txt`、`tools/_rg_*`、`tools/_print*` 等调试草稿，见
   `recycle_bin/_cleanup_20260930`、`_cleanup_20261019*`；`.gitignore` 的 `tools/_*`、`/*.log`、
   `site/_build*.log` 等几条也是那时补的。

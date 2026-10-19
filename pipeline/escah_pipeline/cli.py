@@ -61,6 +61,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     pa = sub.add_parser("assets", help="下载页面引用的图片资源（哈希命名去重）")
     pa.add_argument("--force", action="store_true")
+    pa.add_argument("--index-only", action="store_true",
+                    help="不联网下载，只重建 data/assets/img_index.{json,md}（图片可读名对照表）")
 
     pt = sub.add_parser("translate", help="应用翻译（key 化 i18n：build→fill→char-fill，查表无正则）")
     pt.add_argument("--pages", nargs="*", help="只处理指定 slug（缺省全部）")
@@ -227,8 +229,12 @@ def main(argv: list[str] | None = None) -> None:
         from .chara import extract_all_characters
         extract_all_characters(force=args.force)
     elif args.cmd == "assets":
-        from .assets import download_assets
-        download_assets(force=args.force)
+        if getattr(args, "index_only", False):
+            from .imgindex import build_index
+            build_index()
+        else:
+            from .assets import download_assets
+            download_assets(force=args.force)
     elif args.cmd == "translate":
         from .updater import _run_zh_patch
         _run_zh_patch(pages=args.pages)

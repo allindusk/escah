@@ -62,6 +62,25 @@ def _download_one(url: str, filename: str, path) -> tuple:
 
 
 def download_assets(force: bool = False) -> None:
+    """外部入口：下载缺失图片，无论成败都顺带刷新「可读名对照表」。
+
+    为什么要 insure-finally：文件名是 `sha256(源URL)[:16].webp`，肉眼认不出内容，
+    找图只能靠 data/assets/img_index.{json,md}（见 imgindex 模块）。那张表由 pending
+    现场生成，下载过程中 pending 会被清理陈旧记录，所以每次跑完都要刷新一遍。
+    索引只是旁路产物，失败不该掩盖下载结果 → 记 warning 即可。
+    """
+    try:
+        _download_impl(force)
+    finally:
+        try:
+            from .imgindex import build_index
+
+            build_index()
+        except Exception as err:  # noqa: BLE001
+            log.warning("图片对照表生成失败（不影响下载结果）：%s", err)
+
+
+def _download_impl(force: bool = False) -> None:
     config.ensure_dirs()
     pending_path = config.DATA_DIR / "pending_assets.json"
     if not pending_path.exists():
