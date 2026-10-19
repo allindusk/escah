@@ -372,7 +372,7 @@ CI 里配 repository variable 即可让两地构建同步指向它。站长平�
 
 ## 12. 版本号与更新记录
 
-当前站点版本：**1.2.12**（2026-10-19）。
+当前站点版本：**1.2.13**（2026-10-19）。
 
 前端版本号常量 `SITE_VERSION` 定义在
 `site/.vitepress/theme/components/SiteAccessSwitch.vue`，更新记录数据位于
@@ -406,6 +406,30 @@ CI 里配 repository variable 即可让两地构建同步指向它。站长平�
   `ダメージを回復` = 恢复**所受的伤害**（治疗/吸血）；`スタミナを回復` = 恢复**体力**，不可互译。
 - 角色名一律不跳转：正文里的角色名（含角色页链接）统一降级为浮窗标签，
   悬停出预览、点击出固定浮窗（浮窗内提供「打开角色页」）。
+- 扭蛋与卡券：`ガチャ` = **扭蛋**、`ガチャチケット` = **扭蛋券**（単発=单发/ 十連=十连 / 高级）。
+  早期机翻的「招募 / 抽卡 / 抽卡券 / 单抽券」已于 2026-10-19 全站清零（326 处）。
+- Raid 小节术语：`必殺ゲージ` = **必杀槽**（`必殺充填量` = 必杀充能量）、
+  `フィーバー` = **FEVER**、`軽減率` = **减伤率**、`必殺技` = **必杀技**（不可译成「特殊技能 / 终极攻击」）。
+
+#### ⚠️ 标题类文本为什么改了 i18n 却不生效（2026-10-19 踩坑，务必先读）
+
+页面 `<h2>/<h3>` 大标题的 `ja` 原文里**内嵌了 `†` 锚点与多余空格**（例：
+`<h2 id="content_1_0">キャラクターガチャ  <a …>†</a> …</h2>`），因此**对不上任何 i18n key**，
+渲染时走的是 `glossary` 兜底链，而不是 `data/parsed/i18n/<slug>.json`。
+兜底优先级（`i18n.py` 的 `_apply_overrides`）：
+
+```
+names.yaml（专有名词，子串） → 纠正映射 → high_freq.yaml → terms.yaml 的 inline_terms
+```
+
+由此产生两条硬规矩：
+
+1. **只改 `<slug>.json` 里的 `zh` 改不动标题**，必须同时改 `glossary/` 里对应的 JA→ZH 词条。
+2. **绝不要去改 `site/.vitepress/frag/*.zh.json`**（见 §12.1，那是被覆盖的生成物）。
+   frag 层的临时补丁本地看着生效，下一次 `sync-site` 就消失，**CI 更是从头生成、根本不会带上**。
+
+排查手法：`tools/_dev/_where_mt.py <token…>` 列出某机翻 token 在各 frag 的分布，
+`tools/_dev/_verify_frag_terms.py` 做发版前全站体检。
 
 ## 13. 常用操作速查
 
@@ -432,3 +456,21 @@ escah-pipeline i18n verify-links
 ```
 
 > ⚠️ 只跑 `node build.mjs build` 而不先跑 `sync-site`，会用旧的 `frag` 缓存，改动不生效。
+
+### 13.1 译文排查工具（`tools/_dev/`，本地脚本，不入库）
+
+```bash
+# 导出某页的 ja|zh 对照，供人工精校（-u 避免管道缓冲吞输出）
+python -u tools/_dev/_i18n_dump.py raid-formations gacha faq
+
+# 发版前全站体检：机翻残留 token + 目标术语出现次数
+python -X utf8 tools/_dev/_verify_frag_terms.py
+
+# 定位某个机翻 token 分布在哪些页面、多少处
+python -X utf8 tools/_dev/_where_mt.py 特殊技能 特殊招式 招募
+```
+
+判读要点：`招募` / `抽卡券` / `特殊技能` / `终极攻击` / `必杀能量槽` / `狂暴` 这类
+**出现在正确语境之外**的词就是机翻残留；`_verify_frag_terms.py` 里 `GOOD` 段的词
+（`扭蛋券` / `扭蛋`）是应当大量出现的规范译名。
+⚠️ 残留计数长期不降时，先确认它是不是来自 `glossary` 兜底（见 §12.2）——那要改词表，不是改 `<slug>.json`。

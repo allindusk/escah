@@ -100,3 +100,11 @@ site/.vitepress/config.ts.timestamp-*
 data/assets/img_orig/
 # sync-site 移出的陈旧图片（旧 png/gif，转 WebP 后不再使用）
 data/assets/img_stale/
+
+# ---- 2026-10-19 补齐：一次性校订脚本与本地运行报告 ----
+# tools/_*.py 是一次性校订/修补脚本的通用落位（改完即并入 data/parsed/i18n 真值）。
+# 可复用的诊断脚本请放tools/_dev/（该目录已整体忽略），别留在 tools/ 根下反复冒进 git status。
+tools/_*.py
+# local_sync / i18n build 每次运行都重写的本地报告（真值在 data/parsed/i18n/，报告本身不入库）
+data/upstream/build_report.json
+data/upstream/local_sync.json
