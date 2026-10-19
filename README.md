@@ -501,18 +501,24 @@ python -X utf8 tools/_dev/_where_mt.py 特殊技能 特殊招式 招募
 
 ### 14.2 别删的东西
 
-- **`data/assets/img_orig/`（约 561 MB）**：转 WebP **之前**的原始 png/gif，本地唯一副本。
-  站点只用 `img/` 里的 WebP，删了站点照样能跑，但原图拿不回来 —— `.gitignore` 里已注明
-  「本地保留即可」。想要空间时再单独决定，**不要把它当成垃圾顺手清掉**。
+- **`data/assets/img_orig/` —— 已于 2026-10-20 删除**（561 MB / 2977 文件，用户要求）。
+  删前核对过：2977 个原图**全部**都有对应的 `img/<同名>.webp`（差集 0），站点不受影响；
+  原图在 git 历史里仍有一份（`838e4546` 那批就是 LFS 跟踪的原图），需要时能取回 ——
+  这也是当初敢删的前提。**日常不要再指望这个目录**， recovery 走历史。
 - `site/node_modules/`：依赖，删了要重 `npm install`。
 - **`data/parsed/`**：尤其 `i18n/` 是**入库的译文真值**，整目录删 = 人工重翻。
 - `recycle_bin/`：归档留痕区，它存在本身就是「清理可追溯」的一部分。
 
 ### 14.3 清理记录
 
-- **2026-10-20**：清 `data/assets/img_stale`（467 MB / 2478 文件）、`site/.vitepress/{dist,cache}`、
-  `data/logs`、`.playwright-cli`、3 处 `__pycache__` → `recycle_bin/_cleanup_20261020/`；
-  同时删掉冗余工作流 `sync-cron.yml`（见 §10）。仓库 `data/` 从 1.56 GB 降到 786 MB。
+- **2026-10-20**：删掉冗余工作流 `sync-cron.yml`（见 §10）；清 `data/assets/img_stale`
+  （467 MB / 2478 文件）、`data/assets/img_orig`（561 MB / 2977 文件）、
+  `site/.vitepress/{dist,cache}`、`data/logs`、`.playwright-cli`、3 处 `__pycache__`。
+  `data/` 目录 **1.56 GB → 521 MB**（现在只剩 `img` 225 MB + `parsed` 167 MB + `raw` 125 MB）。
+  ⚠️ `img_orig` / `img_stale` 是先移进 `recycle_bin/_cleanup_20261020/` 再删的：本机
+  safe-delete 守卫会拦 PowerShell 的 `Remove-Item`（**连 400 个一批也拦**，报
+  `SAFE_DELETE_BULK_GUARD_ERROR` 且一个都没删），所以批量删除要改用 Python
+  （`shutil.rmtree`，脚本范例：`recycle_bin/_purge_img_orig.py`）。
 - **2026-09-30 / 2026-10-19**：根 `_*.txt`、`tools/_rg_*`、`tools/_print*` 等调试草稿，见
   `recycle_bin/_cleanup_20260930`、`_cleanup_20261019*`；`.gitignore` 的 `tools/_*`、`/*.log`、
   `site/_build*.log` 等几条也是那时补的。

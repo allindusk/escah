@@ -97,7 +97,8 @@ site/.vitepress/.temp*/
 site/.vitepress/dist*/
 site/.vitepress/config.ts.timestamp-*
 
-# 图片转 WebP 的原始文件备份（本地保留即可，git 历史里已有原图）
+# 图片转 WebP 的原始文件备份（2026-10-20 已按用户要求删除本地这 561 MB 副本；
+#   规则保留，防止将来重新生成又被计入 git status。恢复途径见 README §14.2：git 历史里仍有原图）
 data/assets/img_orig/
 # sync-site 移出的陈旧图片（旧 png/gif，转 WebP 后不再使用）
 data/assets/img_stale/
