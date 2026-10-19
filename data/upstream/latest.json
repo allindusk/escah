@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-18T18:57:42+00:00",
- "iso_week": "2026-W42",
+ "generated_at": "2026-10-19T06:16:54+00:00",
+ "iso_week": "2026-W43",
  "source": "https://escalationheroines.wikiru.jp/?%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4%E3%83%9A%E3%83%BC%E3%82%B8",
  "window": [
   "2026-09-28",
@@ -8,12 +8,23 @@
  ],
  "truncated": true,
  "counts": {
+  "new": 12,
   "excluded": 50,
-  "unchanged": 1,
-  "update": 37,
-  "new": 12
+  "unchanged": 26,
+  "update": 12
  },
  "items": [
+  {
+   "name": "パイレーツハダル",
+   "url": "https://escalationheroines.wikiru.jp/?%E3%83%91%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%84%E3%83%8F%E3%83%80%E3%83%AB",
+   "date": null,
+   "within_days": 0,
+   "section": "最新の100件",
+   "slug": null,
+   "status": "new",
+   "local_updated": null,
+   "needs_update": true
+  },
   {
    "name": "コメント/雑談掲示板",
    "url": "https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF",
@@ -44,7 +55,7 @@
    "section": "最新の100件",
    "slug": "annihilation",
    "status": "unchanged",
-   "local_updated": "2026-08-23",
+   "local_updated": "2026-10-18",
    "needs_update": false
   },
   {
@@ -87,9 +98,9 @@
    "within_days": 2,
    "section": "最新の100件",
    "slug": "buniv-010",
-   "status": "update",
-   "local_updated": "2026-03-28",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-18",
+   "needs_update": false
   },
   {
    "name": "Bユニバース",
@@ -98,9 +109,9 @@
    "within_days": 2,
    "section": "最新の100件",
    "slug": "b-universe",
-   "status": "update",
-   "local_updated": "2026-09-13",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-17",
+   "needs_update": false
   },
   {
    "name": "青竜天クチナワ（Bユニバース）",
@@ -164,9 +175,9 @@
    "within_days": 4,
    "section": "最新の100件",
    "slug": "characters/ビートファインダー・フェリニ",
-   "status": "update",
-   "local_updated": "2026-09-24",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-15",
+   "needs_update": false
   },
   {
    "name": "ゲーム外企画",
@@ -194,7 +205,7 @@
    "name": "テーブル/レイドおすすめサポーター",
    "url": "https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": null,
    "status": "excluded",
@@ -205,7 +216,7 @@
    "name": "テーブル/レイドおすすめヒーラー",
    "url": "https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%83%92%E3%83%BC%E3%83%A9%E3%83%BC",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": null,
    "status": "excluded",
@@ -216,7 +227,7 @@
    "name": "イベント92_ハロウィンに踊る人形",
    "url": "https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8892_%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%81%AB%E8%B8%8A%E3%82%8B%E4%BA%BA%E5%BD%A2",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": null,
    "status": "excluded",
@@ -227,29 +238,29 @@
    "name": "ハロウィンポピー",
    "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%9D%E3%83%94%E3%83%BC",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/ハロウィンポピー",
-   "status": "update",
-   "local_updated": "2026-07-16",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-15",
+   "needs_update": false
   },
   {
    "name": "ハロウィンノドカ",
    "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8E%E3%83%89%E3%82%AB",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/ハロウィンノドカ",
-   "status": "update",
-   "local_updated": "2026-08-23",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-15",
+   "needs_update": false
   },
   {
    "name": "コメント/メイドユリッペ",
    "url": "https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E3%83%A1%E3%82%A4%E3%83%89%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A",
    "date": "2026-10-15",
-   "within_days": 4,
+   "within_days": 5,
    "section": "最新の100件",
    "slug": null,
    "status": "excluded",
@@ -274,9 +285,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/ハロウィンニコール",
-   "status": "update",
-   "local_updated": "2026-07-22",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-14",
+   "needs_update": false
   },
   {
    "name": "原画別索引",
@@ -296,9 +307,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "gacha",
-   "status": "update",
-   "local_updated": "2026-09-23",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-14",
+   "needs_update": false
   },
   {
    "name": "コメント/雑談掲示板/154",
@@ -329,9 +340,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "events",
-   "status": "update",
-   "local_updated": "2026-09-16",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-14",
+   "needs_update": false
   },
   {
    "name": "コメント/オルタナ四天王（Bユニバース）",
@@ -373,9 +384,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/レガリアの神騎メガエル",
-   "status": "update",
-   "local_updated": "2026-09-17",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-12",
+   "needs_update": false
   },
   {
    "name": "レガリアの神騎",
@@ -439,9 +450,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "raid",
-   "status": "update",
-   "local_updated": "2026-08-27",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-10",
+   "needs_update": false
   },
   {
    "name": "コメント/真夏のハルカ",
@@ -549,9 +560,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "super-equipment",
-   "status": "update",
-   "local_updated": "2026-08-27",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-10",
+   "needs_update": false
   },
   {
    "name": "イベント12_レイドイベント『ゴールデンハニー』",
@@ -560,9 +571,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "raid-001",
-   "status": "update",
-   "local_updated": "2026-09-26",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-09",
+   "needs_update": false
   },
   {
    "name": "ハニ子",
@@ -615,9 +626,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "main-story",
-   "status": "update",
-   "local_updated": "2026-08-26",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-08",
+   "needs_update": false
   },
   {
    "name": "青い羽根",
@@ -642,17 +653,6 @@
    "needs_update": false
   },
   {
-   "name": "パイレーツハダル",
-   "url": "https://escalationheroines.wikiru.jp/?%E3%83%91%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%84%E3%83%8F%E3%83%80%E3%83%AB",
-   "date": "2026-10-07",
-   "within_days": 5,
-   "section": "最新の100件",
-   "slug": null,
-   "status": "new",
-   "local_updated": null,
-   "needs_update": true
-  },
-  {
    "name": "SandBox/別バージョン実装一覧",
    "url": "https://escalationheroines.wikiru.jp/?SandBox/%E5%88%A5%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E5%AE%9F%E8%A3%85%E4%B8%80%E8%A6%A7",
    "date": "2026-10-07",
@@ -670,9 +670,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "release-history",
-   "status": "update",
-   "local_updated": "2026-09-23",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-07",
+   "needs_update": false
   },
   {
    "name": "テーブル/全ストーリー実装順",
@@ -681,9 +681,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "scenario-order",
-   "status": "update",
-   "local_updated": "2026-09-23",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-07",
+   "needs_update": false
   },
   {
    "name": "装備リスト",
@@ -703,9 +703,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "voice-actors",
-   "status": "update",
-   "local_updated": "2026-09-23",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-07",
+   "needs_update": false
   },
   {
    "name": "テーブル/SSR",
@@ -725,9 +725,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/神騎ハダル",
-   "status": "update",
-   "local_updated": "2025-08-26",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-07",
+   "needs_update": false
   },
   {
    "name": "テーブル/キャラ/別衣装_神騎ハダル",
@@ -824,9 +824,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/八爪妖蠱ハツネ",
-   "status": "update",
-   "local_updated": "2026-08-13",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-05",
+   "needs_update": false
   },
   {
    "name": "コメント/光のシリカ",
@@ -934,9 +934,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/ビートアモーレ・ジブリールアリエス",
-   "status": "update",
-   "local_updated": "2026-08-25",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-04",
+   "needs_update": false
   },
   {
    "name": "真夏のセラフィール",
@@ -945,9 +945,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/真夏のセラフィール",
-   "status": "update",
-   "local_updated": "2026-08-09",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-04",
+   "needs_update": false
   },
   {
    "name": "聖剣コスモス",
@@ -1044,9 +1044,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "shop",
-   "status": "update",
-   "local_updated": "2026-09-01",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-01",
+   "needs_update": false
   },
   {
    "name": "小ネタ・小ワザ集",
@@ -1055,9 +1055,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "tips-tricks",
-   "status": "update",
-   "local_updated": "2026-09-22",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-01",
+   "needs_update": false
   },
   {
    "name": "ナースキリエル",
@@ -1066,9 +1066,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/ナースキリエル",
-   "status": "update",
-   "local_updated": "2026-08-11",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-10-01",
+   "needs_update": false
   },
   {
    "name": "コメント/イベント12_レイドイベント『ゴールデンハニー』",
@@ -1088,9 +1088,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/爆の藤宮火咲",
-   "status": "update",
-   "local_updated": "2025-07-24",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-09-30",
+   "needs_update": false
   },
   {
    "name": "テーブル/キャラ/別衣装_爆の藤宮火咲",
@@ -1110,9 +1110,9 @@
    "within_days": 5,
    "section": "最新の100件",
    "slug": "characters/閃忍ホーネット",
-   "status": "update",
-   "local_updated": "2026-09-25",
-   "needs_update": true
+   "status": "unchanged",
+   "local_updated": "2026-09-28",
+   "needs_update": false
   }
  ]
 }
