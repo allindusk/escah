@@ -313,7 +313,7 @@
  },
  "key79": {
   "ja": "必殺技威力アップ",
-  "zh": "必杀技威力提升20%"
+  "zh": "必杀技威力提升10%"
  },
  "key80": {
   "ja": "10秒間、自軍全体の与ダメ20％アップ",
@@ -1907,9 +1907,9 @@
    "display_key": "key119"
   },
   "L13": {
-   "href": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%8B%E3%83%BC%E3%82%B8%E3%83%83%E3%83%9D",
-   "kind": "external",
-   "target_slug": "",
+   "href": "../equip-118.html",
+   "kind": "site",
+   "target_slug": "equip-118",
    "has_img": "",
    "display_key": "key123"
   },
@@ -2026,9 +2026,9 @@
    "display_key": "key167"
   },
   "L30": {
-   "href": "https://escalationheroines.wikiru.jp/?%E4%B9%9D%E5%A4%A7%E7%A5%9E%E9%A8%8E",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E4%B9%9D%E5%A4%A7%E7%A5%9E%E9%A8%8E.html",
+   "kind": "site",
+   "target_slug": "%E4%B9%9D%E5%A4%A7%E7%A5%9E%E9%A8%8E",
    "has_img": "",
    "display_key": "key170"
   },
@@ -2068,9 +2068,9 @@
    "display_key": "key221"
   },
   "L36": {
-   "href": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9.html",
+   "kind": "site",
+   "target_slug": "%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9",
    "has_img": "",
    "display_key": "key224"
   }

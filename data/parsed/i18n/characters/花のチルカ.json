@@ -1710,16 +1710,16 @@
    "display_key": "key200"
   },
   "L19": {
-   "href": "https://escalationheroines.wikiru.jp/?%E6%88%A6%E9%83%A8%E3%83%8F%E3%83%AB%E3%83%8A",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E6%88%A6%E9%83%A8%E3%83%8F%E3%83%AB%E3%83%8A.html",
+   "kind": "site",
+   "target_slug": "%E6%88%A6%E9%83%A8%E3%83%8F%E3%83%AB%E3%83%8A",
    "has_img": "",
    "display_key": "key203"
   },
   "L20": {
-   "href": "https://escalationheroines.wikiru.jp/?%E6%88%A6%E9%83%A8%E3%82%BF%E3%82%AB%E3%83%A0%E3%83%8D",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E6%88%A6%E9%83%A8%E3%82%BF%E3%82%AB%E3%83%A0%E3%83%8D.html",
+   "kind": "site",
+   "target_slug": "%E6%88%A6%E9%83%A8%E3%82%BF%E3%82%AB%E3%83%A0%E3%83%8D",
    "has_img": "",
    "display_key": "key206"
   },

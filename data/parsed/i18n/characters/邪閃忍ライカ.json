@@ -1766,9 +1766,9 @@
    "display_key": "key112"
   },
   "L13": {
-   "href": "https://escalationheroines.wikiru.jp/?%E5%9B%9B%E6%96%B9%E5%A0%82%E4%B8%89%E5%A7%89%E5%A6%B9",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E5%9B%9B%E6%96%B9%E5%A0%82%E4%B8%89%E5%A7%89%E5%A6%B9.html",
+   "kind": "site",
+   "target_slug": "%E5%9B%9B%E6%96%B9%E5%A0%82%E4%B8%89%E5%A7%89%E5%A6%B9",
    "has_img": "",
    "display_key": "key114"
   },
@@ -1850,9 +1850,9 @@
    "display_key": "key195"
   },
   "L25": {
-   "href": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%B3%E3%83%AD%E3%83%87%E3%82%A3%E3%82%A2",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E3%83%AC%E3%82%B3%E3%83%AD%E3%83%87%E3%82%A3%E3%82%A2.html",
+   "kind": "site",
+   "target_slug": "%E3%83%AC%E3%82%B3%E3%83%AD%E3%83%87%E3%82%A3%E3%82%A2",
    "has_img": "",
    "display_key": "key204"
   }

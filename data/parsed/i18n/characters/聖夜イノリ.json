@@ -823,6 +823,14 @@
   "ja": "2025-12-26 (金) 17:22:15",
   "zh": "2025-12-26 (周五) 17:22:15"
  },
+ "key207": {
+  "ja": "娘なのか妹なのか、どのポジションにしたいんだろう運営",
+  "zh": ""
+ },
+ "key208": {
+  "ja": "2026-08-09 (日) 07:00:26",
+  "zh": "2026-08-09 (周日) 07:00:26"
+ },
  "_blocks": {
   "blk1": {
    "keys": [
@@ -1061,9 +1069,9 @@
    "display_key": "key90"
   },
   "L9": {
-   "href": "https://escalationheroines.wikiru.jp/?%E4%B9%85%E4%B8%96%E4%B8%83%E6%9A%B4",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E4%B9%85%E4%B8%96%E4%B8%83%E6%9A%B4.html",
+   "kind": "site",
+   "target_slug": "%E4%B9%85%E4%B8%96%E4%B8%83%E6%9A%B4",
    "has_img": "",
    "display_key": "key96"
   },
@@ -1145,9 +1153,9 @@
    "display_key": "key115"
   },
   "L21": {
-   "href": "https://escalationheroines.wikiru.jp/?%E4%B9%85%E4%B8%96%E5%85%83%E4%B8%83%E6%9A%B4",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E4%B9%85%E4%B8%96%E5%85%83%E4%B8%83%E6%9A%B4.html",
+   "kind": "site",
+   "target_slug": "%E4%B9%85%E4%B8%96%E5%85%83%E4%B8%83%E6%9A%B4",
    "has_img": "",
    "display_key": "key117"
   },

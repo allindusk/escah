@@ -1733,9 +1733,9 @@
    "display_key": "key91"
   },
   "L9": {
-   "href": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%8B%E5%99%9B%E3%81%BF%E7%8E%8B%E5%AD%90",
-   "kind": "external",
-   "target_slug": "",
+   "href": "../equip-116.html",
+   "kind": "site",
+   "target_slug": "equip-116",
    "has_img": "",
    "display_key": "key101"
   },
@@ -1901,23 +1901,23 @@
    "display_key": "key186"
   },
   "L33": {
-   "href": "https://escalationheroines.wikiru.jp/?%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D.html",
+   "kind": "site",
+   "target_slug": "%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D",
    "has_img": "",
    "display_key": "key195"
   },
   "L34": {
-   "href": "https://escalationheroines.wikiru.jp/?%E6%AE%B2%E5%BF%8D%E3%82%AB%E3%82%B2%E3%83%AA",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E6%AE%B2%E5%BF%8D%E3%82%AB%E3%82%B2%E3%83%AA.html",
+   "kind": "site",
+   "target_slug": "%E6%AE%B2%E5%BF%8D%E3%82%AB%E3%82%B2%E3%83%AA",
    "has_img": "",
    "display_key": "key197"
   },
   "L35": {
-   "href": "https://escalationheroines.wikiru.jp/?%E6%88%A6%E9%83%A8%E3%83%A6%E3%82%AD%E3%82%BF%E3%82%AB",
-   "kind": "external",
-   "target_slug": "",
+   "href": "%E6%88%A6%E9%83%A8%E3%83%A6%E3%82%AD%E3%82%BF%E3%82%AB.html",
+   "kind": "site",
+   "target_slug": "%E6%88%A6%E9%83%A8%E3%83%A6%E3%82%AD%E3%82%BF%E3%82%AB",
    "has_img": "",
    "display_key": "key203"
   }
