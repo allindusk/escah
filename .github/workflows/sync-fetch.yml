@@ -105,13 +105,15 @@ jobs:
           echo "exit=$code" >> "$GITHUB_OUTPUT"
           set -e
 
-      # ---- ②b 发现新增角色页（原站新角色只在这里能自动进来）----
+      # ---- ②b 发现新增页（角色 + 装备，两类都自动增长）----
       # `discover` Phase 1 只刷新**已登记**的导航页（绝不新增，左侧栏是站点骨架）；
-      # Phase 2 从刷新后的「キャラクター一覧」解析 SSR/SR/R 分区，把**新角色页**登记进
-      # data/registry/pages.yaml。因此这一跑在 parse 之前，新增页当轮就能被下面的
-      # `fetch`（断点续抓）补齐快照，不必等下一轮。
+      # Phase 2 从「キャラクター一覧」SSR/SR/R 分区 +「サポーター」「NPC」整页收角色，
+      #         新角色页一律登记（category=character-detail，不进侧栏）；
+      # Phase 3 从「装備一覧」「超昂装備」「装備リスト」收装备子页，
+      #         新装备登记为 equip-NNN（category=subpage，不进侧栏）。
+      # 因此这一跑在 parse 之前，新增页当轮就能被下面的 `fetch`（断点续抓）补齐快照。
       # 反爬挑战下会失败，但不阻断后续步骤（与 fetch 一样 fail-soft）。
-      - name: Discover new character pages
+      - name: Discover new pages (character + equipment)
         env:
           WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
         run: |

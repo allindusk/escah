@@ -1,4 +1,14 @@
-"""页面注册表：两阶段发现（MenuBar → 观察页；キャラクター一覧 → 角色详情页）与 pages.yaml 读写。"""
+"""页面注册表与发现（discover）与 pages.yaml 读写。
+
+三段发现（2026-10-19 定型）：
+  Phase 1  MenuBar → 观察页：**只刷新已登记页**，绝不新增（左侧导航栏是站点骨架，人工维护）。
+  Phase 2  角色目录（キャラクター一覧 SSR/SR/R 分区 + サポーター整页 + NPC 整页）
+           → 角色详情页（category=character-detail）：**新增角色一律自动登记**。
+  Phase 3  装备目录（装備一覧 / 超昂装備 / 装備リスト）→ 装备子页（category=subpage，
+           slug=equip-NNN）：**新增装备一律自动登记**。
+  两类自动增长页都**不进侧栏**（sitegen 跳过 character-detail / subpage），
+  因此不会破坏「导航栏不自动新增」的约束。
+"""
 from __future__ import annotations
 
 import hashlib
@@ -114,11 +124,39 @@ EXCLUDE_PATTERNS = [
     r"^コメント/", r"^テーブル/", r"掲示板", r"^はじめに", r"編集者",
     r"寝室シーン", r"^MenuBar$", r"^SideBar$", r"^ヘッダ", r"^フッタ",
     r"練習", r"雛形", r"^InterWiki", r"^RecentChanges", r"^最近の更新",
+    # 2026-10-19：自动登记扩容后必须挡住的两类
+    #   ・テンプレート页（如「レイド_各ボステンプレート」）—— 是维基模板，不是攻略内容
+    #   ・ゲーム外企画 —— 用户明确不镜像（跟攻略无关，且是导航页）
+    r"テンプレート", r"^ゲーム外企画$",
 ]
 _EXCLUDE_RE = [re.compile(p) for p in EXCLUDE_PATTERNS]
 
 RARITY_SECTIONS = ("SSR", "SR", "R")
 _HEADING_RE = re.compile(r"^h[1-6]$", re.I)
+
+# ---- 自动增长的角色目录（2026-10-19 用户要求）----
+# 「キャラクター一覧」只认 SSR/SR/R 三个分区（页面下方还混着 NPC/サポーター 表，不能全收）；
+# 而「サポーター」「NPC」两页各自是**整张表都是角色**，行规则与角色一览相同（含头像的链接行），
+# 只是没有稀有度分区 —— 因此按「整页所有 img 链接行」抽取，rarity 记成来源目录名。
+CHAR_DIR_SECTIONS: "dict[str, tuple[str, ...] | None]" = {
+    config.CHARLIST_PAGE: RARITY_SECTIONS,   # 分区限定
+    "サポーター": None,                        # None = 整页
+    "NPC": None,
+}
+
+# ---- 自动增长的子页目录（装备类）----
+# 用户要求：装备类页面有新增就要新增。这里只吃「目录页正文里的站内链接」，
+# 再经排除规则与已登记集合过滤；新增项按目录出现顺序分配 equip-NNN。
+# 「装備リスト」是 2026-10-07 新增的总表页（由 `装備一覧` 链入，故同一轮即可登记并扫描）。
+SUBPAGE_DIRS = ("装備一覧", "超昂装備", "装備リスト")
+
+# 需要固定 slug 的目录页/特殊页（避免落进 equip-NNN 编号里，语义与链接都更清楚）
+SPECIAL_SUBPAGE_SLUGS = {
+    "装備リスト": "equipment-list",
+}
+
+# 单轮自动登记上限：防止原站结构一变就把上百个垃圾页拉进 data/raw（宁可少而准）
+MAX_AUTO_REGISTER_PER_RUN = 120
 
 
 def _is_excluded(name: str) -> bool:
@@ -229,22 +267,31 @@ def _img_local_name(src: str) -> str:
     return f"img/{digest}.{imgx.CANONICAL_EXT}"
 
 
-def extract_characters(html: str) -> list[dict]:
-    """从キャラクター一覧抽取 SSR/SR/R 分区内的角色：[{name, rarity, icon}]。
+def extract_char_rows(html: str,
+                      sections: "tuple[str, ...] | None" = RARITY_SECTIONS) -> list[dict]:
+    """从角色目录页抽角色行：[{name, rarity, icon}]。
 
-    角色页 = 分区内 <tr> 中含 <img> 的链接（头像链接），同行为名字链接与头像地址。
+    角色行 = <tr> 里含「带头像的链接」（头像链接同时是页面链接，同行给出名字与图标）。
+
+    - `sections` 给定（默认 SSR/SR/R）→ 只收这些分区标题下的行。
+      `キャラクター一覧` 必须走这条：该页下方还混着 NPC／サポーター 的表，
+      不收分区就会把 55 个 NPC 当成 SSR/SR/R 角色一起收进来。
+    - `sections=None` → 收整页所有行，rarity 记为空（`サポーター`／`NPC` 两页整表都是角色）。
     """
     soup = BeautifulSoup(html, "lxml")
     content = soup.select_one("#body") or soup.body or soup
     characters: list[dict] = []
     seen: set[str] = set()
+    collect_all = sections is None
     rarity: str | None = None
     for el in content.descendants:
         tag = getattr(el, "name", None)
         if tag and _HEADING_RE.match(tag):
+            if collect_all:
+                continue
             text = re.sub(r"[^A-Za-z]", "", el.get_text(strip=True)).replace("edit", "")
-            rarity = text if text in RARITY_SECTIONS else None
-        elif tag == "tr" and rarity:
+            rarity = text if text in sections else None
+        elif tag == "tr" and (collect_all or rarity):
             img_link = el.find("a", href=True, attrs={"title": True})
             if img_link is None or img_link.find("img") is None:
                 continue
@@ -255,14 +302,52 @@ def extract_characters(html: str) -> list[dict]:
             seen.add(name)
             characters.append({
                 "name": name,
-                "rarity": rarity,
+                "rarity": rarity or None,
                 "icon": _img_local_name(img.get("src", "")),
             })
     return characters
 
 
+def extract_characters(html: str) -> list[dict]:
+    """兼容入口：`キャラクター一覧` 的 SSR/SR/R 分区角色（chara.py 与 sitegen 依赖）。"""
+    return extract_char_rows(html, RARITY_SECTIONS)
+
+
+def extract_content_links(html: str) -> list[str]:
+    """目录页正文里的站内页面链接（按出现顺序去重，已过排除规则）。
+
+    只用于「装备子页自动登记」：装备页在 `装備一覧`／`超昂装備` 里就是普通 <a>。
+    """
+    soup = BeautifulSoup(html, "lxml")
+    content = soup.select_one("#body") or soup.body or soup
+    out: list[str] = []
+    for a in content.find_all("a", href=True):
+        name = href_to_page_name(a["href"])
+        if not name or _is_excluded(name) or name in out:
+            continue
+        out.append(name)
+    return out
+
+
+def _next_equip_index(pages: "dict[str, dict]") -> int:
+    """下一个可用的 equip-NNN 编号（现有最大编号 +1；无则 001）。"""
+    nums = [int(m.group(1)) for e in pages.values()
+            if (m := re.match(r"equip-(\d+)$", str(e.get("slug", ""))))]
+    return (max(nums) + 1) if nums else 1
+
+
+def _nav_names() -> "set[str]":
+    """导航栏页名（含别名指向的真实页名）——这些**永不**自动登记，骨架只能人工改。"""
+    out: "set[str]" = set()
+    for names in NAV_CATEGORIES.values():
+        for n in names:
+            out.add(ALIAS_MAP.get(n, n))
+    return out
+
+
 def discover() -> None:
-    """两阶段发现：抓取 MenuBar 解析导航 → 观察页；抓取キャラクター一覧 → 角色详情页。"""
+    """三段发现：MenuBar → 观察页（只刷新）；角色目录 → 角色详情页（自动新增）；
+    装备目录 → 装备子页（自动新增）。详见模块顶部说明。"""
     from .fetcher import PoliteFetcher, page_url
     from .snapshot import save_snapshot
 
@@ -320,28 +405,77 @@ def discover() -> None:
                 len(skipped_new), config.REGISTRY_FILE.name, "、".join(skipped_new[:10]),
             )
 
-        # ---- Phase 2: キャラクター一覧 → 角色详情页 ----
-        log.info("Phase 2: 抓取「%s」解析 SSR/SR/R 角色链接…", config.CHARLIST_PAGE)
-        resp2 = f.get(page_url(config.CHARLIST_PAGE))
-        save_snapshot(config.CHARLIST_PAGE, resp2.content)
-        charlist_text = resp2.content.decode(resp2.encoding or "utf-8", errors="replace")
-        characters = extract_characters(charlist_text)
-        char_count = 0
-        for c in characters:
-            name = c["name"]
-            entry = pages_by_name.get(name, {})
-            entry.update({
-                "name": name,
-                "slug": f"characters/{name}",
-                "category": "character-detail",
-                "mode": "static",
-                "rarity": c["rarity"],
-                "icon": c["icon"],
-            })
-            if name not in pages_by_name:
-                char_count += 1
-            pages_by_name[name] = entry
-        log.info("Phase 2 完成：登记角色详情页 %d 个（累计 %d）", char_count, len(characters))
+        # ---- Phase 2: 角色目录（キャラクター一覧 / サポーター / NPC）→ 角色详情页 ----
+        # 2026-10-19 用户要求：新增角色页一律自动登记，三张目录页同等对待。
+        # 三者行规则相同，差别只在「要不要按稀有度分区限定」——见 CHAR_DIR_SECTIONS：
+        #   ・キャラクター一覧：只收 SSR/SR/R 分区（下方还混着 NPC/サポーター 表）
+        #   ・サポーター / NPC：整页都是角色，稀有度记为空、图标照收
+        char_new = 0
+        for dir_name, sections in CHAR_DIR_SECTIONS.items():
+            label = "/".join(sections) + " 分区" if sections else "整页"
+            log.info("Phase 2: 抓取「%s」解析角色链接（%s）…", dir_name, label)
+            r = f.get(page_url(dir_name))
+            save_snapshot(dir_name, r.content)
+            text = r.content.decode(r.encoding or "utf-8", errors="replace")
+            rows = extract_char_rows(text, sections)
+            added = 0
+            for c in rows:
+                name = c["name"]
+                entry = pages_by_name.get(name)
+                if entry is None:
+                    entry = {}
+                    added += 1
+                # 已登记的（多为 SSR/SR/R 正式角色）不覆盖稀有度/图标，只补缺
+                entry.update({
+                    "name": name,
+                    "slug": entry.get("slug") or f"characters/{name}",
+                    "category": "character-detail",
+                    "mode": "static",
+                })
+                # サポーター / NPC 两类没有稀有度分区，直接用目录名当分类标签
+                # （角色数据 JSON 与浮窗的 rarity 字段据此显示「サポーター」「NPC」）
+                if not entry.get("rarity"):
+                    entry["rarity"] = c.get("rarity") or dir_name
+                if c.get("icon") and not entry.get("icon"):
+                    entry["icon"] = c["icon"]
+                pages_by_name[name] = entry
+            char_new += added
+            log.info("Phase 2：%s 抽出 %d 行，新登记 %d", dir_name, len(rows), added)
+        log.info("Phase 2 完成：新增角色详情页 %d 个（注册表累计 %d）", char_new, len(pages_by_name))
 
+        # ---- Phase 3: 装备目录（装備一覧 / 超昂装備）→ 新增装备子页 ----
+        # 用户要求：装备类页面有新增就要新增。装备页在目录页里只是普通 <a>，
+        # 因此抽「正文所有站内链接」再过滤；新增项按目录出现顺序分配 equip-NNN。
+        nav_names = _nav_names()
+        equip_next = _next_equip_index(pages_by_name)
+        sub_new = 0
+        for dir_name in SUBPAGE_DIRS:
+            log.info("Phase 3: 抓取「%s」解析装备子页链接…", dir_name)
+            r = f.get(page_url(dir_name))
+            save_snapshot(dir_name, r.content)
+            text = r.content.decode(r.encoding or "utf-8", errors="replace")
+            for name in extract_content_links(text):
+                if name in pages_by_name or name in nav_names:
+                    continue
+                if sub_new >= MAX_AUTO_REGISTER_PER_RUN:
+                    log.warning("Phase 3：已达单轮上限 %d，其余候选留待下轮：%s",
+                                MAX_AUTO_REGISTER_PER_RUN, name)
+                    break
+                special = SPECIAL_SUBPAGE_SLUGS.get(name)
+                slug = special or f"equip-{equip_next:03d}"
+                if not special:
+                    equip_next += 1
+                pages_by_name[name] = {
+                    "name": name,
+                    "slug": slug,
+                    "category": "subpage",
+                    "subgroup": "equipment",
+                    "mode": "static",
+                }
+                sub_new += 1
+                log.info("Phase 3：新登记子页 %s → %s", name, slug)
+        log.info("Phase 3 完成：新增装备子页 %d 个", sub_new)
+
+    # 注册表顺序即数据统计/侧栏顺序：保持既有顺序，新条目追加在后（不重排）
     save_registry(list(pages_by_name.values()))
     log.info("注册表已写入 %s（共 %d 页）", config.REGISTRY_FILE, len(pages_by_name))
