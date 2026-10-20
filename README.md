@@ -216,10 +216,17 @@ escah-pipeline sync-site                   # 5. 重建站点
 | 文件 | 用途 |
 |---|---|
 | `terms.yaml` | 站点 UI 文案（页面标题 / 侧栏 / 角色浮窗分段标题） |
-| `names.yaml` | 专有名词（角色、声优、画师等） |
+| `names.yaml` | 专有名词（角色、声优、画师等）；**人工例外，优先级最高** |
+| `characters.yaml` | **角色名唯一真相源**：`base`（形态基名）/ `prefix` / `suffix` / `alias` |
+| `characters_generated.yaml` | 由 `tools/gen_char_names.py` 从 `characters.yaml` + 角色页 `name` 生成，**勿手改** |
 | `high_freq.yaml` | 全站高频游戏术语，含假名的走子串替换，纯汉字走整词精确匹配 |
 | `link_terms.yaml` | 正文内链接文字 |
 | `r18.yaml` | R18 术语（翻译前预替换） |
+
+**角色名走三层（单向）**：`characters.yaml` → `gen_char_names.py` → `characters_generated.yaml`
+→ 渲染期加载（`i18n._load_name_glossary()`：生成表打底、`names.yaml` 人工例外覆盖）。
+新角色/新形态**只改 `characters.yaml` 的 `base`/`prefix`/`suffix`** 再跑生成器，
+不要逐页改 i18n；体检用 `python tools/check_char_names.py`（`--render` 加渲染层半截名扫描）。
 
 词表在渲染期由 `sitegen` → `i18n.render_locale` 自动套用，**仅对 zh 生效**，
 优先级高于 i18n 译文。中日同形词或错译无法被词表覆盖时，必须直接改
@@ -380,7 +387,7 @@ escah-bot commit & push `data/upstream/`（与 `data/raw` 同一个 `chore(fetch
 
 ## 12. 版本号与更新记录
 
-当前站点版本：**1.2.15**（2026-10-19）。
+当前站点版本：**1.2.16**（2026-10-20）。
 
 前端版本号常量 `SITE_VERSION` 定义在
 `site/.vitepress/theme/components/SiteAccessSwitch.vue`，更新记录数据位于
@@ -418,6 +425,28 @@ escah-bot commit & push `data/upstream/`（与 `data/raw` 同一个 `chore(fetch
   早期机翻的「招募 / 抽卡 / 抽卡券 / 单抽券」已于 2026-10-19 全站清零（326 处）。
 - Raid 小节术语：`必殺ゲージ` = **必杀槽**（`必殺充填量` = 必杀充能量）、
   `フィーバー` = **FEVER**、`軽減率` = **减伤率**、`必殺技` = **必杀技**（不可译成「特殊技能 / 终极攻击」）。
+- **`エスカ` 前缀分两类，不可混用**（2026-10-20 定）：
+  常规卡（`エスカ・ルビー` / `ブライドエスカ・` / `聖夜エスカ・` / `正月エスカ・` / `真夏のエスカ・` /
+  `バレンタインエスカ・`）一律译 **艾斯卡**（艾斯卡·露比、花嫁艾斯卡·阿梅兹…）；
+  只有**超昂フェス（超昂庆典）形态** `エスカルビー・` / `エスカサファイア・` / `エスカトパーズ・` /
+  `エスカアメイズ・` 才用 **超昂**（超昂露比·阿斯泰拉兹…）。队伍名 `エスカチーム` = **超昂小队**（词表定译）。
+- 日文假名名按站内定译：`ハルカ` = **遥**（不是「春香」），`チルカ` = **知留香**，`ナリカ` = **成香**；
+  带 长音+ル 的用「尔」（阿斯玛尔 / 迪亚罗尔），短音+ル 用「鲁」。
+
+#### ⚠️ 专名为什么会被机翻名顶掉（2026-10-20 修复，改名字前必读）
+
+机翻/LLM 补译文时会把角色名自行音译（实测 `エスカレイヤー` → 「超昂蕾雅」、`閃忍ハルカ` → 「闪忍春香」），
+而**块级整块回退路径**（`blk.zh` 直接铺进页面，多见于「関連キャラクター」这类纯名字列表）
+此前不经过 `_name_override`，词表兜不住；`_disp_name()` 也只对角色链接查词表，
+普通内链的【】显示名会落到页面 i18n 错译上。现已加两道渲染期校验：
+
+- `i18n._enforce_block_names()`：块级译文按 `\x01` 段与 ja 对齐，ja 整段命中词表即强制用词表译名；
+- `i18n._disp_name()`：[ ] 显示名的词表判定前置于所有链接（不再只限 `is_char`）。
+
+排错顺序：先跑 `python tools/_dev/_scan_name_mismatch.py`（数据层：节点/块与词表不一致）→
+`_render_one.py <slug> zh <正则>`（渲染层实测）→ 仍不对才改 `characters.yaml` 并重生。
+⚠️ 已知未修项：`_learn_corrections()` 只 `glob("*.json")`（非递归），`data/parsed/i18n/characters/**`
+不参与「错译形 → 词表译名」学习；改动它有全站重学纠错的风险，需单独评估。
 
 #### ⚠️ 标题类文本为什么改了 i18n 却不生效（2026-10-19 踩坑，务必先读）
 
@@ -476,6 +505,15 @@ python -X utf8 tools/_dev/_verify_frag_terms.py
 
 # 定位某个机翻 token 分布在哪些页面、多少处
 python -X utf8 tools/_dev/_where_mt.py 特殊技能 特殊招式 招募
+
+# 专名/术语一致性体检（2026-10-20 新增）
+python tools/_dev/_scan_name_mismatch.py            # 节点级 + 块级译文与词表不一致
+python tools/_dev/_scan_name_mismatch.py --blocks-only
+python tools/_dev/_scan_wrong_names.py              # 指定错译形（春香/超昂蕾雅…）全站定位
+python tools/_dev/_scan_esca_choukou.py             # エスカ→超昂 误用（常规卡 vs 超昂フェス）
+
+# 单页渲染自证（不走 sync-site，直接跑 i18n.render_locale）
+python tools/_dev/_render_one.py "characters/閃忍ハルカ" zh "char-ref|ilink"
 ```
 
 判读要点：`招募` / `抽卡券` / `特殊技能` / `终极攻击` / `必杀能量槽` / `狂暴` 这类
@@ -496,6 +534,7 @@ python -X utf8 tools/_dev/_where_mt.py 特殊技能 特殊招式 招募
 | 路径 | 性质 | 处理方式 |
 |---|---|---|
 | `site/.vitepress/dist`、`cache` | VitePress 构建产物与缓存，`node build.mjs build` 会重建 | 丢（或 `node build.mjs prune`） |
+| `site/.vitepress/dist_prev_*` | 构建时改名让开的**旧快照**（每份约 650 MB / 8.2k 文件） | 丢；`cleanupSnapshots()` 本应自动删，异常中断时会残留 |
 | `data/logs/` | 流水线运行日志 | 丢 |
 | `data/assets/img_stale/` | 全站转 WebP 后**不再使用**的旧 png/gif | 丢（本次腾出 467 MB） |
 | `__pycache__/` | Python 字节码缓存 | 丢（删不掉就移动） |
@@ -522,6 +561,16 @@ python -X utf8 tools/_dev/_where_mt.py 特殊技能 特殊招式 招募
   safe-delete 守卫会拦 PowerShell 的 `Remove-Item`（**连 400 个一批也拦**，报
   `SAFE_DELETE_BULK_GUARD_ERROR` 且一个都没删），所以批量删除要改用 Python
   （`shutil.rmtree`，脚本范例：`recycle_bin/_purge_img_orig.py`）。
+- **2026-10-20（第二轮，v1.2.16）**：清掉 5 份残留构建快照 `site/.vitepress/dist_prev_*`
+  + `cache`（**40,960 文件 / 3.25 GB**，`site/` 4.30 GB → 1.06 GB），删除通道用
+  `[System.IO.Directory]::Delete(path,$true)`（`cmd /c rd` 在 PowerShell 里被拆词，别用）。
+  移动进 `recycle_bin/_cleanup_20261020_r2/`（**148 项 / 285 文件**）的有：
+  `tools/_mt_refine/`（装备页逐页校对中间稿 132 个）、`tools/_*.txt|*.pkl|_charfix.json`（15+2）、
+  `tools/_*.py` 一次性名字修复脚本（~70 个，只保留 `_converge_base` / `_supp_override_audit` /
+  `_scan_broken_names`）、`tools/_dev/` 一次性页级校订与浏览器验证脚本（36 项，`_dev` 从 72 → 37）、
+  `data/parsed/i18n/list-supporter.pre_polish.json`、`data/logs/`、`output/`、`.playwright-cli/`、`__pycache__`。
+  `.gitignore` 同步补 `tools/_mt_refine/`、`data/parsed/i18n/*.pre_polish.json`、`tools/_*.pkl`。
+  ⚠️ 删掉的已跟踪文件只有 `tools/_dev/test_vue_compile.mjs`（一次性 Vue 编译探针，副本在回收站）。
 ### 14.4 图片为什么不改名（2026-10-20 定，别再提二次改造）
 
 `data/assets/img/` 里的文件名是 `sha256(源URL)[:16].webp`，肉眼认不出内容。

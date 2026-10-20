@@ -53,6 +53,26 @@ const resolved = computed(() =>
 const nameSet = new Set<string>(charRefs.names)
 const avatarMap: Record<string, string> = charRefs.avatarHashes
 
+// ===== 支援者 / NPC 不弹角色浮窗 =====
+// 判据一（页面语境）：list-supporter / list-npc 整页都是支援者 / NPC，按用户要求
+// 「这些单元格单独处理」——整页不挂任何角色浮窗，从根本上绕过「同名歧义」
+// （例如支援者「阿兹艾尔」与 SSR「一の神鍵アズエル」同名，靠显示名→key 无法区分，
+// 但整页都是支援者，直接整页禁掉最稳）。名字仍保留站内链接，可正常点进对应角色页。
+//
+// 判据二（稀有度名单）：其余页面（含混合页 characters.html）按 rarity 名单跳过
+// サポーター / NPC 的 data-char 标记——它们技能面板没规律、不适合做浮窗；
+// 但 SSR/SR/R 仍按原样弹浮窗。名单由 tools/gen_char_refs.py 从角色数据自动生成。
+//
+// 头像 / 文本名 / 预生成【】标签 四个打标入口都走 noPopup()。
+const SITE_PURES = new Set(['list-supporter', 'list-npc'])
+const NO_POPUP_KEYS = new Set<string>((charRefs as any).noPopup || [])
+function noPopup(key: string): boolean {
+  // 整页语境：该页是纯支援者/纯NPC列表 → 一律不弹
+  if (SITE_PURES.has(pageSlug.value)) return true
+  // 其余页面：仅跳过 サポーター / NPC 名单
+  return NO_POPUP_KEYS.has(key)
+}
+
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 // 纯文本匹配覆盖「日文名 + 中文名(name_zh)」全部出现形式：中文页正文把角色名渲染成 name_zh，
 // 必须映射回日文 key(=文件名) 才能正确加载浮窗数据（否则 404）。按长度降序使长名优先（不吃掉短名）。
@@ -85,6 +105,13 @@ function tagCharLinks(el: HTMLElement) {
     if (!m) return
     const name = decodeURIComponent(m[1])
     if (!nameSet.has(name)) return
+    // 支援者/NPC：保留原跳转链接（点击进角色页），不降级为浮窗标签。
+    // 再打 data-char-off 隔断：万一它被塞进某个抽卡角色的 [data-char] 容器里
+    // （同名/名字互为前缀的漏网之鱼），也不能继承那张卡——悬停不弹、点击照常跳自己的页。
+    if (noPopup(name)) {
+      a.setAttribute('data-char-off', '')
+      return
+    }
     // 降级：去掉跳转能力（角色名浮窗不跳转，由 char-ref 接管悬停/点击固定）。
     a.removeAttribute('href')
     a.removeAttribute('target')
@@ -120,6 +147,15 @@ function resolveAvatarName(img: HTMLImageElement): string | null {
 function tagAvatars(el: HTMLElement) {
   el.querySelectorAll('img').forEach((img) => {
     const name = resolveAvatarName(img)
+    // 支援者/NPC 头像：不打 data-char（点击进角色页，不弹角色浮窗）。
+    // 注意必须在 img 祖先已有 [data-char] 的分支之前判断——否则上面因「名字相同」
+    // 误打上的标签不会被去掉。
+    // 同时打 data-char-off 隔断：即便它落在某个抽卡角色的 [data-char] 容器内，
+    // 也不会继承那张卡（见 findChar）。
+    if (name && noPopup(name)) {
+      img.setAttribute('data-char-off', '')
+      return
+    }
     // 角色一览/列表中「图片列」的头像：图片列已有独立的角色名浮窗 span，
     // 头像本身不再打 data-char，避免重复浮窗。
     if (img.closest('.escah-img-col')) return
@@ -180,7 +216,9 @@ function collectBlockCharTags(el: HTMLElement) {
     let m: RegExpExecArray | null
     while ((m = nameRegex.exec(text)) !== null) {
       if (m.index > last) parts.push({ txt: text.slice(last, m.index), isName: false, key: '' })
-      parts.push({ txt: m[0], isName: true, key: nameAliases[m[0]] || m[0] })
+      const key = nameAliases[m[0]] || m[0]
+      // 支援者/NPC：原文保留，不包成浮窗标签（isName=false → 直接按文本输出）
+      parts.push({ txt: m[0], isName: !noPopup(key), key })
       last = m.index + m[0].length
       if (m.index === nameRegex.lastIndex) nameRegex.lastIndex++
     }
@@ -221,6 +259,8 @@ function upgradeTooltipCharNames(el: HTMLElement) {
     const m = nameRegex.exec(txt)
     if (!m) return
     const key = nameAliases[m[0]] || m[0]
+    // 支援者/NPC：保留原站 tooltip 原文（蓝字），不升级为浮窗标签
+    if (noPopup(key)) return
     const disp = nameAliasesInv(key)
     const tag = document.createElement('span')
     tag.className = 'char-ref'
@@ -262,6 +302,9 @@ function findChar(target: EventTarget | null): string | null {
   // 若止步于 root 就会漏掉全屏表格内的角色头像/名字触发。
   let node = target as HTMLElement | null
   while (node && node !== document.body) {
+    // 支援者/NPC 的名字/头像会打 data-char-off 隔断：即便它意外落在某个
+    // 抽卡角色（SSR/SR/R）的 [data-char] 容器内，也到此为止，绝不继承那张卡。
+    if (node.dataset?.charOff !== undefined) return null
     const c = node.dataset?.char
     if (c) return c
     node = node.parentElement
@@ -431,8 +474,29 @@ function fixInternalLinks(el: HTMLElement): void {
   })
 }
 
+// i18n 流水线会把「句末【角色名】浮窗标签」直接写进译文 HTML：
+//   <span class="char-ref" data-char="日文名">【中文名】</span>
+// 这是生成期产物，前端拦不住它生成，只能在渲染后摘除。
+// 摘除分两种：
+//   · 【中文名】 形式 = 句末**追加**的重复标签（单元格里名字已存在）→ 整条删掉；
+//   · 该 span 本身就是名字本体（无括号）→ 保留文字，仅摘掉 data-char 与 char-ref 样式。
+function stripPresetCharTags(el: HTMLElement) {
+  el.querySelectorAll('span.char-ref[data-char]').forEach((sp) => {
+    const key = sp.getAttribute('data-char') || ''
+    if (!noPopup(key)) return
+    const txt = (sp.textContent || '').trim()
+    if (/^【[\s\S]*】$/.test(txt)) {
+      sp.remove()
+    } else {
+      sp.removeAttribute('data-char')
+      sp.classList.remove('char-ref')
+    }
+  })
+}
+
 function processEl(el: HTMLElement) {
   fixInternalLinks(el)
+  stripPresetCharTags(el)
   tagCharLinks(el)
   tagAvatars(el)
   // 仅中文镜像页执行「句末【】浮窗标签」方案（collectBlockCharTags）与把原站

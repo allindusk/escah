@@ -296,6 +296,17 @@
     max-width: 62vw;
     min-width: 108px;
   }
+  /* 日期列（年 / 月下拉）：窄屏竖向排列，避免两个下拉撑宽整列 */
+  .escah-date-filter {
+    flex-direction: column;
+    gap: 3px;
+  }
+  .escah-date-sel {
+    width: 100%;
+    max-width: none;
+    font-size: 14px;
+    padding: 5px 2px;
+  }
 
   /* 横向可滚动提示：由 mobileUX.ts 按实际溢出情况打 class，
      滚动到边界时对应侧的阴影消失，用户一眼看出“还能往哪滑”。 */

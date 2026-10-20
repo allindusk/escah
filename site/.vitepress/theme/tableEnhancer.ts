@@ -138,28 +138,63 @@ function cellNumber(s: string): number | null {
   return isNaN(n) ? null : n
 }
 
+/**
+ * 解析日期文本（PukiWiki 时间戳「2026-10-19 08:09」、「2026/10/19」等），非日期返回 null。
+ * 返回年份/月份（供年月筛选）与可比较的时间戳数值（yyyymmddhhmm，含时分——
+ * 同一天内往往有多条更新，只比到「日」会让这些行并列、排序结果不稳定）。
+ */
+const DATE_RE = /^(\d{4})[-/.](\d{1,2})(?:[-/.](\d{1,2}))?(?:[ T](\d{1,2}):(\d{2}))?/
+function dateStamp(s: string): { y: number; m: number; stamp: number } | null {
+  const m = s.trim().match(DATE_RE)
+  if (!m) return null
+  const y = Number(m[1])
+  const mo = Number(m[2])
+  if (mo < 1 || mo > 12) return null
+  const d = m[3] ? Number(m[3]) : 0
+  if (d > 31) return null
+  const h = m[4] && Number(m[4]) <= 23 ? Number(m[4]) : 0
+  const mi = m[5] ? Math.min(Number(m[5]), 59) : 0
+  return { y, m: mo, stamp: y * 1e8 + mo * 1e6 + d * 1e4 + h * 100 + mi }
+}
+
 function sortByColumn(table: HTMLTableElement, col: number, dir: number): void {
   const body = getBody(table)
   const rows = dataRows(table)
-  rows.sort((a, b) => {
-    const av = (a.children[col]?.textContent || '').trim()
-    const bv = (b.children[col]?.textContent || '').trim()
-    const an = cellNumber(av)
-    const bn = cellNumber(bv)
-    let cmp: number
-    if (an !== null && bn !== null) cmp = an - bn
-    else cmp = av.localeCompare(bv)
+  const textOf = (r: HTMLTableRowElement) => (r.children[col]?.textContent || '').trim()
+  const items = rows.map((r) => {
+    const text = textOf(r)
+    return { r, text, date: dateStamp(text) }
+  })
+  // 日期列（如「更新记录」的 wiki/镜像时间戳）必须按真实时间比较：
+  // 旧逻辑走 cellNumber 只取第一个数字（"2026-10-19 08:09" → 2026），
+  // 同一年里各月全部相等 → 点表头排序看起来毫无反应。
+  const isDateCol = items.filter((it) => it.date).length >= Math.ceil(items.length * 0.6)
+  items.sort((a, b) => {
+    if (isDateCol) {
+      // 空值（「—」）恒排末尾，与升/降序无关
+      if (!a.date && !b.date) return 0
+      if (!a.date) return 1
+      if (!b.date) return -1
+      return (a.date.stamp - b.date.stamp) * dir
+    }
+    const an = cellNumber(a.text)
+    const bn = cellNumber(b.text)
+    const cmp = an !== null && bn !== null ? an - bn : a.text.localeCompare(b.text)
     return cmp * dir
   })
-  rows.forEach((r) => body.appendChild(r))
+  items.forEach((it) => body.appendChild(it.r))
   applyColumnFilters(table)
 }
 
 // 预存在表格上的缓存：数据行元素数组 + 每行每列（小写、trim）文本，
 // 供 applyColumnFilters 纯内存判断，避免反复 querySelectorAll + 读 textContent 触发强制布局。
+// 注意：排序状态绝不能用 `table.col` / `table.dir` 这种名字——`dir` 是 HTMLElement 的
+// 反射属性（对应 dir 属性），赋 -1 会被规范化成 ""，导致「第二次点击永远还是升序」。
 type TblCache = HTMLTableElement & {
   _escahRows?: HTMLTableRowElement[]
   _escahRowText?: string[][]
+  _escahSortCol?: number
+  _escahSortDir?: number
 }
 
 function applyColumnFilters(table: HTMLTableElement): void {
@@ -174,10 +209,19 @@ function applyColumnFilters(table: HTMLTableElement): void {
   //    否则稀有度 SSR/SR/R 互为子串（"ssr".includes("r") 为真）会互相误匹配。
   //  - 自由文本列（input.escah-col-filter）：值用「子串包含」匹配。
   //  多列之间取“与”：所有列的条件同时满足才显示。
-  type FilterCond = { idx: number; mode: 'exact' | 'substr'; vals: string[] }
+  //  - 日期列（年 / 月下拉）：年、月同时生效（AND），空值表示该级不限。
+  type FilterCond =
+    | { idx: number; mode: 'exact' | 'substr'; vals: string[] }
+    | { idx: number; mode: 'date'; year: string; month: string }
   const active: FilterCond[] = []
   cells.forEach((cell, idx) => {
     if (cell.classList.contains('escah-col-filter-none')) return
+    const yearSel = cell.querySelector('select.escah-date-sel[data-part="year"]') as HTMLSelectElement | null
+    const monthSel = cell.querySelector('select.escah-date-sel[data-part="month"]') as HTMLSelectElement | null
+    if (yearSel && (yearSel.value || (monthSel && monthSel.value))) {
+      active.push({ idx, mode: 'date', year: yearSel.value, month: monthSel ? monthSel.value : '' })
+      return
+    }
     const checked = Array.from(
       cell.querySelectorAll('input[type="checkbox"]:checked')
     ) as HTMLInputElement[]
@@ -214,7 +258,13 @@ function applyColumnFilters(table: HTMLTableElement): void {
         rowTexts && rowTexts[ri]
           ? (rowTexts[ri][f.idx] ?? '')
           : ((r.children[f.idx]?.textContent || '').trim().toLowerCase())
-      if (f.mode === 'exact') {
+      if (f.mode === 'date') {
+        // 日期列：年、月逐级比对（该列不是日期或为空 → 不命中）
+        const d = dateStamp(txt)
+        if (!d) show = false
+        else if (f.year && String(d.y) !== f.year) show = false
+        else if (f.month && String(d.m) !== f.month) show = false
+      } else if (f.mode === 'exact') {
         // 枚举列：该列值必须精确等于某个勾选项
         if (!f.vals.includes(txt)) show = false
       } else {
@@ -231,8 +281,8 @@ function applyColumnFilters(table: HTMLTableElement): void {
 function resetTable(table: HTMLTableElement): void {
   resetOrder(table)
   clearSortIndicators(table)
-  ;(table as unknown as { col?: number }).col = undefined
-  ;(table as unknown as { dir?: number }).dir = undefined
+  ;(table as TblCache)._escahSortCol = undefined
+  ;(table as TblCache)._escahSortDir = undefined
   const filterRow = filterRowOf(table)
   if (filterRow) {
     // 清空多选：取消勾选、复原按钮文字、去掉高亮整格
@@ -245,11 +295,59 @@ function resetTable(table: HTMLTableElement): void {
     filterRow.querySelectorAll('input.escah-col-filter').forEach((i) => {
       ;(i as HTMLInputElement).value = ''
     })
+    // 日期列的年/月下拉回到「全部」
+    filterRow.querySelectorAll('select.escah-date-sel').forEach((s) => {
+      ;(s as HTMLSelectElement).value = ''
+    })
     filterRow.querySelectorAll('td').forEach((td) => {
       td.classList.remove('escah-filter-active')
     })
   }
   applyColumnFilters(table)
+}
+
+/**
+ * 日期列筛选控件：年 / 月两级下拉（同级取「且」，空值 = 不限）。
+ * 日期列的高基数值（几百个「YYYY-MM-DD HH:MM」）如果走精确多选或「包含」文本框，
+ * 用户既没法按年、按月聚合，也得逐位敲字，因此单独做一套年月下拉。
+ */
+function buildDateFilterCell(
+  cell: HTMLElement,
+  table: HTMLTableElement,
+  years: number[],
+  months: number[]
+): void {
+  const wrap = document.createElement('div')
+  wrap.className = 'escah-date-filter'
+  const sync = () => {
+    const active = Array.from(wrap.querySelectorAll('select')).some(
+      (s) => (s as HTMLSelectElement).value !== ''
+    )
+    cell.classList.toggle('escah-filter-active', active)
+    applyColumnFilters(table)
+  }
+  const mkSel = (part: 'year' | 'month', allLabel: string, opts: { v: string; t: string }[]) => {
+    const sel = document.createElement('select')
+    sel.className = 'escah-date-sel'
+    sel.dataset.part = part
+    sel.title = part === 'year' ? '按年份筛选（可与月份叠加）' : '按月份筛选（可与年份叠加）'
+    const o0 = document.createElement('option')
+    o0.value = ''
+    o0.textContent = allLabel
+    sel.appendChild(o0)
+    for (const o of opts) {
+      const op = document.createElement('option')
+      op.value = o.v
+      op.textContent = o.t
+      sel.appendChild(op)
+    }
+    sel.addEventListener('change', sync)
+    sel.addEventListener('click', (e) => e.stopPropagation())
+    return sel
+  }
+  wrap.appendChild(mkSel('year', '全部年', years.map((y) => ({ v: String(y), t: `${y}年` }))))
+  wrap.appendChild(mkSel('month', '全部月', months.map((m) => ({ v: String(m), t: `${m}月` }))))
+  cell.appendChild(wrap)
 }
 
 function buildColumnFilterRow(table: HTMLTableElement): void {
@@ -290,6 +388,31 @@ function buildColumnFilterRow(table: HTMLTableElement): void {
     hasAnyFilter = true
     cell.classList.remove('escah-col-filter-none')
     cell.classList.add('escah-col-filter')
+    // 日期列（>=60% 的非空值形如 YYYY-MM-DD）→ 年 / 月两级下拉，
+    // 比几百个精确日期值的多选（会退化成文本框）更符合「按年按季按月看更新」的需求。
+    const years = new Set<number>()
+    const months = new Set<number>()
+    let nonEmpty = 0
+    let dateHit = 0
+    for (let ri = 0; ri < rowTexts.length; ri++) {
+      const t = rowTexts[ri]?.[c] || ''
+      if (!t) continue
+      nonEmpty++
+      const d = dateStamp(t)
+      if (!d) continue
+      dateHit++
+      years.add(d.y)
+      months.add(d.m)
+    }
+    if (dateHit > 0 && dateHit >= Math.ceil(nonEmpty * 0.6)) {
+      buildDateFilterCell(
+        cell,
+        table,
+        [...years].sort((a, b) => b - a),
+        [...months].sort((a, b) => a - b)
+      )
+      continue
+    }
     if (vals.size <= 50) {
       // 枚举适中的列 → 多选下拉（checkbox popover，OR 逻辑）
       const wrap = document.createElement('div')
@@ -365,24 +488,25 @@ function makeSortable(table: HTMLTableElement): void {
     th.classList.add('escah-sortable')
     th.addEventListener('click', (e) => {
       e.stopPropagation()
-      const cur = (table as unknown as { col?: number }).col
-      const c = (table as unknown as { dir?: number }).dir ?? 0
+      const cache = table as TblCache
+      const cur = cache._escahSortCol
+      const c = cache._escahSortDir ?? 0
       let dir: number
       if (cur === idx) dir = c === 1 ? -1 : c === -1 ? 0 : 1
       else dir = 1
       if (dir === 0) {
         resetOrder(table)
         clearSortIndicators(table)
-        ;(table as unknown as { col?: number }).col = undefined
-        ;(table as unknown as { dir?: number }).dir = undefined
+        cache._escahSortCol = undefined
+        cache._escahSortDir = undefined
         applyColumnFilters(table)
         return
       }
       clearSortIndicators(table)
       sortByColumn(table, idx, dir)
       th.classList.add(dir === 1 ? 'escah-sort-asc' : 'escah-sort-desc')
-      ;(table as unknown as { col?: number }).col = idx
-      ;(table as unknown as { dir?: number }).dir = dir
+      cache._escahSortCol = idx
+      cache._escahSortDir = dir
     })
   })
 }
@@ -824,10 +948,13 @@ function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
   table.setAttribute('data-escah', '1')
 }
 
-// 真实表格 class 是 PukiWiki 自带的 style_table（全站一致），同时兼容 escah-tbl。
+// 真实表格 class 是 PukiWiki 自带的 style_table（全站一致），同时兼容 escah-tbl；
+// Vue 组件里手写的表（如更新记录）用 data-escah-enhance 显式开启——
+// 不能给 table 挂 .escah-tbl：那是**容器** class，table.closest('.escah-tbl') 会命中自己，
+// 导致工具栏/全屏/重置按钮查找全部落空。
 export function enhanceTables(root: HTMLElement, pageSlug?: string): void {
   for (const tbl of Array.from(
-    root.querySelectorAll('table.style_table, table.escah-tbl')
+    root.querySelectorAll('table.style_table, table.escah-tbl, table[data-escah-enhance]')
   )) {
     enhanceTable(tbl as HTMLTableElement, pageSlug)
   }

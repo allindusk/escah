@@ -1068,6 +1068,26 @@
 .escah-filter-opt:hover { color: var(--escah-pink); }
 .escah-filter-opt input { vertical-align: middle; margin-right: 4px; }
 
+/* 日期列筛选：年 / 月两级下拉（tableEnhancer 为日期列生成） */
+.escah-date-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.escah-date-sel {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 4px;
+  max-width: 88px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--escah-border);
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+}
+.escah-date-sel:hover { border-color: var(--escah-pink); }
+.escah-date-sel:focus { outline: none; border-color: var(--escah-pink); }
+
 /* 图像列：固定最小宽度，保证图片以正常尺寸显示而不被压缩；图文混排时居中 */
 .escah-img-col { min-width: 80px; text-align: center; vertical-align: middle; }
 .escah-img-col img { display: inline-block; vertical-align: middle; max-width: none; height: auto; }

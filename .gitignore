@@ -71,6 +71,7 @@ site/_preview*.log
 # 其他 agent 运行时记忆副本（主记忆在 .codebuddy/memory/）
 .workbuddy/
 prompt.md
+output
 
 # 根目录开发/调试临时产物（不入库）
 /*.log
@@ -110,3 +111,11 @@ tools/_*.py
 # local_sync / i18n build 每次运行都重写的本地报告（真值在 data/parsed/i18n/，报告本身不入库）
 data/upstream/build_report.json
 data/upstream/local_sync.json
+
+# ---- 2026-10-20 第二轮清理补齐 ----
+# 页面精校的逐页中间稿（如 _equip__equip-001.txt），真值已并入 i18n
+tools/_mt_refine/
+# 整页润色前的快照备份（润色完成即无用；真值在 <slug>.json）
+data/parsed/i18n/*.pre_polish.json
+# 分析用的 pickle 缓存（如 _char_ja_hits.pkl，可由脚本重算）
+tools/_*.pkl

@@ -29,6 +29,10 @@ function onDocClick(e: MouseEvent) {
   // 否则会同时弹出浮窗 + 放大头像 + 玻璃遮罩。头像 img 自身通常不带 data-char，
   // 而是包在带 data-char 的 span/祖先元素内，故用 closest 向上查找。
   if (img.closest('[data-char]')) return
+  // 指向角色页的图片（支援者/NPC 的头像自 2026-10-20 起不挂 data-char、不弹角色浮窗，
+  // 点击是直接跳转角色页）：不能再叠一层灯箱放大，否则「跳页 + 图片遮罩」同时发生。
+  // 只拦角色页链接，其它链接内的图片（如 raid/装备页横幅）维持原行为。
+  if (img.closest('a[href*="characters/"]')) return
   lbSrc.value = img.src
 }
 

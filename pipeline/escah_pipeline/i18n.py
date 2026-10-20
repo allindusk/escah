@@ -298,6 +298,8 @@ def _norm_ns(t: str) -> str:
 #   3) 错译名：LLM 把名字翻成了别的汉字（如 艾丝卡蕾雅 vs 艾斯卡蕾雅）→ 从全站 i18n
 #      学习「LLM 渲染形 W → 词表 ZH」的纠错映射（W→Z）后整站替换。
 _NAME_GLOSSARY_FILE = config.ROOT / "glossary" / "names.yaml"
+# 生成式角色名表（tools/gen_char_names.py 从 characters.yaml 生成，手工表优先覆盖）
+_GEN_NAMES_FILE = config.ROOT / "glossary" / "characters_generated.yaml"
 _NAME_RE: "re.Pattern | None" = None
 _NAME_MAP: "dict[str, str] | None" = None
 _GLOSSARY_NORM: "dict[str, str] | None" = None
@@ -392,17 +394,32 @@ def _load_name_glossary() -> None:
     if _NAME_MAP is not None:
         return
     data: dict = {}
+    # ① 生成式角色名表（characters_generated.yaml，由 tools/gen_char_names.py 从
+    #    glossary/characters.yaml 的 base/prefix/suffix 拼出 450 个形态名）。
+    #    只作**打底**：手工 names.yaml 的条目一律覆盖它，保证人工例外始终优先。
+    if _GEN_NAMES_FILE.exists():
+        try:
+            g = yaml.safe_load(_GEN_NAMES_FILE.read_text(encoding="utf-8")) or {}
+            data.update(g.get("names", {}) or {})
+        except Exception as e:  # 词表损坏不应阻断渲染
+            log.warning("[i18n names] 加载 glossary/characters_generated.yaml 失败：%s", e)
+    # ② 手工角色名词表（优先级更高）
     if _NAME_GLOSSARY_FILE.exists():
         try:
             loaded = yaml.safe_load(_NAME_GLOSSARY_FILE.read_text(encoding="utf-8")) or {}
-            data = loaded.get("names", {}) or {}
+            data.update(loaded.get("names", {}) or {})
         except Exception as e:  # 词表损坏不应阻断渲染
             log.warning("[i18n names] 加载 glossary/names.yaml 失败：%s", e)
     # 仅保留「真有替换」的条目（ja==zh 视为无需替换，跳过）
     pairs = [(k, v) for k, v in data.items() if k and v and k != v]
     pairs.sort(key=lambda kv: len(kv[0]), reverse=True)  # 长词优先
     _NAME_MAP = {k: v for k, v in pairs}
-    _NAME_RE = re.compile("|".join(re.escape(k) for k, _ in pairs)) if pairs else None
+    # 子串替换用的正则：**排除「过短的含假名条目」**。
+    # 2 字假名条目（リア/アル/エル/キリ…）几乎全是人名片段，做子串会截断更长的专名
+    # （实测 レガリア → "レガ莉亚"、アルゴル → "阿尔ゴル"）。这类条目仍参与 _GLOSSARY_NORM
+    # 的整词精确匹配，只是不再做句中子串替换。纯汉字条目不受影响（中日同形字 Unicode 不同）。
+    sub_pairs = [(k, v) for k, v in pairs if len(k) >= 3 or not _KANA_RE.search(k)]
+    _NAME_RE = re.compile("|".join(re.escape(k) for k, _ in sub_pairs)) if sub_pairs else None
     _GLOSSARY_NORM = {_norm(k): v for k, v in pairs}
 
 
@@ -487,6 +504,37 @@ def _correct_text(text: str) -> str:
     # inline_terms 含假名条目子串替换（覆盖正文内嵌称呼/术语，如「長官さぁん」）
     text = _term_sub_override(text)
     return text
+
+
+_BLOCK_SEG_NAME_OK = re.compile(r"^[^\s，。、；：!?！？／/（）()【】\[\]「」『』…〜~\-－]{1,12}$")
+
+
+def _enforce_block_names(blk_ja: str, blk_zh: str) -> str:
+    """块级译文按段强制遵循 names.yaml（专名段直接取词表译名）。
+
+    2026-10-20 根因：块级整块回退路径（blk.zh 直接铺进页面）不经过 _name_override，
+    机翻把 エスカレイヤー 写成「超昂蕾雅」、閃忍ハルカ 写成「闪忍春香」会直达页面，
+    词表完全兜不住。这里按段一一对齐（段数不等则不处理，避免错位），仅对
+    「ja 整段就是一个专名」且「zh 段是专名样短串」的段覆盖，不碰正常句子。
+    """
+    if not blk_ja or not blk_zh:
+        return blk_zh
+    segs_ja = blk_ja.split(_BR_PH)
+    segs_zh = blk_zh.split(_BR_PH)
+    if len(segs_ja) != len(segs_zh):
+        return blk_zh
+    out = list(segs_zh)
+    for i, js in enumerate(segs_ja):
+        ov = _name_override(js)
+        if not ov:
+            continue
+        cur = out[i].strip()
+        if cur == ov:
+            continue
+        if cur and not _BLOCK_SEG_NAME_OK.match(cur):
+            continue
+        out[i] = ov
+    return _BR_PH.join(out) if out != segs_zh else blk_zh
 
 
 _NAME_SUFFIX_RE = re.compile(
@@ -626,17 +674,19 @@ def _link_zh_by_href(href: str) -> "str | None":
 def _disp_name(ja_text: str, href: str, is_char: bool, locale: str = "") -> str:
     """句末【】标签显示名解析优先级：
     0) 站内页面链接（zh 渲染）：一律显示该页中文名，无视原日文锚点词（用户铁律）；
-    1) 角色名(is_char) 强制优先 names 词表（权威译名，绝不被 i18n 漏译遮蔽）；
+    1) 锚点词命中 names.yaml 专名 → 强制用权威译名（不论 is_char）；
+       角色名(is_char) 亦在此层，另兜住 i18n 漏译/错填；
     2) 当前 slug 的 i18n 译文（ja→zh，最权威，天然照搬译文）；
     3) 词表覆盖（names/terms/high_freq，_link_display_zh）；
     4) 普通链接再按 href 反查 link_terms 中文名；
     5) 兜底日文原文。"""
-    if is_char:
-        # 角色名显示名必须走 names.yaml 权威译名；i18n JSON 里该角色名若漏译/错填为
-        # 日文原文，也不应污染浮窗显示（用户铁律：角色名翻译不可变，names 绝对权威）。
-        nm = _name_override(ja_text)
-        if nm:
-            return nm
+    # 专名显示名必须走 names.yaml 权威译名：i18n JSON 里该名字若漏译/错填（如机翻把
+    # エスカレイヤー 写成「超昂蕾雅」），也不应污染【】显示名（用户铁律：译名不可变）。
+    # 2026-10-20：原实现只对 is_char 生效，普通链接（如角色页関連キャラクター的
+    # characters/xxx.html 内链）会落到 _CUR_JA_ZH 直接取 i18n 错译 → 页面出现错译名。
+    nm = _name_override(ja_text)
+    if nm:
+        return nm
     # 站内页面链接（zh 站）→ 显示页面中文名，无视原日文锚点词（D2P/突破极限 等）。
     # ja 站保留日文原貌；角色页走浮窗逻辑不在此处理。
     # ⚠️ 例外：显示名在「保留原文」名单里（人名/声优名/画师名）时**不替换** ——
@@ -1130,11 +1180,18 @@ def _load_high_freq_glossary() -> None:
             log.warning("[i18n high_freq] 加载 glossary/high_freq.yaml 失败：%s", e)
     sub_pairs: list[tuple[str, str]] = []
     exact_pairs: list[tuple[str, str]] = []
+    # 子串替换的最短长度：2 字含假名条目（リア/アル/エル/キリ…）几乎全是人名片段，
+    # 做子串会截断更长的专名（实测 レガリア → "レガ莉亚"、アルゴル → "阿尔ゴル"）。
+    # 这类条目仍保留在 _HF_ALL_NORM 里做整词精确匹配，只是不参与句中子串替换。
+    HF_SUB_MINLEN = 3
     for k, v in data.items():
         if not k or not v or k == v:
             continue
         if _KANA_RE.search(k):
-            sub_pairs.append((k, v))       # 含假名 → 子串
+            if len(k) >= HF_SUB_MINLEN:
+                sub_pairs.append((k, v))   # 含假名且够长 → 子串
+            else:
+                exact_pairs.append((k, v))  # 含假名但过短 → 仅整词精确
         else:
             exact_pairs.append((k, v))     # 纯汉字 → 整词精确
     sub_pairs.sort(key=lambda kv: len(kv[0]), reverse=True)  # 长词优先
@@ -1266,6 +1323,24 @@ def _retained_ja(ja: str) -> bool:
     if _RETAIN_SET and n in _RETAIN_SET:
         return True
     return bool(_RETAIN_TPL and _num_template(n) in _RETAIN_TPL)
+
+
+# PukiWiki 插件指令行：`#region(` / `#includex(` / `#endregion` / `#contents` …
+# 判定刻意收紧到「已知插件名 + 括号或直接结束」，避免把普通正文（如以 # 开头的标签行）误判。
+_PLG_DIRECTIVE_RE = re.compile(
+    r"^#(region|endregion|includex|include|contents|html|ref|ls|br|navi|topicpath)(?:\(|$)",
+    re.I,
+)
+
+
+def _plugin_directive_block(ja: str) -> bool:
+    """整块**每一行**都是 PukiWiki 插件指令（源码示例块）→ 恒保留日文原文。"""
+    if not ja:
+        return False
+    segs = [s.strip() for s in ja.split(_BR_PH) if s.strip()]
+    if not segs:
+        return False
+    return all(_PLG_DIRECTIVE_RE.match(s) for s in segs)
 
 
 def _retained_segments_all(ja: str) -> bool:
@@ -4773,6 +4848,14 @@ def render_locale(slug: str, locale: str) -> str | None:
                 blk = blocks.get(bid)
                 if not blk or locale != "zh":
                     continue
+                # PukiWiki 插件指令块（#region/#includex/#endregion …）：整块**每一行**都是
+                # 插件指令 → 这是**Wiki 源码**不是正文（special-attributes「編集例」就是把
+                # 源码当示例贴出来），必须整块照抄日文原文。翻译不仅没意义，还会被
+                # _correct_text 的高频词子串替换二次破坏（キャラ一覧→角色一覧、フェス→盛典），
+                # 让示例彻底失效。
+                if _plugin_directive_block(blk.get("ja", "")):
+                    _set_block_html(el, blk.get("ja", ""))
+                    continue
                 # 块内含角色名标记（char-ref / data-char / plugin-tooltip，排除头像 img）：
                 # 整块纯文本替换会丢失其原位（被丢到块末 ul 之后），违背原排版，
                 # 且会清空 plugin-tooltip 结构导致浮窗丢失、块级 blk.zh 残留的评论签名
@@ -4794,7 +4877,9 @@ def render_locale(slug: str, locale: str) -> str | None:
                     # 浮窗，避免整块回退日文（用户反馈 raid-formations 等页因此露日文）。
                     blk_zh_full = (blk.get("zh") or "").strip()
                     if blk_zh_full:
-                        blk_zh_out = _strip_comment_sig(_correct_text(blk_zh_full))
+                        blk_zh_out = _strip_comment_sig(
+                            _enforce_block_names(blk.get("ja", ""), _correct_text(blk_zh_full))
+                        )
                         extra = ""
                         for _sp in char_span_in_block:
                             _cls = _sp.get("class") or ""
@@ -4891,7 +4976,7 @@ def render_locale(slug: str, locale: str) -> str | None:
                 if ov is not None:
                     blk_zh = ov
                 else:
-                    blk_zh = _correct_text(blk["zh"])
+                    blk_zh = _enforce_block_names(blk.get("ja", ""), _correct_text(blk["zh"]))
                 # 评论发送签名（-- [ID]YYYY-MM-DD(周X)HH:MM:SS）兜底剥离：
                 # 节点级路径(2514)已剥离，但无链接块级整块替换路径此前漏剥离，
                 # 导致正文/角色名后拼接评论复发。此处统一兜底。

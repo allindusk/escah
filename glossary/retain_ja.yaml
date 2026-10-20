@@ -2,6 +2,13 @@
 # 保留原文名单（不翻译、不进待译清单、渲染保留日文）  ESCH 双语镜像站
 # ============================================================================
 retain:
+  # PukiWiki 插件指令（#region/#includex/#endregion）：special-attributes「編集例」里是
+  # 当作**Wiki 源码示例**展示的，参数是页面名引用，一旦翻译即失效 → 整条保留原文。
+  - '#region(『真夏』キャラ一覧)'
+  - '#includex(絞り込めるカテゴリ一覧,section=(filter=^『真夏』キャラ一覧$),titlestr=off)'
+  - '#region(『超昂』(超昂フェス)キャラ一覧)'
+  - '#includex(絞り込めるカテゴリ一覧,section=(filter=^『超昂』\(超昂フェス\)キャラ一覧$),titlestr=off)'
+  - '#endregion'
   - "DELUXE巛"
   - "MIN-NARAKEN"
   - "SASAYUKi"

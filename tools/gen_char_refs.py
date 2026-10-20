@@ -18,6 +18,8 @@ CHAR_DIR = os.path.join(ROOT, 'data/parsed/characters')
 PENDING = os.path.join(ROOT, 'data/pending_assets.json')
 NAMES_YAML = os.path.join(ROOT, 'glossary/names.yaml')
 OUT = os.path.join(ROOT, 'site/.vitepress/theme/charRefs.json')
+# 这些稀有度属于「支援者 / NPC」：没有成型规律的技能面板，不接入角色浮窗
+NO_POPUP_RARITIES = ('サポーター', 'NPC')
 
 
 def main():
@@ -29,8 +31,14 @@ def main():
     # displayName(正文可能出现的形式：日文名 / 中文名) → 规范化 key(=文件名=modal 加载 key)
     # 正文里中文页会把角色名渲染成 name_zh，必须也映射回日文 key，否则悬停加载会 404。
     name_aliases: dict[str, str] = {}
+    # 不参与角色浮窗的角色（サポーター / NPC）：这两类没有统一规律的技能面板，
+    # 且部分名字与正式角色（SSR/SR/R）相近，在总览页上悬停会误弹成别的角色卡。
+    # 前端据此在一览/总览页跳过它们的 data-char 标记（名单随角色数据自动更新）。
+    no_popup: list[str] = []
     for n in names:
         d = json.load(open(os.path.join(CHAR_DIR, n + '.json'), encoding='utf-8'))
+        if d.get('rarity') in NO_POPUP_RARITIES:
+            no_popup.append(n)
         name_aliases[n] = n  # 日文名即 key
         zh = d.get('name_zh', '')
         if zh and zh != n:
@@ -70,11 +78,12 @@ def main():
             else:
                 skipped += 1  # 无角色卡页，跳过（避免浮窗 404）
 
-    out = {'names': names, 'avatarHashes': avatar_hashes, 'nameAliases': name_aliases}
+    out = {'names': names, 'avatarHashes': avatar_hashes, 'nameAliases': name_aliases,
+           'noPopup': sorted(no_popup)}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, indent=0)
-    print(f'角色名: {len(names)}  头像hash映射: {len(avatar_hashes)}  别名(含中文名): {len(name_aliases)}  (+names.yaml权威中文名 {extra}, 跳过无卡 {skipped})  -> {os.path.relpath(OUT, ROOT)}')
+    print(f'角色名: {len(names)}  头像hash映射: {len(avatar_hashes)}  别名(含中文名): {len(name_aliases)}  (+names.yaml权威中文名 {extra}, 跳过无卡 {skipped})  不弹浮窗(支援者/NPC): {len(no_popup)}  -> {os.path.relpath(OUT, ROOT)}')
 
 
 if __name__ == '__main__':

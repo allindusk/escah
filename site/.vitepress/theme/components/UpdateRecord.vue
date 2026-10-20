@@ -44,7 +44,7 @@ onMounted(() => {
 
     <section>
       <h2 id="guide-updates">攻略页面更新记录</h2>
-      <table>
+      <table data-escah-enhance="1">
         <thead>
           <tr>
             <th>页面日文名</th>
@@ -64,7 +64,7 @@ onMounted(() => {
       </table>
 
       <h2 id="character-updates">角色页面更新记录</h2>
-      <table>
+      <table data-escah-enhance="1">
         <thead>
           <tr>
             <th>页面日文名</th>
