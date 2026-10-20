@@ -116,6 +116,10 @@ def extract_character(name: str, raw_html: str) -> dict | None:
             r_ths = r.find_all("th", recursive=False)
             if any(_section_key_of(t.get_text(strip=True)) for t in r_ths):
                 break
+            # 表头为「本名」的行：值是角色本名，按约定保留日文原名，不注入中文
+            row_is_honmyo = any(
+                (t2.get_text(strip=True) == "本名") for t2 in r_ths
+            )
             cells: list[dict] = []
             for c in r.find_all(["th", "td"], recursive=False):
                 text = _cell_text(c)
@@ -129,7 +133,7 @@ def extract_character(name: str, raw_html: str) -> dict | None:
                     cell["rs"] = int(c["rowspan"])
                 if needs_translation(text):
                     cell["tr"] = True
-                zh = i18n.char_cell_zh(text)
+                zh = None if row_is_honmyo else i18n.char_cell_zh(text)
                 if zh:
                     cell["zh"] = zh
                 cells.append(cell)

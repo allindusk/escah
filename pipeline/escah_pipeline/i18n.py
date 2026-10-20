@@ -303,6 +303,9 @@ _GEN_NAMES_FILE = config.ROOT / "glossary" / "characters_generated.yaml"
 _NAME_RE: "re.Pattern | None" = None
 _NAME_MAP: "dict[str, str] | None" = None
 _GLOSSARY_NORM: "dict[str, str] | None" = None
+# 2 字假名专名的「假名边界」替换（见 _load_name_glossary 注释）
+_SHORT_RE: "re.Pattern | None" = None
+_SHORT_MAP: "dict[str, str]" = {}
 _CORR_RE: "re.Pattern | None" = None
 _CORR_MAP: "dict[str, str] | None" = None
 _LEARNED = False
@@ -390,7 +393,7 @@ _RETAIN_RAW_RE: "re.Pattern | None" = None      # 上面那串的长词优先替
 
 
 def _load_name_glossary() -> None:
-    global _NAME_RE, _NAME_MAP, _GLOSSARY_NORM
+    global _NAME_RE, _NAME_MAP, _GLOSSARY_NORM, _SHORT_RE, _SHORT_MAP
     if _NAME_MAP is not None:
         return
     data: dict = {}
@@ -418,7 +421,16 @@ def _load_name_glossary() -> None:
     # 2 字假名条目（リア/アル/エル/キリ…）几乎全是人名片段，做子串会截断更长的专名
     # （实测 レガリア → "レガ莉亚"、アルゴル → "阿尔ゴル"）。这类条目仍参与 _GLOSSARY_NORM
     # 的整词精确匹配，只是不再做句中子串替换。纯汉字条目不受影响（中日同形字 Unicode 不同）。
+    # 2026-10-20：2 字假名（マヤ / ニル / ナギ…）不再一律排除，改用**假名边界保护**：
+    #   只有在前后都不是假名时才替换（`マヤ` 命中，`マヤエル` 不命中），
+    # 既清掉页面残留，又不会像早期那样把 レガリア 劈成「レガ莉亚」。
     sub_pairs = [(k, v) for k, v in pairs if len(k) >= 3 or not _KANA_RE.search(k)]
+    _SHORT_KANA = [(k, v) for k, v in pairs if len(k) <= 2 and _KANA_RE.search(k)]
+    _SHORT_MAP = dict(_SHORT_KANA)
+    _SHORT_RE = (re.compile(
+        "|".join(r"(?<![\u3041-\u309f\u30a0-\u30ff])" + re.escape(k) + r"(?![\u3041-\u309f\u30a0-\u30ff])"
+                 for k, _v in sorted(_SHORT_KANA, key=lambda kv: -len(kv[0]))))
+        if _SHORT_KANA else None)
     _NAME_RE = re.compile("|".join(re.escape(k) for k, _ in sub_pairs)) if sub_pairs else None
     _GLOSSARY_NORM = {_norm(k): v for k, v in pairs}
 
@@ -495,6 +507,8 @@ def _correct_text(text: str) -> str:
     _learn_corrections()
     if _NAME_RE is not None:
         text = _NAME_RE.sub(lambda m: _NAME_MAP[m.group(0)], text)  # type: ignore[union-attr]
+    if _SHORT_RE is not None:
+        text = _SHORT_RE.sub(lambda m: _SHORT_MAP[m.group(0)], text)
     if _CORR_RE is not None:
         text = _CORR_RE.sub(lambda m: _CORR_MAP[m.group(0)], text)  # type: ignore[union-attr]
     # 通用高频游戏术语子串替换（覆盖句内残留日语术语）
@@ -4235,7 +4249,12 @@ def char_fill_all() -> None:
                     if not t or not _JA_RE.search(t):
                         continue
                     if not cell.get("h") and head in _KEEP_JA_HEADERS:
-                        continue  # 人名/声优/画师值保留日文
+                        # 人名/声优/画师/本名 的值按约定保留日文原名。
+                        # 不能只 continue —— 历史遗留的 zh 会一直留着（增量抽取不重写、
+                        # 本函数又只覆盖不删除），页面就显示成中文。这里顺手删掉，自愈。
+                        if cell.pop("zh", None) is not None:
+                            changed = True
+                        continue
                     total += 1
                     zh = d.get(_norm_ns(t))
                     if zh is None and ("\n" in t or "\r" in t):

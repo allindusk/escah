@@ -1,199 +1,199 @@
 {
- "key1": {
-  "ja": "最終更新日時:2026-07-25 (土) 11:23:21",
-  "zh": ""
- },
- "key2": {
-  "ja": "全キャラ",
-  "zh": ""
- },
- "key3": {
-  "ja": "SSRキャラ",
-  "zh": ""
- },
- "key4": {
-  "ja": "SRキャラ",
-  "zh": ""
- },
- "key5": {
-  "ja": "Rキャラ",
-  "zh": ""
- },
- "key6": {
-  "ja": "NPCキャラ",
-  "zh": ""
- },
- "key7": {
-  "ja": " 基本情報 ",
-  "zh": ""
- },
- "key8": {
-  "ja": " ゲームにおいて ",
-  "zh": ""
- },
- "key9": {
-  "ja": " 小ネタ ",
-  "zh": ""
- },
- "key10": {
-  "ja": " 公式ツイッターの紹介 ",
-  "zh": "官方推特介绍"
- },
- "key11": {
-  "ja": " コメントフォーム ",
-  "zh": ""
- },
- "key12": {
-  "ja": "基本情報  ",
-  "zh": ""
- },
- "key13": {
-  "ja": "変身画像",
-  "zh": ""
- },
- "key14": {
-  "ja": "プロフィール",
-  "zh": ""
- },
- "key15": {
-  "ja": "名前",
-  "zh": ""
- },
- "key16": {
-  "ja": "嫉妬魔影アタン",
-  "zh": ""
- },
- "key17": {
-  "ja": "本名",
-  "zh": ""
- },
- "key18": {
-  "ja": "所属勢力",
-  "zh": ""
- },
- "key19": {
-  "ja": "葵時緒",
-  "zh": ""
- },
- "key20": {
-  "ja": "イラスト",
-  "zh": ""
- },
- "key21": {
-  "ja": "SDキャラ",
-  "zh": ""
- },
- "key22": {
-  "ja": "File not found: \"嫉妬魔影アタン_sd.png\" at page \"嫉妬魔影アタン\"",
-  "zh": "未找到文件：「嫉妬魔影アタン_sd.png」，页面「嫉妬魔影アタン」"
- },
- "key23": {
-  "ja": "フレーバーテキスト",
-  "zh": ""
- },
- "key24": {
-  "ja": "ゲームにおいて  ",
-  "zh": ""
- },
- "key25": {
-  "ja": "小ネタ  ",
-  "zh": ""
- },
- "key26": {
-  "ja": "公式ツイッターの紹介  ",
-  "zh": "官方推特介绍"
- },
- "key27": {
-  "ja": "キャラ紹介",
-  "zh": ""
- },
- "key28": {
-  "ja": "コメントフォーム  ",
-  "zh": ""
- },
- "key29": {
-  "ja": "クリックで過去ログ一覧を開く",
-  "zh": "点击打开历史记录一览"
- },
- "key30": {
-  "ja": "末尾の番号が若いほど、古いログになります。",
-  "zh": ""
- },
- "key31": {
-  "ja": "'コメント/怠惰魔影アル・ペオル/' には、下位層のページがありません。",
-  "zh": "「コメント/怠惰魔影アル・ペオル/」没有下级页面。"
- },
- "key32": {
-  "ja": " コメントはありません。 ",
-  "zh": ""
- },
- "key33": {
-  "ja": "コメント/嫉妬魔影アタン",
-  "zh": ""
- },
- "_blocks": {
-  "blk1": {
-   "keys": [
-    "key2",
-    "key3",
-    "key4",
-    "key5",
-    "key6"
-   ],
-   "ja": "Index：全キャラ | SSRキャラ | SRキャラ | Rキャラ | NPCキャラ",
-   "zh": "索引：全部角色 | SSR角色 | SR角色 | R角色 | NPC角色"
+  "key1": {
+    "ja": "最終更新日時:2026-07-25 (土) 11:23:21",
+    "zh": ""
   },
-  "blk2": {
-   "keys": [
-    "key32",
-    "key33"
-   ],
-   "ja": "コメントはありません。 コメント/嫉妬魔影アタン",
-   "zh": "暂无评论。 评论/嫉妬魔影アタン"
+  "key2": {
+    "ja": "全キャラ",
+    "zh": "全部角色一览"
+  },
+  "key3": {
+    "ja": "SSRキャラ",
+    "zh": "SSR角色一览"
+  },
+  "key4": {
+    "ja": "SRキャラ",
+    "zh": "SR角色一览"
+  },
+  "key5": {
+    "ja": "Rキャラ",
+    "zh": "R角色一览"
+  },
+  "key6": {
+    "ja": "NPCキャラ",
+    "zh": "NPC角色"
+  },
+  "key7": {
+    "ja": " 基本情報 ",
+    "zh": "基本信息"
+  },
+  "key8": {
+    "ja": " ゲームにおいて ",
+    "zh": "在游戏中"
+  },
+  "key9": {
+    "ja": " 小ネタ ",
+    "zh": "杂谈"
+  },
+  "key10": {
+    "ja": " 公式ツイッターの紹介 ",
+    "zh": "官方推特介绍"
+  },
+  "key11": {
+    "ja": " コメントフォーム ",
+    "zh": "评论表单"
+  },
+  "key12": {
+    "ja": "基本情報  ",
+    "zh": "基本信息"
+  },
+  "key13": {
+    "ja": "変身画像",
+    "zh": "变身立绘"
+  },
+  "key14": {
+    "ja": "プロフィール",
+    "zh": "个人档案"
+  },
+  "key15": {
+    "ja": "名前",
+    "zh": "名称"
+  },
+  "key16": {
+    "ja": "嫉妬魔影アタン",
+    "zh": ""
+  },
+  "key17": {
+    "ja": "本名",
+    "zh": ""
+  },
+  "key18": {
+    "ja": "所属勢力",
+    "zh": "所属势力"
+  },
+  "key19": {
+    "ja": "葵時緒",
+    "zh": ""
+  },
+  "key20": {
+    "ja": "イラスト",
+    "zh": "插画"
+  },
+  "key21": {
+    "ja": "SDキャラ",
+    "zh": "SD形象"
+  },
+  "key22": {
+    "ja": "File not found: \"嫉妬魔影アタン_sd.png\" at page \"嫉妬魔影アタン\"",
+    "zh": "未找到文件：「嫉妬魔影アタン_sd.png」，页面「嫉妬魔影アタン」"
+  },
+  "key23": {
+    "ja": "フレーバーテキスト",
+    "zh": "角色背景文本"
+  },
+  "key24": {
+    "ja": "ゲームにおいて  ",
+    "zh": "在游戏中"
+  },
+  "key25": {
+    "ja": "小ネタ  ",
+    "zh": "杂谈"
+  },
+  "key26": {
+    "ja": "公式ツイッターの紹介  ",
+    "zh": "官方推特介绍"
+  },
+  "key27": {
+    "ja": "キャラ紹介",
+    "zh": "角色介绍"
+  },
+  "key28": {
+    "ja": "コメントフォーム  ",
+    "zh": "评论表单"
+  },
+  "key29": {
+    "ja": "クリックで過去ログ一覧を開く",
+    "zh": "点击打开过往日志一览"
+  },
+  "key30": {
+    "ja": "末尾の番号が若いほど、古いログになります。",
+    "zh": "末尾编号越小，日志越旧。"
+  },
+  "key31": {
+    "ja": "'コメント/怠惰魔影アル・ペオル/' には、下位層のページがありません。",
+    "zh": "「评论/怠惰魔影アル・ペオル/」没有下级页面。"
+  },
+  "key32": {
+    "ja": " コメントはありません。 ",
+    "zh": "暂无评论。"
+  },
+  "key33": {
+    "ja": "コメント/嫉妬魔影アタン",
+    "zh": ""
+  },
+  "_blocks": {
+    "blk1": {
+      "keys": [
+        "key2",
+        "key3",
+        "key4",
+        "key5",
+        "key6"
+      ],
+      "ja": "Index：全キャラ | SSRキャラ | SRキャラ | Rキャラ | NPCキャラ",
+      "zh": "索引：全部角色 | SSR角色 | SR角色 | R角色 | NPC角色"
+    },
+    "blk2": {
+      "keys": [
+        "key32",
+        "key33"
+      ],
+      "ja": "コメントはありません。 コメント/嫉妬魔影アタン",
+      "zh": "暂无评论。 评论/嫉妬魔影アタン"
+    }
+  },
+  "_links": {
+    "L1": {
+      "href": "../characters.html",
+      "kind": "char",
+      "target_slug": "",
+      "has_img": "",
+      "display_key": "key2"
+    },
+    "L2": {
+      "href": "../list-ssr.html",
+      "kind": "site",
+      "target_slug": "list-ssr",
+      "has_img": "",
+      "display_key": "key3"
+    },
+    "L3": {
+      "href": "../list-sr.html",
+      "kind": "site",
+      "target_slug": "list-sr",
+      "has_img": "",
+      "display_key": "key4"
+    },
+    "L4": {
+      "href": "../list-r.html",
+      "kind": "site",
+      "target_slug": "list-r",
+      "has_img": "",
+      "display_key": "key5"
+    },
+    "L5": {
+      "href": "../list-npc.html",
+      "kind": "site",
+      "target_slug": "list-npc",
+      "has_img": "",
+      "display_key": "key6"
+    },
+    "L6": {
+      "href": "../voice-actors.html#sb6c7c96",
+      "kind": "site",
+      "target_slug": "voice-actors",
+      "has_img": "",
+      "display_key": "key19"
+    }
   }
- },
- "_links": {
-  "L1": {
-   "href": "../characters.html",
-   "kind": "char",
-   "target_slug": "",
-   "has_img": "",
-   "display_key": "key2"
-  },
-  "L2": {
-   "href": "../list-ssr.html",
-   "kind": "site",
-   "target_slug": "list-ssr",
-   "has_img": "",
-   "display_key": "key3"
-  },
-  "L3": {
-   "href": "../list-sr.html",
-   "kind": "site",
-   "target_slug": "list-sr",
-   "has_img": "",
-   "display_key": "key4"
-  },
-  "L4": {
-   "href": "../list-r.html",
-   "kind": "site",
-   "target_slug": "list-r",
-   "has_img": "",
-   "display_key": "key5"
-  },
-  "L5": {
-   "href": "../list-npc.html",
-   "kind": "site",
-   "target_slug": "list-npc",
-   "has_img": "",
-   "display_key": "key6"
-  },
-  "L6": {
-   "href": "../voice-actors.html#sb6c7c96",
-   "kind": "site",
-   "target_slug": "voice-actors",
-   "has_img": "",
-   "display_key": "key19"
-  }
- }
 }

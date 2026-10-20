@@ -387,7 +387,7 @@ escah-bot commit & push `data/upstream/`（与 `data/raw` 同一个 `chore(fetch
 
 ## 12. 版本号与更新记录
 
-当前站点版本：**1.2.16**（2026-10-20）。
+当前站点版本：**1.2.17**（2026-10-21）。
 
 前端版本号常量 `SITE_VERSION` 定义在
 `site/.vitepress/theme/components/SiteAccessSwitch.vue`，更新记录数据位于
@@ -571,6 +571,12 @@ python tools/_dev/_render_one.py "characters/閃忍ハルカ" zh "char-ref|ilink
   `data/parsed/i18n/list-supporter.pre_polish.json`、`data/logs/`、`output/`、`.playwright-cli/`、`__pycache__`。
   `.gitignore` 同步补 `tools/_mt_refine/`、`data/parsed/i18n/*.pre_polish.json`、`tools/_*.pkl`。
   ⚠️ 删掉的已跟踪文件只有 `tools/_dev/test_vue_compile.mjs`（一次性 Vue 编译探针，副本在回收站）。
+- **2026-10-21（v1.2.17）**：清理 `tools/_mt_refine/`（角色页逐页精校中间稿 430 个）、
+  `tools/` 根下一次性命令名/本名校订脚本（`_diag_buniv*`、`_fix_honmyo_*`、`_verify_honmyo*` 等 28 个）、
+  3 处 `__pycache__` → 移入 `recycle_bin/_cleanup_20261021/`。删掉的已跟踪文件：
+  `tools/_serve_dist.mjs`（本地静态预览 dist 的一次性脚本，有 `node build.mjs preview` 替代）。
+  `tools/_dev/`（翻译作业工具区）与 `_converge_base` / `_supp_override_audit` /
+  `_scan_broken_names`（可复用审计/收敛工具）保留。
 ### 14.4 图片为什么不改名（2026-10-20 定，别再提二次改造）
 
 `data/assets/img/` 里的文件名是 `sha256(源URL)[:16].webp`，肉眼认不出内容。
