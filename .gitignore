@@ -119,3 +119,5 @@ tools/_mt_refine/
 data/parsed/i18n/*.pre_polish.json
 # 分析用的 pickle 缓存（如 _char_ja_hits.pkl，可由脚本重算）
 tools/_*.pkl
+# tools/sop 下的一次性调查/清理脚本（可复用的都已按名字入库：r18_*.py / set_zh.py / block_sync.py / coverage.py）
+tools/sop/_*

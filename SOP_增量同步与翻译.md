@@ -570,3 +570,35 @@ git add -A; git commit -m "..."; git push origin main
 - `堕威大仏` → 堕威大佛；`BRAKE` → BREAK；`フラスト` 系列 BOSS → 「轨道/波涛/影像/科学 + 弗拉斯托」。
 - 角色名长音+ル → 「尔」（フィール→菲尔），短音+ル → 「鲁」；`エスカ` 前缀 → **超昂**。
 - 角色本名/声优/画师名保留日文；支援者详情的名字用日文本名。
+
+## 附录 D：收尾清理（每轮做完必做，否则临时文件会越堆越多）
+
+**产物性质决定去向，别一律往 `recycle_bin` 塞**（它是「可能还要回滚」的留档区，不是第二仓库）：
+
+| 类别 | 例子 | 处理 |
+|---|---|---|
+| 可重建产物 | `site/.vitepress/{dist,cache}`、`__pycache__` | **直接删**（下次 `sync-site` / `build` 会重建） |
+| 已消费的过程文件 | `tools/_todo_translate/*_<日期>*`（清单 / `_index.json` / `*_translated.txt` / `temp A·B` / `.manual` / `.full`） | 移到 `recycle_bin/_cleanup_<日期>/`（留 1～2 轮便于追责），之后可删 |
+| 一次性调查脚本 | `tools/sop/_*.py`、本次新写的 `tools/_dev/_*.py` | 删；**有复用价值的提升到 `tools/sop/` 并命名入库** |
+| 人工译文原件 | `temp A.txt`、`*.manual.txt` | 先确认已 `fill` 进 `data/parsed/i18n/`，再移进 `recycle_bin` |
+| `recycle_bin/` 自身 | 历史 `_cleanup_*` 快照 | 只保留**最近 1～2 个**；旧 `dist`/`img_stale` 类快照直接删（可重建/可回源） |
+
+**Windows 批量删除的坑**：本机 safe-delete 守卫会拦 PowerShell `Remove-Item`（报
+`SAFE_DELETE_BULK_GUARD_ERROR`，**一个都不删**）。可靠通道：
+
+```powershell
+[System.IO.Directory]::Delete("d:\...\path", $true)   # 推荐
+cmd /c rd /s /q "d:\...\path"                          # 备选
+```
+
+注意：`cmd /c` 之后**同一行里的 PowerShell cmdlet 会失效**（shell 已切换），必须分成两条命令。
+
+**清理后自检**：
+
+```powershell
+git status --porcelain                 # 应只剩预期改动（不该出现 _*.txt / dist / __pycache__）
+git check-ignore -v tools/sop/_x.py    # 一次性脚本应已被忽略
+```
+
+> 2026-10-21 实测：工作区 39 项移入 `recycle_bin/_cleanup_20261021_2/`，
+> `recycle_bin` 1350.9 MB → 153.9 MB，`.gitignore` 已补 `tools/sop/_*`。

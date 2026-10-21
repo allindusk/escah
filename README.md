@@ -500,6 +500,11 @@ escah-pipeline i18n verify-links
 
 ### 13.1 译文排查工具（`tools/_dev/`，本地脚本，不入库）
 
+> **可复用的流程脚本已入库到 `tools/sop/`**（不再依赖本地 `_dev/`）：
+> `r18_scan.py`（R18 自动分诊 + 安全版通读）、`r18_export.py` / `r18_apply.py`（人工译文导出/并入）、
+> `set_zh.py`（按 id 覆盖译文）、`block_sync.py`（块级按节点重拼）、`coverage.py`（渲染口径覆盖度）。
+> 用法见 [`SOP_增量同步与翻译.md`](SOP_增量同步与翻译.md) 附录 A。
+
 ```bash
 # 导出某页的 ja|zh 对照，供人工精校（-u 避免管道缓冲吞输出）
 python -u tools/_dev/_i18n_dump.py raid-formations gacha faq
@@ -557,6 +562,16 @@ python tools/_dev/_render_one.py "characters/閃忍ハルカ" zh "char-ref|ilink
 
 ### 14.3 清理记录
 
+- **2026-10-21（增量翻译轮到收尾清理）**：
+  - 工作区 39 项移入 `recycle_bin/_cleanup_20261021_2/`：`site/.vitepress/{dist,cache}`（654 MB，可重建）、
+    2 处 `__pycache__`、已消费的 `tools/_todo_translate/*_20261021*`（清单/index/translated/temp A·B，
+    译文已进 i18n 真值）、本轮一次性脚本 19 个（功能已入库到 `tools/sop/`，见 §13.1）。
+  - `recycle_bin/` 从 **1350.9 MB → 153.9 MB**：删掉根目录 19 个零散垃圾（`_commitmsg*.txt`、`_curl*.log`、
+    `_dev*.log/err`、`_purge_img_orig.py` 等）、`_cleanup_20261020/`（1.15 GB：旧 dist 651 MB +
+    `img_stale` 467 MB，二者均可重建/可回源）、本次刚移入的旧 dist 副本。
+    **保留**：`data/`（词典备份）、`glossary/`、`tools/`、`tools_20260814/`、各日期 `_cleanup_*` 小体积留档。
+  - `.gitignore` 补 `tools/sop/_*`（一次性调查脚本不再冒进 `git status`）。
+  - 教训：`dist` 这类可重建产物**直接删**即可，移进 `recycle_bin` 只是把垃圾换个地方堆着。
 - **2026-10-20**：删掉冗余工作流 `sync-cron.yml`（见 §10）；清 `data/assets/img_stale`
   （467 MB / 2478 文件）、`data/assets/img_orig`（561 MB / 2977 文件）、
   `site/.vitepress/{dist,cache}`、`data/logs`、`.playwright-cli`、3 处 `__pycache__`。
