@@ -3,6 +3,8 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+# pip install -e 生成的打包元数据，不入库（2026-10-21 从仓库移除）
+*.egg-info/
 
 # 密钥与环境
 .env

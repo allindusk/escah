@@ -1,2 +1,0 @@
-[console_scripts]
-escah-pipeline = escah_pipeline.cli:main
