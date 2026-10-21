@@ -4972,8 +4972,19 @@ def render_locale(slug: str, locale: str) -> str | None:
                 # 退回「保留日文节点级渲染 + 仅句末追加链接」（句尾链接本质属插件，
                 # 不影响译文与排版）。原文正文原样保留，仅丢链接，符合铁律。
                 blk_ja_safe = blk.get("ja", "")
+                # ⚠️ 比长度时必须先剥掉评论签名与残留的 [ID]：那些是纯 ASCII，会把日文串
+                #    撑长 20～40 字，短评的合法中文译文（中文普遍只有日文的 4～6 成）
+                #    就会被下面这道「短词冒充整句」安全阀误判，整块回退日文
+                #    （实测 raid-buff-debuff 评论区一条两行短评长期露日文：ja 46 字 /
+                #     zh 22 字 = 0.48，恰好被 0.5 门槛拦住）。
+                #    阈值同时放宽到 0.35 且要求 ja 有足够长度 —— 该阀只该拦
+                #    「一个短词冒充整段」那种明显损坏，不该拦正常的中文缩写。
+                _ja_len_ref = _strip_comment_sig(blk_ja_safe)
+                _ja_len_ref = re.sub(r"[\[［][A-Za-z0-9._/]{6,}[\]］]", "", _ja_len_ref)
+                _ja_len_ref = _ja_len_ref.strip()
                 if (blk_ja_safe.count("\n") + blk_ja_safe.count(_BR_PH)
-                        and len(blk_zh) < len(blk_ja_safe) * 0.5):
+                        and len(_ja_len_ref) >= 30
+                        and len(blk_zh) < len(_ja_len_ref) * 0.35):
                     extra_safe = ""
                     for href, ja_text, is_char, *_ in src_links:
                         disp = _disp_name(ja_text, href, is_char, locale)
