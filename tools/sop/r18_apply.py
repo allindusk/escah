@@ -26,6 +26,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 ROOT = Path(__file__).resolve().parents[2]
 TODO = ROOT / "tools" / "_todo_translate"
+MANUAL = TODO / "_r18_manual"
 ENTRY = re.compile(r"^\s*\[([A-Za-z0-9_]+(?:#\d+)?)\]\s*(\S.*)$")
 
 
@@ -78,17 +79,22 @@ def main() -> int:
     index = json.loads(idx_path.read_text(encoding="utf-8")) if idx_path.exists() else {}
 
     stems = [f"{safe}_{args.date}"] + [f"{safe}_{args.date}_{c}" for c in "ABCDEFGH"]
-    stems = [s for s in stems if (TODO / f"{s}.txt").exists()]
+    stems = [s for s in stems if (TODO / f"{s}.txt").exists()
+             or (MANUAL / f"{s}.manual.txt").exists()]
     if not stems:
         print(f"[跳过] 该日期没有 {args.slug} 的待译清单")
         return 1
 
     for stem in stems:
+        # 期望 id = 正常清单（已由 r18_scan 剔除 R18 行）∪ 人工清单（_r18_manual/<stem>.manual.txt）
         expect = set()
-        for line in (TODO / f"{stem}.txt").read_text(encoding="utf-8").splitlines():
-            m = ENTRY.match(line)
-            if m:
-                expect.add(m.group(1))
+        for src in (TODO / f"{stem}.txt", MANUAL / f"{stem}.manual.txt"):
+            if not src.exists():
+                continue
+            for line in src.read_text(encoding="utf-8").splitlines():
+                m = ENTRY.match(line)
+                if m:
+                    expect.add(m.group(1))
         got = expect & set(pool)
         missing = expect - got
         print(f"\n[{stem}] 清单 {len(expect)} 条｜已提供 {len(got)}｜缺 {len(missing)}")
@@ -96,9 +102,14 @@ def main() -> int:
             print("   缺 id:", sorted(missing, key=sort_key)[:12])
         if args.apply and got:
             outp = TODO / f"{stem}_translated.txt"
-            lines = [f"[{k}] {pool[k]}" for k in sorted(got, key=sort_key)]
+            # ⚠️ 必须与已有译文文件合并：那份里是模型翻译的**非 R18** 条目，直接覆盖会丢
+            prev: dict[str, str] = {}
+            if outp.exists():
+                prev, _ = parse(outp)
+            merged = {**prev, **{k: pool[k] for k in got}}
+            lines = [f"[{k}] {merged[k]}" for k in sorted(merged, key=sort_key)]
             outp.write_text("\n".join(lines) + "\n", encoding="utf-8")
-            print(f"   → 已写出 {outp.name}（{len(lines)} 行）")
+            print(f"   → 已写出 {outp.name}（合并后 {len(lines)} 行，其中本轮人工 {len(got)} 条）")
 
     extra = {k for k in pool if k.split("#")[0] not in index}
     if extra and index:

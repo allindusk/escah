@@ -181,6 +181,7 @@ git -c core.quotepath=false diff --name-only HEAD -- data/parsed/i18n
 - **R18 页**（默认名单：`bedroom-scenes`；其它含「寝室」「シーン」场景列表的页同理）：**不要打开清单**。
 - **普通页**：进入 §5 翻译。
 - 拿不准某页是否含 R18 → 先问用户，不要试探性读取。
+- **普通页的评论区也可能夹带 R18**（角色页尤其常见）→ 必须先做 §C4 的自动分诊。
 
 ### C3. R18 导出（模型不读内容）
 
@@ -207,6 +208,50 @@ python -u tools/sop/coverage.py bedroom-scenes --list 5      # 只看数字：�
 - 「段号越界」→ 说明人工译文把某一段拆成了两行（段数 = 原 `ja` 里 `\x01` 分隔的段数）。
   处理方式：把多出来的那两段按**语义连续性**拼回一段（可用段末标点判断：以 `、`/`，`/`…` 结尾的是句中续接），
   再让用户确认。
+
+### C4. 角色页/普通页评论区夹带 R18 的自动分诊（必做）
+
+**问题**：角色页的评论区常有露骨考据或吐槽，但它混在正常攻略条目里，整页 dump 时会被带进上下文。
+
+**做法**：用 `r18_scan.py` 先按「强特征词命中 + 块级联动 + 页级比例」把它们挑进人工清单，再通读。
+
+```powershell
+# 1) 只看统计（安全，不打印正文）：各页多少条被判 R18
+python -u tools/sop/r18_scan.py --date 20261021
+
+# 2) 真正拆分：命中行从正常清单移除，写入 _r18_manual/<stem>.manual.txt
+#    完整原件备份为 <stem>.full.txt（只备份第一次）
+python -u tools/sop/r18_scan.py --date 20261021 --split
+
+# 3) 之后的整页通读必须用「安全版 dump」（自动剔除已判 R18 的 id）
+python -u tools/sop/r18_scan.py --date 20261021 --dump "characters/<名>"
+```
+
+判定规则（脚本内实现，模型只需理解）：
+1. **强特征词命中**：`glossary/r18.yaml` 里剔除了日常词（獲物/密着/事後/感じる…）后的 48 条强特征词；
+   多命中也只算命中。
+2. **块级联动**：同一个 `blkN` 只要有**任意一段**命中，整块所有段都判 R18（半块译文无意义）。
+3. **页级比例**：某页命中占比 ≥30% 或命中条数 ≥8 → **整页**判 R18（`bedroom-scenes` 就是这种）。
+
+**补充与纠错**：
+- 漏判（读的时候发现某条其实是 R18）：把特征词写进 `tools/_todo_translate/_r18_extra.txt`（一行一词，人工维护、不入库），
+  重跑 `r18_scan.py --date <date> --split`。
+- 误判（正常条目被挑走）：把该行从 `_r18_manual/<stem>.manual.txt` 移回正常清单即可，`fill` 照常。
+- **词表只增不改语义**：`_r18_extra.txt` 是分类用词表，与 `glossary/r18.yaml`（送翻预替换用）互不影响。
+
+**收尾顺序（重要，顺序错会丢译文）**：
+```powershell
+# a) 模型先译完正常清单，写出 <stem>_translated.txt
+# b) 用户交回人工译文后并入（脚本会与已有文件合并，不覆盖模型译好的部分）
+python -u tools/sop/r18_apply.py --date 20261021 --apply
+# c) 一次性回填（正常 + 人工两部分一起）
+python -u -m escah_pipeline.cli i18n fill --date 20261021 --pages <slug...>
+python -u tools/sop/coverage.py "<slug>" --list 5
+```
+
+> ⚠️ **不要用 `tools/_dev/_page_dump.py` 直接读含 R18 评论的页**：它 dump 的是整页 i18n
+> （包括还没译、已被判 R18 的那些条目）。判定完必须先 `--split`，再用 `r18_scan.py --dump`。
+> 如果拆分后通读时仍遇到露骨内容，立刻停下：说明词表不足，转人工处理该页评论区，不要继续读。
 
 ---
 
@@ -422,6 +467,8 @@ git push origin main
 | 18 | 直接 `grep`/正则改 JSON 后结构损坏 | JSON 是嵌套结构，正则替换会伤到 `ja` 或别的字段 | 只用 `set_zh.py` / `i18n fill` 等按 id 的工具 |
 | 19 | 「声优名怎么是日文」 | 项目规则就是保留日文 | 不要「修」成中文 |
 | 20 | 工作区巨大 diff（几万行） | 脚本写 JSON 用了 2 空格缩进，引擎是 1 空格 | 工具统一 `indent=1`（`tools/sop/*` 已如此） |
+| 21 | 读角色页评论区时把露骨内容带进上下文、触发审查 | 直接 `_page_dump.py` 读整页，评论区里的 R18 条目一起进来了 | 先 `r18_scan.py --split`，再用 `r18_scan.py --dump <slug>` 通读（内置剔除） |
+| 22 | `r18_scan` 误判一堆正常条目 | `glossary/r18.yaml` 是送翻预替换词表，含日常词 | 脚本已内置排除表；仍误判就把该行从 `.manual.txt` 移回清单，并把词加进 `_r18_extra.txt` 的反面（或用 `--page-ratio/--page-hits` 调页级阈值） |
 
 ---
 
@@ -440,10 +487,13 @@ type data\recent_state.json             # candidates / changed / unregistered
 python -u -m escah_pipeline.cli changelog show          # 更新履歴摘要
 python -u -m escah_pipeline.cli changelog names         # 只列 new/update 页名
 
-# 待译清单
+# 待译清单与 R18 分诊
 Get-ChildItem tools\_todo_translate -Filter "*<date>*"
-python -u tools/sop/r18_export.py --date <date>         # R18 导出（模型不读）
-python -u tools/sop/r18_apply.py --date <date> [--apply]
+python -u tools/sop/r18_scan.py --date <date>                 # 分诊统计（不打印正文）
+python -u tools/sop/r18_scan.py --date <date> --split         # 拆出 R18 条目到 _r18_manual/
+python -u tools/sop/r18_scan.py --date <date> --dump "<slug>" # 安全版整页通读
+python -u tools/sop/r18_export.py --date <date>               # 整页 R18 清单导出（模型不读）
+python -u tools/sop/r18_apply.py --date <date> [--apply]      # 人工译文并入（与已有译文合并）
 
 # 翻译回填
 python -u -m escah_pipeline.cli i18n fill --date <date> --pages <slug...>
@@ -468,8 +518,10 @@ git add -A; git commit -m "..."; git push origin main
 - [ ] `git pull` 完成；若 manifest 冲突已按 §A2 合并并 `manifest status` 自检
 - [ ] `local-sync` 退出码 0，`失败 0`，`缺图 0`
 - [ ] 「旧译文失效」已核实为评论区/删段，不是译文被冲；已按 ja 配对给出空译净增（≤0 或逐页解释）
+- [ ] 已跑 `r18_scan.py --date <date>` 分诊；普通页里夹带的 R18 条目已 `--split` 转人工
+- [ ] 通读用的是 `r18_scan.py --dump`（或拆分后的清单），全程未把 R18 正文带进上下文
 - [ ] 普通页待译清单全部译完 → `fill` 成功；`*_translated.txt` 已归档
-- [ ] R18 页：已导出给人工、人工译文已 `r18_apply` + `fill`，模型全程未读内容
+- [ ] R18 页/条目：已导出给人工、人工译文已 `r18_apply` + `fill`，模型全程未读内容
 - [ ] 二次精校十二项检查过完；`set_zh` 覆盖的条目已 `block_sync`
 - [ ] `coverage.py` 显示目标页残留率 ≤0.10%，残留只剩本名/声优/画师/注音
 - [ ] 语义抽样 8～10 条、数值抽查 3 条、结构抽查 1 表 1 链接
@@ -483,7 +535,8 @@ git add -A; git commit -m "..."; git push origin main
 | 脚本 | 作用 | 关键点 |
 |---|---|---|
 | `r18_export.py` | 把 R18 页待译清单原样导出 | **不打印正文**，只报条数 |
-| `r18_apply.py` | 合并人工译文并按卷归位，写出 `*_translated.txt` | **不打印正文**；写哪份文件都行 |
+| `r18_scan.py` | 自动分诊：挑出夹在普通页里的 R18 条目 / 安全版整页 dump | `--split` 拆清单、`--dump <slug>` 通读；**只输出 id 与数量** |
+| `r18_apply.py` | 合并人工译文并按卷归位，写出 `*_translated.txt` | **不打印正文**；与已有 `_translated.txt` 合并（不覆盖模型译好的部分） |
 | `set_zh.py` | 按 id 覆盖 `zh`（单页 / MULTI） | `fill` 做不到的「改已有译文」走这里 |
 | `block_sync.py` | 块级 `blk.zh` 按同名节点译文重拼 | 只对目标页跑，**不要全站无脑跑** |
 | `coverage.py` | 覆盖度 + 渲染口径残留度量 | 只输出数字；`--list N` 列空译 id |
