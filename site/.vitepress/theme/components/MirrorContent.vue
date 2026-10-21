@@ -28,6 +28,38 @@ function deriveSlug(): string {
 }
 const pageSlug = computed(deriveSlug)
 
+// ===== 角色详情页：页面内的图片不挂角色浮窗 =====
+// characters/<角色名> 这页本身就是该角色的资料页，正文里的图（立绘 / 差分 / sd 图 / 图标）
+// 唯一用途是点击放大看图。但头像识别有 alt 兜底（alt="角色名.png" → 认成该角色头像），
+// 于是立绘被打上 data-char：悬停弹预览小窗挡住图、点击被 onClick 的 pin 浮窗吞掉
+// （那里 stopPropagation，Layout 的灯箱收不到），图片再也打不开。
+// 故这类页面整页摘掉「图片」及其「纯图片容器」上的 data-char，让点击回到灯箱放大；
+// 正文里的角色名文字标签（.char-ref）保持原样，浮窗仍可用于其它角色。
+function isCharDetailPage(): boolean {
+  const path = (typeof window !== 'undefined' && window.location?.pathname) || ''
+  // 形如 /escah/zh/characters/エスカレイヤー.html（dev 下可是 .../characters/xxx/）
+  if (path) return /\/(?:ja|zh)\/characters\/[^/]+(?:\/|\.html)?$/i.test(path)
+  const rp = (useData().relativePath as string) || ''
+  return /^(?:ja|zh)\/characters\/.+\.md$/i.test(rp)
+}
+
+function stripCharTagsOnImages(el: HTMLElement) {
+  el.querySelectorAll('img').forEach((img) => {
+    img.removeAttribute('data-char')
+    img.removeAttribute('data-char-off')
+    // 容器：只包着这张图、没有文字（典型是 tagCharLinks 降级过的 <a class="char-ref">）
+    // → 一并摘掉浮窗标记与 char-ref 虚线样式，让点击落到图片本身（灯箱）。
+    // 含角色名文本的 char-ref 标签不动。
+    for (let p = img.parentElement; p && p !== el; p = p.parentElement) {
+      if (p.hasAttribute('data-char') && !p.textContent?.trim()) {
+        p.removeAttribute('data-char')
+        p.removeAttribute('data-char-off')
+        p.classList.remove('char-ref')
+      }
+    }
+  })
+}
+
 // 当前语言（ja / zh）。日文站保留原位日文角色名，不执行「句末【】浮窗标签」方案
 // （该方案仅中文镜像页使用；日文站把角色名当成中文显示、移到句末属于误用）。
 function deriveLocale(): 'ja' | 'zh' {
@@ -145,6 +177,11 @@ function resolveAvatarName(img: HTMLImageElement): string | null {
 }
 
 function tagAvatars(el: HTMLElement) {
+  // 角色详情页：图片一律不挂角色浮窗（悬停/点击都会妨碍看图，见 isCharDetailPage 注释）。
+  if (isCharDetailPage()) {
+    stripCharTagsOnImages(el)
+    return
+  }
   el.querySelectorAll('img').forEach((img) => {
     const name = resolveAvatarName(img)
     // 支援者/NPC 头像：不打 data-char（点击进角色页，不弹角色浮窗）。
