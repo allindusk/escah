@@ -3932,3 +3932,15 @@ pages:
   category: subpage
   subgroup: equipment
   mode: static
+- name: ハロウィンニャンコ
+  slug: characters/ハロウィンニャンコ
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/1544d4d0b0604b9e.webp
+- name: 魔女グリム
+  slug: characters/魔女グリム
+  category: character-detail
+  mode: static
+  rarity: R
+  icon: img/3d9d0e1094695a0b.webp

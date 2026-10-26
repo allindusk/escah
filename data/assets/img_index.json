@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-10-19T20:41:28+00:00",
+ "generated_at": "2026-10-26T20:41:17+00:00",
  "note": "磁盘文件名是 sha256(源URL)[:16].webp，改动它有 404 风险，故不改名，只用本表对照。本表自动生成（`cli assets --index-only`），勿手工编辑。",
  "counts": {
-  "pending": 2805,
-  "on_disk": 3129,
-  "mapped": 2805,
+  "pending": 2816,
+  "on_disk": 3140,
+  "mapped": 2816,
   "orphan": 324,
-  "total_bytes": 406349,
-  "with_page_refs": 1280
+  "total_bytes": 851925,
+  "with_page_refs": 1285
  },
  "entries": [
   {
@@ -3576,6 +3576,25 @@
     "寝室シーン一覧"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/3542945d7640e45f.webp"
+  },
+  {
+   "file": "1544d4d0b0604b9e.webp",
+   "name": "img_ハロウィンニャンコ_icon",
+   "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B35F69636F6E2E706E67.png",
+   "bytes": 5786,
+   "exists": true,
+   "pages": [
+    "CV一覧",
+    "SSR",
+    "キャラクター一覧",
+    "テーブル/全ストーリー実装順",
+    "ハロウィンニャンコ",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "原画別索引",
+    "実装履歴",
+    "寝室シーン一覧"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/1544d4d0b0604b9e.webp"
   },
   {
    "file": "971e6487d572bd1c.webp",
@@ -11034,6 +11053,17 @@
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/9e6603e533b2e63e.webp"
   },
   {
+   "file": "2fc72701e0f7ad72.webp",
+   "name": "img_青竜天クチナワBユニ",
+   "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E99D92E7AB9CE5A4A9E382AFE38381E3838AE383AF42E383A6E3838B2E706E67.png",
+   "bytes": 96140,
+   "exists": true,
+   "pages": [
+    "青竜天クチナワ（Bユニバース）"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/2fc72701e0f7ad72.webp"
+  },
+  {
    "file": "56708f8533efecaa.webp",
    "name": "img_青竜天クチナワ_NPC",
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E99D92E7AB9CE5A4A9E382AFE38381E3838AE383AF5F4E50432E706E67.png",
@@ -11357,6 +11387,24 @@
     "魔女クーレー"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ca1fe31d089bc2fa.webp"
+  },
+  {
+   "file": "3d9d0e1094695a0b.webp",
+   "name": "img_魔女グリム_icon",
+   "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E382B0E383AAE383A05F69636F6E2E706E67.png",
+   "bytes": 5374,
+   "exists": true,
+   "pages": [
+    "CV一覧",
+    "R",
+    "キャラクター一覧",
+    "テーブル/全ストーリー実装順",
+    "原画別索引",
+    "実装履歴",
+    "寝室シーン一覧",
+    "魔女グリム"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/3d9d0e1094695a0b.webp"
   },
   {
    "file": "a6f7657f91d2df2c.webp",
@@ -12586,6 +12634,7 @@
    "exists": true,
    "pages": [
     "SandBox/アイテム価値早見表",
+    "よくある質問",
     "アイテム一覧",
     "ガチャ"
    ],
@@ -12776,6 +12825,19 @@
     "アイテム一覧"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/db7ac99397514497.webp"
+  },
+  {
+   "file": "90b05b728f2abbb3.webp",
+   "name": "アイテム一覧_セレクトPUガチャチケット",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382BBE383ACE382AFE383885055E382ACE38381E383A3E38381E382B1E38383E383882E706E67.png",
+   "bytes": 5286,
+   "exists": true,
+   "pages": [
+    "よくある質問",
+    "アイテム一覧",
+    "ガチャ"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/90b05b728f2abbb3.webp"
   },
   {
    "file": "fce694ffdebbf739.webp",
@@ -13162,6 +13224,7 @@
    "exists": true,
    "pages": [
     "SandBox/アイテム価値早見表",
+    "よくある質問",
     "アイテム一覧"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/80ab37dd10c101db.webp"
@@ -13436,6 +13499,7 @@
    "exists": true,
    "pages": [
     "SandBox/アイテム価値早見表",
+    "よくある質問",
     "アイテム一覧",
     "ガチャ"
    ],
@@ -13947,6 +14011,17 @@
     "限界突破"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ecc6f99aa7605997.webp"
+  },
+  {
+   "file": "4d9a6b64f320f007.webp",
+   "name": "イベント107_本当は怖かったはずのグリム童話_banner",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E382A4E38399E383B3E383883130375FE69CACE5BD93E381AFE68096E3818BE381A3E3819FE381AFE3819AE381AEE382B0E383AAE383A0E7ABA5E8A9B1_62616E6E65722E706E67.png",
+   "bytes": 34812,
+   "exists": true,
+   "pages": [
+    "イベント一覧"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4d9a6b64f320f007.webp"
   },
   {
    "file": "e23850071c80ee06.webp",
@@ -14709,9 +14784,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/E382A4E38399E383B3E3838839325FE3838FE383ADE382A6E382A3E383B3E381ABE8B88AE3828BE4BABAE5BDA2_62616E6E65722E6A7067.jpg",
    "bytes": 130,
    "exists": true,
-   "pages": [
-    "イベント一覧"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ee5e93e8ecb66869.webp"
   },
   {
@@ -16084,6 +16157,24 @@
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/b6cdbed117375835.webp"
+  },
+  {
+   "file": "bb55010ee7279a3a.webp",
+   "name": "ハロウィンニャンコ_ハロウィンニャンコ",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B3_E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B32E706E67.png",
+   "bytes": 52422,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/bb55010ee7279a3a.webp"
+  },
+  {
+   "file": "f07c6b462c613432.webp",
+   "name": "ハロウィンニャンコ_ハロウィンニャンコ強化",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B3_E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B3E5BCB7E58C962E706E67.png",
+   "bytes": 76914,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/f07c6b462c613432.webp"
   },
   {
    "file": "30bd0776833f5fe5.webp",
@@ -27404,6 +27495,18 @@
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/60838067b92bce92.webp"
   },
   {
+   "file": "a3096ffb9000d75a.webp",
+   "name": "装備リスト_ムシトリラケット",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E8A385E58299E383AAE382B9E38388_E383A0E382B7E38388E383AAE383A9E382B1E38383E383882E706E67.png",
+   "bytes": 2524,
+   "exists": true,
+   "pages": [
+    "装備リスト",
+    "装備一覧"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/a3096ffb9000d75a.webp"
+  },
+  {
    "file": "c7c5dc3f548e892a.webp",
    "name": "装備リスト_ロケットベルト",
    "url": "https://escalationheroines.wikiru.jp/attach2/E8A385E58299E383AAE382B9E38388_E383ADE382B1E38383E38388E38399E383ABE383882E706E67.png",
@@ -31122,6 +31225,33 @@
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/1db9d23eab666bbc.webp"
+  },
+  {
+   "file": "ca83af9e9673808d.webp",
+   "name": "魔女グリム_魔女グリム",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E382B0E383AAE383A0_E9AD94E5A5B3E382B0E383AAE383A02E706E67.png",
+   "bytes": 58798,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ca83af9e9673808d.webp"
+  },
+  {
+   "file": "f0ebe3039f47c98f.webp",
+   "name": "魔女グリム_魔女グリム強化",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E382B0E383AAE383A0_E9AD94E5A5B3E382B0E383AAE383A0E5BCB7E58C962E706E67.png",
+   "bytes": 75618,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/f0ebe3039f47c98f.webp"
+  },
+  {
+   "file": "24b4031d99c756cb.webp",
+   "name": "魔女グリム_魔女グリム私服",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E382B0E383AAE383A0_E9AD94E5A5B3E382B0E383AAE383A0E7A781E69C8D2E706E67.png",
+   "bytes": 31902,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/24b4031d99c756cb.webp"
   },
   {
    "file": "32dc9d64f63383d5.webp",

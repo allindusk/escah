@@ -849,6 +849,9 @@ mirrored:
   - name: パイレーツハダル
     slug: characters/パイレーツハダル
     url: https://escalationheroines.wikiru.jp/?%E3%83%91%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%84%E3%83%8F%E3%83%80%E3%83%AB
+  - name: ハロウィンニャンコ
+    slug: characters/ハロウィンニャンコ
+    url: https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3
   キャラクター一覧SR:
   - name: ビートスラッシャー・ショウコ
     slug: characters/ビートスラッシャー・ショウコ
@@ -1193,6 +1196,9 @@ mirrored:
   - name: R
     slug: list-r
     url: https://escalationheroines.wikiru.jp/?R
+  - name: 魔女グリム
+    slug: characters/魔女グリム
+    url: https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%B0%E3%83%AA%E3%83%A0
   キャラクター一覧サポーター:
   - name: サポーター
     slug: list-supporter
@@ -1895,6 +1901,9 @@ mirrored:
   - name: 滅忍キクリ＆コテツ（Bユニバース）
     slug: buniv-011
     url: https://escalationheroines.wikiru.jp/?%E6%BB%85%E5%BF%8D%E3%82%AD%E3%82%AF%E3%83%AA%EF%BC%86%E3%82%B3%E3%83%86%E3%83%84%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
+  - name: 青竜天クチナワ（Bユニバース）
+    slug: buniv-012
+    url: https://escalationheroines.wikiru.jp/?%E9%9D%92%E7%AB%9C%E5%A4%A9%E3%82%AF%E3%83%81%E3%83%8A%E3%83%AF%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89
   - name: メインクエスト/Area1
     slug: mq-001
     url: https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/Area1

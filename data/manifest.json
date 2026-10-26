@@ -15,12 +15,11 @@
       "name": "よくある質問",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F",
       "file": "raw/%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F.html",
-      "sha256": "08903fbcd2e5918ef62f21229ba78c9bbe4019094f2cf0ce67eea132013129af",
+      "sha256": "7bec87da6aefdca136e497aafb874fa83c4552e807bb361ad3644d55ed19feda",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-09-10 15:07:25",
-      "fetched_at": "2026-09-27T09:37:25+00:00",
-      "status": "ok",
-      "parsed_sha256": "08903fbcd2e5918ef62f21229ba78c9bbe4019094f2cf0ce67eea132013129af"
+      "wiki_last_modified": "2026-10-21 15:11:28",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "小ネタ・小ワザ集": {
       "name": "小ネタ・小ワザ集",
@@ -37,78 +36,71 @@
       "name": "ガチャ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%AC%E3%83%81%E3%83%A3",
       "file": "raw/%E3%82%AC%E3%83%81%E3%83%A3.html",
-      "sha256": "2fe9c03b5874d85c445f5c3a90d227641b496d085423aeda998e4f61f233cb7a",
+      "sha256": "a1516ce0daee00179793c497cef57b60739d0547ba3492578b13b80b384a2c04",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-10-14 17:10:07",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "2fe9c03b5874d85c445f5c3a90d227641b496d085423aeda998e4f61f233cb7a"
+      "wiki_last_modified": "2026-10-21 16:31:21",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "必殺技一覧": {
       "name": "必殺技一覧",
       "url": "https://escalationheroines.wikiru.jp/?%E5%BF%85%E6%AE%BA%E6%8A%80%E4%B8%80%E8%A6%A7",
       "file": "raw/%E5%BF%85%E6%AE%BA%E6%8A%80%E4%B8%80%E8%A6%A7.html",
-      "sha256": "21c45482a1f34f5d35b45940ed75f8fdd9d39b040196b238a45c127438ae2ff9",
+      "sha256": "8b38395c91fa008ae21c57036cc164ab98b1477d82582cf41c2992b78a3c6c93",
       "http_last_modified": null,
       "wiki_last_modified": "2025-06-20 17:54:00",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "21c45482a1f34f5d35b45940ed75f8fdd9d39b040196b238a45c127438ae2ff9"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "固有効果一覧": {
       "name": "固有効果一覧",
       "url": "https://escalationheroines.wikiru.jp/?%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C%E4%B8%80%E8%A6%A7",
       "file": "raw/%E5%9B%BA%E6%9C%89%E5%8A%B9%E6%9E%9C%E4%B8%80%E8%A6%A7.html",
-      "sha256": "2b964ec59a14c915adf56c51dd6b8e99139aa963d1678929010fedc6e780f6c1",
+      "sha256": "d3c03b6ef6864ce5336b0cc09f9f0a3f1dd955a8753902ae0c6cc94b3f746158",
       "http_last_modified": null,
       "wiki_last_modified": "2025-06-20 17:56:30",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "2b964ec59a14c915adf56c51dd6b8e99139aa963d1678929010fedc6e780f6c1"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "絞り込めるカテゴリ一覧": {
       "name": "絞り込めるカテゴリ一覧",
       "url": "https://escalationheroines.wikiru.jp/?%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7",
       "file": "raw/%E7%B5%9E%E3%82%8A%E8%BE%BC%E3%82%81%E3%82%8B%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E4%B8%80%E8%A6%A7.html",
-      "sha256": "f2396c0207b9a942e522c021bd30242654c75e17e7989bce665f6808faa05fc6",
+      "sha256": "d168cb875979ef524220d5bd2d285bfd5164184955257fabd1687b7446e92114",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-08-12 16:06:33",
-      "fetched_at": "2026-09-27T09:14:44+00:00",
-      "status": "ok",
-      "parsed_sha256": "f2396c0207b9a942e522c021bd30242654c75e17e7989bce665f6808faa05fc6"
+      "wiki_last_modified": "2026-10-25 10:15:31",
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "原画別索引": {
       "name": "原画別索引",
       "url": "https://escalationheroines.wikiru.jp/?%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95",
       "file": "raw/%E5%8E%9F%E7%94%BB%E5%88%A5%E7%B4%A2%E5%BC%95.html",
-      "sha256": "c6d56d6353246576ba7b0e1c3783295dca99688b54e64480534de3da50b450f6",
+      "sha256": "52578599d227e3c97d44bf4839d79af62f78311a264bb86e6dc0aa40b970879a",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "c6d56d6353246576ba7b0e1c3783295dca99688b54e64480534de3da50b450f6"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "CV一覧": {
       "name": "CV一覧",
       "url": "https://escalationheroines.wikiru.jp/?CV%E4%B8%80%E8%A6%A7",
       "file": "raw/CV%E4%B8%80%E8%A6%A7.html",
-      "sha256": "9cd5f4a0d19f0aa28ca210ff6bfc8f739c4df52483b3874288ac47eadf7091bb",
+      "sha256": "f97f64d82cabbc69724beb8a6806bf7236dc0565030d4faff025b46ec237197f",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-10-07 09:14:53",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "9cd5f4a0d19f0aa28ca210ff6bfc8f739c4df52483b3874288ac47eadf7091bb"
+      "wiki_last_modified": "2026-10-21 11:14:17",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "実装履歴": {
       "name": "実装履歴",
       "url": "https://escalationheroines.wikiru.jp/?%E5%AE%9F%E8%A3%85%E5%B1%A5%E6%AD%B4",
       "file": "raw/%E5%AE%9F%E8%A3%85%E5%B1%A5%E6%AD%B4.html",
-      "sha256": "bec0e80b13b82b8ea2dffc8bdf3941395d3b9883978bbb50bd865f4a7384864c",
+      "sha256": "1db651e2990c5b079ee3173bba8496e03330afbbe9c07f6193ed4e3d755685e7",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-10-07 16:10:36",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "bec0e80b13b82b8ea2dffc8bdf3941395d3b9883978bbb50bd865f4a7384864c"
+      "wiki_last_modified": "2026-10-21 16:34:44",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "戦闘": {
       "name": "戦闘",
@@ -125,34 +117,31 @@
       "name": "レイド",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%A4%E3%83%89",
       "file": "raw/%E3%83%AC%E3%82%A4%E3%83%89.html",
-      "sha256": "bfee9f909bad71ba1a1392fa458bd9fbd2b378ab0089416013fb2de626fb4038",
+      "sha256": "d655c0d072e1d6b529ef6e8b09bd978cb52d07457841de20b38070c00be06214",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-10 17:48:55",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "bfee9f909bad71ba1a1392fa458bd9fbd2b378ab0089416013fb2de626fb4038"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "レイドおすすめキャラ": {
       "name": "レイドおすすめキャラ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9",
       "file": "raw/%E3%83%AC%E3%82%A4%E3%83%89%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E3%82%AD%E3%83%A3%E3%83%A9.html",
-      "sha256": "1e8603d3cb90f4a90ea6b54d7bd57543da68cc92b5a53602e8c8757afb098ad6",
+      "sha256": "0ff7287f3e19d6c36138e0121266d38a7bf02bb0e5cdc2c6e86f4f9a467cceac",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-26 04:55:12",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "1e8603d3cb90f4a90ea6b54d7bd57543da68cc92b5a53602e8c8757afb098ad6"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "バフ・デバフ能力キャラ　一覧まとめ": {
       "name": "バフ・デバフ能力キャラ　一覧まとめ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%95%E3%83%BB%E3%83%87%E3%83%90%E3%83%95%E8%83%BD%E5%8A%9B%E3%82%AD%E3%83%A3%E3%83%A9%E3%80%80%E4%B8%80%E8%A6%A7%E3%81%BE%E3%81%A8%E3%82%81",
       "file": "raw/%E3%83%90%E3%83%95%E3%83%BB%E3%83%87%E3%83%90%E3%83%95%E8%83%BD%E5%8A%9B%E3%82%AD%E3%83%A3%E3%83%A9%E3%80%80%E4%B8%80%E8%A6%A7%E3%81%BE%E3%81%A8%E3%82%81.html",
-      "sha256": "ea917dcd4ea447f5c9e11f37cf2a782ecc9ca2ab499ca89e2819e2d6051bfb1c",
+      "sha256": "4dd3bc1117c14abf4385f3c864a5a75f4fd650870846bcb4de3ec699bd14912f",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-18 19:16:58",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "ea917dcd4ea447f5c9e11f37cf2a782ecc9ca2ab499ca89e2819e2d6051bfb1c"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "レイド用編成例": {
       "name": "レイド用編成例",
@@ -169,12 +158,11 @@
       "name": "Bユニバース",
       "url": "https://escalationheroines.wikiru.jp/?B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9",
       "file": "raw/B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9.html",
-      "sha256": "1e2797860fb88533b489ceea68f279dcb016d6c04b42445d279def62d35554e6",
+      "sha256": "03d25fa4aa9d351fc24304a0483093d22b8c6347f8280f897e4c9dc205779cc9",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-17 17:34:29",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "1e2797860fb88533b489ceea68f279dcb016d6c04b42445d279def62d35554e6"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "イベント50_広域戦": {
       "name": "イベント50_広域戦",
@@ -191,23 +179,21 @@
       "name": "広域戦マップ/マップリスト",
       "url": "https://escalationheroines.wikiru.jp/?%E5%BA%83%E5%9F%9F%E6%88%A6%E3%83%9E%E3%83%83%E3%83%97/%E3%83%9E%E3%83%83%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88",
       "file": "raw/%E5%BA%83%E5%9F%9F%E6%88%A6%E3%83%9E%E3%83%83%E3%83%97%2F%E3%83%9E%E3%83%83%E3%83%97%E3%83%AA%E3%82%B9%E3%83%88.html",
-      "sha256": "cfeefe0a4172d00d24ac17a3281f8c585df16426f1fd0ae333b4f08bd5e11b8b",
+      "sha256": "5d0301b1f324497d6ffc3ec1d2507811d4b1b29293212817d1b532891bf05f6e",
       "http_last_modified": null,
       "wiki_last_modified": "2025-10-30 00:09:41",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "cfeefe0a4172d00d24ac17a3281f8c585df16426f1fd0ae333b4f08bd5e11b8b"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "イベント86_殲滅戦": {
       "name": "イベント86_殲滅戦",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6",
       "file": "raw/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8886_%E6%AE%B2%E6%BB%85%E6%88%A6.html",
-      "sha256": "0277084a986b408d9f8992d9ffccd797a3afd58988582ce927a0096fc09f5862",
+      "sha256": "f2bb8d773e9e6dda7aee5ee7a8872d125b30950dd5b9f32cb5d31b6ba5b36577",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-18 15:52:03",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "0277084a986b408d9f8992d9ffccd797a3afd58988582ce927a0096fc09f5862"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "限界突破": {
       "name": "限界突破",
@@ -257,12 +243,11 @@
       "name": "交換所",
       "url": "https://escalationheroines.wikiru.jp/?%E4%BA%A4%E6%8F%9B%E6%89%80",
       "file": "raw/%E4%BA%A4%E6%8F%9B%E6%89%80.html",
-      "sha256": "86e84cb7d4283269d45bd182272fae4159819fb7f75426dec9473832b228ccab",
+      "sha256": "657807bf3fd3785c1beb481c35df507248d7de2fbb8be7015be13b0baa50673b",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-09-16 17:37:32",
-      "fetched_at": "2026-09-27T09:37:26+00:00",
-      "status": "ok",
-      "parsed_sha256": "86e84cb7d4283269d45bd182272fae4159819fb7f75426dec9473832b228ccab"
+      "wiki_last_modified": "2026-10-21 16:50:31",
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "キャラクター交換所": {
       "name": "キャラクター交換所",
@@ -279,12 +264,11 @@
       "name": "コレクション",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3",
       "file": "raw/%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3.html",
-      "sha256": "c3572a1ef8246dd3b7233743062899ac058db9d62b61060f28d6fcb6b99d5e79",
+      "sha256": "c6cc9cf29defbda182f79d1cd0c12ac887e6fbd2f7a8920daf0831422e3f8eca",
       "http_last_modified": null,
       "wiki_last_modified": "2025-05-29 21:24:17",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "c3572a1ef8246dd3b7233743062899ac058db9d62b61060f28d6fcb6b99d5e79"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ショップ": {
       "name": "ショップ",
@@ -312,23 +296,21 @@
       "name": "超昂装備",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99",
       "file": "raw/%E8%B6%85%E6%98%82%E8%A3%85%E5%82%99.html",
-      "sha256": "e080ed5ac6d834ce50eefacfaa29667caf6a1b0fdeb7433a9e4fa537edfba89e",
+      "sha256": "3972e0718202f0d15ae9674b8159a8dfcde1506745368663a7cfbd49a804d2c4",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-10 04:01:37",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "e080ed5ac6d834ce50eefacfaa29667caf6a1b0fdeb7433a9e4fa537edfba89e"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "アイテム一覧": {
       "name": "アイテム一覧",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7",
       "file": "raw/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E4%B8%80%E8%A6%A7.html",
-      "sha256": "95eb14f4e353479f0e6c8b8cb557d7a6a74beba6e4cc359a40fa024f89888b12",
+      "sha256": "95a053447ffe2a040adfdafb68344dea0b8759e2ce87fb58ed1a7e88bb980a3a",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-09-16 18:22:22",
-      "fetched_at": "2026-09-27T09:37:27+00:00",
-      "status": "ok",
-      "parsed_sha256": "95eb14f4e353479f0e6c8b8cb557d7a6a74beba6e4cc359a40fa024f89888b12"
+      "wiki_last_modified": "2026-10-21 04:57:51",
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "SandBox/アイテム価値早見表": {
       "name": "SandBox/アイテム価値早見表",
@@ -345,23 +327,21 @@
       "name": "メインストーリー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC",
       "file": "raw/%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC.html",
-      "sha256": "b3f0939586f6772bf213d71dcbf4a8db08b8cb4a2db8cddad6995d86c049a041",
+      "sha256": "52441920d57bcf76a435b4921df80e26c8adeedf0669f32f2c63f99ab1dda436",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-08 11:05:02",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "b3f0939586f6772bf213d71dcbf4a8db08b8cb4a2db8cddad6995d86c049a041"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "テーブル/全ストーリー実装順": {
       "name": "テーブル/全ストーリー実装順",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB/%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86",
       "file": "raw/%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%2F%E5%85%A8%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E5%AE%9F%E8%A3%85%E9%A0%86.html",
-      "sha256": "f25ba66e9a3b21c50ccd77c93a0785c010ed683b94c92d1d2807d621139dc15a",
+      "sha256": "6c83d1af531681107264e3768e2bce49bf4c391ad89c0f7cc02a3acf8d762166",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-10-07 15:47:40",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "f25ba66e9a3b21c50ccd77c93a0785c010ed683b94c92d1d2807d621139dc15a"
+      "wiki_last_modified": "2026-10-22 14:37:16",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "メインクエスト": {
       "name": "メインクエスト",
@@ -400,12 +380,11 @@
       "name": "イベント一覧",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7",
       "file": "raw/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7.html",
-      "sha256": "a01637b1a73217df4fbade360a1d14b0a7f63e7a20bbfd3b9829c90f07a6c0fc",
+      "sha256": "3b6e7ffa35496f0fe64cf333ebb6ad2fdcb7645a152bd3e5a46b3df81cbbf0cc",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-10-14 11:05:33",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "a01637b1a73217df4fbade360a1d14b0a7f63e7a20bbfd3b9829c90f07a6c0fc"
+      "wiki_last_modified": "2026-10-21 13:40:47",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "用語集": {
       "name": "用語集",
@@ -444,45 +423,41 @@
       "name": "エスカレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "52c8c677f7c17e8ed404bdafccc577221877630a3a92a8150d3936d5a170b406",
+      "sha256": "0a006d330812b98d5528b16b696b4d44c8754ca508ce2ca6c52a4326ea4d58ee",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:11:18",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "52c8c677f7c17e8ed404bdafccc577221877630a3a92a8150d3936d5a170b406"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "閃忍ハルカ": {
       "name": "閃忍ハルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%AB%E3%82%AB",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%AB%E3%82%AB.html",
-      "sha256": "8db62e7d228a6928ba47e0be2c0dd35a2694e559c4d94e91882fb0ca3ca23c22",
+      "sha256": "e1960f790b3b8bdc665b985d30dfcfd715312f1662b7c8a2618092d76daaafd9",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:21:03",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "8db62e7d228a6928ba47e0be2c0dd35a2694e559c4d94e91882fb0ca3ca23c22"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "閃忍ナリカ": {
       "name": "閃忍ナリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8A%E3%83%AA%E3%82%AB",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%83%8A%E3%83%AA%E3%82%AB.html",
-      "sha256": "01645b88f06691700709a422525016e524172df78e36c8e2f43f73cf91cdb227",
+      "sha256": "d42cd6b7e9b4da87db3fde58ad3118b00dadeeed62138b29cfb761ffaf2f6b59",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:18:30",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "01645b88f06691700709a422525016e524172df78e36c8e2f43f73cf91cdb227"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "神騎エクシール": {
       "name": "神騎エクシール",
       "url": "https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB",
       "file": "raw/%E7%A5%9E%E9%A8%8E%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB.html",
-      "sha256": "41a2fb712daf94b70cd84270ac54213b565a97976fc6506245edee50e5ab05f9",
+      "sha256": "986c41eb9dc053b835cd3402fc1788638827a679b70a30a42028fdf1bd818d61",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:16:48",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "41a2fb712daf94b70cd84270ac54213b565a97976fc6506245edee50e5ab05f9"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "火のゴウカ": {
       "name": "火のゴウカ",
@@ -532,12 +507,11 @@
       "name": "マドカ・アサルト",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%9E%E3%83%89%E3%82%AB%E3%83%BB%E3%82%A2%E3%82%B5%E3%83%AB%E3%83%88",
       "file": "raw/%E3%83%9E%E3%83%89%E3%82%AB%E3%83%BB%E3%82%A2%E3%82%B5%E3%83%AB%E3%83%88.html",
-      "sha256": "2d2292d9b5070252efb25b9f127825cb3fdc5d031e6d4b3980600b25150b23bc",
+      "sha256": "c36d5761f807a76710ac1c6ead5d14c185204fb588b75bcc12dab1091acaec07",
       "http_last_modified": null,
       "wiki_last_modified": "2026-03-22 00:15:08",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "2d2292d9b5070252efb25b9f127825cb3fdc5d031e6d4b3980600b25150b23bc"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ビートアイドル・マリナ": {
       "name": "ビートアイドル・マリナ",
@@ -554,45 +528,41 @@
       "name": "聖夜ハルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%83%8F%E3%83%AB%E3%82%AB",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%83%8F%E3%83%AB%E3%82%AB.html",
-      "sha256": "70f09547df9135f94fa51e94c997a47dbba1bb4e5469f9ca295be7b85c55976e",
+      "sha256": "c70ffe3c9dea0a1c9846ebc12219747730f02831a112f5e49bee5ecb71a46208",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:21:35",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "70f09547df9135f94fa51e94c997a47dbba1bb4e5469f9ca295be7b85c55976e"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "六の法杖セラフィール": {
       "name": "六の法杖セラフィール",
       "url": "https://escalationheroines.wikiru.jp/?%E5%85%AD%E3%81%AE%E6%B3%95%E6%9D%96%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB",
       "file": "raw/%E5%85%AD%E3%81%AE%E6%B3%95%E6%9D%96%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB.html",
-      "sha256": "211b291907822d07a69605f5e0d3c3d92212509afa90ab73ebda7ca072e3c5f3",
+      "sha256": "689208781722d8571fb757a6f80d9aec37b23042f5fe10e58b91240d31e3a139",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:29:57",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "211b291907822d07a69605f5e0d3c3d92212509afa90ab73ebda7ca072e3c5f3"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "正月エスカ・ルビー": {
       "name": "正月エスカ・ルビー",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC.html",
-      "sha256": "02386ea438b0a66b0e0634fea1387f267c6a499c74c60c21d6c2bd307c1da8c1",
+      "sha256": "df1e4806ca2f7cc3e599cab5a53afaa8eb21cc8ba8fe9e1477d9f90796e7a44e",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-13 19:11:31",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "02386ea438b0a66b0e0634fea1387f267c6a499c74c60c21d6c2bd307c1da8c1"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "九の護銃メイファール": {
       "name": "九の護銃メイファール",
       "url": "https://escalationheroines.wikiru.jp/?%E4%B9%9D%E3%81%AE%E8%AD%B7%E9%8A%83%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB",
       "file": "raw/%E4%B9%9D%E3%81%AE%E8%AD%B7%E9%8A%83%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB.html",
-      "sha256": "eb830aac07a7cbe1186bfc1846a26f007f6d5356a0d79b6c89a2cc0828d25513",
+      "sha256": "22982eb98191c131808d5fbdefbae1897aa9514b780bf70c4727ae64a7e88eb7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:12:54",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "eb830aac07a7cbe1186bfc1846a26f007f6d5356a0d79b6c89a2cc0828d25513"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "三の裁刀イザナエル": {
       "name": "三の裁刀イザナエル",
@@ -620,34 +590,31 @@
       "name": "バレンタインエスカ・アメイズ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA.html",
-      "sha256": "b1dbeab1bc09b64441c214cf35e3ad53ebcdd210738e9cf06dff1645b2b814fd",
+      "sha256": "a039c61f07fd33c7d469eba2c3dee654bbeb0d50f3300c02f6b41870573ce14a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:40:30",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "b1dbeab1bc09b64441c214cf35e3ad53ebcdd210738e9cf06dff1645b2b814fd"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "バレンタインナリカ": {
       "name": "バレンタインナリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8A%E3%83%AA%E3%82%AB",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8A%E3%83%AA%E3%82%AB.html",
-      "sha256": "0b7156470326c194578c4ae7cc913a0ca43321b5342457dfe0b3c3850f6b375c",
+      "sha256": "cf4df7d40fba9a97541810e1c845e613c4956dc27d905ac9efb09f003522e21d",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 13:44:09",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "0b7156470326c194578c4ae7cc913a0ca43321b5342457dfe0b3c3850f6b375c"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "閃忍スバル": {
       "name": "閃忍スバル",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%B9%E3%83%90%E3%83%AB",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%82%B9%E3%83%90%E3%83%AB.html",
-      "sha256": "36f9ca072fe61afccfca48af5032558644f9620218afae26b97b405e18265e38",
+      "sha256": "ef9019ed544055429200c756159a4540da24fe97a120f631b13ec5875ad84ff7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:31:43",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "36f9ca072fe61afccfca48af5032558644f9620218afae26b97b405e18265e38"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "血の切裂余命": {
       "name": "血の切裂余命",
@@ -686,34 +653,31 @@
       "name": "神騎キリエル",
       "url": "https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB",
       "file": "raw/%E7%A5%9E%E9%A8%8E%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB.html",
-      "sha256": "dc857dbd30e033a41f0a65d17ae188f50a4d01c237c81efbd3e2055ef1cfa4e9",
+      "sha256": "0acd8b55e2ae9f2c55355396de89969dfa30df89cca81581b3fd4e9a4e6bffc5",
       "http_last_modified": null,
       "wiki_last_modified": "2026-04-29 21:28:08",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "dc857dbd30e033a41f0a65d17ae188f50a4d01c237c81efbd3e2055ef1cfa4e9"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "皇帝のニル": {
       "name": "皇帝のニル",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9A%87%E5%B8%9D%E3%81%AE%E3%83%8B%E3%83%AB",
       "file": "raw/%E7%9A%87%E5%B8%9D%E3%81%AE%E3%83%8B%E3%83%AB.html",
-      "sha256": "7c01890442af9f9b9e7f205d6c2788e1972b9e98e35601d54ccf2a8eff769a44",
+      "sha256": "1d3c62ca1c14c8f9358417177b47466b1f11bba69f6fcd65c6131c9f9da75d23",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:02:07",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "7c01890442af9f9b9e7f205d6c2788e1972b9e98e35601d54ccf2a8eff769a44"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ブライド・エスカレイヤー": {
       "name": "ブライド・エスカレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "ddd1b76930e2ed81e6ad8f68d4632ddc6234334f7cb1a816c993984c396b3b13",
+      "sha256": "2d59b865cb7404aca86f3b343491fcec78c489269de8ba8679e75587caa5d4c7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:36:08",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "ddd1b76930e2ed81e6ad8f68d4632ddc6234334f7cb1a816c993984c396b3b13"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "四の狩斧ゼブリエル": {
       "name": "四の狩斧ゼブリエル",
@@ -774,45 +738,41 @@
       "name": "真夏のエクシール",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB.html",
-      "sha256": "78f28e9a8ca136203ef5deab8b79fc2c4834b17019b4059a0ec33a7a0d0afb24",
+      "sha256": "09aee42f7e0a5e334a290f49e1a70f86cc795afdbf0d8f7348e0d996ab17f464",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 13:58:58",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "78f28e9a8ca136203ef5deab8b79fc2c4834b17019b4059a0ec33a7a0d0afb24"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "花のチルカ": {
       "name": "花のチルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E8%8A%B1%E3%81%AE%E3%83%81%E3%83%AB%E3%82%AB",
       "file": "raw/%E8%8A%B1%E3%81%AE%E3%83%81%E3%83%AB%E3%82%AB.html",
-      "sha256": "4dbd266d5333061b7bed26365489573c26f861ff51ab29dbd3ae1591be9d7984",
+      "sha256": "e4d9b75a3c8a91644079c5ef93c9fd5fff1fa44ede4af9ca0d1bbfdf2ab6fb8a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-09 12:15:35",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "4dbd266d5333061b7bed26365489573c26f861ff51ab29dbd3ae1591be9d7984"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "エスカレイヤー・リバース": {
       "name": "エスカレイヤー・リバース",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9.html",
-      "sha256": "e476cae1a6fe8599fe2013488a8c967d6a09fc9485680651a0e61aac77f8a396",
+      "sha256": "71b77752e6ea35f30d392d3f4dc92983677163fe295b1f39e3e2828cf0720190",
       "http_last_modified": null,
       "wiki_last_modified": "2026-06-17 01:39:06",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "e476cae1a6fe8599fe2013488a8c967d6a09fc9485680651a0e61aac77f8a396"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "節制のクラリス": {
       "name": "節制のクラリス",
       "url": "https://escalationheroines.wikiru.jp/?%E7%AF%80%E5%88%B6%E3%81%AE%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9",
       "file": "raw/%E7%AF%80%E5%88%B6%E3%81%AE%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9.html",
-      "sha256": "139c4294e26b8f94c06429789971d435d0f5846b64b7e3248e255593b0e58926",
+      "sha256": "865f7de222dfc96ab29df3beacdce97be6083b258917b7b34fff3de2618fc603",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:42:20",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "139c4294e26b8f94c06429789971d435d0f5846b64b7e3248e255593b0e58926"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "死神のストナ": {
       "name": "死神のストナ",
@@ -829,12 +789,11 @@
       "name": "二の聖剣ミカフィール",
       "url": "https://escalationheroines.wikiru.jp/?%E4%BA%8C%E3%81%AE%E8%81%96%E5%89%A3%E3%83%9F%E3%82%AB%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB",
       "file": "raw/%E4%BA%8C%E3%81%AE%E8%81%96%E5%89%A3%E3%83%9F%E3%82%AB%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB.html",
-      "sha256": "a9148de9bd1c29abd97c5862a0ef3faffa14ecb59046a5f7a28125a681ac9a40",
+      "sha256": "f23dd1ff0339de2c21543390bb5b2666653c497522f18d767c7c286c2734a4c5",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:33:52",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "a9148de9bd1c29abd97c5862a0ef3faffa14ecb59046a5f7a28125a681ac9a40"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "神騎ミモザ": {
       "name": "神騎ミモザ",
@@ -862,12 +821,11 @@
       "name": "ビートドラグーン・アカネ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D",
       "file": "raw/%E3%83%93%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%B0%E3%83%BC%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%AB%E3%83%8D.html",
-      "sha256": "c45a562289be07cac3a14966925eeae746f372362e1d7ab6eb8cc5acfe9f6b87",
+      "sha256": "0e08220a8dbffd6057012c55b40f30231f1f1d263ae175d6e6094ae6d7fecf5e",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:27:20",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "c45a562289be07cac3a14966925eeae746f372362e1d7ab6eb8cc5acfe9f6b87"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ビートアイドル・クミコ": {
       "name": "ビートアイドル・クミコ",
@@ -884,12 +842,11 @@
       "name": "エンジェリック・エスカレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AA%E3%83%83%E3%82%AF%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AA%E3%83%83%E3%82%AF%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "6b8dc110bf3302fe49a240b87d5fa9cdb359837db472d8036f7277734ec43322",
+      "sha256": "f34937f4953b1fb8c21ad36b258b3a7c4277d5a88a2faa6be43531ff41fa224d",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:02:54",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "6b8dc110bf3302fe49a240b87d5fa9cdb359837db472d8036f7277734ec43322"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ハルカ・リバース": {
       "name": "ハルカ・リバース",
@@ -906,23 +863,21 @@
       "name": "聖夜こもり",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%81%93%E3%82%82%E3%82%8A",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%81%93%E3%82%82%E3%82%8A.html",
-      "sha256": "d382820fc64e8a307a4e21232b55fd19494beebc06c64f5279b3c8edeba1cef4",
+      "sha256": "c09b5203a213880bb42ee321994d1988cc86af964437c46bc5860c1a64f18599",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:07:33",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "d382820fc64e8a307a4e21232b55fd19494beebc06c64f5279b3c8edeba1cef4"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "聖夜エスカ・トパーズ": {
       "name": "聖夜エスカ・トパーズ",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA.html",
-      "sha256": "aed7a6b954708f95fcd13085aa46624f84644c2b4891756f1afef8300f687bad",
+      "sha256": "8de509a68125349ee967e4e2ae35bb624f31e75cfc1631d9d5fca750d9703157",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:41:00",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "aed7a6b954708f95fcd13085aa46624f84644c2b4891756f1afef8300f687bad"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートソニック・アキレス": {
       "name": "ビートソニック・アキレス",
@@ -950,23 +905,21 @@
       "name": "正月エスカ・サファイア",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2.html",
-      "sha256": "c05330026d2131819fe153332996873b806e18274e766228ac35783a2068715c",
+      "sha256": "099036bf9c052178dd3fcc08b80f08660af394f887369cb5bed4361f23f5e43a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:37:22",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "c05330026d2131819fe153332996873b806e18274e766228ac35783a2068715c"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "正月キリエル": {
       "name": "正月キリエル",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB.html",
-      "sha256": "fa5acdeba5348bb8e48f080c73d97b588d34dcb184d4e99bab535f1e3560b916",
+      "sha256": "84cbfdc933589ff4e6825f7269cb43a835d047cf584d9bf72e1784808e4e125f",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:27:32",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "fa5acdeba5348bb8e48f080c73d97b588d34dcb184d4e99bab535f1e3560b916"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "バレンタインショウコ": {
       "name": "バレンタインショウコ",
@@ -983,34 +936,31 @@
       "name": "バレンタインハルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8F%E3%83%AB%E3%82%AB",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8F%E3%83%AB%E3%82%AB.html",
-      "sha256": "c3479703384c0b8bbfdd0414b2011d1f9c541c7e2d712289a748b8ff825455da",
+      "sha256": "74dc760160ff311e30f3e31188ecc94f66897cdc0b7f207549bab95cfc4e2d95",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 13:48:19",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "c3479703384c0b8bbfdd0414b2011d1f9c541c7e2d712289a748b8ff825455da"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "エスカルビー・アステライズ": {
       "name": "エスカルビー・アステライズ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AB%E3%83%93%E3%83%BC%E3%83%BB%E3%82%A2%E3%82%B9%E3%83%86%E3%83%A9%E3%82%A4%E3%82%BA",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AB%E3%83%93%E3%83%BC%E3%83%BB%E3%82%A2%E3%82%B9%E3%83%86%E3%83%A9%E3%82%A4%E3%82%BA.html",
-      "sha256": "52ca100a323be8545ee121cccb547c4bd5de915eab95d99ca8fccc3213346789",
+      "sha256": "b3011f46df0bfe396fbd904246cf8afeba371bb91a973e78b161c29d76a81a4f",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 11:57:25",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "52ca100a323be8545ee121cccb547c4bd5de915eab95d99ca8fccc3213346789"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "閃忍ニャンコ": {
       "name": "閃忍ニャンコ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3.html",
-      "sha256": "cfda6fcdbecc7c515637d2a0d7b5baeaf181c8184e4212f7c0f10f3d9f94e12a",
+      "sha256": "37527fdba3ca830b076d2df2e013b3eee9af9b0da97d6207321779a74fc58f7a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:03:59",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "cfda6fcdbecc7c515637d2a0d7b5baeaf181c8184e4212f7c0f10f3d9f94e12a"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "狂の秋道姫路": {
       "name": "狂の秋道姫路",
@@ -1049,12 +999,11 @@
       "name": "魔女ヤブルー",
       "url": "https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC",
       "file": "raw/%E9%AD%94%E5%A5%B3%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC.html",
-      "sha256": "064153e750f6d6849503a3b1ed9d45db53db9c3f4890f86de163e936e29debd8",
+      "sha256": "4c403f1742fbae40238ca8a1444a80202711a9921963f82c8ab712e5e6cd7bf5",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:24:44",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "064153e750f6d6849503a3b1ed9d45db53db9c3f4890f86de163e936e29debd8"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "魔女プカルル": {
       "name": "魔女プカルル",
@@ -1071,12 +1020,11 @@
       "name": "運命のイーイー",
       "url": "https://escalationheroines.wikiru.jp/?%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC",
       "file": "raw/%E9%81%8B%E5%91%BD%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC.html",
-      "sha256": "00091030d9af8146d262157170a76a9257f9594f32037dfa178217574316b42e",
+      "sha256": "609794c65567c947b18119789d61ddc4f56e1960f10b9a4445091a886b7cf8d6",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:18:48",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "00091030d9af8146d262157170a76a9257f9594f32037dfa178217574316b42e"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートウィザード・リリアム": {
       "name": "ビートウィザード・リリアム",
@@ -1093,23 +1041,21 @@
       "name": "ビートエンジェル・エクシレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AB%E3%83%BB%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E3%83%93%E3%83%BC%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AB%E3%83%BB%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "38c46441964d3c4cdfafd2b63b8ab1237057e51cb02eb9f259ef8b2d465bbf15",
+      "sha256": "b0b218bdde01111f3538e005ebd3d18f52b751117e43851740f8bcd0fdeecda1",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:17:12",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "38c46441964d3c4cdfafd2b63b8ab1237057e51cb02eb9f259ef8b2d465bbf15"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "一の神鍵アズエル": {
       "name": "一の神鍵アズエル",
       "url": "https://escalationheroines.wikiru.jp/?%E4%B8%80%E3%81%AE%E7%A5%9E%E9%8D%B5%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB",
       "file": "raw/%E4%B8%80%E3%81%AE%E7%A5%9E%E9%8D%B5%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB.html",
-      "sha256": "a5a4ff44eb6cc4f8d5a57d5fb8911250b23b6db1636a3ffeed4f58043c3d25fd",
+      "sha256": "27222e894b9f3ec845f086664b2198bcd1d5a0a891e17fcca4e7cfd95b9f0d83",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:10:34",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "a5a4ff44eb6cc4f8d5a57d5fb8911250b23b6db1636a3ffeed4f58043c3d25fd"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "神騎セリカエル": {
       "name": "神騎セリカエル",
@@ -1126,56 +1072,51 @@
       "name": "ブライド・アヤカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A2%E3%83%A4%E3%82%AB",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A2%E3%83%A4%E3%82%AB.html",
-      "sha256": "8c42168e19b9fbf2b663bec017eceee0214239e63b23701f4056841a99d66ea0",
+      "sha256": "c05a74df0c38e9c6e3586707391473a83a1a5ea3cb40c3e8e1c2bc19a352649c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:01:19",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "8c42168e19b9fbf2b663bec017eceee0214239e63b23701f4056841a99d66ea0"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "閃忍イノリ": {
       "name": "閃忍イノリ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%A4%E3%83%8E%E3%83%AA",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%82%A4%E3%83%8E%E3%83%AA.html",
-      "sha256": "3f3671edcb3aaf2127c0e62b4046649b6a4315a20ac5c5f1099b25ecaa0e76b4",
+      "sha256": "404562b0393807cbce7dee1cb100088b0a1ec74c78133b7fc1111821df144902",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:50:41",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "3f3671edcb3aaf2127c0e62b4046649b6a4315a20ac5c5f1099b25ecaa0e76b4"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "閃忍ライカ": {
       "name": "閃忍ライカ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A9%E3%82%A4%E3%82%AB",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%83%A9%E3%82%A4%E3%82%AB.html",
-      "sha256": "5c4e87ebab376bd3b0e4e58c750189854a61fdbb66a1feee13aa870d6a67ba89",
+      "sha256": "73044a9c03936b80751ae1522e12748c941471b2b59c0daa352586cf9fbb45e9",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:54:11",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "5c4e87ebab376bd3b0e4e58c750189854a61fdbb66a1feee13aa870d6a67ba89"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ブライドエスカ・アメイズ": {
       "name": "ブライドエスカ・アメイズ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA.html",
-      "sha256": "ec86c0a550ad443730849b25886c0e041e6992fe902d0ff679a32f008fea2d77",
+      "sha256": "e4b1eb26e51201f2983b36e493e71c8cfb859424daf980bab97cb30812902c82",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:38:07",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "ec86c0a550ad443730849b25886c0e041e6992fe902d0ff679a32f008fea2d77"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ブライド・ニル": {
       "name": "ブライド・ニル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%8B%E3%83%AB",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%8B%E3%83%AB.html",
-      "sha256": "93485ce25949d3de411fcbf96e7df425c44e7139a3e82bb586bdc62cd2bcf7f1",
+      "sha256": "a9772c66902c8821ce968a567ac6dbd3881fd9fcefdc8401bf3c9232c09c02f5",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:39:04",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "93485ce25949d3de411fcbf96e7df425c44e7139a3e82bb586bdc62cd2bcf7f1"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "魔女クルル": {
       "name": "魔女クルル",
@@ -1192,23 +1133,21 @@
       "name": "真夏のカペラ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%AB%E3%83%9A%E3%83%A9",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%AB%E3%83%9A%E3%83%A9.html",
-      "sha256": "c11531aa48b832d11b5455e7a8b5f98b54658750ea6d6ba737851c365068f248",
+      "sha256": "150c37ec167d7e958e9031c3d2efe44c32b4d8a6ef47646932ed6e840fe53baf",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:15:31",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "c11531aa48b832d11b5455e7a8b5f98b54658750ea6d6ba737851c365068f248"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートアイドル・メグミ": {
       "name": "ビートアイドル・メグミ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%A1%E3%82%B0%E3%83%9F",
       "file": "raw/%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%A1%E3%82%B0%E3%83%9F.html",
-      "sha256": "63a2494ff4f1f0f78263b15408aa65c3e522b3de7476e8139ffc7c755f50bc1b",
+      "sha256": "2efff4baa4168676fd467840519cb082f2c5527c6b34607b6c6a77a62e2f78bd",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-15 06:28:20",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "63a2494ff4f1f0f78263b15408aa65c3e522b3de7476e8139ffc7c755f50bc1b"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "真夏のシズカ": {
       "name": "真夏のシズカ",
@@ -1225,23 +1164,21 @@
       "name": "真夏のチルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%81%E3%83%AB%E3%82%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%81%E3%83%AB%E3%82%AB.html",
-      "sha256": "3c868bc3bbca964345871ed1d11388ca5744d13a5a7b83b4905f05ac6f7bfbf5",
+      "sha256": "de0dc4654c5751dbfa7b9636a8d455b9215cff463bc438c2f523ec4dabff626c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:58:36",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "3c868bc3bbca964345871ed1d11388ca5744d13a5a7b83b4905f05ac6f7bfbf5"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のナリカ": {
       "name": "真夏のナリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8A%E3%83%AA%E3%82%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8A%E3%83%AA%E3%82%AB.html",
-      "sha256": "47a1f4aad19093eba5e740925eaa2ea436a7000b4a4cf7c5754296c9b08be10d",
+      "sha256": "b4f09439b76e243f0113927f020f43528ea9d981968d8d6083abce25fe904152",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:19:26",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "47a1f4aad19093eba5e740925eaa2ea436a7000b4a4cf7c5754296c9b08be10d"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "神騎アスマール": {
       "name": "神騎アスマール",
@@ -1324,12 +1261,11 @@
       "name": "ハロウィンアカネ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AB%E3%83%8D",
       "file": "raw/%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A2%E3%82%AB%E3%83%8D.html",
-      "sha256": "18cbc42d1f796d84297dfdc66674a3e35b00d99570b68d3f5f1b7a4902717b8b",
+      "sha256": "ecc3d2775885b9977e56cd9706c331647403298509f2bcbeba6ba447186b822c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:27:39",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "18cbc42d1f796d84297dfdc66674a3e35b00d99570b68d3f5f1b7a4902717b8b"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ハロウィンアキエ": {
       "name": "ハロウィンアキエ",
@@ -1346,78 +1282,71 @@
       "name": "閃忍ムツカ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A0%E3%83%84%E3%82%AB",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%83%A0%E3%83%84%E3%82%AB.html",
-      "sha256": "5614c86c78a1b89897e8be30981d126086f0bfa85f45fce9cdab64809c080d29",
+      "sha256": "d5e4685628da5fe4c6efdfdf19b66c87f877cda7fee8f229821dfc1f9dfbd0f7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-03-30 02:34:31",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "5614c86c78a1b89897e8be30981d126086f0bfa85f45fce9cdab64809c080d29"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "超昂閃忍ハルカ": {
       "name": "超昂閃忍ハルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%AB%E3%82%AB",
       "file": "raw/%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%AB%E3%82%AB.html",
-      "sha256": "51bb4131ac1bd10162c94b3bc262a0584ccf33908d85714b00bfe6069bb21ee0",
+      "sha256": "71b3f76c3e7801d0aff5d9e1299f7c4edd8d79fd1fcd81a8259f893a85d24c4b",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:04:58",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "51bb4131ac1bd10162c94b3bc262a0584ccf33908d85714b00bfe6069bb21ee0"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "超昂閃忍スバル": {
       "name": "超昂閃忍スバル",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%82%B9%E3%83%90%E3%83%AB",
       "file": "raw/%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%82%B9%E3%83%90%E3%83%AB.html",
-      "sha256": "c9b14c55631a61d6789af641d1c33daa43397293f301f158115ee4f4a7c3c224",
+      "sha256": "1e1d911bba5d334967474cd2931ecf6ca3e63f3b5376baa59beb659513c58fe4",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:32:12",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "c9b14c55631a61d6789af641d1c33daa43397293f301f158115ee4f4a7c3c224"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "八爪妖蠱ハツネ": {
       "name": "八爪妖蠱ハツネ",
       "url": "https://escalationheroines.wikiru.jp/?%E5%85%AB%E7%88%AA%E5%A6%96%E8%A0%B1%E3%83%8F%E3%83%84%E3%83%8D",
       "file": "raw/%E5%85%AB%E7%88%AA%E5%A6%96%E8%A0%B1%E3%83%8F%E3%83%84%E3%83%8D.html",
-      "sha256": "7bea7ad77db3c58656f016a0f71b829ea49a98a611cd5023f3ca9ff6a3e07d40",
+      "sha256": "c192e1f395ea2bd76cea51335d49f0f434d28ea42ab949e23b4d544a89374c06",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-05 02:28:50",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "7bea7ad77db3c58656f016a0f71b829ea49a98a611cd5023f3ca9ff6a3e07d40"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "戦車のニコール": {
       "name": "戦車のニコール",
       "url": "https://escalationheroines.wikiru.jp/?%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB",
       "file": "raw/%E6%88%A6%E8%BB%8A%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB.html",
-      "sha256": "f49cace5e599ce914f5c130cce528c25924fbdeafe6732c1fb6d87ae28fc32e2",
+      "sha256": "a254a41bba1b48345b5d7211d69015afb9ee4ce88fdef4114d2a744f1185e4dc",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:21:47",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "f49cace5e599ce914f5c130cce528c25924fbdeafe6732c1fb6d87ae28fc32e2"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "タイガージョナ": {
       "name": "タイガージョナ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A",
       "file": "raw/%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A.html",
-      "sha256": "c17fdc87e83a2a4f9c29a81a12b551e5c5a02694842a001dc8137b6416d2c342",
+      "sha256": "f13d4ca3d91512722f8e973b3a164514af5385a836641468e875c58998a5759d",
       "http_last_modified": null,
       "wiki_last_modified": "2026-03-31 00:31:20",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "c17fdc87e83a2a4f9c29a81a12b551e5c5a02694842a001dc8137b6416d2c342"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "聖夜エスカレイヤー": {
       "name": "聖夜エスカレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "5c618df4b47b501932fb5885d007cdcce9cacf69096ee4679a456c379c854548",
+      "sha256": "0cba7469f35e056c76d880a8e9b0e8f86186ba3b89d7da413316c1e6ab922764",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:12:20",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "5c618df4b47b501932fb5885d007cdcce9cacf69096ee4679a456c379c854548"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "魔女ミヤビ": {
       "name": "魔女ミヤビ",
@@ -1434,23 +1363,21 @@
       "name": "正月エスカレイヤー・リバース",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9.html",
-      "sha256": "6ea72cc57276bc88871d0595f391917154eebb5aca162e6d08e45f5f6fdf9df8",
+      "sha256": "dac5c3eb677abd01666cd633376c6f5c80d15614d8425c06d539255943994bab",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:28:16",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "6ea72cc57276bc88871d0595f391917154eebb5aca162e6d08e45f5f6fdf9df8"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "正月ノノノ": {
       "name": "正月ノノノ",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%83%8E%E3%83%8E%E3%83%8E",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%83%8E%E3%83%8E%E3%83%8E.html",
-      "sha256": "f59592ac40ab01a7be9432c0ffd1595cad2dd6e3ccecc3ac8708f8f7f0a44a34",
+      "sha256": "5f332f07d5f5814d4e0ade7aa528f3f9a5bbeac01276ef0d5eca95f8faafa9f8",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:45:44",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "f59592ac40ab01a7be9432c0ffd1595cad2dd6e3ccecc3ac8708f8f7f0a44a34"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "閃忍コイヌ": {
       "name": "閃忍コイヌ",
@@ -1478,12 +1405,11 @@
       "name": "バレンタインエクシール",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB.html",
-      "sha256": "98fdf216852502b32dfef371feb27293e57c47e23c95ae0957128def3d8992b1",
+      "sha256": "6edaf09f9afa003ad066b5d80698bb4967f16527ab6d3a439794816de53f0927",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 13:17:31",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "98fdf216852502b32dfef371feb27293e57c47e23c95ae0957128def3d8992b1"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "バレンタインスピカ": {
       "name": "バレンタインスピカ",
@@ -1500,23 +1426,21 @@
       "name": "超昂閃忍ナリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%8A%E3%83%AA%E3%82%AB",
       "file": "raw/%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%8A%E3%83%AA%E3%82%AB.html",
-      "sha256": "ff71f57c1e2c8da463a63a31f489a98d2deeb2a7d8c822a8add499696922f697",
+      "sha256": "459188f168057b462f8dac05bb4aabb11057529b72b1816f12e9c60d427d12d2",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:06:40",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "ff71f57c1e2c8da463a63a31f489a98d2deeb2a7d8c822a8add499696922f697"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "シスター・メイファール": {
       "name": "シスター・メイファール",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%B7%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB",
       "file": "raw/%E3%82%B7%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB.html",
-      "sha256": "bc24f3b13d66ba5fa88ec3bb5cf4f8b3e19996183b7677b317578d4d304a95c8",
+      "sha256": "684cc6c139c961bd3253e9e1838d1cf5ee94bb1ad7b957f65f868195b8d627d5",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:13:11",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "bc24f3b13d66ba5fa88ec3bb5cf4f8b3e19996183b7677b317578d4d304a95c8"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ビートスター・マリナ": {
       "name": "ビートスター・マリナ",
@@ -1533,34 +1457,31 @@
       "name": "正義のヒトミ",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E7%BE%A9%E3%81%AE%E3%83%92%E3%83%88%E3%83%9F",
       "file": "raw/%E6%AD%A3%E7%BE%A9%E3%81%AE%E3%83%92%E3%83%88%E3%83%9F.html",
-      "sha256": "0d800d3df329f58a20f91b97227ea5d4cea87e78ddf7d1a0c45303dc30f1d92b",
+      "sha256": "c42c40a4227dd4cd52477b7f4590cfaf9c32ea648eecdc09f8db779105572aa7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:10:03",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "0d800d3df329f58a20f91b97227ea5d4cea87e78ddf7d1a0c45303dc30f1d92b"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "電脳の魔女クラリス": {
       "name": "電脳の魔女クラリス",
       "url": "https://escalationheroines.wikiru.jp/?%E9%9B%BB%E8%84%B3%E3%81%AE%E9%AD%94%E5%A5%B3%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9",
       "file": "raw/%E9%9B%BB%E8%84%B3%E3%81%AE%E9%AD%94%E5%A5%B3%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9.html",
-      "sha256": "5b3356266f53f7fb832f03adb410184bba8f3af60eeb968bd97a601a31fbeb50",
+      "sha256": "494c58ebb7983fe063ca565cfda56304db1e3f5901648db36da698a5df6d6269",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 18:06:04",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "5b3356266f53f7fb832f03adb410184bba8f3af60eeb968bd97a601a31fbeb50"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ブライド・ライカ": {
       "name": "ブライド・ライカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%A9%E3%82%A4%E3%82%AB",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%A9%E3%82%A4%E3%82%AB.html",
-      "sha256": "39ca4287c9523f7551638983aee50d0a3ca16ede03c96ac942d04d97139c1233",
+      "sha256": "cdc9eb13be762536de7800d721da296bb4890c0f87d8dcdc6311e1dcdcb8a8b8",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:54:26",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "39ca4287c9523f7551638983aee50d0a3ca16ede03c96ac942d04d97139c1233"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ブライドハルカ・リバース": {
       "name": "ブライドハルカ・リバース",
@@ -1588,12 +1509,11 @@
       "name": "真夏のスバル",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%B9%E3%83%90%E3%83%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%B9%E3%83%90%E3%83%AB.html",
-      "sha256": "5a4e72ef47b8ec4d73456a8e16190d8791a4929aceee67871eb0da81f11685f8",
+      "sha256": "f1fecb179a42c0e9f56354044d86486e7982d4daa69d137e615c76f5409685b5",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:32:32",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "5a4e72ef47b8ec4d73456a8e16190d8791a4929aceee67871eb0da81f11685f8"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートノーブル・サトリ": {
       "name": "ビートノーブル・サトリ",
@@ -1610,23 +1530,21 @@
       "name": "真夏のエスカレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "134975a9a7f4b4eaa2ae2b2a2268c6216352f8b0f00fea3acf1a05c932f6670b",
+      "sha256": "3b7bb6d6e420f73a774b14147c6a48add968e1260bca25d07f15008f18bd8816",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:11:57",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "134975a9a7f4b4eaa2ae2b2a2268c6216352f8b0f00fea3acf1a05c932f6670b"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のイノリ": {
       "name": "真夏のイノリ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%8E%E3%83%AA",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%8E%E3%83%AA.html",
-      "sha256": "cd74af5cdb129a0d95e1fa320162cde88c77067b44db66ebb6924ed034f70f57",
+      "sha256": "0f24ebf3073ab055fb9187d09fdf707a552dc754459c69eb0ae27f6c5a044ccc",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:51:36",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "cd74af5cdb129a0d95e1fa320162cde88c77067b44db66ebb6924ed034f70f57"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "妹の1024": {
       "name": "妹の1024",
@@ -1654,12 +1572,11 @@
       "name": "制服ニャンコ",
       "url": "https://escalationheroines.wikiru.jp/?%E5%88%B6%E6%9C%8D%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3",
       "file": "raw/%E5%88%B6%E6%9C%8D%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3.html",
-      "sha256": "b3ef44b439e57cc515a5216ac425990f1360e5706d5de1723d36c62aa1130d71",
+      "sha256": "7a19bab3a6ed4e478ebf517233ddb40e5747848fa3f92955652dc4938fdccf91",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:04:36",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "b3ef44b439e57cc515a5216ac425990f1360e5706d5de1723d36c62aa1130d71"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "リバースバニー・カノープス": {
       "name": "リバースバニー・カノープス",
@@ -1709,56 +1626,51 @@
       "name": "ハロウィンイーイー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC",
       "file": "raw/%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC.html",
-      "sha256": "1d9de23c668b4a53de5d414564f8855774525f911518662774a08e6fd16a2865",
+      "sha256": "53a8f36e4ece29000566866f3ec9e311eedc57ca1f453b6d9cf7e78a59befec2",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:19:08",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "1d9de23c668b4a53de5d414564f8855774525f911518662774a08e6fd16a2865"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ハロウィンノドカ": {
       "name": "ハロウィンノドカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8E%E3%83%89%E3%82%AB",
       "file": "raw/%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8E%E3%83%89%E3%82%AB.html",
-      "sha256": "8ac4be4558cd013c5cbc4dcbe88756bc48dc9fb5601df0de4006aaeb3e218548",
+      "sha256": "fccb138e8f7b5136264f1eceeb58d0ec2da9a7974929a1d1fb9c8c96a25d6595",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-15 09:35:41",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "8ac4be4558cd013c5cbc4dcbe88756bc48dc9fb5601df0de4006aaeb3e218548"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "浴衣のシリカ": {
       "name": "浴衣のシリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E6%B5%B4%E8%A1%A3%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB",
       "file": "raw/%E6%B5%B4%E8%A1%A3%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB.html",
-      "sha256": "8864fcd6da6f763ba37728576824245ebdf5e8fcef5bae2c414f46a83a58c1a1",
+      "sha256": "314d2029672781721fe6861e5daa35a41defc903048ae46d15bd83c9011f84a4",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:56:17",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "8864fcd6da6f763ba37728576824245ebdf5e8fcef5bae2c414f46a83a58c1a1"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "超昂神騎エクシール": {
       "name": "超昂神騎エクシール",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB",
       "file": "raw/%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB.html",
-      "sha256": "9987c9c431665f3fdf81620c1605afc5dd6a8403398cbf43dbe40db272fb5a64",
+      "sha256": "58ce9415f94373646023652efa7f271ab0f83dcd812ead8e45cebfe03c134b9e",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:08:16",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "9987c9c431665f3fdf81620c1605afc5dd6a8403398cbf43dbe40db272fb5a64"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "超昂神騎キリエル": {
       "name": "超昂神騎キリエル",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB",
       "file": "raw/%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB.html",
-      "sha256": "8355aecac6c7ac86cd64d744676db1d903ca18292af7802462e70a5847f6024f",
+      "sha256": "aaceec1c3e7abc8b681bb568cba6defc63616349df04ca9734c6ec7076b80eed",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:08:59",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "8355aecac6c7ac86cd64d744676db1d903ca18292af7802462e70a5847f6024f"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "青竜天クチナワ": {
       "name": "青竜天クチナワ",
@@ -1775,34 +1687,31 @@
       "name": "ビートアイドル80・メグミ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB80%E3%83%BB%E3%83%A1%E3%82%B0%E3%83%9F",
       "file": "raw/%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB80%E3%83%BB%E3%83%A1%E3%82%B0%E3%83%9F.html",
-      "sha256": "ba7b1df19b3975ed575fc80f30a1c9cf63288bc4e1057ca97aef9417b2e27623",
+      "sha256": "0d9ad4788ba8747f538707fb035edeccc1984dedebb91dcf528f305d642acbcf",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-15 06:27:19",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "ba7b1df19b3975ed575fc80f30a1c9cf63288bc4e1057ca97aef9417b2e27623"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "聖夜エスカ・ルビー": {
       "name": "聖夜エスカ・ルビー",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC.html",
-      "sha256": "a3ebd5b55189f55a3c3247e44deec3be5de2c2e282c8620a26f65665994838d3",
+      "sha256": "7601de100958fea4f07d9a3c1b624cc18ec5b603dc96e42626f5b30ad39a4bcb",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 02:17:53",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "a3ebd5b55189f55a3c3247e44deec3be5de2c2e282c8620a26f65665994838d3"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "聖夜ニル": {
       "name": "聖夜ニル",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%83%8B%E3%83%AB",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%83%8B%E3%83%AB.html",
-      "sha256": "116f95c0aed84c30acc668eac6d65c672278ee000f560ef728afb0e01760b09d",
+      "sha256": "617e0253cacf57acf5eb6fc2319b8c52946abb04e725ce56dcf2f218a30bb9e7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:56:08",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "116f95c0aed84c30acc668eac6d65c672278ee000f560ef728afb0e01760b09d"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "正月の切裂余命": {
       "name": "正月の切裂余命",
@@ -1830,12 +1739,11 @@
       "name": "翼竜剣聖アカネ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%BF%BC%E7%AB%9C%E5%89%A3%E8%81%96%E3%82%A2%E3%82%AB%E3%83%8D",
       "file": "raw/%E7%BF%BC%E7%AB%9C%E5%89%A3%E8%81%96%E3%82%A2%E3%82%AB%E3%83%8D.html",
-      "sha256": "65b8c0df0944a95d50edc8447cbb0a35d8fb151c77df99e49916a290cd65869d",
+      "sha256": "dbbf58202843cf53f05b8fd015b78047196e7ece6d2c1c90c1ee63121f5608ab",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:28:08",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "65b8c0df0944a95d50edc8447cbb0a35d8fb151c77df99e49916a290cd65869d"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "閃忍ハクメイ": {
       "name": "閃忍ハクメイ",
@@ -1852,67 +1760,61 @@
       "name": "バレンタインアズエル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB.html",
-      "sha256": "a6dbec969b74ffb873786a6bb2757ee798ed7400208ec4ca43652809b724876b",
+      "sha256": "450a758515c0bbca03a52b60c49ad5aaec6a8193fb5423e2f78c6f066224893b",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:10:56",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "a6dbec969b74ffb873786a6bb2757ee798ed7400208ec4ca43652809b724876b"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "バレンタインクラリス": {
       "name": "バレンタインクラリス",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9.html",
-      "sha256": "9bc77ed4b9abd08734d97d4478e8e93f5cd70995361f108e9edf2f4e675d29d1",
+      "sha256": "449254dcbbde89cd78835fddd8174310e88df010d7fa59cede780e7faaae26e8",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 20:12:53",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "9bc77ed4b9abd08734d97d4478e8e93f5cd70995361f108e9edf2f4e675d29d1"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "リバースバニー・ヤブルー": {
       "name": "リバースバニー・ヤブルー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%90%E3%83%8B%E3%83%BC%E3%83%BB%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC",
       "file": "raw/%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%90%E3%83%8B%E3%83%BC%E3%83%BB%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC.html",
-      "sha256": "3a5788c59c007624789477537e3c3ffd28bd6bf1157644fdb53fdbe996921eab",
+      "sha256": "608039ec74b8169e6babcf460a4123ec1923671e804d8215cffeef5207ab5b93",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:25:18",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "3a5788c59c007624789477537e3c3ffd28bd6bf1157644fdb53fdbe996921eab"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "エスカサファイア・ムーンライズ": {
       "name": "エスカサファイア・ムーンライズ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2%E3%83%BB%E3%83%A0%E3%83%BC%E3%83%B3%E3%83%A9%E3%82%A4%E3%82%BA",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2%E3%83%BB%E3%83%A0%E3%83%BC%E3%83%B3%E3%83%A9%E3%82%A4%E3%82%BA.html",
-      "sha256": "13198b5f537ecd44eb99413305070276050690e90292fa04a90c9499ae4beef5",
+      "sha256": "9856e4408b00d4b2cc9c7b7b262aaeb0fa42bb8d194cd399529186db8df43da5",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 11:55:30",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "13198b5f537ecd44eb99413305070276050690e90292fa04a90c9499ae4beef5"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "閃忍ハータン": {
       "name": "閃忍ハータン",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%BC%E3%82%BF%E3%83%B3",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%83%8F%E3%83%BC%E3%82%BF%E3%83%B3.html",
-      "sha256": "c649622dc63505a257546b284934a262815276912b44edd185332a0fedf0d05f",
+      "sha256": "ef8069e4a2efee8a704219a6f41c4636f312d5979f1a6a04c2a23675c3441695",
       "http_last_modified": null,
-      "fetched_at": "2026-07-22T20:09:59+00:00",
-      "status": "ok",
-      "parsed_sha256": "c649622dc63505a257546b284934a262815276912b44edd185332a0fedf0d05f",
-      "wiki_last_modified": "2026-04-07 20:34:15"
+      "wiki_last_modified": "2026-10-21 16:57:03",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "チアガールのアヤカ": {
       "name": "チアガールのアヤカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%81%E3%82%A2%E3%82%AC%E3%83%BC%E3%83%AB%E3%81%AE%E3%82%A2%E3%83%A4%E3%82%AB",
       "file": "raw/%E3%83%81%E3%82%A2%E3%82%AC%E3%83%BC%E3%83%AB%E3%81%AE%E3%82%A2%E3%83%A4%E3%82%AB.html",
-      "sha256": "26abf48ba74976b215640de9d830d5729833d35b0d8be43593ed7774f151ce30",
+      "sha256": "28412fcb46d703012fb555f170861e5ed0e7186aeddbb0932ee40f8d4773eba0",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:01:51",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "26abf48ba74976b215640de9d830d5729833d35b0d8be43593ed7774f151ce30"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "魔女カミーユ": {
       "name": "魔女カミーユ",
@@ -1940,23 +1842,21 @@
       "name": "幻忍キクリ",
       "url": "https://escalationheroines.wikiru.jp/?%E5%B9%BB%E5%BF%8D%E3%82%AD%E3%82%AF%E3%83%AA",
       "file": "raw/%E5%B9%BB%E5%BF%8D%E3%82%AD%E3%82%AF%E3%83%AA.html",
-      "sha256": "0aa764279cae11eabc6981228f9616812244dcd3ed33b6992dec9e79fcbcf494",
+      "sha256": "aa64eef8720733461e71ef0533697c2439f8deee2095e24acddadbd4257d0212",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-13 23:16:54",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "0aa764279cae11eabc6981228f9616812244dcd3ed33b6992dec9e79fcbcf494"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ナースキリエル": {
       "name": "ナースキリエル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%8A%E3%83%BC%E3%82%B9%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB",
       "file": "raw/%E3%83%8A%E3%83%BC%E3%82%B9%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB.html",
-      "sha256": "0b735ec44c3c441c16ad17a3ab5e4b620c1a34e0350a3d3b9b16fb379a43f283",
+      "sha256": "d5207898ae3f2e3f7badd55edf42fd3a638356d52b66e23bfcfddb657e22266c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-01 01:21:39",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "0b735ec44c3c441c16ad17a3ab5e4b620c1a34e0350a3d3b9b16fb379a43f283"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "閃忍イズミ": {
       "name": "閃忍イズミ",
@@ -2006,12 +1906,11 @@
       "name": "超昂閃忍イノリ",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%82%A4%E3%83%8E%E3%83%AA",
       "file": "raw/%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%82%A4%E3%83%8E%E3%83%AA.html",
-      "sha256": "aebe4aa6ff5da5afd070b832ee780547551ff175cfa609084ef29e23d98e7602",
+      "sha256": "444ccc77b465ded327c0c445c8f2f1eb1ad89478814c37960356d61ef6258ca9",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:51:55",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "aebe4aa6ff5da5afd070b832ee780547551ff175cfa609084ef29e23d98e7602"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "審判のクロエ": {
       "name": "審判のクロエ",
@@ -2028,23 +1927,21 @@
       "name": "ブライド・イーイー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC.html",
-      "sha256": "5e8376ff4e771bb660d70efcade1b13f32975d297bad39002d20f8dcca9555a8",
+      "sha256": "ac6e086049939ca4dea16470b579d3732b4f72bcca0bca84b96d60273cf5bf59",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-09 21:59:09",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "5e8376ff4e771bb660d70efcade1b13f32975d297bad39002d20f8dcca9555a8"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ブライド・エクシール": {
       "name": "ブライド・エクシール",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB.html",
-      "sha256": "72d38d1de17077e7e663f448a2c33c0a93de644592bbde83fab114c299dd3249",
+      "sha256": "c2fbdcf2189ae913bc447950e999106fbf92223f4e85d0748f3f7527d2f27880",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:42:08",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "72d38d1de17077e7e663f448a2c33c0a93de644592bbde83fab114c299dd3249"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ブライド・セリカエル": {
       "name": "ブライド・セリカエル",
@@ -2061,12 +1958,11 @@
       "name": "イメージガール・フェリニ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%82%AC%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B",
       "file": "raw/%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%82%AC%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B.html",
-      "sha256": "48aa194ce6f4334dc68c574bb41d3f24b9cbabcb0f2eb961aa26a9490e2dd556",
+      "sha256": "e6a46107c1bee0a3a7bb8073bfe456c51053d2ac8a3787fe0d5ae7dc24681833",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 11:54:28",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "48aa194ce6f4334dc68c574bb41d3f24b9cbabcb0f2eb961aa26a9490e2dd556"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ナイトドレス・レグルス": {
       "name": "ナイトドレス・レグルス",
@@ -2083,34 +1979,31 @@
       "name": "真夏のニコール",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB.html",
-      "sha256": "f60d14dda8780ae2e28b0dad33e59f6c38df0244b35f305d7b792cbc4569653a",
+      "sha256": "7b5284795be689cc4360022e6ff9c77570200a1f16bfeef821f58e43690860d0",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:22:12",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "f60d14dda8780ae2e28b0dad33e59f6c38df0244b35f305d7b792cbc4569653a"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のマドカ": {
       "name": "真夏のマドカ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%9E%E3%83%89%E3%82%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%9E%E3%83%89%E3%82%AB.html",
-      "sha256": "643c993f3b95c1912f65831de6d8623ba7e0d42b100aff5c1b2b4f89a93b1ab9",
+      "sha256": "2cd2f7a4f94b2eb70753dd6fd8abdca6052bf27c3dea2914edc67a78e9823f1a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:07:52",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "643c993f3b95c1912f65831de6d8623ba7e0d42b100aff5c1b2b4f89a93b1ab9"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のハルカ": {
       "name": "真夏のハルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8F%E3%83%AB%E3%82%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8F%E3%83%AB%E3%82%AB.html",
-      "sha256": "28ee718373201cf858ea7b4c30d7ea447781260f8eab3a372629e9c710b92467",
+      "sha256": "4fc31c4377602d402712e1dba5e7ff2d3bc35ce8f675127f3f6d48738b17ff0d",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 13:08:42",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "28ee718373201cf858ea7b4c30d7ea447781260f8eab3a372629e9c710b92467"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のフウカ": {
       "name": "真夏のフウカ",
@@ -2127,12 +2020,11 @@
       "name": "アイドルの奉輪こもり",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%81%AE%E5%A5%89%E8%BC%AA%E3%81%93%E3%82%82%E3%82%8A",
       "file": "raw/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%81%AE%E5%A5%89%E8%BC%AA%E3%81%93%E3%82%82%E3%82%8A.html",
-      "sha256": "612717ae9e0fee3875ff20baf8ecf9fc59fa78bc3f4cffc16e688bdb88e7682c",
+      "sha256": "87e641ec4d1f4f57b5ddaea92c228d966c75fafe005573f99779e7bd72c9a53c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:08:27",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "612717ae9e0fee3875ff20baf8ecf9fc59fa78bc3f4cffc16e688bdb88e7682c"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "シックな小悪魔キッカ": {
       "name": "シックな小悪魔キッカ",
@@ -2171,12 +2063,11 @@
       "name": "どうぶつきぐるみ・カペラ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%81%A9%E3%81%86%E3%81%B6%E3%81%A4%E3%81%8D%E3%81%90%E3%82%8B%E3%81%BF%E3%83%BB%E3%82%AB%E3%83%9A%E3%83%A9",
       "file": "raw/%E3%81%A9%E3%81%86%E3%81%B6%E3%81%A4%E3%81%8D%E3%81%90%E3%82%8B%E3%81%BF%E3%83%BB%E3%82%AB%E3%83%9A%E3%83%A9.html",
-      "sha256": "5184bc1b4cb8f8b19595b107bcc3b5e2229d85e7a51d9810a5b9a0b2b60302a2",
+      "sha256": "e50b7db0fa4f8262ce67e4b9adfdfe78938105f255f16ea56db41aa01fe649be",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:16:40",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "5184bc1b4cb8f8b19595b107bcc3b5e2229d85e7a51d9810a5b9a0b2b60302a2"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ファントムシーフ・ハイネ": {
       "name": "ファントムシーフ・ハイネ",
@@ -2226,12 +2117,11 @@
       "name": "ハロウィンエクシール",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB",
       "file": "raw/%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB.html",
-      "sha256": "0a2616721e4da88ed7c773275f51076d5313f6964b5120ef5512f88a249cad92",
+      "sha256": "4641f86c57c0d25412dab2b020b014ffd9d739168d2a1c06cee5942b551d3670",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-13 19:10:54",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "0a2616721e4da88ed7c773275f51076d5313f6964b5120ef5512f88a249cad92"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "白の幻身ミニシワトル": {
       "name": "白の幻身ミニシワトル",
@@ -2248,45 +2138,41 @@
       "name": "レガリアの神騎ユリエル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%AA%E3%82%A8%E3%83%AB",
       "file": "raw/%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%AA%E3%82%A8%E3%83%AB.html",
-      "sha256": "ce6bfdc35e71f286ece0a4bfd94c11df6afeab2d9e40ad27a39a4ade0c5d2333",
+      "sha256": "c0c8a0dfcbb89934b5336a5c31a9ea48fa49ee06de202229cf5f94df7641d016",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:25:42",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "ce6bfdc35e71f286ece0a4bfd94c11df6afeab2d9e40ad27a39a4ade0c5d2333"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "レジェンド・エスカレイヤー": {
       "name": "レジェンド・エスカレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%89%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E3%83%AC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%89%E3%83%BB%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "1599aaa42131b5c6f8261de0f834cd77c8b45db9b959ba695b2bcfc828d56d96",
+      "sha256": "075a8d0f3f6bb326abeefd19d890a492f6fc55991d98102aedd33c8b2a6f8443",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:11:19",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "1599aaa42131b5c6f8261de0f834cd77c8b45db9b959ba695b2bcfc828d56d96"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "エスカアメイズ・ファンタスマ": {
       "name": "エスカアメイズ・ファンタスマ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA%E3%83%BB%E3%83%95%E3%82%A1%E3%83%B3%E3%82%BF%E3%82%B9%E3%83%9E",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA%E3%83%BB%E3%83%95%E3%82%A1%E3%83%B3%E3%82%BF%E3%82%B9%E3%83%9E.html",
-      "sha256": "5fc0ac5df7f988f833a207563538e1e9cffa669d8a6c007a3ecfc1b3b8cd4832",
+      "sha256": "473634303c079ffdcf4e8a42a1c4582569e39b4504e2ea598d9d525470d9d128",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:21:56",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "5fc0ac5df7f988f833a207563538e1e9cffa669d8a6c007a3ecfc1b3b8cd4832"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "バビロニア・ニル": {
       "name": "バビロニア・ニル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%93%E3%83%AD%E3%83%8B%E3%82%A2%E3%83%BB%E3%83%8B%E3%83%AB",
       "file": "raw/%E3%83%90%E3%83%93%E3%83%AD%E3%83%8B%E3%82%A2%E3%83%BB%E3%83%8B%E3%83%AB.html",
-      "sha256": "105375b54b91b734cf773215afd985381d5731427abc614d8ee8ef9b6f3cb2e5",
+      "sha256": "c48bc965cd5fdfd81cfbe0476622c57fa89e2b16adbf8ae479ae6eeafdd36f98",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:49:42",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "105375b54b91b734cf773215afd985381d5731427abc614d8ee8ef9b6f3cb2e5"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "閃忍アキラ": {
       "name": "閃忍アキラ",
@@ -2336,23 +2222,21 @@
       "name": "聖夜メイファール",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%83%A1%E3%82%A4%E3%83%95%E3%82%A1%E3%83%BC%E3%83%AB.html",
-      "sha256": "0f94a16c001d594a547af046f64f48a194fe248c1fd68a0c95d2ba80ef7c67fc",
+      "sha256": "80c3de3932a77706b05bdc21d149ce5f212b6f72cff88d45d6762173fa3822ac",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:13:22",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "0f94a16c001d594a547af046f64f48a194fe248c1fd68a0c95d2ba80ef7c67fc"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "正月ナリカ": {
       "name": "正月ナリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%83%8A%E3%83%AA%E3%82%AB",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%83%8A%E3%83%AA%E3%82%AB.html",
-      "sha256": "c26d70f4d43660bab19c91b7efc9a1fc879a6e81ab0337ad9fa2a08db38437e7",
+      "sha256": "ecb71bbfcbf40616abfa433a1fa27b05e85f4ab299c98b54f5ef57ba8d13ff32",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:31:31",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "c26d70f4d43660bab19c91b7efc9a1fc879a6e81ab0337ad9fa2a08db38437e7"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "正月ポラリス": {
       "name": "正月ポラリス",
@@ -2369,23 +2253,21 @@
       "name": "レガリアの神騎マヤエル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%9E%E3%83%A4%E3%82%A8%E3%83%AB",
       "file": "raw/%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%9E%E3%83%A4%E3%82%A8%E3%83%AB.html",
-      "sha256": "1fd4c6fa1ef2e525b1cc76651bb197d50d183e7b1cfe65c2321aeda10b4efd3a",
+      "sha256": "c3960edea0be577e7e3bc9ba0959864206e034720f0245420bc685ec9357382b",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 20:13:04",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "1fd4c6fa1ef2e525b1cc76651bb197d50d183e7b1cfe65c2321aeda10b4efd3a"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "正月タイガージョナ": {
       "name": "正月タイガージョナ",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A.html",
-      "sha256": "28ea1a2155e48d290a1a04ce2b2d22442de16104e9e95a35f161428a2262eb3a",
+      "sha256": "51b29cca3b44312f93874bff553ae0498041213f9eba9ff32a71d7fe03396208",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:33:12",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "28ea1a2155e48d290a1a04ce2b2d22442de16104e9e95a35f161428a2262eb3a"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "バレンタインサイカ": {
       "name": "バレンタインサイカ",
@@ -2413,56 +2295,51 @@
       "name": "超昂閃忍チルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%81%E3%83%AB%E3%82%AB",
       "file": "raw/%E8%B6%85%E6%98%82%E9%96%83%E5%BF%8D%E3%83%81%E3%83%AB%E3%82%AB.html",
-      "sha256": "4de04ee7f602efb959ebecbe771839c8a5bd70378b59c42ebde885101bcdfad3",
+      "sha256": "f0ff02c9cd7d9a94843654d9a3f2e13ae4ce4ae589c29188059f12e59a22c497",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:58:51",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "4de04ee7f602efb959ebecbe771839c8a5bd70378b59c42ebde885101bcdfad3"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "レガリアの神騎メガエル": {
       "name": "レガリアの神騎メガエル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB",
       "file": "raw/%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB.html",
-      "sha256": "fa37e4d66d7fdc5191aa7280bf4ca83903024c594b300ef9edd47419c006a306",
+      "sha256": "1d7ec31e1ea1a57e48f08e2ba410f7e803df27657f350fdca6944cd0079aed55",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-12 11:47:16",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "fa37e4d66d7fdc5191aa7280bf4ca83903024c594b300ef9edd47419c006a306"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "体育祭のハルカ": {
       "name": "体育祭のハルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%8F%E3%83%AB%E3%82%AB",
       "file": "raw/%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%8F%E3%83%AB%E3%82%AB.html",
-      "sha256": "b088575695ef27abda0a5c8a2ba620ea1517c20221b060e069258a62d648ce80",
+      "sha256": "feba073559a009b477b664b9749e3c753734868e7067cd673b1359c2bebd8a21",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:20:25",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "b088575695ef27abda0a5c8a2ba620ea1517c20221b060e069258a62d648ce80"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "体育祭のノノノ": {
       "name": "体育祭のノノノ",
       "url": "https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%8E%E3%83%8E%E3%83%8E",
       "file": "raw/%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%8E%E3%83%8E%E3%83%8E.html",
-      "sha256": "652b223abbbfafcb349a386d2df7e94aaebcb8e2a1837a771b99e580ba27f77b",
+      "sha256": "607584292dc04aea497d7a8ce1632aea8df374aee25f10e430fdb52d9eeec776",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:45:58",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "652b223abbbfafcb349a386d2df7e94aaebcb8e2a1837a771b99e580ba27f77b"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "体育祭のヤブルー": {
       "name": "体育祭のヤブルー",
       "url": "https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC",
       "file": "raw/%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A4%E3%83%96%E3%83%AB%E3%83%BC.html",
-      "sha256": "fdffca9c7dd36a05e0cbfb0acadc97350b73b44ffd259f0b274c1eb9a6aef7a5",
+      "sha256": "6c2694acb5b306fd9ef32f2417e31ae2dad3776e130d4487b105937eefee5afa",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:25:38",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "fdffca9c7dd36a05e0cbfb0acadc97350b73b44ffd259f0b274c1eb9a6aef7a5"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ダンスクイーン・ピカ": {
       "name": "ダンスクイーン・ピカ",
@@ -2501,12 +2378,11 @@
       "name": "閃忍ゲッカ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%B2%E3%83%83%E3%82%AB",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%82%B2%E3%83%83%E3%82%AB.html",
-      "sha256": "610049bedfa1beefcafa8ffe2670a9493ea24234864f3e57a7ab5af6b6848972",
+      "sha256": "82b2d655ffd672e28f574864db5fec91cf47f1d690ed5b5aa9bb6602fd5cd9ab",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-26 08:38:47",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "610049bedfa1beefcafa8ffe2670a9493ea24234864f3e57a7ab5af6b6848972"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートブラスト・アサギ": {
       "name": "ビートブラスト・アサギ",
@@ -2556,23 +2432,21 @@
       "name": "エスカトパーズ・ミスティカル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA%E3%83%BB%E3%83%9F%E3%82%B9%E3%83%86%E3%82%A3%E3%82%AB%E3%83%AB",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA%E3%83%BB%E3%83%9F%E3%82%B9%E3%83%86%E3%82%A3%E3%82%AB%E3%83%AB.html",
-      "sha256": "630e1100c352e0e8207262173b5100cd72ffa0c432011ba81c13cff9f820aa54",
+      "sha256": "101f858d6676872e7ffec6604e91518926974a0ea2d3a3767d9f3c150d75d618",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-06 20:58:41",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "630e1100c352e0e8207262173b5100cd72ffa0c432011ba81c13cff9f820aa54"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "エスカ・オニキス": {
       "name": "エスカ・オニキス",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%AA%E3%83%8B%E3%82%AD%E3%82%B9",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%AA%E3%83%8B%E3%82%AD%E3%82%B9.html",
-      "sha256": "a5b97c13c27d3cd56d533bf44e2a2c360a8ab10f1e8a08585985f552d17f8e17",
+      "sha256": "64aa0cc25c46891c284ebe96b2950310c24f96d36d2becff6081aa70a9df71a7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-05 04:05:28",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "a5b97c13c27d3cd56d533bf44e2a2c360a8ab10f1e8a08585985f552d17f8e17"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ブライド・リルカ": {
       "name": "ブライド・リルカ",
@@ -2589,12 +2463,11 @@
       "name": "ブライド・スバル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%B9%E3%83%90%E3%83%AB",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%82%B9%E3%83%90%E3%83%AB.html",
-      "sha256": "c820d3b4a6be787474b846ba2031e8b838b4e6f36e931252f13c90d34f46991d",
+      "sha256": "ea7a2d978253ea2323f6224b3c7905ffd7cbee4ac987ea1a442f0f5aab3cf18a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:33:08",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "c820d3b4a6be787474b846ba2031e8b838b4e6f36e931252f13c90d34f46991d"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ブライド・クルル": {
       "name": "ブライド・クルル",
@@ -2622,23 +2495,21 @@
       "name": "真夏のアズエル",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A2%E3%82%BA%E3%82%A8%E3%83%AB.html",
-      "sha256": "38e84189c297349816f5b674181b898a48497f6f1ddd8db4b77c59b10d03cfb1",
+      "sha256": "425bf9efd5649092cdef1e074dbd5bae5ae3e47094e2b264b1f89175e3fc91b8",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 13:08:07",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "38e84189c297349816f5b674181b898a48497f6f1ddd8db4b77c59b10d03cfb1"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のメガエル": {
       "name": "真夏のメガエル",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB.html",
-      "sha256": "53c0348ad70c432b8237d4d281c874ab2d6ce442fdcb404e8d4dedf15ed06819",
+      "sha256": "db42c76193652e04f0ec9af355141769fe5423060aab83838b763ddbc2c7d8fd",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-14 03:29:31",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "53c0348ad70c432b8237d4d281c874ab2d6ce442fdcb404e8d4dedf15ed06819"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "サロン・コバリ": {
       "name": "サロン・コバリ",
@@ -2655,34 +2526,31 @@
       "name": "真夏のエスカ・ルビー",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC.html",
-      "sha256": "135341e686f83b3e61f3d386873b3938c7f039362b4246d3d704212d88c29b51",
+      "sha256": "08c2ebf97f47db6f6a9eb9a6850aa8d3e6da3d8f6eeb67b9a6125a5a90465e1a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-13 19:10:58",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "135341e686f83b3e61f3d386873b3938c7f039362b4246d3d704212d88c29b51"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のノドカ": {
       "name": "真夏のノドカ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8E%E3%83%89%E3%82%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8E%E3%83%89%E3%82%AB.html",
-      "sha256": "8467f7746cdfe393e1c1b7c6737c347caae0b3e5bcb9efdd7de9efe4d67b9ee9",
+      "sha256": "b27253ea41df4e9773039d1d23629ef8a3fcadcebf7903e0a7d25230d735116b",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:49:07",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "8467f7746cdfe393e1c1b7c6737c347caae0b3e5bcb9efdd7de9efe4d67b9ee9"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のイーイー": {
       "name": "真夏のイーイー",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A4%E3%83%BC%E3%82%A4%E3%83%BC.html",
-      "sha256": "f5a40314f363c14d07d374eb7769f1947319fd491830d1f5dea92ef3d350cf94",
+      "sha256": "c94fdef102e2854aedaecb1ffe159e712ba978f5e030082e03dba73416043bf7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:19:41",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "f5a40314f363c14d07d374eb7769f1947319fd491830d1f5dea92ef3d350cf94"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "執筆のアスマール": {
       "name": "執筆のアスマール",
@@ -2765,23 +2633,21 @@
       "name": "ハロウィンニコール",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB",
       "file": "raw/%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%82%B3%E3%83%BC%E3%83%AB.html",
-      "sha256": "555c696df7407e925be54ac37e47eb6973ec1c00257ab434262a5c43fc33ba25",
+      "sha256": "1d13854cdb70a061df582effd53939e5e78a4f866060573f7489bb2943d52e76",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-14 17:54:44",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "555c696df7407e925be54ac37e47eb6973ec1c00257ab434262a5c43fc33ba25"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "ハロウィンポピー": {
       "name": "ハロウィンポピー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%9D%E3%83%94%E3%83%BC",
       "file": "raw/%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%9D%E3%83%94%E3%83%BC.html",
-      "sha256": "adc18c23340263069ba26069f183806c818ec73efab3fb3dcca1b731bee43c24",
+      "sha256": "6caeb0ca385f7cf558ced2e89e394d62fcd6762afe0d11ac15ed8b69875df53d",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-15 10:21:10",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "adc18c23340263069ba26069f183806c818ec73efab3fb3dcca1b731bee43c24"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "閃忍ササミ": {
       "name": "閃忍ササミ",
@@ -2798,34 +2664,31 @@
       "name": "レジェンド・ハルカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%89%E3%83%BB%E3%83%8F%E3%83%AB%E3%82%AB",
       "file": "raw/%E3%83%AC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%89%E3%83%BB%E3%83%8F%E3%83%AB%E3%82%AB.html",
-      "sha256": "f2238f796d4f102d0acd08c9f2f35e7ba5a41cb3eff83243afd8dc708d1844a7",
+      "sha256": "a6ee5a7ca4d5a9f1fb14a715876064adecb507b2da51ad64a1f5de3fca7df707",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-26 23:01:34",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "f2238f796d4f102d0acd08c9f2f35e7ba5a41cb3eff83243afd8dc708d1844a7"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "バビロニア・ノノノ": {
       "name": "バビロニア・ノノノ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%93%E3%83%AD%E3%83%8B%E3%82%A2%E3%83%BB%E3%83%8E%E3%83%8E%E3%83%8E",
       "file": "raw/%E3%83%90%E3%83%93%E3%83%AD%E3%83%8B%E3%82%A2%E3%83%BB%E3%83%8E%E3%83%8E%E3%83%8E.html",
-      "sha256": "fdcb0374d73b26ab9c41589c88c30cd24cc0591e63e1b641569963384470176e",
+      "sha256": "f8374b65e3d2af231dafaad462f45da2f41a4e2bebcd9a83b385ffa4d12cfc3b",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 13:14:11",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "fdcb0374d73b26ab9c41589c88c30cd24cc0591e63e1b641569963384470176e"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "邪閃忍ライカ": {
       "name": "邪閃忍ライカ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%82%AA%E9%96%83%E5%BF%8D%E3%83%A9%E3%82%A4%E3%82%AB",
       "file": "raw/%E9%82%AA%E9%96%83%E5%BF%8D%E3%83%A9%E3%82%A4%E3%82%AB.html",
-      "sha256": "1ca048efcde70a1c326fe5f21fa80d77bd3ce17260f1bb7673141cf59423783e",
+      "sha256": "9285629230f444fb88763c5c75d5b1778c73f221761c9ea3572cfe5f5b135b16",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:54:42",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "1ca048efcde70a1c326fe5f21fa80d77bd3ce17260f1bb7673141cf59423783e"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "黒門天・屍寺炎斎": {
       "name": "黒門天・屍寺炎斎",
@@ -2875,56 +2738,51 @@
       "name": "聖夜エクシール",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%82%A8%E3%82%AF%E3%82%B7%E3%83%BC%E3%83%AB.html",
-      "sha256": "f6ed6a94fdd37d6ad4937a24f71cac8bdf4633390ec2735126130a8b222188d2",
+      "sha256": "5389673f20170a12544e53cbb3fccf3289aac3d0b9538178480e886b558aef94",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 02:19:18",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "f6ed6a94fdd37d6ad4937a24f71cac8bdf4633390ec2735126130a8b222188d2"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "聖夜イノリ": {
       "name": "聖夜イノリ",
       "url": "https://escalationheroines.wikiru.jp/?%E8%81%96%E5%A4%9C%E3%82%A4%E3%83%8E%E3%83%AA",
       "file": "raw/%E8%81%96%E5%A4%9C%E3%82%A4%E3%83%8E%E3%83%AA.html",
-      "sha256": "546ebd779b41023c577a5cf1bdb68a58973978718a7774b99197f257f80c89dd",
+      "sha256": "9ae71f04c1e1110ed33ae84732a823b08a526243463c0e10e77100958003833a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:52:12",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "546ebd779b41023c577a5cf1bdb68a58973978718a7774b99197f257f80c89dd"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "正月エスカレイヤー": {
       "name": "正月エスカレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "90d292aa1756a5697f7c49d5b07b6c267b2421e701aa465e024355edbd60a75b",
+      "sha256": "3ff07c52d0f3798fd5e939d220c6f62868dba611e1452b5ce2e4f4c5fb547715",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:34:13",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "90d292aa1756a5697f7c49d5b07b6c267b2421e701aa465e024355edbd60a75b"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "正月エスカ・アメイズ": {
       "name": "正月エスカ・アメイズ",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA.html",
-      "sha256": "8702e1954e6b9f2ee766dd8ce9aa734d0c3cf4076cf3f0d2783048e218abe7a4",
+      "sha256": "9785798809db6f2803237e21a6ea1c20d30ba0a14190decff4aeed80119eae46",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 13:20:23",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "8702e1954e6b9f2ee766dd8ce9aa734d0c3cf4076cf3f0d2783048e218abe7a4"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "正月シリカ": {
       "name": "正月シリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%A3%E6%9C%88%E3%82%B7%E3%83%AA%E3%82%AB",
       "file": "raw/%E6%AD%A3%E6%9C%88%E3%82%B7%E3%83%AA%E3%82%AB.html",
-      "sha256": "d6a33d9b747e14773c6f06d68692c47c5981d40126a443774d0c4bf36ffda7b2",
+      "sha256": "b05608917f282238f754a1b400ac073b83565d7652280eff73fd132e32f0483d",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:36:42",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "d6a33d9b747e14773c6f06d68692c47c5981d40126a443774d0c4bf36ffda7b2"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートイリュージョン・アエカ": {
       "name": "ビートイリュージョン・アエカ",
@@ -2941,78 +2799,71 @@
       "name": "バレンタインニル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8B%E3%83%AB",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%8B%E3%83%AB.html",
-      "sha256": "ad75b7646e9c270e99a9a5c7c17edbf47e12a43d39b90c4c73fe792162916499",
+      "sha256": "86298cddd13f5a8b31bb4ece6c5541d510b86b0b1db1166d7871c9185656da60",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 13:57:01",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "ad75b7646e9c270e99a9a5c7c17edbf47e12a43d39b90c4c73fe792162916499"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "バレンタインマドカ": {
       "name": "バレンタインマドカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%9E%E3%83%89%E3%82%AB",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%9E%E3%83%89%E3%82%AB.html",
-      "sha256": "3d6f9273b3243de5f3594963a937d6d115cc85d65cecd0f7180d254a4b4644d4",
+      "sha256": "904aee65985a048e396ba156cce82293c040c65bd86e14c7c7a498d64bd90e6f",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-14 03:30:34",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "3d6f9273b3243de5f3594963a937d6d115cc85d65cecd0f7180d254a4b4644d4"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "バレンタインタイガージョナ": {
       "name": "バレンタインタイガージョナ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A",
       "file": "raw/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%8A.html",
-      "sha256": "cbc7679a95f23f7a268096b08d50a6ee3e0cdf7608f67f1e05a77eaecd1763ba",
+      "sha256": "096043ba45dec27c93dd3d5d3abdd69b9c8d58d6ec4699958d4c44ee0d1c67d7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-09 00:59:30",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "cbc7679a95f23f7a268096b08d50a6ee3e0cdf7608f67f1e05a77eaecd1763ba"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "レガリアの超昂神騎ミカフィール": {
       "name": "レガリアの超昂神騎ミカフィール",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%9F%E3%82%AB%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB",
       "file": "raw/%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%9F%E3%82%AB%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB.html",
-      "sha256": "d413bc5b8dd3e293e71da20923c1c0f3ea5d006e741aaf3d3b5833c7d170a93e",
+      "sha256": "fe9919df9887ca8d7d15692680ad7eae688ca2844e35a19134f35e826127f6b6",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-04 22:01:11",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "d413bc5b8dd3e293e71da20923c1c0f3ea5d006e741aaf3d3b5833c7d170a93e"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "メイドユリッペ": {
       "name": "メイドユリッペ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%89%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A",
       "file": "raw/%E3%83%A1%E3%82%A4%E3%83%89%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A.html",
-      "sha256": "9721d00dd3fc26a84b425620ba311b3adf3f4cfd0dc3d0a02deedeab0bf0dfbd",
+      "sha256": "9421b7e2b720857dafc7011bc0f39ee958b3d50792ff6e5cb751ccd307dcd1a1",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-04 22:00:53",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "9721d00dd3fc26a84b425620ba311b3adf3f4cfd0dc3d0a02deedeab0bf0dfbd"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "体育祭のキリエル": {
       "name": "体育祭のキリエル",
       "url": "https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB",
       "file": "raw/%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%82%AD%E3%83%AA%E3%82%A8%E3%83%AB.html",
-      "sha256": "4d4a4aceb8cb8d26e4eba84a82d67ca96c8a921ff21ab792a6848459d3421e15",
+      "sha256": "39129f21622faddc649f8e42b652c90c941819c288297c71ada7e1ca736ddbc8",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-27 15:55:41",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "4d4a4aceb8cb8d26e4eba84a82d67ca96c8a921ff21ab792a6848459d3421e15"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "体育祭のムツカ": {
       "name": "体育祭のムツカ",
       "url": "https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A0%E3%83%84%E3%82%AB",
       "file": "raw/%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%83%A0%E3%83%84%E3%82%AB.html",
-      "sha256": "b379fb8c3703a798d309b35de6b4f5fde786a5555acf7a551bfa0c9716353681",
+      "sha256": "8a2a9a5e3119dfad427a02e6006f772a8a63010d1aeb294e75a9865267aa8e57",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-27 15:54:52",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "b379fb8c3703a798d309b35de6b4f5fde786a5555acf7a551bfa0c9716353681"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "閃忍ハナコ": {
       "name": "閃忍ハナコ",
@@ -3084,100 +2935,91 @@
       "name": "レガリアの超昂神騎ユリエル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%AA%E3%82%A8%E3%83%AB",
       "file": "raw/%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%A6%E3%83%AA%E3%82%A8%E3%83%AB.html",
-      "sha256": "3fb03c895f749c028fd3ece7617ad5cb6631c6971faca803df9bca653b067c98",
+      "sha256": "f7fbb624fb022e035c7fb5049ac38edf2464a39dfbcc140db414b7bb93847217",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 12:46:19",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "3fb03c895f749c028fd3ece7617ad5cb6631c6971faca803df9bca653b067c98"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "レガリアの超昂神騎マヤエル": {
       "name": "レガリアの超昂神騎マヤエル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%9E%E3%83%A4%E3%82%A8%E3%83%AB",
       "file": "raw/%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%9E%E3%83%A4%E3%82%A8%E3%83%AB.html",
-      "sha256": "6cc910b0811436a2ea0174ed27e3780ad4f6724ce4e950bf7eef2e530a495d4b",
+      "sha256": "43524efbe307b77527ecdd5c28d148ce705de7951e95ef9b7826c4e9c84fbedf",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-27 12:06:34",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "6cc910b0811436a2ea0174ed27e3780ad4f6724ce4e950bf7eef2e530a495d4b"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "レガリアの超昂神騎メガエル": {
       "name": "レガリアの超昂神騎メガエル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB",
       "file": "raw/%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E8%B6%85%E6%98%82%E7%A5%9E%E9%A8%8E%E3%83%A1%E3%82%AC%E3%82%A8%E3%83%AB.html",
-      "sha256": "a2b6a3919b99d45657380c8357154f0f27a888f54e9d090476beedf1d7139275",
+      "sha256": "45a4a1b5f7f61ee0d4ffd6a8e7a57d0100db7d7ac07e61836a5374096ff39ad9",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-14 03:26:03",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "a2b6a3919b99d45657380c8357154f0f27a888f54e9d090476beedf1d7139275"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ブライド・フェリニ": {
       "name": "ブライド・フェリニ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B.html",
-      "sha256": "823e4bbc67cc990c5997599d1be8c9dbc051062548a7b8c6c784695ace764cd5",
+      "sha256": "1337f903e5227c932536819eb221585b051d91e6ffbfd4fe10c1a10db4f0486a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:48:31",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "823e4bbc67cc990c5997599d1be8c9dbc051062548a7b8c6c784695ace764cd5"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ブライドエスカ・ルビー": {
       "name": "ブライドエスカ・ルビー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC.html",
-      "sha256": "b303773ee319d7cb87d4cf41e1603509e7cebe4d2f97b6337f7513e4c8c7e55d",
+      "sha256": "700648ac9c70857e5e1b00db75d6d3f838f923d212d4136fd43a538af182945a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:49:09",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "b303773ee319d7cb87d4cf41e1603509e7cebe4d2f97b6337f7513e4c8c7e55d"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "ブライドエスカレイヤー・リバース": {
       "name": "ブライドエスカレイヤー・リバース",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9",
       "file": "raw/%E3%83%96%E3%83%A9%E3%82%A4%E3%83%89%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%83%BB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9.html",
-      "sha256": "7d498312f8a2ba3f535747cfb704b70934d0122b6a521a452d790823d33b41cb",
+      "sha256": "26d27b61ba9f1c91e1f62fb7e5a52358d62905a60f07f835dbeb0fd32f3f651a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:49:44",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "7d498312f8a2ba3f535747cfb704b70934d0122b6a521a452d790823d33b41cb"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "深窓の令嬢ステアール": {
       "name": "深窓の令嬢ステアール",
       "url": "https://escalationheroines.wikiru.jp/?%E6%B7%B1%E7%AA%93%E3%81%AE%E4%BB%A4%E5%AC%A2%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB",
       "file": "raw/%E6%B7%B1%E7%AA%93%E3%81%AE%E4%BB%A4%E5%AC%A2%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB.html",
-      "sha256": "baa54ff0e9b165fd26e829f1a7f930c74e321476c611aca67e5abefb08a5f7f8",
+      "sha256": "78781dc09e4d9242ebd88506c1d07395d9029b07d60a518187f3153abc97248c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-03 06:13:16",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "baa54ff0e9b165fd26e829f1a7f930c74e321476c611aca67e5abefb08a5f7f8"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のセラフィール": {
       "name": "真夏のセラフィール",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB.html",
-      "sha256": "ee96d25c9b46340a6fce4c1bece6b56553745314d32d8d15db364e77b1739517",
+      "sha256": "8165a946358a414ddf10f53bc0eb15d166bd1eb1b1b35c254d2a8cc92d26b67e",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-04 02:30:28",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "ee96d25c9b46340a6fce4c1bece6b56553745314d32d8d15db364e77b1739517"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のメグミ": {
       "name": "真夏のメグミ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%B0%E3%83%9F",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%A1%E3%82%B0%E3%83%9F.html",
-      "sha256": "481033beb843c20a20f18965996f5022d0faaba800a6e50f2b6e37cd8e654e94",
+      "sha256": "0c3a09cc9d07317ef259fa82ef5568c8a7a93c08d2ba940b0cb6a3a2d2c1ebb4",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-17 17:29:43",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "481033beb843c20a20f18965996f5022d0faaba800a6e50f2b6e37cd8e654e94"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートスラッシャー・ショウコ": {
       "name": "ビートスラッシャー・ショウコ",
@@ -3205,12 +3047,11 @@
       "name": "林のアヤカ",
       "url": "https://escalationheroines.wikiru.jp/?%E6%9E%97%E3%81%AE%E3%82%A2%E3%83%A4%E3%82%AB",
       "file": "raw/%E6%9E%97%E3%81%AE%E3%82%A2%E3%83%A4%E3%82%AB.html",
-      "sha256": "0c04dae516ca3cafb1adc3d88a950165dfa2b99d2b8cc22acf2d78d551c4dcc9",
+      "sha256": "13c8fe41f507e710389a3f0c381d06c5884765e7898411ba2cbf38238d031fe7",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:01:00",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "0c04dae516ca3cafb1adc3d88a950165dfa2b99d2b8cc22acf2d78d551c4dcc9"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "氷のシズカ": {
       "name": "氷のシズカ",
@@ -3238,12 +3079,11 @@
       "name": "闇の奉輪こもり",
       "url": "https://escalationheroines.wikiru.jp/?%E9%97%87%E3%81%AE%E5%A5%89%E8%BC%AA%E3%81%93%E3%82%82%E3%82%8A",
       "file": "raw/%E9%97%87%E3%81%AE%E5%A5%89%E8%BC%AA%E3%81%93%E3%82%82%E3%82%8A.html",
-      "sha256": "9740e81d2b0dbff9d61393ecd6db1cfc476e4dd52c5e7e5f5971a02858e6a704",
+      "sha256": "d20ef03035862baa03e2048d7f10347d2d5596dd6eec975837905e5a8adedfec",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:06:55",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "9740e81d2b0dbff9d61393ecd6db1cfc476e4dd52c5e7e5f5971a02858e6a704"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートタクティクス・ウルザ": {
       "name": "ビートタクティクス・ウルザ",
@@ -3260,12 +3100,11 @@
       "name": "神騎カペラ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%AB%E3%83%9A%E3%83%A9",
       "file": "raw/%E7%A5%9E%E9%A8%8E%E3%82%AB%E3%83%9A%E3%83%A9.html",
-      "sha256": "ce3fd7cb6a063b362a6f4c3d7c0b6752ac8b8c22d4aef9564a8c83d727081ff9",
+      "sha256": "b8074ccb8b9d3040aec64d9857cd1c2bc25e4df20e51f1f0903c05bd3bb0c795",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:15:16",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "ce3fd7cb6a063b362a6f4c3d7c0b6752ac8b8c22d4aef9564a8c83d727081ff9"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "土のオウカ": {
       "name": "土のオウカ",
@@ -3282,12 +3121,11 @@
       "name": "光のシリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E5%85%89%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB",
       "file": "raw/%E5%85%89%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB.html",
-      "sha256": "9d07253c35a23fd81934d283927bdf3e28a4077639d9c791c4f65a2740b4f5cb",
+      "sha256": "5c59b6076a580e0d028278fdf5fd6b44d2a98f6180f6a259c93e57765bc5adae",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:15:57",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "9d07253c35a23fd81934d283927bdf3e28a4077639d9c791c4f65a2740b4f5cb"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "魔女キレー": {
       "name": "魔女キレー",
@@ -3469,45 +3307,41 @@
       "name": "エスカ・ルビー",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%AB%E3%83%93%E3%83%BC.html",
-      "sha256": "3ab60f2cdc8edefa8add397d435575050b7af7a6c5b2c1a1f50d02e27457120d",
+      "sha256": "1ca8418f02495d55ac1e63e061a2f9ab4fd4ee08b7877abe1e955e45d3c34a69",
       "http_last_modified": null,
       "wiki_last_modified": "2026-06-09 17:27:55",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "3ab60f2cdc8edefa8add397d435575050b7af7a6c5b2c1a1f50d02e27457120d"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "エスカ・サファイア": {
       "name": "エスカ・サファイア",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%B5%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2.html",
-      "sha256": "48728be351d40ed37f12aa29fc8f50c1f990042712f33aeb7e5140c4a8d46ef5",
+      "sha256": "4c6856e60b894c30b05b654a4b35b2564eabd01c2dfb48883f837353cc6c8b22",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:36:59",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "48728be351d40ed37f12aa29fc8f50c1f990042712f33aeb7e5140c4a8d46ef5"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "エスカ・トパーズ": {
       "name": "エスカ・トパーズ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%83%88%E3%83%91%E3%83%BC%E3%82%BA.html",
-      "sha256": "dfa59709792bb91e43c79a9fe3cd531e49dca58676c410011f6e57af355952ed",
+      "sha256": "a4cfbaf6ec9ee2be54ac87a9859195a9dd514e8eb26d60ef6e18272b1c812906",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:40:24",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "dfa59709792bb91e43c79a9fe3cd531e49dca58676c410011f6e57af355952ed"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "エスカ・アメイズ": {
       "name": "エスカ・アメイズ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%A2%E3%83%A1%E3%82%A4%E3%82%BA.html",
-      "sha256": "be34c9339647ccef47cb681c92a586fb7503203b4256ae2d48869202347ee0a1",
+      "sha256": "eb3d257cb999680053339af0bd3234c39574377970b063d4537d0b3b6b6e3ee4",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:39:52",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "be34c9339647ccef47cb681c92a586fb7503203b4256ae2d48869202347ee0a1"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ビートバイカー・マッハ": {
       "name": "ビートバイカー・マッハ",
@@ -3568,12 +3402,11 @@
       "name": "ビートアミュレット・ノノノ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%9F%E3%83%A5%E3%83%AC%E3%83%83%E3%83%88%E3%83%BB%E3%83%8E%E3%83%8E%E3%83%8E",
       "file": "raw/%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%83%9F%E3%83%A5%E3%83%AC%E3%83%83%E3%83%88%E3%83%BB%E3%83%8E%E3%83%8E%E3%83%8E.html",
-      "sha256": "f16bb6b269261339dd89308c56a5ee9f1237a245a3cde7394fd072e0c08576ec",
+      "sha256": "bf7881bb4c39c8faa60756b033c53532006be099704a7303693db3dbd8f24029",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:45:08",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "f16bb6b269261339dd89308c56a5ee9f1237a245a3cde7394fd072e0c08576ec"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ビートスピナー・ハザクラ": {
       "name": "ビートスピナー・ハザクラ",
@@ -3722,23 +3555,21 @@
       "name": "FM77",
       "url": "https://escalationheroines.wikiru.jp/?FM77",
       "file": "raw/FM77.html",
-      "sha256": "9b65d6d29d1518fd728e4c12f65a8a75cd4601e759c8f9b2809d317d38501415",
+      "sha256": "1fccdc3ac14dbf9979588442951e5b1f6060ba42d9584f607b493d3cd9411325",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-19 07:45:26",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "9b65d6d29d1518fd728e4c12f65a8a75cd4601e759c8f9b2809d317d38501415"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ビートファインダー・フェリニ": {
       "name": "ビートファインダー・フェリニ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B",
       "file": "raw/%E3%83%93%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%B3%E3%83%80%E3%83%BC%E3%83%BB%E3%83%95%E3%82%A7%E3%83%AA%E3%83%8B.html",
-      "sha256": "3bfac0ca6557274c4f172ed21caafb20ceee3c784bd6abf3695147085c9dd906",
+      "sha256": "98679ac2970402a0cf051b25911b5caf32e5af6cb932f04c5e5946223ffa6315",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-10-15 15:55:59",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "3bfac0ca6557274c4f172ed21caafb20ceee3c784bd6abf3695147085c9dd906"
+      "wiki_last_modified": "2026-10-22 13:42:01",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "神騎リゲル": {
       "name": "神騎リゲル",
@@ -3766,12 +3597,11 @@
       "name": "閃忍クサリ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%82%AF%E3%82%B5%E3%83%AA",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%82%AF%E3%82%B5%E3%83%AA.html",
-      "sha256": "09129095b1687e429ff88f91dfd49a028ca7fb96f1cbf5494c1d3ddffea1063c",
+      "sha256": "d03cddbc37342bcc35f4ee602ee2f6ba1b28b728a9c2a7014a607dfe35d69381",
       "http_last_modified": null,
       "wiki_last_modified": "2024-06-11 17:40:14",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "09129095b1687e429ff88f91dfd49a028ca7fb96f1cbf5494c1d3ddffea1063c"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "魔女イレーナ": {
       "name": "魔女イレーナ",
@@ -3964,12 +3794,11 @@
       "name": "真夏のシリカ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%B7%E3%83%AA%E3%82%AB.html",
-      "sha256": "c18d265d50e79a477c25a2478cc5e2f6b3876a790bea3f206b002af589733474",
+      "sha256": "0bda43c82fce1d33e202f29bf826aa605d32201597c4f607a8d465389a130eeb",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:55:37",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "c18d265d50e79a477c25a2478cc5e2f6b3876a790bea3f206b002af589733474"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "閃忍サイカ": {
       "name": "閃忍サイカ",
@@ -4041,12 +3870,11 @@
       "name": "神騎ヘプタスロン",
       "url": "https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%98%E3%83%97%E3%82%BF%E3%82%B9%E3%83%AD%E3%83%B3",
       "file": "raw/%E7%A5%9E%E9%A8%8E%E3%83%98%E3%83%97%E3%82%BF%E3%82%B9%E3%83%AD%E3%83%B3.html",
-      "sha256": "7409d201b7725888ef65283b52b31b38211ba00670fc90440808f7df17ed6284",
+      "sha256": "4628486812cd8de9b877891d114f4f06a64f397029af378c4679e2e3d2ff3fcb",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-02 01:43:08",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "7409d201b7725888ef65283b52b31b38211ba00670fc90440808f7df17ed6284"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "恋のみらくる☆スイート": {
       "name": "恋のみらくる☆スイート",
@@ -4107,12 +3935,11 @@
       "name": "神騎ステアール",
       "url": "https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB",
       "file": "raw/%E7%A5%9E%E9%A8%8E%E3%82%B9%E3%83%86%E3%82%A2%E3%83%BC%E3%83%AB.html",
-      "sha256": "3429e82acbecac41ffbb718d60a67c104e07f529402009e36ff9b42e40a6c9ad",
+      "sha256": "32c0f194d59d66fbac58729aa39d480f46a1bcaa52e9fa17a875d5cdeb8ed900",
       "http_last_modified": null,
       "wiki_last_modified": "2026-06-23 21:15:52",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "3429e82acbecac41ffbb718d60a67c104e07f529402009e36ff9b42e40a6c9ad"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ハロウィンキレー": {
       "name": "ハロウィンキレー",
@@ -4140,12 +3967,11 @@
       "name": "閃忍ユリッペ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%96%83%E5%BF%8D%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A",
       "file": "raw/%E9%96%83%E5%BF%8D%E3%83%A6%E3%83%AA%E3%83%83%E3%83%9A.html",
-      "sha256": "0c82dcafbd4080e1b3fd850494270dd20c62ea72a66237ab28f1583d678ec1b4",
+      "sha256": "030098286eb73fa790cbb8cf4a7a66e5b138fe4b9945af3ed3bb6a048786ea41",
       "http_last_modified": null,
       "wiki_last_modified": "2026-03-04 09:44:40",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "0c82dcafbd4080e1b3fd850494270dd20c62ea72a66237ab28f1583d678ec1b4"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "バレンタインミゴー": {
       "name": "バレンタインミゴー",
@@ -4217,12 +4043,11 @@
       "name": "真夏のニャンコ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3.html",
-      "sha256": "8695ad70aa9ba45a648f73a8f17cadd2148cdde6ff63e0aa754626d8a96f0bd4",
+      "sha256": "bada6f35de7f4c1745122b30ec5ad25665a604d44b0f540a5bf33de8d9a88739",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:05:04",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "8695ad70aa9ba45a648f73a8f17cadd2148cdde6ff63e0aa754626d8a96f0bd4"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "神騎ドミナール": {
       "name": "神騎ドミナール",
@@ -4272,12 +4097,11 @@
       "name": "爆の藤宮火咲",
       "url": "https://escalationheroines.wikiru.jp/?%E7%88%86%E3%81%AE%E8%97%A4%E5%AE%AE%E7%81%AB%E5%92%B2",
       "file": "raw/%E7%88%86%E3%81%AE%E8%97%A4%E5%AE%AE%E7%81%AB%E5%92%B2.html",
-      "sha256": "e3e5d2e4ce992aa681d8810f54ab67c57ee9fa6cb0d8a3f87bdaf4200a80537f",
+      "sha256": "2f28ce162a51bde87e4c2e4f595b61f08b51d9d41c7a722abf28e42501b10d58",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-30 01:41:10",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "e3e5d2e4ce992aa681d8810f54ab67c57ee9fa6cb0d8a3f87bdaf4200a80537f"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "ビートノーブル・クレードネ": {
       "name": "ビートノーブル・クレードネ",
@@ -4305,12 +4129,11 @@
       "name": "神騎ハダル",
       "url": "https://escalationheroines.wikiru.jp/?%E7%A5%9E%E9%A8%8E%E3%83%8F%E3%83%80%E3%83%AB",
       "file": "raw/%E7%A5%9E%E9%A8%8E%E3%83%8F%E3%83%80%E3%83%AB.html",
-      "sha256": "7db4eb89058f16a5dd27cc63d122c09c036a42834fe38b2a4fb0ecf1e60aa770",
+      "sha256": "e989d0a2d5cee59f5fb3364461cd0b6efbf089596dd2490f622c64a39c760cff",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-07 09:09:58",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "7db4eb89058f16a5dd27cc63d122c09c036a42834fe38b2a4fb0ecf1e60aa770"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "魔女ニーア": {
       "name": "魔女ニーア",
@@ -4360,12 +4183,11 @@
       "name": "体育祭のクラリス",
       "url": "https://escalationheroines.wikiru.jp/?%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9",
       "file": "raw/%E4%BD%93%E8%82%B2%E7%A5%AD%E3%81%AE%E3%82%AF%E3%83%A9%E3%83%AA%E3%82%B9.html",
-      "sha256": "f01ae55d7ac550aa3b7e52fbbcb7b860080969702c34d74313d73b8806bef001",
+      "sha256": "ec948f462d611f6db1f2c5defa8e2fd995fc2bbb9faf75cefe04de9e5f9ba885",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:24:16",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "f01ae55d7ac550aa3b7e52fbbcb7b860080969702c34d74313d73b8806bef001"
+      "fetched_at": "2026-10-26T20:39:58+00:00",
+      "status": "ok"
     },
     "神騎カースエル": {
       "name": "神騎カースエル",
@@ -4404,89 +4226,81 @@
       "name": "SSR",
       "url": "https://escalationheroines.wikiru.jp/?SSR",
       "file": "raw/SSR.html",
-      "sha256": "d7a74cbb6c6ce31356d13702ab83519f23169bd7384513469df5677cdf0cfc8e",
+      "sha256": "a7ad2ea99cda85a235478eab0cac5a8b1cb4cce93e9eeb757425f984b9c794b5",
       "http_last_modified": null,
       "wiki_last_modified": "2022-10-06 19:44:50",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "d7a74cbb6c6ce31356d13702ab83519f23169bd7384513469df5677cdf0cfc8e"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "SR": {
       "name": "SR",
       "url": "https://escalationheroines.wikiru.jp/?SR",
       "file": "raw/SR.html",
-      "sha256": "edbcc77c487b63bfe36ddf978524970a8624ddec6d8a3adbdd3b7ed6d78e287c",
+      "sha256": "d1814c1f6457edaf72cb115258b343fc5b9df001dd9d28d8ca93d6b7d8ec998b",
       "http_last_modified": null,
       "wiki_last_modified": "2024-03-01 09:55:29",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "edbcc77c487b63bfe36ddf978524970a8624ddec6d8a3adbdd3b7ed6d78e287c"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "R": {
       "name": "R",
       "url": "https://escalationheroines.wikiru.jp/?R",
       "file": "raw/R.html",
-      "sha256": "0508b0cbf1d57d8b1fbf2fc1173cdb85796b17f8481ef89ecc4850c1943bbc37",
+      "sha256": "9c94682dceb8af46df651788d2f3e6fa5e5b90929e5c882c0ce54da85e0452e9",
       "http_last_modified": null,
       "wiki_last_modified": "2024-03-01 09:55:22",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "0508b0cbf1d57d8b1fbf2fc1173cdb85796b17f8481ef89ecc4850c1943bbc37"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "サポーター": {
       "name": "サポーター",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC",
       "file": "raw/%E3%82%B5%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%BC.html",
-      "sha256": "520a600ba2e759400d2a3697d8711530e52da6b07cef97017655ae97f907eac6",
+      "sha256": "f060329ecc33a3f32995622c9098930fbd97b1f33c49529cbeeec44ec6b6143c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-14 18:06:47",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "520a600ba2e759400d2a3697d8711530e52da6b07cef97017655ae97f907eac6"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "NPC": {
       "name": "NPC",
       "url": "https://escalationheroines.wikiru.jp/?NPC",
       "file": "raw/NPC.html",
-      "sha256": "cd5edf554553eeeec752d12ad138ceeeb98f1490fc037fbe10bd728a46146d47",
+      "sha256": "3c8d0e357744d4edd70e8cb67cae29b5d7b6834e19bd30e0b23b97a9eeb8ffff",
       "http_last_modified": null,
       "wiki_last_modified": "2025-04-11 16:52:13",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "cd5edf554553eeeec752d12ad138ceeeb98f1490fc037fbe10bd728a46146d47"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "寝室シーン一覧": {
       "name": "寝室シーン一覧",
       "url": "https://escalationheroines.wikiru.jp/?%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7",
       "file": "raw/%E5%AF%9D%E5%AE%A4%E3%82%B7%E3%83%BC%E3%83%B3%E4%B8%80%E8%A6%A7.html",
-      "sha256": "8041ee659088d31006c345309c99310c99462ee99da05acac506801a4fea2041",
+      "sha256": "0224314209d0bd5bf034c0f244515274a5873741c9180d549356712f5639bc96",
       "http_last_modified": null,
       "wiki_last_modified": "2025-05-05 06:29:31",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "8041ee659088d31006c345309c99310c99462ee99da05acac506801a4fea2041"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "キャラクター一覧": {
       "name": "キャラクター一覧",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7",
       "file": "raw/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7.html",
-      "sha256": "b0d387ba62700025e71fb707837c3f577bf1026b3398368836dcb2685907e40d",
+      "sha256": "420932da436e4d7932e7b7617e3d659ce4859ddf4a4b8a042f2792553800e9e0",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 11:22:02",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "b0d387ba62700025e71fb707837c3f577bf1026b3398368836dcb2685907e40d"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "魔法少女ヒトミ": {
       "name": "魔法少女ヒトミ",
       "url": "https://escalationheroines.wikiru.jp/?%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F",
       "file": "raw/%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3%E3%83%92%E3%83%88%E3%83%9F.html",
-      "sha256": "bbe3501d3fdc36d41f61c3f91107c86fd395d446cf02b66328e2471194ae1a77",
+      "sha256": "e449dc2391df5118a76efff1721d3ac413971a69439a230ded0eadea7c89f99c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-18 17:07:36",
-      "fetched_at": "2026-10-19T20:40:07+00:00",
-      "status": "ok",
-      "parsed_sha256": "bbe3501d3fdc36d41f61c3f91107c86fd395d446cf02b66328e2471194ae1a77"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "1ダースべべたー": {
       "name": "1ダースべべたー",
@@ -4723,12 +4537,11 @@
       "name": "ガッツのあるベルト",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%AC%E3%83%83%E3%83%84%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88",
       "file": "raw/%E3%82%AC%E3%83%83%E3%83%84%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88.html",
-      "sha256": "288dcd792674af5bed381e84d3fbb6af1e26526c5d25c8db566b3f0eb518bc72",
+      "sha256": "70cd40df469404d33912b83df3e105618d5b2cb40cff1ac3f56e5a201a725ae3",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "288dcd792674af5bed381e84d3fbb6af1e26526c5d25c8db566b3f0eb518bc72"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "ガッツタイガー": {
       "name": "ガッツタイガー",
@@ -5053,12 +4866,11 @@
       "name": "ロケットベルト",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%83%99%E3%83%AB%E3%83%88",
       "file": "raw/%E3%83%AD%E3%82%B1%E3%83%83%E3%83%88%E3%83%99%E3%83%AB%E3%83%88.html",
-      "sha256": "0819af4d7b65a4d723b3b9fef48e1ee0a1702969b1f3d17975828b2ababc3223",
+      "sha256": "7b528f27e0b554648e925a4f4881dea825af65200d374c36e8b36b97bd47963d",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "0819af4d7b65a4d723b3b9fef48e1ee0a1702969b1f3d17975828b2ababc3223"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "ロケット十姉妹": {
       "name": "ロケット十姉妹",
@@ -5361,45 +5173,41 @@
       "name": "衝撃のあるタイガー",
       "url": "https://escalationheroines.wikiru.jp/?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC",
       "file": "raw/%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%82%BF%E3%82%A4%E3%82%AC%E3%83%BC.html",
-      "sha256": "909b0deba945e429535ed831ea31e43567afcc76834fc13a5e5285511f49cd39",
+      "sha256": "c71255e3b7f229f4c55c0c56afd8dd1a7e4e23a1ca393debe1a88831687a275d",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "909b0deba945e429535ed831ea31e43567afcc76834fc13a5e5285511f49cd39"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "衝撃のあるドリル": {
       "name": "衝撃のあるドリル",
       "url": "https://escalationheroines.wikiru.jp/?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%89%E3%83%AA%E3%83%AB",
       "file": "raw/%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%89%E3%83%AA%E3%83%AB.html",
-      "sha256": "404b95564986295fccf0f51f203fb97d20a46d003659e0bbc1f4419e2a461df2",
+      "sha256": "7637ae27c11e6f36f41b7d260236e6fe8ab99029d11776f6108d2277aa783362",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "404b95564986295fccf0f51f203fb97d20a46d003659e0bbc1f4419e2a461df2"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "衝撃のあるベルト": {
       "name": "衝撃のあるベルト",
       "url": "https://escalationheroines.wikiru.jp/?%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88",
       "file": "raw/%E8%A1%9D%E6%92%83%E3%81%AE%E3%81%82%E3%82%8B%E3%83%99%E3%83%AB%E3%83%88.html",
-      "sha256": "dafcfd0b583de669a62227a9e963e5b41b5435ece9fbf3fa58ad47c38adb4be3",
+      "sha256": "e0c62316ce7bc3cda3a0553c24f7ccc9362fd2cefbfffb31fbf08adcf83fd3f3",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "dafcfd0b583de669a62227a9e963e5b41b5435ece9fbf3fa58ad47c38adb4be3"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "衝撃の仁王": {
       "name": "衝撃の仁王",
       "url": "https://escalationheroines.wikiru.jp/?%E8%A1%9D%E6%92%83%E3%81%AE%E4%BB%81%E7%8E%8B",
       "file": "raw/%E8%A1%9D%E6%92%83%E3%81%AE%E4%BB%81%E7%8E%8B.html",
-      "sha256": "cef6d5418fa232f2ace0082fd3e2be1a7a8d139f505220cb748e9aacb4dc39a0",
+      "sha256": "5c7d5d8cd0af73dd175b5df4603180a56e34215aef43238b26ebb4ee9ecc3972",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "cef6d5418fa232f2ace0082fd3e2be1a7a8d139f505220cb748e9aacb4dc39a0"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "謙信の兜": {
       "name": "謙信の兜",
@@ -5438,12 +5246,11 @@
       "name": "超昂金 ソル・クラウン(攻撃)",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E3%82%BD%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%B3%28%E6%94%BB%E6%92%83%29",
       "file": "raw/%E8%B6%85%E6%98%82%E9%87%91%20%E3%82%BD%E3%83%AB%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%B3%28%E6%94%BB%E6%92%83%29.html",
-      "sha256": "5d8097cbc08b6532599d728740a928ff383e797554e225b5d00baa863d09e771",
+      "sha256": "bc22fd17c46b909f7731cc3a5d56926e23a9cd941d6018d6ee18f8b1afd7731c",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "5d8097cbc08b6532599d728740a928ff383e797554e225b5d00baa863d09e771"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "超昂金 パルシオン(スタミナ)": {
       "name": "超昂金 パルシオン(スタミナ)",
@@ -5460,12 +5267,11 @@
       "name": "超昂金 パルシオン(攻撃)",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E3%83%91%E3%83%AB%E3%82%B7%E3%82%AA%E3%83%B3%28%E6%94%BB%E6%92%83%29",
       "file": "raw/%E8%B6%85%E6%98%82%E9%87%91%20%E3%83%91%E3%83%AB%E3%82%B7%E3%82%AA%E3%83%B3%28%E6%94%BB%E6%92%83%29.html",
-      "sha256": "b1046aac5fbad8a3f8196337395fdf29a1353d2a90668af7a2902916da2e4243",
+      "sha256": "78590e0a17ab17d38c4fdc3767c30f65f09bdd1819dedef823ea9ab1747bbae7",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "b1046aac5fbad8a3f8196337395fdf29a1353d2a90668af7a2902916da2e4243"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "超昂金 滴－シズク－(スタミナ)": {
       "name": "超昂金 滴－シズク－(スタミナ)",
@@ -5482,12 +5288,11 @@
       "name": "超昂金 滴－シズク－(攻撃)",
       "url": "https://escalationheroines.wikiru.jp/?%E8%B6%85%E6%98%82%E9%87%91%20%E6%BB%B4%EF%BC%8D%E3%82%B7%E3%82%BA%E3%82%AF%EF%BC%8D%28%E6%94%BB%E6%92%83%29",
       "file": "raw/%E8%B6%85%E6%98%82%E9%87%91%20%E6%BB%B4%EF%BC%8D%E3%82%B7%E3%82%BA%E3%82%AF%EF%BC%8D%28%E6%94%BB%E6%92%83%29.html",
-      "sha256": "2b2320f870bb49cd0dd2d2001d8a2268dbfe9248ec192b5bb4e45fbc45d28e9b",
+      "sha256": "543e1f4582126cc8159e3c0408fe2a98b7d113c90554c2ee13336abe8e2bb8a0",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "2b2320f870bb49cd0dd2d2001d8a2268dbfe9248ec192b5bb4e45fbc45d28e9b"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "超昂金 紫竜－シリュウ－(スタミナ)": {
       "name": "超昂金 紫竜－シリュウ－(スタミナ)",
@@ -5647,12 +5452,11 @@
       "name": "青い羽根",
       "url": "https://escalationheroines.wikiru.jp/?%E9%9D%92%E3%81%84%E7%BE%BD%E6%A0%B9",
       "file": "raw/%E9%9D%92%E3%81%84%E7%BE%BD%E6%A0%B9.html",
-      "sha256": "c70a30cd7a1e6e6334a114fb7c19c66a7ec3c7bf28cdd0382a07d681d011b8da",
+      "sha256": "b64b5ee5f165ead5deeb72e2e79c8105c18b54f7203ac31b4dc182252a6b566e",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "c70a30cd7a1e6e6334a114fb7c19c66a7ec3c7bf28cdd0382a07d681d011b8da"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "風火二輪・Ｂ": {
       "name": "風火二輪・Ｂ",
@@ -5724,12 +5528,11 @@
       "name": "イベント12_レイドイベント『ゴールデンハニー』",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8812_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%87%E3%83%B3%E3%83%8F%E3%83%8B%E3%83%BC%E3%80%8F",
       "file": "raw/eeee751b8b5cf54c.html",
-      "sha256": "0ec4e0ffcd3fb325032ca0e850f865930b2589b16be85fab6fde3dd0b1b8b8a9",
+      "sha256": "55074be64d49b3534707c57773cf55211082bc1834636f3c44ace67b9e4f3b06",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-09 23:00:49",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "0ec4e0ffcd3fb325032ca0e850f865930b2589b16be85fab6fde3dd0b1b8b8a9"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "イベント08_レイドイベント『グナガン』": {
       "name": "イベント08_レイドイベント『グナガン』",
@@ -5768,12 +5571,11 @@
       "name": "イベント32_レイドイベント『大往嬢』",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8832_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A4%A7%E5%BE%80%E5%AC%A2%E3%80%8F",
       "file": "raw/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8832_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E5%A4%A7%E5%BE%80%E5%AC%A2%E3%80%8F.html",
-      "sha256": "f7c8cc9b845a22172e6bdadb35b0eebc302bfd2330481f83334030159e0ca5c6",
+      "sha256": "aa451962f011c4de367eaa43bd92ca3c77c8b925c803b2957b0dd771fba3969d",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-26 04:55:16",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "f7c8cc9b845a22172e6bdadb35b0eebc302bfd2330481f83334030159e0ca5c6"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "イベント46_レイドイベント『狂王』": {
       "name": "イベント46_レイドイベント『狂王』",
@@ -5790,12 +5592,11 @@
       "name": "イベント60_レイドイベント『ヴリトラ』",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8860_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E3%83%B4%E3%83%AA%E3%83%88%E3%83%A9%E3%80%8F",
       "file": "raw/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%8860_%E3%83%AC%E3%82%A4%E3%83%89%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%80%8E%E3%83%B4%E3%83%AA%E3%83%88%E3%83%A9%E3%80%8F.html",
-      "sha256": "d34d6807a43ee43f76753a4db57f11c8e4b7f11d1090abd403dcf6841b85a6b2",
+      "sha256": "a5efa54ceeedd2683a94dda30b4b0fa2e655080fba3861c3effff015b251c0cc",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-08 18:37:45",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "d34d6807a43ee43f76753a4db57f11c8e4b7f11d1090abd403dcf6841b85a6b2"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "ウェーブフラスト（Bユニバース）": {
       "name": "ウェーブフラスト（Bユニバース）",
@@ -5900,12 +5701,11 @@
       "name": "殲忍ハガネ（Bユニバース）",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89",
       "file": "raw/%E6%AE%B2%E5%BF%8D%E3%83%8F%E3%82%AC%E3%83%8D%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89.html",
-      "sha256": "f497338ffd78765db445b9d560728205c40cc4f2d6d863be63e88b2db82aacd8",
+      "sha256": "52cf0e3f89861535156d6ce73e9af89734ebaf2a40bb450c369fb5a107484006",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-18 01:28:59",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "f497338ffd78765db445b9d560728205c40cc4f2d6d863be63e88b2db82aacd8"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "滅忍キクリ＆コテツ（Bユニバース）": {
       "name": "滅忍キクリ＆コテツ（Bユニバース）",
@@ -7198,67 +6998,61 @@
       "name": "真夏のエスカ・オニキス",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%AA%E3%83%8B%E3%82%AD%E3%82%B9",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%AA%E3%83%8B%E3%82%AD%E3%82%B9.html",
-      "sha256": "e2794b22a338d570781d21bb9676cebe44b3917d489d75f02f32b26cdbc03e22",
+      "sha256": "b758ed3caceed5e1f4c96dc40d33690889a11e1ae865153a6a4baa6a441b2569",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-28 22:38:02",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "e2794b22a338d570781d21bb9676cebe44b3917d489d75f02f32b26cdbc03e22"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "盛夏のエスカレイヤー": {
       "name": "盛夏のエスカレイヤー",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9B%9B%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC",
       "file": "raw/%E7%9B%9B%E5%A4%8F%E3%81%AE%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC.html",
-      "sha256": "97fdceefe2839a39647bcbac60e0cc17cbce1ca9319555f8b63369e22d65a351",
+      "sha256": "aeb2cf3ee77b77ce8219d073442f91107bc0806e4a0450e4ffb105d3c89fa334",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-18 17:08:26",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "97fdceefe2839a39647bcbac60e0cc17cbce1ca9319555f8b63369e22d65a351"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "真夏のキクリ": {
       "name": "真夏のキクリ",
       "url": "https://escalationheroines.wikiru.jp/?%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%AD%E3%82%AF%E3%83%AA",
       "file": "raw/%E7%9C%9F%E5%A4%8F%E3%81%AE%E3%82%AD%E3%82%AF%E3%83%AA.html",
-      "sha256": "973839759f72ec10971470de1e281b76e9e7400f93dd8e3d85fde94a8ec7abe8",
+      "sha256": "e7fe56e000b4a75f337c6ef819041b09e1928a0f7cb692f1507c8f7562a4f9ec",
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-18 17:08:39",
-      "fetched_at": "2026-10-19T20:40:06+00:00",
-      "status": "ok",
-      "parsed_sha256": "973839759f72ec10971470de1e281b76e9e7400f93dd8e3d85fde94a8ec7abe8"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "エスカ・セブン": {
       "name": "エスカ・セブン",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%BB%E3%83%96%E3%83%B3",
       "file": "raw/%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%BB%E3%82%BB%E3%83%96%E3%83%B3.html",
-      "sha256": "af23a23ddee5f8bc0bcef0c4d457cd7b2807b6e943d5c07091553c0291475e7d",
+      "sha256": "e8c89a7f3e269cf195f71dec53514bafe9623dc2dafdf59351bc0aa152c08469",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-02 01:48:37",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "af23a23ddee5f8bc0bcef0c4d457cd7b2807b6e943d5c07091553c0291475e7d"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "バニーガールゲッカ": {
       "name": "バニーガールゲッカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%8B%E3%83%BC%E3%82%AC%E3%83%BC%E3%83%AB%E3%82%B2%E3%83%83%E3%82%AB",
       "file": "raw/%E3%83%90%E3%83%8B%E3%83%BC%E3%82%AC%E3%83%BC%E3%83%AB%E3%82%B2%E3%83%83%E3%82%AB.html",
-      "sha256": "0201c14bc89339fd3931da4b096fe8d977d5d8fa24f3e2a7455c2f659710beba",
+      "sha256": "7f4bfa7f2c703583b3245172ef2988839053c420ee622e6d2d40fe9cd0c7fd8e",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-02 21:01:42",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "0201c14bc89339fd3931da4b096fe8d977d5d8fa24f3e2a7455c2f659710beba"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "バトラー・ヘプタスロン": {
       "name": "バトラー・ヘプタスロン",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%90%E3%83%88%E3%83%A9%E3%83%BC%E3%83%BB%E3%83%98%E3%83%97%E3%82%BF%E3%82%B9%E3%83%AD%E3%83%B3",
       "file": "raw/%E3%83%90%E3%83%88%E3%83%A9%E3%83%BC%E3%83%BB%E3%83%98%E3%83%97%E3%82%BF%E3%82%B9%E3%83%AD%E3%83%B3.html",
-      "sha256": "23cdc0ac8a2df452812d5be97ee7e4104eef7a91d9e22f10e9dbbb619ab1a05b",
+      "sha256": "9ee30e56bce50e9d423527e0bf76f1c1324804b5356b9b187be7d7785c559e64",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-03 21:32:04",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "23cdc0ac8a2df452812d5be97ee7e4104eef7a91d9e22f10e9dbbb619ab1a05b"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "神騎ハウゼル": {
       "name": "神騎ハウゼル",
@@ -7352,12 +7146,11 @@
       "name": "ビートアイドル・ノドカ",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%8E%E3%83%89%E3%82%AB",
       "file": "raw/%E3%83%93%E3%83%BC%E3%83%88%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%BB%E3%83%8E%E3%83%89%E3%82%AB.html",
-      "sha256": "df558ceff464844366431e75a5765b54e1b5af1eac42238c65195fa8818d073b",
+      "sha256": "d4184b856b72fb71e4883b1ea25e7335c5cb0d3b4e6251e1427c7283ca025afb",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:48:23",
-      "fetched_at": "2026-10-19T20:40:04+00:00",
-      "status": "ok",
-      "parsed_sha256": "df558ceff464844366431e75a5765b54e1b5af1eac42238c65195fa8818d073b"
+      "fetched_at": "2026-10-26T20:39:57+00:00",
+      "status": "ok"
     },
     "神騎コトネーゼ": {
       "name": "神騎コトネーゼ",
@@ -7385,12 +7178,11 @@
       "name": "和装のセラフィール",
       "url": "https://escalationheroines.wikiru.jp/?%E5%92%8C%E8%A3%85%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB",
       "file": "raw/%E5%92%8C%E8%A3%85%E3%81%AE%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB.html",
-      "sha256": "ed43e3e86a8cac111aa3fea49d4f0ed8fe80de3ebce105f86b55425157c79023",
+      "sha256": "ef4638ee40f5d837071fd6a1dfb6f09acb947b90e5eb6f4c2c8e2c20ac07b51d",
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:36:34",
-      "fetched_at": "2026-10-19T20:40:05+00:00",
-      "status": "ok",
-      "parsed_sha256": "ed43e3e86a8cac111aa3fea49d4f0ed8fe80de3ebce105f86b55425157c79023"
+      "fetched_at": "2026-10-26T20:39:59+00:00",
+      "status": "ok"
     },
     "閃忍リルカ": {
       "name": "閃忍リルカ",
@@ -7407,23 +7199,21 @@
       "name": "アイドルの藤宮火咲",
       "url": "https://escalationheroines.wikiru.jp/?%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%81%AE%E8%97%A4%E5%AE%AE%E7%81%AB%E5%92%B2",
       "file": "raw/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%81%AE%E8%97%A4%E5%AE%AE%E7%81%AB%E5%92%B2.html",
-      "sha256": "1ba3b7aa9db158ec8d8f84e5c48b0c48e7592f4090e34c76a0b3d4b1061c4b56",
+      "sha256": "b3649b56e4d69beb1890148ae0e7f89c85624e70d1a30ab8369313d6922f2727",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-07 06:28:59",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "1ba3b7aa9db158ec8d8f84e5c48b0c48e7592f4090e34c76a0b3d4b1061c4b56"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "パイレーツハダル": {
       "name": "パイレーツハダル",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%91%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%84%E3%83%8F%E3%83%80%E3%83%AB",
       "file": "raw/%E3%83%91%E3%82%A4%E3%83%AC%E3%83%BC%E3%83%84%E3%83%8F%E3%83%80%E3%83%AB.html",
-      "sha256": "05b37e2cf0b98988c19d37cfb1926987c44a61ea96e404ef000d72142c4cb8ef",
+      "sha256": "eee44ca1c272e4625dc3f303f4395268835d424656f749659cf85d790fc3377b",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-19 18:21:33",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "05b37e2cf0b98988c19d37cfb1926987c44a61ea96e404ef000d72142c4cb8ef"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "ユーノ": {
       "name": "ユーノ",
@@ -7759,23 +7549,21 @@
       "name": "レガリアの神騎",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E",
       "file": "raw/%E3%83%AC%E3%82%AC%E3%83%AA%E3%82%A2%E3%81%AE%E7%A5%9E%E9%A8%8E.html",
-      "sha256": "a266dc68c7d95547fea3140b9fdd37defaded2e402e358128d3c0856a4243df2",
+      "sha256": "ba1ea5f2fee6f654285101c4e36302d9d46cb7d7eff6bd5ce8c7ca1eb463881c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-12 11:41:07",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "a266dc68c7d95547fea3140b9fdd37defaded2e402e358128d3c0856a4243df2"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "ハニ子": {
       "name": "ハニ子",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%8B%E5%AD%90",
       "file": "raw/%E3%83%8F%E3%83%8B%E5%AD%90.html",
-      "sha256": "d7623d6aa2512e6d9306be1d32d5fbe954d952e90573bd6fbbeb3cd6dc108d05",
+      "sha256": "2f8e382168214ef83ab4a1b8d9b3276631c5a47c072aa576b49130e206d5149e",
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-09 08:15:58",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "d7623d6aa2512e6d9306be1d32d5fbe954d952e90573bd6fbbeb3cd6dc108d05"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "サイゼル": {
       "name": "サイゼル",
@@ -8188,12 +7976,11 @@
       "name": "装備リスト",
       "url": "https://escalationheroines.wikiru.jp/?%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88",
       "file": "raw/%E8%A3%85%E5%82%99%E3%83%AA%E3%82%B9%E3%83%88.html",
-      "sha256": "63e1b0c396d6e041aa854318e574cd14e1d2b1f5c6698ddac0350c38db892a79",
+      "sha256": "f79e12311a8e12a964a6774b86889f8900e4115ac5c1b5b5fc1f73a157eea183",
       "http_last_modified": null,
-      "wiki_last_modified": "2026-10-07 09:20:51",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "63e1b0c396d6e041aa854318e574cd14e1d2b1f5c6698ddac0350c38db892a79"
+      "wiki_last_modified": "2026-10-25 21:41:41",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
     },
     "ハニ噛みタイガー": {
       "name": "ハニ噛みタイガー",
@@ -8210,12 +7997,11 @@
       "name": "mDDD-BED",
       "url": "https://escalationheroines.wikiru.jp/?mDDD-BED",
       "file": "raw/mDDD-BED.html",
-      "sha256": "4374cdcfaaf7eed7efd4041eedcab43769a31bab7b18109445c5da98a60d4401",
+      "sha256": "5511dc794a33b0893a4cb955c2640cedd1a7bbb8155ac872908ca4b20c9d59cb",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:03+00:00",
-      "status": "ok",
-      "parsed_sha256": "4374cdcfaaf7eed7efd4041eedcab43769a31bab7b18109445c5da98a60d4401"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "ぷぎまるぬい": {
       "name": "ぷぎまるぬい",
@@ -8276,23 +8062,51 @@
       "name": "怨念がおんねん",
       "url": "https://escalationheroines.wikiru.jp/?%E6%80%A8%E5%BF%B5%E3%81%8C%E3%81%8A%E3%82%93%E3%81%AD%E3%82%93",
       "file": "raw/%E6%80%A8%E5%BF%B5%E3%81%8C%E3%81%8A%E3%82%93%E3%81%AD%E3%82%93.html",
-      "sha256": "e83ac9152c6269641d09a3f1a1dbc7a5a0c9099f4389de23ae5bce2d19755d37",
+      "sha256": "e57816f0f9ccdabbee7f391f7d1700762408ac9e968f38276bdbee3ae18ddb4e",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "e83ac9152c6269641d09a3f1a1dbc7a5a0c9099f4389de23ae5bce2d19755d37"
+      "fetched_at": "2026-10-26T20:39:56+00:00",
+      "status": "ok"
     },
     "死神ライト": {
       "name": "死神ライト",
       "url": "https://escalationheroines.wikiru.jp/?%E6%AD%BB%E7%A5%9E%E3%83%A9%E3%82%A4%E3%83%88",
       "file": "raw/%E6%AD%BB%E7%A5%9E%E3%83%A9%E3%82%A4%E3%83%88.html",
-      "sha256": "d5f0ec8b38abfa1bdace3df109eaf1b68a7ecac3755e91c69d48eb1bd9fb3a07",
+      "sha256": "c4cb7e768d9a56bf819cb38ca239e0bdb34be3ba2cd26fd862293dd1522e42a9",
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
-      "fetched_at": "2026-10-19T20:40:02+00:00",
-      "status": "ok",
-      "parsed_sha256": "d5f0ec8b38abfa1bdace3df109eaf1b68a7ecac3755e91c69d48eb1bd9fb3a07"
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
+    },
+    "青竜天クチナワ（Bユニバース）": {
+      "name": "青竜天クチナワ（Bユニバース）",
+      "url": "https://escalationheroines.wikiru.jp/?%E9%9D%92%E7%AB%9C%E5%A4%A9%E3%82%AF%E3%83%81%E3%83%8A%E3%83%AF%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89",
+      "file": "raw/%E9%9D%92%E7%AB%9C%E5%A4%A9%E3%82%AF%E3%83%81%E3%83%8A%E3%83%AF%EF%BC%88B%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9%EF%BC%89.html",
+      "sha256": "3e19bf3c4594504706342e703a0ab03bf3fe61b97a3b567617a763b880858c94",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-10-17 17:33:56",
+      "fetched_at": "2026-10-26T20:39:55+00:00",
+      "status": "ok"
+    },
+    "ハロウィンニャンコ": {
+      "name": "ハロウィンニャンコ",
+      "url": "https://escalationheroines.wikiru.jp/?%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3",
+      "file": "raw/%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%83%8B%E3%83%A3%E3%83%B3%E3%82%B3.html",
+      "sha256": "c5417e7be4eb844b3387a0a896f3eb1600a483c178e33252b72ad38cd7bbbbd1",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-10-21 20:40:21",
+      "fetched_at": "2026-10-26T20:40:21+00:00",
+      "status": "ok"
+    },
+    "魔女グリム": {
+      "name": "魔女グリム",
+      "url": "https://escalationheroines.wikiru.jp/?%E9%AD%94%E5%A5%B3%E3%82%B0%E3%83%AA%E3%83%A0",
+      "file": "raw/%E9%AD%94%E5%A5%B3%E3%82%B0%E3%83%AA%E3%83%A0.html",
+      "sha256": "910ef7f83c899359d0b2e61e1460087e3bd1fef485fef047adb1768cfc78e29a",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-10-21 21:50:20",
+      "fetched_at": "2026-10-26T20:40:25+00:00",
+      "status": "ok"
     }
   },
   "assets": {
@@ -21460,6 +21274,61 @@
       "sha256": "bb75897b5b328ee64f0115f3a697ccee04de3f4d042c1a1a3d4b8362d1bd038d",
       "file": "assets/img/ef0d7693098598ef.webp",
       "fetched_at": "2026-10-19T08:11:39+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/E8A385E58299E383AAE382B9E38388_E383A0E382B7E38388E383AAE383A9E382B1E38383E383882E706E67.png": {
+      "sha256": "a8cc77f1a13a805ac735b97c0cdbe900cef1a00e3c08e2c3c676c527f946d717",
+      "file": "assets/img/a3096ffb9000d75a.webp",
+      "fetched_at": "2026-10-26T20:41:10+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E382B0E383AAE383A05F69636F6E2E706E67.png": {
+      "sha256": "9d527ea3d8c821559779c416a97a4bf983fdb43a42aa3fa267dc2ab58c6f9084",
+      "file": "assets/img/3d9d0e1094695a0b.webp",
+      "fetched_at": "2026-10-26T20:41:11+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/696D67_E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B35F69636F6E2E706E67.png": {
+      "sha256": "77e35a1ae404ea4971fd38e10bfca2b45dbf5493feba520092556da4e52b22c1",
+      "file": "assets/img/1544d4d0b0604b9e.webp",
+      "fetched_at": "2026-10-26T20:41:11+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/E382A4E38399E383B3E383883130375FE69CACE5BD93E381AFE68096E3818BE381A3E3819FE381AFE3819AE381AEE382B0E383AAE383A0E7ABA5E8A9B1_62616E6E65722E706E67.png": {
+      "sha256": "3fde79fc4984b611f5b305a2a4ff45a9193295f28d4009a373a72d2ff8327d81",
+      "file": "assets/img/4d9a6b64f320f007.webp",
+      "fetched_at": "2026-10-26T20:41:11+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E382BBE383ACE382AFE383885055E382ACE38381E383A3E38381E382B1E38383E383882E706E67.png": {
+      "sha256": "e237c03b57fba73ed69730c2fcd8e032931f02ef9ee3d2665863c65eb083c732",
+      "file": "assets/img/90b05b728f2abbb3.webp",
+      "fetched_at": "2026-10-26T20:41:11+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/696D67_E99D92E7AB9CE5A4A9E382AFE38381E3838AE383AF42E383A6E3838B2E706E67.png": {
+      "sha256": "4d6bf5aa99bc8585b7d22c24d2e83df9e3a372a9b392f5ff020a4a190d91094b",
+      "file": "assets/img/2fc72701e0f7ad72.webp",
+      "fetched_at": "2026-10-26T20:41:12+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E382B0E383AAE383A0_E9AD94E5A5B3E382B0E383AAE383A02E706E67.png": {
+      "sha256": "2fd4f478bb167ce1859cde289ed756770672608b13df6a155f6f6c5f06781619",
+      "file": "assets/img/ca83af9e9673808d.webp",
+      "fetched_at": "2026-10-26T20:41:14+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B3_E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B32E706E67.png": {
+      "sha256": "bd879014bc69435a047adc6aa9d786094249fa02811706a8403e32485659a77f",
+      "file": "assets/img/bb55010ee7279a3a.webp",
+      "fetched_at": "2026-10-26T20:41:14+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E382B0E383AAE383A0_E9AD94E5A5B3E382B0E383AAE383A0E7A781E69C8D2E706E67.png": {
+      "sha256": "1789a503e6de6d683d7b1ad5e825096e0fcb7947d2f30c3208fd486d64614ddd",
+      "file": "assets/img/24b4031d99c756cb.webp",
+      "fetched_at": "2026-10-26T20:41:15+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B3_E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B3E5BCB7E58C962E706E67.png": {
+      "sha256": "1fb0e4b89d1c75e204c8321c4fa1dc7ea2cdb7e3f0d87200a4ae57416134c96c",
+      "file": "assets/img/f07c6b462c613432.webp",
+      "fetched_at": "2026-10-26T20:41:16+00:00"
+    },
+    "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E382B0E383AAE383A0_E9AD94E5A5B3E382B0E383AAE383A0E5BCB7E58C962E706E67.png": {
+      "sha256": "2bb3699c8936299da0691cb2ca8396bdf821b0ac5cfb497a814ca00ee1021b89",
+      "file": "assets/img/f0ebe3039f47c98f.webp",
+      "fetched_at": "2026-10-26T20:41:16+00:00"
     }
   },
   "last_update_run": "2026-09-26T10:51:19+00:00"

@@ -1,6 +1,6 @@
 # 图片对照表（自动生成，勿手工编辑）
 
-生成时间：2026-10-19T20:41:28+00:00　|　磁盘 3129 张 / 0 MB　|　对照 2805 条（其中 1280 条标出了所在页）　|　孤儿 324 张
+生成时间：2026-10-26T20:41:17+00:00　|　磁盘 3140 张 / 1 MB　|　对照 2816 条（其中 1285 条标出了所在页）　|　孤儿 324 张
 
 磁盘文件名是 sha256(源URL)[:16].webp，改动它有 404 风险，故不改名，只用本表对照。本表自动生成（`cli assets --index-only`），勿手工编辑。
 
@@ -300,6 +300,7 @@
 | img_ハロウィンエクシール_icon | [1ba1f5f5e568e91b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1ba1f5f5e568e91b.webp) | 0 KB | CV一覧、SSR 等 10 页 |
 | img_ハロウィンキレー_icon | [a1d59ee5abd41c63.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a1d59ee5abd41c63.webp) | 0 KB | CV一覧、R 等 12 页 |
 | img_ハロウィンニコール_icon | [3542945d7640e45f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3542945d7640e45f.webp) | 0 KB | CV一覧、SSR 等 10 页 |
+| img_ハロウィンニャンコ_icon | [1544d4d0b0604b9e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1544d4d0b0604b9e.webp) | 6 KB | CV一覧、SSR 等 9 页 |
 | img_ハロウィンノドカ_icon | [971e6487d572bd1c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/971e6487d572bd1c.webp) | 0 KB | CV一覧、SSR 等 10 页 |
 | img_ハロウィンポピー_icon | [22d8c77d55079aed.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/22d8c77d55079aed.webp) | 0 KB | CV一覧、SSR 等 12 页 |
 | img_ハロウィンヴィアール_icon | [42136866d204d3f5.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/42136866d204d3f5.webp) | 0 KB | CV一覧、SSR 等 10 页 |
@@ -719,6 +720,7 @@
 | img_雪月花_icon | [5892dd08234c5846.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5892dd08234c5846.webp) | 0 KB | サポーター、雪月花 |
 | img_電脳の魔女クラリス_icon | [8a7a9008d7c2162d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8a7a9008d7c2162d.webp) | 0 KB | Bユニバース、CV一覧 等 10 页 |
 | img_霊門麗士_icon | [9e6603e533b2e63e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9e6603e533b2e63e.webp) | 0 KB | CV一覧 |
+| img_青竜天クチナワBユニ | [2fc72701e0f7ad72.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2fc72701e0f7ad72.webp) | 94 KB | 青竜天クチナワ（Bユニバース） |
 | img_青竜天クチナワ_NPC | [56708f8533efecaa.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/56708f8533efecaa.webp) | 0 KB | - |
 | img_青竜天クチナワ_icon | [8f8e5c8ffe24ccdc.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8f8e5c8ffe24ccdc.webp) | 0 KB | Bユニバース、CV一覧 等 13 页 |
 | img_風のフウカ_icon | [84a3505e9fe88758.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/84a3505e9fe88758.webp) | 0 KB | CV一覧、SSR 等 13 页 |
@@ -738,6 +740,7 @@
 | img_魔女クルル_icon | [1ee610608c9e4c2f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1ee610608c9e4c2f.webp) | 0 KB | CV一覧、SSR 等 11 页 |
 | img_魔女クレナイ_icon | [8d9cf25f977329bf.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8d9cf25f977329bf.webp) | 0 KB | CV一覧、SR 等 11 页 |
 | img_魔女クーレー_icon | [ca1fe31d089bc2fa.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ca1fe31d089bc2fa.webp) | 0 KB | CV一覧、R 等 9 页 |
+| img_魔女グリム_icon | [3d9d0e1094695a0b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3d9d0e1094695a0b.webp) | 5 KB | CV一覧、R 等 8 页 |
 | img_魔女コバリ_icon | [a6f7657f91d2df2c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a6f7657f91d2df2c.webp) | 0 KB | CV一覧、R 等 9 页 |
 | img_魔女シズク_icon | [639ba238188a94e4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/639ba238188a94e4.webp) | 0 KB | Bユニバース、CV一覧 等 20 页 |
 | img_魔女シャオ_icon | [1f77358af61e6611.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1f77358af61e6611.webp) | 0 KB | CV一覧、SR 等 8 页 |
@@ -823,7 +826,7 @@
 | アイテム一覧_うさぎ鍋 | [fff054b8d3493489.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fff054b8d3493489.webp) | 0 KB | アイテム一覧 |
 | アイテム一覧_えま絵馬 | [d8d0396598310146.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d8d0396598310146.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 等 4 页 |
 | アイテム一覧_きゃんきゃん鍋 | [b92cc3bcd9858b82.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b92cc3bcd9858b82.webp) | 0 KB | アイテム一覧 |
-| アイテム一覧_なにになるやら | [54480dcffd790af9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/54480dcffd790af9.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 等 3 页 |
+| アイテム一覧_なにになるやら | [54480dcffd790af9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/54480dcffd790af9.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 4 页 |
 | アイテム一覧_まもりのまりも | [ea60ae9be388ae36.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ea60ae9be388ae36.webp) | 0 KB | アイテム一覧 |
 | アイテム一覧_イベント限定チケット | [03dc36360f496236.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/03dc36360f496236.webp) | 0 KB | アイテム一覧 |
 | アイテム一覧_カクセイの木R・中 | [fc75d2d9967814d7.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fc75d2d9967814d7.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 等 3 页 |
@@ -839,6 +842,7 @@
 | アイテム一覧_カクセイの木・必殺 | [f9b818f1617e3c0d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f9b818f1617e3c0d.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 4 页 |
 | アイテム一覧_サポートサプリ | [3fe71db2298e119b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3fe71db2298e119b.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 |
 | アイテム一覧_スキンチケット | [db7ac99397514497.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/db7ac99397514497.webp) | 0 KB | アイテム一覧 |
+| アイテム一覧_セレクトPUガチャチケット | [90b05b728f2abbb3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/90b05b728f2abbb3.webp) | 5 KB | よくある質問、アイテム一覧 等 3 页 |
 | アイテム一覧_ソウシンチュウ | [fce694ffdebbf739.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fce694ffdebbf739.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 等 3 页 |
 | アイテム一覧_タフなフタ | [ae431edd06aff178.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ae431edd06aff178.webp) | 0 KB | アイテム一覧 |
 | アイテム一覧_チェーイングガム | [d35a2b947bcffde0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d35a2b947bcffde0.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 |
@@ -870,7 +874,7 @@
 | アイテム一覧_元気の原液 | [265b64699b7eef89.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/265b64699b7eef89.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 等 4 页 |
 | アイテム一覧_元気の原液超純度 | [0a81c142293877d3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/0a81c142293877d3.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 |
 | アイテム一覧_元気の原液高濃度 | [867987a379988215.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/867987a379988215.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 等 3 页 |
-| アイテム一覧_全知全能の白鯨 | [80ab37dd10c101db.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/80ab37dd10c101db.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 |
+| アイテム一覧_全知全能の白鯨 | [80ab37dd10c101db.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/80ab37dd10c101db.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 3 页 |
 | アイテム一覧_単発ガチャチケット | [1a66f1189038de90.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1a66f1189038de90.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 5 页 |
 | アイテム一覧_四円玉・金 | [894febee029c20d6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/894febee029c20d6.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 |
 | アイテム一覧_四円玉・銀 | [7f8c5bcd770a721f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7f8c5bcd770a721f.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 |
@@ -892,7 +896,7 @@
 | アイテム一覧_巫女絵馬 | [a58a43019b78ef2b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a58a43019b78ef2b.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 6 页 |
 | アイテム一覧_巫女絵馬R | [c7f9f29d87d9a1fe.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c7f9f29d87d9a1fe.webp) | 0 KB | アイテム一覧、限界突破 |
 | アイテム一覧_巫女絵馬SR | [90af15ba0e8e61d7.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/90af15ba0e8e61d7.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 等 3 页 |
-| アイテム一覧_強化P詰合せ | [d443cc7230709c18.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d443cc7230709c18.webp) | 0 KB | SandBox/アイテム価値早見表、アイテム一覧 等 3 页 |
+| アイテム一覧_強化P詰合せ | [d443cc7230709c18.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d443cc7230709c18.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 4 页 |
 | アイテム一覧_昂るつぼみ | [3770974e508f6680.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3770974e508f6680.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 4 页 |
 | アイテム一覧_昂るつぼみ・束縛 | [8f3a1aa84ade485b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8f3a1aa84ade485b.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 5 页 |
 | アイテム一覧_昂る種 | [2db43178f060a2df.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2db43178f060a2df.webp) | 0 KB | SandBox/アイテム価値早見表、よくある質問 等 6 页 |
@@ -936,6 +940,7 @@
 | イベント100_超昂×ジブリール！　闇を断つアモーレ_ジブリールコラボ_時短画面 | [dfa8b7696cead340.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/dfa8b7696cead340.webp) | 0 KB | よくある質問、戦闘 |
 | イベント100_超昂×ジブリール！　闇を断つアモーレ_好感度アップボタン | [761a4551a404809a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/761a4551a404809a.webp) | 0 KB | よくある質問 |
 | イベント106_ランスⅥ―学級崩壊―_banner | [ecc6f99aa7605997.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ecc6f99aa7605997.webp) | 0 KB | キャラクター交換所、限界突破 |
+| イベント107_本当は怖かったはずのグリム童話_banner | [4d9a6b64f320f007.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4d9a6b64f320f007.webp) | 34 KB | イベント一覧 |
 | イベント12_レイドイベント『ゴールデンハニー』_banner | [e23850071c80ee06.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e23850071c80ee06.webp) | 0 KB | - |
 | イベント12_レイドイベント『ゴールデンハニー』_banner2 | [a42488363e2993fc.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a42488363e2993fc.webp) | 0 KB | イベント12_レイドイベント『ゴールデンハニー』 |
 | イベント12_レイドイベント『ゴールデンハニー』_ゴールデンハニー情報 | [b9f0875eadb45072.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b9f0875eadb45072.webp) | 0 KB | イベント12_レイドイベント『ゴールデンハニー』 |
@@ -1005,7 +1010,7 @@
 | イベント86_殲滅戦_殲滅_難易度調整画面 | [912bbf2413c9e64a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/912bbf2413c9e64a.webp) | 0 KB | イベント86_殲滅戦 |
 | イベント86_殲滅戦_殲滅戦_人数回復リセット | [bd6397e463d810bc.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/bd6397e463d810bc.webp) | 0 KB | イベント86_殲滅戦 |
 | イベント86_殲滅戦_殲滅戦_討伐報酬確認 | [dceea77a4039b625.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/dceea77a4039b625.webp) | 0 KB | イベント86_殲滅戦 |
-| イベント92_ハロウィンに踊る人形_banner | [ee5e93e8ecb66869.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ee5e93e8ecb66869.webp) | 0 KB | イベント一覧 |
+| イベント92_ハロウィンに踊る人形_banner | [ee5e93e8ecb66869.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ee5e93e8ecb66869.webp) | 0 KB | - |
 | イメージガール・フェリニ_イメージガール・フェリニ | [6aa9acc4770220ef.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6aa9acc4770220ef.webp) | 0 KB | - |
 | イメージガール・フェリニ_イメージガール・フェリニ_sd | [96271d48b7afe33c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/96271d48b7afe33c.webp) | 0 KB | - |
 | イメージガール・フェリニ_イメージガール・フェリニ強化 | [eb62f4b7b49e4027.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/eb62f4b7b49e4027.webp) | 0 KB | - |
@@ -1156,6 +1161,8 @@
 | ハロウィンニコール_ハロウィンニコール | [efb24a5a80e02a13.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/efb24a5a80e02a13.webp) | 0 KB | - |
 | ハロウィンニコール_ハロウィンニコール_sd | [9f04523cf467818c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9f04523cf467818c.webp) | 0 KB | - |
 | ハロウィンニコール_ハロウィンニコール強化 | [b6cdbed117375835.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b6cdbed117375835.webp) | 0 KB | - |
+| ハロウィンニャンコ_ハロウィンニャンコ | [bb55010ee7279a3a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/bb55010ee7279a3a.webp) | 51 KB | - |
+| ハロウィンニャンコ_ハロウィンニャンコ強化 | [f07c6b462c613432.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f07c6b462c613432.webp) | 75 KB | - |
 | ハロウィンノドカ_ハロウィンノドカ | [30bd0776833f5fe5.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/30bd0776833f5fe5.webp) | 0 KB | - |
 | ハロウィンノドカ_ハロウィンノドカ_sd | [34d8d90382d5fd04.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/34d8d90382d5fd04.webp) | 0 KB | - |
 | ハロウィンノドカ_ハロウィンノドカ強化 | [79b165526e1d69a2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/79b165526e1d69a2.webp) | 0 KB | - |
@@ -2347,6 +2354,7 @@
 | 装備リスト_フーマンキラー | [ff27c01b70207d3b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ff27c01b70207d3b.webp) | 0 KB | よくある質問、イベント86_殲滅戦 等 5 页 |
 | 装備リスト_ヘイトのパンツ | [8fff3ce8950d3ddd.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8fff3ce8950d3ddd.webp) | 0 KB | ヘイトのパンツ、レイド用編成例 等 4 页 |
 | 装備リスト_マリナの衣装 | [60838067b92bce92.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/60838067b92bce92.webp) | 0 KB | マリナの衣装、装備リスト 等 3 页 |
+| 装備リスト_ムシトリラケット | [a3096ffb9000d75a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a3096ffb9000d75a.webp) | 2 KB | 装備リスト、装備一覧 |
 | 装備リスト_ロケットベルト | [c7c5dc3f548e892a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c7c5dc3f548e892a.webp) | 0 KB | レイド用編成例、装備リスト 等 3 页 |
 | 装備リスト_ロケット十姉妹 | [57c0db00ba33d345.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/57c0db00ba33d345.webp) | 0 KB | 装備リスト、装備一覧 |
 | 装備リスト_一斬の剣 | [a67156ce905d014d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a67156ce905d014d.webp) | 0 KB | 一斬の剣、装備リスト 等 3 页 |
@@ -2705,6 +2713,9 @@
 | 魔女クーレー_魔女クーレー_sd | [e043ca5bf2ed92ca.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e043ca5bf2ed92ca.webp) | 0 KB | - |
 | 魔女クーレー_魔女クーレー強化 | [52b7d1eb8e797b58.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/52b7d1eb8e797b58.webp) | 0 KB | - |
 | 魔女クーレー_魔女クーレー私服 | [1db9d23eab666bbc.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1db9d23eab666bbc.webp) | 0 KB | - |
+| 魔女グリム_魔女グリム | [ca83af9e9673808d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ca83af9e9673808d.webp) | 57 KB | - |
+| 魔女グリム_魔女グリム強化 | [f0ebe3039f47c98f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f0ebe3039f47c98f.webp) | 74 KB | - |
+| 魔女グリム_魔女グリム私服 | [24b4031d99c756cb.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/24b4031d99c756cb.webp) | 31 KB | - |
 | 魔女コバリ_魔女コバリ | [32dc9d64f63383d5.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/32dc9d64f63383d5.webp) | 0 KB | - |
 | 魔女コバリ_魔女コバリ_sd | [5c9becb49459a4e9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5c9becb49459a4e9.webp) | 0 KB | - |
 | 魔女コバリ_魔女コバリ強化 | [efed18508cffcfc0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/efed18508cffcfc0.webp) | 0 KB | - |
