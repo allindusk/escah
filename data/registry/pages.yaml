@@ -3944,3 +3944,9 @@ pages:
   mode: static
   rarity: R
   icon: img/3d9d0e1094695a0b.webp
+- name: ハロウィンミヤビ
+  slug: characters/ハロウィンミヤビ
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/560a481d94b94be2.webp
