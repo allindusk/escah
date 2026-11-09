@@ -1,6 +1,6 @@
 # 图片对照表（自动生成，勿手工编辑）
 
-生成时间：2026-11-02T23:12:16+00:00　|　磁盘 3140 张 / 0 MB　|　对照 2816 条（其中 823 条标出了所在页）　|　孤儿 324 张
+生成时间：2026-11-09T23:50:33+00:00　|　磁盘 3140 张 / 0 MB　|　对照 2816 条（其中 787 条标出了所在页）　|　孤儿 324 张
 
 磁盘文件名是 sha256(源URL)[:16].webp，改动它有 404 风险，故不改名，只用本表对照。本表自动生成（`cli assets --index-only`），勿手工编辑。
 
@@ -194,7 +194,7 @@
 | Ms.ライトニング_Msライトニング私服 | [4da1474573cfa799.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4da1474573cfa799.webp) | 0 KB | - |
 | NPC_魔宰相ルルゼブ_NPC | [bb743999bc105804.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/bb743999bc105804.webp) | 0 KB | - |
 | escalationheroines.wikiru | [7caf5d6f0e6bbaed.png](https://github.com/allindusk/escah/blob/main/data/assets/img/7caf5d6f0e6bbaed.png) | 0 KB | - |
-| img_FM77_icon | [95301aae51608760.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/95301aae51608760.webp) | 0 KB | キャラクター交換所、サイエンフラスト（Bユニバース） 等 4 页 |
+| img_FM77_icon | [95301aae51608760.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/95301aae51608760.webp) | 0 KB | サイエンフラスト（Bユニバース）、レールフラスト（Bユニバース） |
 | img_Msライトニング_icon | [752e7ad8e610ba4c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/752e7ad8e610ba4c.webp) | 0 KB | - |
 | img_M型アンドロイド_icon | [09f852df37d623b6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/09f852df37d623b6.webp) | 0 KB | - |
 | img_banner_ウールタール | [0990209bb046a6cb.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/0990209bb046a6cb.webp) | 0 KB | イベント14_レイドイベント『ウールタール』 |
@@ -233,7 +233,7 @@
 | img_エスカチーム_icon | [1a88593c7b978280.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1a88593c7b978280.webp) | 0 KB | エスカチーム |
 | img_エスカトパーズ・ミスティカル_icon | [d015e487e553ad5b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d015e487e553ad5b.webp) | 0 KB | レイド用編成例 |
 | img_エスカルビー・アステライズ_icon | [3bccb7d6e92fee6c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3bccb7d6e92fee6c.webp) | 0 KB | レイド用編成例 |
-| img_エスカレイヤー_icon | [63de516dca671d22.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/63de516dca671d22.webp) | 0 KB | ムービーフラスト（Bユニバース）、序盤の手引き |
+| img_エスカレイヤー_icon | [63de516dca671d22.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/63de516dca671d22.webp) | 0 KB | 序盤の手引き |
 | img_エスカレイヤー・リバース2_icon | [040ae6118413bde2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/040ae6118413bde2.webp) | 0 KB | - |
 | img_エスカレイヤー・リバース_icon | [22331a8bbeb44500.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/22331a8bbeb44500.webp) | 0 KB | - |
 | img_エスカレイヤー・リバース＆ハルカ・リバース | [3e1217dab4269ad2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3e1217dab4269ad2.webp) | 0 KB | エスカレイヤー・リバース＆ハルカ・リバース（Bユニバース） |
@@ -285,7 +285,7 @@
 | img_トレーニングＢＢ・ミーナ_icon | [0ad4eeae588de4b2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/0ad4eeae588de4b2.webp) | 0 KB | - |
 | img_ナイトドレス・レグルス_icon | [bcd7ea9a68a0757a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/bcd7ea9a68a0757a.webp) | 0 KB | - |
 | img_ナースキリエル_icon | [c001447ae3edbf76.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c001447ae3edbf76.webp) | 0 KB | - |
-| img_ノノノバフ&斗羽デバフ下の必殺技被ダメ | [c2da46d0e5b99baa.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c2da46d0e5b99baa.webp) | 0 KB | ムービーフラスト（Bユニバース） |
+| img_ノノノバフ&斗羽デバフ下の必殺技被ダメ | [c2da46d0e5b99baa.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c2da46d0e5b99baa.webp) | 0 KB | - |
 | img_ノロイ_icon | [2fad4f76c3fcbdb7.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2fad4f76c3fcbdb7.webp) | 0 KB | ノロイ |
 | img_ハニー_icon | [6026ae7f1189cb9f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6026ae7f1189cb9f.webp) | 0 KB | - |
 | img_ハニーキング_icon | [c3b2845a51cc8fcb.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c3b2845a51cc8fcb.webp) | 0 KB | ハニーキング |
@@ -298,7 +298,7 @@
 | img_ハロウィンアキエ_icon | [ac332f1714bec638.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ac332f1714bec638.webp) | 0 KB | - |
 | img_ハロウィンイーイー_icon | [075c3548894c6ce0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/075c3548894c6ce0.webp) | 0 KB | - |
 | img_ハロウィンエクシール_icon | [1ba1f5f5e568e91b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1ba1f5f5e568e91b.webp) | 0 KB | レイド用編成例 |
-| img_ハロウィンキレー_icon | [a1d59ee5abd41c63.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a1d59ee5abd41c63.webp) | 0 KB | キャラクター交換所、レールフラスト（Bユニバース） |
+| img_ハロウィンキレー_icon | [a1d59ee5abd41c63.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a1d59ee5abd41c63.webp) | 0 KB | レールフラスト（Bユニバース） |
 | img_ハロウィンニコール_icon | [3542945d7640e45f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3542945d7640e45f.webp) | 0 KB | - |
 | img_ハロウィンニャンコ_icon | [1544d4d0b0604b9e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1544d4d0b0604b9e.webp) | 0 KB | - |
 | img_ハロウィンノドカ_icon | [971e6487d572bd1c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/971e6487d572bd1c.webp) | 0 KB | - |
@@ -317,23 +317,23 @@
 | img_バレンタインショウコ_icon | [6cfd2ff90e483d08.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6cfd2ff90e483d08.webp) | 0 KB | - |
 | img_バレンタインスピカ_icon | [df9dcfea7e2e7a43.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/df9dcfea7e2e7a43.webp) | 0 KB | - |
 | img_バレンタインタイガージョナ_icon | [ed65fc27f85bcf9f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ed65fc27f85bcf9f.webp) | 0 KB | - |
-| img_バレンタインツルコ_icon | [9b22e992ad7c4828.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9b22e992ad7c4828.webp) | 0 KB | キャラクター交換所 |
+| img_バレンタインツルコ_icon | [9b22e992ad7c4828.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9b22e992ad7c4828.webp) | 0 KB | - |
 | img_バレンタインナリカ_icon | [a544572690b2595b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a544572690b2595b.webp) | 0 KB | - |
 | img_バレンタインニル_icon | [02d221d14ed4c80b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/02d221d14ed4c80b.webp) | 0 KB | - |
 | img_バレンタインハルカ_icon | [a12b48e6f589fdc3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a12b48e6f589fdc3.webp) | 0 KB | - |
 | img_バレンタインマドカ_icon | [86cbd87ebee56d05.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/86cbd87ebee56d05.webp) | 0 KB | - |
-| img_バレンタインミゴー_icon | [94c4423a0638cd2a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/94c4423a0638cd2a.webp) | 0 KB | キャラクター交換所 |
+| img_バレンタインミゴー_icon | [94c4423a0638cd2a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/94c4423a0638cd2a.webp) | 0 KB | - |
 | img_バレンタインリコリス_icon | [b6a615e074cb3d68.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b6a615e074cb3d68.webp) | 0 KB | レイド用編成例、聖剣コスモス |
 | img_パイレーツハダル_icon | [9764921566c8a8ae.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9764921566c8a8ae.webp) | 0 KB | - |
 | img_ビートBB・ミーナ_icon | [723d7e15d1b9aa6a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/723d7e15d1b9aa6a.webp) | 0 KB | - |
 | img_ビートアイドル80・メグミ_icon | [fd4d345ae83101c9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fd4d345ae83101c9.webp) | 0 KB | レイド用編成例 |
 | img_ビートアイドル80・メグミ_icon2 | [c86bffe5bbe81ac1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c86bffe5bbe81ac1.webp) | 0 KB | - |
 | img_ビートアイドル_icon | [6535403076af00ac.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6535403076af00ac.webp) | 0 KB | ビートアイドル |
-| img_ビートアイドル・アキエ_icon | [56e474cf1feaa3e1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/56e474cf1feaa3e1.webp) | 0 KB | キャラクター交換所、レールフラスト（Bユニバース） |
+| img_ビートアイドル・アキエ_icon | [56e474cf1feaa3e1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/56e474cf1feaa3e1.webp) | 0 KB | レールフラスト（Bユニバース） |
 | img_ビートアイドル・クミコ_icon | [5e739e0e4b42e827.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5e739e0e4b42e827.webp) | 0 KB | - |
-| img_ビートアイドル・タマキ_icon | [a54ae07b58556003.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a54ae07b58556003.webp) | 0 KB | ウェーブフラスト（Bユニバース）、キャラクター交換所 等 3 页 |
+| img_ビートアイドル・タマキ_icon | [a54ae07b58556003.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a54ae07b58556003.webp) | 0 KB | ウェーブフラスト（Bユニバース）、序盤の手引き |
 | img_ビートアイドル・ノドカ_icon | [26f2c09e9061992e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/26f2c09e9061992e.webp) | 0 KB | - |
-| img_ビートアイドル・ポピー_icon | [f5e43d31a0509277.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f5e43d31a0509277.webp) | 0 KB | ウェーブフラスト（Bユニバース）、キャラクター交換所 等 3 页 |
+| img_ビートアイドル・ポピー_icon | [f5e43d31a0509277.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f5e43d31a0509277.webp) | 0 KB | ウェーブフラスト（Bユニバース） |
 | img_ビートアイドル・マリナ_icon | [4ae55e8d741ff92d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4ae55e8d741ff92d.webp) | 0 KB | - |
 | img_ビートアイドル・メグミ_icon | [3cd0e65b96cf0864.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3cd0e65b96cf0864.webp) | 0 KB | - |
 | img_ビートアクトレス・マナミ_icon | [297279764e550938.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/297279764e550938.webp) | 0 KB | - |
@@ -343,15 +343,15 @@
 | img_ビートアンスキルド・カナミ_icon | [f021f4724ac270ae.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f021f4724ac270ae.webp) | 0 KB | - |
 | img_ビートイリュージョン・アエカ_icon | [5db52402bdc3981b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5db52402bdc3981b.webp) | 0 KB | - |
 | img_ビートウィザード・リリアム_icon | [a37e8f0aed349ec6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a37e8f0aed349ec6.webp) | 0 KB | - |
-| img_ビートウエディング・チマ_icon | [4f09ce28c110c952.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4f09ce28c110c952.webp) | 0 KB | ウェーブフラスト（Bユニバース）、キャラクター交換所 |
+| img_ビートウエディング・チマ_icon | [4f09ce28c110c952.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4f09ce28c110c952.webp) | 0 KB | ウェーブフラスト（Bユニバース） |
 | img_ビートエンジェル・エクシレイヤー_icon | [47283f448085dc82.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/47283f448085dc82.webp) | 0 KB | レイド用編成例 |
 | img_ビートエンハンス・シルキィ_icon | [1d979922b8bfb756.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1d979922b8bfb756.webp) | 0 KB | - |
-| img_ビートカーム・ナギ_icon | [ee821b1977cd34d2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ee821b1977cd34d2.webp) | 0 KB | キャラクター交換所 |
+| img_ビートカーム・ナギ_icon | [ee821b1977cd34d2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ee821b1977cd34d2.webp) | 0 KB | - |
 | img_ビートクイーン・リア_icon | [548be3d52e8cee64.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/548be3d52e8cee64.webp) | 0 KB | - |
 | img_ビートクワィエット・シヅカ_icon | [0a9b9d6da28c0884.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/0a9b9d6da28c0884.webp) | 0 KB | - |
 | img_ビートサムライ・アオイ_icon | [60f038f0e1699593.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/60f038f0e1699593.webp) | 0 KB | - |
-| img_ビートシューター・リンドウ_icon | [01b3bb3770abae8e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/01b3bb3770abae8e.webp) | 0 KB | キャラクター交換所 |
-| img_ビートジェネラル・ミストレーヌ_icon | [0fbf1667fd23f7e7.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/0fbf1667fd23f7e7.webp) | 0 KB | キャラクター交換所 |
+| img_ビートシューター・リンドウ_icon | [01b3bb3770abae8e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/01b3bb3770abae8e.webp) | 0 KB | - |
+| img_ビートジェネラル・ミストレーヌ_icon | [0fbf1667fd23f7e7.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/0fbf1667fd23f7e7.webp) | 0 KB | - |
 | img_ビートスカルプター・サテラ_icon | [7ac3b1a621aa937f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7ac3b1a621aa937f.webp) | 0 KB | - |
 | img_ビートスター・マリナ_icon | [fc90f4957d767a66.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fc90f4957d767a66.webp) | 0 KB | レイド用編成例 |
 | img_ビートストーム・ハヅキ_icon | [362c66ff2ff7dd53.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/362c66ff2ff7dd53.webp) | 0 KB | レイド用編成例、聖剣コスモス |
@@ -359,24 +359,24 @@
 | img_ビートスピナー・ハザクラ_icon | [21e2d465f3714083.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/21e2d465f3714083.webp) | 0 KB | - |
 | img_ビートスラッシャー・ショウコ_icon | [7628975a1100fce3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7628975a1100fce3.webp) | 0 KB | - |
 | img_ビートソニック・アキレス_icon | [c1e27e8f29fd1cf3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c1e27e8f29fd1cf3.webp) | 0 KB | - |
-| img_ビートタクティクス・ウルザ_icon | [905df82fee70198c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/905df82fee70198c.webp) | 0 KB | キャラクター交換所、レイド用編成例 等 3 页 |
-| img_ビートチューリップ・マリア_icon | [d9073e89a80392e0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d9073e89a80392e0.webp) | 0 KB | キャラクター交換所 |
+| img_ビートタクティクス・ウルザ_icon | [905df82fee70198c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/905df82fee70198c.webp) | 0 KB | レイド用編成例、覚醒強化 |
+| img_ビートチューリップ・マリア_icon | [d9073e89a80392e0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d9073e89a80392e0.webp) | 0 KB | - |
 | img_ビートデュアル・ハート_icon | [f85448d59ed30108.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f85448d59ed30108.webp) | 0 KB | - |
 | img_ビートドラグーン・アカネ_icon | [a3cc4997108af643.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a3cc4997108af643.webp) | 0 KB | - |
 | img_ビートネイチャー・アケビ_icon | [4458594c1127c148.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4458594c1127c148.webp) | 0 KB | - |
-| img_ビートノーブル・カノン_icon | [d7b0aa446eb53d92.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d7b0aa446eb53d92.webp) | 0 KB | キャラクター交換所 |
+| img_ビートノーブル・カノン_icon | [d7b0aa446eb53d92.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d7b0aa446eb53d92.webp) | 0 KB | - |
 | img_ビートノーブル・クレードネ_icon | [4a2cc59c6470e4a4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4a2cc59c6470e4a4.webp) | 0 KB | - |
 | img_ビートノーブル・サトリ_icon | [46fdde2fc925253b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/46fdde2fc925253b.webp) | 0 KB | - |
 | img_ビートハンター・エイム_icon | [e862fe110abee437.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e862fe110abee437.webp) | 0 KB | - |
 | img_ビートバイカー・マッハ_icon | [e4d5f7ba14addf7b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e4d5f7ba14addf7b.webp) | 0 KB | 序盤の手引き |
 | img_ビートビジョン・リズナ_icon | [53f0b977daf6b600.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/53f0b977daf6b600.webp) | 0 KB | レイド用編成例、内縛陣 |
-| img_ビートファインダー・フェリニ_icon | [85b23d79ac0416d1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/85b23d79ac0416d1.webp) | 0 KB | キャラクター交換所 |
+| img_ビートファインダー・フェリニ_icon | [85b23d79ac0416d1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/85b23d79ac0416d1.webp) | 0 KB | - |
 | img_ビートフーマン・ツクモ_icon | [05c7efad59970561.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/05c7efad59970561.webp) | 0 KB | - |
 | img_ビートブラスト・アサギ_icon | [d935d9f4df36cb1b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d935d9f4df36cb1b.webp) | 0 KB | - |
 | img_ビートブレイカー・アイ_icon | [f2c9e62acf674fe8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f2c9e62acf674fe8.webp) | 0 KB | - |
 | img_ビートブレイカー・メイ_icon | [a5469b25598769cc.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a5469b25598769cc.webp) | 0 KB | - |
 | img_ビートブレイカー・ユイ_icon | [d0bdb7a80e1f92b2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d0bdb7a80e1f92b2.webp) | 0 KB | - |
-| img_ビートプランナー・ハイネ_icon | [a96f6473657d42ce.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a96f6473657d42ce.webp) | 0 KB | キャラクター交換所 |
+| img_ビートプランナー・ハイネ_icon | [a96f6473657d42ce.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a96f6473657d42ce.webp) | 0 KB | - |
 | img_ビートプレジデント・シーラ_icon | [12fea2d0e5ba1228.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/12fea2d0e5ba1228.webp) | 0 KB | レイド用編成例 |
 | img_ビートボンデージ・ハザクラ_icon | [83c59d15e9dcdd9d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/83c59d15e9dcdd9d.webp) | 0 KB | - |
 | img_ビートマジカル・マジック_icon | [012352f2d006b8f6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/012352f2d006b8f6.webp) | 0 KB | - |
@@ -406,7 +406,7 @@
 | img_ホーム画面_レイド蛍 | [30b4e34095753387.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/30b4e34095753387.webp) | 0 KB | イベント08_レイドイベント『グナガン』、イベント12_レイドイベント『ゴールデンハニー』 等 4 页 |
 | img_マディオン・カスタム_icon | [979969f1ae6434dd.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/979969f1ae6434dd.webp) | 0 KB | 聖剣コスモス |
 | img_マドカ・アサルト_icon | [81bce88423a8c798.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/81bce88423a8c798.webp) | 0 KB | - |
-| img_ムービーフラスト1 | [9ab000ece8e7b65d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9ab000ece8e7b65d.webp) | 0 KB | ムービーフラスト（Bユニバース） |
+| img_ムービーフラスト1 | [9ab000ece8e7b65d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9ab000ece8e7b65d.webp) | 0 KB | - |
 | img_ムービーフラスト_icon | [793b9af237ec9206.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/793b9af237ec9206.webp) | 0 KB | - |
 | img_メイドコイヌ_icon | [5394f72e8f2d8e69.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5394f72e8f2d8e69.webp) | 0 KB | - |
 | img_メイドユリッペ_icon | [23d03e460bbd15eb.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/23d03e460bbd15eb.webp) | 0 KB | - |
@@ -430,7 +430,7 @@
 | img_レガリアの超昂神騎マヤエル_icon | [599613f0d53c9c1a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/599613f0d53c9c1a.webp) | 0 KB | レイド用編成例 |
 | img_レガリアの超昂神騎ミカフィール_icon | [4f71086ab4fac3b9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4f71086ab4fac3b9.webp) | 0 KB | ウェーブフラスト（Bユニバース）、レイド用編成例 |
 | img_レガリアの超昂神騎メガエル_icon | [795bb9f75bdeffe1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/795bb9f75bdeffe1.webp) | 0 KB | レイド用編成例 |
-| img_レガリアの超昂神騎ユリエル_icon | [4dc455113a6f9160.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4dc455113a6f9160.webp) | 0 KB | ウェーブフラスト（Bユニバース）、ムービーフラスト（Bユニバース） 等 4 页 |
+| img_レガリアの超昂神騎ユリエル_icon | [4dc455113a6f9160.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4dc455113a6f9160.webp) | 0 KB | ウェーブフラスト（Bユニバース）、レイド用編成例 等 3 页 |
 | img_レコロディア_NPC_icon | [7e36df09a847e10f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7e36df09a847e10f.webp) | 0 KB | レコロディア |
 | img_レジェンドヒロイン【5周年】_icon | [33b7d867e3ac52f4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/33b7d867e3ac52f4.webp) | 0 KB | レジェンドヒロイン【5周年】 |
 | img_レジェンド・エスカレイヤー_icon | [da7165479475e67f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/da7165479475e67f.webp) | 0 KB | レイド用編成例 |
@@ -464,7 +464,7 @@
 | img_六の法杖セラフィール_icon | [052811c94dd021a6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/052811c94dd021a6.webp) | 0 KB | レイド用編成例 |
 | img_再戦画面 | [4c94fea17d437d41.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4c94fea17d437d41.webp) | 0 KB | 戦闘 |
 | img_制服ニャンコ_icon | [91d1597b63aac724.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/91d1597b63aac724.webp) | 0 KB | レイド用編成例、内縛陣 |
-| img_前衛2人を後列に後衛2人を前列に配置 | [03b4a8d37b1780de.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/03b4a8d37b1780de.webp) | 0 KB | ムービーフラスト（Bユニバース） |
+| img_前衛2人を後列に後衛2人を前列に配置 | [03b4a8d37b1780de.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/03b4a8d37b1780de.webp) | 0 KB | - |
 | img_剛毅のレヴィ_icon | [24e36c957e77c143.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/24e36c957e77c143.webp) | 0 KB | - |
 | img_加速装備 | [d9663982a982eac2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d9663982a982eac2.webp) | 0 KB | レイド用編成例 |
 | img_匂坂かんざし_NPC | [2b2da35397958ba0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2b2da35397958ba0.webp) | 0 KB | - |
@@ -504,7 +504,7 @@
 | img_怒のヴィーカ・ガオンヌ_icon | [3bd1d3ccb3a1ff24.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3bd1d3ccb3a1ff24.webp) | 0 KB | レイド用編成例 |
 | img_思慮深き五の魅琴マリエル_icon | [793d834397b9615c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/793d834397b9615c.webp) | 0 KB | - |
 | img_怠惰魔影アル・ペオル_NPC_icon | [be6f47d0e8aaa536.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/be6f47d0e8aaa536.webp) | 0 KB | 怠惰魔影アル・ペオル |
-| img_恋のみらくる☆スイート_icon | [3e1838bed9fc7aaf.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3e1838bed9fc7aaf.webp) | 0 KB | キャラクター交換所 |
+| img_恋のみらくる☆スイート_icon | [3e1838bed9fc7aaf.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3e1838bed9fc7aaf.webp) | 0 KB | - |
 | img_悪魔レイス_NPC | [382c0882a70ea42e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/382c0882a70ea42e.webp) | 0 KB | - |
 | img_悪魔レイス_NPC_icon | [1a7031d8e0bda6e9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1a7031d8e0bda6e9.webp) | 0 KB | 魔蔑将レイス |
 | img_戦車のニコール_icon | [c309560abcb41569.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c309560abcb41569.webp) | 0 KB | - |
@@ -578,13 +578,13 @@
 | img_真夏のカペラ_icon | [3b68f04c8df6646c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3b68f04c8df6646c.webp) | 0 KB | - |
 | img_真夏のキクリ_icon | [a6449fe641249dca.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a6449fe641249dca.webp) | 0 KB | - |
 | img_真夏のシズカ_icon | [a97f4c04cab30e45.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a97f4c04cab30e45.webp) | 0 KB | - |
-| img_真夏のシリカ_icon | [c2988e3a069ab667.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c2988e3a069ab667.webp) | 0 KB | キャラクター交換所 |
+| img_真夏のシリカ_icon | [c2988e3a069ab667.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c2988e3a069ab667.webp) | 0 KB | - |
 | img_真夏のスバル_icon | [9e6dc764ae59e14d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9e6dc764ae59e14d.webp) | 0 KB | - |
 | img_真夏のセラフィール_icon | [d8dd3ffa738672d6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d8dd3ffa738672d6.webp) | 0 KB | - |
 | img_真夏のチルカ_icon | [669a9f70046eb95d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/669a9f70046eb95d.webp) | 0 KB | - |
 | img_真夏のナリカ_icon | [f927246ccbbd42ed.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f927246ccbbd42ed.webp) | 0 KB | - |
 | img_真夏のニコール_icon | [5a14215e505b03b3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5a14215e505b03b3.webp) | 0 KB | - |
-| img_真夏のニャンコ_icon | [6c42a6403d8e0629.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6c42a6403d8e0629.webp) | 0 KB | キャラクター交換所、レイド用編成例 等 3 页 |
+| img_真夏のニャンコ_icon | [6c42a6403d8e0629.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6c42a6403d8e0629.webp) | 0 KB | レイド用編成例、覚醒強化 |
 | img_真夏のノドカ_icon | [8039da7efab93223.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8039da7efab93223.webp) | 0 KB | レイド用編成例 |
 | img_真夏のハルカ_icon | [dba0f1b97216deb7.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/dba0f1b97216deb7.webp) | 0 KB | レイド用編成例 |
 | img_真夏のフウカ_icon | [b7a8dd032b5292cf.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b7a8dd032b5292cf.webp) | 0 KB | レイド用編成例 |
@@ -597,39 +597,39 @@
 | img_神騎アルデバラン_icon | [2ebf68eba015aca3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2ebf68eba015aca3.webp) | 0 KB | - |
 | img_神騎イブ_icon | [38840b577d84a5a0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/38840b577d84a5a0.webp) | 0 KB | - |
 | img_神騎エクシール_icon | [b5e7976c9fa4eda6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b5e7976c9fa4eda6.webp) | 0 KB | 序盤の手引き |
-| img_神騎エルカエル_icon | [947ccd0de2097a1e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/947ccd0de2097a1e.webp) | 0 KB | キャラクター交換所 |
-| img_神騎カノープス_icon | [2251ef70bcd4e47d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2251ef70bcd4e47d.webp) | 0 KB | キャラクター交換所 |
+| img_神騎エルカエル_icon | [947ccd0de2097a1e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/947ccd0de2097a1e.webp) | 0 KB | - |
+| img_神騎カノープス_icon | [2251ef70bcd4e47d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2251ef70bcd4e47d.webp) | 0 KB | - |
 | img_神騎カペラ_icon | [253eb53288a59b16.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/253eb53288a59b16.webp) | 0 KB | - |
 | img_神騎カースエル_icon | [b914709239b8da43.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b914709239b8da43.webp) | 0 KB | - |
 | img_神騎キリエル3_icon | [276e5f0704f1a461.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/276e5f0704f1a461.webp) | 0 KB | - |
 | img_神騎キリエル_icon | [90811f89fa716763.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/90811f89fa716763.webp) | 0 KB | - |
-| img_神騎グラシエル_icon | [3ffb64d8ee1851ce.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3ffb64d8ee1851ce.webp) | 0 KB | キャラクター交換所 |
+| img_神騎グラシエル_icon | [3ffb64d8ee1851ce.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3ffb64d8ee1851ce.webp) | 0 KB | - |
 | img_神騎コトネーゼ_icon | [122f64ae60599922.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/122f64ae60599922.webp) | 0 KB | レイド用編成例 |
 | img_神騎サーヤ_icon | [45ebcccf59a1032b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/45ebcccf59a1032b.webp) | 0 KB | - |
 | img_神騎ジブリール・ゼロ_icon | [4170900364947f83.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4170900364947f83.webp) | 0 KB | - |
 | img_神騎スケートル_icon | [5ce153fecccb4e5b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5ce153fecccb4e5b.webp) | 0 KB | 序盤の手引き |
-| img_神騎ステアール_icon | [cb3ac8dc348bd1f3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/cb3ac8dc348bd1f3.webp) | 0 KB | キャラクター交換所 |
+| img_神騎ステアール_icon | [cb3ac8dc348bd1f3.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/cb3ac8dc348bd1f3.webp) | 0 KB | - |
 | img_神騎スピカ_icon | [8c0579b3be3c89ee.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8c0579b3be3c89ee.webp) | 0 KB | - |
 | img_神騎セリカエル_icon | [71af5ed460aced72.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/71af5ed460aced72.webp) | 0 KB | - |
-| img_神騎ディアロール_icon | [4b840da47866553f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4b840da47866553f.webp) | 0 KB | キャラクター交換所、レールフラスト（Bユニバース） |
+| img_神騎ディアロール_icon | [4b840da47866553f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4b840da47866553f.webp) | 0 KB | レールフラスト（Bユニバース） |
 | img_神騎デュエル_icon | [b40f6950f6d76b71.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b40f6950f6d76b71.webp) | 0 KB | - |
 | img_神騎ドミナール_icon | [3071dc8739ca69da.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3071dc8739ca69da.webp) | 0 KB | - |
 | img_神騎ハウゼル_icon | [5afd6268c6a8dc9f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5afd6268c6a8dc9f.webp) | 0 KB | 聖剣コスモス |
 | img_神騎ハダル_icon | [bb6fd2277119f85a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/bb6fd2277119f85a.webp) | 0 KB | - |
-| img_神騎ハニーエル_icon | [acbbdb2f1d4e293a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/acbbdb2f1d4e293a.webp) | 0 KB | キャラクター交換所 |
+| img_神騎ハニーエル_icon | [acbbdb2f1d4e293a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/acbbdb2f1d4e293a.webp) | 0 KB | - |
 | img_神騎ビブリエル_icon | [f63b5c56c57142c4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f63b5c56c57142c4.webp) | 0 KB | - |
 | img_神騎フローレル_icon | [14979a2cdd922ebc.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/14979a2cdd922ebc.webp) | 0 KB | - |
 | img_神騎ブロクミエル_icon | [645f3a8b659ac4b2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/645f3a8b659ac4b2.webp) | 0 KB | - |
 | img_神騎プラチネル_icon | [1ef1ed6d68658fbd.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1ef1ed6d68658fbd.webp) | 0 KB | - |
-| img_神騎プロキオン_icon | [ea771812c310c3ae.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ea771812c310c3ae.webp) | 0 KB | キャラクター交換所 |
-| img_神騎ヘプタスロン_icon | [80297c70aac7c93a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/80297c70aac7c93a.webp) | 0 KB | キャラクター交換所 |
-| img_神騎ベガ_icon | [ec6c7011b0ea80b9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ec6c7011b0ea80b9.webp) | 0 KB | キャラクター交換所、サイエンフラスト（Bユニバース） |
-| img_神騎ベラトリクス_icon | [7983fd5644c2ecea.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7983fd5644c2ecea.webp) | 0 KB | キャラクター交換所 |
+| img_神騎プロキオン_icon | [ea771812c310c3ae.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ea771812c310c3ae.webp) | 0 KB | - |
+| img_神騎ヘプタスロン_icon | [80297c70aac7c93a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/80297c70aac7c93a.webp) | 0 KB | - |
+| img_神騎ベガ_icon | [ec6c7011b0ea80b9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ec6c7011b0ea80b9.webp) | 0 KB | サイエンフラスト（Bユニバース） |
+| img_神騎ベラトリクス_icon | [7983fd5644c2ecea.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7983fd5644c2ecea.webp) | 0 KB | - |
 | img_神騎ポラリス_icon | [8692490ba29a2be2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8692490ba29a2be2.webp) | 0 KB | - |
 | img_神騎ミモザ_icon | [eac4e44d8a073024.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/eac4e44d8a073024.webp) | 0 KB | - |
 | img_神騎ミルエル_icon | [becbfab9d902a0a2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/becbfab9d902a0a2.webp) | 0 KB | - |
 | img_神騎ユユエル_icon | [762b6fdae084d5ce.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/762b6fdae084d5ce.webp) | 0 KB | レイド用編成例 |
-| img_神騎リゲル_icon | [f5da38716f7bed18.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f5da38716f7bed18.webp) | 0 KB | キャラクター交換所 |
+| img_神騎リゲル_icon | [f5da38716f7bed18.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f5da38716f7bed18.webp) | 0 KB | - |
 | img_神騎ルクセール_NPC | [66b1628b05790b5f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/66b1628b05790b5f.webp) | 0 KB | - |
 | img_神騎ルクセール_icon | [6e1e1de789ff8cd8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6e1e1de789ff8cd8.webp) | 0 KB | - |
 | img_神騎レグルス_icon | [60ef7465eb61b097.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/60ef7465eb61b097.webp) | 0 KB | - |
@@ -662,7 +662,7 @@
 | img_超昂大戦初心者講座_banner | [618fd757ff59b5f8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/618fd757ff59b5f8.webp) | 0 KB | - |
 | img_超昂神騎エクシール_icon | [2a1807094186e38b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2a1807094186e38b.webp) | 0 KB | - |
 | img_超昂神騎キリエル_icon | [6c3af55c537e190a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6c3af55c537e190a.webp) | 0 KB | レイド用編成例 |
-| img_超昂閃忍イノリ_icon | [55e1df7b41ecc90f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/55e1df7b41ecc90f.webp) | 0 KB | ウェーブフラスト（Bユニバース）、ムービーフラスト（Bユニバース） 等 4 页 |
+| img_超昂閃忍イノリ_icon | [55e1df7b41ecc90f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/55e1df7b41ecc90f.webp) | 0 KB | ウェーブフラスト（Bユニバース）、レイド用編成例 等 3 页 |
 | img_超昂閃忍スバル_icon | [b790f139f38852ab.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/b790f139f38852ab.webp) | 0 KB | - |
 | img_超昂閃忍チルカ_icon | [e02698f028c78c78.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e02698f028c78c78.webp) | 0 KB | レイド用編成例 |
 | img_超昂閃忍ナリカ_icon | [f36cd13b2d1cb401.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f36cd13b2d1cb401.webp) | 0 KB | レイド用編成例 |
@@ -678,18 +678,18 @@
 | img_閃忍イズミ_icon | [e2a528a290d3af0f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e2a528a290d3af0f.webp) | 0 KB | - |
 | img_閃忍イノリ_icon | [88410dc6b123b2f1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/88410dc6b123b2f1.webp) | 0 KB | - |
 | img_閃忍イノリ_制服 | [44d3798dec8817a2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/44d3798dec8817a2.webp) | 0 KB | - |
-| img_閃忍ウミ_icon | [7646cdce18b9991c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7646cdce18b9991c.webp) | 0 KB | キャラクター交換所 |
-| img_閃忍カズハ_icon | [4b7e2d5d11e74cc8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4b7e2d5d11e74cc8.webp) | 0 KB | キャラクター交換所、レールフラスト（Bユニバース） |
-| img_閃忍キッカ_icon | [38869f336fb1ee99.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/38869f336fb1ee99.webp) | 0 KB | キャラクター交換所 |
-| img_閃忍クサリ_icon | [8a354d26aa09066d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8a354d26aa09066d.webp) | 0 KB | キャラクター交換所 |
+| img_閃忍ウミ_icon | [7646cdce18b9991c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7646cdce18b9991c.webp) | 0 KB | - |
+| img_閃忍カズハ_icon | [4b7e2d5d11e74cc8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4b7e2d5d11e74cc8.webp) | 0 KB | レールフラスト（Bユニバース） |
+| img_閃忍キッカ_icon | [38869f336fb1ee99.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/38869f336fb1ee99.webp) | 0 KB | - |
+| img_閃忍クサリ_icon | [8a354d26aa09066d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8a354d26aa09066d.webp) | 0 KB | - |
 | img_閃忍ゲッカ_0 | [724e03dcab652bb4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/724e03dcab652bb4.webp) | 0 KB | - |
 | img_閃忍ゲッカ_icon | [4e2c5ed08908feee.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4e2c5ed08908feee.webp) | 0 KB | - |
 | img_閃忍コイヌ_icon | [843a0a5f5925f6c4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/843a0a5f5925f6c4.webp) | 0 KB | - |
-| img_閃忍サイカ_icon | [9f7bb4151d8a904f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9f7bb4151d8a904f.webp) | 0 KB | キャラクター交換所、レイド用編成例 |
+| img_閃忍サイカ_icon | [9f7bb4151d8a904f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9f7bb4151d8a904f.webp) | 0 KB | レイド用編成例 |
 | img_閃忍ササミ_icon | [11fa8859efd5a6f0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/11fa8859efd5a6f0.webp) | 0 KB | - |
 | img_閃忍サナギ_icon | [7b5ce094cf9caf88.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7b5ce094cf9caf88.webp) | 0 KB | レイド用編成例 |
 | img_閃忍スバル_icon | [632087ca779da8de.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/632087ca779da8de.webp) | 0 KB | - |
-| img_閃忍セツニャ_icon | [741107820cc32c2e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/741107820cc32c2e.webp) | 0 KB | キャラクター交換所、レイド用編成例 |
+| img_閃忍セツニャ_icon | [741107820cc32c2e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/741107820cc32c2e.webp) | 0 KB | レイド用編成例 |
 | img_閃忍ツカサ_icon | [c698771d7f0754b1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/c698771d7f0754b1.webp) | 0 KB | 覚醒強化 |
 | img_閃忍ツルコ_icon | [cde0295614a2eee2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/cde0295614a2eee2.webp) | 0 KB | 序盤の手引き |
 | img_閃忍ナリカ_icon | [4ec79efc800e7225.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4ec79efc800e7225.webp) | 0 KB | - |
@@ -703,18 +703,18 @@
 | img_閃忍ホーネット_icon | [04014bd051e51451.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/04014bd051e51451.webp) | 0 KB | 聖剣コスモス |
 | img_閃忍マチ_icon | [75e0096dc2c76efd.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/75e0096dc2c76efd.webp) | 0 KB | - |
 | img_閃忍マナヅル_icon | [cb44474fe22cb268.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/cb44474fe22cb268.webp) | 0 KB | レイド用編成例 |
-| img_閃忍マユリ_icon | [65a93893437abec0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/65a93893437abec0.webp) | 0 KB | キャラクター交換所 |
+| img_閃忍マユリ_icon | [65a93893437abec0.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/65a93893437abec0.webp) | 0 KB | - |
 | img_閃忍ムツカ_icon | [243a549f1a3f0276.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/243a549f1a3f0276.webp) | 0 KB | - |
 | img_閃忍ユキカゼ_icon | [d09ee79c0ec4a95e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d09ee79c0ec4a95e.webp) | 0 KB | - |
 | img_閃忍ユキノ_icon | [d0ed883aa86324cf.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d0ed883aa86324cf.webp) | 0 KB | - |
 | img_閃忍ユラリ_icon | [81c54e153b490ba8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/81c54e153b490ba8.webp) | 0 KB | - |
-| img_閃忍ユリッペ_icon | [680028d20a392bd8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/680028d20a392bd8.webp) | 0 KB | ウェーブフラスト（Bユニバース）、キャラクター交換所 等 5 页 |
+| img_閃忍ユリッペ_icon | [680028d20a392bd8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/680028d20a392bd8.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 3 页 |
 | img_閃忍ライカ_icon | [beea23890dc8e01d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/beea23890dc8e01d.webp) | 0 KB | - |
 | img_閃忍ライカ_制服 | [96f62e77c49ccc93.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/96f62e77c49ccc93.webp) | 0 KB | - |
 | img_閃忍ライカ_紙袋 | [458f70c85ae4d02f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/458f70c85ae4d02f.webp) | 0 KB | - |
 | img_閃忍リコリス_icon | [ca184de1622891a5.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ca184de1622891a5.webp) | 0 KB | - |
 | img_閃忍リルカ_icon | [8b5f0e9681f931f8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8b5f0e9681f931f8.webp) | 0 KB | - |
-| img_閃忍レイナ_icon | [47c0261e85f961ae.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/47c0261e85f961ae.webp) | 0 KB | キャラクター交換所 |
+| img_閃忍レイナ_icon | [47c0261e85f961ae.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/47c0261e85f961ae.webp) | 0 KB | - |
 | img_閃忍ワーグ_icon | [6f7f21df89441ad2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6f7f21df89441ad2.webp) | 0 KB | - |
 | img_闇の奉輪こもり_icon | [edd20ed7ea170b6f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/edd20ed7ea170b6f.webp) | 0 KB | レイド用編成例 |
 | img_雪月花_icon | [5892dd08234c5846.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5892dd08234c5846.webp) | 0 KB | 雪月花 |
@@ -731,7 +731,7 @@
 | img_鬼の斗羽大洋_icon | [834eae8082aeb756.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/834eae8082aeb756.webp) | 0 KB | レイド用編成例 |
 | img_鬼門厄射_icon | [4d55a92256f2bd5b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4d55a92256f2bd5b.webp) | 0 KB | - |
 | img_鬼門縛士_icon | [067084a69ff76906.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/067084a69ff76906.webp) | 0 KB | - |
-| img_魔女イレーナ_icon | [6b4cd9caad25389a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6b4cd9caad25389a.webp) | 0 KB | キャラクター交換所 |
+| img_魔女イレーナ_icon | [6b4cd9caad25389a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6b4cd9caad25389a.webp) | 0 KB | - |
 | img_魔女カオリ_icon | [10a680651ea14d18.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/10a680651ea14d18.webp) | 0 KB | - |
 | img_魔女カミナ_icon | [16909cf1bcc87956.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/16909cf1bcc87956.webp) | 0 KB | - |
 | img_魔女カミーユ_icon | [223d33eb0a4d1c8d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/223d33eb0a4d1c8d.webp) | 0 KB | - |
@@ -739,29 +739,29 @@
 | img_魔女キレー_icon | [fe7386db94535eb7.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fe7386db94535eb7.webp) | 0 KB | - |
 | img_魔女クルル_icon | [1ee610608c9e4c2f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1ee610608c9e4c2f.webp) | 0 KB | レイド用編成例 |
 | img_魔女クレナイ_icon | [8d9cf25f977329bf.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8d9cf25f977329bf.webp) | 0 KB | - |
-| img_魔女クーレー_icon | [ca1fe31d089bc2fa.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ca1fe31d089bc2fa.webp) | 0 KB | キャラクター交換所 |
+| img_魔女クーレー_icon | [ca1fe31d089bc2fa.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ca1fe31d089bc2fa.webp) | 0 KB | - |
 | img_魔女グリム_icon | [3d9d0e1094695a0b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3d9d0e1094695a0b.webp) | 0 KB | - |
-| img_魔女コバリ_icon | [a6f7657f91d2df2c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a6f7657f91d2df2c.webp) | 0 KB | キャラクター交換所 |
-| img_魔女シズク_icon | [639ba238188a94e4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/639ba238188a94e4.webp) | 0 KB | ウェーブフラスト（Bユニバース）、キャラクター交換所 等 8 页 |
+| img_魔女コバリ_icon | [a6f7657f91d2df2c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a6f7657f91d2df2c.webp) | 0 KB | - |
+| img_魔女シズク_icon | [639ba238188a94e4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/639ba238188a94e4.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 6 页 |
 | img_魔女シャオ_icon | [1f77358af61e6611.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1f77358af61e6611.webp) | 0 KB | - |
-| img_魔女スェン_icon | [1eca5c79c5fe7dd1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1eca5c79c5fe7dd1.webp) | 0 KB | キャラクター交換所、覚醒強化 |
+| img_魔女スェン_icon | [1eca5c79c5fe7dd1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1eca5c79c5fe7dd1.webp) | 0 KB | 覚醒強化 |
 | img_魔女ニーア_icon | [51d6cfaefd7b2029.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/51d6cfaefd7b2029.webp) | 0 KB | - |
-| img_魔女ハッピー_icon | [28474e49d36d220e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/28474e49d36d220e.webp) | 0 KB | ウェーブフラスト（Bユニバース）、キャラクター交換所 等 3 页 |
-| img_魔女ピカ_icon | [1fb511fc64d1e3d8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1fb511fc64d1e3d8.webp) | 0 KB | キャラクター交換所 |
-| img_魔女フタバ_icon | [886cc9faa1a91c28.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/886cc9faa1a91c28.webp) | 0 KB | キャラクター交換所 |
-| img_魔女フナノ_icon | [61b14b54dfa7cfeb.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/61b14b54dfa7cfeb.webp) | 0 KB | キャラクター交換所 |
+| img_魔女ハッピー_icon | [28474e49d36d220e.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/28474e49d36d220e.webp) | 0 KB | ウェーブフラスト（Bユニバース）、レイド用編成例 |
+| img_魔女ピカ_icon | [1fb511fc64d1e3d8.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1fb511fc64d1e3d8.webp) | 0 KB | - |
+| img_魔女フタバ_icon | [886cc9faa1a91c28.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/886cc9faa1a91c28.webp) | 0 KB | - |
+| img_魔女フナノ_icon | [61b14b54dfa7cfeb.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/61b14b54dfa7cfeb.webp) | 0 KB | - |
 | img_魔女プカルル_icon | [7329e22bccd468e6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7329e22bccd468e6.webp) | 0 KB | - |
-| img_魔女ミゴー_icon | [fce8e3529bba8bc1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fce8e3529bba8bc1.webp) | 0 KB | キャラクター交換所、レイド用編成例 |
+| img_魔女ミゴー_icon | [fce8e3529bba8bc1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fce8e3529bba8bc1.webp) | 0 KB | レイド用編成例 |
 | img_魔女ミヤビ_icon | [d375bfbbe03ce7e9.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d375bfbbe03ce7e9.webp) | 0 KB | - |
 | img_魔女メリー_icon | [87c4487873af8d3c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/87c4487873af8d3c.webp) | 0 KB | - |
 | img_魔女ヤブルー_icon | [79815b86188b50a4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/79815b86188b50a4.webp) | 0 KB | - |
-| img_魔女ユウガ_icon | [f53d8b469b3e4611.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f53d8b469b3e4611.webp) | 0 KB | キャラクター交換所、サイエンフラスト（Bユニバース） |
-| img_魔女ラメール_icon | [2770635e73a717ba.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2770635e73a717ba.webp) | 0 KB | キャラクター交換所 |
+| img_魔女ユウガ_icon | [f53d8b469b3e4611.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f53d8b469b3e4611.webp) | 0 KB | サイエンフラスト（Bユニバース） |
+| img_魔女ラメール_icon | [2770635e73a717ba.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2770635e73a717ba.webp) | 0 KB | - |
 | img_魔女リアン_icon | [24a7466b724c6358.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/24a7466b724c6358.webp) | 0 KB | - |
 | img_魔女リッタ_icon | [3ded2ea9baed7465.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3ded2ea9baed7465.webp) | 0 KB | - |
 | img_魔女リンゴ_icon | [2a6f5187b0e21589.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2a6f5187b0e21589.webp) | 0 KB | - |
-| img_魔女リーマ_icon | [60212894a4d6279d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/60212894a4d6279d.webp) | 0 KB | キャラクター交換所 |
-| img_魔女レイヴン_icon | [d55941c0651be1c2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d55941c0651be1c2.webp) | 0 KB | ウェーブフラスト（Bユニバース）、キャラクター交換所 等 4 页 |
+| img_魔女リーマ_icon | [60212894a4d6279d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/60212894a4d6279d.webp) | 0 KB | - |
+| img_魔女レイヴン_icon | [d55941c0651be1c2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d55941c0651be1c2.webp) | 0 KB | ウェーブフラスト（Bユニバース）、レイド用編成例 等 3 页 |
 | img_魔宰相ルルゼブ_NPC_icon | [59cad52b942d932d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/59cad52b942d932d.webp) | 0 KB | 魔宰相ルルゼブ |
 | img_魔憤将スレート_NPC | [dee24c6d2a4d3245.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/dee24c6d2a4d3245.webp) | 0 KB | - |
 | img_魔憤将スレート_NPC_icon | [ab80b2a3a8903522.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ab80b2a3a8903522.webp) | 0 KB | 魔憤将スレート |
@@ -899,7 +899,7 @@
 | アイテム一覧_強化P詰合せ | [d443cc7230709c18.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d443cc7230709c18.webp) | 0 KB | SandBox/アイテム価値早見表 |
 | アイテム一覧_昂るつぼみ | [3770974e508f6680.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3770974e508f6680.webp) | 0 KB | SandBox/アイテム価値早見表、序盤の手引き |
 | アイテム一覧_昂るつぼみ・束縛 | [8f3a1aa84ade485b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8f3a1aa84ade485b.webp) | 0 KB | SandBox/アイテム価値早見表、序盤の手引き 等 3 页 |
-| アイテム一覧_昂る種 | [2db43178f060a2df.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2db43178f060a2df.webp) | 0 KB | SandBox/アイテム価値早見表、キャラクター交換所 等 4 页 |
+| アイテム一覧_昂る種 | [2db43178f060a2df.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2db43178f060a2df.webp) | 0 KB | SandBox/アイテム価値早見表、序盤の手引き 等 3 页 |
 | アイテム一覧_時短チケット | [61c4c4a27f6f5c1c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/61c4c4a27f6f5c1c.webp) | 0 KB | SandBox/アイテム価値早見表 |
 | アイテム一覧_月下擾乱ガチャチケット | [6e9f06b58c4eb4c1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6e9f06b58c4eb4c1.webp) | 0 KB | - |
 | アイテム一覧_木彫りベアー | [9bf78f453f99d5de.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9bf78f453f99d5de.webp) | 0 KB | - |
@@ -939,7 +939,7 @@
 | イベント08_レイドイベント『グナガン』_グナガン情報 | [f8ca079eeb875406.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f8ca079eeb875406.webp) | 0 KB | イベント08_レイドイベント『グナガン』 |
 | イベント100_超昂×ジブリール！　闇を断つアモーレ_ジブリールコラボ_時短画面 | [dfa8b7696cead340.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/dfa8b7696cead340.webp) | 0 KB | 戦闘 |
 | イベント100_超昂×ジブリール！　闇を断つアモーレ_好感度アップボタン | [761a4551a404809a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/761a4551a404809a.webp) | 0 KB | - |
-| イベント106_ランスⅥ―学級崩壊―_banner | [ecc6f99aa7605997.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ecc6f99aa7605997.webp) | 0 KB | キャラクター交換所、限界突破 |
+| イベント106_ランスⅥ―学級崩壊―_banner | [ecc6f99aa7605997.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ecc6f99aa7605997.webp) | 0 KB | 限界突破 |
 | イベント107_本当は怖かったはずのグリム童話_banner | [4d9a6b64f320f007.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4d9a6b64f320f007.webp) | 0 KB | - |
 | イベント12_レイドイベント『ゴールデンハニー』_banner | [e23850071c80ee06.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e23850071c80ee06.webp) | 0 KB | - |
 | イベント12_レイドイベント『ゴールデンハニー』_banner2 | [a42488363e2993fc.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/a42488363e2993fc.webp) | 0 KB | イベント12_レイドイベント『ゴールデンハニー』 |
@@ -2402,17 +2402,17 @@
 | 装備一覧_お茶会セット | [4d22a3d3ff704def.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4d22a3d3ff704def.webp) | 0 KB | レイド用編成例 |
 | 装備一覧_しゃーべりタイガー | [f1cf43d34916d478.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f1cf43d34916d478.webp) | 0 KB | しゃーべりタイガー、ウェーブフラスト（Bユニバース） 等 6 页 |
 | 装備一覧_てかる栗 | [e6a1f84cdb954846.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e6a1f84cdb954846.webp) | 0 KB | てかる栗、レイド用編成例 |
-| 装備一覧_ガッツ十姉妹 | [5dc85fa2967119d6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5dc85fa2967119d6.webp) | 0 KB | ウェーブフラスト（Bユニバース）、ガッツ十姉妹 等 7 页 |
+| 装備一覧_ガッツ十姉妹 | [5dc85fa2967119d6.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5dc85fa2967119d6.webp) | 0 KB | ウェーブフラスト（Bユニバース）、ガッツ十姉妹 等 6 页 |
 | 装備一覧_コンボの謎 | [86f3d2fdcdbf992c.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/86f3d2fdcdbf992c.webp) | 0 KB | コンボの謎、レイド用編成例 等 3 页 |
-| 装備一覧_スタン帽子 | [1bf22d6dd072cdb2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1bf22d6dd072cdb2.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 7 页 |
+| 装備一覧_スタン帽子 | [1bf22d6dd072cdb2.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/1bf22d6dd072cdb2.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 6 页 |
 | 装備一覧_スーパーカー | [6c33c2b6f9a17984.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/6c33c2b6f9a17984.webp) | 0 KB | スーパーカー、序盤の手引き |
 | 装備一覧_スーパードリル | [9c6d8991b1244515.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9c6d8991b1244515.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 5 页 |
 | 装備一覧_タツノオトシドコロ | [8383bec9ebbfa815.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8383bec9ebbfa815.webp) | 0 KB | タツノオトシドコロ、限界突破 |
 | 装備一覧_ドラ猫の鈴 | [baf97e73978e9c61.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/baf97e73978e9c61.webp) | 0 KB | ドラ猫の鈴 |
 | 装備一覧_ハニージッポ | [f30013a7f9276b2d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f30013a7f9276b2d.webp) | 0 KB | ハニージッポ、レイド用編成例 |
 | 装備一覧_ハニ噛み王子 | [00f5497a9467b670.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/00f5497a9467b670.webp) | 0 KB | ハニ噛み王子 |
-| 装備一覧_ヘビースターメン | [809618ee79c1696a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/809618ee79c1696a.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 7 页 |
-| 装備一覧_ロケットエンジン | [088598782bf87f05.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/088598782bf87f05.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 7 页 |
+| 装備一覧_ヘビースターメン | [809618ee79c1696a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/809618ee79c1696a.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 6 页 |
+| 装備一覧_ロケットエンジン | [088598782bf87f05.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/088598782bf87f05.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 6 页 |
 | 装備一覧_仁王納豆 | [001df41a2331d677.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/001df41a2331d677.webp) | 0 KB | レイド用編成例、仁王納豆 等 3 页 |
 | 装備一覧_再装備確認画面 | [0d673741536a6c0d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/0d673741536a6c0d.webp) | 0 KB | - |
 | 装備一覧_命中の刃 | [353b56801cc0e2ab.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/353b56801cc0e2ab.webp) | 0 KB | 命中の刃 |
@@ -2421,10 +2421,10 @@
 | 装備一覧_白色のスカーフ | [d818c1c1a5e467aa.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/d818c1c1a5e467aa.webp) | 0 KB | レイド用編成例 |
 | 装備一覧_細菌兵器 | [ce05e67a1459b99f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/ce05e67a1459b99f.webp) | 0 KB | 序盤の手引き、細菌兵器 |
 | 装備一覧_縛り亀甲 | [534b40a184b7f26a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/534b40a184b7f26a.webp) | 0 KB | ウェーブフラスト（Bユニバース）、レイド用編成例 等 5 页 |
-| 装備一覧_衝撃のあるベルト | [72a33caef43b9a17.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/72a33caef43b9a17.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 7 页 |
+| 装備一覧_衝撃のあるベルト | [72a33caef43b9a17.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/72a33caef43b9a17.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 6 页 |
 | 装備一覧_身代わりの樹II | [44853345f35e4a69.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/44853345f35e4a69.webp) | 0 KB | 身代わりの樹Ⅱ |
-| 装備一覧_長髪まねき猫 | [e14b7259dfb59bd4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e14b7259dfb59bd4.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 6 页 |
-| 装備一覧_電光せっかち | [5cc9e1f585872ea1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5cc9e1f585872ea1.webp) | 0 KB | ウェーブフラスト（Bユニバース）、ムービーフラスト（Bユニバース） 等 5 页 |
+| 装備一覧_長髪まねき猫 | [e14b7259dfb59bd4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/e14b7259dfb59bd4.webp) | 0 KB | ウェーブフラスト（Bユニバース）、サイエンフラスト（Bユニバース） 等 5 页 |
+| 装備一覧_電光せっかち | [5cc9e1f585872ea1.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/5cc9e1f585872ea1.webp) | 0 KB | ウェーブフラスト（Bユニバース）、レイド用編成例 等 4 页 |
 | 視えずの黒子サナギ_視えずの黒子サナギ | [8b777c478a70f8ed.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8b777c478a70f8ed.webp) | 0 KB | - |
 | 視えずの黒子サナギ_視えずの黒子サナギ_sd | [0124829ab27d4699.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/0124829ab27d4699.webp) | 0 KB | - |
 | 視えずの黒子サナギ_視えずの黒子サナギ強化 | [53209141c2afa689.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/53209141c2afa689.webp) | 0 KB | - |
@@ -2655,7 +2655,7 @@
 | 闇の奉輪こもり_闇の奉輪こもり_sd | [4346d1d8b5e0376a.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/4346d1d8b5e0376a.webp) | 0 KB | - |
 | 闇の奉輪こもり_闇の奉輪こもり強化 | [2877bec4244dd27d.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/2877bec4244dd27d.webp) | 0 KB | - |
 | 闇の奉輪こもり_闇の奉輪こもり私服 | [77da7b4ae6439e03.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/77da7b4ae6439e03.webp) | 0 KB | - |
-| 限界突破_キャラクター交換所 | [505e4d37cd0be84f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/505e4d37cd0be84f.webp) | 0 KB | キャラクター交換所、限界突破 |
+| 限界突破_キャラクター交換所 | [505e4d37cd0be84f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/505e4d37cd0be84f.webp) | 0 KB | 限界突破 |
 | 限界突破_限界突破_ステータス説明用画面 | [fd4efbe99e68da4f.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/fd4efbe99e68da4f.webp) | 0 KB | 戦闘、限界突破 |
 | 限界突破_限界突破☆マーク | [f6b483ded374fe2b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f6b483ded374fe2b.webp) | 0 KB | 限界突破 |
 | 限界突破_限界突破ステータスアップ例_Lv100 | [8380664ce3532805.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/8380664ce3532805.webp) | 0 KB | 限界突破 |

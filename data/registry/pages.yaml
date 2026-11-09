@@ -3950,3 +3950,9 @@ pages:
   mode: static
   rarity: SSR
   icon: img/560a481d94b94be2.webp
+- name: メイドハータン
+  slug: characters/メイドハータン
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/560a481d94b94be2.webp

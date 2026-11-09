@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-02T23:12:16+00:00",
+ "generated_at": "2026-11-09T23:50:33+00:00",
  "note": "磁盘文件名是 sha256(源URL)[:16].webp，改动它有 404 风险，故不改名，只用本表对照。本表自动生成（`cli assets --index-only`），勿手工编辑。",
  "counts": {
   "pending": 2816,
@@ -7,7 +7,7 @@
   "mapped": 2816,
   "orphan": 324,
   "total_bytes": 407775,
-  "with_page_refs": 823
+  "with_page_refs": 787
  },
  "entries": [
   {
@@ -2017,9 +2017,7 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "サイエンフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レールフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/95301aae51608760.webp"
@@ -2409,7 +2407,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "ムービーフラスト（Bユニバース）",
     "序盤の手引き"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/63de516dca671d22.webp"
@@ -2919,9 +2916,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E3838EE3838EE3838EE38390E3839526E69697E7BEBDE38387E38390E38395E4B88BE381AEE5BF85E6AEBAE68A80E8A2ABE38380E383A12E6A7067.jpg",
    "bytes": 131,
    "exists": true,
-   "pages": [
-    "ムービーフラスト（Bユニバース）"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/c2da46d0e5b99baa.webp"
   },
   {
@@ -3049,7 +3044,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レールフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/a1d59ee5abd41c63.webp"
@@ -3226,9 +3220,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38390E383ACE383B3E382BFE382A4E383B3E38384E383ABE382B35F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/9b22e992ad7c4828.webp"
   },
   {
@@ -3273,9 +3265,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38390E383ACE383B3E382BFE382A4E383B3E3839FE382B4E383BC5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/94c4423a0638cd2a.webp"
   },
   {
@@ -3346,7 +3336,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レールフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/56e474cf1feaa3e1.webp"
@@ -3368,7 +3357,6 @@
    "exists": true,
    "pages": [
     "ウェーブフラスト（Bユニバース）",
-    "キャラクター交換所",
     "序盤の手引き"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/a54ae07b58556003.webp"
@@ -3389,9 +3377,7 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "ウェーブフラスト（Bユニバース）",
-    "キャラクター交換所",
-    "ムービーフラスト（Bユニバース）"
+    "ウェーブフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/f5e43d31a0509277.webp"
   },
@@ -3486,8 +3472,7 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "ウェーブフラスト（Bユニバース）",
-    "キャラクター交換所"
+    "ウェーブフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4f09ce28c110c952.webp"
   },
@@ -3517,9 +3502,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38393E383BCE38388E382ABE383BCE383A0E383BBE3838AE382AE5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ee821b1977cd34d2.webp"
   },
   {
@@ -3555,9 +3538,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38393E383BCE38388E382B7E383A5E383BCE382BFE383BCE383BBE383AAE383B3E38389E382A65F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/01b3bb3770abae8e.webp"
   },
   {
@@ -3566,9 +3547,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38393E383BCE38388E382B8E382A7E3838DE383A9E383ABE383BBE3839FE382B9E38388E383ACE383BCE3838C5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/0fbf1667fd23f7e7.webp"
   },
   {
@@ -3646,7 +3625,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レイド用編成例",
     "覚醒強化"
    ],
@@ -3658,9 +3636,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38393E383BCE38388E38381E383A5E383BCE383AAE38383E38397E383BBE3839EE383AAE382A25F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/d9073e89a80392e0.webp"
   },
   {
@@ -3696,9 +3672,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38393E383BCE38388E3838EE383BCE38396E383ABE383BBE382ABE3838EE383B35F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/d7b0aa446eb53d92.webp"
   },
   {
@@ -3757,9 +3731,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38393E383BCE38388E38395E382A1E382A4E383B3E38380E383BCE383BBE38395E382A7E383AAE3838B5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/85b23d79ac0416d1.webp"
   },
   {
@@ -3813,9 +3785,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38393E383BCE38388E38397E383A9E383B3E3838AE383BCE383BBE3838FE382A4E3838D5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/a96f6473657d42ce.webp"
   },
   {
@@ -4103,9 +4073,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E383A0E383BCE38393E383BCE38395E383A9E382B9E38388312E706E67.png",
    "bytes": 130,
    "exists": true,
-   "pages": [
-    "ムービーフラスト（Bユニバース）"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/9ab000ece8e7b65d.webp"
   },
   {
@@ -4343,7 +4311,6 @@
    "exists": true,
    "pages": [
     "ウェーブフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）"
    ],
@@ -4681,9 +4648,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E5898DE8A19B32E4BABAE38292E5BE8CE58897E381ABE5BE8CE8A19B32E4BABAE38292E5898DE58897E381ABE9858DE7BDAE2E6A7067.jpg",
    "bytes": 131,
    "exists": true,
-   "pages": [
-    "ムービーフラスト（Bユニバース）"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/03b4a8d37b1780de.webp"
   },
   {
@@ -5082,9 +5047,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E6818BE381AEE381BFE38289E3818FE3828BE29886E382B9E382A4E383BCE383885F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/3e1838bed9fc7aaf.webp"
   },
   {
@@ -5796,9 +5759,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E79C9FE5A48FE381AEE382B7E383AAE382AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/c2988e3a069ab667.webp"
   },
   {
@@ -5853,7 +5814,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レイド用編成例",
     "覚醒強化"
    ],
@@ -5990,9 +5950,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE382A8E383ABE382ABE382A8E383AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/947ccd0de2097a1e.webp"
   },
   {
@@ -6001,9 +5959,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE382ABE3838EE383BCE38397E382B95F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/2251ef70bcd4e47d.webp"
   },
   {
@@ -6048,9 +6004,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE382B0E383A9E382B7E382A8E383AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/3ffb64d8ee1851ce.webp"
   },
   {
@@ -6099,9 +6053,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE382B9E38386E382A2E383BCE383AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/cb3ac8dc348bd1f3.webp"
   },
   {
@@ -6129,7 +6081,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レールフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4b840da47866553f.webp"
@@ -6178,9 +6129,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE3838FE3838BE383BCE382A8E383AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/acbbdb2f1d4e293a.webp"
   },
   {
@@ -6225,9 +6174,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE38397E383ADE382ADE382AAE383B35F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ea771812c310c3ae.webp"
   },
   {
@@ -6236,9 +6183,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE38398E38397E382BFE382B9E383ADE383B35F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/80297c70aac7c93a.webp"
   },
   {
@@ -6248,7 +6193,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "サイエンフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ec6c7011b0ea80b9.webp"
@@ -6259,9 +6203,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE38399E383A9E38388E383AAE382AFE382B95F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/7983fd5644c2ecea.webp"
   },
   {
@@ -6308,9 +6250,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E7A59EE9A88EE383AAE382B2E383AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/f5da38716f7bed18.webp"
   },
   {
@@ -6629,7 +6569,6 @@
    "exists": true,
    "pages": [
     "ウェーブフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）"
    ],
@@ -6786,9 +6725,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E99683E5BF8DE382A6E3839F5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/7646cdce18b9991c.webp"
   },
   {
@@ -6798,7 +6735,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レールフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4b7e2d5d11e74cc8.webp"
@@ -6809,9 +6745,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E99683E5BF8DE382ADE38383E382AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/38869f336fb1ee99.webp"
   },
   {
@@ -6820,9 +6754,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E99683E5BF8DE382AFE382B5E383AA5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/8a354d26aa09066d.webp"
   },
   {
@@ -6859,7 +6791,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レイド用編成例"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/9f7bb4151d8a904f.webp"
@@ -6900,7 +6831,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レイド用編成例"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/741107820cc32c2e.webp"
@@ -7040,9 +6970,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E99683E5BF8DE3839EE383A6E383AA5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/65a93893437abec0.webp"
   },
   {
@@ -7089,9 +7017,7 @@
    "exists": true,
    "pages": [
     "ウェーブフラスト（Bユニバース）",
-    "キャラクター交換所",
     "サイエンフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "覚醒強化"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/680028d20a392bd8.webp"
@@ -7147,9 +7073,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E99683E5BF8DE383ACE382A4E3838A5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/47c0261e85f961ae.webp"
   },
   {
@@ -7314,9 +7238,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E382A4E383ACE383BCE3838A5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/6b4cd9caad25389a.webp"
   },
   {
@@ -7390,9 +7312,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E382AFE383BCE383ACE383BC5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ca1fe31d089bc2fa.webp"
   },
   {
@@ -7410,9 +7330,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E382B3E38390E383AA5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/a6f7657f91d2df2c.webp"
   },
   {
@@ -7423,9 +7341,7 @@
    "exists": true,
    "pages": [
     "ウェーブフラスト（Bユニバース）",
-    "キャラクター交換所",
     "サイエンフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）",
     "序盤の手引き",
@@ -7449,7 +7365,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "覚醒強化"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/1eca5c79c5fe7dd1.webp"
@@ -7471,7 +7386,6 @@
    "exists": true,
    "pages": [
     "ウェーブフラスト（Bユニバース）",
-    "キャラクター交換所",
     "レイド用編成例"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/28474e49d36d220e.webp"
@@ -7482,9 +7396,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E38394E382AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/1fb511fc64d1e3d8.webp"
   },
   {
@@ -7493,9 +7405,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E38395E382BFE383905F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/886cc9faa1a91c28.webp"
   },
   {
@@ -7504,9 +7414,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E38395E3838AE3838E5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/61b14b54dfa7cfeb.webp"
   },
   {
@@ -7525,7 +7433,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "レイド用編成例"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/fce8e3529bba8bc1.webp"
@@ -7564,7 +7471,6 @@
    "bytes": 129,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "サイエンフラスト（Bユニバース）"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/f53d8b469b3e4611.webp"
@@ -7575,9 +7481,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E383A9E383A1E383BCE383AB5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/2770635e73a717ba.webp"
   },
   {
@@ -7613,9 +7517,7 @@
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E383AAE383BCE3839E5F69636F6E2E706E67.png",
    "bytes": 129,
    "exists": true,
-   "pages": [
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/60212894a4d6279d.webp"
   },
   {
@@ -7626,7 +7528,6 @@
    "exists": true,
    "pages": [
     "ウェーブフラスト（Bユニバース）",
-    "キャラクター交換所",
     "レイド用編成例",
     "レールフラスト（Bユニバース）"
    ],
@@ -9029,7 +8930,6 @@
    "exists": true,
    "pages": [
     "SandBox/アイテム価値早見表",
-    "キャラクター交換所",
     "序盤の手引き",
     "限界突破"
    ],
@@ -9438,7 +9338,6 @@
    "bytes": 130,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "限界突破"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/ecc6f99aa7605997.webp"
@@ -23261,7 +23160,6 @@
     "ウェーブフラスト（Bユニバース）",
     "ガッツ十姉妹",
     "サイエンフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）",
     "序盤の手引き"
@@ -23291,7 +23189,6 @@
     "ウェーブフラスト（Bユニバース）",
     "サイエンフラスト（Bユニバース）",
     "スタン帽子",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）",
     "序盤の手引き"
@@ -23381,7 +23278,6 @@
     "ウェーブフラスト（Bユニバース）",
     "サイエンフラスト（Bユニバース）",
     "ヘビースターメン",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）",
     "序盤の手引き"
@@ -23397,7 +23293,6 @@
    "pages": [
     "ウェーブフラスト（Bユニバース）",
     "サイエンフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）",
     "ロケットエンジン",
@@ -23508,7 +23403,6 @@
    "pages": [
     "ウェーブフラスト（Bユニバース）",
     "サイエンフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）",
     "序盤の手引き",
@@ -23536,7 +23430,6 @@
    "pages": [
     "ウェーブフラスト（Bユニバース）",
     "サイエンフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レールフラスト（Bユニバース）",
     "序盤の手引き",
     "長髪まねき猫"
@@ -23551,7 +23444,6 @@
    "exists": true,
    "pages": [
     "ウェーブフラスト（Bユニバース）",
-    "ムービーフラスト（Bユニバース）",
     "レイド用編成例",
     "レールフラスト（Bユニバース）",
     "電光せっかち"
@@ -25665,7 +25557,6 @@
    "bytes": 131,
    "exists": true,
    "pages": [
-    "キャラクター交換所",
     "限界突破"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/505e4d37cd0be84f.webp"
