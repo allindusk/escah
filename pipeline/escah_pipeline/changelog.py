@@ -9,10 +9,18 @@
   哪些页是**新增**、哪些页**已更新**、哪些**不用动**。
 
 产物（全部入库）：
-  data/upstream/latest.json          最新一份（本地更新时读这个）
-  data/upstream/weekly/<ISO周>.json  按周存档，留历史
-  data/upstream/weekly/<ISO周>.md    人类可读摘要（CI 日志/直接翻看）
-  data/upstream/history.ndjson       累积流水（每行 = 一周一条目），可查"某页哪周动过"
+  data/upstream/latest.json              最新一份（本地更新时读这个）
+  data/upstream/weekly/<ISO周>.json      按周存档，留历史
+  data/upstream/weekly/<ISO周>.md        人类可读摘要（CI 日志/直接翻看）
+  data/upstream/history-<ISO周年>.ndjson 累积流水，**按年分文件**；每行 = **一个页条目**
+                                         （week + 页名 + status…），可查"某页哪周动过"
+  data/upstream/history.bad.ndjson       解析失败的坏行留档（从主文件移出，避免永久残留）
+
+为什么按年分文件（2026-11-13）：
+  单文件流水每周 +100 行、约 1.9 MB/年，且写入是"读全文→按周去重→整文件重写"；
+  拆成 history-<ISO周年>.ndjson 后单文件上限约 1.9 MB、跨年自动新建，写入只需读写
+  当年那一份。这些文件**没有代码读者**（`show`/`names` 只读 latest.json，历史只供
+  grep/翻看），所以拆分不影响任何代码路径。
 
 条目 status 语义：
   new        原站有、registry 未登记 → 需本地 `discover` 登记 + 抓取（新增页）
@@ -47,9 +55,41 @@ from .snapshot import Manifest
 from .updater import _is_namespaced
 
 ARCHIVE_DIR = config.DATA_DIR / "upstream"
-WEEKLY_DIR = ARCHIVE_DIR / "weekly"
-LATEST_FILE = ARCHIVE_DIR / "latest.json"
-HISTORY_FILE = ARCHIVE_DIR / "history.ndjson"
+
+
+# 路径一律在**调用时**从 ARCHIVE_DIR 现算（不再固化成 import 期常量）：
+#   ① 年文件要先知道是哪一年，import 期算不出来；
+#   ② 测试可以把 ARCHIVE_DIR 换成临时目录，不必逐个改常量。
+def _weekly_dir() -> Path:
+    return ARCHIVE_DIR / "weekly"
+
+
+def _latest_file() -> Path:
+    return ARCHIVE_DIR / "latest.json"
+
+
+def _year_history_file(year: str) -> Path:
+    return ARCHIVE_DIR / f"history-{year}.ndjson"
+
+
+def _history_file(week: str) -> Path:
+    """某个 ISO 周所属的流水文件：history-<ISO周年>.ndjson（跨年自动新建）。
+
+    用 week 的前 4 位（即 ISO 周年 `%G`，不是日历年）：2026-12-29 属于 2027-W01，
+    落在 2027 文件里，与 week 键自身一致。
+    """
+    return _year_history_file(week[:4])
+
+
+def _legacy_history_file() -> Path:
+    """旧版单文件流水（迁移前）。存在即自动拆分并入年文件后删除。"""
+    return ARCHIVE_DIR / "history.ndjson"
+
+
+def _bad_file() -> Path:
+    """坏行留档：解析失败的原始行，从主文件移出后存这里。"""
+    return ARCHIVE_DIR / "history.bad.ndjson"
+
 
 # 需要本地"做点什么"的状态
 ACTIONABLE = ("new", "update")
@@ -207,37 +247,101 @@ def build(html: "str | None" = None, cookie: "str | None" = None,
 
 
 def save(snap: dict) -> "dict[str, str]":
-    """落盘：latest.json + weekly/<周>.json + weekly/<周>.md + 追加 history.ndjson。"""
-    WEEKLY_DIR.mkdir(parents=True, exist_ok=True)
+    """落盘：latest.json + weekly/<周>.json/.md + 追加 history-<ISO周年>.ndjson。"""
+    _migrate_legacy_history()
     week = snap["iso_week"]
-    weekly = WEEKLY_DIR / f"{week}.json"
-    weekly_md = WEEKLY_DIR / f"{week}.md"
+    weekly_dir = _weekly_dir()
+    weekly_dir.mkdir(parents=True, exist_ok=True)
+    weekly = weekly_dir / f"{week}.json"
+    weekly_md = weekly_dir / f"{week}.md"
+    latest = _latest_file()
+    hist = _history_file(week)
 
     def _dump(p: Path) -> None:
         p.write_text(json.dumps(snap, ensure_ascii=False, indent=1), encoding="utf-8")
 
     _dump(weekly)
-    _dump(LATEST_FILE)
+    _dump(latest)
 
-    # 累积流水：一周一条目一行（覆盖同周重跑 → 先滤掉本周旧行）
-    lines = []
-    if HISTORY_FILE.exists():
-        for ln in HISTORY_FILE.read_text(encoding="utf-8").splitlines():
+    # 累积流水：一个页条目一行。同周重跑 → 先滤掉该周旧行（跨周历史不受影响）；
+    # 解析不了的坏行移出主文件（否则它永远留在里面、也永远不参与按周去重）。
+    lines: "list[str]" = []
+    bad: "list[str]" = []
+    if hist.exists():
+        for ln in hist.read_text(encoding="utf-8").splitlines():
             if not ln.strip():
                 continue
             try:
-                if json.loads(ln).get("week") == week:
-                    continue
-            except Exception:
-                pass
+                obj = json.loads(ln)
+            except Exception:  # noqa: BLE001 - 坏行不阻断本周存档
+                bad.append(ln)
+                continue
+            if obj.get("week") == week:
+                continue
             lines.append(ln)
     for it in snap["items"]:
         lines.append(json.dumps({"week": week, **it}, ensure_ascii=False))
-    HISTORY_FILE.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    hist.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    if bad:
+        _append_bad(bad)
 
     weekly_md.write_text(_to_markdown(snap), encoding="utf-8")
-    return {"weekly": str(weekly), "latest": str(LATEST_FILE),
-            "md": str(weekly_md), "history": str(HISTORY_FILE)}
+    return {"weekly": str(weekly), "latest": str(latest),
+            "md": str(weekly_md), "history": str(hist)}
+
+
+def _append_bad(lines: "list[str]") -> None:
+    """坏行留档（去重后追加）。"""
+    p = _bad_file()
+    known = set(p.read_text(encoding="utf-8").splitlines()) if p.exists() else set()
+    fresh = [ln for ln in lines if ln not in known]
+    if not fresh:
+        return
+    with p.open("a", encoding="utf-8") as fh:
+        for ln in fresh:
+            fh.write(ln + "\n")
+
+
+def _migrate_legacy_history() -> None:
+    """把旧版单文件 `history.ndjson` 按 ISO 周年拆进 `history-<年>.ndjson`。
+
+    幂等：迁移完删除旧文件；旧文件不存在时立即返回（每次 save 调一次，开销可忽略）。
+    同一个 week 在两边都出现时以旧文件为准（它是更新的一方），保证「同周只有一份」。
+    """
+    legacy = _legacy_history_file()
+    if not legacy.exists():
+        return
+    by_year: "dict[str, list[str]]" = {}
+    bad: "list[str]" = []
+    for ln in legacy.read_text(encoding="utf-8").splitlines():
+        if not ln.strip():
+            continue
+        try:
+            obj = json.loads(ln)
+        except Exception:  # noqa: BLE001 - 坏行进留档，不阻断迁移
+            bad.append(ln)
+            continue
+        week = str(obj.get("week") or "")
+        by_year.setdefault(week[:4] or "unknown", []).append(ln)
+    for year, incoming in by_year.items():
+        target = _year_history_file(year)
+        weeks = {json.loads(ln).get("week") for ln in incoming}
+        kept: "list[str]" = []
+        if target.exists():
+            for ln in target.read_text(encoding="utf-8").splitlines():
+                if not ln.strip():
+                    continue
+                try:
+                    if json.loads(ln).get("week") in weeks:
+                        continue
+                except Exception:  # noqa: BLE001
+                    pass
+                kept.append(ln)
+        kept.extend(incoming)
+        target.write_text("\n".join(kept) + "\n", encoding="utf-8")
+    if bad:
+        _append_bad(bad)
+    legacy.unlink()
 
 
 def _to_markdown(snap: dict) -> str:
@@ -270,9 +374,10 @@ def _to_markdown(snap: dict) -> str:
 
 
 def latest() -> "dict | None":
-    if not LATEST_FILE.exists():
+    p = _latest_file()
+    if not p.exists():
         return None
-    return json.loads(LATEST_FILE.read_text(encoding="utf-8"))
+    return json.loads(p.read_text(encoding="utf-8"))
 
 
 def actionable_names(snap: "dict | None" = None, statuses=ACTIONABLE) -> "list[str]":

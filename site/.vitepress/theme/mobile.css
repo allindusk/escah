@@ -268,6 +268,27 @@
     font-size: 13px;
     text-align: center;
   }
+  /* 行数徽标：按钮 flex:1 1 0（basis 0）占满整行，徽标无法与之同行 →
+     用 flex-basis:100% 独占一行，紧接在按钮下方、**靠左**（与桌面「紧跟按钮」一致）。
+     block + text-align:left 而不是 inline-flex：后者在 flex-basis:100% 下内容会溢出。 */
+  .escah-tbl-count {
+    flex: 0 0 100%;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 2px;
+    text-align: left;
+    white-space: normal;
+    background: none;
+    border: none;
+    border-radius: 0;
+    color: var(--vp-c-text-2);
+  }
+  .escah-tbl-count.is-filtered {
+    background: none;
+    border: none;
+  }
   .escah-tbl-filter {
     width: 100%;
     max-width: 100%;

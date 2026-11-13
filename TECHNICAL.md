@@ -277,6 +277,32 @@ CI 里配 repository variable 即可让两地构建同步指向它。站长平�
 > sitemap 不用 VitePress 内置实现：内置版会对**每个页面**跑一次 `git log -1` 取 lastmod（1300+ 次子进程，
 > 构建被拖到数分钟），且取到的只是 CI checkout 时间，对爬虫无意义。
 
+### 8.2 表格同源：`テーブル/xxx` 只保留一份数据与一份译文
+
+原站（PukiWiki）把列表表格存在子页 `テーブル/SSR` 等，由 `#table()` 渲染进**多个宿主页** ——
+`SSR` 页与 `キャラクター一覧` 页显示的是同一张表、同一份数据。镜像站此前每个宿主页各抓一份
+raw、各自 parse、各自 i18n build，于是同一张表在库里存在两份 HTML 副本 + 两份译文 ⇒
+「改了一个地方另一个地方没改」（2026-11-13 用户反馈后统一）。
+
+现在由 `pipeline/escah_pipeline/table_sync.py` 在两端收口：
+
+| 层 | 做法 |
+|---|---|
+| 解析（`parse_all` 末尾自动跑；也可 `python -m escah_pipeline.cli tablesync`） | 扫描 `data/raw` 找出同一 `テーブル/xxx` 的全部宿主页 → 选**行数最多**者为权威（聚合页 `characters` 不参与评选）→ 整表覆盖其它宿主页的 `data/parsed/ja/<slug>.html`；每张表打 `data-tbl-id="テーブル/xxx"` |
+| i18n build | 聚合页（`AGGREGATORS = {"characters"}`）里带 `data-tbl-id` 的表被整块挖成 `<div class="escah-embed-tbl" data-embed="テーブル/xxx">`，**不进 key、不进 JSON**（`characters.json` 637KB → 25KB） |
+| i18n render | `table_sync.inject_embeds()` 把 provider 页（`list-ssr` / `list-sr` / `list-r` / `list-npc`）渲染出的同一张表塞回占位 ⇒ 数据与译文**只有子页那一份** |
+| 增量同步 | `local_sync` 把「provider 页 raw 变了」并入聚合页的 stale 集合，聚合页才会跟着重建（否则它自己 raw 没动就不会重建，站点仍旧表） |
+
+安全阀：组内表**列数不同**（说明该页自行裁剪过）或权威表**行数少于**目标页时**不覆盖**，只打
+warning。诊断 `python -m escah_pipeline.cli tablesync --dry-run`；验收
+`python tools/_dev/_verify_tablesync.py`（逐表比对 characters 与子页渲染结果）与
+`python tools/_dev/_kana_in_charlist.py`（中文页假名残留）。
+
+> ⚠️ 改 `characters` 页表格里的译文 → 改 `data/parsed/i18n/list-*.json`（**唯一源**），
+> 改 `characters.json` 无效（那里没有表格条目）。
+> 目前纳入的组：SSR / SR / R / NPC（4 组）与 3 组レイド 页共享表；宿主全是角色详情页的
+> `テーブル/キャラ/別衣装_XXX` 等组暂不处理（影响 400+ 页，另行评估）。
+
 ## 9. 数据：真值 vs 可重建
 
 **必须入库（不可重建）**
@@ -343,7 +369,12 @@ escah-bot commit & push `data/upstream/`（与 `data/raw` 同一个 `chore(fetch
   |---|---|
   | `data/upstream/latest.json` | 最新一份（本地更新时读它） |
   | `data/upstream/weekly/<ISO周>.json` / `.md` | 按周存档 + 人类可读摘要 |
-  | `data/upstream/history.ndjson` | 累积流水，可查"某页哪周动过" |
+  | `data/upstream/history-<ISO周年>.ndjson` | 累积流水，**按年分文件**（跨年自动新建）；每行 = 一个页条目，`grep` 可查"某页哪周动过" |
+  | `data/upstream/history.bad.ndjson` | 解析失败的坏行留档（从主文件移出，避免永久残留） |
+
+  流水写入是"读当年文件 → 滤掉同周旧行 → 追加本周条目 → 整文件重写"：跨周历史累积保留，
+  只有**同一个 ISO 周**重跑才会替换该周记录；年文件没有代码读者（`show`/`names` 只读
+  `latest.json`），体积上限约 1.9 MB/年。
 
 - 条目 `status`：`new`（原站有、本地未登记 → 需 `discover` + 抓取）／`update`
   （原站比本地快照新）／`unchanged`（本地已覆盖）／`frozen`（`no_auto_update`，
@@ -391,6 +422,16 @@ escah-bot commit & push `data/upstream/`（与 `data/raw` 同一个 `chore(fetch
 `site/.vitepress/theme/changelog.json`（由 `MirrorChangelog.vue`、`UpdateRecord.vue` 渲染）。
 
 源码注释中明确要求：**改动前端后递增 `SITE_VERSION` 并同步维护 `changelog.json`，两者保持一致**。
+
+> ⚠️ **`changelog.json` 的文案是写给玩家看的，不是变更日志（2026-11-13 用户明确批评）**：
+> 只写**用户能感知到的结果**——译文修正、术语统一、界面/功能变化、数据修正、新增页面。
+> **禁止**写内部实现与仓库事务：清理临时文件/一次性脚本、删除构建快照释放磁盘、
+> 改了哪个 `.py`/`.yaml`、用什么机制（词表、渲染期校验、i18n 回贴、单一真相源）、
+> commit/CI/版本控制。判断标准一句话：**玩家看得见吗？看不见就删**。
+> 发版前自查：`python tools/_dev/_check_changelog.py`（含禁用词表 + 版本号顺序校验）。
+>
+> 另注：版本号与 `changelog.json` **只在用户明确说发版时同步**（避免一天推多次、反复重发布），
+> 平时改动攒在本地即可。
 
 ### 12.1 生成物：哪些文件不要手改
 

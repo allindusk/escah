@@ -255,6 +255,27 @@ def _resolve_name(want: str, norm_to_actual: dict[str, str]) -> str | None:
     return norm_to_actual.get(_norm(want))
 
 
+def _icon_exists(icon: str) -> bool:
+    """注册表 icon（`img/<hash>.webp`）在本地图库里是否**已入库**。
+
+    为什么需要：懒加载占位符算出的假哈希（如 560a481d94b94be2）一旦写进
+    pages.yaml，`icon` 就被认为「已登记」而永不刷新 → 浮窗/表格头像永久 404。
+
+    判据就是「文件存在」（大小为 0 视为损坏）。CI 的 checkout 不拉 LFS 内容，
+    图是 130B 左右的指针文本 —— 指针存在即代表这张图**已下载并入库**，
+    对「有没有这张图」的答案就是「有」，不该被自愈逻辑覆盖；真正没下载的图
+    文件根本不存在，本轮就能被识别并用目录页快照纠正。
+    """
+    name = (icon or "").replace("\\", "/").rsplit("/", 1)[-1]
+    if not name:
+        return False
+    path = config.ASSETS_IMG_DIR / name
+    try:
+        return path.is_file() and path.stat().st_size > 0
+    except OSError:
+        return False
+
+
 def _img_local_name(src: str) -> str:
     """把 wiki 原始图片 src 转成本地存储名（与 parser_puki._rewrite_images 完全一致）：
     `img/<sha256(源URL)[:16]>.webp`。
@@ -300,10 +321,23 @@ def extract_char_rows(html: str,
                 continue
             img = img_link.find("img")
             seen.add(name)
+            # 懒加载（2026-11-13 实测 223/761 页）：原站 img 是
+            # `<img class="lazyload" data-src="attach2/…png" src="data:image/gif;base64,…">`，
+            # 只读 src 会拿到占位符 → 所有角色头像被算成同一个 hash
+            # （charRefs.avatarHashes 从 447 掉到 67、浮窗头像全错）。
+            # 真实地址在 data-src，故优先取它。
+            #
+            # 地址为空 / 仍是占位符时**不给 icon**（返回空串），绝不能拿它算哈希：
+            # 空串会 urljoin 成站点根，占位符是同一段 data: URI —— 两者都会算出
+            # 「所有这类角色共用的假文件名」，写进注册表后永久 404
+            # （2026-11-13 实测 ハロウィンミヤビ / メイドハータン = img/560a481d94b94be2.webp）。
+            src = (img.get("data-src") or img.get("src") or "").strip()
+            if not src or src.startswith("data:"):
+                src = ""
             characters.append({
                 "name": name,
                 "rarity": rarity or None,
-                "icon": _img_local_name(img.get("src", "")),
+                "icon": _img_local_name(src) if src else "",
             })
     return characters
 
@@ -462,7 +496,12 @@ def discover(offline: bool = False) -> None:
                 # （角色数据 JSON 与浮窗的 rarity 字段据此显示「サポーター」「NPC」）
                 if not entry.get("rarity"):
                     entry["rarity"] = c.get("rarity") or dir_name
-                if c.get("icon") and not entry.get("icon"):
+                # 图标：缺失、**或指向本地不存在的文件**时用目录页快照重算。
+                # 2026-11-13：旧逻辑「已有 icon 就永不覆盖」让懒加载占位哈希
+                # （img/560a481d94b94be2.webp）一旦入表就永久 404 —— discover 每轮都
+                # 看到它、每轮都跳过。改为按「文件是否真实存在」判断，既能自愈，
+                # 又不会在目录页数据抖动时乱改正常头像。
+                if c.get("icon") and (not entry.get("icon") or not _icon_exists(entry["icon"])):
                     entry["icon"] = c["icon"]
                 pages_by_name[name] = entry
             char_new += added

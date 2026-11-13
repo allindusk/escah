@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import hashlib
+import html as html_mod
 import json
 import os
 import re
@@ -247,29 +248,136 @@ def _rewrite_links(body: BeautifulSoup, slug_by_name: dict[str, str]) -> None:
             a["class"] = (a.get("class") or []) + ["source-link"]
 
 
+# 源站懒加载占位图：`<img class="lazyload" data-src="attach2/…png" src="data:image/gif;base64,…">`
+# 真实地址在 data-src，src 只是 1px gif —— 只看 src 会把整批懒加载图当占位符跳过（2026-11-13 实测）
+_LAZY_PLACEHOLDER_RE = re.compile(r"^data:image/(?:gif|png|jpeg|webp)", re.I)
+_LAZY_CLASS = "lazyload"
+
+
+def _img_local_name(src: str) -> str:
+    """源站相对/绝对地址 → 本地文件名 `<sha256(源URL)[:16]>.webp`（与 assets 下载一致）。"""
+    abs_url = urljoin(config.SOURCE_BASE, src)
+    digest = hashlib.sha256(abs_url.encode("utf-8")).hexdigest()[:16]
+    return f"{digest}.{imgx.CANONICAL_EXT}"
+
+
 def _rewrite_images(body: BeautifulSoup, pending_assets: dict[str, str]) -> None:
     """图片 → 本地 /img/<hash>.webp；源 URL 登记进 pending_assets 供下载。
 
     扩展名**不再沿用源 URL 后缀**（源站有 png / gif / jpg / pngv2 四种），而是固定 webp：
     下载环节 `assets._download_one` 会把图转成 WebP 再落盘（见 `imgx`），
     文件名主干仍是 `sha256(源URL)[:16]`，所以同一 URL 的哈希与历史记录一致。
+
+    懒加载（2026-11-13）：原站 223/761 页的 `<img>` 是 `data-src=真实地址` + `src=data:…占位`，
+    旧逻辑只读 src 便 `continue`，于是这些图在镜像站里**永远加载不出来**（浏览器只认 src，
+    站点也没有 lazysizes）。故此处优先取 data-src 作为源地址，改写后清掉占位符与 lazyload 类。
     """
-    for img in body.find_all("img", src=True):
-        src = img["src"].strip()
-        if src.startswith("data:"):
+    for img in body.find_all("img"):
+        raw = (img.get("data-src") or "").strip()
+        src = (img.get("src") or "").strip()
+        if raw and (not src or _LAZY_PLACEHOLDER_RE.match(src)):
+            src = raw
+        if not src or src.startswith("data:"):
             continue
         if src.startswith("/img/"):
             # 已经是**本地化路径**（重新解析已处理过的片段时会出现）→ 不能拿它去 urljoin，
             # 否则会拼成「源站的 /img/<hash>.png」登记进 pending_assets：源站没有这个路径，
             # 永远 404，而 pending_assets 只增不删 → 每次同步都白跑一轮（实测 172 条常驻）。
+            img.attrs.pop("data-src", None)
+            _strip_lazy_class(img)
             continue
-        abs_url = urljoin(config.SOURCE_BASE, src)
-        digest = hashlib.sha256(abs_url.encode("utf-8")).hexdigest()[:16]
-        local = f"{digest}.{imgx.CANONICAL_EXT}"
-        pending_assets[abs_url] = local
+        local = _img_local_name(src)
+        pending_assets[urljoin(config.SOURCE_BASE, src)] = local
         img["src"] = "/img/" + local
         img["loading"] = "lazy"
+        img.attrs.pop("data-src", None)
+        _strip_lazy_class(img)
         # 原网页宽高属性保留（排版一致），不额外处理
+
+
+def _strip_lazy_class(img: Tag) -> None:
+    """去掉 BeautifulSoup 标签 class 里的 lazyload（占位/懒加载语义在镜像站已无意义）。"""
+    cls = img.get("class")
+    if not cls:
+        return
+    kept = [c for c in cls if c.lower() != _LAZY_CLASS]
+    if len(kept) == len(cls):
+        return
+    if kept:
+        img["class"] = kept
+    else:
+        del img["class"]
+
+
+# ---------------------------------------------------------------- 字符串版兜底 ----
+# 为什么还要一份正则实现：frag 的 HTML 并不总是刚 parse 出来的（i18n 模板可能在本次
+# 修复之前生成、或来自 CI 存档），重跑全量 parse 代价太大。sitegen 落 frag 前用这里的
+# 正则版本再兜一次，保证**已入库的旧产物**也能显示图片（幂等：已本地化的不再动）。
+_IMG_TAG_RE = re.compile(r"<img\b[^>]*>", re.I)
+
+
+def _attr_re(name: str) -> re.Pattern:
+    return re.compile(
+        r"(?<![\w:-])" + name + r"\s*=\s*(?:\"([^\"]*)\"|'([^']*)'|([^\s>]+))", re.I)
+
+
+_DATA_SRC_ATTR_RE = _attr_re("data-src")
+_SRC_ATTR_RE = _attr_re("src")
+_CLASS_ATTR_RE = _attr_re("class")
+
+
+def _attr_value(m: re.Match) -> str:
+    for g in m.groups():
+        if g is not None:
+            return html_mod.unescape(g)
+    return ""
+
+
+def _set_src(tag: str, value: str) -> str:
+    m = _SRC_ATTR_RE.search(tag)
+    if m:
+        return tag[: m.start()] + f'src="{value}"' + tag[m.end():]
+    return re.sub(r"<img\b", f'<img src="{value}"', tag, count=1, flags=re.I)
+
+
+def rewrite_lazy_images_html(html: str) -> str:
+    """把懒加载 `<img data-src=… src=data:…>` 改写成 `src="/img/<hash>.webp"`（纯字符串）。"""
+    if "data-src" not in html:
+        return html
+
+    def fix(m: re.Match) -> str:
+        tag = m.group(0)
+        dm = _DATA_SRC_ATTR_RE.search(tag)
+        if not dm:
+            return tag
+        raw = _attr_value(dm).strip()
+        sm = _SRC_ATTR_RE.search(tag)
+        cur = _attr_value(sm).strip() if sm else ""
+        if raw and (not cur or _LAZY_PLACEHOLDER_RE.match(cur)):
+            tag = _set_src(tag, "/img/" + _img_local_name(raw))
+        elif not cur:
+            return tag
+        else:
+            # src 已是真实地址（本地或远程）：只清理 data-src 冗余
+            pass
+        dm2 = _DATA_SRC_ATTR_RE.search(tag)
+        if dm2:
+            tag = tag[: dm2.start()] + tag[dm2.end():]
+        return _strip_lazy_class_html(tag)
+
+    return _IMG_TAG_RE.sub(fix, html)
+
+
+def _strip_lazy_class_html(tag: str) -> str:
+    m = _CLASS_ATTR_RE.search(tag)
+    if not m:
+        return tag
+    words = [w for w in _attr_value(m).split() if w.lower() != _LAZY_CLASS]
+    if len(words) == len(_attr_value(m).split()):
+        return tag
+    if words:
+        return tag[: m.start()] + 'class="' + " ".join(words) + '"' + tag[m.end():]
+    return tag[: m.start()] + tag[m.end():]
 
 
 def iter_chunk_elements(root) -> list:
@@ -438,3 +546,15 @@ def parse_all(pages: list[str] | None = None, force: bool = False,
     index_path.write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
     manifest.save()
     log.info("解析完成：成功 %d，跳过 %d，失败 %d；待下载图片 %d（进程池 workers=%d）", ok, skipped, failed, len(pending_assets), workers)
+
+    # 同源表格（2026-11-13）：同一张 `テーブル/xxx` 的多个宿主页（キャラクター一覧 ←
+    # SSR/SR/R/NPC 页、レイド ← 各事件页）统一到权威表，并给表打 data-tbl-id 供 i18n
+    # 层做「译文只留一份」。必须在全部页解析完之后跑（否则读到的还是旧表）。
+    from . import table_sync
+
+    ts = table_sync.sync_parsed()
+    if ts["patched"]:
+        log.info("[同源表格] 覆盖 %d 页：%s", len(ts["patched"]),
+                 "、".join(f"{k}({len(v)})" for k, v in ts["patched"].items()))
+    for row in ts["skipped"]:
+        log.warning("[同源表格] 跳过 %s / %s：%s", row[0], row[1], row[2])

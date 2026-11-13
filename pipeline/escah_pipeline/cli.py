@@ -195,6 +195,11 @@ def build_parser() -> argparse.ArgumentParser:
     pg.add_argument("--tgt", default="zh-CN", help="目标语言（默认 zh-CN）")
     pg.add_argument("--force", action="store_true", help="覆盖已存在的 *_translated.txt")
 
+    pts = sub.add_parser("tablesync",
+                         help="同源表格：把同一 テーブル/xxx 被多个宿主页引用的表格统一到权威表"
+                              "（キャラクター一覧 ← SSR/SR/R/NPC 等），并打 data-tbl-id")
+    pts.add_argument("--dry-run", action="store_true", help="只报告差异，不写盘")
+
     pm = sub.add_parser("mt", help="机翻留档与后续精翻：record/export/apply/status")
     pm.add_argument("action", choices=["record", "export", "apply", "status"],
                     help="record=把机翻产物按页留档到 data/mt/（入库，供后续精翻）；"
@@ -262,6 +267,16 @@ def main(argv: list[str] | None = None) -> None:
     elif args.cmd == "manifest":
         from .manifest_merge import cmd_manifest
         cmd_manifest(args)
+    elif args.cmd == "tablesync":
+        from . import table_sync
+
+        ts = table_sync.sync_parsed(dry_run=args.dry_run)
+        for tid, info in ts["groups"].items():
+            print(f"{tid}｜权威={info['provider']}｜成员={'、'.join(info['members'])}")
+        for slug, tids in ts["patched"].items():
+            print(f"  {'将覆盖' if args.dry_run else '已覆盖'} {slug}: {'、'.join(tids)}")
+        for row in ts["skipped"]:
+            print(f"  跳过 {row[0]} / {row[1]}：{row[2]}")
     elif args.cmd == "i18n":
         from . import i18n
         if args.action == "build":

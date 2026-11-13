@@ -164,6 +164,14 @@ jobs:
           WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
         run: python -m escah_pipeline.cli assets
 
+      # ---- ④b 头像回归体检（2026-11-13）----
+      # 原站头像改懒加载后，注册表曾把「占位 data: URI 的哈希」当成图标写进 pages.yaml
+      # （560a481d94b94be2.webp），两页头像 404 而 CI 全程静默通过。
+      # 根因已在 registry / parser 修掉，这一步是护栏：以后再有 icon 指不到文件，
+      # 运行页会直接出现 warning 注解，不必等人打开站点才发现。
+      - name: Verify character icons
+        run: python tools/check_icons.py
+
       # ---- ⑤ 更新履歴存档（新增页 / 已更新页清单，供本地一眼看清要做什么）----
       - name: Archive upstream update history
         env:

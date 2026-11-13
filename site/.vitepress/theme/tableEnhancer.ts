@@ -195,6 +195,52 @@ type TblCache = HTMLTableElement & {
   _escahRowText?: string[][]
   _escahSortCol?: number
   _escahSortDir?: number
+  _escahAlwaysCount?: boolean
+}
+
+// 这些页面（角色一览与各类列表页）表格**始终**显示行数；其余页面只有超过 10 行才显示，
+// 免得正文里每张两三条的小表都顶一个「共 3 行」（2026-11-13 用户要求）。
+const COUNT_ALWAYS_PREFIXES = [
+  'characters', 'list-ssr', 'list-sr', 'list-r', 'list-supporter', 'list-npc',
+]
+const COUNT_MIN_ROWS = 10
+
+function alwaysShowCount(pageSlug?: string): boolean {
+  if (!pageSlug) return false
+  const slug = pageSlug.toLowerCase()
+  return COUNT_ALWAYS_PREFIXES.some(
+    (p) => slug === p || slug.startsWith(p + '/') || slug.startsWith(p + '-')
+  )
+}
+
+/**
+ * 行数显示：在「表格全屏 / 表格重置」之后紧跟「共 N 行」，筛选后变成「共 N / M 行」。
+ * 数字必须随筛选实时变化 —— 所有会改变行可见性的路径（applyColumnFilters / resetTable）
+ * 都必须调用本函数，否则会出现「筛了但数字不动」。
+ */
+function updateRowCount(table: HTMLTableElement): void {
+  // ⚠️ 不能用 table.closest('.escah-tbl')：数据统计等页面的 <table> **本身**就带
+  // .escah-tbl（那是容器 class，statpages 生成时直接挂在 table 上），closest 会命中自己，
+  // 于是查不到工具栏里的徽标、行数永远空白。必须从父级往上找真正的容器。
+  const container = (table.parentElement?.closest('.escah-tbl') as HTMLElement | null) || null
+  const el = container?.querySelector(
+    ':scope > .escah-tbl-toolbar > .escah-tbl-count'
+  ) as HTMLElement | null
+  if (!el) return
+  const cache = table as TblCache
+  const rows = cache._escahRows || (dataRows(table) as HTMLTableRowElement[])
+  const total = rows.length
+  // 非列表页：≤10 行的表不显示行数（按总行数判断，不随筛选变化，避免徽标忽隐忽现）
+  if (!cache._escahAlwaysCount && total <= COUNT_MIN_ROWS) {
+    el.style.display = 'none'
+    el.textContent = ''
+    return
+  }
+  el.style.display = ''
+  let shown = 0
+  for (const r of rows) if (r.style.display !== 'none') shown++
+  el.textContent = shown === total ? `共 ${total} 行` : `共 ${shown} / ${total} 行`
+  el.classList.toggle('is-filtered', shown !== total)
 }
 
 function applyColumnFilters(table: HTMLTableElement): void {
@@ -222,8 +268,10 @@ function applyColumnFilters(table: HTMLTableElement): void {
       active.push({ idx, mode: 'date', year: yearSel.value, month: monthSel ? monthSel.value : '' })
       return
     }
+    // 下拉打开时 pop 被临时移到 <body>（见 attachPop），故不能只看 cell 内部
+    const pop = (cell as any)._escahPop as HTMLElement | null
     const checked = Array.from(
-      cell.querySelectorAll('input[type="checkbox"]:checked')
+      (pop || cell).querySelectorAll('input[type="checkbox"]:checked')
     ) as HTMLInputElement[]
     const cvals = checked
       .map((c) => (c.value || '').trim().toLowerCase())
@@ -248,6 +296,7 @@ function applyColumnFilters(table: HTMLTableElement): void {
   }
   if (!active.length) {
     dataRowEls.forEach((r) => (r.style.display = ''))
+    updateRowCount(table)
     finish()
     return
   }
@@ -275,10 +324,12 @@ function applyColumnFilters(table: HTMLTableElement): void {
     }
     r.style.display = show ? '' : 'none'
   })
+  updateRowCount(table)
   finish()
 }
 
 function resetTable(table: HTMLTableElement): void {
+  closeAllFilterPops() // 先把下拉挪回各自格子，下面的 querySelectorAll 才读得到勾选状态
   resetOrder(table)
   clearSortIndicators(table)
   ;(table as TblCache)._escahSortCol = undefined
@@ -348,6 +399,84 @@ function buildDateFilterCell(
   wrap.appendChild(mkSel('year', '全部年', years.map((y) => ({ v: String(y), t: `${y}年` }))))
   wrap.appendChild(mkSel('month', '全部月', months.map((m) => ({ v: String(m), t: `${m}月` }))))
   cell.appendChild(wrap)
+}
+
+/**
+ * 筛选下拉（多选 checkbox popover）的定位与关闭。
+ *
+ * ⚠️ 必须用 position:fixed + 手动摆放，不能靠 CSS 的 absolute(top:100%)：
+ * 表格被 `.escah-tbl .table-scroll { overflow-x:auto; overflow-y:hidden }` 包裹，
+ * 绝对定位的下拉会被这个滚动容器**裁剪**——表现为「下拉内容被下面的单元格挡住/截断」，
+ * 全屏模式（.escah-tbl-fs-scroll{overflow:auto}）同理。fixed 定位相对视口，不受祖先裁剪。
+ */
+function positionFilterPop(pop: HTMLElement, btn: HTMLElement): void {
+  pop.style.position = 'fixed'
+  pop.style.marginTop = '0px'
+  pop.style.left = '0px'
+  pop.style.top = '0px'
+  const b = btn.getBoundingClientRect()
+  const w = pop.offsetWidth
+  const h = pop.offsetHeight
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const gap = 2
+  let left = b.left
+  if (left + w > vw - 8) left = Math.max(8, vw - 8 - w)
+  let top = b.bottom + gap
+  // 下方放不下（贴近视口底部）就翻到按钮上方，保证内容完整可见
+  if (top + h > vh - 8 && b.top - gap - h > 8) top = b.top - gap - h
+  pop.style.left = `${Math.round(left)}px`
+  pop.style.top = `${Math.round(top)}px`
+}
+
+/**
+ * 打开时把下拉移进 <body>。**必须**这么做而不能只靠 fixed：
+ * 筛选行的 td 是 `position: sticky; z-index: 3`（见 custom.css 吸顶规则），sticky +
+ * z-index 会自建层叠上下文，fixed 下拉的 z-index 只在该格内部生效 —— 对外层它整个
+ * 就是「z-index:3 的格子」，会被吸顶表头（4）、同级其它筛选格、首列冻结（2）盖住，
+ * 表现为「下拉被下面的控件挡住」。移出到 body 后彻底脱离这个上下文。
+ */
+function attachPop(pop: HTMLElement): void {
+  if (pop.parentElement !== document.body) document.body.appendChild(pop)
+}
+
+function closeAllFilterPops(): void {
+  document.querySelectorAll('.escah-filter-pop.open').forEach((p) => {
+    const el = p as HTMLElement
+    el.classList.remove('open')
+    el.style.position = ''
+    el.style.marginTop = ''
+    el.style.left = ''
+    el.style.top = ''
+    // 关掉就挪回原来的格子，保持 DOM 可预期（重置/读值都还在原位）
+    const home = (el as any)._escahHome as HTMLElement | null
+    if (home && el.parentElement !== home) home.appendChild(el)
+  })
+}
+
+let popDismissBound = false
+function bindPopDismiss(): void {
+  if (popDismissBound) return
+  popDismissBound = true
+  // 位置是打开那一刻算的，页面/表格一滚动就会错位 → 直接收起（比跟随重算稳定）。
+  // 但下拉自身列表滚动（pop 有 max-height:auto 内滚）不能触发关闭，否则滚两下就没了。
+  window.addEventListener(
+    'scroll',
+    (e) => {
+      const t = e.target as HTMLElement | null
+      if (t && typeof t.closest === 'function' && t.closest('.escah-filter-pop')) return
+      closeAllFilterPops()
+    },
+    true
+  )
+  window.addEventListener('resize', closeAllFilterPops)
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement | null
+    if (!t || typeof t.closest !== 'function') return closeAllFilterPops()
+    // 打开时下拉已挂到 body，故两处都要放行
+    if (t.closest('.escah-filter-multi') || t.closest('.escah-filter-pop')) return
+    closeAllFilterPops()
+  })
 }
 
 function buildColumnFilterRow(table: HTMLTableElement): void {
@@ -445,10 +574,17 @@ function buildColumnFilterRow(table: HTMLTableElement): void {
       const toggle = (e: MouseEvent) => {
         e.stopPropagation()
         const open = pop.classList.contains('open')
-        document.querySelectorAll('.escah-filter-pop.open').forEach((p) => p.classList.remove('open'))
-        if (!open) pop.classList.add('open')
+        closeAllFilterPops()
+        if (!open) {
+          attachPop(pop) // 先脱离 sticky 单元格的层叠上下文
+          pop.classList.add('open')
+          positionFilterPop(pop, btn) // 必须在显示之后量尺寸
+        }
       }
+      ;(pop as any)._escahHome = wrap
+      ;(cell as any)._escahPop = pop
       btn.addEventListener('click', toggle)
+      bindPopDismiss()
       pop.addEventListener('click', (e) => e.stopPropagation())
       wrap.append(btn, pop)
       cell.appendChild(wrap)
@@ -690,8 +826,11 @@ function syncFullBtnFor(
 ): void {
   const overflowing = wrapper.scrollWidth > wrapper.clientWidth + 1
   btnFull.style.display = overflowing ? '' : 'none'
+  // 工具栏里有可见的行数徽标，故不再「没按钮就整条隐藏」
+  const countEl = toolbar.querySelector('.escah-tbl-count') as HTMLElement | null
+  const hasCount = !!countEl && countEl.style.display !== 'none'
   const visible = toolbar.querySelector('button:not([style*="display: none"])')
-  toolbar.style.display = visible ? '' : 'none'
+  toolbar.style.display = hasCount || visible ? '' : 'none'
 }
 
 let resizeBound = false
@@ -931,7 +1070,8 @@ function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
 
   const toolbar = document.createElement('div')
   toolbar.className = 'escah-tbl-toolbar'
-  // 全屏 + 重置 放在同一工具条（同一行）
+  // 行数紧跟按钮之后（不要右对齐：表格需横向滚动时，行数在行尾会被挤出可视区）
+  ;(table as TblCache)._escahAlwaysCount = alwaysShowCount(pageSlug)
   const btnFull = mkBtn('表格全屏', '页面内全屏查看（仅在表格超出可视宽度时出现）', () => toggleFullscreen(table))
   btnFull.classList.add('escah-tbl-full-btn')
   toolbar.appendChild(btnFull)
@@ -939,7 +1079,11 @@ function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
     const btnReset = mkBtn('表格重置', '重置排序与筛选（清空多选）', () => resetTable(table))
     toolbar.appendChild(btnReset)
   }
+  const countEl = document.createElement('span')
+  countEl.className = 'escah-tbl-count'
+  toolbar.appendChild(countEl)
   container.insertBefore(toolbar, wrapper)
+  updateRowCount(table)
 
   requestAnimationFrame(() => syncFullBtnFor(container, wrapper, toolbar, btnFull))
   bindFullBtnResize()
@@ -953,8 +1097,10 @@ function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
 // 不能给 table 挂 .escah-tbl：那是**容器** class，table.closest('.escah-tbl') 会命中自己，
 // 导致工具栏/全屏/重置按钮查找全部落空。
 export function enhanceTables(root: HTMLElement, pageSlug?: string): void {
+  // table.stat-tbl：数据统计页里直接嵌入的作者原始小表（无 class 标记，也不该有排序/筛选），
+  // 但行数显示要覆盖全站表格，故一并纳入（行数徽标 + 溢出时的全屏，不进排序/筛选）。
   for (const tbl of Array.from(
-    root.querySelectorAll('table.style_table, table.escah-tbl, table[data-escah-enhance]')
+    root.querySelectorAll('table.style_table, table.escah-tbl, table.stat-tbl, table[data-escah-enhance]')
   )) {
     enhanceTable(tbl as HTMLTableElement, pageSlug)
   }
@@ -1036,4 +1182,5 @@ function buildTableToc(root: HTMLElement): void {
 
 export function destroyTables(_el: HTMLElement): void {
   closeFullscreen()
+  closeAllFilterPops() // 切页时别留下 fixed 定位的筛选下拉
 }

@@ -146,6 +146,20 @@ def run_local_sync(
     # ---- ① 解析（增量；CI 抓来的新 raw 会自动进本轮）----
     # stale 必须在 parse **之前**取：parse 成功后会推进 parsed_sha256，之后差集就空了。
     stale = _stale_page_names()
+    # 同源表格（2026-11-13）：聚合页（キャラクター一覧）的表格在 i18n build 时被挖空、
+    # 渲染期由子页（list-ssr 等）供给 —— 所以**子页 raw 一变，聚合页也必须重建**，
+    # 否则聚合页自己 raw 没动 → 不在 stale 里 → 站点仍旧表。
+    from . import table_sync
+
+    for agg_slug, prov_slugs in table_sync.aggregator_deps().items():
+        agg_name = name_by_slug.get(agg_slug)
+        if not agg_name:
+            continue
+        hit = [p for p in prov_slugs if name_by_slug.get(p) in stale]
+        if hit:
+            stale.add(agg_name)
+            log.info("[local-sync] %s 的表格来自 %s（本轮有更新）→ 一并重建",
+                     agg_slug, "、".join(hit))
     page_names = [name_by_slug[s] for s in slugs]
     if dry_run:
         log.info("[local-sync][dry-run] 将解析：%s", "、".join(page_names[:8]) or "（全部）")

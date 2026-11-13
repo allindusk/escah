@@ -1755,6 +1755,41 @@ def _wrap_runs(root) -> None:
     process(root)
 
 
+_TBL_ID_ATTR = "data-tbl-id"   # table_sync 给同源表格打的标记（テーブル/xxx 子页名）
+_EMBED_CLASS = "escah-embed-tbl"
+
+
+def _excise_embedded_tables(frag, slug: str) -> int:
+    """聚合页（キャラクター一覧）的同源表格整块挖掉，留 `<div data-embed>` 占位。
+
+    为什么（2026-11-13 用户反馈「改一处另一处没改」）：
+      原站 `#table(テーブル/SSR)` 让 SSR 页与 キャラクター一覧 页显示同一张表，
+      数据只有一份。镜像站此前各存一份 HTML + 一份译文 → 两边会漂移。
+      这里让聚合页**不持有**表格内容：build 时挖空，渲染时由 `table_sync.inject_embeds`
+      把 provider 页（list-ssr / list-sr / list-r / list-npc）渲染出的同一张表塞回来，
+      于是数据与译文都只有子页那一份。
+    """
+    from . import table_sync
+
+    if slug not in table_sync.AGGREGATORS:
+        return 0
+    n = 0
+    for t in frag.xpath(f".//table[@{_TBL_ID_ATTR}]"):
+        tid = t.get(_TBL_ID_ATTR)
+        if not tid:
+            continue
+        div = t.makeelement("div", {"class": _EMBED_CLASS, "data-embed": tid})
+        div.tail = t.tail
+        parent = t.getparent()
+        if parent is None:
+            continue
+        parent.replace(t, div)
+        n += 1
+    if n:
+        log.info("[i18n build] %s：%d 张同源表格改由子页供给（见 table_sync）", slug, n)
+    return n
+
+
 def build_page(slug: str, fresh: bool = False) -> dict | None:
     """parsed/ja/<slug>.html → 模板 + 双语 JSON（净化/路由改写在此一次性完成）。
 
@@ -1854,6 +1889,9 @@ def build_page(slug: str, fresh: bool = False) -> dict | None:
                     nxt.drop_tree()
                     nxt = nn
                 break
+
+    # 同源表格：聚合页的表格交由子页供给（数据 + 译文都只有一份，见函数 docstring）
+    _excise_embedded_tables(frag, slug)
 
     _wrap_runs(frag)  # 行内连续段预圈块（含评论正文，边界=日期 span/嵌套块级元素）
 
@@ -5205,6 +5243,12 @@ def render_locale(slug: str, locale: str) -> str | None:
         for old, new in _READING_CORR.items():
             if old in html:
                 html = html.replace(old, new)
+    # 同源表格回填（聚合页）：build 期挖掉的表格，用 provider 页（list-ssr 等）渲染出的
+    # 同一张表塞回。译文因此只有子页那一份 —— 改一处，两处同步（2026-11-13）。
+    if _EMBED_CLASS in html:
+        from . import table_sync
+
+        html = table_sync.inject_embeds(html, slug, locale)
     # 页内目录（仅 official-help 生效）
     html = _inject_toc(html, locale, slug)
     return html

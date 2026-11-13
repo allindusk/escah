@@ -21,7 +21,7 @@ from lxml import html as lxml_html
 from . import config
 from . import i18n
 from .logutil import get_logger
-from .parser_puki import safe_id
+from .parser_puki import rewrite_lazy_images_html, safe_id
 from .registry import load_registry
 from .snapshot import Manifest, page_filename
 
@@ -37,6 +37,9 @@ CATEGORY_LABELS = {
     "character-detail": {"ja": "キャラクター詳細", "zh": "角色详情"},
 }
 CATEGORY_ORDER = ["guide", "character", "system", "equipment", "quest", "misc"]
+
+# 「收录角色」只统计抽卡角色；サポーター / NPC 有角色页但不是可出战角色
+CHAR_RARITIES = ("SSR", "SR", "R")
 
 # ---- 侧边栏显式结构（slug 驱动；顺序即展示顺序）----
 # 顶层组 cat 对应 CATEGORY_LABELS；中间节点 slug 既是页也是容器（展开看子项）；
@@ -436,6 +439,10 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
         sanitized = _neutralize_char_links_html(fragment)
     else:
         sanitized = _sanitize_html(_localize_routes(fragment, from_slug))
+    # 懒加载图兜底（2026-11-13）：原站 `<img class="lazyload" data-src="attach2/…png"
+    # src="data:image/gif;base64,…">` 在旧产物里 src 仍是占位符 → 浏览器什么都不显示。
+    # 这里在落 frag 前统一改写成 /img/<hash>.webp（幂等），历史 i18n 模板无需重跑 parse。
+    sanitized = rewrite_lazy_images_html(sanitized)
     frag_file.write_text(
         json.dumps({"html": sanitized}, ensure_ascii=False),
         encoding="utf-8",
@@ -696,7 +703,12 @@ def sync_site() -> None:
 
 def _compute_stats(entries: list[dict]) -> dict:
     watch = sum(1 for e in entries if e.get("mode") == "watch")
-    chars = sum(1 for e in entries if e.get("category") == "character-detail")
+    # 「收录角色」只算抽卡角色（SSR/SR/R）。支援者（サポーター）与 NPC 虽有角色卡页，
+    # 但不是可出战角色，混进总数会让首页数字对不上角色一览表的行数（用户 2026-11-13 要求）。
+    chars = sum(
+        1 for e in entries
+        if e.get("category") == "character-detail" and e.get("rarity") in CHAR_RARITIES
+    )
     return {"pages": len(entries), "watch": watch, "chars": chars}
 
 

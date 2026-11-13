@@ -19,7 +19,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-21 15:11:28",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "ce4ebeebdbfa1a348cee0c2e411e578c3989796f99b42fd84726883d714b787a"
     },
     "小ネタ・小ワザ集": {
       "name": "小ネタ・小ワザ集",
@@ -29,7 +30,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-05 10:58:20",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "1c7292e55106fe3404dfc415deaef0f88ce294da30e45f947a2e1594d8ae50dc"
     },
     "ガチャ": {
       "name": "ガチャ",
@@ -39,7 +41,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-28 16:08:09",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9fb7c9b29d1e8ddd2fb8f92bc37e1a94c8679620430cd753560fd191a04187e4"
     },
     "必殺技一覧": {
       "name": "必殺技一覧",
@@ -49,7 +52,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2025-06-20 17:54:00",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d8198826f4cea9d868016e398ed3a841e8a7377ea712c753ad57786ac4510ea3"
     },
     "固有効果一覧": {
       "name": "固有効果一覧",
@@ -59,7 +63,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2025-06-20 17:56:30",
       "fetched_at": "2026-11-09T23:49:27+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "49e91aba35bc3f9bb1579e4d025bdfac49a1fd5215c2b9dabca901a45e8d4090"
     },
     "絞り込めるカテゴリ一覧": {
       "name": "絞り込めるカテゴリ一覧",
@@ -69,7 +74,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-29 20:23:25",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9fbe2813444546bad9de7fbda7451ca49def20c86e29a89386934ee20079b4c8"
     },
     "原画別索引": {
       "name": "原画別索引",
@@ -79,7 +85,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "2237d902eb7ca695110e80fb64486c8556cbe7eb550e76896b8bceb184ffd1f9"
     },
     "CV一覧": {
       "name": "CV一覧",
@@ -89,7 +96,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-04 03:48:38",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "551785953ce1d8f085d179b69308b5f98282436191e3904ff51b36c97801f852"
     },
     "実装履歴": {
       "name": "実装履歴",
@@ -99,7 +107,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-04 15:23:34",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5417d7e17360eb8312f0dbd1b676029a1e68b2128bbabf371de8bb3f61c986b7"
     },
     "戦闘": {
       "name": "戦闘",
@@ -120,7 +129,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-01 14:36:30",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "1091570754aff68913642051a2f2b0db4e97963932fa705337727ef9eb57d310"
     },
     "レイドおすすめキャラ": {
       "name": "レイドおすすめキャラ",
@@ -130,7 +140,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-26 04:55:12",
       "fetched_at": "2026-11-09T23:49:27+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "ceb81a6f59d1a5480d2c4f9f5486a9e515d5be45e4828bfeaa8d1f1b7650eb84"
     },
     "バフ・デバフ能力キャラ　一覧まとめ": {
       "name": "バフ・デバフ能力キャラ　一覧まとめ",
@@ -140,7 +151,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-18 19:16:58",
       "fetched_at": "2026-11-09T23:49:27+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9c37807474aafd4a8bc275f2a14215c98e539d1706926bf3229a96c8137dd085"
     },
     "レイド用編成例": {
       "name": "レイド用編成例",
@@ -161,7 +173,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-17 17:34:29",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "90e8f020ba7299620877fe5bcc5f518f3823b7ba7d6b671a6338bcc32750f21f"
     },
     "イベント50_広域戦": {
       "name": "イベント50_広域戦",
@@ -182,7 +195,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2025-10-30 00:09:41",
       "fetched_at": "2026-11-09T23:49:31+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "62869d03c9413f3f5ead7469daa574cec3dba8ec932a72be4fc6b61d01e9a4c2"
     },
     "イベント86_殲滅戦": {
       "name": "イベント86_殲滅戦",
@@ -192,7 +206,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-09 16:22:37",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5eba9839fa4b0a8ab61b3cd651992277168a001f113fad0a09a15a6d13fed188"
     },
     "限界突破": {
       "name": "限界突破",
@@ -246,7 +261,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-21 16:50:31",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6b522234151b420dbe71d3854f9e29ac3eea15c5847df62654417bd99c06c9fc"
     },
     "キャラクター交換所": {
       "name": "キャラクター交換所",
@@ -256,7 +272,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-09 16:38:57",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "767987b84a31cecb901b15e05268a8316741e8a43db07eda8557c60d5bd7c02d"
     },
     "コレクション": {
       "name": "コレクション",
@@ -266,7 +283,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2025-05-29 21:24:17",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f660c2702fc842723ba22cb027825d59102ab53f6c22cf244befe95dd7217215"
     },
     "ショップ": {
       "name": "ショップ",
@@ -298,7 +316,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-01 07:25:18",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b8ea01bc278e3449ba2c2359fa3b5945fc152666c67f8b4a3f4b34ad09a838dd"
     },
     "アイテム一覧": {
       "name": "アイテム一覧",
@@ -308,7 +327,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-09 16:10:30",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9ffcbc969996a1d2d9058a7abda62be5a5b77f580f93d1f72ce4b8b21307c581"
     },
     "SandBox/アイテム価値早見表": {
       "name": "SandBox/アイテム価値早見表",
@@ -329,7 +349,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-08 11:05:02",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "52441920d57bcf76a435b4921df80e26c8adeedf0669f32f2c63f99ab1dda436"
     },
     "テーブル/全ストーリー実装順": {
       "name": "テーブル/全ストーリー実装順",
@@ -339,7 +360,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-10 04:30:38",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "8227dc5a4396e4eeb088992a4044d67695020bee5f5cd2eeeacb02b7e49e028a"
     },
     "メインクエスト": {
       "name": "メインクエスト",
@@ -371,7 +393,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-08 22:53:34",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "2b1dcf46064216e1b48856f033306aabb412372d3063e806a937ab490731a134"
     },
     "イベント一覧": {
       "name": "イベント一覧",
@@ -381,7 +404,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-04 15:35:27",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "439fbd10f9fe03ae19cdb583dec49850676dc5b74b95e6cbaf22bda951cb17e3"
     },
     "用語集": {
       "name": "用語集",
@@ -424,7 +448,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:11:18",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f8e3cf44a396b1506c1e6c888129effcf318c2c2920c1a81141e5bf9e3bcf8f3"
     },
     "閃忍ハルカ": {
       "name": "閃忍ハルカ",
@@ -434,7 +459,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:21:03",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c0702ec8e270df79b03404c27f228770f88de0940ceacdc44c5425c97cc55404"
     },
     "閃忍ナリカ": {
       "name": "閃忍ナリカ",
@@ -444,7 +470,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:18:30",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "866e1d9fc5844deaa1e8544a7cac0e1225026004adb06354071e6822daca1905"
     },
     "神騎エクシール": {
       "name": "神騎エクシール",
@@ -454,7 +481,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:16:48",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c57434c9ab7ebdf2d2e4df3b89e711f4339db4a67ad169e50fdabe9b37dc3809"
     },
     "火のゴウカ": {
       "name": "火のゴウカ",
@@ -508,7 +536,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-03-22 00:15:08",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "a3bef9a700d47d48f2a0a16fb90b8d108f7c7416529f323fd368ad1a3d8b2f82"
     },
     "ビートアイドル・マリナ": {
       "name": "ビートアイドル・マリナ",
@@ -529,7 +558,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:21:35",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "334a67dc02afa1c41397db8f57804bb2a9d830181ffc9ef3689273aeb7088022"
     },
     "六の法杖セラフィール": {
       "name": "六の法杖セラフィール",
@@ -539,7 +569,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:29:57",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "aaad0d342e9c5154bb993100de85c24b5f7d9eebd880c107776828250a6af00c"
     },
     "正月エスカ・ルビー": {
       "name": "正月エスカ・ルビー",
@@ -549,7 +580,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-13 19:11:31",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "1fe0f3aaf450120dea0733a95263eed0b074b13696dbb03a4bf50d104a28cdfe"
     },
     "九の護銃メイファール": {
       "name": "九の護銃メイファール",
@@ -559,7 +591,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:12:54",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "62c621a1f5d8a5c7a350fd98009a03c5fc16a3639be5ebe448f1ed764d0047c1"
     },
     "三の裁刀イザナエル": {
       "name": "三の裁刀イザナエル",
@@ -591,7 +624,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:40:30",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "4bc77ba563bda5128449952e73b83abfc27f967a7761e37bca9facb59c521143"
     },
     "バレンタインナリカ": {
       "name": "バレンタインナリカ",
@@ -601,7 +635,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 13:44:09",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "21fde874fde365649e0a2ad5aced49d041e3adcf2eb8234f10607689e9efc4a8"
     },
     "閃忍スバル": {
       "name": "閃忍スバル",
@@ -611,7 +646,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:31:43",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "739bf543131ee23897211b8b74dc4ec5457f1cfc8dcce2aedd31671d63261a8b"
     },
     "血の切裂余命": {
       "name": "血の切裂余命",
@@ -654,7 +690,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-04-29 21:28:08",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c7849dc19f31dbd0d9dfde595d17caaa4f4ee8e1be7ae3af99e4ada6da28b0f6"
     },
     "皇帝のニル": {
       "name": "皇帝のニル",
@@ -664,7 +701,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:02:07",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "0348f98b035106590fbd0f4f11397fe0b7e30fb4909bce919d3aec73c18c1d84"
     },
     "ブライド・エスカレイヤー": {
       "name": "ブライド・エスカレイヤー",
@@ -674,7 +712,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:36:08",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "377c2597d930340900b6a0153fd57b5d85e5d40efb488f7bfaa7fa8aa2696057"
     },
     "四の狩斧ゼブリエル": {
       "name": "四の狩斧ゼブリエル",
@@ -739,7 +778,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 13:58:58",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "2c240c0ad206652a733c0289f6588f46723009cfbe4cefae3074419a97b3d8ef"
     },
     "花のチルカ": {
       "name": "花のチルカ",
@@ -749,7 +789,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-09 12:15:35",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "3e6bffbd1be6a922a661d4844ff039f7ddc4cc99f325ec4bf473dcbe6f065947"
     },
     "エスカレイヤー・リバース": {
       "name": "エスカレイヤー・リバース",
@@ -759,7 +800,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-06-17 01:39:06",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "0b0f9e546cb0c1f8a3a9a973344ec53b86e732cc8fdb968ed2bef5ed058c2dec"
     },
     "節制のクラリス": {
       "name": "節制のクラリス",
@@ -769,7 +811,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:42:20",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "962e34a5334dbb1e228c150ca34b4c8760d12efa0cd52881a2dac0fbc7787027"
     },
     "死神のストナ": {
       "name": "死神のストナ",
@@ -790,7 +833,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:33:52",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "db24f0d8630c261ce20bc0bc0c4b2169c4ef9f69e9743ce8a4f279a49ad519bd"
     },
     "神騎ミモザ": {
       "name": "神騎ミモザ",
@@ -822,7 +866,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:27:20",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f7152e5f900e52ca24377c73e70c78eebf077296b84a8e307ad1c34984d03814"
     },
     "ビートアイドル・クミコ": {
       "name": "ビートアイドル・クミコ",
@@ -843,7 +888,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:02:54",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b95a6f404b7055b159ca23082cd720a50acb3caac41213d708202bff792c31d7"
     },
     "ハルカ・リバース": {
       "name": "ハルカ・リバース",
@@ -864,7 +910,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:07:33",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "dc2ef28b8ea4ee2624d8b12e698c6a107d7ccd2a1ee9af12bc57f2fb083a1a89"
     },
     "聖夜エスカ・トパーズ": {
       "name": "聖夜エスカ・トパーズ",
@@ -874,7 +921,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:41:00",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "da2a6385c3ff70b35ce217b17f3b09239c37d89c98ee3c951bdd60efe3e2d3e1"
     },
     "ビートソニック・アキレス": {
       "name": "ビートソニック・アキレス",
@@ -906,7 +954,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:37:22",
       "fetched_at": "2026-11-09T23:49:31+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e3eefb8ef088da1f46c7d43b27ec4152cb6543dd8b3ba4c04c4b8fd034fc4bd5"
     },
     "正月キリエル": {
       "name": "正月キリエル",
@@ -916,7 +965,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:27:32",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "454b6d40e8f23f9c6a8d1c1a6501f2542e79379c5bd24b69d3f9ebd966ce7daa"
     },
     "バレンタインショウコ": {
       "name": "バレンタインショウコ",
@@ -937,7 +987,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 13:48:19",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6c2f5cbba716d5f7a8a03f63ccf56819ce7e87b2b477f9d3ff03ffe506a9ac03"
     },
     "エスカルビー・アステライズ": {
       "name": "エスカルビー・アステライズ",
@@ -947,7 +998,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 11:57:25",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9c5df3b6a59b1acb8fc24ffae7946e73c5a65c4efd96c96c9e5b26addc3f82b7"
     },
     "閃忍ニャンコ": {
       "name": "閃忍ニャンコ",
@@ -957,7 +1009,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:03:59",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "8f4248246a5523a56cdc21f0e8f75ebf8a9aab98a876e2205c8af8596e6f18c0"
     },
     "狂の秋道姫路": {
       "name": "狂の秋道姫路",
@@ -1000,7 +1053,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:24:44",
       "fetched_at": "2026-11-09T23:49:35+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c3973d7e8d2ff331e57e08601991ecf68ec678a468c2ce3afd0a673a1bacdf33"
     },
     "魔女プカルル": {
       "name": "魔女プカルル",
@@ -1021,7 +1075,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:18:48",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e0e1d23945effcf52b3a71739e7a9f1106de63d5201a824f3f1ebd0df97adb88"
     },
     "ビートウィザード・リリアム": {
       "name": "ビートウィザード・リリアム",
@@ -1042,7 +1097,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:17:12",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "714dbd912e0fd2a93c8625af8277ba8b2938d66639b46430ec5b92b1559362ad"
     },
     "一の神鍵アズエル": {
       "name": "一の神鍵アズエル",
@@ -1052,7 +1108,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:10:34",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "002f39e20b1b8c733a1f29461216734e27208b3f314c8e67ee281b3317fe8c36"
     },
     "神騎セリカエル": {
       "name": "神騎セリカエル",
@@ -1073,7 +1130,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:01:19",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e5f8f1e70df033ea385b9da7f1dbdff7b1641ecd8daaf62e7094cd149016ea33"
     },
     "閃忍イノリ": {
       "name": "閃忍イノリ",
@@ -1083,7 +1141,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:50:41",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6039a4c2161060e1fcc0132531c692a79d4114fd5aa80cb7dd2e0c27ff8736d7"
     },
     "閃忍ライカ": {
       "name": "閃忍ライカ",
@@ -1093,7 +1152,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:54:11",
       "fetched_at": "2026-11-09T23:49:35+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "cf9e6507a37e57b1f1bf1120b2223711ce2c49462c19513600aa4e5008282d46"
     },
     "ブライドエスカ・アメイズ": {
       "name": "ブライドエスカ・アメイズ",
@@ -1103,7 +1163,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:38:07",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7d611a14691de54e06dbe69973d10a459f3ceff50882815607afca8554dad346"
     },
     "ブライド・ニル": {
       "name": "ブライド・ニル",
@@ -1113,7 +1174,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:39:04",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "fe51bebb05bfa08cfa8c48cf5eb352e4743748feb048436a7f25dd5c6efcbca1"
     },
     "魔女クルル": {
       "name": "魔女クルル",
@@ -1134,7 +1196,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:15:31",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9138c06e113ad082c5c9dcc2f8b008ded3ec1ef61eeeb0a7a14cd929fb9ec634"
     },
     "ビートアイドル・メグミ": {
       "name": "ビートアイドル・メグミ",
@@ -1144,7 +1207,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-15 06:28:20",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9bbe0a039174456579cded678f4d583177f26b39e36dee7c452c41a50d58fc29"
     },
     "真夏のシズカ": {
       "name": "真夏のシズカ",
@@ -1165,7 +1229,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:58:36",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b3ae4572394823ff6ccdf5c2f5c40b2e6bb627d063aaebcde5b3698f05077b98"
     },
     "真夏のナリカ": {
       "name": "真夏のナリカ",
@@ -1175,7 +1240,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:19:26",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "fe9ecffff717cfe46e71f6a7feef58f9040811ae6b00d01052b35538c84294e7"
     },
     "神騎アスマール": {
       "name": "神騎アスマール",
@@ -1262,7 +1328,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:27:39",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d36e5d19993ed7591fcc65a8787f2dcd548cd2c91b90a092af1d292564ffc830"
     },
     "ハロウィンアキエ": {
       "name": "ハロウィンアキエ",
@@ -1283,7 +1350,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-03-30 02:34:31",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "32cb23d677e2798abd878c623ea3bd40d7415f33f2c11b4c4314faa784157309"
     },
     "超昂閃忍ハルカ": {
       "name": "超昂閃忍ハルカ",
@@ -1293,7 +1361,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:04:58",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "4f66c5da460895c8c4bf4e32dd5f81b651be30092031c14f5bfaf70f41b8bed4"
     },
     "超昂閃忍スバル": {
       "name": "超昂閃忍スバル",
@@ -1303,7 +1372,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:32:12",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f7c677b4e112154425608fa3313b5e493e0e9b3d819dc9c0c5bae8b9401d7a51"
     },
     "八爪妖蠱ハツネ": {
       "name": "八爪妖蠱ハツネ",
@@ -1313,7 +1383,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-05 02:28:50",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c192e1f395ea2bd76cea51335d49f0f434d28ea42ab949e23b4d544a89374c06"
     },
     "戦車のニコール": {
       "name": "戦車のニコール",
@@ -1323,7 +1394,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:21:47",
       "fetched_at": "2026-11-09T23:49:31+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "fa6c7b898c043888cc1f0ca919a00f2aefbaa9f666a73594c62e9b12240b905e"
     },
     "タイガージョナ": {
       "name": "タイガージョナ",
@@ -1333,7 +1405,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-03-31 00:31:20",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "a86ac4b040ea76b2688c73e73920952d0e1e0b6f76a49fbdff7b5ef813021cc1"
     },
     "聖夜エスカレイヤー": {
       "name": "聖夜エスカレイヤー",
@@ -1343,7 +1416,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:12:20",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "94414781b4484ff9ac22a83209e86ae27f418d2b69c9c8eb2fb07b696d8e798a"
     },
     "魔女ミヤビ": {
       "name": "魔女ミヤビ",
@@ -1353,7 +1427,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-28 09:58:47",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "71aca4b4d6d11c7bc27cf39c8d19f04c35331dc6448ffe6504065db5a8c7bf39"
     },
     "正月エスカレイヤー・リバース": {
       "name": "正月エスカレイヤー・リバース",
@@ -1363,7 +1438,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:28:16",
       "fetched_at": "2026-11-09T23:49:31+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "807cfee7833b650beae1a197f7709ea58e0ab35b2bea580250d89a2af1e6d9aa"
     },
     "正月ノノノ": {
       "name": "正月ノノノ",
@@ -1373,7 +1449,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:45:44",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6b9d870b92ff800291507fa98d835ce4b5325329c2d123120e08371eb0089a41"
     },
     "閃忍コイヌ": {
       "name": "閃忍コイヌ",
@@ -1405,7 +1482,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 13:17:31",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "76e3d0ae273931f28b71d2dae7c4c88d7e496dcdb5489c684214a9d89fcf6ad9"
     },
     "バレンタインスピカ": {
       "name": "バレンタインスピカ",
@@ -1426,7 +1504,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:06:40",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "ba8484fe081baa5fb93385c9c69d745ade0e8222ba8c0ad54a7cdd6095b92c57"
     },
     "シスター・メイファール": {
       "name": "シスター・メイファール",
@@ -1436,7 +1515,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:13:11",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "92c129f6fbc7ca8fd5501cd38cb924fd1cfb68a782e9fb2f15b96847d38c4c77"
     },
     "ビートスター・マリナ": {
       "name": "ビートスター・マリナ",
@@ -1457,7 +1537,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:10:03",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "16bb218540e6fb22c03b904a304193b8921d609a25b9ebbe34104c3b3f015989"
     },
     "電脳の魔女クラリス": {
       "name": "電脳の魔女クラリス",
@@ -1467,7 +1548,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 18:06:04",
       "fetched_at": "2026-11-09T23:49:35+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e99ecd900eb6a59ef44ff43a7d07ae19ffe200eaf0cf72b8a6e078115ec9feb2"
     },
     "ブライド・ライカ": {
       "name": "ブライド・ライカ",
@@ -1477,7 +1559,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:54:26",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c0c3415736d37dd5415a69f350d99480ac8da0e557d5e1b37bc0fc728930ef03"
     },
     "ブライドハルカ・リバース": {
       "name": "ブライドハルカ・リバース",
@@ -1509,7 +1592,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:32:32",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "480daeaca0ef44ee9f9449f4cdd1cf2d00a37a1c4db3e6186f5210fc681a036e"
     },
     "ビートノーブル・サトリ": {
       "name": "ビートノーブル・サトリ",
@@ -1530,7 +1614,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:11:57",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "67c9cc4681f5d1b25f1b96318914f931c0500340a63a25224890518702a8493a"
     },
     "真夏のイノリ": {
       "name": "真夏のイノリ",
@@ -1540,7 +1625,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 00:14:11",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "1a45bdd3de3bf89842bba34a8317e07ee599de5912a8768b61d4ceb7a43c93eb"
     },
     "妹の1024": {
       "name": "妹の1024",
@@ -1572,7 +1658,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:04:36",
       "fetched_at": "2026-11-09T23:49:27+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e6c9e40dad50322256213ba15b164b92e202c3930b0fcd0962adcd2277433a10"
     },
     "リバースバニー・カノープス": {
       "name": "リバースバニー・カノープス",
@@ -1626,7 +1713,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:19:08",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "95e1e55ab0575dbd56904dae6185bf372bdaa6073a71db26437315237c07ca42"
     },
     "ハロウィンノドカ": {
       "name": "ハロウィンノドカ",
@@ -1636,7 +1724,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-15 09:35:41",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "ddb580564a1adf704eb875b3adba44e2d302e52d67c3909fd20e6368061c9bb9"
     },
     "浴衣のシリカ": {
       "name": "浴衣のシリカ",
@@ -1646,7 +1735,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:56:17",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "cb41499a60db18b4b2a1567aee3845bb568edd733e41ddadff8ec46fe206a3f2"
     },
     "超昂神騎エクシール": {
       "name": "超昂神騎エクシール",
@@ -1656,7 +1746,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:08:16",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "a6822aaf6317a7d4fe2c615e383cd1ce020d6511eb081e76341063af58021f34"
     },
     "超昂神騎キリエル": {
       "name": "超昂神騎キリエル",
@@ -1666,7 +1757,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:08:59",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "990f748fcdd4eee24cb078e7dadd4c361bb09e7b5aba79d9a95930b840254763"
     },
     "青竜天クチナワ": {
       "name": "青竜天クチナワ",
@@ -1687,7 +1779,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-15 06:27:19",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7ddd5aa464fcb9f3b34038f80c00076c632ddd77d00df2b075f887731fb70dc0"
     },
     "聖夜エスカ・ルビー": {
       "name": "聖夜エスカ・ルビー",
@@ -1697,7 +1790,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 02:17:53",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "4484e9e83ee202f22d3f9b2da67a70c09f3ddf83b17632abad612ed6b8bd8452"
     },
     "聖夜ニル": {
       "name": "聖夜ニル",
@@ -1707,7 +1801,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:56:08",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5f64881dc540f7e806b0bf21d94316e4c15458d770de793f9c0b7494dd76a552"
     },
     "正月の切裂余命": {
       "name": "正月の切裂余命",
@@ -1739,7 +1834,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:28:08",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b222df1f6f1227da054e0f58171aacabce43e8896aa016967f2aaee3643bbc73"
     },
     "閃忍ハクメイ": {
       "name": "閃忍ハクメイ",
@@ -1760,7 +1856,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:10:56",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f3ea5244a9511471bf2e2bf689e2d01cd60f7b934e4cfc32be832d53f0f4d5c8"
     },
     "バレンタインクラリス": {
       "name": "バレンタインクラリス",
@@ -1770,7 +1867,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 20:12:53",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e1072fe39d1e716de57b69b8ba426ebaa61b13b56d7f8d8dabd31526c90d5225"
     },
     "リバースバニー・ヤブルー": {
       "name": "リバースバニー・ヤブルー",
@@ -1780,7 +1878,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:25:18",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "200fba3bc74aa262e05da4bf0f229bd5e88fe8963e772980e2ac8cc3c394e0bb"
     },
     "エスカサファイア・ムーンライズ": {
       "name": "エスカサファイア・ムーンライズ",
@@ -1790,7 +1889,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 11:55:30",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "bcd51810356483cc726473f1d4301ca8c6921d2d6bc8e420dd4ee17407d3384c"
     },
     "閃忍ハータン": {
       "name": "閃忍ハータン",
@@ -1800,7 +1900,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-04 03:43:57",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "4f9fad742dce1bcdff77da32d8b2de5509a8ddf1ad66b672b6903d4893b8fda4"
     },
     "チアガールのアヤカ": {
       "name": "チアガールのアヤカ",
@@ -1810,7 +1911,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:01:51",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f2966e870ba49239531a06d73496217d41ad5420dea438b85aa3ac4552d419e4"
     },
     "魔女カミーユ": {
       "name": "魔女カミーユ",
@@ -1842,7 +1944,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-13 23:16:54",
       "fetched_at": "2026-11-09T23:49:31+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6199c751f5120b61e5d6fb1bd3b137679c907322eabb58941041b2d7fe0132b5"
     },
     "ナースキリエル": {
       "name": "ナースキリエル",
@@ -1852,7 +1955,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-01 01:21:39",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c382723a8c8baad166f6bbd756975735bf0a50b981b2af015f929d4d8b3c258c"
     },
     "閃忍イズミ": {
       "name": "閃忍イズミ",
@@ -1906,7 +2010,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:51:55",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "a1065f3fb3f4c862ea164f86c1bd0d0fb353c809f61c48403fab8decb80d0ea9"
     },
     "審判のクロエ": {
       "name": "審判のクロエ",
@@ -1927,7 +2032,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 02:48:23",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "ff408b9f37fc49a7da884643a5417233d4c77610de86ad5cb9d587d8537ef466"
     },
     "ブライド・エクシール": {
       "name": "ブライド・エクシール",
@@ -1937,7 +2043,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 00:13:18",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f99915204cd8caf8fcf65acd1913345da732642a8f36e48754bba54bacdf8444"
     },
     "ブライド・セリカエル": {
       "name": "ブライド・セリカエル",
@@ -1947,7 +2054,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:10:15",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c2669511e2ace70e283fc8f954e2b1dbffe9172ed43cbfe228b6d976171c6b06"
     },
     "イメージガール・フェリニ": {
       "name": "イメージガール・フェリニ",
@@ -1957,7 +2065,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 11:54:28",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "87aad6d571af48967db72bc0bd8afe4463ab98db738c1fd29e8b2afcb6e95291"
     },
     "ナイトドレス・レグルス": {
       "name": "ナイトドレス・レグルス",
@@ -1978,7 +2087,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:22:12",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "0e88128106ae5d7fd1e5dd4cefdc966580f9986d5bba2c0d480c3d1787be0bd4"
     },
     "真夏のマドカ": {
       "name": "真夏のマドカ",
@@ -1988,7 +2098,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:15:18",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e582ab327c7dcaade2c732f068fe4a79b1626da2a6612349c482958dee3d2cdd"
     },
     "真夏のハルカ": {
       "name": "真夏のハルカ",
@@ -1998,7 +2109,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 10:37:22",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "72ef0601064c144b490b3f796c5ff199d9f35423db604d44a7c4e28aaf5fb085"
     },
     "真夏のフウカ": {
       "name": "真夏のフウカ",
@@ -2008,7 +2120,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 10:38:05",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6c51e95c89aae782387df50ab53d66dc2d129b368c1ee90c29a3fd6d354cf0c3"
     },
     "アイドルの奉輪こもり": {
       "name": "アイドルの奉輪こもり",
@@ -2018,7 +2131,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:08:27",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5f4083114925450b45e6766a05facecceaf60dff2d0e863dc85964cdf0b670e0"
     },
     "シックな小悪魔キッカ": {
       "name": "シックな小悪魔キッカ",
@@ -2061,7 +2175,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:16:40",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d70c832e5395dc5ebff75a9ac430d04d9cc06ca57cdbfa1a4ee60f3cf91ba534"
     },
     "ファントムシーフ・ハイネ": {
       "name": "ファントムシーフ・ハイネ",
@@ -2115,7 +2230,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-13 19:10:54",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "a5aa647474aa528bd826c7423fdb80aa7f3d29114095ffc59b1c70951253c58f"
     },
     "白の幻身ミニシワトル": {
       "name": "白の幻身ミニシワトル",
@@ -2136,7 +2252,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:25:42",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f75d2cf58e317d6d116dfdb847eeaf6927d707420eafb6c03a01a05cd3f5008d"
     },
     "レジェンド・エスカレイヤー": {
       "name": "レジェンド・エスカレイヤー",
@@ -2146,7 +2263,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:11:19",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f80b8ac71e05addf76ad607347055ed07a3646e3e240736d2e512a2308a04815"
     },
     "エスカアメイズ・ファンタスマ": {
       "name": "エスカアメイズ・ファンタスマ",
@@ -2156,7 +2274,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:21:56",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "780b0eef5932c6544d5b519ec9811759f31ff7f3d60681f71354897cad8e382d"
     },
     "バビロニア・ニル": {
       "name": "バビロニア・ニル",
@@ -2166,7 +2285,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:49:42",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "eea37184ea28652ac872d667afea4915836f83245e1f8ae272e1de7668ce7694"
     },
     "閃忍アキラ": {
       "name": "閃忍アキラ",
@@ -2220,7 +2340,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-29 23:45:04",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7a1ad13f8a1a8df9113b84a4129d0c726095ebded724012ec3f6415182359bcd"
     },
     "正月ナリカ": {
       "name": "正月ナリカ",
@@ -2230,7 +2351,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:31:31",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "3324366d7ac193021a78785b4a00a6975eff0593fb042dd16a4e908937569f96"
     },
     "正月ポラリス": {
       "name": "正月ポラリス",
@@ -2251,7 +2373,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 20:13:04",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "11c98a4e56fba292ef86840475a68cc1b16e7af43621f43306c9a018cfa6e89e"
     },
     "正月タイガージョナ": {
       "name": "正月タイガージョナ",
@@ -2261,7 +2384,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:17:13",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "ef1eb8f85d7969b44f728eee5af864498c0ad374177dfed38f057e3e938bf4ac"
     },
     "バレンタインサイカ": {
       "name": "バレンタインサイカ",
@@ -2293,7 +2417,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:58:51",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "59814b316791244e50b2bfc77ffcff55609051cecb0e35654e4de637de8ecb35"
     },
     "レガリアの神騎メガエル": {
       "name": "レガリアの神騎メガエル",
@@ -2303,7 +2428,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-12 11:47:16",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "42d9284e2110c14fcdfcfd16db979d16141d6da4e8954870d223e2a36381fece"
     },
     "体育祭のハルカ": {
       "name": "体育祭のハルカ",
@@ -2313,7 +2439,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:20:25",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "211113e2a3bd354924f4bed9c9eb728610d2e2adcf152688da1c115f97d2b3b1"
     },
     "体育祭のノノノ": {
       "name": "体育祭のノノノ",
@@ -2323,7 +2450,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:45:58",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7696fff29516b16c3675799193b4d2d65b6a12e825aaabc34124297c25d10cd6"
     },
     "体育祭のヤブルー": {
       "name": "体育祭のヤブルー",
@@ -2333,7 +2461,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:25:38",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "84dda1b0e818da451c4bb040a711431e5a3ffc0fbfeb011b92d3cf53fc29ba40"
     },
     "ダンスクイーン・ピカ": {
       "name": "ダンスクイーン・ピカ",
@@ -2376,7 +2505,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-26 08:38:47",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "998bbc0b66d2955d5722be33900210a5133852f5222dea8fb69dac3ffc6542ef"
     },
     "ビートブラスト・アサギ": {
       "name": "ビートブラスト・アサギ",
@@ -2430,7 +2560,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-06 20:58:41",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "3a61d48ef1ca72cb9625f23b370e770ee4fc85814dc7853cc644cf3c5c9df15a"
     },
     "エスカ・オニキス": {
       "name": "エスカ・オニキス",
@@ -2440,7 +2571,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-05 04:05:28",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "0b5b218d941237a88c16d556cf543eab123bcf4427e5d76d2c7128a1a430ec62"
     },
     "ブライド・リルカ": {
       "name": "ブライド・リルカ",
@@ -2450,7 +2582,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:09:32",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "068627b2929189323888900a4a62d260c3b65e9cde01ef002be2bf2535270f5e"
     },
     "ブライド・スバル": {
       "name": "ブライド・スバル",
@@ -2460,7 +2593,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:08:53",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "1c58fbfbbcf537b2907f5d1e487203064b7e653cbb6e3be0ee7eb1ad1cce0a9e"
     },
     "ブライド・クルル": {
       "name": "ブライド・クルル",
@@ -2492,7 +2626,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:14:41",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "0eb3b4c20b4dcabf2dcb67adb54dc4c54d9d9c81763a2616f3ac6a4092625dd6"
     },
     "真夏のメガエル": {
       "name": "真夏のメガエル",
@@ -2502,7 +2637,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-14 03:29:31",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b881ff30b05936e15e1777b52cf7826ad7e8c0fbe64910d81d3472ae41093460"
     },
     "サロン・コバリ": {
       "name": "サロン・コバリ",
@@ -2523,7 +2659,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-13 19:10:58",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "db2d8d068e43ed4c60c9e4085f7f3b00b84943aff3fe72f50579d74b33c2536d"
     },
     "真夏のノドカ": {
       "name": "真夏のノドカ",
@@ -2533,7 +2670,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:49:07",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "95539db0201ab3fd5b83176cf38a7e337994332a4f57624390960e4da6cbecea"
     },
     "真夏のイーイー": {
       "name": "真夏のイーイー",
@@ -2543,7 +2681,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:19:41",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "8c0922b1b9b9d19fb83b1247440dee390e87c1a7a2cdfabd432cd12c0155771c"
     },
     "執筆のアスマール": {
       "name": "執筆のアスマール",
@@ -2630,7 +2769,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-29 20:01:54",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d6844f20bb6f21f15b055bf5df986ec360d923ebbec96fe9051796bf8861f652"
     },
     "ハロウィンポピー": {
       "name": "ハロウィンポピー",
@@ -2640,7 +2780,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-29 20:03:06",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "123209d6f08e74202bb4af241875da3891ba90dbba3ea6e1e27e88fe36a34b73"
     },
     "閃忍ササミ": {
       "name": "閃忍ササミ",
@@ -2661,7 +2802,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-26 23:01:34",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9b0127453426884cbb11589d938dbb3a30a2552b4fe2f8f97d3056bc7ac38725"
     },
     "バビロニア・ノノノ": {
       "name": "バビロニア・ノノノ",
@@ -2671,7 +2813,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-11 13:14:11",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "44a9af89c36fc796ab9fcb342428658152713a9ceaee0a416f625a2027accfd5"
     },
     "邪閃忍ライカ": {
       "name": "邪閃忍ライカ",
@@ -2681,7 +2824,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:54:42",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "15352f10e5c9954e1a30024b111d19b08c62df1a941c84b8e673e84183b7ca46"
     },
     "黒門天・屍寺炎斎": {
       "name": "黒門天・屍寺炎斎",
@@ -2735,7 +2879,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-29 23:43:36",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b2fad2e282ebcbf1be33a270139caf0bc9e1278a814717aef1c13055d5848a08"
     },
     "聖夜イノリ": {
       "name": "聖夜イノリ",
@@ -2745,7 +2890,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-29 23:44:20",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d51949675d670dd8baeb50f3a562abb124639875a0dbc03502f58668a939b952"
     },
     "正月エスカレイヤー": {
       "name": "正月エスカレイヤー",
@@ -2755,7 +2901,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:16:05",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9281c4235f91c4b9a7d128d3ae33b4782eae683a4f64e54cad3ecb3a7544ccfb"
     },
     "正月エスカ・アメイズ": {
       "name": "正月エスカ・アメイズ",
@@ -2765,7 +2912,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-23 13:20:23",
       "fetched_at": "2026-11-09T23:49:31+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5e4c56a7ddc2d4e505afc8b1f655854ec708cee3c7b41753a1ecb66629f59d01"
     },
     "正月シリカ": {
       "name": "正月シリカ",
@@ -2775,7 +2923,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 15:36:42",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5a6a22647dd4ec61d92c8cbcd2154b5c7f3fe047cc81499f845421672054d66a"
     },
     "ビートイリュージョン・アエカ": {
       "name": "ビートイリュージョン・アエカ",
@@ -2796,7 +2945,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 02:47:06",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9f11bf2d71c81f1942fb4706ed55069c0ed0b6c0fc9119ac3268c7f07ddac3bf"
     },
     "バレンタインマドカ": {
       "name": "バレンタインマドカ",
@@ -2806,7 +2956,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-14 03:30:34",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "870ec123f775fb03cabdaed1ffe91b1b46a191934dbf84ac40f90fb598d3854e"
     },
     "バレンタインタイガージョナ": {
       "name": "バレンタインタイガージョナ",
@@ -2816,7 +2967,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-09 00:59:30",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "556f05020da5c317dab3f237475ea93d1ea41348ebf58e96d76e17cb87a7c04f"
     },
     "レガリアの超昂神騎ミカフィール": {
       "name": "レガリアの超昂神騎ミカフィール",
@@ -2826,7 +2978,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-04 22:01:11",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d534af225a546dbb355a61b57f96c4f0e69c81f4a0cf6c5ef16d5ba0e2adfeff"
     },
     "メイドユリッペ": {
       "name": "メイドユリッペ",
@@ -2836,7 +2989,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-04 22:00:53",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "4e96ee9014460413a8b0bee38f88f8bf8d90af25801d27337de57f0b6f6755b5"
     },
     "体育祭のキリエル": {
       "name": "体育祭のキリエル",
@@ -2846,7 +3000,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-27 15:55:41",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "4a142f3180f0c22c6b23a9d724dc2767e36b3c04fab9b69127e678e329b1d0dc"
     },
     "体育祭のムツカ": {
       "name": "体育祭のムツカ",
@@ -2856,7 +3011,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 19:17:09",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b4929d37dd4cbc1340700d7c41eb203c2e2775c7e4c106427d6ad18b354a434b"
     },
     "閃忍ハナコ": {
       "name": "閃忍ハナコ",
@@ -2932,7 +3088,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 19:22:42",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "4d963a61f32e9c66d75248bc4bb12354f57bf41276ab4d8d3e222874f1d1c716"
     },
     "レガリアの超昂神騎マヤエル": {
       "name": "レガリアの超昂神騎マヤエル",
@@ -2942,7 +3099,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-27 12:06:34",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "daa468974fed95fdb3041e2ff5f81c3a0d907037bbc48349a24bee5e056559c3"
     },
     "レガリアの超昂神騎メガエル": {
       "name": "レガリアの超昂神騎メガエル",
@@ -2952,7 +3110,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-14 03:26:03",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "08174f28079b53d18492299aa772db52c49c57f5ea2e137c719b8716987ad246"
     },
     "ブライド・フェリニ": {
       "name": "ブライド・フェリニ",
@@ -2962,7 +3121,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:48:31",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "fba0dbfe3ac691e6b52e51dbd97502da98c38827ba3b3c943349e2e562561b20"
     },
     "ブライドエスカ・ルビー": {
       "name": "ブライドエスカ・ルビー",
@@ -2972,7 +3132,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:49:09",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6fa1c381cf0711cdd471004700401e28b1acce871b051b44732850e312001bc4"
     },
     "ブライドエスカレイヤー・リバース": {
       "name": "ブライドエスカレイヤー・リバース",
@@ -2982,7 +3143,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 14:49:44",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "668be1cbf4d906e7d2f252da7c5faf5d442e0c9f15109a19ed0b98c2e16a0198"
     },
     "深窓の令嬢ステアール": {
       "name": "深窓の令嬢ステアール",
@@ -2992,7 +3154,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-03 06:13:16",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "57b1665727baa310b7452ebcc567bed198b37c7312f581f5be25e974806794ce"
     },
     "真夏のセラフィール": {
       "name": "真夏のセラフィール",
@@ -3002,7 +3165,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:13:04",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "cfd26002cc9907c91ba4ddd5db49ec5c56688a1227ad63ba2b6e10a5e8f4ba77"
     },
     "真夏のメグミ": {
       "name": "真夏のメグミ",
@@ -3012,7 +3176,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-17 17:29:43",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7702dc244aad0b72c4474fd5bb1af3ceb3d360e6379ab4cd32d53072371ae962"
     },
     "ビートスラッシャー・ショウコ": {
       "name": "ビートスラッシャー・ショウコ",
@@ -3044,7 +3209,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:01:00",
       "fetched_at": "2026-11-09T23:49:31+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "64dbb32e57cc88f92adb78feb78bb06bd2d43235843d6ded56c02cf70f563bcf"
     },
     "氷のシズカ": {
       "name": "氷のシズカ",
@@ -3076,7 +3242,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:06:55",
       "fetched_at": "2026-11-09T23:49:35+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d5a23eb9728130cb11d32c5dd9c8763b26a1ce516bd71e3109f246ca2f747e9c"
     },
     "ビートタクティクス・ウルザ": {
       "name": "ビートタクティクス・ウルザ",
@@ -3097,7 +3264,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:15:16",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7e4f9f47b293e04879b56a91458e2944ac2d40a0917bc6363783406964a91853"
     },
     "土のオウカ": {
       "name": "土のオウカ",
@@ -3118,7 +3286,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:15:57",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "bc4240b3aa5a2ef3fcf9d12de67fbc420e9c0ca956ada68fe7c0706b3a97b3ff"
     },
     "魔女キレー": {
       "name": "魔女キレー",
@@ -3282,7 +3451,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-09 17:41:47",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "bff967cd5a72329fe67363098808ca648fd3b2f774ef9840dac3462577bc86d1"
     },
     "神騎ジブリール・ゼロ": {
       "name": "神騎ジブリール・ゼロ",
@@ -3303,7 +3473,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-06-09 17:27:55",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "71c7f0967869b4a8f48c1a7d00e57edee707397bb2ebb8e27561f92d261dd935"
     },
     "エスカ・サファイア": {
       "name": "エスカ・サファイア",
@@ -3313,7 +3484,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:36:59",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b0a9b3fdbb7603142a91915ba0cee9724e571e1f4563328426d970dc2e022a82"
     },
     "エスカ・トパーズ": {
       "name": "エスカ・トパーズ",
@@ -3323,7 +3495,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:40:24",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "1190daf9aa36296cb316eeda9715228829cc0627a7eb2692fe2fb30d448686c9"
     },
     "エスカ・アメイズ": {
       "name": "エスカ・アメイズ",
@@ -3333,7 +3506,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:39:52",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "1ff1547b6fb79d87a99a773c7a0ccc0099788b5c5c2a9d996cd1b8168d4f367d"
     },
     "ビートバイカー・マッハ": {
       "name": "ビートバイカー・マッハ",
@@ -3398,7 +3572,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:45:08",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "49492ddca4ac57af7134d18680772501f839326fc0a8178a26fb5992e659f1b6"
     },
     "ビートスピナー・ハザクラ": {
       "name": "ビートスピナー・ハザクラ",
@@ -3551,7 +3726,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-19 07:45:26",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d6ff761eb32e92aead930768082e1386d0f5b3e2086608b91ac3688edbe7e8a8"
     },
     "ビートファインダー・フェリニ": {
       "name": "ビートファインダー・フェリニ",
@@ -3561,7 +3737,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-05 14:49:31",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "07940444865a0167f491b334528eea8c9320738b71645d70941152c01059d07e"
     },
     "神騎リゲル": {
       "name": "神騎リゲル",
@@ -3593,7 +3770,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2024-06-11 17:40:14",
       "fetched_at": "2026-11-09T23:49:34+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "d35a79d12646934bb888f79f80e6b51804a7eadde48dbd4ac60645de049d3e44"
     },
     "魔女イレーナ": {
       "name": "魔女イレーナ",
@@ -3790,7 +3968,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:55:37",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "682755b6c6dd60d0a51690ab2a538fd2e703e192ecd5885480a7e3ec95bb2bd5"
     },
     "閃忍サイカ": {
       "name": "閃忍サイカ",
@@ -3866,7 +4045,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-02 01:43:08",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "761448e84f701b213f4708d73284f94dce61ef06780383de722cb7a4888619ca"
     },
     "恋のみらくる☆スイート": {
       "name": "恋のみらくる☆スイート",
@@ -3931,7 +4111,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-06-23 21:15:52",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "9b537a935567d839583282e79ba7cf56284de5b9b21dec327ebfbe1e26dda296"
     },
     "ハロウィンキレー": {
       "name": "ハロウィンキレー",
@@ -3963,7 +4144,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-03-04 09:44:40",
       "fetched_at": "2026-11-09T23:49:35+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "16f6f19139bf9da2d63ee6f35508252b614010fda423e4dcf8e8ef0403aae495"
     },
     "バレンタインミゴー": {
       "name": "バレンタインミゴー",
@@ -3973,7 +4155,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 13:11:22",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "19273baef0097fc0ee8f9e26bb25ecb50e5452b63eb4088463cbde8428b49b26"
     },
     "閃忍カズハ": {
       "name": "閃忍カズハ",
@@ -4016,7 +4199,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-30 19:16:14",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "69773d780dfb17906242a050d3df2c232e2feba293b5e4e87fc92b294a60dd49"
     },
     "魔女フナノ": {
       "name": "魔女フナノ",
@@ -4037,7 +4221,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 11:05:04",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "4e56e6aa0ac63bee54728a2eb2f38f06421b8b13413abb4fd06c0c73f42b67e3"
     },
     "神騎ドミナール": {
       "name": "神騎ドミナール",
@@ -4091,7 +4276,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-30 01:41:10",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e205accf7fda859f48fc3eafe7ca12cc8f4abe05364ef855f9763f1ef9b039a5"
     },
     "ビートノーブル・クレードネ": {
       "name": "ビートノーブル・クレードネ",
@@ -4123,7 +4309,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-07 09:09:58",
       "fetched_at": "2026-11-09T23:49:33+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7a2febcc5cd572b9a7dc385bedc06160a03d8e2787d179c022cda2f7fe8f6e71"
     },
     "魔女ニーア": {
       "name": "魔女ニーア",
@@ -4177,7 +4364,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:24:16",
       "fetched_at": "2026-11-09T23:49:30+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7f81f938bbc6994fceb8bf5c939f2cc9e70639e87796c5ab3512e3ef0f7b28b8"
     },
     "神騎カースエル": {
       "name": "神騎カースエル",
@@ -4220,7 +4408,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-10-06 19:44:50",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "747143456f6bb8acd2889f4e2a62d63b036e9519c897a3373fc04b1310528431"
     },
     "SR": {
       "name": "SR",
@@ -4230,7 +4419,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2024-03-01 09:55:29",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "1e63bdf859c67da080bd2ca626f2d24183aeaf893d0ffe2bd818d7cd1183ead4"
     },
     "R": {
       "name": "R",
@@ -4240,7 +4430,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2024-03-01 09:55:22",
       "fetched_at": "2026-11-09T23:49:26+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "a95b0ca2e3ec47dd796c27929dc494c7d3c28ba95df6341737e2059c0e8334b8"
     },
     "サポーター": {
       "name": "サポーター",
@@ -4250,7 +4441,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-14 18:06:47",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "0206a9b2966f7fac48775a8e96203d27b718717b790fdaca6e2371353a4b0faf"
     },
     "NPC": {
       "name": "NPC",
@@ -4260,7 +4452,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2025-04-11 16:52:13",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "28cbd3c4719aa9493d9143177ad4f8a7bc9582ae3755064a2edd514db29da7b6"
     },
     "寝室シーン一覧": {
       "name": "寝室シーン一覧",
@@ -4270,7 +4463,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2025-05-05 06:29:31",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "504201737aaf096f014d25d15b3a9702d7647463771eaf445d861f1eeb0bef01"
     },
     "キャラクター一覧": {
       "name": "キャラクター一覧",
@@ -4280,7 +4474,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 11:22:02",
       "fetched_at": "2026-11-09T23:49:27+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "42289122dbfb6169e62cdeb19774783a77fd2fe927dd4c01a29312186c5393c4"
     },
     "魔法少女ヒトミ": {
       "name": "魔法少女ヒトミ",
@@ -4290,7 +4485,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-18 17:07:36",
       "fetched_at": "2026-11-09T23:49:35+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "3c723cc470eaaf0490f48ad3b99acce3fa8adbc8e85c491ca65d021e3eebd9fa"
     },
     "1ダースべべたー": {
       "name": "1ダースべべたー",
@@ -4531,7 +4727,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-11-02T23:10:48+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "215b68b16d2634f0fbdb6a60429f1f816e50282159357e6c049a0acf28db4338"
     },
     "ガッツタイガー": {
       "name": "ガッツタイガー",
@@ -4695,7 +4892,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6fcc5cc3bd875555fdf0cd11c5cc61da6c59d769717046615918f527066b3f18"
     },
     "トキサダ手作りチョコ": {
       "name": "トキサダ手作りチョコ",
@@ -4859,7 +5057,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-10-26T20:39:56+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7b528f27e0b554648e925a4f4881dea825af65200d374c36e8b36b97bd47963d"
     },
     "ロケット十姉妹": {
       "name": "ロケット十姉妹",
@@ -5166,7 +5365,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c71255e3b7f229f4c55c0c56afd8dd1a7e4e23a1ca393debe1a88831687a275d"
     },
     "衝撃のあるドリル": {
       "name": "衝撃のあるドリル",
@@ -5176,7 +5376,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "7637ae27c11e6f36f41b7d260236e6fe8ab99029d11776f6108d2277aa783362"
     },
     "衝撃のあるベルト": {
       "name": "衝撃のあるベルト",
@@ -5186,7 +5387,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e0c62316ce7bc3cda3a0553c24f7ccc9362fd2cefbfffb31fbf08adcf83fd3f3"
     },
     "衝撃の仁王": {
       "name": "衝撃の仁王",
@@ -5196,7 +5398,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-10-26T20:39:56+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5c7d5d8cd0af73dd175b5df4603180a56e34215aef43238b26ebb4ee9ecc3972"
     },
     "謙信の兜": {
       "name": "謙信の兜",
@@ -5239,7 +5442,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-11-02T23:10:48+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5bf89ba234d41e0daa1ea6e9e0a0b064d1e735a9d5583af0418bc4c437bd437e"
     },
     "超昂金 パルシオン(スタミナ)": {
       "name": "超昂金 パルシオン(スタミナ)",
@@ -5260,7 +5464,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-11-02T23:10:48+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "84b8388cfcf0850b8ab9a64511fe4207990395ce7764a207461bf72b904ffe4d"
     },
     "超昂金 滴－シズク－(スタミナ)": {
       "name": "超昂金 滴－シズク－(スタミナ)",
@@ -5281,7 +5486,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-11-02T23:10:48+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "225623ad053fb3dec31786fedfb8b740f7adf529f22169748549b9a50064d313"
     },
     "超昂金 紫竜－シリュウ－(スタミナ)": {
       "name": "超昂金 紫竜－シリュウ－(スタミナ)",
@@ -5445,7 +5651,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "b64b5ee5f165ead5deeb72e2e79c8105c18b54f7203ac31b4dc182252a6b566e"
     },
     "風火二輪・Ｂ": {
       "name": "風火二輪・Ｂ",
@@ -5521,7 +5728,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-09 23:00:49",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "55074be64d49b3534707c57773cf55211082bc1834636f3c44ace67b9e4f3b06"
     },
     "イベント08_レイドイベント『グナガン』": {
       "name": "イベント08_レイドイベント『グナガン』",
@@ -5564,7 +5772,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-26 04:55:16",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6a7b66586ffe1e9aec5ea98f264241dca1d8760749e434e406669d78bcea2fca"
     },
     "イベント46_レイドイベント『狂王』": {
       "name": "イベント46_レイドイベント『狂王』",
@@ -5585,7 +5794,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-08 18:37:45",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5db9e697e553cbe3503319882eb429c8ee97a9e6d1c8e679894920b83e2ae87d"
     },
     "ウェーブフラスト（Bユニバース）": {
       "name": "ウェーブフラスト（Bユニバース）",
@@ -5661,7 +5871,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-08 19:03:19",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e1c8333305f3979b9bd5c4c63f6554e400c11b1bd64f9442d1f4415eb89e1a3e"
     },
     "レールフラスト（Bユニバース）": {
       "name": "レールフラスト（Bユニバース）",
@@ -5693,7 +5904,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-18 01:28:59",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c3b5b0076ecfe49bd7efd71ebf9b09b51092ac8f88a8529373cc8e5d7cdf6231"
     },
     "滅忍キクリ＆コテツ（Bユニバース）": {
       "name": "滅忍キクリ＆コテツ（Bユニバース）",
@@ -6990,7 +7202,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-28 22:38:02",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e42a2d8652c4f7a38de7b7d6e6995e162055e32bde875b798e6c4db75248bc97"
     },
     "盛夏のエスカレイヤー": {
       "name": "盛夏のエスカレイヤー",
@@ -7000,7 +7213,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-18 17:08:26",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "58a9d765ad9d024ff68cb0222eef2321b1f73176f4a12e213529a3b5f4e4a289"
     },
     "真夏のキクリ": {
       "name": "真夏のキクリ",
@@ -7010,7 +7224,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-08-18 17:08:39",
       "fetched_at": "2026-11-09T23:49:32+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "fc36aa7a60c679e63d5c5ca2087291d7f5d2fc4d11990d2b330c033e0ec8394a"
     },
     "エスカ・セブン": {
       "name": "エスカ・セブン",
@@ -7020,7 +7235,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-02 01:48:37",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "880a86777390fef006af92fe4849a093c333e952e67f5e006ef1a569fbf9af53"
     },
     "バニーガールゲッカ": {
       "name": "バニーガールゲッカ",
@@ -7030,7 +7246,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-02 21:01:42",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "ca8f3aff85cca3386991689d45896c56665e6dc1e0181dd1d03f2029c30b34b9"
     },
     "バトラー・ヘプタスロン": {
       "name": "バトラー・ヘプタスロン",
@@ -7040,7 +7257,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-03 21:32:04",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "5c8f426de83b28ee52d370103dd370048da2d1f13419ef64f4f437dc6377000b"
     },
     "神騎ハウゼル": {
       "name": "神騎ハウゼル",
@@ -7138,7 +7356,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-22 10:48:23",
       "fetched_at": "2026-11-09T23:49:29+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "bf4263cb4e52a51630663882effc87913bf20edd144149a990c2829159648acc"
     },
     "神騎コトネーゼ": {
       "name": "神騎コトネーゼ",
@@ -7170,7 +7389,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-07-16 16:36:34",
       "fetched_at": "2026-11-09T23:49:31+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "319e343bc1a57161c59dbca8139d7bbd27ca81e895a243b74f61ed913d10aaa9"
     },
     "閃忍リルカ": {
       "name": "閃忍リルカ",
@@ -7191,7 +7411,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-07 06:28:59",
       "fetched_at": "2026-11-09T23:49:28+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "40806f16d5ece740a31fc449b2a78bd1b797809aaff5b5f96681aa7cfa415a8a"
     },
     "パイレーツハダル": {
       "name": "パイレーツハダル",
@@ -7201,7 +7422,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-19 18:21:33",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "17b8901d6fdc2a73b046dba8821d9b1a3e9b52ece86ba3f54d612a9b99e45a6c"
     },
     "ユーノ": {
       "name": "ユーノ",
@@ -7541,7 +7763,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-12 11:41:07",
       "fetched_at": "2026-11-02T23:10:48+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "52012d977b1b19d69f62d58faac93b5cdcbcec45ed87b9091f0f965f7e640ac3"
     },
     "ハニ子": {
       "name": "ハニ子",
@@ -7551,7 +7774,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-09 08:15:58",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "2f8e382168214ef83ab4a1b8d9b3276631c5a47c072aa576b49130e206d5149e"
     },
     "サイゼル": {
       "name": "サイゼル",
@@ -7968,7 +8192,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-25 21:41:41",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "f79e12311a8e12a964a6774b86889f8900e4115ac5c1b5b5fc1f73a157eea183"
     },
     "ハニ噛みタイガー": {
       "name": "ハニ噛みタイガー",
@@ -7989,7 +8214,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "badfdede0c221e706e6fea879047579ce0466265a0c1f4f8ebd22b6a14f759b6"
     },
     "ぷぎまるぬい": {
       "name": "ぷぎまるぬい",
@@ -8054,7 +8280,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-10-26T20:39:56+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "e57816f0f9ccdabbee7f391f7d1700762408ac9e968f38276bdbee3ae18ddb4e"
     },
     "死神ライト": {
       "name": "死神ライト",
@@ -8064,7 +8291,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2022-12-22 10:04:23",
       "fetched_at": "2026-10-26T20:39:55+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "c4cb7e768d9a56bf819cb38ca239e0bdb34be3ba2cd26fd862293dd1522e42a9"
     },
     "青竜天クチナワ（Bユニバース）": {
       "name": "青竜天クチナワ（Bユニバース）",
@@ -8074,7 +8302,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-10-17 17:33:56",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "57e8635798c24d26455d3d12cadc8d6c667b3da204bf0bb2927b1157482498e4"
     },
     "ハロウィンニャンコ": {
       "name": "ハロウィンニャンコ",
@@ -8084,7 +8313,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-05 10:20:36",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6b4ec1263ce231cf42340d9443a39b3a1f40f71ce268972633d00784bdead19f"
     },
     "魔女グリム": {
       "name": "魔女グリム",
@@ -8094,7 +8324,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-05 10:20:09",
       "fetched_at": "2026-11-09T23:49:24+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "253fa7db408a8e319974658ba95971a45c50b06ad4b00c37e0e79e128739cdd2"
     },
     "ハロウィンミヤビ": {
       "name": "ハロウィンミヤビ",
@@ -8104,7 +8335,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-05 10:21:12",
       "fetched_at": "2026-11-09T23:49:25+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "68c3e2296d75e74406ae6aa2ecfd81410ea5e32ebad3b0cc83ac46761dfb91a8"
     },
     "メイドハータン": {
       "name": "メイドハータン",
@@ -8114,7 +8346,8 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-09 07:48:43",
       "fetched_at": "2026-11-09T23:49:53+00:00",
-      "status": "ok"
+      "status": "ok",
+      "parsed_sha256": "6726d02b8d9d80b125a10b82a08f2e77ad23955d2f4571eab1109ff4ca3a688a"
     }
   },
   "assets": {

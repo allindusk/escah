@@ -469,6 +469,7 @@ git push origin main
 | 20 | 工作区巨大 diff（几万行） | 脚本写 JSON 用了 2 空格缩进，引擎是 1 空格 | 工具统一 `indent=1`（`tools/sop/*` 已如此） |
 | 21 | 读角色页评论区时把露骨内容带进上下文、触发审查 | 直接 `_page_dump.py` 读整页，评论区里的 R18 条目一起进来了 | 先 `r18_scan.py --split`，再用 `r18_scan.py --dump <slug>` 通读（内置剔除） |
 | 22 | `r18_scan` 误判一堆正常条目 | `glossary/r18.yaml` 是送翻预替换词表，含日常词 | 脚本已内置排除表；仍误判就把该行从 `.manual.txt` 移回清单，并把词加进 `_r18_extra.txt` 的反面（或用 `--page-ratio/--page-hits` 调页级阈值） |
+| 23 | 角色一览页表格改了译文不生效（或只生效一半） | 一览页表格已「同源」到子页（`table_sync`）：`characters.json` 里**不再有**表格条目 | 改 `data/parsed/i18n/list-ssr.json` / `list-sr` / `list-r` / `list-npc`（唯一源）；`characters` 页会自动跟随。诊断 `cli tablesync --dry-run`，验收 `tools/_dev/_verify_tablesync.py` |
 
 ---
 
@@ -480,6 +481,7 @@ git pull --rebase origin main
 python -u -m escah_pipeline.cli manifest merge          # 仅在 manifest 冲突时
 python -u -m escah_pipeline.cli local-sync              # 零网络重建（核心）
 python -u -m escah_pipeline.cli local-sync --pages <slug...>
+python -u -m escah_pipeline.cli tablesync --dry-run      # 表格同源：列出组/权威页/待覆盖页
 
 # 看本轮有什么
 type data\upstream\latest.json          # counts / window / truncated / items

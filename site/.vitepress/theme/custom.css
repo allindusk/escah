@@ -230,8 +230,20 @@
   background: var(--escah-pink-soft);
   color: #1b1b1f;
 }
-/* 头像链接（a.char-ref 包裹 img）去掉角色名标签的虚线底边，避免图像下方出现虚线；
-   文本型【角色名】浮窗标签的虚线底边保留 */
+/* 头像链接（char-ref 包裹 img）去掉角色名标签的虚线底边，避免图像下方出现虚线；
+   文本型【角色名】浮窗标签的虚线底边保留。
+   ⚠️ 2026-11-13 全站修：旧写法只匹配 `td.escah-img-col / td.escah-img-stack`，
+   于是 `th`（角色卡表格的头像表头列）以及表格外的头像链接仍然画虚线
+   （用户实测 `<th class="style_th escah-img-col escah-img-stack"><a class="char-ref"><img>`）。
+   改为按「容器里装的是不是图片」判断：`.char-ref:has(> img)` 覆盖 td/th、正文/图鉴/
+   活动页等所有位置；下方仍保留旧规则作为不支持 :has() 的浏览器兜底。
+   悬停底色也要一并不画：图片常带透明边，紫色/粉色块会从图后面透出来。 */
+.mirror-content .char-ref:has(> img),
+.escah-tbl-fs-scroll .char-ref:has(> img) { border-bottom: none; }
+.mirror-content .char-ref:has(> img):hover,
+.escah-tbl-fs-scroll .char-ref:has(> img):hover { background: transparent; color: inherit; }
+.dark .mirror-content .char-ref:has(> img):hover,
+.dark .escah-tbl-fs-scroll .char-ref:has(> img):hover { background: transparent; color: inherit; }
 .mirror-content td.escah-img-col a.char-ref,
 .mirror-content td.escah-img-stack a.char-ref { border-bottom: none; }
 .mirror-content img[data-char] { cursor: pointer; display: inline-block; vertical-align: middle; }
@@ -665,6 +677,27 @@
   flex-wrap: wrap;
   margin-bottom: 8px;
 }
+/* 行数徽标：紧跟在「表格全屏 / 表格重置」之后（**不右对齐** —— 宽表需要横向滚动时，
+   右对齐的行数会被挤出可视区，第一眼看不到）；筛选后变「共 N / M 行」并高亮 */
+.escah-tbl-count {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--escah-border);
+  font-variant-numeric: tabular-nums;
+}
+.escah-tbl-count.is-filtered {
+  color: var(--escah-pink);
+  border-color: var(--escah-pink);
+  background: var(--vp-c-brand-soft);
+}
 .escah-tbl-btn {
   font-size: 12px;
   font-weight: 600;
@@ -1053,8 +1086,13 @@
   color: #fff;
   border-color: transparent;
 }
+/* 筛选下拉：打开时由 tableEnhancer 移到 <body> 并用 position:fixed 定位
+   （① 表格滚动容器 overflow 会裁剪 absolute；② 筛选行 td 是 sticky+z-index:3，
+   会自建层叠上下文把 fixed 下拉困住，被吸顶表头/相邻筛选格盖住）。
+   这里的 absolute/top 只是 JS 未接管前的兜底；z-index 要压过表头(4)、
+   导航(100) 与全屏遮罩(250)，故取 300。 */
 .escah-filter-pop {
-  display: none; position: absolute; z-index: 20; top: 100%; left: 0;
+  display: none; position: absolute; z-index: 300; top: 100%; left: 0;
   margin-top: 2px; padding: 6px 8px; max-height: 240px; overflow: auto;
   min-width: 120px;
   background: var(--vp-c-bg); border: 1px solid var(--escah-border); border-radius: 8px;
