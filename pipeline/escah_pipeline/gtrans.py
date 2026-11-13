@@ -35,7 +35,10 @@ from typing import Iterable, Sequence
 # 谷歌内部接口配置
 # ---------------------------------------------------------------------------
 GOOGLE_URL = "https://translate-pa.googleapis.com/v1/translateHtml"
-GOOGLE_API_KEY = "AIzaSyATBXajvzQLTDHEQbcpq0Ihe0vWDHmO520"
+# ⚠️ 密钥**不入库**（2026-11-13：明文常量泄露被 GitHub secret scanning 报警）。
+# 取值顺序：环境变量 GOOGLE_API_KEY → 项目根 .env → .env 里的密文
+# GOOGLE_API_KEY_ENC + 主口令 ESCAH_SECRET_KEY（见 escah_pipeline/secrets.py）。
+_API_KEY_CACHE: str | None = None
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36"
@@ -129,12 +132,32 @@ def norm_lang(code: str) -> str:
 # ---------------------------------------------------------------------------
 # 底层 HTTP
 # ---------------------------------------------------------------------------
+def _api_key() -> str:
+    """取谷歌 API Key（首次调用时从 env/.env/密文解出并缓存）。
+
+    惰性取值而不是模块级常量：既不再把明文写进仓库，也让「没配密钥」只在
+    真正要翻译时暴露，不影响仅 import 本模块的其它流程（如 CI 构建）。
+    """
+    global _API_KEY_CACHE
+    if _API_KEY_CACHE is None:
+        from .secrets import get_secret
+
+        _API_KEY_CACHE = get_secret("GOOGLE_API_KEY")
+    if not _API_KEY_CACHE:
+        raise GTransError(
+            "缺少谷歌 API Key：请在项目根 .env 配置 GOOGLE_API_KEY=<key>"
+            "（或配置 GOOGLE_API_KEY_ENC=<密文> 与 ESCAH_SECRET_KEY=<主口令>）。"
+            "生成密文：python -m escah_pipeline.secrets encrypt <key>"
+        )
+    return _API_KEY_CACHE
+
+
 def _post(payload: str) -> str:
     headers = {
         "Accept": "*/*",
         "Accept-Language": "en-US,en;q=0.9",
         "Content-Type": "application/json+protobuf",
-        "X-Goog-Api-Key": GOOGLE_API_KEY,
+        "X-Goog-Api-Key": _api_key(),
         "User-Agent": USER_AGENT,
     }
     try:
