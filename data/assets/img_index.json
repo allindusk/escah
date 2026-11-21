@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-11-16T23:48:22+00:00",
+ "generated_at": "2026-11-21T05:00:58+00:00",
  "note": "磁盘文件名是 sha256(源URL)[:16].webp，改动它有 404 风险，故不改名，只用本表对照。本表自动生成（`cli assets --index-only`），勿手工编辑。",
  "counts": {
-  "pending": 2829,
-  "on_disk": 3153,
-  "mapped": 2829,
+  "pending": 2844,
+  "on_disk": 3168,
+  "mapped": 2844,
   "orphan": 324,
-  "total_bytes": 2305901,
-  "with_page_refs": 1263
+  "total_bytes": 1339268,
+  "with_page_refs": 1267
  },
  "entries": [
   {
@@ -3619,14 +3619,17 @@
    "file": "57f82093354aaebf.webp",
    "name": "img_ハロウィンミヤビ_icon",
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E3838FE383ADE382A6E382A3E383B3E3839FE383A4E383935F69636F6E2E706E67.png",
-   "bytes": 4972,
+   "bytes": 129,
    "exists": true,
    "pages": [
     "CV一覧",
     "SSR",
+    "イベント60_レイドイベント『ヴリトラ』",
     "キャラクター一覧",
     "テーブル/全ストーリー実装順",
     "ハロウィンミヤビ",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "レイド",
     "原画別索引",
     "実装履歴",
     "寝室シーン一覧"
@@ -3671,9 +3674,12 @@
    "pages": [
     "CV一覧",
     "SSR",
+    "イベント60_レイドイベント『ヴリトラ』",
     "キャラクター一覧",
     "テーブル/全ストーリー実装順",
     "バトラー・ヘプタスロン",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "レイド",
     "原画別索引",
     "実装履歴",
     "寝室シーン一覧"
@@ -3689,14 +3695,35 @@
    "pages": [
     "CV一覧",
     "SSR",
+    "イベント60_レイドイベント『ヴリトラ』",
     "キャラクター一覧",
     "テーブル/全ストーリー実装順",
     "バニーガールゲッカ",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "レイド",
     "原画別索引",
     "実装履歴",
     "寝室シーン一覧"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4131f7275d8486ba.webp"
+  },
+  {
+   "file": "8831ca8addd8b01e.webp",
+   "name": "img_バビロニア・イーイー_icon",
+   "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E38390E38393E383ADE3838BE382A2E383BBE382A4E383BCE382A4E383BC5F69636F6E2E706E67.png",
+   "bytes": 6562,
+   "exists": true,
+   "pages": [
+    "CV一覧",
+    "SSR",
+    "キャラクター一覧",
+    "バビロニア・イーイー",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "原画別索引",
+    "実装履歴",
+    "寝室シーン一覧"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/8831ca8addd8b01e.webp"
   },
   {
    "file": "916992e77a048f2d.webp",
@@ -4054,6 +4081,7 @@
     "テーブル/全ストーリー実装順",
     "バフ・デバフ能力キャラ　一覧まとめ",
     "パイレーツハダル",
+    "レイド",
     "原画別索引",
     "実装履歴",
     "寝室シーン一覧"
@@ -5560,6 +5588,7 @@
     "イベント08_レイドイベント『グナガン』",
     "イベント12_レイドイベント『ゴールデンハニー』",
     "イベント14_レイドイベント『ウールタール』",
+    "イベント22_レイドイベント『堕威大仏』",
     "イベント32_レイドイベント『大往嬢』",
     "イベント46_レイドイベント『狂王』",
     "イベント60_レイドイベント『ヴリトラ』"
@@ -5651,13 +5680,14 @@
    "file": "85dc95a5858fc553.webp",
    "name": "img_メイドハータン_icon",
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E383A1E382A4E38389E3838FE383BCE382BFE383B35F69636F6E2E706E67.png",
-   "bytes": 5804,
+   "bytes": 129,
    "exists": true,
    "pages": [
     "CV一覧",
     "SSR",
     "キャラクター一覧",
     "テーブル/全ストーリー実装順",
+    "バフ・デバフ能力キャラ　一覧まとめ",
     "メイドハータン",
     "原画別索引",
     "実装履歴",
@@ -5857,6 +5887,7 @@
     "イベント08_レイドイベント『グナガン』",
     "イベント12_レイドイベント『ゴールデンハニー』",
     "イベント14_レイドイベント『ウールタール』",
+    "イベント22_レイドイベント『堕威大仏』",
     "イベント32_レイドイベント『大往嬢』",
     "イベント46_レイドイベント『狂王』",
     "イベント60_レイドイベント『ヴリトラ』",
@@ -6055,6 +6086,24 @@
     "レジェンドヒロイン【5周年】"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/33b7d867e3ac52f4.webp"
+  },
+  {
+   "file": "4ee2eb193ed076c4.webp",
+   "name": "img_レジェンド・エクシール_icon",
+   "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E383ACE382B8E382A7E383B3E38389E383BBE382A8E382AFE382B7E383BCE383AB5F69636F6E2E706E67.png",
+   "bytes": 6818,
+   "exists": true,
+   "pages": [
+    "CV一覧",
+    "SSR",
+    "キャラクター一覧",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "レジェンド・エクシール",
+    "原画別索引",
+    "実装履歴",
+    "寝室シーン一覧"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4ee2eb193ed076c4.webp"
   },
   {
    "file": "da7165479475e67f.webp",
@@ -6326,6 +6375,7 @@
    "exists": true,
    "pages": [
     "アイテム一覧",
+    "テーブル/全ストーリー実装順",
     "レイド用編成例",
     "仁王ドリル",
     "縛り仁王",
@@ -9904,6 +9954,24 @@
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/bc31b26bc144d4dc.webp"
   },
   {
+   "file": "5627cc82f366e705.webp",
+   "name": "img_超昂唱姫ノドカ_icon",
+   "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E8B685E69882E594B1E5A7ABE3838EE38389E382AB5F69636F6E2E706E67.png",
+   "bytes": 6526,
+   "exists": true,
+   "pages": [
+    "CV一覧",
+    "SSR",
+    "キャラクター一覧",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "原画別索引",
+    "実装履歴",
+    "寝室シーン一覧",
+    "超昂唱姫ノドカ"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/5627cc82f366e705.webp"
+  },
+  {
    "file": "618fd757ff59b5f8.webp",
    "name": "img_超昂大戦初心者講座_banner",
    "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E8B685E69882E5A4A7E688A6E5889DE5BF83E88085E8AC9BE5BAA75F62616E6E65722E6A7067.jpg",
@@ -11379,8 +11447,11 @@
    "pages": [
     "CV一覧",
     "R",
+    "イベント60_レイドイベント『ヴリトラ』",
     "キャラクター一覧",
     "テーブル/全ストーリー実装順",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "レイド",
     "原画別索引",
     "実装履歴",
     "寝室シーン一覧",
@@ -11476,6 +11547,24 @@
     "魔女スェン"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/1eca5c79c5fe7dd1.webp"
+  },
+  {
+   "file": "0f2a00ee4d03f397.webp",
+   "name": "img_魔女チィコ_icon",
+   "url": "https://escalationheroines.wikiru.jp/attach2/696D67_E9AD94E5A5B3E38381E382A3E382B35F69636F6E2E706E67.png",
+   "bytes": 5802,
+   "exists": true,
+   "pages": [
+    "CV一覧",
+    "SR",
+    "キャラクター一覧",
+    "バフ・デバフ能力キャラ　一覧まとめ",
+    "原画別索引",
+    "実装履歴",
+    "寝室シーン一覧",
+    "魔女チィコ"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/0f2a00ee4d03f397.webp"
   },
   {
    "file": "51d6cfaefd7b2029.webp",
@@ -12022,7 +12111,7 @@
    "file": "3729729053f1526b.webp",
    "name": "paraedit",
    "url": "https://escalationheroines.wikiru.jp/image/paraedit.png",
-   "bytes": 238,
+   "bytes": 128,
    "exists": true,
    "pages": [
     "Bユニバース",
@@ -12034,7 +12123,11 @@
     "mDDD-BED",
     "よくある質問",
     "アイテム一覧",
+    "イベント08_レイドイベント『グナガン』",
+    "イベント14_レイドイベント『ウールタール』",
+    "イベント22_レイドイベント『堕威大仏』",
     "イベント32_レイドイベント『大往嬢』",
+    "イベント46_レイドイベント『狂王』",
     "イベント60_レイドイベント『ヴリトラ』",
     "イベント86_殲滅戦",
     "イベント一覧",
@@ -13035,7 +13128,7 @@
    "file": "610bd328acab6404.webp",
    "name": "アイテム一覧_バウンス蛍",
    "url": "https://escalationheroines.wikiru.jp/attach2/E382A2E382A4E38386E383A0E4B880E8A6A7_E38390E382A6E383B3E382B9E89B8D2E706E67.png",
-   "bytes": 2614,
+   "bytes": 129,
    "exists": true,
    "pages": [
     "アイテム一覧",
@@ -14069,16 +14162,37 @@
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4d9a6b64f320f007.webp"
   },
   {
-   "file": "4af444b9ba5ac74d.webp",
-   "name": "イベント108_6thアニバーサリー_banner1",
-   "url": "https://escalationheroines.wikiru.jp/attach2/E382A4E38399E383B3E383883130385F367468E382A2E3838BE38390E383BCE382B5E383AAE383BC_62616E6E6572312E706E67.png",
-   "bytes": 36498,
+   "file": "418abcfe9a3ba3ea.webp",
+   "name": "イベント108_6thアニバーサリー_banner",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E382A4E38399E383B3E383883130385F367468E382A2E3838BE38390E383BCE382B5E383AAE383BC_62616E6E65722E706E67.png",
+   "bytes": 34406,
    "exists": true,
    "pages": [
     "イベント一覧",
     "キャラクター交換所"
    ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/418abcfe9a3ba3ea.webp"
+  },
+  {
+   "file": "4af444b9ba5ac74d.webp",
+   "name": "イベント108_6thアニバーサリー_banner1",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E382A4E38399E383B3E383883130385F367468E382A2E3838BE38390E383BCE382B5E383AAE383BC_62616E6E6572312E706E67.png",
+   "bytes": 130,
+   "exists": true,
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4af444b9ba5ac74d.webp"
+  },
+  {
+   "file": "b5968e79098fb251.webp",
+   "name": "イベント109_包む夢、抗う鼓動_banner",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E382A4E38399E383B3E383883130395FE58C85E38280E5A4A2E38081E68A97E38186E9BC93E58B95_62616E6E65722E706E67.png",
+   "bytes": 41388,
+   "exists": true,
+   "pages": [
+    "イベント一覧",
+    "キャラクター交換所"
+   ],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/b5968e79098fb251.webp"
   },
   {
    "file": "e23850071c80ee06.webp",
@@ -14630,12 +14744,9 @@
    "file": "b8eb2cc31723eceb.webp",
    "name": "イベント72_あやかしと呼ばれた少女_banner2",
    "url": "https://escalationheroines.wikiru.jp/attach2/E382A4E38399E383B3E3838837325FE38182E38284E3818BE38197E381A8E591BCE381B0E3828CE3819FE5B091E5A5B3_62616E6E6572322E6A7067.jpg",
-   "bytes": 96456,
+   "bytes": 130,
    "exists": true,
-   "pages": [
-    "イベント一覧",
-    "キャラクター交換所"
-   ],
+   "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/b8eb2cc31723eceb.webp"
   },
   {
@@ -16240,7 +16351,7 @@
    "file": "9dfadea9453712a3.webp",
    "name": "ハロウィンニャンコ_ハロウィンニャンコ_sd",
    "url": "https://escalationheroines.wikiru.jp/attach2/E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B3_E3838FE383ADE382A6E382A3E383B3E3838BE383A3E383B3E382B35F73642E676966.gif",
-   "bytes": 343984,
+   "bytes": 131,
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/9dfadea9453712a3.webp"
@@ -16312,7 +16423,7 @@
    "file": "8463221e65240136.webp",
    "name": "ハロウィンミヤビ_ハロウィンミヤビ",
    "url": "https://escalationheroines.wikiru.jp/attach2/E3838FE383ADE382A6E382A3E383B3E3839FE383A4E38393_E3838FE383ADE382A6E382A3E383B3E3839FE383A4E383932E706E67.png",
-   "bytes": 73228,
+   "bytes": 130,
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/8463221e65240136.webp"
@@ -16321,7 +16432,7 @@
    "file": "d3717ca9baf72038.webp",
    "name": "ハロウィンミヤビ_ハロウィンミヤビ_sd",
    "url": "https://escalationheroines.wikiru.jp/attach2/E3838FE383ADE382A6E382A3E383B3E3839FE383A4E38393_E3838FE383ADE382A6E382A3E383B3E3839FE383A4E383935F73642E676966.gif",
-   "bytes": 812126,
+   "bytes": 131,
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/d3717ca9baf72038.webp"
@@ -16330,7 +16441,7 @@
    "file": "2622a4ac605a8759.webp",
    "name": "ハロウィンミヤビ_ハロウィンミヤビ_強化",
    "url": "https://escalationheroines.wikiru.jp/attach2/E3838FE383ADE382A6E382A3E383B3E3839FE383A4E38393_E3838FE383ADE382A6E382A3E383B3E3839FE383A4E383935FE5BCB7E58C962E706E67.png",
-   "bytes": 92548,
+   "bytes": 130,
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/2622a4ac605a8759.webp"
@@ -16397,6 +16508,24 @@
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/f46b4f49866eab4f.webp"
+  },
+  {
+   "file": "22753f43de2852b5.webp",
+   "name": "バビロニア・イーイー_バビロニア・イーイー_B",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E38390E38393E383ADE3838BE382A2E383BBE382A4E383BCE382A4E383BC_E38390E38393E383ADE3838BE382A2E383BBE382A4E383BCE382A4E383BC5F422E706E67.png",
+   "bytes": 67524,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/22753f43de2852b5.webp"
+  },
+  {
+   "file": "323574cdfa8e9608.webp",
+   "name": "バビロニア・イーイー_バビロニア・イーイー_C",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E38390E38393E383ADE3838BE382A2E383BBE382A4E383BCE382A4E383BC_E38390E38393E383ADE3838BE382A2E383BBE382A4E383BCE382A4E383BC5F432E706E67.png",
+   "bytes": 133720,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/323574cdfa8e9608.webp"
   },
   {
    "file": "1ddc265f2cdb43ed.webp",
@@ -19521,7 +19650,7 @@
    "file": "6c79b9bc30161463.webp",
    "name": "メイドハータン_メイドハータン",
    "url": "https://escalationheroines.wikiru.jp/attach2/E383A1E382A4E38389E3838FE383BCE382BFE383B3_E383A1E382A4E38389E3838FE383BCE382BFE383B32E706E67.png",
-   "bytes": 40072,
+   "bytes": 130,
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/6c79b9bc30161463.webp"
@@ -19530,7 +19659,7 @@
    "file": "1870baeaeae74a98.webp",
    "name": "メイドハータン_メイドハータン強化",
    "url": "https://escalationheroines.wikiru.jp/attach2/E383A1E382A4E38389E3838FE383BCE382BFE383B3_E383A1E382A4E38389E3838FE383BCE382BFE383B3E5BCB7E58C962E706E67.png",
-   "bytes": 115618,
+   "bytes": 131,
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/1870baeaeae74a98.webp"
@@ -19759,7 +19888,13 @@
    "bytes": 131,
    "exists": true,
    "pages": [
+    "イベント08_レイドイベント『グナガン』",
     "イベント12_レイドイベント『ゴールデンハニー』",
+    "イベント14_レイドイベント『ウールタール』",
+    "イベント22_レイドイベント『堕威大仏』",
+    "イベント32_レイドイベント『大往嬢』",
+    "イベント46_レイドイベント『狂王』",
+    "イベント60_レイドイベント『ヴリトラ』",
     "レイド"
    ],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/1e1c715035e89aef.webp"
@@ -19774,6 +19909,7 @@
     "イベント08_レイドイベント『グナガン』",
     "イベント12_レイドイベント『ゴールデンハニー』",
     "イベント14_レイドイベント『ウールタール』",
+    "イベント22_レイドイベント『堕威大仏』",
     "イベント32_レイドイベント『大往嬢』",
     "イベント46_レイドイベント『狂王』",
     "イベント60_レイドイベント『ヴリトラ』",
@@ -19791,6 +19927,7 @@
     "イベント08_レイドイベント『グナガン』",
     "イベント12_レイドイベント『ゴールデンハニー』",
     "イベント14_レイドイベント『ウールタール』",
+    "イベント22_レイドイベント『堕威大仏』",
     "イベント32_レイドイベント『大往嬢』",
     "イベント46_レイドイベント『狂王』",
     "イベント60_レイドイベント『ヴリトラ』",
@@ -20096,6 +20233,24 @@
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/cb08b5cfa27d216c.webp"
+  },
+  {
+   "file": "e67a570e105a121a.webp",
+   "name": "レジェンド・エクシール_レジェンド・エクシール_B",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E383ACE382B8E382A7E383B3E38389E383BBE382A8E382AFE382B7E383BCE383AB_E383ACE382B8E382A7E383B3E38389E383BBE382A8E382AFE382B7E383BCE383AB5F422E706E67.png",
+   "bytes": 53468,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/e67a570e105a121a.webp"
+  },
+  {
+   "file": "e91b7fdb654facf0.webp",
+   "name": "レジェンド・エクシール_レジェンド・エクシール_C",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E383ACE382B8E382A7E383B3E38389E383BBE382A8E382AFE382B7E383BCE383AB_E383ACE382B8E382A7E383B3E38389E383BBE382A8E382AFE382B7E383BCE383AB5F432E706E67.png",
+   "bytes": 128960,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/e91b7fdb654facf0.webp"
   },
   {
    "file": "bee890dbd6db6969.webp",
@@ -28703,6 +28858,24 @@
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/04a0d4a9d92b1ec4.webp"
   },
   {
+   "file": "cbd227c020a5bfc5.webp",
+   "name": "超昂唱姫ノドカ_超昂唱姫ノドカ",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E8B685E69882E594B1E5A7ABE3838EE38389E382AB_E8B685E69882E594B1E5A7ABE3838EE38389E382AB2E706E67.png",
+   "bytes": 93350,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/cbd227c020a5bfc5.webp"
+  },
+  {
+   "file": "a920be50b35a406b.webp",
+   "name": "超昂唱姫ノドカ_超昂唱姫ノドカ強化",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E8B685E69882E594B1E5A7ABE3838EE38389E382AB_E8B685E69882E594B1E5A7ABE3838EE38389E382ABE5BCB7E58C962E706E67.png",
+   "bytes": 182732,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/a920be50b35a406b.webp"
+  },
+  {
    "file": "c51d953a5b236d0a.webp",
    "name": "超昂神騎エクシール_超昂神騎エクシール",
    "url": "https://escalationheroines.wikiru.jp/attach2/E8B685E69882E7A59EE9A88EE382A8E382AFE382B7E383BCE383AB_E8B685E69882E7A59EE9A88EE382A8E382AFE382B7E383BCE383AB2E706E67.png",
@@ -31363,7 +31536,7 @@
    "file": "a5ba5eeaf5dc1986.webp",
    "name": "魔女グリム_魔女グリム_sd",
    "url": "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E382B0E383AAE383A0_E9AD94E5A5B3E382B0E383AAE383A05F73642E676966.gif",
-   "bytes": 273968,
+   "bytes": 131,
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/a5ba5eeaf5dc1986.webp"
@@ -31529,6 +31702,33 @@
    "exists": true,
    "pages": [],
    "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/9a80963ff11dc0df.webp"
+  },
+  {
+   "file": "daf2c872ae114937.webp",
+   "name": "魔女チィコ_魔女チィコ",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E38381E382A3E382B3_E9AD94E5A5B3E38381E382A3E382B32E706E67.png",
+   "bytes": 47624,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/daf2c872ae114937.webp"
+  },
+  {
+   "file": "4e71ac79cec2bb29.webp",
+   "name": "魔女チィコ_魔女チィコ強化",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E38381E382A3E382B3_E9AD94E5A5B3E38381E382A3E382B3E5BCB7E58C962E706E67.png",
+   "bytes": 92274,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/4e71ac79cec2bb29.webp"
+  },
+  {
+   "file": "0402e0a965cd041b.webp",
+   "name": "魔女チィコ_魔女チィコ私服",
+   "url": "https://escalationheroines.wikiru.jp/attach2/E9AD94E5A5B3E38381E382A3E382B3_E9AD94E5A5B3E38381E382A3E382B3E7A781E69C8D2E706E67.png",
+   "bytes": 28650,
+   "exists": true,
+   "pages": [],
+   "preview_url": "https://github.com/allindusk/escah/blob/main/data/assets/img/0402e0a965cd041b.webp"
   },
   {
    "file": "4cc615530c0f2d80.webp",

@@ -3956,3 +3956,27 @@ pages:
   mode: static
   rarity: SSR
   icon: img/85dc95a5858fc553.webp
+- name: レジェンド・エクシール
+  slug: characters/レジェンド・エクシール
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/4ee2eb193ed076c4.webp
+- name: バビロニア・イーイー
+  slug: characters/バビロニア・イーイー
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/8831ca8addd8b01e.webp
+- name: 超昂唱姫ノドカ
+  slug: characters/超昂唱姫ノドカ
+  category: character-detail
+  mode: static
+  rarity: SSR
+  icon: img/5627cc82f366e705.webp
+- name: 魔女チィコ
+  slug: characters/魔女チィコ
+  category: character-detail
+  mode: static
+  rarity: SR
+  icon: img/0f2a00ee4d03f397.webp
