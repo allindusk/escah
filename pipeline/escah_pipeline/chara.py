@@ -133,7 +133,8 @@ def extract_character(name: str, raw_html: str) -> dict | None:
                     cell["rs"] = int(c["rowspan"])
                 if needs_translation(text):
                     cell["tr"] = True
-                zh = None if row_is_honmyo else i18n.char_cell_zh(text)
+                # 本名行也走词表/词典（2026-11-24 起中文化，不再固定保留日文原名）
+                zh = i18n.char_cell_zh(text)
                 if zh:
                     cell["zh"] = zh
                 cells.append(cell)

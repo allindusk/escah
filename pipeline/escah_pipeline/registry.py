@@ -150,6 +150,30 @@ CHAR_DIR_SECTIONS: "dict[str, tuple[str, ...] | None]" = {
 # 「装備リスト」是 2026-10-07 新增的总表页（由 `装備一覧` 链入，故同一轮即可登记并扫描）。
 SUBPAGE_DIRS = ("装備一覧", "超昂装備", "装備リスト")
 
+# ---- 自动增长的子页目录（非装备：B宇宙BOSS / 主线关卡）----
+# 2026-11-25 用户要求：角色、装备、主线关卡、B宇宙BOSS，有新增都要抓 raw。
+# 后两类此前**完全没有登记规则**（buniv-002 是手工加的），于是新页永远进不了 raw。
+# 与 Phase 3 的差别：
+#   · 目录页里混着大量角色/活动链接，**不能全收**，必须带名字过滤；
+#   · slug 前缀独立编号（buniv-NNN / mq-NNN，接着已有最大号往下排）。
+# 约束同前：subpage 类型**不进左侧栏**，导航骨架仍只由人工改。
+AUTO_SUBPAGE_RULES: "tuple[dict, ...]" = (
+    {
+        "dir": "Bユニバース",
+        "label": "B宇宙BOSS",
+        "prefix": "buniv",
+        "subgroup": "b-universe",
+        "match": lambda n: n.endswith("（Bユニバース）"),
+    },
+    {
+        "dir": "メインクエスト",
+        "label": "主线关卡",
+        "prefix": "mq",
+        "subgroup": "main-quest",
+        "match": lambda n: n.startswith("メインクエスト/"),
+    },
+)
+
 # 需要固定 slug 的目录页/特殊页（避免落进 equip-NNN 编号里，语义与链接都更清楚）
 SPECIAL_SUBPAGE_SLUGS = {
     "装備リスト": "equipment-list",
@@ -363,11 +387,17 @@ def extract_content_links(html: str) -> list[str]:
     return out
 
 
+def _next_index(pages: "dict[str, dict]", prefix: str) -> int:
+    """下一个可用的 `<prefix>-NNN` 编号（现有最大编号 +1；无则 001）。"""
+    pat = re.compile(rf"{re.escape(prefix)}-(\d+)$")
+    nums = [int(m.group(1)) for e in pages.values()
+            if (m := pat.match(str(e.get("slug", ""))))]
+    return (max(nums) + 1) if nums else 1
+
+
 def _next_equip_index(pages: "dict[str, dict]") -> int:
     """下一个可用的 equip-NNN 编号（现有最大编号 +1；无则 001）。"""
-    nums = [int(m.group(1)) for e in pages.values()
-            if (m := re.match(r"equip-(\d+)$", str(e.get("slug", ""))))]
-    return (max(nums) + 1) if nums else 1
+    return _next_index(pages, "equip")
 
 
 def _nav_names() -> "set[str]":
@@ -540,6 +570,39 @@ def discover(offline: bool = False) -> None:
                 sub_new += 1
                 log.info("Phase 3：新登记子页 %s → %s", name, slug)
         log.info("Phase 3 完成：新增装备子页 %d 个", sub_new)
+
+        # ---- Phase 4: B宇宙BOSS / 主线关卡目录 → 新增子页 ----
+        # 与 Phase 3 同款做法，但带名字过滤（目录页里混着角色/活动/攻略链接，不能全收）。
+        for rule in AUTO_SUBPAGE_RULES:
+            dir_name = rule["dir"]
+            log.info("Phase 4: 读取「%s」解析%s链接…", dir_name, rule["label"])
+            text = _page_text(dir_name)
+            if text is None:
+                log.warning("Phase 4：拿不到「%s」的正文（raw 过期或抓取失败）→ 本轮跳过", dir_name)
+                continue
+            nxt = _next_index(pages_by_name, rule["prefix"])
+            added = 0
+            for name in extract_content_links(text):
+                if not rule["match"](name):
+                    continue
+                if name in pages_by_name or name in nav_names:
+                    continue
+                if added >= MAX_AUTO_REGISTER_PER_RUN:
+                    log.warning("Phase 4：%s 已达单轮上限 %d，其余候选留待下轮：%s",
+                                rule["label"], MAX_AUTO_REGISTER_PER_RUN, name)
+                    break
+                slug = f"{rule['prefix']}-{nxt:03d}"
+                nxt += 1
+                pages_by_name[name] = {
+                    "name": name,
+                    "slug": slug,
+                    "category": "subpage",
+                    "subgroup": rule["subgroup"],
+                    "mode": "static",
+                }
+                added += 1
+                log.info("Phase 4：新登记%s %s → %s", rule["label"], name, slug)
+            log.info("Phase 4：%s 新增 %d 个", rule["label"], added)
 
     # 注册表顺序即数据统计/侧栏顺序：保持既有顺序，新条目追加在后（不重排）
     save_registry(list(pages_by_name.values()))

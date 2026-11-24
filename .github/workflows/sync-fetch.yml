@@ -114,12 +114,14 @@ jobs:
           echo "exit=$code" >> "$GITHUB_OUTPUT"
           set -e
 
-      # ---- ②b 发现新增页（角色 + 装备，两类都自动增长）----
+      # ---- ②b 发现新增页（角色 + 装备 + B宇宙BOSS + 主线关卡）----
       # `discover` Phase 1 只刷新**已登记**的导航页（绝不新增，左侧栏是站点骨架）；
       # Phase 2 从「キャラクター一覧」SSR/SR/R 分区 +「サポーター」「NPC」整页收角色，
       #         新角色页一律登记（category=character-detail，不进侧栏）；
       # Phase 3 从「装備一覧」「超昂装備」「装備リスト」收装备子页，
-      #         新装备登记为 equip-NNN（category=subpage，不进侧栏）。
+      #         新装备登记为 equip-NNN（category=subpage，不进侧栏）；
+      # Phase 4（2026-11-25 补）从「Bユニバース」收 `…（Bユニバース）` BOSS 页（buniv-NNN）、
+      #         从「メインクエスト」收 `メインクエスト/…` 关卡页（mq-NNN），同样不进侧栏。
       # 因此这一跑在 parse 之前，新增页当轮就能被下面的 `fetch`（断点续抓）补齐快照。
       # 反爬挑战下会失败，但不阻断后续步骤（与 fetch 一样 fail-soft）。
       - name: Discover new pages (character + equipment)
@@ -183,6 +185,11 @@ jobs:
           set -e
 
       # ---- ⑥ 提交（仅上述入库范围；不碰 data/parsed/ 与译文）----
+      # 图片瘦身不用在这里做：动图海报 / 480w·1200w 变体是**派生产物**（data/assets/img_opt、
+      # .vitepress/img-variants.json 都已 gitignore）。部署构建时 `node build.mjs build` 会先跑
+      # tools/gen_img_variants.py 做增量补齐：按源图 sha256[:16] 判定，新增图直接生成，
+      # 原站换了图（文件名不变、字节变了）会重建且变体名带新哈希（URL 变 → 不吃 30 天缓存）。
+      # 因此本工作流只需要把新图提交进 LFS，变体会在下次构建自动跟上。
       - name: Commit and push
         run: |
           git config user.name "escah-bot"

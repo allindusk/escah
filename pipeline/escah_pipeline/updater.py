@@ -498,8 +498,11 @@ def sync_recent_pages(
     known = set(by_name)
     seen = {e["name"] for e in candidates}
     table_hits: "dict[str, list[str]]" = {}
+    owners = deps.owner_pages()
     for name in hist.names:
-        if not name.startswith("テーブル/"):
+        # 来源页既可能是 `テーブル/xxx`，也可能是被 `#table()` 内嵌的普通内容页
+        # （如 `装備一覧` ← `装備リスト`，2026-11-25 补）。
+        if name not in owners:
             continue
         for host in deps.hosts_of(name):
             if host in known:
@@ -510,7 +513,7 @@ def sync_recent_pages(
     ]
     candidates.extend(added)
     if table_hits:
-        log.info("[sync-recent] 更新履歴命中 %d 个テーブル子页 → 连带重抓宿主页 %d 个：%s",
+        log.info("[sync-recent] 更新履歴命中 %d 个内容来源页 → 连带重抓宿主页 %d 个：%s",
                  len({t for v in table_hits.values() for t in v}), len(added),
                  "、".join(sorted(table_hits)[:8]))
     # ---- ②c 表格绑定宿主页**每轮必探**（2026-10-19 补）----
@@ -520,17 +523,23 @@ def sync_recent_pages(
     # （这正是用户反馈「SR / R 角色列表不更新」的根因：テーブル/SR、テーブル/R
     #  本周根本没出现在履歴里，于是 SR/R 两页本轮完全没被探测）。
     # 判据很直接：**时间戳不可信的页，就必须每轮探测**，没有别的选择。
-    # 代价：182 个宿主页 = 182 次 GET（约十几秒）；而 sha256 判定是免费的
+    # 代价：约 200 个宿主页 = 200 次 GET（十几秒）；而 sha256 判定是免费的
     # —— 探测本来就要下载正文，多算一次哈希不增加任何请求。相比"静默丢更新"，值得。
+    #
+    # 2026-11-25 补：还有一类页**内容不来自别处、但时间戳本身冻死**（实测 `メインクエスト`
+    # 的「最終更新日時」停在 2026-05-15，而正文在 8 月后还追加过 Area 页）——
+    # 这类页靠 deps 认不出来，只能在注册表里打 `always_probe: true` 手工点名。
     seen2 = {e["name"] for e in candidates}
+    dep_hosts = deps.table_dep_hosts() & known
+    flagged = {n for n in known if (by_name[n] or {}).get("always_probe")}
     always = [
-        by_name[h] for h in sorted(deps.table_dep_hosts() & known)
+        by_name[h] for h in sorted(dep_hosts | flagged)
         if h not in seen2 and is_auto_update(by_name[h])
     ]
     if always:
         candidates.extend(always)
-        log.info("[sync-recent] 表格绑定宿主页每轮必探：补入 %d 个（共 %d 个绑定页）",
-                 len(always), len(deps.table_dep_hosts() & known))
+        log.info("[sync-recent] 每轮必探：补入 %d 个（依赖宿主页 %d + 时间戳冻死页 %d）",
+                 len(always), len(dep_hosts), len(flagged))
     report["table_always"] = len(always)
     # 本轮所有候选一律按正文 sha256 判定（更新履歴里出现的页同样不信时间戳：
     # 实测原站有 114 页共享 2022-12-22 这个冻死的时间戳，装备页/原画別索引都在其中）

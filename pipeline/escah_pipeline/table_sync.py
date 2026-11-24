@@ -71,6 +71,11 @@ def groups() -> "dict[str, list[str]]":
     slugs = _slug_by_name()
     out: "dict[str, list[str]]" = {}
     for tid, names in deps.scan_hosts().items():
+        # 2026-11-25：deps 的键已扩展到「被 #table() 内嵌的普通内容页」（如 装備リスト），
+        # 同源表格机制只认 `テーブル/xxx` 编号表 —— 内容页表不参与合并，否则会去找一个
+        # 不存在的 `テーブル/装備リスト`，白白报警告。
+        if not tid.startswith("テーブル/"):
+            continue
         if len(names) < 2:
             continue
         page_slugs = [slugs.get(n, "") for n in names]

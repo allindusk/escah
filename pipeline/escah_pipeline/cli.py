@@ -42,7 +42,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     pd = sub.add_parser(
         "discover",
-        help="三段发现：MenuBar → 观察页（只刷新）；角色目录 → 角色详情页；装备目录 → 装备子页")
+        help="四段发现：MenuBar → 观察页（只刷新）；角色目录 → 角色详情页；"
+             "装备目录 → 装备子页；B宇宙BOSS / 主线关卡目录 → 子页")
     pd.add_argument("--offline", action="store_true",
                     help="不联网：只读 data/raw 已入库快照（CI 抓好 raw 后本地登记新页用）")
 

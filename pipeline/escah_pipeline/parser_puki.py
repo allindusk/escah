@@ -466,6 +466,103 @@ def _parse_one(args: tuple) -> tuple:
     return (name, True, None, frag_rel, chunks_rel, fragment, chunks, index_entry, local_pending)
 
 
+# ---- 链接重连：注册表变了，已解析片段也要跟着改指向（2026-11-25）----
+# 症状（用户实测 equipment.html#content_13_3）：装备页明明已经抓了 raw、也生成了详情页，
+# 列表页上却还是 `class="source-link"` 的原站外链，看起来"没镜像"。
+# 根因不是抓取，而是 **解析跳过判据只看 raw 的 sha256**：
+#   · `装備一覧` 的表来自 `#table(装備リスト, …)`，raw 自 2026-09-27 起没变过；
+#   · 6 件装备是 2026-10-19 才登记进注册表的，而它的片段是 10-18 解析的；
+#   · 于是片段里永远写着"未登记 → 外链"，且永远不重解析 ✗。
+# 对策：用「注册表签名」当触发条件 —— 签名一变就扫一遍已解析片段，谁的 source-link
+# 目标现在已在注册表里，就把该宿主页强制重解析（**零网络**，纯本地重写）。
+_RELINK_STATE_FILE = config.DATA_DIR / "parsed" / "relink.json"
+_SOURCE_LINK_A_RE = re.compile(r'<a\b[^>]*\bclass="[^"]*source-link[^"]*"[^>]*>', re.S)
+_HREF_ATTR_RE = re.compile(r'\bhref="([^"]*)"')
+
+
+def _effective_slug_map() -> "dict[str, str]":
+    """页名 → slug：注册表 + tools/subpage_name_slug.json（静态子页映射）。"""
+    slug_by_name = {e["name"]: e["slug"] for e in load_registry()}
+    _subpage_map = config.ROOT / "tools" / "subpage_name_slug.json"
+    if _subpage_map.exists():
+        for _nm, _info in json.loads(_subpage_map.read_text(encoding="utf-8")).items():
+            _sl = _info.get("slug") if isinstance(_info, dict) else _info
+            if _sl and _nm not in slug_by_name:
+                slug_by_name[_nm] = _sl
+    return slug_by_name
+
+
+def _registry_signature(slug_by_name: "dict[str, str]") -> str:
+    h = hashlib.sha1()
+    for name in sorted(slug_by_name):
+        h.update(name.encode("utf-8"))
+        h.update(b"\x1f")
+        h.update(slug_by_name[name].encode("utf-8"))
+        h.update(b"\x1e")
+    return h.hexdigest()
+
+
+def _read_relink_state() -> dict:
+    try:
+        return json.loads(_RELINK_STATE_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def _write_relink_state(sig: str, pending: "set[str]") -> None:
+    try:
+        _RELINK_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        _RELINK_STATE_FILE.write_text(json.dumps(
+            {"registry_sig": sig, "pending": sorted(pending)}, ensure_ascii=False, indent=1),
+            encoding="utf-8")
+    except OSError as e:
+        log.warning("[重连] 状态文件写入失败（不影响本轮）：%s", e)
+
+
+def _scan_stale_link_pages(slug_by_name: "dict[str, str]", index: dict) -> "list[str]":
+    """扫已解析片段 → 仍把「现已登记」页写成 source-link 的宿主页名。"""
+    out: "list[str]" = []
+    for name, entry in index.items():
+        frag = (entry or {}).get("fragment")
+        if not frag or name not in slug_by_name:
+            continue
+        path = config.PARSED_JA_DIR / frag
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        if "source-link" not in text:
+            continue
+        for a in _SOURCE_LINK_A_RE.finditer(text):
+            m = _HREF_ATTR_RE.search(a.group(0))
+            if m is None:
+                continue
+            tgt = href_to_page_name(m.group(1).replace("&amp;", "&"))
+            if tgt and tgt in slug_by_name:
+                out.append(name)
+                break
+    return out
+
+
+def pending_relink_pages(slug_by_name: "dict[str, str] | None" = None) -> "set[str]":
+    """待重连页集合（注册表签名没变就直接读状态文件，不重扫片段）。"""
+    mp = slug_by_name if slug_by_name is not None else _effective_slug_map()
+    sig = _registry_signature(mp)
+    state = _read_relink_state()
+    if state.get("registry_sig") == sig:
+        return set(state.get("pending") or [])
+    index_path = config.DATA_DIR / "parsed" / "index.json"
+    index = json.loads(index_path.read_text(encoding="utf-8")) if index_path.exists() else {}
+    pend = set(_scan_stale_link_pages(mp, index))
+    if pend:
+        log.info("[重连] 注册表已变化：%d 个已解析页仍把新登记页写成原站外链 → 强制重解析：%s",
+                 len(pend), "、".join(sorted(pend)[:8]))
+    _write_relink_state(sig, pend)
+    return pend
+
+
 def parse_all(pages: list[str] | None = None, force: bool = False,
               mark: bool = True) -> None:
     """解析全部快照 → data/parsed/ja/ 片段与文本块；更新 parsed 索引。
@@ -484,16 +581,7 @@ def parse_all(pages: list[str] | None = None, force: bool = False,
     if pages:
         wanted = set(pages)
         entries = [e for e in entries if e["name"] in wanted]
-    slug_by_name = {e["name"]: e["slug"] for e in load_registry()}
-    # 246 个正文子页面（装备/讨伐/世界观/主线）已建镜像，链接应指向本站而非原 wiki。
-    # subpage_name_slug.json: {日文页名: {slug, subgroup}}，合并进 slug_by_name 让
-    # _rewrite_links 自动把原 wiki 查看链接改写为站内 internal-link。
-    _subpage_map = config.ROOT / "tools" / "subpage_name_slug.json"
-    if _subpage_map.exists():
-        for _nm, _info in json.loads(_subpage_map.read_text(encoding="utf-8")).items():
-            _sl = _info.get("slug") if isinstance(_info, dict) else _info
-            if _sl and _nm not in slug_by_name:
-                slug_by_name[_nm] = _sl
+    slug_by_name = _effective_slug_map()
     manifest = Manifest()
     pending_assets: dict[str, str] = {}
     if (config.DATA_DIR / "pending_assets.json").exists():
@@ -501,6 +589,9 @@ def parse_all(pages: list[str] | None = None, force: bool = False,
 
     index_path = config.DATA_DIR / "parsed" / "index.json"
     index = json.loads(index_path.read_text(encoding="utf-8")) if index_path.exists() else {}
+
+    # 链接重连：注册表变过 → 把「片段里仍写着外链、但目标现已登记」的宿主页纳入本轮重解析
+    relink = set() if force else pending_relink_pages(slug_by_name)
 
     # 断点续解析：筛出需要处理的页（跳过不存在/已解析且未变更者），并预建目录防并发竞态
     targets = []
@@ -513,7 +604,8 @@ def parse_all(pages: list[str] | None = None, force: bool = False,
         m = manifest.page(name)
         frag_rel, _ = _parsed_paths(e)
         frag_path = config.PARSED_JA_DIR / frag_rel
-        if frag_path.exists() and not force and m and m.get("parsed_sha256") == m.get("sha256"):
+        if (frag_path.exists() and not force and name not in relink
+                and m and m.get("parsed_sha256") == m.get("sha256")):
             skipped += 1
             continue
         targets.append((name, raw_path, e, slug_by_name))
@@ -533,6 +625,7 @@ def parse_all(pages: list[str] | None = None, force: bool = False,
             chunks_path.write_text(json.dumps(chunks, ensure_ascii=False, indent=1), encoding="utf-8")
             index[name] = index_entry
             pending_assets.update(local_pending)
+            relink.discard(name)
             m = manifest.page(name)
             if m and mark:
                 m["parsed_sha256"] = m.get("sha256")
@@ -545,6 +638,10 @@ def parse_all(pages: list[str] | None = None, force: bool = False,
     )
     index_path.write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
     manifest.save()
+    # 本轮的待重连页若仍有没解析成功的（缺 raw / 解析失败），保留给下一轮，别静默丢
+    if relink:
+        _write_relink_state(_registry_signature(slug_by_name), relink)
+        log.warning("[重连] %d 页本轮未完成，留待下一轮：%s", len(relink), "、".join(sorted(relink)[:8]))
     log.info("解析完成：成功 %d，跳过 %d，失败 %d；待下载图片 %d（进程池 workers=%d）", ok, skipped, failed, len(pending_assets), workers)
 
     # 同源表格（2026-11-13）：同一张 `テーブル/xxx` 的多个宿主页（キャラクター一覧 ←

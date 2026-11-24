@@ -115,7 +115,6 @@ def run_local_sync(
         extract_todo_per_page,
         has_i18n,
     )
-    from .parser_puki import parse_all
     from .registry import load_registry
 
     config.ensure_dirs()
@@ -145,7 +144,17 @@ def run_local_sync(
 
     # ---- ① 解析（增量；CI 抓来的新 raw 会自动进本轮）----
     # stale 必须在 parse **之前**取：parse 成功后会推进 parsed_sha256，之后差集就空了。
+    from .parser_puki import parse_all, pending_relink_pages
+
     stale = _stale_page_names()
+    # 链接重连（2026-11-25）：注册表新增页后，已解析的宿主页片段仍是「原站外链」。
+    # parse 会强制重解析这些页（raw 没变也要重写），所以它们同样要进 i18n 重建范围，
+    # 否则站点上的链接永远指不回来（equipment.html#content_13_3 那 6 件装备就是这个症状）。
+    relinked = pending_relink_pages()
+    if relinked:
+        stale |= relinked
+        log.info("[local-sync] 重连 %d 页的外链指向（raw 未变，但要重解析+重建）：%s",
+                 len(relinked), "、".join(sorted(relinked)[:8]))
     # 同源表格（2026-11-13）：聚合页（キャラクター一覧）的表格在 i18n build 时被挖空、
     # 渲染期由子页（list-ssr 等）供给 —— 所以**子页 raw 一变，聚合页也必须重建**，
     # 否则聚合页自己 raw 没动 → 不在 stale 里 → 站点仍旧表。
