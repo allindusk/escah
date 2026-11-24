@@ -122,8 +122,6 @@ pages:
   slug: equipment
   category: equipment
   mode: watch
-  # 表由 `#table(装備リスト, …)` 内嵌 → 自己的「最終更新日時」永远不动（实测停在
-  # 2026-09-22，raw 冻在 2026-09-27）。deps 已能认这种宿主页，这里再显式点名兜底。
   always_probe: true
 - name: 超昂装備
   slug: super-equipment
@@ -149,8 +147,6 @@ pages:
   slug: main-quest
   category: quest
   mode: watch
-  # 时间戳冻死（停在 2026-05-15，正文却持续追加 `メインクエスト/…/Area` 页）→
-  # 更新履歴里也不会出现它，靠时间戳比对永久漏检。必须每轮探。
   always_probe: true
 - name: デイリークエスト
   slug: daily-quest
@@ -3986,3 +3982,33 @@ pages:
   mode: static
   rarity: SR
   icon: img/0f2a00ee4d03f397.webp
+- name: メインクエスト/第3部/Area29
+  slug: mq-117
+  category: subpage
+  subgroup: main-quest
+  mode: static
+- name: メインクエスト/第3部/Area30
+  slug: mq-118
+  category: subpage
+  subgroup: main-quest
+  mode: static
+- name: メインクエスト/第3部/Area31
+  slug: mq-119
+  category: subpage
+  subgroup: main-quest
+  mode: static
+- name: メインクエスト/第3部/Area32
+  slug: mq-120
+  category: subpage
+  subgroup: main-quest
+  mode: static
+- name: メインクエスト/第3部/Area33
+  slug: mq-121
+  category: subpage
+  subgroup: main-quest
+  mode: static
+- name: メインクエスト/第3部/Area34
+  slug: mq-122
+  category: subpage
+  subgroup: main-quest
+  mode: static

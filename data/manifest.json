@@ -283,12 +283,11 @@
       "name": "装備一覧",
       "url": "https://escalationheroines.wikiru.jp/?%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7",
       "file": "raw/%E8%A3%85%E5%82%99%E4%B8%80%E8%A6%A7.html",
-      "sha256": "da5a5b3093606cf46f649ff5b3a1c48c0783f654f36a82cc7d5f0a688cca3e7b",
+      "sha256": "77f8c075472881dd8737978dfcacbd7bb8145838fa7407487d07d8194754cd6c",
       "http_last_modified": null,
       "wiki_last_modified": "2026-09-22 16:55:20",
-      "fetched_at": "2026-09-27T09:37:27+00:00",
-      "status": "ok",
-      "parsed_sha256": "da5a5b3093606cf46f649ff5b3a1c48c0783f654f36a82cc7d5f0a688cca3e7b"
+      "fetched_at": "2026-11-24T16:29:39+00:00",
+      "status": "ok"
     },
     "超昂装備": {
       "name": "超昂装備",
@@ -347,12 +346,11 @@
       "name": "メインクエスト",
       "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88",
       "file": "raw/%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88.html",
-      "sha256": "e997d1b8792aef6247373a75863359cb3ba2cc8d22c6318ed208752d5c717f44",
+      "sha256": "09a9e01484d5b8c004431fdb230586dc22e4b065e89213b958657451e24dd46a",
       "http_last_modified": null,
       "wiki_last_modified": "2026-05-15 04:39:33",
-      "fetched_at": "2026-08-03T03:59:22+00:00",
-      "status": "ok",
-      "parsed_sha256": "e997d1b8792aef6247373a75863359cb3ba2cc8d22c6318ed208752d5c717f44"
+      "fetched_at": "2026-11-24T16:29:41+00:00",
+      "status": "ok"
     },
     "デイリークエスト": {
       "name": "デイリークエスト",
@@ -8170,6 +8168,66 @@
       "http_last_modified": null,
       "wiki_last_modified": "2026-11-20 21:42:51",
       "fetched_at": "2026-11-24T02:26:57+00:00",
+      "status": "ok"
+    },
+    "メインクエスト/第3部/Area29": {
+      "name": "メインクエスト/第3部/Area29",
+      "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area29",
+      "file": "raw/%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%2F%E7%AC%AC3%E9%83%A8%2FArea29.html",
+      "sha256": "7a39749d81aad96efc7cf34fc866ae1d8a53363263e4f092df8e9f4bd84f7007",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-09-01 16:40:23",
+      "fetched_at": "2026-11-24T16:30:10+00:00",
+      "status": "ok"
+    },
+    "メインクエスト/第3部/Area30": {
+      "name": "メインクエスト/第3部/Area30",
+      "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area30",
+      "file": "raw/%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%2F%E7%AC%AC3%E9%83%A8%2FArea30.html",
+      "sha256": "4fbc21336b883f1041d15f52642ddaab19d472afd7462b3c46303b8fe4ef6500",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-09-01 16:43:01",
+      "fetched_at": "2026-11-24T16:30:11+00:00",
+      "status": "ok"
+    },
+    "メインクエスト/第3部/Area31": {
+      "name": "メインクエスト/第3部/Area31",
+      "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area31",
+      "file": "raw/%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%2F%E7%AC%AC3%E9%83%A8%2FArea31.html",
+      "sha256": "261be5f6a00be0cedb368bb9ce4eb8c8fb4373ab7fccb8324c1416f4104db713",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-09-01 16:45:30",
+      "fetched_at": "2026-11-24T16:30:15+00:00",
+      "status": "ok"
+    },
+    "メインクエスト/第3部/Area32": {
+      "name": "メインクエスト/第3部/Area32",
+      "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area32",
+      "file": "raw/%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%2F%E7%AC%AC3%E9%83%A8%2FArea32.html",
+      "sha256": "fa2d62367b495b93132aabbe415f82e5f42d316ef7ab3b51cc8193f9082e3289",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-09-01 16:48:12",
+      "fetched_at": "2026-11-24T16:30:17+00:00",
+      "status": "ok"
+    },
+    "メインクエスト/第3部/Area33": {
+      "name": "メインクエスト/第3部/Area33",
+      "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area33",
+      "file": "raw/%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%2F%E7%AC%AC3%E9%83%A8%2FArea33.html",
+      "sha256": "45bae6a368c65ad08875ea8031d4edebf4d4b18d1724f7ec8fb60da842432d00",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-10-13 19:56:33",
+      "fetched_at": "2026-11-24T16:30:20+00:00",
+      "status": "ok"
+    },
+    "メインクエスト/第3部/Area34": {
+      "name": "メインクエスト/第3部/Area34",
+      "url": "https://escalationheroines.wikiru.jp/?%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/%E7%AC%AC3%E9%83%A8/Area34",
+      "file": "raw/%E3%83%A1%E3%82%A4%E3%83%B3%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%2F%E7%AC%AC3%E9%83%A8%2FArea34.html",
+      "sha256": "56f613169e14641c11d3f12f88c146f091e9dee55cadcac4eb5792f4b1e0e1fa",
+      "http_last_modified": null,
+      "wiki_last_modified": "2026-10-13 19:56:17",
+      "fetched_at": "2026-11-24T16:30:23+00:00",
       "status": "ok"
     }
   },

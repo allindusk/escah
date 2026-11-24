@@ -1,6 +1,6 @@
 # 图片对照表（自动生成，勿手工编辑）
 
-生成时间：2026-11-24T02:27:53+00:00　|　磁盘 3168 张 / 0 MB　|　对照 2844 条（其中 1267 条标出了所在页）　|　孤儿 324 张
+生成时间：2026-11-24T16:31:02+00:00　|　磁盘 3168 张 / 0 MB　|　对照 2844 条（其中 1267 条标出了所在页）　|　孤儿 324 张
 
 磁盘文件名是 sha256(源URL)[:16].webp，改动它有 404 风险，故不改名，只用本表对照。本表自动生成（`cli assets --index-only`），勿手工编辑。
 
@@ -780,7 +780,7 @@
 | img_黒い少女_NPC_icon | [74c3118e4854c6a4.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/74c3118e4854c6a4.webp) | 0 KB | 寝室シーン一覧 |
 | img_黒の幻身ミニテクトル_icon | [7212e573c26de6c7.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7212e573c26de6c7.webp) | 0 KB | CV一覧、SSR 等 12 页 |
 | img_黒門天・屍寺炎斎_icon | [9523b173fef62902.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/9523b173fef62902.webp) | 0 KB | CV一覧、SSR 等 9 页 |
-| paraedit | [3729729053f1526b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3729729053f1526b.webp) | 0 KB | Bユニバース、CV一覧 等 51 页 |
+| paraedit | [3729729053f1526b.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/3729729053f1526b.webp) | 0 KB | Bユニバース、CV一覧 等 58 页 |
 | どうぶつきぐるみ・カペラ_どうぶつきぐるみ・カペラ | [08f8501e0c25c103.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/08f8501e0c25c103.webp) | 0 KB | - |
 | どうぶつきぐるみ・カペラ_どうぶつきぐるみ・カペラ_sd | [f39bb60356583637.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/f39bb60356583637.webp) | 0 KB | - |
 | どうぶつきぐるみ・カペラ_どうぶつきぐるみ・カペラ強化 | [7475fa1bd3cd8e64.webp](https://github.com/allindusk/escah/blob/main/data/assets/img/7475fa1bd3cd8e64.webp) | 0 KB | - |
