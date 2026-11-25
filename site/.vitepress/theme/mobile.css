@@ -22,8 +22,10 @@
        锚点偏移、抽屉内边距、粘性本地导航条的 top 全部自动跟着下移。 */
     --vp-nav-height: calc(56px + var(--escah-safe-top));
     --vp-nav-logo-height: 32px;
-    /* 本地导航条高度（锚点偏移计算用） */
-    --escah-localnav-h: 44px;
+    /* 本地导航条高度（锚点偏移计算用）。
+       2026-11-26：移动端整条 VPLocalNav 已隐藏（「全站页面」改挂左下角悬浮按钮、
+       「返回顶部」移到底部上一页/下一页同一行），所以这里归零 —— 锚点偏移只剩顶栏。 */
+    --escah-localnav-h: 0px;
   }
 
   /* 顶栏内容压在「安全区以下那 56px」里，刘海区域只露底色（背景色随 .VPNavBar 一起铺） */
@@ -52,8 +54,10 @@
     text-overflow: ellipsis;
     max-width: 46vw;
   }
+  /* 2026-11-26：padding-left 归零 —— 原来 14px 让头像/站名比正文左缘（24px）多缩进 14px，
+     看着"没对齐"。现在 logo 左缘 = 正文左缘 = .wrapper 的 24px。 */
   .VPNavBar .wrapper > .container {
-    padding-left: 14px;
+    padding-left: 0;
     padding-right: 6px;
   }
   .VPNavBarHamburger {
@@ -65,48 +69,135 @@
     max-width: 100%;
   }
 
-  /* ⚠️ 关键修复：custom.css 把 .VPNav 强制 position:fixed + z-index:100，
-     而 .VPLocalNav 是 sticky top:0、z-index:20 —— 移动端它整条被顶栏盖住，
-     导致「Menu（全站页面树）」入口在手机上彻底消失（正文上方只看到内容）。
-     这里把它下移到顶栏正下方，恢复 VitePress 原生的移动端导航入口。 */
+  /* ⚠️ 2026-11-26 改版：整条 VPLocalNav（左「≡ 全站页面」+ 右「返回顶部」）隐藏。
+     它 sticky 占 68px 文档流，手机上太浪费纵向空间。两个功能各自改到：
+       · 全站页面 → 左下角悬浮按钮 .escah-sitemenu-btn（点它触发这里被隐藏的 button.menu）
+       · 返回顶部 → 正文末尾「上一页/下一页」同一行（mobileUX.ts 注入 .escah-top-inline）
+     注意：**不要真删掉这棵子树再自己造菜单** —— 侧栏抽屉只由 button.menu 的 open-menu
+     事件打开；display:none 只是视觉隐藏，DOM 与事件都还在，所以左下角按钮 click() 有效。 */
   .VPLocalNav {
-    top: var(--vp-nav-height) !important;
+    display: none !important;
   }
-  .VPLocalNav .container {
-    min-height: calc(var(--escah-localnav-h) - 1px);
+
+  /* 左下角「全站页面」悬浮按钮：44×44 竖排（图标在上、文字在下），
+     与右侧「目录」按钮同款渐变/圆角/触摸尺寸（桌面端在文件末尾的 ≥960 查询里隐藏）。 */
+  .escah-sitemenu-btn {
+    position: fixed;
+    left: 14px;
+    bottom: calc(14px + var(--escah-safe-bottom, 0px));
+    z-index: 60;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    background: var(--escah-grad);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    box-shadow: 0 4px 14px rgba(233, 30, 99, 0.32);
+    opacity: 0.9;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
   }
-  /* Menu 按钮做大做醒目：它是手机上唯一的全站入口 */
-  .VPLocalNav .menu {
-    padding: 10px 14px;
-    font-size: 13.5px;
+  .escah-sitemenu-btn:active {
+    opacity: 1;
+  }
+  /* 与右下悬浮栈同一套「滚动时淡出、停手 0.7s 恢复」的行为（mobileUX.ts 同时打 class） */
+  .escah-sitemenu-btn.escah-dock-dim {
+    opacity: 0.22;
+  }
+  .escah-sitemenu-icon {
+    font-size: 16px;
+    line-height: 1;
+    color: #fff;
+  }
+  .escah-sitemenu-text {
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  /* 抽屉 / 全屏菜单打开时让开，避免压在遮罩上抢点击（与右下 dock 同规则） */
+  html.escah-drawer-open .escah-sitemenu-btn,
+  html:has(.VPSidebar.open) .escah-sitemenu-btn {
+    display: none;
+  }
+
+  /* 全站页面树：改成**底部弹出的 sheet**（2026-11-26 用户要求）。
+     原来它是 VitePress 的左侧抽屉（translateX 从左滑出），而「目录」按钮弹的是底部
+     面板，两种弹出方式并存很割裂。这里把 .VPSidebar 在移动端整个改造成底部面板：
+     top/left/width 全覆盖，隐藏态用 translateY(100%)，打开态回 0。 */
+  .VPSidebar {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: min(72vh, 620px) !important;
+    border-radius: 18px 18px 0 0;
+    border-right: none;
+    box-shadow: 0 -8px 28px rgba(10, 10, 18, 0.22);
+    /* 底部补上安全区，最后一条目录不会被 Home 横条压住 */
+    padding: 16px 16px calc(28px + var(--escah-safe-bottom)) !important;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  /* 只在**关闭态**下沉。不能写成 `.VPSidebar { transform: translateY(100%) !important }` ——
+     那是 !important，会连 VitePress 自带 scoped 的
+     `.VPSidebar.open[data-v-xxx] { transform: translateX(0) }`（非 important）一起压掉，
+     结果打开时面板永远停在屏幕下方（实测点「页面」完全不动）。 */
+  .VPSidebar:not(.open) {
+    transform: translateY(100%) !important;
+  }
+  .VPSidebar.open {
+    transform: translateY(0) !important;
+  }
+  /* 全站页面底部面板的标题栏：与本页目录面板同一套（标题 + 「关闭 ✕」）。
+     ⚠️ 必须是「面板 flex 列 + 只有 nav 滚动」的固定头，不能用 position: sticky ——
+     面板整体滚动时 sticky 头下方会漏出滚过去的内容（2026-11-26 用户实测穿帮）。 */
+  .VPSidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  .escah-sheet-head {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 10px;
+    margin-bottom: 4px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--vp-c-text-1);
+    border-bottom: 1px solid var(--escah-border);
   }
-  .VPLocalNav .menu-icon {
-    margin-right: 7px;
-    font-size: 15px;
-    color: var(--escah-pink);
+  /* 页面树自己滚，标题栏不动 */
+  .VPSidebar .nav {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
-  /* 「返回顶部」：原本只有 48×24 的小字按钮，手指很难点中，撑到 44px 触摸高度 */
-  .VPLocalNavOutlineDropdown > button {
+  .escah-sheet-close {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 76px;
-    min-height: 44px;
-    padding: 0 10px;
-    font-size: 13px;
+    min-height: 40px;
+    padding: 8px 14px;
+    font-size: 12.5px;
     font-weight: 600;
-    color: var(--vp-c-text-2);
-  }
-
-  /* 侧栏抽屉：占宽更大、触摸目标更高、顶部避开固定顶栏。
-     ⚠️ VitePress 基础样式里有 max-width:320px，只写 width 没用（实测仍是 320）。 */
-  .VPSidebar {
-    width: min(87vw, 350px) !important;
-    max-width: min(88vw, 360px) !important;
-    /* 底部补上安全区，最后一条目录不会被 Home 横条压住 */
-    padding: calc(var(--vp-nav-height) + 14px) 14px calc(40px + var(--escah-safe-bottom)) !important;
+    color: var(--vp-c-text-1);
+    background: var(--vp-c-default-soft);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
   }
   /* 全屏菜单 / 抽屉滚到底时也留出安全区 */
   .VPNavScreen .container {
@@ -256,6 +347,23 @@
      行高爆炸（技能表 3.6 万 px 高）。放宽到 58vw 后折行大幅减少。 */
   .mirror-content table {
     font-size: 12.5px;
+  }
+  /* 角色详情页「基本信息」表：首列是 rowspan 的变身立绘（原 style 写死 width:480px）。
+     通用规则 `width: max-content !important` 会按图片固有宽把表格撑到 600px 左右，
+     手机上「个人档案 / SD形象」整列被推到视口外；横向滑动时首列又是 sticky，滚到底
+     也只露出 20 多像素（2026-11-26 用户反馈"怎么滑都看不到第二列"）。
+     这里改成占满容器 + 固定布局、三列各约 1/3：一屏就能看全，无需横滑。 */
+  .escah-tbl .table-scroll > table:has(> tbody > tr > td[rowspan] img) {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+  .escah-tbl .table-scroll > table:has(> tbody > tr > td[rowspan] img) > tbody > tr > th:first-child,
+  .escah-tbl .table-scroll > table:has(> tbody > tr > td[rowspan] img) > tbody > tr > td:first-child {
+    width: 34% !important;
+  }
+  .escah-tbl .table-scroll > table:has(> tbody > tr > td[rowspan] img) > tbody > tr > td[rowspan] img {
+    width: 100% !important;
+    height: auto !important;
   }
   .mirror-content th,
   .mirror-content td {
@@ -445,10 +553,16 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    /* right 与左下「全站页面」的 left: 14px 严格对称；gap 由栈本身给，
+       目录按钮的 scoped margin-bottom 在栈内归零（否则它比左边按钮高 6px）。 */
+    gap: 6px;
     position: fixed;
-    right: 10px;
+    right: 14px;
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     z-index: 60;
+  }
+  .escah-dock .escah-mtoc-btn {
+    margin-bottom: 0;
   }
   .escah-dock .escah-scroll-btns {
     position: static;
@@ -464,6 +578,11 @@
     font-size: 16px;
     border-radius: 12px;
     opacity: 0.9;
+  }
+  /* 悬浮栈只留「目录 + 返回顶部」（2026-11-26 用户要求）：
+     前往底部按钮删掉；上一页/下一页整块也不再显示（见下方 .prev-next 规则）。 */
+  .escah-dock .escah-scroll-btns .escah-sb-bottom {
+    display: none !important;
   }
   .escah-dock .escah-sb:active {
     opacity: 1;
@@ -484,6 +603,12 @@
   html:has(.VPSidebar.open) .escah-dock {
     display: none;
   }
+
+  /* 移动端不要「上一页/下一页」（2026-11-26 用户要求）：底部不再有 pager，
+     翻页交给侧栏/页面树，返回顶部在右下悬浮栈里。 */
+  .VPDocFooter .prev-next {
+    display: none !important;
+  }
   /* 顶栏控制条（宽度模式/收起栏）在手机上无意义，已由 custom.css 隐藏 */
 }
 
@@ -492,6 +617,7 @@
   .escah-dock {
     right: 8px;
     bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    gap: 4px;
   }
   .escah-dock .escah-sb,
   .escah-mtoc-btn {
@@ -500,11 +626,26 @@
     font-size: 13px;
     border-radius: 9px;
   }
+  /* 左下「全站页面」同步缩小并与右侧同高（左右对称） */
+  .escah-sitemenu-btn {
+    left: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    width: 32px !important;
+    height: 32px !important;
+    gap: 1px;
+    border-radius: 9px;
+  }
+  .escah-sitemenu-icon {
+    font-size: 13px;
+  }
+  .escah-sitemenu-text {
+    display: none;
+  }
   .escah-dock .escah-scroll-btns {
     gap: 4px;
   }
-  .escah-mtoc-btn {
-    margin-bottom: 4px;
+  .escah-dock .escah-mtoc-btn {
+    margin-bottom: 0;
   }
   .escah-mtoc-ico {
     font-size: 12px;
@@ -569,11 +710,10 @@
 
 /* ========== 6. 首页门户 ========== */
 @media (max-width: 767px) {
-  /* ⚠️ 实测：首页 home 布局下 .home-hero 的流位置比本地导航条还高 32px
-     （hero.top=72，LocalNav 占 56~104），标题会被「全站页面」条压住。
-     故这里不给负外边距，反而要补足 24px 把 hero 推到导航条下方。 */
+  /* 2026-11-26：移动端已隐藏 VPLocalNav 整条（原占 56~104px），hero 不必再为它让位，
+     顶部间距收到 18px，首屏能多露一行内容。 */
   .home-hero {
-    margin: 32px 0 18px;
+    margin: 18px 0 18px;
     padding: 28px 18px;
     border-radius: 16px;
   }
@@ -770,8 +910,10 @@
     grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
     gap: 8px;
   }
-  /* 小屏上 44px 会吃掉太多右边缘，收到 40（仍高于旧版 36） */
-  .escah-dock .escah-sb {
+  /* 小屏上 44px 会吃掉太多右边缘，收到 40（仍高于旧版 36）；
+     左下「全站页面」同步收到 40，才能和右下「目录」左右对称。 */
+  .escah-dock .escah-sb,
+  .escah-sitemenu-btn {
     width: 40px;
     height: 40px;
   }
@@ -810,4 +952,11 @@
 html.escah-sheet-open,
 html.escah-sheet-open body {
   overflow: hidden;
+}
+
+/* 桌面端（≥960px）：左下角「全站页面」悬浮按钮不参与（桌面用侧栏/顶栏导航） */
+@media (min-width: 960px) {
+  .escah-sitemenu-btn {
+    display: none;
+  }
 }

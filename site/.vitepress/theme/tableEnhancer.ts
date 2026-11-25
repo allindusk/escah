@@ -1171,10 +1171,25 @@ function markNoFreezeSpans(table: HTMLTableElement, frozenCount: number): void {
   }
 }
 
+/** 表格真实列数（正确处理 rowspan/colspan；没有全 th 表头时按首行累加）。 */
+function tableCols(table: HTMLTableElement): number {
+  const { totalCols } = headerGrid(headerRowsOf(table))
+  if (totalCols) return totalCols
+  const first = dataRows(table)[0]
+  if (!first) return 0
+  let n = 0
+  for (const c of Array.from(first.children) as HTMLTableCellElement[]) n += c.colSpan || 1
+  return n
+}
+
 function markFrozenColumns(table: HTMLTableElement): void {
   table.classList.remove('escah-frozen-1', 'escah-frozen-2')
   const wrap = table.parentElement
   if (!wrap || !wrap.classList.contains('table-scroll')) return
+  // 用户规则（2026-11-26）：**列数 > 10 才冻结列**。
+  // 角色详情页的档案表（3 列）、属性表（6 列）这类普通内容表一旦冻结首列，
+  // 手机上等于把大半个屏幕钉住，右侧内容被永久遮住 —— 宁可不冻。
+  if (tableCols(table) <= 10) return
   const overflows = wrap.scrollWidth > wrap.clientWidth + 8
   const narrow = window.matchMedia('(max-width: 959px)').matches
 
@@ -1197,6 +1212,16 @@ function markFrozenColumns(table: HTMLTableElement): void {
     w1 = cell ? cell.getBoundingClientRect().width : 0
   }
   if (w1 <= 0) return
+
+  // 2026-11-26：首列宽到快占满整屏时**不要冻结**。
+  // 手机上角色详情页的「基本信息」表：首列「变身立绘」被压成视口宽（实测 343 / 容器 342），
+  // 一旦 sticky 就等于把整个屏幕盖住 —— 右侧「个人档案」横向滚到底也只露出 20 多像素，
+  // 用户反馈"怎么滑都看不到第二列"。这类表改为不冻结，让首列跟着一起横向滚走。
+  if (w1 > wrap.clientWidth * 0.7) {
+    table.style.removeProperty('--escah-col1-w')
+    return
+  }
+
   table.style.setProperty('--escah-col1-w', Math.round(w1) + 'px')
 
   const w2 = identW ? identW[1] : 0
@@ -1229,6 +1254,10 @@ function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
   normalizeTable(table)
   getOriginalRows(table)
   const smallTable = dataRows(table).length < 20
+  // 「冻结行」= 表头吸顶：只在数据行 **超过 20** 时启用（2026-11-26 用户要求）。
+  // 角色属性表（10 行）、装备表这类短表滚一下就过去，吸顶反而把内容挡住；
+  // 样式见 custom.css 的 `table.escah-sticky-head thead th`。
+  table.classList.toggle('escah-sticky-head', !smallTable)
   if (!smallTable) {
     buildColumnFilterRow(table) // 多选筛选（含 OR 逻辑）
     makeSortable(table)
@@ -1290,9 +1319,120 @@ export function enhanceTables(root: HTMLElement, pageSlug?: string): void {
   // 所有表增强完（DOM 变更收敛）后再统一测表头高度，避免「写-读」交替反复重排整页
   flushHeadMeasures()
   bindFrozenResize()
+  // 相邻表格连成一片（角色详情页的 基础属性/详细属性/必杀技/固有效果 原站本就是紧贴的一整块）
+  joinAdjacentTables(root, pageSlug)
   // bedroom-scenes 等「每个表格前已有 strong 标题」的页面：在正文开头插入一个
   // 表格目录（列出各表标题并锚点跳转）。标题文字直接取表格前已有的 strong，不重复添加。
   if (pageSlug === 'bedroom-scenes') buildTableToc(root)
+}
+
+/* ------------------------------------------------------------------ */
+/* 相邻表格拼接（2026-11-26）                                            */
+/* ------------------------------------------------------------------ */
+/**
+ * 角色详情页的「基础属性 / 详细属性 / 必杀技 / 固有效果」在原站（raw）就是 4 个
+ * **紧贴**的 PukiWiki style_table 小节表，每张只带一行 colspan 表头，视觉上像一个整块。
+ * 本站每张都被包成 .escah-tbl（0.8em 外边距 + 一整套大按钮工具栏），手机上看起来像被
+ * 拆成了 4 块、噪音很大。这里把「同一父节点、元素级相邻」的表串成一组：
+ *   · 去掉中间空隙（CSS 里 .escah-tbl:has(+ .escah-tbl-sub) / .escah-tbl-sub）；
+ *   · ≤959px 时把后续表的工具栏收敛成「⤢ + 小字行数」，避免 4 组大按钮糊满屏幕。
+ * 幂等：路由来回切换时重复调用不会叠加。
+ */
+function joinAdjacentTables(root: HTMLElement, pageSlug?: string): void {
+  const list = Array.from(root.querySelectorAll<HTMLElement>('.escah-tbl'))
+  const narrow = window.matchMedia('(max-width: 959px)').matches
+
+  // 两张表在版面里是否紧贴：从 a 出发逐级向上找「下一个兄弟」，命中的块包含 b 即算相邻。
+  // （实测结构是 .mirror-content > .ie5 > .escah-tbl ×N —— 两张表各自在独立的 .ie5 里，
+  //   所以不能只看 a.nextElementSibling === b。）
+  const adjacent = (a: HTMLElement, b: HTMLElement): boolean => {
+    let node: HTMLElement | null = a
+    while (node && node !== b) {
+      const nxt = node.nextElementSibling as HTMLElement | null
+      if (nxt) return nxt === b || nxt.contains(b)
+      node = node.parentElement
+    }
+    return false
+  }
+
+  const joined = list.map((el, i) => i > 0 && adjacent(list[i - 1], el))
+
+  // 宽度（2026-11-26 最终版）：角色页这组小节表**必须四张同宽**，且「必杀技 / 固有效果」
+  // 两表的第一列（名称）、第二列（效果）列宽也要严格一致。
+  // 做法全部走 CSS 类 + colgroup（不做任何 px 测量，规避之前「手机宽带到 PC」「超宽被拉满」）：
+  //   .escah-tbl-samew → width:100% + table-layout:fixed + max-width:min(100%,688px)
+  //   列数 2 的表额外插 <colgroup>（26% / 74%），两表列宽天然相同。
+  // 清理旧版本可能留在 DOM 上的 inline 宽度。
+  // 是否角色详情页：slug 命中，或页面里存在「变身立绘 / 変身画像」这个**只有角色页才有**的
+  // 表头（比 rowspan 图片可靠得多 —— raid-formations 的编队表也有 rowspan 图片，
+  // 用那种判断会被误伤成 100%/fixed，图片全叠在一起）。
+  // 实测 dev 环境 relativePath 有时拿不到 `characters/` 前缀，光靠 slug 会漏。
+  const isCharPage =
+    (!!pageSlug && pageSlug.includes('characters/')) ||
+    Array.from(root.querySelectorAll('table th')).some((th) =>
+      /变身立绘|変身画像|変身立絵/.test((th.textContent || '').trim()),
+    )
+
+  const groups: HTMLElement[][] = []
+  let acc: HTMLElement[] = []
+  list.forEach((el, i) => {
+    if (joined[i]) acc.push(el)
+    else {
+      if (acc.length) groups.push(acc)
+      acc = [el]
+    }
+  })
+  if (acc.length) groups.push(acc)
+
+  for (const g of groups) {
+    // 角色页：排除「基本信息」表（含 rowspan 立绘图），其余小节表统一宽度
+    const members = isCharPage ? g.filter((el) => !el.querySelector('td[rowspan] img')) : []
+    for (const el of g) {
+      el.classList.toggle('escah-tbl-samew', members.includes(el) && members.length >= 2)
+      const t = el.querySelector('table')
+      if (!t) continue
+      t.style.removeProperty('width')
+      t.style.removeProperty('max-width')
+    }
+    if (members.length < 2) continue
+    for (const el of members) {
+      const t = el.querySelector('table')
+      if (!t) continue
+      // 必杀技 / 固有效果：2 列表，插 <colgroup> 固定 26% / 74%，两表列宽严格一致
+      if (tableCols(t) === 2) {
+        t.classList.add('escah-tbl-2col')
+        if (!t.querySelector('colgroup')) {
+          const cg = document.createElement('colgroup')
+          const c1 = document.createElement('col')
+          c1.style.width = '26%'
+          const c2 = document.createElement('col')
+          c2.style.width = '74%'
+          cg.append(c1, c2)
+          t.insertBefore(cg, t.firstChild)
+        }
+      }
+    }
+  }
+
+  list.forEach((el, i) => {
+    el.classList.toggle('escah-tbl-sub', joined[i])
+    // 组首：自己不是"后续表"、但下一张紧贴自己 → 去掉自身下外边距，两表无缝衔接
+    el.classList.toggle('escah-tbl-join-head', !!joined[i + 1])
+    const full = el.querySelector<HTMLElement>('.escah-tbl-full-btn')
+    if (!full) return
+    if (joined[i] && narrow) {
+      if (!full.dataset.escahCompact) {
+        full.dataset.escahLabel = full.textContent || '表格全屏'
+        full.dataset.escahCompact = '1'
+      }
+      // 用文字而非符号：⤢ 这类箭头字形在部分中文字体里缺字，会显示成空白按钮
+      full.textContent = '全屏'
+      full.title = '放大表格'
+    } else if (full.dataset.escahCompact) {
+      full.textContent = full.dataset.escahLabel || '表格全屏'
+      delete full.dataset.escahCompact
+    }
+  })
 }
 
 /**

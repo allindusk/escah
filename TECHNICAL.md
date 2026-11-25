@@ -415,13 +415,19 @@ escah-bot commit & push `data/upstream/`（与 `data/raw` 同一个 `chore(fetch
 
 ## 12. 版本号与更新记录
 
-当前站点版本：**1.2.19**（2026-11-26）。
+当前站点版本：**1.3.0**（2026-11-26）。
 
 前端版本号常量 `SITE_VERSION` 定义在
 `site/.vitepress/theme/components/SiteAccessSwitch.vue`，更新记录数据位于
 `site/.vitepress/theme/changelog.json`（由 `MirrorChangelog.vue`、`UpdateRecord.vue` 渲染）。
 
 源码注释中明确要求：**改动前端后递增 `SITE_VERSION` 并同步维护 `changelog.json`，两者保持一致**。
+
+> 🔢 **版本号规则（2026-11-26 用户要求）**：`X.X.X` **每段只允许个位数 0~9**，绝不出现两位数。
+> 满 9 即向前一段进位：`1.3.9 → 1.4.0`、`1.9.9 → 2.0.0`。
+> 历史 `1.2.10`~`1.2.19` 是规则发布前上线的，保留原号不回改；
+> **下一次发版从 `1.3.0` 起**（`1.2.x` 段已越界，不再使用）。
+> 发版前自查 `tools/_dev/_check_changelog.py` 会校验最新版本是否合规（历史号豁免）。
 
 > ⚠️ **`changelog.json` 的文案是写给玩家看的，不是变更日志（2026-11-13 用户明确批评）**：
 > 只写**用户能感知到的结果**——译文修正、术语统一、界面/功能变化、数据修正、新增页面。

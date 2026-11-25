@@ -693,6 +693,48 @@
 
 /* ========== 表格增强：工具栏 / 排序 / 全屏 / 自适应 ========== */
 .escah-tbl { margin: 0.8em 0; }
+/* 相邻表格拼接（见 tableEnhancer.ts 的 joinAdjacentTables）：角色详情页的
+   「基础属性 / 详细属性 / 必杀技 / 固有效果」原站就是 4 张紧贴的 style_table，
+   本站各自有 0.8em 外边距 + 工具栏后像被拆开，这里把间距收掉连成一片。 */
+.escah-tbl-join-head { margin-bottom: 0; }
+.escah-tbl-join-head > .table-scroll { margin-bottom: 0; }
+.escah-tbl-sub { margin-top: 0; }
+.escah-tbl-sub > .table-scroll { margin-top: 0; }
+/* 角色页小节表（基础属性/详细属性/必杀技/固有效果）**四张同宽**：
+   占满内容区，超宽模式封顶在标准内容宽（688px = VitePress 标准 .content-container），
+   用 fixed 布局让「必杀技 / 固有效果」的名称列与效果列严格对齐（列宽来自 JS 插的 <colgroup>）。 */
+/* ⚠️ 必须写成 .escah-tbl.escah-tbl-samew：通用规则
+   `.escah-tbl .table-scroll > table { width: max-content !important }` 在文件后面且
+   特异性相同，只写 .escah-tbl-samew 会被它盖掉（实测宽度纹丝不动）。
+   布局保持 auto（原站就是 auto + 固定 764px 宽，列宽按内容走）；
+   只有「必杀技 / 固有效果」这两张 2 列表用 fixed + <colgroup> 保证列宽逐列对齐。 */
+.escah-tbl.escah-tbl-samew > .table-scroll > table {
+  width: 100% !important;
+  max-width: min(100%, 688px) !important;
+}
+.escah-tbl.escah-tbl-samew > .table-scroll > table.escah-tbl-2col {
+  table-layout: fixed !important;
+}
+/* 表头允许换行：原站表头也是多行的（「※星级每提升1颗属性+50%…」）；nowrap 会把
+   min-content 撑到超出 100%，四表就又不一致了。 */
+.escah-tbl.escah-tbl-samew > .table-scroll > table th {
+  white-space: normal !important;
+  overflow-wrap: break-word;
+}
+/* 手机：列太多时 auto 会横滚，整组改 fixed 让它一屏排开（列均分，2 列表仍按 colgroup） */
+@media (max-width: 767px) {
+  .escah-tbl.escah-tbl-samew > .table-scroll > table {
+    table-layout: fixed !important;
+  }
+}
+/* 表头换行/宽度都交回各表自己的自适应（宽度由 tableEnhancer 用 min(自然宽, 100%) 封顶，
+   见 joinAdjacentTables 的注释），这里不再改动 th 的 white-space。 */
+@media (max-width: 959px) {
+  /* 组内后续表的工具栏收敛：否则手机上每张表都顶着「表格全屏 · 共 N 行」一整排 */
+  .escah-tbl-sub > .escah-tbl-toolbar { margin-bottom: 4px; gap: 6px; }
+  .escah-tbl-sub > .escah-tbl-toolbar .escah-tbl-btn { padding: 5px 9px; font-size: 11px; }
+  .escah-tbl-sub > .escah-tbl-toolbar .escah-tbl-count { padding: 5px 8px; font-size: 11px; }
+}
 .escah-tbl-toolbar {
   display: flex;
   align-items: center;
@@ -1002,12 +1044,17 @@
    统一 nowrap 会把说明截成一行省略号，那是丢内容。 */
 .escah-tbl .table-scroll > table thead th,
 .escah-tbl-fs-scroll thead th {
-  position: sticky;
-  top: 0;
-  z-index: 7;
   background-color: var(--escah-freeze-head) !important;
   background-image: none !important;
   box-shadow: inset 0 -1px 0 var(--escah-freeze-line);
+}
+/* 「冻结行」= 表头吸顶：只在数据行 **超过 20** 的表上启用（JS 打 table.escah-sticky-head，
+   见 tableEnhancer 的 enhanceTable；2026-11-26 用户要求按行数开，短表吸顶反而挡内容）。 */
+.escah-tbl .table-scroll > table.escah-sticky-head thead th,
+.escah-tbl-fs-scroll table.escah-sticky-head thead th {
+  position: sticky;
+  top: 0;
+  z-index: 7;
 }
 /* 筛选行：紧贴表头下方，同样是实色 + 单行 */
 .escah-tbl .table-scroll > table thead td.escah-tbl-filter-row,
@@ -1253,6 +1300,14 @@
   max-height: 9em;
   overflow: auto;
   min-width: 180px;
+}
+
+/* 移动端两处底部面板（全站页面 / 本页目录）的遮罩过渡统一到 0.28s：
+   VitePress 默认是 0.5s，和目录 sheet 的 0.22s 不一致，观感上像两套交互。 */
+@media (max-width: 959px) {
+  .VPBackdrop {
+    transition: opacity 0.28s ease !important;
+  }
 }
 
 /* 全屏内移动的是真实表格容器：取消内层滚动，由外层统一横向/纵向滚动 */

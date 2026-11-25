@@ -270,19 +270,19 @@ watch(
   font-weight: 600;
 }
 
-/* 抽屉动画 */
+/* 抽屉动画：与「全站页面」面板完全一致 —— 0.28s、同一条曲线、从屏幕下方整块滑入。
+   原来只上浮 14px + 淡入，手机上几乎看不出来（用户反馈「目录没有弹出动画」）。 */
 .escah-sheet-enter-active,
 .escah-sheet-leave-active {
-  transition: transform 0.22s ease, opacity 0.22s ease;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .escah-sheet-enter-from,
 .escah-sheet-leave-to {
-  transform: translateY(14px);
-  opacity: 0;
+  transform: translateY(100%);
 }
 .escah-mtoc-mask.escah-sheet-enter-active,
 .escah-mtoc-mask.escah-sheet-leave-active {
-  transition: opacity 0.22s ease;
+  transition: opacity 0.28s ease;
 }
 .escah-mtoc-mask.escah-sheet-enter-from,
 .escah-mtoc-mask.escah-sheet-leave-to {

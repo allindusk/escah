@@ -143,21 +143,65 @@ function scanInlineToc(): void {
 
 const drawerWatched = new WeakSet<HTMLElement>()
 
+/**
+ * 移动端底部位移用**内联 important** 控制，不靠 CSS 类选择器。
+ * 原因（2026-11-26 实测）：VitePress 的 scoped 规则
+ * `.VPSidebar.open[data-v-xxx]{transform:translateX(0)}` 特异性高于我们的
+ * `.VPSidebar.open`，而 `.VPSidebar:not(.open)` 那条 important 又只在关闭态生效；
+ * 两边一叠加，打开时面板纹丝不动（永远停在屏幕下方）。内联 important 优先级最高，
+ * 且跟随 open 类变化同步 → 打开/关闭都有过渡。
+ */
+/** 底部面板的标题栏：与「本页目录」面板同一套（标题 + 「关闭 ✕」），避免两处交互割裂 */
+function ensureSheetHead(sb: HTMLElement, narrow: boolean): void {
+  const existing = sb.querySelector<HTMLElement>('.escah-sheet-head')
+  if (!narrow) {
+    existing?.remove()
+    return
+  }
+  if (existing) return
+  const ja = (document.documentElement.lang || '').toLowerCase().startsWith('ja')
+  const head = document.createElement('div')
+  head.className = 'escah-sheet-head'
+  const title = document.createElement('span')
+  title.textContent = ja ? 'ページ一覧' : '全站页面'
+  const btn = document.createElement('button')
+  btn.type = 'button'
+  btn.className = 'escah-sheet-close'
+  btn.textContent = ja ? '閉じる ✕' : '关闭 ✕'
+  btn.addEventListener('click', () => {
+    // 关抽屉：点遮罩（VitePress 的关闭入口），没有遮罩就再点一次 menu
+    const bd = document.querySelector<HTMLElement>('.VPBackdrop')
+    if (bd) bd.click()
+    else document.querySelector<HTMLElement>('.VPLocalNav button.menu')?.click()
+  })
+  head.append(title, btn)
+  sb.insertBefore(head, sb.firstChild)
+}
+
+function syncSheetState(): void {
+  const sb = document.querySelector<HTMLElement>('.VPSidebar')
+  if (!sb) return
+  const open = sb.classList.contains('open')
+  const narrow = window.matchMedia('(max-width: 959px)').matches
+  document.documentElement.classList.toggle('escah-drawer-open', open)
+  ensureSheetHead(sb, narrow)
+  if (narrow) {
+    sb.style.setProperty('transform', open ? 'translateY(0)' : 'translateY(100%)', 'important')
+  } else {
+    sb.style.removeProperty('transform')
+  }
+}
+
 function bindDrawerState(): void {
   const sb = document.querySelector<HTMLElement>('.VPSidebar')
-  if (!sb || drawerWatched.has(sb)) return
+  if (!sb) return
+  syncSheetState()
+  if (drawerWatched.has(sb)) return
   drawerWatched.add(sb)
-  const sync = (): void => {
-    document.documentElement.classList.toggle(
-      'escah-drawer-open',
-      sb.classList.contains('open'),
-    )
-  }
-  new MutationObserver(sync).observe(sb, {
+  new MutationObserver(syncSheetState).observe(sb, {
     attributes: true,
     attributeFilter: ['class'],
   })
-  sync()
 }
 
 /* ------------------------------------------------------------------ */
@@ -181,17 +225,24 @@ let started = false
 
 let dockIdle: number | undefined
 
+/** 滚动时淡出的悬浮控件：右下悬浮栈 + 左下「全站页面」按钮（两者表现必须一致） */
+function dockTargets(): HTMLElement[] {
+  return [document.querySelector('.escah-dock'), document.querySelector('.escah-sitemenu-btn')].filter(
+    (el): el is HTMLElement => !!el,
+  )
+}
+
 function bindDockDim(): void {
   window.addEventListener(
     'scroll',
     () => {
       if (!isMobile()) return
-      const dock = document.querySelector('.escah-dock')
-      if (!dock) return
-      dock.classList.add('escah-dock-dim')
+      const els = dockTargets()
+      if (!els.length) return
+      els.forEach((el) => el.classList.add('escah-dock-dim'))
       if (dockIdle) window.clearTimeout(dockIdle)
       dockIdle = window.setTimeout(() => {
-        dock.classList.remove('escah-dock-dim')
+        els.forEach((el) => el.classList.remove('escah-dock-dim'))
       }, 700)
     },
     { passive: true },

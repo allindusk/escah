@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
 import { useData, useRoute } from 'vitepress'
-import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import CharHoverModal from './components/CharHoverModal.vue'
 import DocOutline from './components/DocOutline.vue'
 import MetaBar from './components/MetaBar.vue'
@@ -97,6 +97,23 @@ const homeHref = () => {
   const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '')
   return `${base}/${lang.value.startsWith('zh') ? 'zh' : 'ja'}/`
 }
+
+// 移动端左下角「全站页面」入口（2026-11-26）：
+// 原来这条入口是 VPLocalNav 整行（「≡ 全站页面」+「返回顶部」），占 68px 高的文档流；
+// 现已用 CSS 隐藏整条，把菜单按钮的能力挪到左下角悬浮按钮上 —— VPLocalNav 内部的
+// button.menu 仍在 DOM 里（VitePress 用它 emit open-menu 打开侧栏抽屉），点一下即可。
+const siteMenuLabel = computed(() => (lang.value.startsWith('zh') ? '全站页面' : 'ページ一覧'))
+// 按钮文字（44×44 竖排：图标在上、文字在下，与右侧「目录」按钮同款）
+const siteMenuShort = computed(() => (lang.value.startsWith('zh') ? '页面' : 'ページ'))
+function openSiteMenu() {
+  const btn = document.querySelector<HTMLButtonElement>('.VPLocalNav button.menu')
+  if (btn) {
+    btn.click()
+    return
+  }
+  // 兜底：没有侧栏的页面（如 404）直接回首页
+  window.location.href = homeHref()
+}
 </script>
 
 <template>
@@ -148,11 +165,24 @@ const homeHref = () => {
   <CharHoverModal />
   <!-- 站内跳转的加载反馈：换页超过 350ms 才出现（顶部进度条 + 「正在加载页面…」） -->
   <RouteLoading />
+  <!-- 移动端左下角「全站页面」悬浮按钮：替代原来占一整行的 VPLocalNav 条（见 mobile.css） -->
+  <button
+    class="escah-sitemenu-btn"
+    type="button"
+    :title="siteMenuLabel"
+    :aria-label="siteMenuLabel"
+    @click="openSiteMenu"
+  >
+    <span class="escah-sitemenu-icon" aria-hidden="true">≡</span>
+    <span class="escah-sitemenu-text">{{ siteMenuShort }}</span>
+  </button>
   <!-- 右下角悬浮控件栈：桌面端 .escah-dock 为 display:contents（子元素各自 fixed 定位，
        外观与改造前完全一致）；移动端才收成一个纵向悬浮栈（见 mobile.css）。 -->
+  <!-- 移动端悬浮栈自上而下：返回顶部 → 目录（2026-11-26 用户要求「返回顶部在目录上面」）。
+       桌面端 .escah-dock 是 display:contents，子元素各自 fixed 定位，顺序不影响外观。 -->
   <div class="escah-dock">
-    <MobileToc />
     <ScrollButtons />
+    <MobileToc />
   </div>
   <!-- 搜索功能已禁用 <SearchLoading /> -->
   <div v-if="lbSrc" class="lightbox-mask" @click="lbSrc = ''">
