@@ -146,8 +146,9 @@ watch(
     align-items: center;
     justify-content: center;
     gap: 3px;
-    width: 38px;
-    height: 38px;
+    /* 44px：与 mobile.css 的 .escah-sb 一致，满足拇指最小触摸目标 */
+    width: 44px;
+    height: 44px;
     margin-bottom: 6px;
     padding: 0;
     font-size: 11px;
@@ -156,7 +157,7 @@ watch(
     color: #fff;
     background: var(--escah-grad);
     border: none;
-    border-radius: 11px;
+    border-radius: 12px;
     box-shadow: 0 4px 14px rgba(233, 30, 99, 0.32);
     cursor: pointer;
     flex-direction: column;
@@ -213,7 +214,11 @@ watch(
 }
 
 .escah-mtoc-close {
-  padding: 7px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
   font-size: 12.5px;
   font-weight: 600;
   color: var(--vp-c-text-1);

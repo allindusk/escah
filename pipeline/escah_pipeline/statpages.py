@@ -507,6 +507,12 @@ MIRROR_PKGS = {
     "treasure-open": "宝箱開封しらべるくん",
 }
 
+# 超过这个体积的包只内联首张表，其余表写到 `_sheet/<key>/NN.html`，点标签时按需加载 ✓。
+# 依据（2026-11-26 实测）：treasure-open 全量内联时单页 9 MB / 16.5 万 DOM 节点，
+# 而 gzip 后只有 217 KB —— 瓶颈不是传输而是「解析 + 布局 16 万节点」，手机打开要数秒 ✓。
+# 其它三个包 131~503 KB，拆开反而多几个请求，保持单文件 ✓。
+_MIRROR_SPLIT_BYTES = 1_000_000
+
 _MIRROR_TABLE_RE = re.compile(r'<table[^>]*class="[^"]*waffle[^"]*".*?</table>', re.S | re.I)
 _MIRROR_ANY_TABLE_RE = re.compile(r"<table\b.*?</table>", re.S | re.I)
 _SCRIPT_RE = re.compile(r"<script\b.*?</script>", re.S | re.I)
@@ -567,6 +573,15 @@ _MIRROR_CSS = """
   table.waffle tr:first-child > * { position: sticky; top: 0; z-index: 3; background-color: #fff; }
   table.waffle tr > *:first-child { position: sticky; left: 0; z-index: 2; background-color: #fff; }
   table.waffle tr:first-child > *:first-child { z-index: 4; }
+"""
+
+# 拆分出来的单表子页（`_sheet/<key>/NN.html`）的最小样式 —— 只在「无 JS 直接打开」时生效 ✓；
+# fetch 进主文档后套用的是主文档的 _MIRROR_CSS ✓。
+_MIRROR_SUB_CSS = """
+  body { margin: 8px 12px; font-family: system-ui, -apple-system, sans-serif; }
+  table.waffle { border-collapse: collapse; font-size: 12px; }
+  table.waffle td, table.waffle th { border: 1px solid #dadce0; padding: 2px 6px;
+      vertical-align: top; white-space: pre-wrap; }
 """
 
 # 左下角标签栏的切换逻辑（内联 ✓，不引外部依赖 ✓）。注意这是**普通字符串** ✗不是 f-string ✗
@@ -678,6 +693,24 @@ _MIRROR_JS = """<script>
     });
   }
 
+  // 大包（如 treasure-open 9 MB / 16 万格）只内联首表，其余表按需 fetch ✓：
+  // 主文档里是空 section + data-src ✓，点标签时才加载并插入 ✓（初始 DOM 从 16 万节点降到几千）。
+  function load(i) {
+    var s = sheets[i];
+    if (!s) return Promise.resolve(s);
+    var src = s.getAttribute('data-src');
+    if (!src) return Promise.resolve(s);
+    return fetch(src).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    }).then(function (text) {
+      var doc = new DOMParser().parseFromString(text, 'text/html');
+      s.innerHTML = doc.body ? doc.body.innerHTML : text;
+      s.removeAttribute('data-src');
+      return s;
+    });
+  }
+
   function show(i) {
     if (i < 0 || i >= sheets.length) i = 0;
     sheets.forEach(function (s, j) { s.hidden = (j !== i); });
@@ -687,7 +720,16 @@ _MIRROR_JS = """<script>
     document.title = t.textContent + ' · 原样镜像';
     try { history.replaceState(null, '', '#' + encodeURIComponent(t.textContent)); } catch (e) {}
     // 必须在**显示之后**测量 ✓：隐藏元素的高度/宽度都是 0 ✗，冻结偏移会全算成 0 ✗。
-    applyFreeze(sheets[i]);
+    // 按需加载的表要等插入完成后再测 ✓，否则量到空 section ✓。
+    load(i).then(function (s) {
+      if (s && !s.hidden) applyFreeze(s);
+    }).catch(function (err) {
+      var s = sheets[i];
+      if (!s) return;
+      var src = s.getAttribute('data-src') || '';
+      s.innerHTML = '<p class="lead">工作表加载失败：' + err.message +
+        ' —— <a href="' + src + '">直接打开</a></p>';
+    });
   }
   tabs.forEach(function (t) {
     t.addEventListener('click', function () { show(parseInt(t.dataset.i, 10)); });
@@ -839,27 +881,63 @@ def write_mirror_pages(public_dir: "Path", raw_root: "Path | None" = None) -> in
         if not sheets:
             continue
         labels = load_labels()
-        sections: "list[str]" = []
-        tabs: "list[str]" = []
+        translated: "list[tuple[str, str]]" = []
         n_change = n_cells = 0
-        for i, (name, frag) in enumerate(sheets):
+        for name, frag in sheets:
             t_frag, ch, tot = _translate_table(frag, labels, "zh")
             n_change += ch
             n_cells += tot
-            sections.append(
-                f'<section class="sheet" id="sheet-{i}" data-name="{html.escape(name)}">'
-                f"{t_frag}</section>"
-            )
-            tabs.append(
-                f'<button class="tab" type="button" data-i="{i}">{html.escape(name)}</button>'
-            )
+            translated.append((name, t_frag))
+        # 大包拆分（2026-11-26）：超过阈值的包只内联首表，其余表落到 `_sheet/<key>/NN.html`，
+        # 点标签时 fetch 插入 ✓ —— 主文档从 9 MB / 16 万节点降到首表规模 ✓。
+        inline_bytes = sum(len(f.encode("utf-8")) for _, f in translated)
+        split = len(translated) > 1 and inline_bytes >= _MIRROR_SPLIT_BYTES
+        sub_urls: "list[str]" = [""] * len(translated)
+        sections: "list[str]" = []
+        tabs: "list[str]" = []
+        for i, (name, t_frag) in enumerate(translated):
+            tab_name = html.escape(name)
+            if split and i > 0:
+                sub_rel = f"_sheet/{key}/{i:02d}.html"
+                sub_path = out_dir / "_sheet" / key / f"{i:02d}.html"
+                sub_path.parent.mkdir(parents=True, exist_ok=True)
+                # 子文件写成**完整 HTML**：既能被 fetch 后取 body 插入 ✓，
+                # 也能在无 JS 时直接打开查看单表 ✓（样式只服务后者，插入后用的是主文档样式）。
+                sub_path.write_text(
+                    '<!doctype html>\n<html lang="zh-CN">\n<head>\n<meta charset="utf-8">\n'
+                    '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+                    '<meta name="robots" content="noindex">\n'
+                    f"<title>{tab_name}</title>\n<style>{_MIRROR_SUB_CSS}</style>\n"
+                    f"</head>\n<body>\n{t_frag}\n</body>\n</html>\n",
+                    encoding="utf-8", newline="\n",
+                )
+                sub_urls[i] = sub_rel
+                sections.append(
+                    f'<section class="sheet" id="sheet-{i}" data-name="{tab_name}" '
+                    f'data-src="{sub_rel}" hidden></section>'
+                )
+            else:
+                sections.append(
+                    f'<section class="sheet" id="sheet-{i}" data-name="{tab_name}">'
+                    f"{t_frag}</section>"
+                )
+            tabs.append(f'<button class="tab" type="button" data-i="{i}">{tab_name}</button>')
         # 一个页面**只显示一个工作表** ✓（其余 `hidden` ✓，左下角标签切换 ✓ —— 用户要求
         # "模拟办公软件那样左下角可以切换工作表" ✓）。标签用 `<button>` + 少量内联 JS ✓，
         # 不引外部依赖 ✓；当前工作表写进 `location.hash` ✓（可直达 / 可分享 ✓）。
+        noscript = ""
+        if split:
+            sub_links = "　".join(
+                f'<a href="{u}">{html.escape(n)}</a>'
+                for (n, _), u in zip(translated, sub_urls) if u
+            )
+            noscript = ('<noscript><p class="lead">未启用 JavaScript：仅显示第一个工作表；'
+                        f"其余工作表可直接打开：{sub_links}</p></noscript>")
         body = [f"<h1>原样镜像 · {html.escape(key)}</h1>",
                 '<p class="lead">版式与原始导出一致（背景色 / 加粗 / 合并单元格 / 空行空列全保留），'
                 '仅将文字译为中文；未重排、未删行列。</p>',
                 f'<p class="nav">{links}</p>',
+                noscript,
                 '<main id="sheets">' + "".join(sections) + "</main>",
                 '<nav class="tabbar" id="tabbar">' + "".join(tabs)
                 + f'<span class="tabmeta">共 {len(sheets)} 个工作表 · 点底部标签切换</span></nav>',
@@ -872,8 +950,9 @@ def write_mirror_pages(public_dir: "Path", raw_root: "Path | None" = None) -> in
                f"<title>原样镜像 · {key}</title>\n<style>{_MIRROR_CSS}</style>\n</head>\n<body>\n"
                + "\n".join(body) + "\n</body>\n</html>\n")
         (out_dir / f"{key}.html").write_text(doc, encoding="utf-8", newline="\n")
+        extra = f"（按需加载：首表内联 + {len(translated) - 1} 个单表子页）" if split else ""
         print(f"    镜像 {key}: {len(sheets)} 个工作表，"
-              f"已译文本 {n_change} 处 / 单元格 {n_cells} 个")
+              f"已译文本 {n_change} 处 / 单元格 {n_cells} 个{extra}")
         written += 1
     return written
 

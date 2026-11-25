@@ -4,8 +4,10 @@
 //   node build.mjs preview    # 预览（端口 4173，base /escah/，自动跳日文首页）
 //   node build.mjs dev        # 开发服务器（端口 5173）
 import { build, serve, createServer } from 'vitepress'
+import { rewriteMedia } from './.vitepress/postprocess-media.mjs'
+import { cpSync } from 'node:fs'
 import { readFileSync, writeFileSync, existsSync, readdirSync, renameSync, rmSync, writeSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { resolve, basename } from 'node:path'
 import { spawnSync, execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
@@ -225,6 +227,60 @@ function writeSitemap(dist) {
   console.log(`SEO: sitemap.xml ${entries.length} 条（ja ${ja.size} / zh ${zh.size}）`)
 }
 
+/** 把预生成的图片变体（动图首帧海报 / 静态多尺寸）拷进 dist/img。
+ *  素材由 tools/gen_img_variants.py 写到 data/assets/img_opt（site/public 每次 sync-site
+ *  都会重建，所以不放 public 里）。必须落在 dist/img/ 而不是新目录：正文由 v-html 注入，
+ *  MirrorContent 只给 /img/ 前缀补 base（见 components/MirrorContent.vue）。
+ *  目录不存在时安静跳过，站点退回原图。 */
+function copyImgOpt(dist, log = () => {}) {
+  const src = resolve(root, '..', 'data/assets/img_opt')
+  if (!existsSync(src)) return 0
+  const dst = resolve(dist, 'img')
+  cpSync(src, dst, { recursive: true, force: true })
+  // 变体会改名（源图更新 → 内容哈希变；生成规则升级 → 后缀变）。若 dist 沿用上一轮
+  // 产物，dist/img 里就会残留旧变体（纯死重量，白占 artifact 体积），按当前清单清掉。
+  const mp = resolve(root, '.vitepress/img-variants.json')
+  if (existsSync(mp)) {
+    const map = JSON.parse(readFileSync(mp, 'utf-8'))
+    const keep = new Set()
+    for (const e of Object.values(map)) {
+      if (e.poster) keep.add(basename(e.poster))
+      for (const [u] of e.srcset || []) keep.add(basename(u))
+    }
+    let pruned = 0
+    for (const name of readdirSync(dst)) {
+      if (!/\.(poster|w\d+)\.webp$/.test(name) || keep.has(name)) continue
+      try {
+        rmSync(resolve(dst, name))
+        pruned++
+      } catch { /* 忽略单个失败 */ }
+    }
+    if (pruned) log(`[media] 清理 dist 旧变体 ${pruned} 个`)
+  }
+  return readdirSync(dst).length
+}
+
+/** 增量生成图片变体（动图海报 / 静态多尺寸），每次构建前调用一次是无害的：
+ *  源图没变就直接复用（tools/gen_img_variants.py 用 sha256[:16] 判定），
+ *  新增的图、以及「原站换了图但文件名没变」的更新图都会自动重建；
+ *  变体文件名自带该哈希，所以 URL 随内容变化，不会命中浏览器里 30 天的旧海报。
+ *  失败只告警不阻断：改写器找不到变体就退回原图。
+ *  ESCAH_SKIP_IMG_VARIANTS=1 可跳过（CI 里已单独跑过该步骤时）。 */
+function genImgVariants(log = () => {}) {
+  if (process.env.ESCAH_SKIP_IMG_VARIANTS === '1') return
+  const script = resolve(root, '..', 'tools/gen_img_variants.py')
+  if (!existsSync(script)) return
+  const cmds = process.platform === 'win32' ? ['python', 'py', 'python3'] : ['python3', 'python']
+  for (const cmd of cmds) {
+    const r = spawnSync(cmd, [script, '--quiet'], { cwd: resolve(root, '..'), encoding: 'utf-8' })
+    if (r.error || r.status !== 0) continue // 换下一个解释器名再试（Windows 常见 python/py 二选一）
+    const out = String(r.stdout || '').trim().split('\n').filter(Boolean)
+    if (out.length) log(out.join('\n'))
+    return
+  }
+  log('[media] 跳过变体生成（没有可用的 python/Pillow，站点退回原图）')
+}
+
 /** 404 页给 noindex，避免搜索引擎把兜底页当正文收录（软 404 风险） */
 function patch404(dist) {
   const p = resolve(dist, '404.html')
@@ -256,6 +312,16 @@ function writeHeaders(dist) {
     '',
     '/',
     '  Cache-Control: public, max-age=0, must-revalidate',
+    '',
+    // 安全响应头（GitHub Pages 忽略本文件，仅 Cloudflare Pages 生效）。
+    // 不设 CSP：站点依赖内联脚本（__VP_HASH_MAP__ / JSON-LD / 首屏偏好预置），
+    // 静态站又无法给每页算 nonce，'unsafe-inline' 的 CSP 拦不住内联注入，收益有限；
+    // 内容注入的防线在流水线侧白名单（sitegen._strip_dangerous_html）。
+    '/*',
+    '  X-Content-Type-Options: nosniff',
+    '  Referrer-Policy: strict-origin-when-cross-origin',
+    '  X-Frame-Options: SAMEORIGIN',
+    '  Permissions-Policy: geolocation=(), microphone=(), camera=()',
     '',
   ].join('\n')
   writeFileSync(resolve(dist, '_headers'), body, 'utf-8')
@@ -297,6 +363,17 @@ if (mode === 'build') {
       writeRobots(d)
       patch404(d)
       writeHeaders(d)
+      // 图片瘦身：动图换成首帧海报（点按才播），静态大图补 srcset/sizes。
+      // 见 .vitepress/postprocess-media.mjs；素材由 tools/gen_img_variants.py 预生成。
+      try {
+        const n = copyImgOpt(d, syncLog)
+        const s = rewriteMedia(d, { log: syncLog })
+        syncLog(
+          `[media] 变体文件 ${n} 个，改写 ${s.files} 个页面：动图海报 ${s.anim}，srcset ${s.srcset}`,
+        )
+      } catch (e) {
+        syncLog('[media] 图片改写失败（不影响其它产物）：' + (e && e.message ? e.message : e))
+      }
       syncLog('Build complete -> ' + d)
       syncLog('SEO: canonical/sitemap 主站 = ' + SITE_ROOT)
     } catch (e) {
@@ -325,6 +402,11 @@ if (mode === 'build') {
   process.on('unhandledRejection', onFatal)
 
   try {
+    // 先增量刷新图片变体（新增图/换图都会在这里补上，已是最新时几乎瞬时）。
+    // 正文改写不再动 .vitepress/frag：改在 components/MirrorContent.vue 渲染时做
+    // （清单 JSON 打进包里，dev / preview / build 完全一致，也不会和 tools/dev-watch.py
+    //  重新生成 frag 的动作互相打架）。
+    genImgVariants(syncLog)
     await build(root, {})
   } catch (e) {
     buildError = e
@@ -358,6 +440,8 @@ if (mode === 'build') {
   // host: true → 监听所有网卡，避免只绑 IPv6(::1) 导致 127.0.0.1 连不上
   await serve(root, { port: 4173, host: true })
 } else if (mode === 'dev') {
+  // dev 也跑一次增量变体（新增/换图的图在 dev 下也能看到海报与 srcset；已最新时 <1s）
+  genImgVariants(console.log)
   // host: true → 同上，dev/preview 都需可被 localhost 与 127.0.0.1 访问
   const server = await createServer(root, { port: 5173, host: true })
   await server.listen()

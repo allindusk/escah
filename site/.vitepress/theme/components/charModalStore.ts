@@ -11,6 +11,9 @@ export interface HoverAnchor {
   height: number
   mx: number
   my: number
+  /* 可选：锚点所在「身份块」的右边界（角色一览里 = 画像列 + 名称列的右缘）。
+     浮窗定位时以它为右边界，避免把同一行的角色名压在浮窗下面。 */
+  safeRight?: number
 }
 
 /**

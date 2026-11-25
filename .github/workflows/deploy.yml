@@ -118,6 +118,20 @@ jobs:
       - name: Pull LFS objects
         run: git lfs pull && git lfs checkout
 
+      # ===== 图片瘦身素材（动图首帧海报 + 静态 480w/1200w）=====
+      # 由 data/assets/img 确定性生成，不入库；用 LFS 清单做缓存键，回构建基本零成本。
+      # 缓存连 img-variants.json 清单一起存：清单记录每张源图的 sha256[:16]，
+      # 恢复缓存后只有**新增的图**与**换过图的同名文件**会重编码（其余直接复用）。
+      # 变体文件名自带该哈希 → 源图一换 URL 就变，不会命中浏览器里 30 天的旧海报。
+      - name: Cache image variants
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/assets/img_opt
+            site/.vitepress/img-variants.json
+          key: imgopt-${{ hashFiles('.lfs-assets-id') }}
+          restore-keys: imgopt-
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -127,6 +141,10 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install -e pipeline
+
+      # 必须在 Pillow 装好之后（要 open/重编码 WebP）；放前面会因缺 Pillow 直接失败
+      - name: Generate image variants
+        run: python tools/gen_img_variants.py
 
       # 由已入库的 data/raw 快照本地解析出 data/parsed（无需联网）
       - name: Parse snapshots
@@ -154,6 +172,8 @@ jobs:
           SEO_ORIGIN: ${{ vars.SEO_ORIGIN }}
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
           BAIDU_SITE_VERIFICATION: ${{ vars.BAIDU_SITE_VERIFICATION }}
+          # 变体已在上面单独生成过，这里不再重复扫描（build.mjs 默认会增量跑一次）
+          ESCAH_SKIP_IMG_VARIANTS: '1'
         run: node build.mjs build
 
       - name: Upload Pages artifact
@@ -188,6 +208,7 @@ jobs:
           SEO_ORIGIN: ${{ vars.SEO_ORIGIN }}
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
           BAIDU_SITE_VERIFICATION: ${{ vars.BAIDU_SITE_VERIFICATION }}
+          ESCAH_SKIP_IMG_VARIANTS: '1'
         run: |
           rm -rf .vitepress/dist .vitepress/cache
           node build.mjs build

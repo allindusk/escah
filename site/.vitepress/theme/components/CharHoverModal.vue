@@ -47,89 +47,172 @@ const modalStyle = computed(() => {
   return { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
 })
 
-// hover 预览定位：依据真实渲染尺寸在「右 → 左 → 下 → 上 → 左缘兜底」间择优，
-// 最终夹回视口内（绝不越界；名字/头像在右缘时浮窗改放下方或贴左缘，避免遮挡）。
+/* 手机端这个浮窗会被 mobile.css 改造成整屏 sheet（pinned 模式），
+   打开期间锁住整页滚动，否则 iOS 上背景页会跟着手指一起滚。
+   样式见 mobile.css 的 html.escah-sheet-open。 */
+const SHEET_OPEN_CLASS = 'escah-sheet-open'
+watch(
+  () => store.visible && store.mode === 'pinned',
+  (open) => {
+    if (typeof document === 'undefined') return
+    const isPhone = window.matchMedia('(max-width: 767px)').matches
+    document.documentElement.classList.toggle(SHEET_OPEN_CLASS, open && isPhone)
+  },
+  { immediate: true },
+)
+
+// 2026-11-24 重写：旧版把「鼠标点 mx/my」当成避让对象，浮窗紧贴鼠标右侧 12px 放置。
+// 但触发它的是一整块锚点（头像 + 右侧角色名，宽 100~300px），所以浮窗虽然没压住指针，
+// 却把旁边的名字/头像压住了（用户截图里浮窗直接盖在自己的头像与名字上）。
+// 现在一律以「锚点矩形」为避让对象：优先整体放在锚点右侧，其次左侧，再其次正下方/上方。
 const hoverEl = ref<HTMLElement | null>(null)
 const hoverX = ref(0)
 const hoverY = ref(0)
-const hoverStyle = computed(() => ({ left: hoverX.value + 'px', top: hoverY.value + 'px' }))
+// 浮窗尺寸上限：不再写死 680px / 84vh，改为按「锚点周围实际可用空间」动态计算
+// （见 placeHover）。固定宽度会把两栏各压到 ~320px，必杀技/固有效果长文本被迫
+// 折行过多 → 行数暴涨；再叠加固定 84vh 高度，最后几行直接被 overflow:hidden 裁掉，
+// 看上去就是「信息展示不全」。
+const HOVER_MIN_SIDE = 460   // 侧边窄于这个宽度就不值得贴（会变成细长条）
+const HOVER_MAX_W = 1180     // 舒适上限：再宽只是把页面其它内容遮住，字数不会变少
+const hoverMaxW = ref(0)
+const hoverMaxH = ref(0)
+const hoverStyle = computed(() => {
+  const s: Record<string, string> = { left: hoverX.value + 'px', top: hoverY.value + 'px' }
+  if (hoverMaxW.value > 0) s.maxWidth = hoverMaxW.value + 'px'
+  if (hoverMaxH.value > 0) s.maxHeight = hoverMaxH.value + 'px'
+  return s
+})
 
 function clamp(v: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(hi, v))
 }
 
-// 定位规则：把「不盖住鼠标」当成必须校验的硬约束，而不是靠分支顺序碰运气。
-//
-// 之前反复出错的原因：只算了水平方向，垂直方向 top 取 min(a.top,my)-4，
-// 而浮窗最高可达 94vh，鼠标几乎必然落在浮窗的纵向区间内；此时只要水平
-// 兜底把浮窗放到了 mx 附近，就会盖住鼠标。
-//
-// 现在的做法：
-//   1) 先在「鼠标左侧空间」与「鼠标右侧空间」里选放得下且更宽敞的一侧，
-//      使浮窗整体位于鼠标的一侧（left+w <= mx-gap 或 left >= mx+gap）。
-//   2) 垂直照常对齐锚点/鼠标顶部并夹回视口。
-//   3) 最后做一次显式校验：若鼠标点仍落在浮窗矩形内（含 gap 外扩），
-//      则把浮窗在垂直方向推到鼠标上方或下方；若上下都塞不下，
-//      再退一步把它强行贴到鼠标较宽的那一侧水平边缘。
-function placeHover() {
+async function placeHover() {
   const el = hoverEl.value
-  const a = store.anchor as HoverAnchor | null
   if (!el) return
   const vw = window.innerWidth
   const vh = window.innerHeight
-  const gap = 12
-  const pad = 8
+  const gap = 12      // 浮窗与锚点之间的间隙
+  const pad = 8       // 与视口边缘的间隙
+  const a = store.anchor as HoverAnchor | null
+
+  // ---- 0) 先按锚点周围可用空间定宽/高上限，再量真实尺寸 ----
+  // 上限只取决于锚点几何（与浮窗内容无关），所以可以先写进样式再测量。
+  const aR0 = a ? Math.max(a.right ?? a.left + a.width, a.safeRight ?? 0) : 0
+  const aB0 = a ? (a.bottom ?? a.top + a.height) : 0
+  const sideRoom = a ? Math.max(vw - pad - (aR0 + gap), a.left - gap - pad) : 0
+  // 侧边够宽才贴边；否则宁可铺满视口宽度放到锚点上方/下方（同样不遮锚点）。
+  const useSide = !!a && sideRoom >= HOVER_MIN_SIDE
+  const cap = Math.round(Math.max(
+    useSide ? Math.min(sideRoom, HOVER_MAX_W) : Math.min(vw - pad * 2, HOVER_MAX_W),
+    240,
+  ))
+  // 高度：贴边放置时整屏可用高度都能用（不再固定 84vh，矮屏笔记本上 731px 的内容
+  // 在 84vh 里会被裁掉最后几行）；改放上下方时只能占锚点上方/下方那一条，必须按
+  // 该条的高度收，否则浮窗会反过来盖住锚点。
+  const roomBelow = vh - pad - (aB0 + gap)
+  const roomAbove = a ? a.top - gap - pad : 0
+  const maxH = Math.round(Math.max(
+    Math.min(useSide || !a ? vh - pad * 2 : Math.max(roomBelow, roomAbove), vh - pad * 2),
+    240,
+  ))
+  if (hoverMaxW.value !== cap || hoverMaxH.value !== maxH) {
+    hoverMaxW.value = cap
+    hoverMaxH.value = maxH
+    await nextTick()   // 等 max-width / max-height 生效并重排后再测量
+  }
+
+  // ⚠️ 测量前先把浮窗挪到左上角：浮窗是 shrink-to-fit，宽度会被「当前 left 到视口
+  // 右缘」的可用空间卡住。若沿用上一次的 left 直接量，量到的宽度会偏窄；按这个偏
+  // 窄宽度算出的位置落地后，可用空间变大 → 浮窗重新变宽 → 压住锚点（实测 700px
+  // 视口下出现过）。这里同一帧内挪开再量，量完立刻写回最终坐标。
+  el.style.left = '0px'
+  el.style.top = '0px'
   const r = el.getBoundingClientRect()
   const w = r.width
   const h = r.height
-  const mx = a ? a.mx : Math.round(vw / 2)
-  const my = a ? a.my : Math.round(vh / 2)
 
   const maxLeft = Math.max(pad, vw - pad - w)
   const maxTop = Math.max(pad, vh - pad - h)
 
-  // ---- 水平：优先整体落在鼠标的某一侧 ----
-  const spaceLeft = mx - gap - pad          // 鼠标左边可用宽度
-  const spaceRight = vw - pad - (mx + gap)  // 鼠标右边可用宽度
-  const fitsLeft = w <= spaceLeft
-  const fitsRight = w <= spaceRight
+  // 无锚点（点击固定窗）：居中，交给 modalStyle 之外的默认位置
+  if (!a) {
+    hoverX.value = Math.round((vw - w) / 2)
+    hoverY.value = Math.round((vh - h) / 2)
+    el.style.left = hoverX.value + 'px'
+    el.style.top = hoverY.value + 'px'
+    return
+  }
+
+  const aL = a.left
+  const aR = aR0
+  const aT = a.top
+  const aB = a.bottom ?? a.top + a.height
+  const mx = a.mx
+  const my = a.my
+
+  const spaceRight = vw - pad - (aR + gap)
+  const spaceLeft = (aL - gap) - pad
 
   let left: number
-  if (!a) {
-    left = (vw - w) / 2
-  } else if (fitsRight && (!fitsLeft || spaceRight >= spaceLeft)) {
-    left = mx + gap
-  } else if (fitsLeft) {
-    left = mx - gap - w
+  let top: number
+
+  // ---- 1) 水平：整块贴到锚点右侧 / 左侧（优先更宽敞的一侧）----
+  if (spaceRight >= w && (spaceRight >= spaceLeft || spaceLeft < w)) {
+    left = aR + gap
+    top = clamp(aT - 4, pad, maxTop) // 与锚点顶端对齐（略上移 4px 观感更自然）
+  } else if (spaceLeft >= w) {
+    left = aL - gap - w
+    top = clamp(aT - 4, pad, maxTop)
   } else {
-    // 两侧都塞不下（浮窗过宽）：靠更宽的一侧对齐，交由后面的垂直避让兜底
-    left = spaceRight >= spaceLeft ? maxLeft : pad
+    // ---- 2) 两侧都放不下（窄屏或超长名字）：放到锚点下方 / 上方，水平对齐锚点中心 ----
+    left = clamp((aL + aR) / 2 - w / 2, pad, maxLeft)
+    const below = aB + gap
+    const above = aT - gap - h
+    if (below <= maxTop) top = below
+    else if (above >= pad) top = above
+    else top = clamp(aT - 4, pad, maxTop)
   }
   left = clamp(left, pad, maxLeft)
 
-  // ---- 垂直：贴锚点/鼠标顶部 ----
-  let top = (a ? Math.min(a.top, my) : my) - 4
+  // ---- 3) 硬校验：绝不与锚点矩形相交（含 gap 缓冲）----
+  const hitsAnchor = (l: number, t: number) =>
+    l < aR + gap && l + w > aL - gap && t < aB + gap && t + h > aT - gap
+  if (hitsAnchor(left, top)) {
+    const below = aB + gap
+    const above = aT - gap - h
+    let placed = false
+    if (below <= maxTop) {
+      top = below
+      placed = true
+    } else if (above >= pad) {
+      top = above
+      placed = true
+    }
+    if (!placed) {
+      // 上下也放不下（浮窗比剩余空间还高）：靠更宽的一侧水平边缘，宁可贴边也不压锚点
+      left = spaceRight >= spaceLeft ? clamp(aR + gap, pad, maxLeft) : clamp(aL - gap - w, pad, maxLeft)
+      top = clamp(aT, pad, maxTop)
+    }
+  }
+
+  left = clamp(left, pad, maxLeft)
   top = clamp(top, pad, maxTop)
 
-  // ---- 兜底校验：鼠标绝不能落在浮窗内 ----
-  const hitsX = mx >= left - gap && mx <= left + w + gap
-  const hitsY = my >= top - gap && my <= top + h + gap
-  if (a && hitsX && hitsY) {
-    const above = my - gap - pad   // 鼠标上方可用高度
-    const below = vh - pad - (my + gap)
-    if (h <= below) {
-      top = my + gap               // 放到鼠标下方
-    } else if (h <= above) {
-      top = my - gap - h           // 放到鼠标上方
-    } else {
-      // 上下都放不下：强行水平让开到更宽的一侧
-      left = spaceRight >= spaceLeft ? clamp(mx + gap, pad, maxLeft) : clamp(mx - gap - w, pad, maxLeft)
-    }
-    top = clamp(top, pad, maxTop)
+  // ---- 4) 最后一道：不盖住鼠标指针本身（鼠标可能停在名字右端/行内其它位置）----
+  if (mx >= left - 4 && mx <= left + w + 4 && my >= top - 4 && my <= top + h + 4) {
+    const below = my + gap
+    const above = my - gap - h
+    if (below <= maxTop) top = clamp(below, pad, maxTop)
+    else if (above >= pad) top = clamp(above, pad, maxTop)
   }
 
   hoverX.value = Math.round(left)
   hoverY.value = Math.round(top)
+  // 必须直接写回：上面为了测量把 left/top 临时改成了 0，若这次算出的坐标与上次相同，
+  // Vue 认为绑定值没变就不会重写 style，浮窗会卡在左上角。
+  el.style.left = hoverX.value + 'px'
+  el.style.top = hoverY.value + 'px'
 }
 
 // 浮窗可见（hover 模式）时：渲染出真实尺寸后再定位（loading 小尺寸与加载后大尺寸都要重定位）
@@ -247,7 +330,17 @@ const columns = computed(() => {
   return [cols[0], cols[1], cols[2]]
 })
 
-function cellText(cell: Cell): string {
+// 这些「行标签」的值是固有名词（本名 / 声优 / 画师），项目要求保留日文原名：
+// 角色详情页已按此处理，浮窗这里再兜一层——即使 JSON 里带了 zh，也只显示 t。
+const RETAIN_JA_ROWS = new Set(['本名', 'CV', 'イラスト', 'イラストレーター', '声優', '原画'])
+
+function rowKeepsJa(row: Cell[] | undefined): boolean {
+  const head = row && row[0]
+  return !!(head && head.h && RETAIN_JA_ROWS.has((head.t || '').trim()))
+}
+
+function cellText(cell: Cell, row?: Cell[]): string {
+  if (row && rowKeepsJa(row) && !cell.h) return cell.t
   return isZh() ? cell.zh || cell.t : cell.t
 }
 
@@ -333,6 +426,7 @@ onUnmounted(() => {
   document.removeEventListener('keydown', onKeydown)
   document.removeEventListener('mousemove', onDrag)
   document.removeEventListener('mouseup', stopDrag)
+  document.documentElement.classList.remove(SHEET_OPEN_CLASS)
 })
 
 const detailHref = computed(() => {
@@ -356,9 +450,11 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
             <span v-if="data?.rarity" class="rarity-badge" :class="data.rarity">{{ data.rarity }}</span>
             <span class="spacer"></span>
             <span v-if="store.pinned" class="hint">{{ t('modal.dragHint') }}</span>
-            <a class="fullpage" :href="detailHref" target="_blank" rel="noopener noreferrer" @click="store.close()">{{ t('modal.fullPage') }}</a>
-            <button @click="store.togglePin()">{{ store.pinned ? t('modal.unpin') : t('modal.pin') }}</button>
-            <button @click="store.close()">{{ t('modal.close') }}</button>
+            <div class="char-modal-actions">
+              <a class="fullpage" :href="detailHref" target="_blank" rel="noopener noreferrer" @click="store.close()">{{ t('modal.fullPage') }}</a>
+              <button @click="store.togglePin()">{{ store.pinned ? t('modal.unpin') : t('modal.pin') }}</button>
+              <button @click="store.close()">{{ t('modal.close') }}</button>
+            </div>
           </div>
           <div class="char-modal-body">
             <div v-if="loading" class="char-modal-loading">{{ t('modal.loading') }}</div>
@@ -376,8 +472,8 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
                           :key="i"
                           :colspan="cell.cs"
                           :rowspan="cell.rs"
-                          :class="{ 'long-text': cellText(cell).length > 60 }"
-                          >{{ cellText(cell) }}</component
+                          :class="{ 'long-text': cellText(cell, row).length > 60 }"
+                          >{{ cellText(cell, row) }}</component
                         >
                       </tr>
                     </tbody>
@@ -413,8 +509,8 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
                           :key="i"
                           :colspan="cell.cs"
                           :rowspan="cell.rs"
-                          :class="{ 'long-text': cellText(cell).length > 60 }"
-                          >{{ cellText(cell) }}</component
+                          :class="{ 'long-text': cellText(cell, row).length > 60 }"
+                          >{{ cellText(cell, row) }}</component
                         >
                       </tr>
                     </tbody>
@@ -433,8 +529,8 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
                           :key="i"
                           :colspan="cell.cs"
                           :rowspan="cell.rs"
-                          :class="{ 'long-text': cellText(cell).length > 60 }"
-                          >{{ cellText(cell) }}</component
+                          :class="{ 'long-text': cellText(cell, row).length > 60 }"
+                          >{{ cellText(cell, row) }}</component
                         >
                       </tr>
                     </tbody>
@@ -462,7 +558,10 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
 .char-hover {
   position: fixed;
   z-index: 260;            /* 高于表格页面内全屏(250)，使全屏表格里的角色也能正常显示悬停预览 */
-  max-width: 96vw;
+  /* 首帧兜底：真实宽/高上限由 placeHover() 按锚点周围可用空间写成内联 max-width /
+     max-height（侧边够宽就贴边用满那一侧，否则铺满视口宽度放到锚点上下）。写死
+     680px / 84vh 会让两栏各只剩 ~320px，长文本折行过多再被高度裁掉。 */
+  max-width: min(680px, 94vw);
   background: var(--vp-c-bg, #fff);
   color: var(--vp-c-text-1, #1b1b1f);
   border: 1px solid var(--vp-c-divider, #e2e2e3);
@@ -471,7 +570,7 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
   padding: 10px 12px;
   pointer-events: none; /* 不拦截鼠标，离开名字/头像即消失 */
   font-size: 14px;            /* 与页面正文（.mirror-content 14px）保持一致 */
-  max-height: 94vh;
+  max-height: 84vh;           /* 首帧兜底，真实上限由 placeHover() 写内联 max-height */
   overflow: hidden;           /* 小浮窗一页展示完，不出现滚轮 */
 }
 .char-hover-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }

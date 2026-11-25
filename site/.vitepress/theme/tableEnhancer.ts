@@ -677,7 +677,28 @@ function applyImageStack(table: HTMLTableElement): void {
     probe.querySelectorAll('a, img').forEach((e) => e.remove())
     const rest = (probe.textContent || '').replace(/\s+/g, '')
     if (rest.length === 0) {
-      cell.classList.add(anchors.length === 1 ? 'escah-img-stack' : 'escah-img-row')
+      if (anchors.length === 1) {
+        cell.classList.add('escah-img-stack')
+        continue
+      }
+      // 2026-11-25 修：多图标**不能**把 display:flex 直接加在 td/th 上。那会把单元格
+      // 从 table-cell 变成 flex 容器，表格算法失效（raid-buff-debuff 实测：同一行的
+      // 多个单元格重叠、每行图标起止位置各不相同，角色完全不在原站对应的列下）。
+      // 改为在单元格内包一层 flex 容器，单元格本身保持 table-cell。
+      let wrap = cell.querySelector(':scope > .escah-img-row') as HTMLElement | null
+      if (!wrap) {
+        wrap = document.createElement('div')
+        wrap.className = 'escah-img-row'
+        while (cell.firstChild) wrap.appendChild(cell.firstChild)
+        // 原站用 <br class="spacer"> 在单元格内强制分行（raid-buff-debuff 的表格 3 个一行）。
+        // <br> 在 flex 容器里不占位、不会换行，换成 100% 宽的空占位块才能真正断行。
+        wrap.querySelectorAll('br').forEach((br) => {
+          const lineBreak = document.createElement('div')
+          lineBreak.className = 'escah-img-break'
+          br.replaceWith(lineBreak)
+        })
+        cell.appendChild(wrap)
+      }
     }
   }
 }
@@ -698,40 +719,10 @@ function onFsKey(e: KeyboardEvent): void {
   }
 }
 
-// 滚动时把冻结的表头/首列/角落/筛选行切为「不透明实色」（内联最高优先级，盖过任何 CSS），
-// 避免半透明底色透出底下滚动经过的数据文字；静止 150ms 后清除内联背景 → 恢复原来的
-// --escah-grad-soft 半透明样式。用内联而非 class 切换，避免 CSS 层叠优先级踩坑。
-function freezeCellsOpaque(scroller: HTMLElement, on: boolean): void {
-  const root = scroller.querySelector('table')
-  if (!root) return
-  const cells = root.querySelectorAll(
-    'thead th, thead .escah-tbl-filter-row td, th:first-child, td:first-child'
-  )
-  // 滚动不透明实色：与常态 --escah-grad-soft 同色系（紫），只是不透明，避免切到白底难看
-  const opaque = scroller.classList.contains('escah-dark') || document.documentElement.classList.contains('dark')
-    ? '#2c2238'
-    : '#e3b9ec'
-  cells.forEach((c) => {
-    const el = c as HTMLElement
-    if (on) {
-      if (el.style.background !== opaque) el.dataset.escahBg = el.style.background
-      el.style.background = opaque
-    } else if (el.dataset.escahBg !== undefined) {
-      el.style.background = el.dataset.escahBg
-      delete el.dataset.escahBg
-    }
-  })
-}
-
-function bindScrollOpacity(scroller: HTMLElement): void {
-  let timer: number | undefined
-  const onScroll = () => {
-    freezeCellsOpaque(scroller, true)
-    if (timer) window.clearTimeout(timer)
-    timer = window.setTimeout(() => freezeCellsOpaque(scroller, false), 150)
-  }
-  scroller.addEventListener('scroll', onScroll, { passive: true })
-}
+// 2026-11-24：冻结区（表头/筛选行/首列）底色改由 CSS 常驻不透明实色，
+// 不再在滚动时用内联样式切色——旧实现滚动即变色、停下 150ms 又变回半透明，
+// 一滑动就闪，像页面出故障，且半透明期间下层文字透上来糊成一片。
+// 这里只保留微信/诊断用的注意事项：不要再给冻结单元格写内联 background。
 
 function openFullscreen(table: HTMLTableElement): void {
   closeFullscreen()
@@ -766,7 +757,6 @@ function openFullscreen(table: HTMLTableElement): void {
     table.style.minWidth = '0'
     table.style.width = '0' // 同 shrinkColumnsToData：必须 0 而非 auto，否则按内容撑开、<col> 失效
   }
-  bindScrollOpacity(scroll) // 全屏滚动时冻结单元格切不透明
   panel.append(bar, scroll)
   overlay.appendChild(panel)
   overlay.addEventListener('mousedown', (e) => {
@@ -781,16 +771,13 @@ function closeFullscreen(): void {
   if (charModalStore.mode === 'hover' && charModalStore.visible) charModalStore.close()
   if (fsState) {
     const { container, parent, next, table } = fsState
-    // 关键：关闭全屏前，清掉表格上「滚动时」残留的内联不透明背景。
-    // 否则若关闭瞬间正处于滚动态（150ms 还原定时器尚未触发），残留内联 background
-    // 会随同一张 table 元素被移回正文，导致正文表格表头/首列变成不透明实色，
-    // 失去常态半透明样式。
+    // 2026-11-24：冻结底色已交给 CSS（不再有滚动期内联色），只需清掉可能残留的内联背景。
     const root = table.closest('.escah-tbl-fs-scroll')?.querySelector('table') || table
     root.querySelectorAll(
       'thead th, thead .escah-tbl-filter-row td, th:first-child, td:first-child'
     ).forEach((c) => {
       const el = c as HTMLElement
-      el.style.background = ''
+      el.style.removeProperty('background')
       delete el.dataset.escahBg
     })
     // 关键（2026-08-02 修复）：若表格**不是**正文里的 shrink 表（普通内容表），
@@ -882,6 +869,26 @@ function shouldShrink(pageSlug?: string): boolean {
  *     th/td 要 width:unset!important（撤掉通用规则的 width:auto!important）。
  *  2) 表格不能被 min-width:100% 拉伸后均分，故内联 min-width:0 + width:auto。
  */
+/**
+ * 把原站表头里的多行文本收成一行可读标签。
+ * - `<br>` 已被替换成 \u0001 标记：两侧都是纯中文时直接拼接（「体<br>力」→「体力」、
+ *   「必杀<br>充能<br>量」→「必杀充能量」），否则留一个空格（「体力<br>改进后：」→「体力 改进后：」）。
+ * - 原站 wiki 文本里没被排版渲染的 markdown 强调标记会原样显示成星号
+ *   （表头里真实存在「**改进后：**」这种），不清理的话吸顶表头看起来像乱码。
+ */
+function normHeaderLabel(raw: string): string {
+  const isCjk = (s: string) => /^[\u3000-\u303f\u4e00-\u9fff\uf900-\ufaff]+$/.test(s)
+  const segs = raw
+    .replace(/[\s\u3000]+/g, ' ')
+    .split('\u0001')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  if (!segs.length) return ''
+  let out = segs[0]
+  for (let i = 1; i < segs.length; i++) out += (isCjk(segs[i - 1]) && isCjk(segs[i]) ? '' : ' ') + segs[i]
+  return out.replace(/\*+/g, '').replace(/[\s\u3000]+/g, ' ').trim()
+}
+
 function shrinkColumnsToData(table: HTMLTableElement): void {
   if (bodyHasSpans(table)) return
   const rows = dataRows(table)
@@ -897,6 +904,25 @@ function shrinkColumnsToData(table: HTMLTableElement): void {
   headerCells.forEach((th) => {
     th.style.removeProperty('width')
     th.removeAttribute('width')
+    // 表头单行化（2026-11-24）：原站部分表头用 <br> 把「攻击力」写成三行，吸顶后
+    // 整个表头被撑成 141px 的竖条（截图里像一块紫色大横幅盖住半屏）。这里把表头内的
+    // <br> 收成标记符，再按「中文对中文直接拼、整词之间留空格」的规则拼成一行，
+    // 配合 CSS 的 nowrap + 省略号，表头稳定一行；完整文字进 title。
+    const BR = '\u0001'
+    th.querySelectorAll('br').forEach((br) => br.replaceWith(document.createTextNode(BR)))
+    th.normalize()
+    const label = normHeaderLabel(th.textContent || '')
+    if (label) {
+      if (!th.title) th.title = label
+      // 原站表头常写「　　画像　　」这种全角空格填充：手机上允许折行的列里会折成两行，
+      // 表头高度从 33 涨到 57。纯文本表头（没有排序箭头等子元素）直接换成规范文本。
+      if (!th.children.length) th.textContent = label
+      else
+        th.childNodes.forEach((n) => {
+          // 带子元素（排序箭头等）的表头不动结构，只把临时标记符清成空格
+          if (n.nodeType === 3 && n.nodeValue && n.nodeValue.includes(BR)) n.nodeValue = n.nodeValue.split(BR).join(' ')
+        })
+    }
   })
 
   const maxPx = new Array(ncols).fill(0)
@@ -996,6 +1022,55 @@ function shrinkColumnsToData(table: HTMLTableElement): void {
     }
   }
 
+  // 表头单行宽度下限（2026-11-24 新增）：
+  // 旧逻辑只按数据宽算列宽、表头允许 break-all 逐字折行，窄数字列里的「体力/攻击力/魔法抗性」
+  // 被拆成一字一行，表头行高涨到 200px+，吸顶后压掉半个视口 —— 用户直接反馈「像页面故障」。
+  // 这里把「表头单行文字宽」也算进列宽下限，让表头永远一行（放不下就省略号，完整文字进 title）。
+  const headRows = headerRowsOf(table).filter((r) => !r.classList.contains('escah-tbl-filter-row'))
+  const headCells: { cell: HTMLElement; col: number }[] = []
+  if (headRows.length) {
+    const covered: boolean[][] = [] // covered[row][col]：被上方 rowspan 占住的格子
+    headRows.forEach((r, ri) => {
+      const occ = covered[ri] || (covered[ri] = [])
+      let col = 0
+      for (const cell of Array.from(r.children) as HTMLElement[]) {
+        while (occ[col]) col++
+        const colspan = cell.colSpan || 1
+        const rowspan = cell.rowSpan || 1
+        for (let k = 0; k < colspan; k++) {
+          headCells.push({ cell, col: col + k })
+          occ[col + k] = true
+          if (rowspan > 1) {
+            for (let rr = ri + 1; rr < ri + rowspan; rr++) {
+              const a = covered[rr] || (covered[rr] = [])
+              a[col + k] = true
+            }
+          }
+        }
+        col += colspan
+      }
+    })
+    // 一次性测量所有表头文字的单行宽（同样只触发一次布局）
+    const hbox = document.createElement('div')
+    hbox.style.cssText = `position:absolute;left:-99999px;top:0;visibility:hidden;${measureFont}`
+    hbox.innerHTML = headCells
+      .map(({ cell }) => `<span style="display:inline-block;white-space:nowrap">${cell.textContent || ''}</span>`)
+      .join('')
+    document.body.appendChild(hbox)
+    const hspans = hbox.children
+    if (hspans.length === headCells.length) {
+      for (let i = 0; i < headCells.length; i++) {
+        const { cell, col } = headCells[i]
+        // 表头完整文字存进 title：列宽不够被省略号截断时，悬停/长按仍能看到全称
+        const label = (cell.textContent || '').trim()
+        if (label && !cell.title) cell.title = label
+        const w = (hspans[i] as HTMLElement).getBoundingClientRect().width + CELL_PAD
+        if (w > maxPx[col]) maxPx[col] = w
+      }
+    }
+    document.body.removeChild(hbox)
+  }
+
   const colgroup = document.createElement('colgroup')
   for (let c = 0; c < ncols; c++) {
     const col = document.createElement('col')
@@ -1038,7 +1113,115 @@ function measureHeadHeight(table: HTMLTableElement): void {
 const pendingHeadMeasures: HTMLTableElement[] = []
 function flushHeadMeasures(): void {
   const list = pendingHeadMeasures.splice(0)
-  for (const t of list) measureHeadHeight(t)
+  for (const t of list) {
+    measureHeadHeight(t)
+    markFrozenColumns(t)
+  }
+}
+
+/**
+ * 决定要不要冻结「身份列」（首列头像 / 首列名称）。
+ * 以前是无条件冻结首列，结果：① 不横向溢出的普通表（详情页 2 列表）也被冻住，没意义还叠层；
+ * ② 角色一览的「画像」和「名称」是两列，只冻第一列时名字被压在头像下面、只剩半截字，
+ *   看起来就像页面错位。
+ * 现在的规则：
+ *  - 表格没横向溢出 → 完全不做列冻结（只留表头吸顶）。
+ *  - 有溢出 → 冻结 1 列；若第 2 列表头是「名称 / 名前」之类的身份列，
+ *    且冻结后仍留出足够宽度给数据列（桌面 ≥ 320px，手机 ≥ 140px），则冻结 2 列。
+ *  - 手机（< 960）同样冻结，但把「画像 + 名称」两列压窄（70 + 104px，名称截断省略），
+ *    否则 110 + 193 的身份块会吃掉 390 屏宽的 89%，等于没地方看数据。
+ */
+const IDENT_HEAD_RE = /^(名称|名前|角色名|角色名稱|姓名|caption|name)$/i
+const MOBILE_IDENT_COLS: [number, number] = [70, 120]
+
+/** 手机上把身份两列压窄，宽度变化（旋转/回桌面）时恢复原始列宽 */
+function applyIdentityWidths(table: HTMLTableElement, narrow: boolean): number[] | null {
+  const cols = Array.from(table.querySelectorAll('colgroup > col')) as HTMLElement[]
+  if (cols.length < 2) return null
+  const widths: number[] = []
+  for (let i = 0; i < 2; i++) {
+    const col = cols[i]
+    if (col.dataset.escahW === undefined) col.dataset.escahW = col.style.width || ''
+    if (narrow) col.style.width = MOBILE_IDENT_COLS[i] + 'px'
+    else {
+      col.style.width = col.dataset.escahW
+      delete col.dataset.escahW
+    }
+    const w = parseFloat(col.style.width)
+    if (w) widths[i] = w
+  }
+  return widths.length === 2 ? widths : null
+}
+
+/**
+ * 跨整行的分隔行（`<td colspan="9">优先1</td>` 这种）不是身份列，不能套冻结列的实色底：
+ * 冻结列用的是 `background-color:…!important`，会压掉原站内联的 `background-color:red`，
+ * 于是「红底白字」变成「白底白字」——字直接看不见（2026-11-24 用户反馈 buniv-008）。
+ * 这里按「起始列 + 跨列数」标记：从第 0 列起、却宽过整个冻结块的单元格打上 .escah-nofreeze，
+ * 冻结相关样式全部带 :not(.escah-nofreeze) 排除它（恰好覆盖身份块整宽的合并表头仍保留冻结）。
+ */
+function markNoFreezeSpans(table: HTMLTableElement, frozenCount: number): void {
+  for (const r of Array.from(table.querySelectorAll('tr'))) {
+    let col = 0
+    for (const cell of Array.from(r.children) as HTMLElement[]) {
+      const cs = Number(cell.getAttribute('colspan') || 1)
+      cell.classList.toggle('escah-nofreeze', col === 0 && cs > frozenCount)
+      col += cs
+    }
+  }
+}
+
+function markFrozenColumns(table: HTMLTableElement): void {
+  table.classList.remove('escah-frozen-1', 'escah-frozen-2')
+  const wrap = table.parentElement
+  if (!wrap || !wrap.classList.contains('table-scroll')) return
+  const overflows = wrap.scrollWidth > wrap.clientWidth + 8
+  const narrow = window.matchMedia('(max-width: 959px)').matches
+
+  const firstRow = headerRowsOf(table).find((r) => !r.classList.contains('escah-tbl-filter-row'))
+  if (!firstRow) return
+  const ths = Array.from(firstRow.children) as HTMLElement[]
+  const c1 = ths[0] ? (ths[0].textContent || '').replace(/\s+/g, '').trim() : ''
+  const c2 = ths[1] ? (ths[1].textContent || '').replace(/\s+/g, '').trim() : ''
+  if (ths.length < 2) return
+  const nameCol = IDENT_HEAD_RE.test(c2) && !IDENT_HEAD_RE.test(c1) // 首列本身就是名称列时不必再冻第二列
+
+  // 列宽先恢复/压窄再读（否则读到的是上一个断点的宽度）；只有「要冻两列的列表」在手机上才压窄
+  const identW = applyIdentityWidths(table, narrow && overflows && nameCol && table.classList.contains('escah-tbl-shrink'))
+  if (!overflows) return // 不横向溢出，不需要冻结
+
+  // 首列宽（第二列 sticky 左偏移用）：shrink 表以 <col> 为准，普通表量真实单元格
+  let w1 = identW ? identW[0] : 0
+  if (!w1) {
+    const cell = (dataRows(table)[0]?.children[0] as HTMLElement | undefined) || ths[0]
+    w1 = cell ? cell.getBoundingClientRect().width : 0
+  }
+  if (w1 <= 0) return
+  table.style.setProperty('--escah-col1-w', Math.round(w1) + 'px')
+
+  const w2 = identW ? identW[1] : 0
+  const rest = wrap.clientWidth - w1 - (identW ? w2 : 0)
+  const two = nameCol && rest >= (narrow ? 140 : 320) && (!narrow || !!identW)
+  table.classList.add(two ? 'escah-frozen-2' : 'escah-frozen-1')
+  markNoFreezeSpans(table, two ? 2 : 1)
+}
+
+// 视口宽度变化（跨 960 断点 / 侧栏收放）后重新判定列冻结，避免手机上残留桌面冻结状态
+let frozenResizeBound = false
+function bindFrozenResize(): void {
+  if (frozenResizeBound) return
+  frozenResizeBound = true
+  let timer: number | undefined
+  window.addEventListener('resize', () => {
+    if (timer) window.clearTimeout(timer)
+    timer = window.setTimeout(() => {
+      document.querySelectorAll<HTMLTableElement>('table[data-escah="1"]').forEach((t) => {
+        if (!t.isConnected) return
+        markFrozenColumns(t)
+        measureHeadHeight(t)
+      })
+    }, 250)
+  })
 }
 
 function enhanceTable(table: HTMLTableElement, pageSlug?: string): void {
@@ -1106,6 +1289,7 @@ export function enhanceTables(root: HTMLElement, pageSlug?: string): void {
   }
   // 所有表增强完（DOM 变更收敛）后再统一测表头高度，避免「写-读」交替反复重排整页
   flushHeadMeasures()
+  bindFrozenResize()
   // bedroom-scenes 等「每个表格前已有 strong 标题」的页面：在正文开头插入一个
   // 表格目录（列出各表标题并锚点跳转）。标题文字直接取表格前已有的 strong，不重复添加。
   if (pageSlug === 'bedroom-scenes') buildTableToc(root)

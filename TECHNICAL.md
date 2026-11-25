@@ -415,7 +415,7 @@ escah-bot commit & push `data/upstream/`（与 `data/raw` 同一个 `chore(fetch
 
 ## 12. 版本号与更新记录
 
-当前站点版本：**1.2.17**（2026-10-21）。
+当前站点版本：**1.2.19**（2026-11-26）。
 
 前端版本号常量 `SITE_VERSION` 定义在
 `site/.vitepress/theme/components/SiteAccessSwitch.vue`，更新记录数据位于

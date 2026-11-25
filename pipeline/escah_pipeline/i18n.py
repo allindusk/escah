@@ -4223,8 +4223,8 @@ def fill_latest_todo(slugs: list[str] | None = None) -> None:
 
 # ------------------------------------------------------------ char-fill ----
 
-# 值保留日文的表头（人名/声优/画师约定）
-_KEEP_JA_HEADERS = {"名前", "CV", "イラスト", "本名"}
+# 值保留日文的表头（人名/声优/画师约定）——「本名」已改为中文化（2026-11-24）
+_KEEP_JA_HEADERS = {"名前", "本名", "CV", "イラスト", "イラストレーター", "声優", "原画"}
 
 
 def _page_dict(slug: str) -> dict[str, str]:
@@ -4284,14 +4284,18 @@ def char_fill_all() -> None:
                 head = next((c.get("t", "").strip() for c in row if c.get("h")), "")
                 for cell in row:
                     t = cell.get("t", "")
-                    if not t or not _JA_RE.search(t):
-                        continue
                     if not cell.get("h") and head in _KEEP_JA_HEADERS:
                         # 人名/声优/画师/本名 的值按约定保留日文原名。
                         # 不能只 continue —— 历史遗留的 zh 会一直留着（增量抽取不重写、
                         # 本函数又只覆盖不删除），页面就显示成中文。这里顺手删掉，自愈。
+                        # 注意：本名常是纯汉字（露木冥子），没有假名，所以这一步必须放在
+                        # 「含假名才处理」的判断**之前**，否则这类行永远清不掉。
                         if cell.pop("zh", None) is not None:
                             changed = True
+                        if cell.pop("tr", None) is not None:
+                            changed = True
+                        continue
+                    if not t or not _JA_RE.search(t):
                         continue
                     total += 1
                     zh = d.get(_norm_ns(t))

@@ -180,6 +180,12 @@ const navZh = [
   { text: '原WIKI站点', link: 'https://escalationheroines.wikiru.jp/' },
 ]
 
+// 首屏预置阅读布局：theme 的 JS 启动前先按 localStorage 里的偏好挂好 html 类，
+// 避免「先按默认宽度渲染、JS 启动后再切换」的闪烁。
+// 判定规则必须与 theme/uiPrefs.ts 的 DEFAULT / VER 保持一致：
+// 无存档、或存档版本 < 3（旧默认曾是超宽）→ 标准宽度；存档里明确 ultraWide:true → 超宽。
+const PREF_BOOT = `(function(){try{var s=localStorage.getItem('escah-ui-prefs');var p=s?JSON.parse(s):null;var el=document.documentElement;if(p&&Number(p.v)>=3&&p.ultraWide===true){el.classList.add('escah-ultrawide')}if(p){if(p.navCollapsed)el.classList.add('escah-nav-collapsed');if(p.tocCollapsed)el.classList.add('escah-toc-collapsed')}}catch(e){}})()`
+
 export default defineConfig({
   base: BASE,
   // dev 模式 vite 的 optimizeDeps 自动扫描在本机环境会陷入预构建卡死（进程常驻、内存飙到 800MB+ 且不监听端口）。
@@ -187,12 +193,28 @@ export default defineConfig({
   vite: {
     optimizeDeps: { entries: [] },
   },
+  // 关掉 VitePress 的「视口内链接全量预取」。实测（2026-11-24）：
+  //   · 侧栏一屏能看见 20+ 条链接，打开任意一页就会预取 24 个页面 chunk；
+  //   · 单页 chunk 50~70KB（gzip），合计约 1MB；GitHub Pages 国内实测约 20KB/s，
+  //     单个预取请求最长要 5s 才下载完；
+  //   · 用户点的那一页要排在这 1MB 后面，于是「点了侧栏好几秒不跳转」。
+  // 改为按需拉取：只下载真正点开的那一页，配合 RouteLoading 的加载提示。
+  router: {
+    prefetchLinks: false,
+  },
   title: '超昂大戦 Wiki',
   description: '超昂大戦エスカレーションヒロインズ攻略 Wiki 中日双语镜像站',
   ignoreDeadLinks: true,
   // ===== SEO（见 .vitepress/seo.ts）=====
-  // head：favicon / robots / og 基础标签 / 站长平台校验
-  head: seoHead(),
+  // head：favicon / robots / og 基础标签 / 站长平台校验 + 首屏宽度模式预置
+  head: [
+    ...seoHead(),
+    // viewport-fit=cover：让 iPhone 刘海/底部横条区的 env(safe-area-inset-*) 真正有值。
+    // 不写这一段时 iOS 上这些 env() 恒为 0，mobile.css / MobileToc 里写好的安全区留白全部空转。
+    // 覆盖 VitePress 默认的 viewport（它检测到用户自带 viewport 就不再输出默认那条）。
+    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }],
+    ['script', {}, PREF_BOOT],
+  ],
   // 每页独立的 meta description（默认取正文首段）
   transformPageData: seoTransformPageData,
   // 每页 canonical / hreflang / og:url / JSON-LD 结构化数据

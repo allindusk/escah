@@ -22,6 +22,11 @@ log = get_logger()
 
 SECTION_KEYS = ("プロフィール", "入手方法", "基本ステータス", "詳細ステータス", "必殺技", "固有効果")
 
+# 这些「行标签」的值是固有名词（人名/画师名/声优名），项目要求保留日文原名：
+# 角色详情页、角色浮窗（hover 预览 + 点击固定窗）、CV 页、原画页统一不译。
+# 注意：这里只比对**行标签**；标签本身仍按中文显示（本名 / 声优 / 插画）。
+_RETAIN_JA_LABELS = ("本名", "CV", "イラスト", "イラストレーター", "声優", "原画")
+
 # 私用区哨兵：用于把 <br> 先替换为占位符，get_text 后再切回换行，
 # 从而在收拢空白的同时保留原始 <br> 换行（必殺技/固有効果 多为多行文本）。
 _BR_SENTINEL = "\uE000"
@@ -116,10 +121,10 @@ def extract_character(name: str, raw_html: str) -> dict | None:
             r_ths = r.find_all("th", recursive=False)
             if any(_section_key_of(t.get_text(strip=True)) for t in r_ths):
                 break
-            # 表头为「本名」的行：值是角色本名，按约定保留日文原名，不注入中文
-            row_is_honmyo = any(
-                (t2.get_text(strip=True) == "本名") for t2 in r_ths
-            )
+            # 表头为「本名 / CV / イラスト（イラストレーター）」的行：值是固有名词，
+            # 项目要求保留日文原名，**不注入中文**（角色页、角色浮窗同口径）。
+            row_label = r_ths[0].get_text(strip=True) if r_ths else ""
+            row_keep_ja = row_label in _RETAIN_JA_LABELS
             cells: list[dict] = []
             for c in r.find_all(["th", "td"], recursive=False):
                 text = _cell_text(c)
@@ -133,8 +138,9 @@ def extract_character(name: str, raw_html: str) -> dict | None:
                     cell["rs"] = int(c["rowspan"])
                 if needs_translation(text):
                     cell["tr"] = True
-                # 本名行也走词表/词典（2026-11-24 起中文化，不再固定保留日文原名）
-                zh = i18n.char_cell_zh(text)
+                # 本名/CV/插画 三类行：保留日文原名，不注入中文
+                if not row_keep_ja:
+                    zh = i18n.char_cell_zh(text)
                 if zh:
                     cell["zh"] = zh
                 cells.append(cell)

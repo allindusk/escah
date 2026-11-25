@@ -9,8 +9,10 @@
 import { withBase, useData } from 'vitepress'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { charModalStore as store } from './charModalStore'
+import { rewriteHtml } from '../../media-rewrite.mjs'
 import charRefs from '../charRefs.json'
 import { enhanceTables, syncAllFullBtns } from '../tableEnhancer'
+import { scrollToAnchor, scrollToCurrentHash } from '../anchorNav'
 
 const props = defineProps<{ html: string }>()
 
@@ -74,9 +76,24 @@ const pageLocale = computed(deriveLocale)
 // 片段内图片以 /img/<hash> 绝对路径写入，但站点 base 为 /escah/；
 // v-html 注入的字符串 URL 不会被 Vite 自动加 base，需在此手动补全，
 // 否则本地预览与线上均会 404。withBase 随 base 配置自动适应。
-const resolved = computed(() =>
-  (props.html || '').replace(/\/img\//g, withBase('/img/')),
-)
+//
+// 图片省流量改写也放在这里（而不是去改 .vitepress/frag 的 JSON）：
+//   · 动图 → 首帧海报 + data-anim-src（点按/桌面视口内才加载原动图）；
+//   · 静态大图 → srcset/sizes 多尺寸。
+// 清单 img-variants.json 由 tools/gen_img_variants.py 生成、随包打进 SSR 与客户端，
+// 因此「预渲染 HTML / hydration / dev / preview」四处结果一致；
+// 文件不存在时 glob 返回空对象 → 自动退回原图（不会构建失败）。
+// 改写函数见 ../media-rewrite.mjs（幂等：重复渲染不会叠加属性）。
+const variantMap: Record<string, any> | undefined = Object.values(
+  import.meta.glob('../../img-variants.json', { eager: true, import: 'default' }) as Record<string, any>,
+)[0]
+
+const resolved = computed(() => {
+  let html = props.html || ''
+  // 即便清单缺失也要跑一次：rewriteHtml 还负责给所有 <img> 补 loading="lazy"。
+  if (html) html = rewriteHtml(html, variantMap as any) || html
+  return html.replace(/\/img\//g, withBase('/img/'))
+})
 
 // ===== 全页面角色浮窗 =====
 // charRefs 由 tools/gen_char_refs.py 生成：角色名(=日文 key) + 头像 hash→名 映射 + nameAliases(日文名/中文名→key)。
@@ -363,6 +380,21 @@ function onOver(e: MouseEvent) {
       height: r.height,
       mx: e.clientX,
       my: e.clientY,
+      // 表格里「画像」和「名称」是两列：只避让头像本身的话，浮窗会紧贴头像右侧、把同一行
+      // 的角色名盖掉（用户看到的正是「浮窗挡住头像和名字」）。这里把避让右边界扩到该行
+      // 冻结身份块的右缘（只冻 1 列时就是首列右缘）。
+      safeRight: (function () {
+        const tr = el.closest('tr') as HTMLTableRowElement | null
+        const tbl = tr ? (tr.closest('table') as HTMLTableElement | null) : null
+        if (!tr || !tbl) return r.right
+        let right = r.right
+        if (tbl.classList.contains('escah-frozen-2') && tr.children[1]) {
+          right = Math.max(right, (tr.children[1] as HTMLElement).getBoundingClientRect().right)
+        } else if (tbl.classList.contains('escah-frozen-1') && tr.children[0]) {
+          right = Math.max(right, (tr.children[0] as HTMLElement).getBoundingClientRect().right)
+        }
+        return right
+      })(),
     })
   } else if (store.mode === 'hover' && store.visible) {
     store.scheduleHide()
@@ -465,6 +497,8 @@ function onClick(e: MouseEvent) {
 
 // 页内锚点跳转（wiki .contents 目录 / 正文内 #xxx 链接）：
 // 平滑滚动到目标标题，并避让固定导航栏高度。
+// 2026-11-25：目标可能在折叠 region（.rgn-content display:none）内，高度为 0，
+// 直接滚动等于没有反应 —— 统一交给 anchorNav：先展开折叠祖先再滚动。
 function onAnchorClick(e: MouseEvent) {
   const a = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null
   if (!a) return
@@ -472,14 +506,14 @@ function onAnchorClick(e: MouseEvent) {
   if (!href.startsWith('#')) return
   const id = decodeURIComponent(href.slice(1))
   if (!id) return
-  const target = document.getElementById(id)
-  if (!target) return
+  if (!document.getElementById(id)) return
   e.preventDefault()
-  const nav = document.querySelector('.VPNav') as HTMLElement | null
-  const navH = nav ? nav.getBoundingClientRect().height : 0
-  const y = target.getBoundingClientRect().top + window.scrollY - navH - 10
-  window.scrollTo({ top: y, behavior: 'smooth' })
-  if (typeof history.replaceState === 'function') history.replaceState(null, '', '#' + id)
+  scrollToAnchor(id)
+}
+
+// 同一页面内 URL hash 变化（外部跳转、浏览器前进后退）：等同于「带 hash 打开」，补一次定位
+function onHashChange() {
+  scrollToCurrentHash()
 }
 
 /* ------------------------------------------------------------------------
@@ -567,6 +601,11 @@ onMounted(() => {
   document.addEventListener('click', onAnchorClick)
   // 离开正文内容区（mouseleave 在 document 上不可靠）：仅在 root 上收起 hover 预览
   el.addEventListener('mouseleave', onOut)
+  // 带 #hash 直接打开 / 刷新：目标若在折叠块内，VitePress 自带的滚动也会失效，
+  // 这里补一次「先展开再定位」（对已展开的块是空操作，不会破坏默认行为）。
+  setTimeout(scrollToCurrentHash, 0)
+  // 同一页面内的 hash 跳变（外部链接、浏览器前进后退）不会重新挂载，也要补一次定位
+  window.addEventListener('hashchange', onHashChange)
 })
 onUnmounted(() => {
   document.removeEventListener('mouseover', onOver)
@@ -574,6 +613,7 @@ onUnmounted(() => {
   document.removeEventListener('click', onRgnClick)
   document.removeEventListener('click', onClick)
   document.removeEventListener('click', onAnchorClick)
+  window.removeEventListener('hashchange', onHashChange)
   const el = root.value
   if (el) el.removeEventListener('mouseleave', onOut)
 })

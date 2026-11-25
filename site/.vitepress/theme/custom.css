@@ -31,6 +31,12 @@
   --escah-shadow: 0 2px 10px rgba(31, 35, 41, 0.08);
   --escah-shadow-hover: 0 10px 28px rgba(233, 30, 99, 0.18);
   --escah-border: #e3e6ee;
+
+  /* 表格冻结区（表头 / 首列）底色：必须不透明，否则滚动时下层数据文字透出来糊成一片。
+     见「表格冻结（重构）」段。 */
+  --escah-freeze-bg: #fbf6fd;      /* 首列数据格 */
+  --escah-freeze-head: #ecdbf4;    /* 表头 / 筛选行 */
+  --escah-freeze-line: rgba(156, 39, 176, 0.28); /* 冻结贴边细线 */
 }
 .dark {
   --vp-c-bg: #15151c;
@@ -44,6 +50,10 @@
   /* 暗色模式：原 --escah-grad-soft 是浅紫半透明，叠在深色背景上发灰发亮，白字看不清。
      改为明显深于背景的深紫，保证白字清晰（所有引用该变量的 th/筛选行/hover 行自动受益）。 */
   --escah-grad-soft: linear-gradient(135deg, rgba(156, 39, 176, 0.40), rgba(233, 30, 99, 0.34));
+  /* 冻结区暗色：比页面底色(#15151c)亮一档，保证白字可读、又不刺眼 */
+  --escah-freeze-bg: #241b31;
+  --escah-freeze-head: #362a49;
+  --escah-freeze-line: rgba(255, 255, 255, 0.18);
 }
 
 /* 暗色模式：PukiWiki 原始 HTML 表格单元格常带内联浅色背景（如 rgb(255,240,245)），
@@ -114,7 +124,10 @@
 /* _sanitize_html 已把每个 <table> 包进 .table-scroll，这里让容器独立横向滚动，
    避免多列表格被内容区裁切（用户反馈表格一塌糊涂/显示不全） */
 .table-scroll { overflow-x: auto; margin: 0.8em 0; border-radius: 8px; }
-.table-scroll > table { width: max-content; min-width: 100%; border-collapse: collapse; }
+/* 表格宽度跟内容走（2026-11-24）：原先是 min-width:100%，超宽模式下容器 1200+，
+   「难度」「消耗BP」这种两三个字的列也被均分出上百像素，满屏空白反而比标准宽度更难看。
+   现在只保底「至少和内容一样宽」，比容器窄时左对齐留白，真超宽时照旧横向滚动。 */
+.table-scroll > table { width: max-content; min-width: 0; border-collapse: collapse; }
 .table-scroll > table th, .table-scroll > table td {
   border: 1px solid var(--escah-border); padding: 5px 10px; text-align: left; vertical-align: top;
 }
@@ -395,6 +408,8 @@
 .char-modal-header .rarity-badge { position: static; }
 .char-modal-header .spacer { flex: 1; }
 .char-modal-header .hint { font-size: 11px; opacity: 0.8; }
+/* 右侧操作组：桌面端横排（间距与 header 一致），手机端在 mobile.css 里变成独立一行 */
+.char-modal-actions { display: flex; align-items: center; gap: 12px; }
 .char-modal-header button {
   padding: 4px 12px; font-size: 12px; font-weight: 600;
   color: #fff; background: rgba(255, 255, 255, 0.18);
@@ -530,6 +545,14 @@
   animation: escah-fade 0.15s ease;
 }
 .lightbox-mask img { max-width: 92vw; max-height: 92vh; border-radius: 10px; box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
+
+/* ========== 动图海报（省流量）==========
+   HTML 里的动图已被换成首帧海报（角落烧了 ▶ 角标），点按才加载原动图；
+   鼠标设备进入视口会自动播放，观感与改造前一致。见 animMedia.ts。 */
+.mirror-content img.escah-anim,
+.escah-tbl-fs img.escah-anim { cursor: pointer; }
+.mirror-content img.escah-anim[data-anim-playing="1"],
+.escah-tbl-fs img.escah-anim[data-anim-playing="1"] { cursor: zoom-in; }
 
 /* ========== 侧栏分组标题底色：整行高亮区分分组名与页面名 ========== */
 /* 注意：本 VitePress 版本的分组头类为 .VPSidebarItem.level-0.collapsible
@@ -765,10 +788,16 @@
 .escah-tbl .table-scroll > table {
   display: table !important;
   width: max-content !important;
-  min-width: 100%;
+  min-width: 0;              /* 同正文：不强行拉满容器（超宽模式下会把列均分得很宽） */
   max-width: none !important;
   table-layout: auto !important;
   border-collapse: collapse;
+  /* ⚠️ 2026-11-24 关键：table 自身绝不能 overflow:hidden（.mirror-content table 有这条，
+     本意是给圆角裁边）。table 一旦成为裁剪容器，它就成为单元格 position:sticky 的
+     「最近滚动/裁剪祖先」——sticky 偏移于是相对这张不滚动的表格计算，首列的 left:0
+     永远不生效（实测 scrollLeft=400 时首列被推到视口外 -56px，用户看到的就是
+     「左边头像和名字整列不见了」）。overflow:visible 后 sticky 才归还给 .table-scroll。 */
+  overflow: visible !important;
 }
 .escah-tbl .table-scroll > table td,
 .escah-tbl .table-scroll > table th {
@@ -836,6 +865,7 @@
   width: max-content;
   border-collapse: collapse;
   font-size: 13px;
+  overflow: visible !important; /* 同正文：table 不能是裁剪容器，否则单元格 sticky 失效 */
 }
 /* 全屏下若表格带 escah-tbl-shrink（与正文同一张表移入的），沿用 fixed 布局。
    ⚠️ 这里只能设 table-layout:fixed（与正文一致），绝不能写 width:auto/min-width:0 的
@@ -930,15 +960,16 @@
   color: #1b1b1f;
 }
 
-/* ⚠️ 关键修复（2026-08-12）：全屏滚动容器 .escah-tbl-fs-scroll{overflow:auto} 让
-   thead th 的 position:sticky;z-index:4 真正粘顶。body 单元格内的超链接原本无
-   position/z-index，层级低于 sticky 表头，竖向滚动后链接被实色表头覆盖 → 点击命中
-   表头而非链接（表现为「超链接全部失效」）。提升 body 链接层级到 z-index:5 反超表头，
-   确保全屏表格内链接始终可点、不被吸顶表头遮挡。 */
+/* 2026-11-24：正文链接不再抬到表头之上。旧版给链接 z-index:5（高于吸顶表头 4），
+   结果是滚动时角色名/超链接文字直接飘在表头上面，看起来像错位故障。
+   现在冻结区层级统一抬高（角落 8 / 表头 7 / 筛选行 6 / 首列 3），正文链接保持 1，
+   被卷进冻结区时自然被盖住（本就滚到表头底下了），露在外面的照常可点。 */
+.escah-tbl td a,
+.escah-tbl td .char-ref,
 .escah-tbl-fs-scroll td a,
 .escah-tbl-fs-scroll td .char-ref {
   position: relative;
-  z-index: 5;
+  z-index: 1;
 }
 
 /* ========== 纯锚点链接隐藏（i18n build v2 标记 class=escah-anchor，2026-08-19）======
@@ -957,39 +988,42 @@
 .escah-tbl-fs-scroll a.escah-anchor::before { content: ""; }
 
 /* ========== 表格增强：表头吸顶 / 列宽按数据 / 多选筛选 ========== */
-/* 表头吸顶：滚动容器（.table-scroll 或全屏 .escah-tbl-fs-scroll）内滚动时 thead 固定。
-   给 thead 单元格底色，避免下方内容透出。
-   筛选行（.escah-tbl-filter-row 的 td）吸顶时排在表头正下方，用 --escah-thead-h 偏移，
-   避免与表头行重叠。 */
+/* ---------- 冻结方案（2026-11-24 重构） ----------
+   旧方案：冻结单元格常态半透明(--escah-grad-soft)，滚动时 JS 内联改成实色、150ms 后再改回。
+   实测的四个问题：① 一滚动颜色就闪，像页面出故障；② 半透明期间下层数据文字透上来糊成一片；
+   ③ 窄列里表头被 break-all 拆成一字一行（「体/力」竖排），表头涨到 200px+，吸顶后吃掉半个视口；
+   ④ 正文链接 z-index:5 高过吸顶表头(4)，滚动时角色名/链接直接飘在表头上。
+   新方案：冻结区一律用不透明实色（静止与滚动同色，不再闪烁），表头强制单行 + 省略号（完整文字进 title），
+   贴边加 1px 分隔线（看得出是「冻结」而不是「错位重叠」）。
+   层级：角落 8 > 表头 7 > 筛选行 6 > 首列 3 > 正文 1。 */
+
+/* 表头：吸顶 + 不透明。⚠️ 单行 + 省略号只给 shrink 表（角色一览这类超宽列表，见下方），
+   普通内容表的表头可能是一段需要换行的说明文字（如「※星级每提升1颗属性+50%…」），
+   统一 nowrap 会把说明截成一行省略号，那是丢内容。 */
 .escah-tbl .table-scroll > table thead th,
 .escah-tbl-fs-scroll thead th {
   position: sticky;
   top: 0;
-  z-index: 4;
+  z-index: 7;
+  background-color: var(--escah-freeze-head) !important;
+  background-image: none !important;
+  box-shadow: inset 0 -1px 0 var(--escah-freeze-line);
 }
+/* 筛选行：紧贴表头下方，同样是实色 + 单行 */
 .escah-tbl .table-scroll > table thead td.escah-tbl-filter-row,
 .escah-tbl .table-scroll > table thead .escah-tbl-filter-row td,
 .escah-tbl-fs-scroll thead .escah-tbl-filter-row td {
   position: sticky;
   top: var(--escah-thead-h, 0px);
-  z-index: 3;
+  z-index: 6;
+  background-color: var(--escah-freeze-head) !important;
+  background-image: none !important;
+  box-shadow: inset 0 -1px 0 var(--escah-freeze-line);
 }
-/* 冻结单元格常规底色：保持原 --escah-grad-soft（半透明，静止时不滚动就无碍观瞻）。
-   仅在「滚动时」才切不透明，由 JS 给容器加 .escah-scrolling 触发（见下方规则）。 */
-.escah-tbl .table-scroll > table thead th {
-  background: var(--escah-grad-soft);
-}
-.escah-tbl-fs-scroll thead th { background: rgba(156, 39, 176, 0.12); }
-.dark .escah-tbl-fs-scroll thead th { background: rgba(156, 39, 176, 0.40); }
-.escah-tbl .table-scroll > table thead .escah-tbl-filter-row td {
-  background: var(--escah-grad-soft);
-}
-.escah-tbl-fs-scroll thead .escah-tbl-filter-row td { background: rgba(156, 39, 176, 0.12); }
-.dark .escah-tbl-fs-scroll thead .escah-tbl-filter-row td { background: rgba(156, 39, 176, 0.40); }
 
 /* 列宽按最长数据为准（仅角色一览类页面，JS 给表格加 .escah-tbl-shrink）。
    shrink class 加在 table 上，故选择器用 table.escah-tbl-shrink。
-   覆盖默认 auto 布局：改用 fixed + <col> 宽度，表头允许换行。 */
+   覆盖默认 auto 布局：改用 fixed + <col> 宽度。 */
 .escah-tbl .table-scroll > table.escah-tbl-shrink {
   table-layout: fixed !important;
   /* ⚠️ 铁律（2026-08-02 实测定位）：这里必须显式写死 width/min-width，覆盖通用规则
@@ -1002,7 +1036,7 @@
   min-width: 0 !important;
   max-width: none !important;
 }
-/* shrink 模式下：列宽完全由 <col> 决定（JS 按数据最长像素宽测量）。
+/* shrink 模式下：列宽完全由 <col> 决定（JS 按数据最长像素宽 + 表头单行宽测量）。
    ⚠️ 铁律：这里绝不能给 th/td 写任何 width（哪怕 width:auto / width:0）。
    table-layout:fixed 下，浏览器取列宽的优先级是「首行单元格的显式 width > <col> 的 width」，
    所以 .escah-tbl .table-scroll > table td/th 的 `width:auto!important`（见上方通用规则）
@@ -1013,10 +1047,13 @@
   width: unset !important;
   max-width: none !important;
 }
-.escah-tbl .table-scroll > table.escah-tbl-shrink th {
-  white-space: normal !important;
-  overflow-wrap: break-word;
-  word-break: break-all !important;
+/* 表头不再逐字折行（<col> 已按表头单行宽度算过，这里只兜底）：太长就省略号，完整文字在 title */
+.escah-tbl .table-scroll > table.escah-tbl-shrink th,
+.escah-tbl-fs-scroll table.escah-tbl-shrink th {
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal !important;
 }
 .escah-tbl .table-scroll > table.escah-tbl-shrink td {
   white-space: normal !important;
@@ -1034,31 +1071,75 @@
   word-break: normal !important;
 }
 
-/* 列头（首列）冻结：横向滚动时第一列固定。需底色防下方内容透出；
-   与表头吸顶交叉的角落单元格（thead 首列）提高 z-index。 */
-.escah-tbl .table-scroll > table th:first-child,
-.escah-tbl .table-scroll > table td:first-child,
-.escah-tbl-fs-scroll th:first-child,
-.escah-tbl-fs-scroll td:first-child {
+/* 首列冻结：只在表确实横向溢出时由 JS 打 .escah-frozen-1 / -2（见 markFrozenColumns）。
+   不溢出的普通表（详情页 2 列档案表）不再被冻住，避免无意义的层叠。 */
+.escah-tbl .table-scroll > table.escah-frozen-1 th:first-child:not(.escah-nofreeze),
+.escah-tbl .table-scroll > table.escah-frozen-1 td:first-child:not(.escah-nofreeze),
+.escah-tbl .table-scroll > table.escah-frozen-2 th:first-child:not(.escah-nofreeze),
+.escah-tbl .table-scroll > table.escah-frozen-2 td:first-child:not(.escah-nofreeze),
+.escah-tbl-fs-scroll table.escah-frozen-1 th:first-child:not(.escah-nofreeze),
+.escah-tbl-fs-scroll table.escah-frozen-1 td:first-child:not(.escah-nofreeze),
+.escah-tbl-fs-scroll table.escah-frozen-2 th:first-child:not(.escah-nofreeze),
+.escah-tbl-fs-scroll table.escah-frozen-2 td:first-child:not(.escah-nofreeze) {
   position: sticky;
   left: 0;
-  z-index: 2;
+  z-index: 3;
+  background-color: var(--escah-freeze-bg) !important;
+  background-image: none !important;
 }
-.escah-tbl .table-scroll > table th:first-child,
-.escah-tbl-fs-scroll th:first-child {
-  /* 角落单元格（thead 首列）常规用原渐变；滚动时由 .escah-scrolling 切不透明 */
-  background: var(--escah-grad-soft);
-  z-index: 5; /* 角落：高于表头(4)与首列(2) */
+/* 第二列（名称列）紧跟在首列右侧，偏移量由 JS 写入 --escah-col1-w */
+.escah-tbl .table-scroll > table.escah-frozen-2 th:nth-child(2):not(.escah-nofreeze),
+.escah-tbl .table-scroll > table.escah-frozen-2 td:nth-child(2):not(.escah-nofreeze),
+.escah-tbl-fs-scroll table.escah-frozen-2 th:nth-child(2):not(.escah-nofreeze),
+.escah-tbl-fs-scroll table.escah-frozen-2 td:nth-child(2):not(.escah-nofreeze) {
+  position: sticky;
+  left: var(--escah-col1-w, 0px);
+  z-index: 3;
+  background-color: var(--escah-freeze-bg) !important;
+  background-image: none !important;
 }
-/* 首列数据单元格：常态用半透明淡紫（与表头同色系，避免白底突兀），
-   横向滚动时由 JS 切不透明（防透字）。纵向滚动不固定首列，故常态半透明安全。 */
-.escah-tbl .table-scroll > table td:first-child,
-.escah-tbl-fs-scroll td:first-child {
-  background: var(--escah-grad-soft);
+/* 身份块整体右缘：1px 硬分隔线 + 柔和投影，让人一眼看出「这块是冻结的、浮在内容上方」，
+   而不是「文字被切掉/重叠错位」。投影只加在整块最右一列。 */
+.escah-tbl .table-scroll > table.escah-frozen-2 td:nth-child(2):not(.escah-nofreeze),
+.escah-tbl-fs-scroll table.escah-frozen-2 td:nth-child(2):not(.escah-nofreeze) {
+  box-shadow: inset -1px 0 0 var(--escah-freeze-line), 6px 0 10px -6px rgba(31, 35, 41, 0.28);
 }
-.dark .escah-tbl .table-scroll > table td:first-child,
-.dark .escah-tbl-fs-scroll td:first-child {
-  background: var(--escah-grad-soft);
+/* 单列冻结时，分隔线/投影画在首列右缘 */
+.escah-tbl .table-scroll > table.escah-frozen-1 td:first-child:not(.escah-nofreeze),
+.escah-tbl-fs-scroll table.escah-frozen-1 td:first-child:not(.escah-nofreeze) {
+  box-shadow: inset -1px 0 0 var(--escah-freeze-line), 6px 0 10px -6px rgba(31, 35, 41, 0.28);
+}
+/* 角落单元格（thead 内的身份列）：两轴同时冻结，层级最高，用表头色 */
+.escah-tbl .table-scroll > table.escah-frozen-1 th:first-child:not(.escah-nofreeze),
+.escah-tbl .table-scroll > table.escah-frozen-2 th:first-child:not(.escah-nofreeze),
+.escah-tbl .table-scroll > table.escah-frozen-2 th:nth-child(2):not(.escah-nofreeze) {
+  z-index: 8 !important;
+  background-color: var(--escah-freeze-head) !important;
+}
+/* 筛选行的身份列同样要冻结（否则筛选按钮跟着横向滚走） */
+.escah-tbl .table-scroll > table.escah-frozen-1 .escah-tbl-filter-row td:first-child,
+.escah-tbl .table-scroll > table.escah-frozen-2 .escah-tbl-filter-row td:first-child,
+.escah-tbl .table-scroll > table.escah-frozen-2 .escah-tbl-filter-row td:nth-child(2) {
+  position: sticky;
+  z-index: 8;
+  background-color: var(--escah-freeze-head) !important;
+  background-image: none !important;
+}
+.escah-tbl .table-scroll > table.escah-frozen-2 .escah-tbl-filter-row td:nth-child(2) {
+  left: var(--escah-col1-w, 0px);
+}
+
+/* 筛选行压扁：它和吸顶表头一起构成冻结区，原来一行 64px（表头 33 + 筛选 64 ≈ 97px），
+   手机上一屏就剩不了几行数据。控件本身 27px 高，这里把单元格内边距收紧到贴近控件。 */
+.escah-tbl .table-scroll > table .escah-tbl-filter-row td,
+.escah-tbl-fs-scroll .escah-tbl-filter-row td {
+  padding: 2px 4px !important;
+  line-height: 1;
+}
+.escah-tbl .table-scroll > table .escah-tbl-filter-row .escah-filter-btn,
+.escah-tbl-fs-scroll .escah-tbl-filter-row .escah-filter-btn {
+  padding: 2px 8px;
+  line-height: 1.6;
 }
 
 /* 多选筛选下拉 */
@@ -1141,13 +1222,28 @@
   line-height: 1.4;
 }
 .escah-img-stack a + a { margin-top: 4px; }
-/* 多图标横向排列（与原站点一致） */
+/* 多图标排列（与原站点一致）
+   2026-11-25：容器是单元格内的一层 div（不再直接作用于 td，见 tableEnhancer）。
+   用**普通块级流 + inline-block 图标**而不是 flex：原站就是靠 `<br class="spacer">` 强制
+   分行、再由单元格宽度自然折行；flex 会把整格按「所有图标排一行」算最小宽度，
+   列被撑得很宽、横向滚动变多，排布也不像原站。 */
 .escah-img-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 6px;
-  line-height: 1.5;
+  display: block;
+  line-height: 0;
+}
+.escah-img-row a {
+  display: inline-block;
+  margin: 2px 3px;
+  line-height: 0;
+}
+/* 原站 <br class="spacer"> 的等价物：强制换行（保留原站的分行位置） */
+.escah-img-break {
+  display: block;
+  width: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
 }
 
 /* 超长文本列：换行并在内部滚动，避免单列过宽 / 整行被撑高 */

@@ -6,6 +6,7 @@ import CharHoverModal from './components/CharHoverModal.vue'
 import DocOutline from './components/DocOutline.vue'
 import MetaBar from './components/MetaBar.vue'
 import MobileToc from './components/MobileToc.vue'
+import RouteLoading from './components/RouteLoading.vue'
 import ScrollButtons from './components/ScrollButtons.vue'
 import SiteAccessSwitch from './components/SiteAccessSwitch.vue'
 // 搜索功能已禁用（性能开销）
@@ -14,6 +15,8 @@ import SiteAccessSwitch from './components/SiteAccessSwitch.vue'
 import { useI18n } from './i18n'
 import { uiPrefs, applyUiClasses } from './uiPrefs'
 import { initMobileUX, refreshMobileUX } from './mobileUX'
+import { initAnimMedia, refreshAnimMedia, playAnimImage } from './animMedia'
+import { initLangScroll, restoreLangScroll } from './langScroll'
 
 const { Layout } = DefaultTheme
 const { t } = useI18n()
@@ -23,7 +26,9 @@ const route = useRoute()
 // 图片灯箱（镜像内容图片点击放大）
 const lbSrc = ref('')
 function onDocClick(e: MouseEvent) {
-  const img = (e.target as HTMLElement).closest?.('.mirror-content img') as HTMLImageElement | null
+  // 表格「全屏」是把表格克隆到 body 下的 .escah-tbl-fs 里，不在 .mirror-content 内，
+  // 也要能点开动图/灯箱。
+  const img = (e.target as HTMLElement).closest?.('.mirror-content img, .escah-tbl-fs img') as HTMLImageElement | null
   if (!img) return
   // 角色头像由 MirrorContent 的点击固定逻辑接管（pin 浮窗），不能也触发灯箱放大，
   // 否则会同时弹出浮窗 + 放大头像 + 玻璃遮罩。头像 img 自身通常不带 data-char，
@@ -33,7 +38,13 @@ function onDocClick(e: MouseEvent) {
   // 点击是直接跳转角色页）：不能再叠一层灯箱放大，否则「跳页 + 图片遮罩」同时发生。
   // 只拦角色页链接，其它链接内的图片（如 raid/装备页横幅）维持原行为。
   if (img.closest('a[href*="characters/"]')) return
-  lbSrc.value = img.src
+  // 动图默认只显示首帧海报（省流量，见 animMedia.ts）：触屏设备上第一下点按 = 播放动画，
+  // 动图之后再点才进灯箱放大；鼠标设备进视口已自动播放，行为不变。
+  if (img.dataset.animSrc && img.dataset.animPlaying !== '1' && !img.closest('a')) {
+    if (playAnimImage(img)) return
+  }
+  // 灯箱放大用原图：动图取其原动图，srcset 图取 src（=原尺寸）
+  lbSrc.value = img.dataset.animSrc || img.src
 }
 
 // Shift + 滚轮：在横向可滚动容器（表格/全屏）内横向滚动
@@ -58,6 +69,12 @@ onMounted(() => {
   applyUiClasses()
   // 移动端增强：表格横滑提示 + 页内目录折叠（≤767px 才生效）
   initMobileUX()
+  // 动图海报优先：鼠标设备进视口自动播放，触屏点按才播
+  initAnimMedia()
+  // 语言切换后回到「同一处内容」（中/日页结构同源，按标题序号对齐，见 langScroll.ts）
+  initLangScroll()
+  // v-html 正文可能晚于 Layout 挂载落地，下一拍再扫一次
+  nextTick(() => refreshAnimMedia())
 })
 onUnmounted(() => {
   document.removeEventListener('click', onDocClick)
@@ -67,7 +84,13 @@ onUnmounted(() => {
 // 路由切换后重跑移动端增强（新页面的目录与表格需要重新判定）
 watch(
   () => route.path,
-  () => nextTick(() => refreshMobileUX()),
+  (path) =>
+    nextTick(() => {
+      refreshMobileUX()
+      refreshAnimMedia()
+      // 语言切换（同 slug 换 /zh ↔ /ja）后恢复阅读位置；普通跳转不受影响
+      restoreLangScroll(path)
+    }),
 )
 
 const homeHref = () => {
@@ -123,6 +146,8 @@ const homeHref = () => {
     </template>
   </Layout>
   <CharHoverModal />
+  <!-- 站内跳转的加载反馈：换页超过 350ms 才出现（顶部进度条 + 「正在加载页面…」） -->
+  <RouteLoading />
   <!-- 右下角悬浮控件栈：桌面端 .escah-dock 为 display:contents（子元素各自 fixed 定位，
        外观与改造前完全一致）；移动端才收成一个纵向悬浮栈（见 mobile.css）。 -->
   <div class="escah-dock">

@@ -13,11 +13,29 @@
 /* ========== 1. 顶栏 / 本地导航条 / 侧栏抽屉 ========== */
 @media (max-width: 959px) {
   :root {
-    /* 顶栏压矮：390×844 的屏上，64px 顶栏太奢侈 */
-    --vp-nav-height: 56px;
+    /* 安全区（2026-11-24）：config.ts 的 viewport 已带 viewport-fit=cover，
+       iPhone 刘海/底部横条才有真实值；非刘海机、桌面浏览器恒为 0 → 下面所有计算退化为原值。 */
+    --escah-safe-top: env(safe-area-inset-top, 0px);
+    --escah-safe-bottom: env(safe-area-inset-bottom, 0px);
+    /* 顶栏压矮：390×844 的屏上，64px 顶栏太奢侈。
+       刘海机上把安全区算进 --vp-nav-height，VitePress 用它算的内容顶部留白、
+       锚点偏移、抽屉内边距、粘性本地导航条的 top 全部自动跟着下移。 */
+    --vp-nav-height: calc(56px + var(--escah-safe-top));
     --vp-nav-logo-height: 32px;
     /* 本地导航条高度（锚点偏移计算用） */
     --escah-localnav-h: 44px;
+  }
+
+  /* 顶栏内容压在「安全区以下那 56px」里，刘海区域只露底色（背景色随 .VPNavBar 一起铺） */
+  .VPNavBar {
+    padding-top: var(--escah-safe-top);
+  }
+  /* ⚠️ 必须写成 .wrapper > .container：汉堡按钮内部也有个 <span class="container">
+     （宽 16 / 高 14，三条横线用 top:0/6/12 绝对定位）。选择器一旦匹配到它，
+     这个 span 会被撑成顶栏高度，三条线就贴在顶栏最上沿、被裁一刀，
+     视觉上像「菜单按钮和站名不在同一行」。 */
+  .VPNavBar .wrapper > .container {
+    height: calc(var(--vp-nav-height) - var(--escah-safe-top));
   }
 
   /* 锚点跳转留白：顶栏 + 本地导航条，否则标题会被两条 bar 盖住。
@@ -34,7 +52,7 @@
     text-overflow: ellipsis;
     max-width: 46vw;
   }
-  .VPNavBar .container {
+  .VPNavBar .wrapper > .container {
     padding-left: 14px;
     padding-right: 6px;
   }
@@ -69,13 +87,30 @@
     font-size: 15px;
     color: var(--escah-pink);
   }
+  /* 「返回顶部」：原本只有 48×24 的小字按钮，手指很难点中，撑到 44px 触摸高度 */
+  .VPLocalNavOutlineDropdown > button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 76px;
+    min-height: 44px;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--vp-c-text-2);
+  }
 
   /* 侧栏抽屉：占宽更大、触摸目标更高、顶部避开固定顶栏。
      ⚠️ VitePress 基础样式里有 max-width:320px，只写 width 没用（实测仍是 320）。 */
   .VPSidebar {
     width: min(87vw, 350px) !important;
     max-width: min(88vw, 360px) !important;
-    padding: calc(var(--vp-nav-height) + 14px) 14px 40px !important;
+    /* 底部补上安全区，最后一条目录不会被 Home 横条压住 */
+    padding: calc(var(--vp-nav-height) + 14px) 14px calc(40px + var(--escah-safe-bottom)) !important;
+  }
+  /* 全屏菜单 / 抽屉滚到底时也留出安全区 */
+  .VPNavScreen .container {
+    padding-bottom: calc(24px + var(--escah-safe-bottom));
   }
   .VPSidebar .nav {
     padding-bottom: 32px;
@@ -249,45 +284,62 @@
     max-height: none;
     overflow: visible;
   }
+  /* 冻结身份块（手机）：画像 70 + 名称 120（见 tableEnhancer 的 MOBILE_IDENT_COLS）。
+     名称列不再压成单行省略：角色名 5~8 字最多折两行，高度仍被 56px 头像吞掉、行高不涨，
+     名字能完整看到（相比之下「神骑艾克希…」被截断反而认不出是谁）。 */
+  .escah-tbl .table-scroll > table.escah-frozen-1 th:first-child,
+  .escah-tbl .table-scroll > table.escah-frozen-1 td:first-child,
+  .escah-tbl .table-scroll > table.escah-frozen-2 th:first-child,
+  .escah-tbl .table-scroll > table.escah-frozen-2 td:first-child {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  .escah-tbl .table-scroll > table.escah-frozen-2 td:nth-child(2) {
+    line-height: 1.3;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
   .escah-img-col {
     min-width: 64px;
   }
-  .escah-img-col img {
+  /* 头像缩略图 56px 只针对「角色一览」这类 escah-tbl-shrink 列表表。
+     角色详情页的「変身画像 / SD / 差分」单元格也被标成 escah-img-col，
+     一刀切会把立绘压成 56px（用户实测「立绘太小，观感很差」）。
+     立绘列反而要放宽单元格上限（58vw 会把它压到 ~226px）。 */
+  .escah-tbl .table-scroll > table.escah-tbl-shrink .escah-img-col img,
+  .escah-tbl-fs-scroll table.escah-tbl-shrink .escah-img-col img {
     max-width: 56px;
     height: auto;
   }
+  .escah-tbl .table-scroll > table td.escah-img-col,
+  .escah-tbl .table-scroll > table th.escah-img-col,
+  .escah-tbl-fs-scroll td.escah-img-col,
+  .escah-tbl-fs-scroll th.escah-img-col {
+    max-width: 88vw;
+  }
 
-  /* 工具栏：按钮拉通平分，方便拇指点 */
+  /* 工具栏：按钮按内容宽度排列 —— 「表格全屏」四个字原本被 flex:1 1 0 拉成半屏，
+     视觉上比表格本身还抢眼；现在只保留 38px 的拇指可点高度，宽度回到内容宽，
+     行数徽标跟按钮同一行（放不下才换行）。 */
   .escah-tbl-toolbar {
-    gap: 6px;
+    gap: 8px;
     margin-bottom: 6px;
   }
   .escah-tbl-btn {
-    flex: 1 1 0;
-    padding: 10px 8px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 14px;
     font-size: 13px;
     text-align: center;
   }
-  /* 行数徽标：按钮 flex:1 1 0（basis 0）占满整行，徽标无法与之同行 →
-     用 flex-basis:100% 独占一行，紧接在按钮下方、**靠左**（与桌面「紧跟按钮」一致）。
-     block + text-align:left 而不是 inline-flex：后者在 flex-basis:100% 下内容会溢出。 */
+  /* 行数徽标：恢复桌面样式（跟按钮同行的小胶囊），不再独占一行 */
   .escah-tbl-count {
-    flex: 0 0 100%;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0 2px;
-    text-align: left;
-    white-space: normal;
-    background: none;
-    border: none;
-    border-radius: 0;
-    color: var(--vp-c-text-2);
-  }
-  .escah-tbl-count.is-filtered {
-    background: none;
-    border: none;
+    flex: 0 0 auto;
+    min-height: 30px;
+    padding: 0 9px;
   }
   .escah-tbl-filter {
     width: 100%;
@@ -302,6 +354,10 @@
   }
   .escah-filter-btn {
     width: 100%;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 7px 6px;
     font-size: 12.5px;
   }
@@ -317,16 +373,31 @@
     max-width: 62vw;
     min-width: 108px;
   }
-  /* 日期列（年 / 月下拉）：窄屏竖向排列，避免两个下拉撑宽整列 */
+  /* 日期列（年 / 月下拉）：并排两枚紧凑下拉。
+     ⚠️ 2026-11-24：原来竖排 + 每个 40px 高，把「吸顶筛选行」撑到 88px；表头 57 + 筛选 88
+     一起占掉 145px（844 的 17%），滑动时像两条巨大的紫横条压住内容 —— 用户直接说「像页面故障」。
+     改成并排后筛选行只有 44px（由筛选按钮决定）。 */
   .escah-date-filter {
-    flex-direction: column;
-    gap: 3px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 2px;
   }
   .escah-date-sel {
-    width: 100%;
+    width: 50%;
     max-width: none;
-    font-size: 14px;
-    padding: 5px 2px;
+    min-width: 0;
+    min-height: 30px;
+    font-size: 11px;
+    padding: 2px 1px;
+  }
+  /* 移动端：筛选行不再吸顶。它和表头叠成「双表头」，滑动时压掉太多内容；
+     手机上只保留表头吸顶，筛选行随页面滚走（需要筛选就滚回表格顶部）。 */
+  .escah-tbl .table-scroll > table thead .escah-tbl-filter-row td,
+  .escah-tbl-fs-scroll thead .escah-tbl-filter-row td {
+    position: static !important;
+    top: auto !important;
+    z-index: 1 !important;
+    box-shadow: none !important;
   }
 
   /* 横向可滚动提示：由 mobileUX.ts 按实际溢出情况打 class，
@@ -387,10 +458,11 @@
     align-items: flex-end;
   }
   .escah-dock .escah-sb {
-    width: 38px;
-    height: 38px;
-    font-size: 15px;
-    border-radius: 11px;
+    /* 44px：iOS HIG / Material 的拇指最小触摸目标；原来的 38px 实测容易点空 */
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+    border-radius: 12px;
     opacity: 0.9;
   }
   .escah-dock .escah-sb:active {
@@ -567,20 +639,41 @@
     border: none !important;
     animation: none;
   }
+  /* 头部：手机上标题占第一行、三个操作平分第二行。
+     （旧版只说“缩小字号”，三个按钮挤在一行 → 中文按钮被压成一字一竖排，
+       实测头部被撑到 200px 高，头像旁的标题也被挤成两行。） */
   .char-modal-header {
+    flex-wrap: wrap;
+    gap: 8px 10px;
     padding: 10px 12px;
-    gap: 8px;
+  }
+  .char-modal-header .spacer {
+    display: none;
   }
   .char-modal-header .title {
+    flex: 1 1 auto;
+    min-width: 0;
     font-size: 15px;
+    line-height: 1.3;
   }
   .char-modal-header .hint {
     display: none;
   }
-  .char-modal-header button,
-  .char-modal-header a.fullpage {
-    padding: 8px 12px;
-    font-size: 13px;
+  .char-modal-actions {
+    width: 100%;
+    gap: 8px;
+  }
+  .char-modal-actions > * {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 8px 6px;
+    font-size: 12.5px;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-align: center;
   }
   .char-modal-body {
     padding: 12px;
@@ -647,7 +740,9 @@
     padding: 9px 12px;
   }
   .vp-doc {
-    padding-bottom: 64px;
+    /* 右下角悬浮栈（44px × 3 + 间距 ≈ 150px，只占右边缘）会压住最后一行内容的右侧；
+       留足底部空白，避免用户在末尾点不到链接/按钮。 */
+    padding-bottom: calc(88px + var(--escah-safe-bottom, 0px));
   }
 }
 
@@ -675,8 +770,44 @@
     grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
     gap: 8px;
   }
+  /* 小屏上 44px 会吃掉太多右边缘，收到 40（仍高于旧版 36） */
   .escah-dock .escah-sb {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
+}
+
+/* ========== 11. 触控细节 / 滚动边界 / 全屏 sheet 锁滚动（2026-11-24） ========== */
+@media (max-width: 959px) {
+  /* 点击高亮：浏览器默认是刺眼的蓝灰矩形，换成品牌淡粉（该属性会向下继承） */
+  :root {
+    -webkit-tap-highlight-color: rgba(233, 30, 99, 0.16);
+  }
+  /* touch-action: manipulation 去掉双击缩放判定，按钮按下即时响应（正文链接 custom.css 已设置） */
+  button,
+  [role='button'],
+  .escah-sb,
+  .escah-tbl-btn,
+  .escah-filter-btn,
+  .escah-col-filter,
+  .char-card,
+  .category-card {
+    touch-action: manipulation;
+  }
+  /* 内部可滚动区滚到边界时不要“传染”给整页（iOS 上表现为背景跟着串动）。
+     ⚠️ 表格的 .table-scroll **不能**加：它是 overflow-y:hidden 的横向滚动盒，
+     加了 contain 之后竖滑手势会被它吃掉且不向上链，表现为「有表格的页面完全滑不动」
+     （390×844 实测：手指落在表格上拖动，scrollY 一直是 0）。 */
+  .escah-tbl-fs-scroll,
+  .char-modal-body,
+  .VPSidebar,
+  .VPNavScreen {
+    overscroll-behavior: contain;
+  }
+}
+
+/* 角色全屏 sheet 打开时锁住整页滚动（class 由 CharHoverModal 打/摘） */
+html.escah-sheet-open,
+html.escah-sheet-open body {
+  overflow: hidden;
 }

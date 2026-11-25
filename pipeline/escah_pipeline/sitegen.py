@@ -239,6 +239,56 @@ _EDIT_STAMP_RE = re.compile(
 )
 
 
+# ---------------------------------------------------------------- 安全兜底 ----
+# 正文来自可公开编辑的第三方 WIKI（PukiWiki），最终以 v-html 注入并由 SSR 写进
+# 静态 HTML —— SSR 产物里的 <script> 是**会执行**的（不同于 innerHTML 插入）。
+# 因此落 frag 前统一剥掉一切可执行/可改基址/可外联的标签与协议，不依赖上游干净。
+_DANGEROUS_TAGS = {"script", "iframe", "object", "embed", "base", "meta", "link", "noscript"}
+_DANGEROUS_ATTRS = {"srcdoc", "http-equiv", "formaction", "action"}
+_URL_ATTRS = {"href", "src", "xlink:href", "data", "poster", "background"}
+_DANGEROUS_SCHEME_RE = re.compile(
+    r"^\s*(?:(?:javascript|vbscript)\s*:|data\s*:\s*text/html)", re.I
+)
+_DANGEROUS_HINT_RE = re.compile(
+    r"<\s*(?:script|iframe|object|embed|base|meta|link)\b|javascript\s*:|vbscript\s*:"
+    r"|data\s*:\s*text/html|srcdoc\s*=",
+    re.I,
+)
+
+
+def _strip_dangerous_html(html: str) -> str:
+    """剥离可执行/可外联的 HTML 构造，供所有 frag（含 i18n 页）落盘前兜底。
+
+    幂等；只在命中可疑构造时才解析（绝大多数页面直接原样返回，无额外开销）。
+    保留 <svg>/<style>（当前两者都用于纯呈现），只处理：
+      · 标签：script / iframe / object / embed / base / meta / link / noscript
+      · 属性：srcdoc / http-equiv / formaction / action（target 由 noopener 关掉）
+      · 协议：href/src 等以 javascript: / vbscript: / data:text/html 开头
+    """
+    if not html or not _DANGEROUS_HINT_RE.search(html):
+        return html
+    try:
+        frag = lxml_html.fragment_fromstring(html, create_parent="div")
+    except Exception:
+        return html
+    for el in list(frag.iter()):
+        if not isinstance(el.tag, str):
+            continue
+        if el.tag.lower() in _DANGEROUS_TAGS:
+            el.drop_tree()
+            continue
+        for name in list(el.attrib):
+            low = name.lower()
+            if low in _DANGEROUS_ATTRS:
+                del el.attrib[name]
+            elif low in _URL_ATTRS and _DANGEROUS_SCHEME_RE.match(el.attrib[name] or ""):
+                del el.attrib[name]
+    out = lxml_html.tostring(frag, method="html", encoding="unicode")
+    if out.startswith("<div>") and out.rstrip().endswith("</div>"):
+        out = out[len("<div>"):-len("</div>")]
+    return out
+
+
 def _strip_edit_stamps(frag) -> None:
     """删除 PukiWiki 行署名编辑戳（--[编辑者]YYYY-MM-DD(周X)HH:MM:SS）。
 
@@ -378,11 +428,64 @@ def _read_fragment(slug: str, locale: str, name: str) -> tuple[str, bool, bool]:
     if locale == "zh":
         zh_path = config.DATA_DIR / "parsed" / "zh" / f"{slug}.html"
         if zh_path.exists():
-            return zh_path.read_text(encoding="utf-8"), True, False
+            html = zh_path.read_text(encoding="utf-8")
+            # 角色详情页：本名 / CV / 插画 三类字段按项目要求保留日文原名，
+            # 这里在生成站点前按同页 ja html 把取值格换回原文（页面正文与角色浮窗同口径）。
+            if slug.startswith("characters/"):
+                ja_path = config.PARSED_JA_DIR / f"{slug}.html"
+                if ja_path.exists():
+                    html = _retain_ja_char_rows(html, ja_path.read_text(encoding="utf-8"))
+            return html, True, False
     ja_path = config.PARSED_JA_DIR / f"{slug}.html"
     if ja_path.exists():
         return ja_path.read_text(encoding="utf-8"), locale == "ja", False
     return "", False, False
+
+
+# 角色页表头：这些字段的值是固有名词（人名/画师名/声优名），保留日文原名不译
+_RETAIN_JA_CHAR_LABELS = ("本名", "CV", "イラスト", "イラストレーター", "声優", "原画", "插画")
+_TR_RE = re.compile(r"<tr[^>]*>.*?</tr>", re.S)
+_CELL_RE = re.compile(r"<t[hd][^>]*>.*?</t[hd]>", re.S)
+_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def _retain_ja_char_rows(zh_html: str, ja_html: str) -> str:
+    """把角色页「本名 / CV / 插画」行的取值单元格换回日文原文（标签格保持中文）。
+
+    逐行对照：zh 片段与 ja 片段行数一致时，按标签行定位并把第 2 格起的单元格
+    整段替换为 ja 对应格。行数/格数不一致的行直接跳过，不影响其它内容。
+    """
+    zrows = list(_TR_RE.finditer(zh_html))
+    jrows = list(_TR_RE.finditer(ja_html))
+    if not zrows or len(zrows) != len(jrows):
+        return zh_html
+    edits: list[tuple[str, str]] = []
+    for zrow_m, jrow_m in zip(zrows, jrows):
+        zrow = zrow_m.group(0)
+        zcells = _CELL_RE.findall(zrow)
+        jcells = _CELL_RE.findall(jrow_m.group(0))
+        if len(zcells) != len(jcells) or len(zcells) < 2:
+            continue
+        if _TAG_RE.sub("", zcells[0]).replace("&nbsp;", " ").strip() not in _RETAIN_JA_CHAR_LABELS:
+            continue
+        if zcells[1:] == jcells[1:]:
+            continue
+        out, pos, k = [], 0, 0
+        for m in _CELL_RE.finditer(zrow):
+            out.append(zrow[pos:m.start()])
+            out.append(jcells[k] if k >= 1 and jcells[k] != m.group(0) else m.group(0))
+            pos = m.end()
+            k += 1
+        out.append(zrow[pos:])
+        new_row = "".join(out)
+        if new_row != zrow:
+            edits.append((zrow, new_row))
+    if not edits:
+        return zh_html
+    out_html = zh_html
+    for old, new in edits:
+        out_html = out_html.replace(old, new, 1)
+    return out_html
 
 
 # ---- 站点词汇表（日→中）：仅作用于 zh 站点；角色名按约定保留日文 ----
@@ -412,11 +515,39 @@ def _load_glossary() -> dict:
     return data
 
 
+_PAGE_TITLES_EXTRA: dict | None = None
+
+
+def _page_titles_extra() -> dict:
+    """补充页名表（glossary/page_titles_missing.yaml）：只补 terms.yaml 未覆盖的页名。"""
+    global _PAGE_TITLES_EXTRA
+    if _PAGE_TITLES_EXTRA is not None:
+        return _PAGE_TITLES_EXTRA
+    data: dict = {}
+    path = config.GLOSSARY_FILE.parent / "page_titles_missing.yaml"
+    if path.exists():
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except Exception as exc:  # noqa: BLE001
+            log.warning("补充页名表读取失败：%s", exc)
+            data = {}
+    _PAGE_TITLES_EXTRA = data
+    return data
+
+
 def _page_title_ja2zh(name: str, locale: str) -> str:
     """zh 站点把 WIKI 日文页名翻译成中文；ja 或词表缺条目则保留日文原文。"""
     if locale != "zh":
         return name
-    return _load_glossary().get("page_titles", {}).get(name, name)
+    title = _load_glossary().get("page_titles", {}).get(name)
+    if not title:
+        title = _page_titles_extra().get(name)
+    if title:
+        return title
+    # 主线任务页：WIKI 用「メインクエスト/…」，中文统一为「主线任务/…」
+    if name.startswith("メインクエスト/"):
+        return "主线任务/" + name[len("メインクエスト/"):]
+    return name
 
 
 def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, source_updated: str, synced: str, reviewed: bool, translated: bool, locale: str, pre_sanitized: bool = False, no_prevnext: bool = False) -> None:
@@ -443,6 +574,10 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
     # src="data:image/gif;base64,…">` 在旧产物里 src 仍是占位符 → 浏览器什么都不显示。
     # 这里在落 frag 前统一改写成 /img/<hash>.webp（幂等），历史 i18n 模板无需重跑 parse。
     sanitized = rewrite_lazy_images_html(sanitized)
+    # 安全兜底（2026-11-26）：正文源自可公开编辑的第三方 WIKI，落 frag 前统一剥离
+    # 可执行标签/协议。i18n 页（pre_sanitized）也要过一遍——它们在 i18n build 时
+    # 只经 _sanitize_html（仅剥 on*），这里补白名单。幂等，干净页面无额外开销。
+    sanitized = _strip_dangerous_html(sanitized)
     frag_file.write_text(
         json.dumps({"html": sanitized}, ensure_ascii=False),
         encoding="utf-8",
@@ -549,6 +684,9 @@ def sync_site() -> None:
                 fragment, translated, reviewed = _read_fragment(slug, locale, name)
             if not fragment:
                 continue
+            # 角色详情页：本名 / CV / 插画 三类字段保留日文原名（页面正文与浮窗同口径）
+            if locale == "zh" and slug.startswith("characters/") and ja_fragment:
+                fragment = _retain_ja_char_rows(fragment, ja_fragment)
             # 术语/俗语类页面：zh 标题补原日文（ja 片段配对，已含则跳过）
             if locale == "zh" and ja_fragment and "list1 list-indent1" in fragment:
                 fragment = _augment_term_originals(fragment, ja_fragment)
@@ -647,6 +785,16 @@ def sync_site() -> None:
             shutil.copy2(f, img_out / f.name)
             src_names.add(f.name)
             img_count += 1
+    # img_opt（派生变体：*.poster.webp 等）也必须一并部署 —— 正文/角色页里
+    # <video poster="/escah/img/<stem>.<sha>.poster.webp"> 直接引用这些派生文件名，
+    # 而它们不在 ASSETS_IMG_DIR 里，只拷主目录会让 352 张视频封面 404。
+    opt_dir = config.DATA_DIR / "assets" / "img_opt"
+    if opt_dir.is_dir():
+        for f in opt_dir.iterdir():
+            if f.is_file():
+                shutil.copy2(f, img_out / f.name)
+                src_names.add(f.name)
+                img_count += 1
     # 陈旧文件**移走而不是删除**：本机 IDE 注入的 safe-delete 守卫会拦「一次删除 >500 个
     # 文件」（连 Python 的 unlink 也在拦截范围内，实测 sync-site 会直接抛
     # SAFE_DELETE_BULK_CONFIRM_REQUIRED 中断），而 rename/move 不受限制。

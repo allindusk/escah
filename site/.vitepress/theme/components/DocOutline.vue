@@ -4,6 +4,7 @@
 // 多级嵌套成树，并复用 MirrorContent 的平滑滚动逻辑。
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { useRoute } from 'vitepress'
+import { scrollToAnchor } from '../anchorNav'
 
 interface HNode {
   id: string
@@ -191,14 +192,9 @@ function onClick(e: MouseEvent) {
   if (!href.startsWith('#')) return
   e.preventDefault()
   const id = href.slice(1)
-  const target = document.getElementById(id)
-  if (!target) {
-    history.replaceState(null, '', '#' + id)
-    return
-  }
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  history.replaceState(null, '', '#' + id)
-  activeId.value = id
+  // 2026-11-25：目录项可能指向折叠 region 内的标题（目标高度为 0），
+  // 交给 anchorNav 先展开折叠块再滚动，否则点了看起来没反应。
+  if (scrollToAnchor(id)) activeId.value = id
 }
 
 onMounted(() => {

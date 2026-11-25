@@ -35,6 +35,10 @@ data/parsed/*
 !data/parsed/i18n/
 site/public/
 site/**/*.md
+# 图片瘦身变体（动图首帧海报 + 静态 480w/1200w）由 tools/gen_img_variants.py
+# 从 data/assets/img 确定性生成，可随时重建，不入库；构建时拷进 dist/img-opt。
+data/assets/img_opt/
+site/.vitepress/img-variants.json
 recycle_bin/
 .vscode/
 
@@ -113,6 +117,11 @@ tools/_*.py
 # local_sync / i18n build 每次运行都重写的本地报告（真值在 data/parsed/i18n/，报告本身不入库）
 data/upstream/build_report.json
 data/upstream/local_sync.json
+# local-sync 清单合并时写的本机报告（含本机绝对路径，每次同步重写）
+data/manifest_merge_note.json
+
+# 本机临时垃圾收容目录（诊断截图/中间稿，随时可整目录删除）
+_TRASH/
 
 # ---- 2026-10-20 第二轮清理补齐 ----
 # 页面精校的逐页中间稿（如 _equip__equip-001.txt），真值已并入 i18n
@@ -123,3 +132,4 @@ data/parsed/i18n/*.pre_polish.json
 tools/_*.pkl
 # tools/sop 下的一次性调查/清理脚本（可复用的都已按名字入库：r18_*.py / set_zh.py / block_sync.py / coverage.py）
 tools/sop/_*
+site/.vitepress/frag_bak*

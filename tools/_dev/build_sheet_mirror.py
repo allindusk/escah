@@ -87,16 +87,41 @@ def verify() -> int:
             continue
         for (name, frag), sec in zip(src, secs):
             a = LH.fragment_fromstring(frag, create_parent="div").xpath("//td|//th")
-            b = sec.xpath(".//td|.//th")
-            fa = [(c.tag, c.get("colspan"), c.get("rowspan"), c.get("style")) for c in a]
-            fb = [(c.tag, c.get("colspan"), c.get("rowspan"), c.get("style")) for c in b]
-            if fa == fb:
+            # 2026-11-26：大包按工作表拆分子页（主文档只内联首表，其余是
+            # `<section data-src="_sheet/<key>/NN.html">`）⇒ 校验时要读子文件 ✓。
+            sub = sec.get("data-src")
+            if sub:
+                subp = page_dir / sub
+                if not subp.exists():
+                    n_bad += 1
+                    print(f"   ✗ [{key}] {name} 子页缺失：{sub}")
+                    continue
+                b = LH.document_fromstring(
+                    subp.read_text(encoding="utf-8", errors="replace")
+                ).xpath("//td|//th")
+            else:
+                b = sec.xpath(".//td|.//th")
+            # style 判据（2026-11-26 修正）：`_mirror_sheets` 会给无底色的格补
+            # `background-color:#ffffff;`（sticky 冻结格必须不透明），所以页面 style 是
+            # 源 style 的**超集** ✓；旧判据要求完全相等 ⇒ 每格都报差异 ✗（与拆分无关）。
+            def decls(s):
+                return {x.strip().lower() for x in (s or "").split(";") if x.strip()}
+
+            ok = len(a) == len(b)
+            n_bad_cells = 0
+            if ok:
+                for c1, c2 in zip(a, b):
+                    if (c1.tag, c1.get("colspan"), c1.get("rowspan")) != (
+                        c2.tag, c2.get("colspan"), c2.get("rowspan")
+                    ) or not decls(c1.get("style")) <= decls(c2.get("style")):
+                        ok = False
+                        n_bad_cells += 1
+            if ok:
                 n_ok += 1
             else:
                 n_bad += 1
                 print(f"   ✗ [{key}] {name} 结构对不上"
-                      f"（单元格 {len(a)} vs {len(b)} ✓ 指纹差异 "
-                      f"{sum(1 for x, y in zip(fa, fb) if x != y)} 处）")
+                      f"（单元格 {len(a)} vs {len(b)} ✓ 指纹差异 {n_bad_cells} 处）")
         print(f"{key:<16} 结构一致 {n_ok} / 不一致 {n_bad}")
         bad += n_bad
     print("✓ 结构与原始导出逐格一致（仅文字已译）" if bad == 0 else f"✗ 有 {bad} 个工作表对不上")
