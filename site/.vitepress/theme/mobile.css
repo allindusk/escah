@@ -13,31 +13,50 @@
 /* ========== 1. 顶栏 / 本地导航条 / 侧栏抽屉 ========== */
 @media (max-width: 959px) {
   :root {
-    /* 安全区（2026-11-24）：config.ts 的 viewport 已带 viewport-fit=cover，
-       iPhone 刘海/底部横条才有真实值；非刘海机、桌面浏览器恒为 0 → 下面所有计算退化为原值。 */
-    --escah-safe-top: env(safe-area-inset-top, 0px);
-    --escah-safe-bottom: env(safe-area-inset-bottom, 0px);
-    /* 顶栏压矮：390×844 的屏上，64px 顶栏太奢侈。
-       刘海机上把安全区算进 --vp-nav-height，VitePress 用它算的内容顶部留白、
-       锚点偏移、抽屉内边距、粘性本地导航条的 top 全部自动跟着下移。 */
-    --vp-nav-height: calc(56px + var(--escah-safe-top));
+    /* 安全区：这里**先写死 0**，只在支持 env() 的内核里才叠加真实值。
+       2026-11-26 修复：原来直接把 `env(...)` 塞进自定义属性、再用嵌套 calc
+       （--vp-nav-height: calc(56px + var(--escah-safe-top))），部分手机内置浏览器
+       （实测手机 QQ：X5 内核）解析这种链式 calc 会整体失效 —— 于是
+       --vp-nav-height 变成无效值，顶栏容器 height / 内容 padding 全部丢失，
+       高度被内容撑到 2~3 倍、logo 也退回原图尺寸溢出顶栏。 */
+    --escah-safe-top: 0px;
+    --escah-safe-bottom: 0px;
+    /* 顶栏压矮：390×844 的屏上，64px 顶栏太奢侈 */
+    --vp-nav-height: 56px;
     --vp-nav-logo-height: 32px;
     /* 本地导航条高度（锚点偏移计算用）。
        2026-11-26：移动端整条 VPLocalNav 已隐藏（「全站页面」改挂左下角悬浮按钮、
        「返回顶部」移到底部上一页/下一页同一行），所以这里归零 —— 锚点偏移只剩顶栏。 */
     --escah-localnav-h: 0px;
   }
+  /* 只有真正支持安全区的内核才把 env() 叠上去；不支持时上面的硬值继续生效 */
+  @supports (padding-top: env(safe-area-inset-top)) {
+    :root {
+      --escah-safe-top: env(safe-area-inset-top, 0px);
+      --escah-safe-bottom: env(safe-area-inset-bottom, 0px);
+      --vp-nav-height: calc(56px + env(safe-area-inset-top, 0px));
+    }
+  }
 
   /* 顶栏内容压在「安全区以下那 56px」里，刘海区域只露底色（背景色随 .VPNavBar 一起铺） */
   .VPNavBar {
-    padding-top: var(--escah-safe-top);
+    padding-top: var(--escah-safe-top, 0px);
   }
   /* ⚠️ 必须写成 .wrapper > .container：汉堡按钮内部也有个 <span class="container">
      （宽 16 / 高 14，三条横线用 top:0/6/12 绝对定位）。选择器一旦匹配到它，
      这个 span 会被撑成顶栏高度，三条线就贴在顶栏最上沿、被裁一刀，
      视觉上像「菜单按钮和站名不在同一行」。 */
   .VPNavBar .wrapper > .container {
-    height: calc(var(--vp-nav-height) - var(--escah-safe-top));
+    /* 双声明兜底：calc 生效时用后面那条，失效时保留 56px，绝不塌陷/暴涨 */
+    height: 56px !important;
+    height: calc(var(--vp-nav-height) - var(--escah-safe-top, 0px)) !important;
+    min-height: 56px;
+  }
+  /* logo 尺寸兜底：--vp-nav-logo-height 万一失效，不能让 <img> 退回原图尺寸 */
+  .VPNavBarTitle .logo,
+  .VPNavBar .logo {
+    width: 32px !important;
+    height: 32px !important;
   }
 
   /* 锚点跳转留白：顶栏 + 本地导航条，否则标题会被两条 bar 盖住。
@@ -562,7 +581,7 @@
     z-index: 60;
   }
   .escah-dock .escah-mtoc-btn {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
   }
   .escah-dock .escah-scroll-btns {
     position: static;
@@ -571,12 +590,14 @@
     gap: 6px;
     align-items: flex-end;
   }
-  .escah-dock .escah-sb {
-    /* 44px：iOS HIG / Material 的拇指最小触摸目标；原来的 38px 实测容易点空 */
-    width: 44px;
-    height: 44px;
+  /* 44×44 与「目录」按钮严格同尺寸、同圆角（ScrollButtons 组件 scoped 里是 42px，
+     特异性相同、后加载会把这里的 44 盖掉 → 实测两个按钮差 2px、右对齐后左缘错位，
+     所以必须 !important 压住）。 */
+  .escah-dock .escah-scroll-btns .escah-sb {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
     font-size: 16px;
-    border-radius: 12px;
     opacity: 0.9;
   }
   /* 悬浮栈只留「目录 + 返回顶部」（2026-11-26 用户要求）：
@@ -645,7 +666,7 @@
     gap: 4px;
   }
   .escah-dock .escah-mtoc-btn {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
   }
   .escah-mtoc-ico {
     font-size: 12px;
@@ -914,8 +935,8 @@
      左下「全站页面」同步收到 40，才能和右下「目录」左右对称。 */
   .escah-dock .escah-sb,
   .escah-sitemenu-btn {
-    width: 40px;
-    height: 40px;
+    width: 40px !important;
+    height: 40px !important;
   }
 }
 
