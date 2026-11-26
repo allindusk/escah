@@ -29,11 +29,18 @@ const loading = ref(false)
 const loadError = ref(false)
 const cache = new Map<string, CharData>()
 
-// 中文站标题：中文名（日文名）
-const displayName = computed(() => {
+// 中文站标题：桌面端显示「中文名（日文名）」，手机端折成两行（译名 / 本名）。
+// 2026-11-26：原先把两者拼成一个字符串，窄屏放不下就整体折行，长名字会占三行、
+// 把头部撑高；现在拆成两个 span，由 CSS 决定「同一行带括号」还是「上下两行」。
+const nameZh = computed(() => {
   const d = data.value
-  if (isZh() && d && d.name_zh) return `${d.name_zh}（${store.name}）`
+  if (isZh() && d && d.name_zh) return d.name_zh
   return store.name
+})
+const nameJa = computed(() => {
+  const d = data.value
+  if (!isZh() || !d || !d.name_zh) return ''
+  return d.name_zh === store.name ? '' : store.name
 })
 
 // 拖动状态
@@ -446,7 +453,7 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
         <div class="char-modal" :style="modalStyle" @mouseenter="onModalEnter" @mouseleave="onModalLeave">
           <div class="char-modal-header" :style="{ cursor: store.pinned ? 'move' : 'default' }" @mousedown="startDrag">
             <img v-if="avatarSrc" class="char-avatar" :src="avatarSrc" :alt="store.name" loading="lazy" />
-            <span class="title">{{ displayName }}</span>
+            <span class="title"><span class="name-zh">{{ nameZh }}</span><span v-if="nameJa" class="name-ja">{{ nameJa }}</span></span>
             <span v-if="data?.rarity" class="rarity-badge" :class="data.rarity">{{ data.rarity }}</span>
             <span class="spacer"></span>
             <span v-if="store.pinned" class="hint">{{ t('modal.dragHint') }}</span>
@@ -490,7 +497,7 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
         <div class="char-hover" ref="hoverEl" :style="hoverStyle" @mouseenter="onModalEnter" @mouseleave="onModalLeave">
           <div class="char-hover-header">
             <img v-if="avatarSrc" class="char-avatar" :src="avatarSrc" :alt="store.name" loading="lazy" />
-            <span class="title">{{ displayName }}</span>
+            <span class="title"><span class="name-zh">{{ nameZh }}</span><span v-if="nameJa" class="name-ja">{{ nameJa }}</span></span>
             <span v-if="data?.rarity" class="rarity-badge" :class="data.rarity">{{ data.rarity }}</span>
           </div>
           <div class="char-hover-body">
@@ -579,6 +586,11 @@ const avatarSrc = computed(() => (data.value?.icon ? withBase(`/${data.value.ico
   border: 1px solid var(--vp-c-divider, #e2e2e3);
 }
 .char-hover-header .title { font-weight: 600; font-size: 14px; }
+/* 桌面端：译名＋本名排在同一行，用括号包住本名（与旧版「中文名（日文名）」观感一致） */
+.char-modal-header .title .name-ja::before,
+.char-hover-header .title .name-ja::before { content: '（'; }
+.char-modal-header .title .name-ja::after,
+.char-hover-header .title .name-ja::after { content: '）'; }
 .char-hover-body {
   display: grid;
   grid-template-columns: 1fr 1fr;

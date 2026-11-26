@@ -1760,23 +1760,28 @@ _EMBED_CLASS = "escah-embed-tbl"
 
 
 def _excise_embedded_tables(frag, slug: str) -> int:
-    """聚合页（キャラクター一覧）的同源表格整块挖掉，留 `<div data-embed>` 占位。
+    """同源表格整块挖掉，留 `<div data-embed>` 占位（译文只留 provider 一份）。
 
     为什么（2026-11-13 用户反馈「改一处另一处没改」）：
       原站 `#table(テーブル/SSR)` 让 SSR 页与 キャラクター一覧 页显示同一张表，
       数据只有一份。镜像站此前各存一份 HTML + 一份译文 → 两边会漂移。
-      这里让聚合页**不持有**表格内容：build 时挖空，渲染时由 `table_sync.inject_embeds`
-      把 provider 页（list-ssr / list-sr / list-r / list-npc）渲染出的同一张表塞回来，
-      于是数据与译文都只有子页那一份。
+      这里让**非权威宿主页**不持有表格内容：build 时挖空，渲染时由
+      `table_sync.inject_embeds` 把 provider 页渲染出的同一张表塞回来，
+      于是数据与译文都只有 provider 那一份。
+
+    2026-11-26 扩展：判据从「characters 聚合页白名单」放宽为「所有同源组里的
+      非 provider 成员页」，于是 raid / raid-buff-debuff 的 3 张 3 宿主表也纳入去重。
+      ⚠️ 逐表判：一页里还可能有「单宿主来源页」的专属表（raid-buff-debuff 有 10 张）
+      —— 它们没有别的宿主能供给，挖掉就没人补，必须原样保留（见 `should_embed`）。
     """
     from . import table_sync
 
-    if slug not in table_sync.AGGREGATORS:
+    if slug not in table_sync.embed_targets():
         return 0
     n = 0
     for t in frag.xpath(f".//table[@{_TBL_ID_ATTR}]"):
         tid = t.get(_TBL_ID_ATTR)
-        if not tid:
+        if not tid or not table_sync.should_embed(slug, tid):
             continue
         div = t.makeelement("div", {"class": _EMBED_CLASS, "data-embed": tid})
         div.tail = t.tail

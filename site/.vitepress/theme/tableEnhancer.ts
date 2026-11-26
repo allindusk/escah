@@ -850,7 +850,10 @@ function mkBtn(label: string, title: string, onClick: (e: MouseEvent) => void): 
 // 列宽按数据最长字符为准的页面（角色一览类，属性多为短数字、表头反而更长）
 // 用「前缀匹配」而非精确集合：relativePath 解析出的 slug 可能因目录式路由/
 // 大小写等偏差（如 characters/index、Characters）而漏匹配，之前因此 shrink 完全没触发。
-const SHRINK_PREFIXES = ['characters', 'list-ssr', 'list-sr', 'list-r', 'list-npc']
+// 2026-11-26 补：`list-supporter`（支援者一览）原本漏登记 —— 该页同样是角色头像列表，
+// 不 shrink 时手机端头像仍按 80px 原尺寸渲染（用户反馈「支援者页头像很大、NPC 页正常」，
+// 因为 mobile.css 的 56px 缩略图规则只作用于 table.escah-tbl-shrink）。
+const SHRINK_PREFIXES = ['characters', 'list-ssr', 'list-sr', 'list-r', 'list-npc', 'list-supporter']
 function shouldShrink(pageSlug?: string): boolean {
   if (!pageSlug) return false
   const slug = pageSlug.toLowerCase()

@@ -11,7 +11,7 @@ import os
 import posixpath
 import re
 import shutil
-from urllib.parse import urljoin, unquote
+from urllib.parse import quote, unquote, unquote_plus, urljoin
 import yaml
 
 from bs4 import BeautifulSoup
@@ -414,6 +414,133 @@ def _localize_routes(html: str, from_slug: str) -> str:
     return re.sub(r'href="__ROUTE__/([^"#]+?)(\.html)(#[^"]*)?"', repl, html)
 
 
+# ------------------------------------------------- 上游表页外链 → 站内小节 ----
+# 背景（2026-11-26，用户实测 limit-break）：正文把上游「テーブル/レイドおすすめ
+# ヒーラー」这类表格页写成外链，可同样的表格本站早已镜像（raid-recommended 的
+# 「おすすめヒーラー」小节），读者却被送出去、脱离中文语境。
+# 这里按 glossary/link_aliases.yaml 的映射，在渲染落 frag 前把 href 改成站内
+# 锚点（目标页 slug + 小节标题反查出的 id）。映射缺失、或目标页标题改名
+# 导致查不到 id 时，一律保留原外链 —— 宁可跳上游，也不生成死锚点。
+_LINK_ALIAS_FILE = config.ROOT / "glossary" / "link_aliases.yaml"
+_LINK_ALIASES: "dict[str, dict] | None" = None
+_HEADING_MAP_CACHE: "dict[str, dict[str, str]]" = {}
+_HEADING_RE = re.compile(r"<h([1-6])\b([^>]*)>(.*?)</h\1>", re.S)
+_HEADING_ID_RE = re.compile(r'\bid="([^"]+)"')
+_ALIAS_A_RE = re.compile(
+    r'<a\b[^>]*\bhref="(https://escalationheroines\.wikiru\.jp/\?[^"]*)"[^>]*>', re.I
+)
+
+
+def _plain_heading(text: str) -> str:
+    return re.sub(r"\s+", "", re.sub(r"<[^>]+>", "", text)).replace("†", "")
+
+
+def _load_link_aliases() -> "dict[str, dict]":
+    global _LINK_ALIASES
+    if _LINK_ALIASES is not None:
+        return _LINK_ALIASES
+    _LINK_ALIASES = {}
+    if not _LINK_ALIAS_FILE.exists():
+        return _LINK_ALIASES
+    try:
+        raw = yaml.safe_load(_LINK_ALIAS_FILE.read_text(encoding="utf-8")) or {}
+    except Exception as e:  # noqa: BLE001 - 配置坏了不应阻塞出站
+        log.warning("[表页别名] glossary/link_aliases.yaml 读取失败：%s", e)
+        return _LINK_ALIASES
+    for item in raw.get("aliases") or []:
+        page = (item.get("page") or "").strip()
+        slug = (item.get("slug") or "").strip()
+        if not page or not slug:
+            continue
+        _LINK_ALIASES[page] = {"slug": slug, "heading": (item.get("heading") or "").strip()}
+    return _LINK_ALIASES
+
+
+def _heading_ids(slug: str) -> "dict[str, str]":
+    """目标页「去标签标题文本 → id」；id 由解析期生成，渲染后原样保留。"""
+    if slug in _HEADING_MAP_CACHE:
+        return _HEADING_MAP_CACHE[slug]
+    out: "dict[str, str]" = {}
+    path = config.PARSED_JA_DIR / f"{slug}.html"
+    if path.exists():
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for m in _HEADING_RE.finditer(text):
+            hid = _HEADING_ID_RE.search(m.group(2) or "")
+            if hid:
+                key = _plain_heading(m.group(3))
+                if key and key not in out:
+                    out[key] = hid.group(1)
+    _HEADING_MAP_CACHE[slug] = out
+    return out
+
+
+def _auto_link_targets() -> "dict[str, list[tuple[str, str]]]":
+    """{来源页名: [(宿主页 slug, 锚点 id), …]}（table_sync 现算 + 进程内缓存）。"""
+    from . import table_sync
+
+    try:
+        return table_sync.link_targets()
+    except Exception as e:  # noqa: BLE001 自动映射坏了不该阻塞出站
+        log.warning("[表页链接] 自动落点计算失败：%s", e)
+        return {}
+
+
+def _rewrite_alias_links(html: str, locale: str, from_slug: str = "") -> str:
+    """把指向原站「テーブル/…」等来源页的外链改成本站对应页面的锚点。
+
+    两类落点：
+      ① 手写 `glossary/link_aliases.yaml`（可指定任意目标页/小节，优先）；
+      ② 自动 `table_sync.link_targets()`：表已镜像进某个宿主页 → 该表所在小节。
+         **本页优先**（留在当前页），否则取 provider（内容权威）。
+    任一路径找不到可靠锚点时保持外链，不生成死链。
+    """
+    if not html or "wikiru.jp/?" not in html:
+        return html
+    aliases = _load_link_aliases()
+    auto = _auto_link_targets()
+    if not aliases and not auto:
+        return html
+
+    def repl(m: "re.Match") -> str:
+        tag = m.group(0)
+        href = m.group(1).replace("&amp;", "&")
+        name = unquote_plus(href.split("?", 1)[1]) if "?" in href else ""
+        target_slug = ""
+        anchor = ""
+        conf = aliases.get(name)
+        if conf:
+            target_slug = conf["slug"]
+            heading = conf.get("heading") or ""
+            if heading:
+                hid = _heading_ids(target_slug).get(_plain_heading(heading))
+                if not hid:  # 目标页小节改名/被删 → 保守保留外链
+                    return tag
+                anchor = "#" + hid
+        else:
+            cands = auto.get(name) or []
+            if not cands:
+                return tag
+            pick = next((c for c in cands if c[0] == from_slug), cands[0])
+            target_slug, hid = pick
+            if hid:
+                anchor = "#" + hid
+        if not target_slug:
+            return tag
+        target = (
+            config.SITE_BASE
+            + ("zh/" if locale == "zh" else "ja/")
+            + quote(target_slug)
+            + ".html"
+            + anchor
+        )
+        tag = re.sub(r'(?<=\s)href="[^"]*"', f'href="{target}"', tag, count=1)
+        tag = re.sub(r'\s+target="[^"]*"', "", tag)
+        tag = re.sub(r'\s+rel="[^"]*"', "", tag)
+        return re.sub(r"\bsource-link\b", "internal-link", tag)
+
+    return _ALIAS_A_RE.sub(repl, html)
+
+
 def _source_mtime(name: str) -> str:
     raw_path = config.RAW_DIR / page_filename(name)
     if not raw_path.exists():
@@ -578,6 +705,8 @@ def _write_md(path, title: str, fragment: str, from_slug: str, source_url: str, 
     # 可执行标签/协议。i18n 页（pre_sanitized）也要过一遍——它们在 i18n build 时
     # 只经 _sanitize_html（仅剥 on*），这里补白名单。幂等，干净页面无额外开销。
     sanitized = _strip_dangerous_html(sanitized)
+    # 上游「テーブル/…」表页外链 → 站内已镜像页面小节（见 _rewrite_alias_links）
+    sanitized = _rewrite_alias_links(sanitized, locale, from_slug)
     frag_file.write_text(
         json.dumps({"html": sanitized}, ensure_ascii=False),
         encoding="utf-8",

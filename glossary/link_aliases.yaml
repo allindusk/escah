@@ -1,0 +1,22 @@
+# 上游 PukiWiki「テーブル/…」表页 → 本站已镜像页面的对应小节。
+#
+# 背景：正文里常把上游的表格页写成外链（如 limit-break 的
+# 「テーブル/レイドおすすめヒーラー」），但同一份内容本站已经镜像成页面，
+# 读者点出去会离开中文环境。这里登记映射关系，sync-site 渲染时把外链
+# 改写成站内锚点（页面 + 小节标题）。
+#
+# 字段：
+#   page    : 上游页名（PukiWiki 页面名，不含 ? 与 URL 编码）
+#   slug    : 本站目标页 slug（registry 里的 slug，不带 .html）
+#   heading : 目标页里的小节标题（日文原文，用于反查该标题的 id）。
+#             留空则链到页面顶部；标题找不到时自动保持原外链（不产生死链）。
+aliases:
+  - page: テーブル/レイドおすすめアタッカー
+    slug: raid-recommended
+    heading: おすすめアタッカー
+  - page: テーブル/レイドおすすめヒーラー
+    slug: raid-recommended
+    heading: おすすめヒーラー
+  - page: テーブル/レイドおすすめサポーター
+    slug: raid-recommended
+    heading: おすすめバッファー／デバッファー（サポート）

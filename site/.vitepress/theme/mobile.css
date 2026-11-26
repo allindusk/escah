@@ -13,12 +13,13 @@
 /* ========== 1. 顶栏 / 本地导航条 / 侧栏抽屉 ========== */
 @media (max-width: 959px) {
   :root {
-    /* 安全区：这里**先写死 0**，只在支持 env() 的内核里才叠加真实值。
-       2026-11-26 修复：原来直接把 `env(...)` 塞进自定义属性、再用嵌套 calc
-       （--vp-nav-height: calc(56px + var(--escah-safe-top))），部分手机内置浏览器
-       （实测手机 QQ：X5 内核）解析这种链式 calc 会整体失效 —— 于是
-       --vp-nav-height 变成无效值，顶栏容器 height / 内容 padding 全部丢失，
-       高度被内容撑到 2~3 倍、logo 也退回原图尺寸溢出顶栏。 */
+    /* 安全区与顶栏高度一律写死纯 px。
+       2026-11-26 二次修复：上一版把 `env(...)` 放进自定义属性、再让 VitePress 用
+       `calc(var(--vp-nav-height) - var(--escah-safe-top))` 反算容器高度。手机 QQ 的 X5
+       内核会在“计算值阶段”判整条声明非法 —— 此时浏览器不会回退到前一条 56px，而是
+       把 height 变成 auto：顶栏被内容撑高一大片空白、logo 退回原图尺寸越界。
+       现在 CSS 里不再出现 env()/链式 calc：非 QQ 内核维持 56px 顶栏（安全区由
+       config.ts 的 NAV_BOOT 在支持 env() 的内核里用纯 px 变量补上）。 */
     --escah-safe-top: 0px;
     --escah-safe-bottom: 0px;
     /* 顶栏压矮：390×844 的屏上，64px 顶栏太奢侈 */
@@ -28,14 +29,6 @@
        2026-11-26：移动端整条 VPLocalNav 已隐藏（「全站页面」改挂左下角悬浮按钮、
        「返回顶部」移到底部上一页/下一页同一行），所以这里归零 —— 锚点偏移只剩顶栏。 */
     --escah-localnav-h: 0px;
-  }
-  /* 只有真正支持安全区的内核才把 env() 叠上去；不支持时上面的硬值继续生效 */
-  @supports (padding-top: env(safe-area-inset-top)) {
-    :root {
-      --escah-safe-top: env(safe-area-inset-top, 0px);
-      --escah-safe-bottom: env(safe-area-inset-bottom, 0px);
-      --vp-nav-height: calc(56px + env(safe-area-inset-top, 0px));
-    }
   }
 
   /* 顶栏内容压在「安全区以下那 56px」里，刘海区域只露底色（背景色随 .VPNavBar 一起铺） */
@@ -47,9 +40,9 @@
      这个 span 会被撑成顶栏高度，三条线就贴在顶栏最上沿、被裁一刀，
      视觉上像「菜单按钮和站名不在同一行」。 */
   .VPNavBar .wrapper > .container {
-    /* 双声明兜底：calc 生效时用后面那条，失效时保留 56px，绝不塌陷/暴涨 */
+    /* 单条纯 px 声明：X5 上带 var/calc 的第二条会在计算值阶段整条作废，
+       连 !important 一起丢掉，所以这里绝不写 calc 版。 */
     height: 56px !important;
-    height: calc(var(--vp-nav-height) - var(--escah-safe-top, 0px)) !important;
     min-height: 56px;
   }
   /* logo 尺寸兜底：--vp-nav-logo-height 万一失效，不能让 <img> 退回原图尺寸 */
@@ -811,11 +804,42 @@
   .char-modal-header .spacer {
     display: none;
   }
+  /* 标题：手机端竖排两行（上＝译名、下＝本名），各自单行省略号截断。
+     旧版把「译名（本名）」拼在同一串里，窄屏放不下就整体折行，长名字能占到三行，
+     把头部撑到 3 行高（用户反馈）。现在最多固定两行，头像/稀有度都留在第一行。 */
   .char-modal-header .title {
     flex: 1 1 auto;
     min-width: 0;
+    max-width: 100%;
     font-size: 15px;
     line-height: 1.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .char-modal-header .title .name-zh,
+  .char-modal-header .title .name-ja {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .char-modal-header .title .name-zh { font-size: 15px; font-weight: 700; }
+  .char-modal-header .title .name-ja { font-size: 12px; font-weight: 400; opacity: 0.72; }
+  /* 两行展示时不需要括号（括号只在桌面端同一行时才有意义） */
+  .char-modal-header .title .name-ja::before,
+  .char-modal-header .title .name-ja::after { content: none !important; }
+  /* 稀有度徽标固定在最右侧、单行显示：不加 nowrap 时它会被压成 15px 宽，
+     「SSR」竖排成一行一个字（实测宽度 15×26）。 */
+  .char-modal-header .rarity-badge {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    align-self: center;
+    padding: 2px 7px;
+    font-size: 10.5px;
+    line-height: 1.5;
+    border-radius: 8px;
   }
   .char-modal-header .hint {
     display: none;
@@ -980,4 +1004,29 @@ html.escah-sheet-open body {
   .escah-sitemenu-btn {
     display: none;
   }
+}
+
+/* ========== 12. 手机 QQ 顶栏强兜底（2026-11-26 二次修复） ==========
+   class 由 config.ts 的 NAV_BOOT 在首屏 <head> 里挂上。
+   ⚠️ 故意放在所有媒体查询之外：QQ 的「桌面版网页」模式会把 layout viewport 报成
+   980px，若写进 @media(max-width:959px) 这段规则会整段失效。
+   全部用纯 px / !important，不使用 env()、嵌套 calc 或 var 链 —— X5 对这三类值
+   的“计算时失效”正是上一版修复没生效的根因。 */
+html.escah-qq-nav .VPNavBar {
+  height: 56px !important;
+  min-height: 56px !important;
+  padding-top: 0 !important;
+}
+html.escah-qq-nav .VPNavBar .wrapper > .container,
+html.escah-qq-nav .VPNavBar .title,
+html.escah-qq-nav .VPNavBar .content-body {
+  height: 56px !important;
+  min-height: 56px !important;
+}
+html.escah-qq-nav .VPNavBarTitle .logo,
+html.escah-qq-nav .VPNavBar .logo {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
 }

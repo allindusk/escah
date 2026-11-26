@@ -111,6 +111,54 @@ def provider_slug(tid: str) -> "str | None":
     return _slug_by_name().get(n) if n else None
 
 
+def embed_targets() -> "set[str]":
+    """需要把同源表**挖空、改由 provider 页供给**的页 slug（各组里非权威成员）。
+
+    2026-11-26 扩展（用户要求「≥2 宿主的都处理」）：
+      此前只挖 `AGGREGATORS`（characters）一页，于是 `raid` / `raid-buff-debuff`
+      那 3 张「3 宿主」表仍各存一份 HTML + 一份译文（重复约 786 条），改一处要改三处。
+      现在任何同源组里只要不是该表的权威 provider，一律挖空 —— 数据与译文都只留
+      provider 页那一份。
+
+    安全性：
+      · provider 自己永不挖（否则 `inject_embeds` 取不到表，页面会缺表）；
+      · 组内找不到可用 provider 时整组不挖（宁可保留副本，也不生成空占位）；
+      · 一页可同时是「A 表的 provider + B 表的成员」，挖空只针对它是成员的 tid。
+    """
+    slugs = _slug_by_name()
+    out: "set[str]" = set()
+    for tid, names in groups().items():
+        prov_slug = slugs.get(provider_name(tid) or "")
+        if not prov_slug:
+            continue
+        for n in names:
+            s = slugs.get(n)
+            if s and s != prov_slug:
+                out.add(s)
+    return out
+
+
+def should_embed(slug: str, tid: str) -> bool:
+    """该页的这张表是否应挖空、改由 provider 供给（逐表判定，页级判据不够用）。
+
+    为什么必须逐表（2026-11-26 实测）：一页里可能同时有
+      · 属于多宿主组、且本页是非权威成员的表 → 该挖；
+      · 来自单宿主来源页的表（如 raid-buff-debuff 的 10 张专属表）→ **不能挖**，
+        因为 `groups()` 不含它，`provider_slug()` 返回 None，挖了就没有任何页面能供给
+        （inject 时被替换成空串，表直接消失）。
+    首版按页判据把 raid-buff-debuff 的 25 张表全挖了，正是这个坑。
+    """
+    names = groups().get(tid) or []
+    if len(names) < 2:
+        return False
+    slugs = _slug_by_name()
+    prov = provider_name(tid)
+    if not prov:
+        return False
+    prov_slug = slugs.get(prov)
+    return bool(prov_slug) and slug != prov_slug and slug in {slugs.get(n) for n in names}
+
+
 def aggregator_deps() -> "dict[str, list[str]]":
     """{聚合页 slug: [provider slug, …]} —— 变更检测/重建联动用。"""
     slugs = _slug_by_name()
@@ -205,6 +253,155 @@ def _rows_in_parsed(page_name: str, tid: str) -> int:
     return rows
 
 
+# ---------------------------------------------------- 来源页 → 宿主页锚点 ----
+# 正文里常把表格子页写成外链（如 `?テーブル/レイド/呪縛対策…`）。这些表本站其实
+# 已经镜像进某个宿主页，链接应改指站内锚点，而不是把读者送出站。锚点取
+# 「该表之前最近一个带 id 的标题」，即它所在的小节。
+_h_heading_cache: "dict[str, dict[str, str]]" = {}
+_parsed_text_cache: "dict[str, dict[str, str]]" = {}
+_raw_head_cache: "dict[str, dict[str, str]]" = {}
+_link_cache: "dict[str, list[tuple[str, str]]] | None" = None
+_H_TAG_RE = re.compile(r"^h[1-6]$")
+
+
+def _table_headings(slug: str) -> "dict[str, str]":
+    """该页 parsed 里 {data-tbl-id: 表前最近标题的 id}（进程内缓存）。"""
+    if slug in _h_heading_cache:
+        return _h_heading_cache[slug]
+    out: "dict[str, str]" = {}
+    path = config.PARSED_JA_DIR / f"{slug}.html"
+    if path.exists():
+        try:
+            from lxml import html as lxml_html
+
+            doc = lxml_html.fromstring(path.read_text(encoding="utf-8", errors="replace"))
+            last = ""
+            for el in doc.iter():
+                if not isinstance(el.tag, str):
+                    continue
+                tag = el.tag.lower()
+                if _H_TAG_RE.match(tag):
+                    if el.get("id"):
+                        last = el.get("id")
+                elif tag == "table":
+                    tid = el.get(_TBL_ID_ATTR)
+                    if tid and tid not in out:
+                        out[tid] = last
+        except Exception as e:  # noqa: BLE001 单页解析失败不影响出站
+            log.warning("[table-sync] 解析 %s 失败：%s", slug, e)
+    _h_heading_cache[slug] = out
+    return out
+
+
+def _norm_heading(text: str) -> str:
+    return re.sub(r"\s+", "", text or "").replace("†", "")
+
+
+def _parsed_heading_ids(slug: str) -> "dict[str, str]":
+    """{归一化标题文本: id}（parsed 侧，把 raw 里的标题文本映射成锚点 id）。"""
+    if slug in _parsed_text_cache:
+        return _parsed_text_cache[slug]
+    out: "dict[str, str]" = {}
+    path = config.PARSED_JA_DIR / f"{slug}.html"
+    if path.exists():
+        try:
+            from lxml import html as lxml_html
+
+            doc = lxml_html.fromstring(path.read_text(encoding="utf-8", errors="replace"))
+            for el in doc.iter():
+                if isinstance(el.tag, str) and _H_TAG_RE.match(el.tag.lower()):
+                    hid = el.get("id")
+                    key = _norm_heading(el.text_content())
+                    if hid and key and key not in out:
+                        out[key] = hid
+        except Exception as e:  # noqa: BLE001
+            log.warning("[table-sync] 解析 %s 标题失败：%s", slug, e)
+    _parsed_text_cache[slug] = out
+    return out
+
+
+def _raw_heading_text(slug: str, tid: str) -> "str | None":
+    """raw 里该表之前最近标题的**文本**（parsed 已剥离 `page=` 链接，只能从 raw 认）。
+
+    返回 "" 表示表在第一个标题之前（页首）；None 表示 raw 里找不到这张表。
+    """
+    from .snapshot import page_filename
+
+    if slug not in _raw_head_cache:
+        mapping: "dict[str, str]" = {}
+        name = next((n for n, s in _slug_by_name().items() if s == slug), None)
+        path = config.RAW_DIR / page_filename(name) if name else None
+        if path is not None and path.exists():
+            try:
+                from lxml import html as lxml_html
+
+                doc = lxml_html.fromstring(path.read_bytes().decode("utf-8", "ignore"))
+                last = ""
+                for el in doc.iter():
+                    if not isinstance(el.tag, str):
+                        continue
+                    tag = el.tag.lower()
+                    if _H_TAG_RE.match(tag):
+                        last = el.text_content()
+                        continue
+                    if tag == "table":
+                        blob = lxml_html.tostring(el, encoding="unicode")
+                        for m in _PAGE_PARAM_RE.finditer(blob):
+                            who = urllib.parse.unquote(m.group(1))
+                            if who.startswith("テーブル/") and who not in mapping:
+                                mapping[who] = _norm_heading(last)
+            except Exception as e:  # noqa: BLE001
+                log.warning("[table-sync] 解析 raw %s 失败：%s", slug, e)
+        _raw_head_cache[slug] = mapping
+    return _raw_head_cache[slug].get(tid)
+
+
+def link_targets() -> "dict[str, list[tuple[str, str]]]":
+    """{来源页名: [(宿主页 slug, 锚点 id), …]} —— 正文外链改站内锚点用。
+
+    provider 排最前（内容权威），其余按 registry 顺序；调用方通常优先取
+    「链接所在页自己」这个宿主（留在本页），没有才退到 provider。
+    某来源页的所有宿主都没打 `data-tbl-id` 时不出现在结果里（调用方保持外链）。
+    """
+    global _link_cache
+    if _link_cache is not None:
+        return _link_cache
+    from . import deps
+
+    slugs = _slug_by_name()
+    out: "dict[str, list[tuple[str, str]]]" = {}
+    for tid, names in deps.scan_hosts().items():
+        if not tid.startswith("テーブル/"):
+            continue
+        prov = slugs.get(provider_name(tid) or "")
+        cands: "list[tuple[str, str]]" = []
+        for n in names:
+            slug = slugs.get(n)
+            if not slug:
+                continue
+            hid = _table_headings(slug).get(tid)      # 解析期已打 data-tbl-id 的页
+            if hid is None:                           # 没打标 → 用 raw 的标题文本回查
+                htext = _raw_heading_text(slug, tid)
+                if htext is None:
+                    continue
+                hid = _parsed_heading_ids(slug).get(htext, "")
+            cands.append((slug, hid))
+        if not cands:
+            continue
+        cands.sort(key=lambda x: x[0] != prov)   # provider 优先，其余保持原序
+        out[tid] = cands
+    _link_cache = out
+    return out
+
+
+def reset_link_cache() -> None:
+    global _link_cache
+    _link_cache = None
+    _h_heading_cache.clear()
+    _parsed_text_cache.clear()
+    _raw_head_cache.clear()
+
+
 # ------------------------------------------------------------------ 解析层 --
 
 
@@ -223,6 +420,9 @@ def sync_parsed(dry_run: bool = False) -> dict:
     name_by_slug = {v: k for k, v in slugs.items()}
 
     # 收集所有成员页的表
+    # ⚠️ 只扫组成员：parsed 里的表格**已剥离 `page=` 编辑链接**，非成员宿主页的表
+    # 无法反查 tid（2026-11-26 实测：扩大扫描范围也打不上标，纯属白耗解析）。
+    # 正文里指向「单宿主来源页」的链接改走 `link_targets()` 的 raw 回查路径。
     texts: "dict[str, str]" = {}
     scanned: "dict[str, list[_Table]]" = {}
     for names in grp.values():

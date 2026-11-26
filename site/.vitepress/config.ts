@@ -186,6 +186,13 @@ const navZh = [
 // 无存档、或存档版本 < 3（旧默认曾是超宽）→ 标准宽度；存档里明确 ultraWide:true → 超宽。
 const PREF_BOOT = `(function(){try{var s=localStorage.getItem('escah-ui-prefs');var p=s?JSON.parse(s):null;var el=document.documentElement;if(p&&Number(p.v)>=3&&p.ultraWide===true){el.classList.add('escah-ultrawide')}if(p){if(p.navCollapsed)el.classList.add('escah-nav-collapsed');if(p.tocCollapsed)el.classList.add('escah-toc-collapsed')}}catch(e){}})()`
 
+// 手机 QQ（X5）顶栏兜底：X5 会把 `env(...)` / `calc(var(...) + env(...))` 判成非法值，
+// 且这种“计算时无效”会让后面那条 !important 的高度声明整体失效（不会回退到前一条 56px），
+// 结果 .VPNavBar / .title / .content-body 全部按内容撑高、logo 退回原图尺寸越界。
+// 这里在 CSS 落地前就把顶栏变量写成**纯 px**，彻底绕开 env/calc 解析；
+// 同时挂 class 给 mobile.css 里的 QQ 专属强规则用（不依赖媒体查询，QQ 的“桌面版”视口也生效）。
+const NAV_BOOT = `(function(){try{var el=document.documentElement;var ua=navigator.userAgent||'';if(!/(MQQBrowser|QQBrowser)/i.test(ua))return;el.classList.add('escah-qq-nav');var st=el.style;st.setProperty('--escah-safe-top','0px');st.setProperty('--escah-safe-bottom','0px');st.setProperty('--vp-nav-height','56px');st.setProperty('--vp-nav-logo-height','32px');st.setProperty('--escah-localnav-h','0px')}catch(e){}})()`
+
 export default defineConfig({
   base: BASE,
   // dev 模式 vite 的 optimizeDeps 自动扫描在本机环境会陷入预构建卡死（进程常驻、内存飙到 800MB+ 且不监听端口）。
@@ -214,6 +221,7 @@ export default defineConfig({
     // 覆盖 VitePress 默认的 viewport（它检测到用户自带 viewport 就不再输出默认那条）。
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }],
     ['script', {}, PREF_BOOT],
+    ['script', {}, NAV_BOOT],
   ],
   // 每页独立的 meta description（默认取正文首段）
   transformPageData: seoTransformPageData,

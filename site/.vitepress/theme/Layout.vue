@@ -66,7 +66,10 @@ function onShiftWheel(e: WheelEvent) {
 onMounted(() => {
   document.addEventListener('click', onDocClick)
   window.addEventListener('wheel', onShiftWheel, { passive: false })
+  window.addEventListener('resize', stabilizeQQNav)
+  window.addEventListener('orientationchange', stabilizeQQNav)
   applyUiClasses()
+  stabilizeQQNav()
   // 移动端增强：表格横滑提示 + 页内目录折叠（≤767px 才生效）
   initMobileUX()
   // 动图海报优先：鼠标设备进视口自动播放，触屏点按才播
@@ -74,11 +77,16 @@ onMounted(() => {
   // 语言切换后回到「同一处内容」（中/日页结构同源，按标题序号对齐，见 langScroll.ts）
   initLangScroll()
   // v-html 正文可能晚于 Layout 挂载落地，下一拍再扫一次
-  nextTick(() => refreshAnimMedia())
+  nextTick(() => {
+    refreshAnimMedia()
+    stabilizeQQNav()
+  })
 })
 onUnmounted(() => {
   document.removeEventListener('click', onDocClick)
   window.removeEventListener('wheel', onShiftWheel)
+  window.removeEventListener('resize', stabilizeQQNav)
+  window.removeEventListener('orientationchange', stabilizeQQNav)
 })
 
 // 路由切换后重跑移动端增强（新页面的目录与表格需要重新判定）
@@ -88,6 +96,7 @@ watch(
     nextTick(() => {
       refreshMobileUX()
       refreshAnimMedia()
+      stabilizeQQNav()
       // 语言切换（同 slug 换 /zh ↔ /ja）后恢复阅读位置；普通跳转不受影响
       restoreLangScroll(path)
     }),
@@ -113,6 +122,44 @@ function openSiteMenu() {
   }
   // 兜底：没有侧栏的页面（如 404）直接回首页
   window.location.href = homeHref()
+}
+
+// 手机 QQ 顶栏二次校正（2026-11-26）：
+// 首屏 NAV_BOOT 已把顶栏变量写成纯 px，这里再给元素本身写一遍内联 px。
+// 这样即使某些 X5 版本连 :root 上的自定义属性都解析不了，顶栏也不会被内容撑高、
+// logo 也不会退回原图尺寸越界。只在 QQ UA 下运行，桌面/其他浏览器零影响。
+function stabilizeQQNav() {
+  if (!/(MQQBrowser|QQBrowser)/i.test(navigator.userAgent || '')) return
+  const root = document.documentElement
+  root.classList.add('escah-qq-nav')
+  const vars = root.style
+  vars.setProperty('--escah-safe-top', '0px')
+  vars.setProperty('--escah-safe-bottom', '0px')
+  vars.setProperty('--vp-nav-height', '56px')
+  vars.setProperty('--vp-nav-logo-height', '32px')
+  vars.setProperty('--escah-localnav-h', '0px')
+
+  const nav = document.querySelector<HTMLElement>('.VPNavBar')
+  if (nav) {
+    nav.style.height = '56px'
+    nav.style.minHeight = '56px'
+    nav.style.paddingTop = '0px'
+  }
+  const container = document.querySelector<HTMLElement>('.VPNavBar .wrapper > .container')
+  if (container) {
+    container.style.height = '56px'
+    container.style.minHeight = '56px'
+  }
+  document.querySelectorAll<HTMLElement>('.VPNavBar .title, .VPNavBar .content-body').forEach((el) => {
+    el.style.height = '56px'
+    el.style.minHeight = '56px'
+  })
+  document.querySelectorAll<HTMLImageElement>('.VPNavBarTitle .logo, .VPNavBar .logo').forEach((img) => {
+    img.style.width = '32px'
+    img.style.height = '32px'
+    img.style.maxWidth = '32px'
+    img.style.maxHeight = '32px'
+  })
 }
 </script>
 

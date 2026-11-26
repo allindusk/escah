@@ -289,8 +289,8 @@ raw、各自 parse、各自 i18n build，于是同一张表在库里存在两份
 | 层 | 做法 |
 |---|---|
 | 解析（`parse_all` 末尾自动跑；也可 `python -m escah_pipeline.cli tablesync`） | 扫描 `data/raw` 找出同一 `テーブル/xxx` 的全部宿主页 → 选**行数最多**者为权威（聚合页 `characters` 不参与评选）→ 整表覆盖其它宿主页的 `data/parsed/ja/<slug>.html`；每张表打 `data-tbl-id="テーブル/xxx"` |
-| i18n build | 聚合页（`AGGREGATORS = {"characters"}`）里带 `data-tbl-id` 的表被整块挖成 `<div class="escah-embed-tbl" data-embed="テーブル/xxx">`，**不进 key、不进 JSON**（`characters.json` 637KB → 25KB） |
-| i18n render | `table_sync.inject_embeds()` 把 provider 页（`list-ssr` / `list-sr` / `list-r` / `list-npc`）渲染出的同一张表塞回占位 ⇒ 数据与译文**只有子页那一份** |
+| i18n build | 同源组里**非权威 provider 的成员页**（`table_sync.embed_targets()`）里带 `data-tbl-id` 的表被整块挖成 `<div class="escah-embed-tbl" data-embed="テーブル/xxx">`，**不进 key、不进 JSON**（`characters.json` 637KB → 25KB） |
+| i18n render | `table_sync.inject_embeds()` 把 provider 页（`characters` ← `list-ssr/sr/r/npc`；`raid` / `raid-buff-debuff` ← `raid-004/005/007`）渲染出的同一张表塞回占位 ⇒ 数据与译文**只有 provider 那一份** |
 | 增量同步 | `local_sync` 把「provider 页 raw 变了」并入聚合页的 stale 集合，聚合页才会跟着重建（否则它自己 raw 没动就不会重建，站点仍旧表） |
 
 安全阀：组内表**列数不同**（说明该页自行裁剪过）或权威表**行数少于**目标页时**不覆盖**，只打
@@ -299,9 +299,35 @@ warning。诊断 `python -m escah_pipeline.cli tablesync --dry-run`；验收
 `python tools/_dev/_kana_in_charlist.py`（中文页假名残留）。
 
 > ⚠️ 改 `characters` 页表格里的译文 → 改 `data/parsed/i18n/list-*.json`（**唯一源**），
-> 改 `characters.json` 无效（那里没有表格条目）。
-> 目前纳入的组：SSR / SR / R / NPC（4 组）与 3 组レイド 页共享表；宿主全是角色详情页的
-> `テーブル/キャラ/別衣装_XXX` 等组暂不处理（影响 400+ 页，另行评估）。
+> 改 `characters.json` 无效（那里没有表格条目）。同理 `raid` / `raid-buff-debuff` 的
+> 那 3 张共享表 → 改 provider 页 `raid-004/005/007.json`。
+> 目前纳入的组：SSR / SR / R / NPC（4 组）与 3 组レイド 页共享表 —— 2026-11-26 起，
+> **所有 ≥2 宿主的组里非 provider 成员页都挖空**（不再只挖 `characters` 聚合页），
+> `raid` / `raid-buff-debuff` 因此各少 3 张表的副本（约 786 条重复译文归零）。
+> 宿主全是角色详情页的 `テーブル/キャラ/別衣装_XXX` 等组暂不处理（影响 400+ 页，另行评估）。
+>
+> ⚠️ 挖空必须**逐表**判定（`table_sync.should_embed`）：一页里可能同时有「单宿主来源页」的
+> 专属表（`raid-buff-debuff` 有 10 张），那些没有 provider 能供给，挖掉就没人补 ——
+> 首版按页判据曾把 25 张全部挖掉，渲染时表直接消失。
+
+### 8.3 上游表页外链 → 站内小节（自动映射 + 手写覆盖）
+
+正文里大量链接指向原站的表格页（`?テーブル/xxx`），但同一份表格本站已经镜像进某个宿主页。
+读者点出去会脱离中文环境，所以 `sync-site` 渲染落 frag 前统一改写：
+
+| 层 | 做法 |
+|---|---|
+| 自动（主力） | `table_sync.link_targets()`：`{来源页: [(宿主页 slug, 表前最近标题 id), …]}`。宿主页的表若在解析期已打 `data-tbl-id` 就直接取；没打标则从 **raw** 里定位该表前最近的标题文本，再回查 parsed 的标题 id（parsed 已剥离 `page=` 链接，只能走 raw） |
+| 选择规则 | **本页优先**（链接所在页本身就是宿主 → 留在当前页跳小节），否则取 provider（内容权威） |
+| 手写覆盖 | `glossary/link_aliases.yaml`：`page` → `slug` + `heading`（日文小节标题）。用于「表没镜像/自动算不出」的特例，如 `テーブル/レイドおすすめヒーラー` → `raid-recommended` |
+| 改写 | `sitegen._rewrite_alias_links(html, locale, from_slug)` 命中 `<a href="…wikiru.jp/?…">` → `SITE_BASE + zh|ja/<slug>.html#<id>`，去掉 `target`/`rel` |
+| 降级 | 来源页没有可用宿主/锚点 → **保持原外链**，不生成死锚点 |
+
+实测（2026-11-26）：全站 100 条这类链接，**93 条**改为站内锚点，剩 7 条指向 `広域戦マップ/…`
+（本站未镜像，保持外链）；`_verify_anchor_links.py` 全站 136 条站内锚点链接 **0 死链**。
+
+验收：`python tools/_verify_anchor_links.py`（全站死锚点）、`python tools/_diag_link_targets.py`
+（覆盖率）、`python tools/_diag_table_links_rewrite.py <slug>`（单页改写明细）。
 
 ## 9. 数据：真值 vs 可重建
 
