@@ -8,6 +8,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 
@@ -139,6 +140,12 @@ def _write_todo_for_changed(changed_pages: list[str], by_name: dict) -> "list[st
 # 逐页 2–4 秒重试只会把封禁做实 —— 大失败直接不重试（见 _probe_and_save 末尾）。
 SERIAL_RETRY_LIMIT = 40
 
+# 并行探测的**全局**最小请求间隔（秒）。`workers` 只决定"同时在飞几个请求"，
+# 这个决定"每秒最多打几个" —— 2026-11-28 事故里 13 线程瞬间把 768 个请求甩出去，
+# 原站当场进反爬状态、连 robots.txt 都变成等待页。5 req/s 对一个小型 WIKI 已是上限，
+# 69 个候选页约 15 秒，全量 675 页约 2.5 分钟，都远在 CI 45 分钟预算内。
+PROBE_MIN_GAP = 0.2
+
 
 def _probe_and_save(
     candidates: "list[dict]",
@@ -188,6 +195,19 @@ def _probe_and_save(
     local = threading.local()
     failed: "list[str]" = []
 
+    # 全局节流闸：所有并行 worker 共用一把锁 + 一个时间戳，保证**任何两个请求的发出**
+    # 至少隔 PROBE_MIN_GAP 秒（与 PoliteFetcher._throttle 同一个套路，只是跨线程）。
+    # 没有它，`workers=13` 就是"13 个请求同时打出去"，再快一点就是一串 429。
+    gate = threading.Lock()
+    last_hit = [0.0]
+
+    def _pace() -> None:
+        with gate:
+            wait = PROBE_MIN_GAP - (time.monotonic() - last_hit[0])
+            if wait > 0:
+                time.sleep(wait)
+            last_hit[0] = time.monotonic()
+
     def _client() -> "httpx.Client":
         c = getattr(local, "client", None)
         if c is None:
@@ -231,6 +251,7 @@ def _probe_and_save(
     def _probe(e: dict):
         name = e["name"]
         try:
+            _pace()
             resp = _client().get(page_url(name))
             if resp.status_code != 200:
                 failed.append(name)
