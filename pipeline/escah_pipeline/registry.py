@@ -417,7 +417,7 @@ def discover(offline: bool = False) -> None:
     （MenuBar 不入库）。用途：CI 把新 raw 抓好推回来后，本地立刻登记新页并解析，
     与「CI 抓 raw / 本地零网络重建」的分工一致。
     """
-    from .fetcher import PoliteFetcher, page_url
+    from .fetcher import PoliteFetcher, is_challenge_page, page_url
     from .snapshot import page_filename, save_snapshot
 
     config.ensure_dirs()
@@ -432,7 +432,16 @@ def discover(offline: bool = False) -> None:
 
     with (_NoFetcher() if offline else PoliteFetcher()) as f:
         def _page_text(name: str) -> "str | None":
-            """取目录页正文：离线=读 raw 快照；在线=抓取并落快照。缺失返回 None 由调用方跳过。"""
+            """取目录页正文：离线=读 raw 快照；在线=抓取并落快照。缺失返回 None 由调用方跳过。
+
+            ⚠️ **反爬挑战页必须拦在这里、且绝不落盘**（2026-11-28 事故）：
+            这一路是 `discover` 唯一写 raw 的入口，之前没做挑战页判断 —— CI 出口被
+            Cloudflare 拦下时，`キャラクター一覧`/`サポーター`/`NPC`/`装備一覧`/`超昂装備`/
+            `装備リスト`/`Bユニバース`/`メインクエスト` 这 8 个目录页的**好快照**被 11KB 的
+            「少々お待ちください…」整页覆盖并提交入库（该轮 commit：12 个文件、-15738 行）。
+            之后 parse 只会报「未找到 #body，整页作为正文」，站点静默变成等待页。
+            与 `fetcher.fetch_pages` / `updater._fetch_and_record` 口径保持一致：认出来就跳过。
+            """
             if offline:
                 p = config.RAW_DIR / page_filename(name)
                 if not p.exists():
@@ -440,8 +449,12 @@ def discover(offline: bool = False) -> None:
                     return None
                 return p.read_text(encoding="utf-8", errors="replace")
             r = f.get(page_url(name))
+            text = r.content.decode(r.encoding or "utf-8", errors="replace")
+            if is_challenge_page(text):
+                log.warning("[discover] 「%s」返回反爬挑战页，跳过（**不覆盖**已有快照）", name)
+                return None
             save_snapshot(name, r.content)
-            return r.content.decode(r.encoding or "utf-8", errors="replace")
+            return text
 
         # ---- Phase 1: MenuBar → 观察页 ----
         menubar_text = "" if offline else _page_text(config.MENUBAR_PAGE)

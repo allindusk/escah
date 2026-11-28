@@ -366,6 +366,29 @@ warning。诊断 `python -m escah_pipeline.cli tablesync --dry-run`；验收
    重建前会用 `ESCAH_BASE=/` 重跑一次 `sync-site`：正文片段里的站内绝对链接带生成期 base 前缀，
    不重跑的话根路径部署的镜像站内链接全部 404（成片死链，直接影响收录）
 
+**每周抓取：`sync-recent` 的候选集怎么来（请求预算）**
+
+`sync-fetch.yml` 第 ① 步跑 `cli sync-recent`，目标是"用最少请求覆盖所有变更"：
+
+| 候选来源 | 怎么得到 | 量级 |
+|---|---|---|
+| 更新履歴里直接出现的已镜像页 | 1 次请求拿「最新 100 条」 | 40~60 页 |
+| 内容来源页 → 宿主页 | `テーブル/X` 由 `deps.hosts_of` 反查；`コメント/X` 直接映射宿主页 X（pcomment 把评论渲染进 X 正文） | 10~30 页 |
+| `always_probe: true` | `data/registry/pages.yaml` 手工点名（时间戳本身停更的页，如 `メインクエスト`） | 2 页 |
+
+- **宿主页不需要每轮无条件全探**（2026-11-28 用户反馈"探太多会被封"）：履歴里的
+  `テーブル/…`・`コメント/…` 条目就是"哪个宿主页正文会变"的完整信号。若某条改动被挤出
+  100 条窗口，说明之后已有 100 个不同的页被改过 → 窗口最旧日期必然晚于它 → 下面的
+  "窗口是否覆盖上次同步"判定会直接回退全量，不会静默漏检。
+- **窗口余量基准是 `data/recent_state.json` 的 `last_ok`**（上次成功枚举完窗口的日期），
+  不是 manifest 的最晚抓取日 —— 后者在安静期会停在几周前，把"窗口够深"误判成"不够深"，
+  白白多跑一次 675 页全量。
+- **通道不可用 → 本轮跳过，不回退全量**：反爬挑战页也是 HTTP 200（`recent.parse_recent_history`
+  会打 `challenged`），抓取本身失败（403/429/503）同样如此。原站既然在拦我们，675 次请求
+  只会把封禁做实；跳过时不推进 `last_ok`，连续失败若干轮后窗口覆盖不上才会尝试一次全量。
+- **探测失败的重试有两道闸**：失败达半数 → 判定为限流/反爬，本轮完全不串行重试；其余最多
+  重试 40 页。失败页留在 `recent_state.json` 的 `failed` 里，且**不推进 `last_ok`**。
+
 **每周存档原站更新履歴**（原 `sync-cron.yml`，2026-10-20 起并入 `sync-fetch.yml` 第 ⑤ 步）
 
 每周一 UTC 15:30 随抓取一起跑：抓完执行 `changelog fetch --browser`，有变更则由
@@ -637,6 +660,26 @@ python tools/_dev/_render_one.py "characters/閃忍ハルカ" zh "char-ref|ilink
 
 ### 14.3 清理记录
 
+- **2026-11-26（第四轮：v1.3.1 发版后瘦身）**：项目 2.76 GB → 2.01 GB（-821 MB / 13.6k 文件），
+  `git status` 保持干净（清的全是 `.gitignore` 覆盖的本地产物）：
+  - 删 `site/.vitepress/{dist,cache}`（679 MB）——构建产物，`node build.mjs build` 重建；
+  - 删 `_TRASH/`（125 MB，本次发版期间的诊断截图、build/preview 日志、5 个 edge 诊断 profile）；
+  - 删 `data/assets/img_stale`（3.6 MB）、`data/logs`、`data/upstream/{build_report,local_sync}.json`、
+    `.playwright-cli`、3 处 `__pycache__`；
+  - 删旧归档：`tools/recycle_bin/old_script_translations_20260823`（5.7 MB）、
+    `recycle_bin/_cleanup_20261020_r2` / `_20261021_2` / `_20261021_3` / `_20261021_output`（3.4 MB）。
+  - **一次性脚本清理**：`tools/` 下未被跟踪的 `_*` 文件删掉 **444 个**（`tools/` 根 60 余个 `_diag_* / _verify_* / _audit_*`
+    本轮调查脚本 + `tools/_dev/` 380 余个一次性补丁/扫描/日志/中间 JSON），`_dev` 从 400+ 项降到 39 项、13.3 MB → 2.0 MB；
+    空目录 `tools/recycle_bin/` 一并移除。
+    **保留**：`tools/sop/` 6 个入库流程脚本、`tools/_dev/` 26 个入库脚本、外加文档点名的可复用诊断脚本
+    `_page_dump / _kana_residue / _audit_retain_ja / _verify_tablesync / _kana_in_charlist / _check_changelog /
+    _scan_name_mismatch / _scan_wrong_names / _scan_esca_choukou / _render_one`，以及
+    `_converge_base / _supp_override_audit / _scan_broken_names`；`tools/_todo_translate/`（8.8 MB 作业数据 + `index_tr/` 工装）未动。
+  - **保留**：`site/public`（252 MB，本地开发要用）、`site/.vitepress/frag`（80 MB，删了下次 build 前必须先 `sync-site`）、
+    `data/parsed/`（170 MB，含 i18n 真值）、`data/assets/img`（228 MB 唯一资产）、`recycle_bin/data` 与 `glossary`、
+    `recycle_bin/_cleanup_20261125`、`recycle_bin/i18n_characters_pre_tablesync`（11-13 备份，留作对照）。
+  - **`.git` 未动**（984 MB，其中 LFS 754 MB）：`git lfs prune` 可再回收约 526 MB，但那是**已不在当前树里的历史版本**
+    （含已删的 `img_orig` 原图）本机唯一副本，剪掉等于放弃 §14.2 的「从 git 历史取回原图」通道，故不做。
 - **2026-10-21（第三轮：全项目清理 + 文档重构）**：
   - `recycle_bin/` 从 **153.9 MB → 30.8 MB**：删掉 2026-08-30 ~ 10-19 的 12 个旧归档
     （`tools/` 旧 API 批量导出 55.7 MB、`tools_20260814/` 旧翻译工作目录 47.5 MB、`site/` 旧构建日志、

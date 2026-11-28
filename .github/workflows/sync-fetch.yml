@@ -92,17 +92,21 @@ jobs:
           set -e
 
       - name: Install Playwright chromium (fallback only)
-        if: steps.fetch.outputs.exit != '0'
+        if: steps.fetch.outputs.exit != '0' && steps.fetch.outputs.exit != '3'
         run: |
           pip install playwright
           playwright install --with-deps chromium
 
       # ---- ② 重试：命中反爬时用真实浏览器再抓一轮 ----
+      # ⚠️ 退出码 3 = sync-recent 判定"本轮什么都查不到"（原站反爬拦截），**跳过这一步**：
+      #    2026-11-28 实测 headless Edge 打开更新履歴页 50 秒仍在「少々お待ちください…」
+      #    的 5 秒 reload 循环里 —— 无头浏览器过不了 Cloudflare 的 JS 挑战，装 chromium
+      #    只是白花 1~2 分钟。同步工具链任何一处都不该拿浏览器去硬闯。
       # sync-recent/sync-stale 在被挑战时**不会**把验证页写进 data/raw
       # （_judge 读不出「最終更新日時」→ 判 unknown → 不落盘），所以这一步是安全的补抓。
       - name: Retry fetch (browser)
         id: fetch_browser
-        if: steps.fetch.outputs.exit != '0'
+        if: steps.fetch.outputs.exit != '0' && steps.fetch.outputs.exit != '3'
         env:
           WIKIRU_COOKIE: ${{ secrets.WIKIRU_COOKIE }}
         run: |
@@ -227,3 +231,10 @@ jobs:
             cat fetch.txt 2>/dev/null || echo "（无输出）"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+          # 退出码 3 = 原站反爬拦截，本轮没有抓到任何页面。把这次运行标红，
+          # 否则每周都是"绿灯空跑"，镜像停更了也没人知道（2026-11-28 教训）。
+          if [ "${{ steps.fetch.outputs.exit }}" = "3" ]; then
+            echo "::error::原站反爬拦截：本轮未抓取任何页面（镜像仍是上次成功的状态）。" \
+                 "raw/清单/图片均未改动。可手动 Run workflow 重试，或稍后等冷却。"
+            exit 1
+          fi

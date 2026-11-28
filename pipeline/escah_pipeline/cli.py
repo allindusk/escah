@@ -359,9 +359,9 @@ def main(argv: list[str] | None = None) -> None:
             margin_days=args.margin_days,
         )
         log.info(
-            "[sync-recent] 窗口 %s→%s｜条目 %d（触顶 %s）｜候选 %d｜变更 %d｜回退 %s%s",
+            "[sync-recent] 窗口 %s→%s｜条目 %d（触顶 %s）｜候选 %d｜变更 %d｜回退 %s｜跳过 %s%s",
             rep["window"][0], rep["window"][1], rep["entries"], rep["truncated"],
-            rep["candidates"], len(rep["changed"]), rep["fell_back"],
+            rep["candidates"], len(rep["changed"]), rep["fell_back"], rep["skipped"],
             f"（{rep['reason']}）" if rep["reason"] else "",
         )
         if rep["unregistered"] or rep["known_nav"]:
@@ -383,6 +383,17 @@ def main(argv: list[str] | None = None) -> None:
             )
             for n in out["missed_by_recent"]:
                 log.warning("[verify] 履歴漏检：%s", n)
+        # ---- 退出码 3 = 本轮什么都查不到（原站反爬拦截 / 全候选探测失败）----
+        # 工作流据此跳过"安装 chromium 重试"（headless 过不了 Cloudflare 的 JS 挑战，
+        # 2026-11-28 实测 headless Edge 50 秒仍在「少々お待ちください…」循环），
+        # 并让 Summary 把这次运行标红 —— 否则每周都是"绿灯空跑"，镜像停更了没人知道。
+        if not args.dry_run:
+            blocked = rep["skipped"] or (
+                rep["candidates"] and len(rep["failed"]) >= rep["candidates"])
+            if blocked:
+                log.warning("[sync-recent] 本轮无任何有效探测（跳过=%s，失败 %d/%d）→ 退出码 3",
+                            rep["skipped"], len(rep["failed"]), rep["candidates"])
+                raise SystemExit(3)
     elif args.cmd == "changelog":
         import json
 

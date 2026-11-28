@@ -135,6 +135,11 @@ def _write_todo_for_changed(changed_pages: list[str], by_name: dict) -> "list[st
     return generated
 
 
+# 单轮最多串行"礼貌重试"多少页。并行阶段大面积失败说明是原站限流/反爬（不是单页偶发），
+# 逐页 2–4 秒重试只会把封禁做实 —— 大失败直接不重试（见 _probe_and_save 末尾）。
+SERIAL_RETRY_LIMIT = 40
+
+
 def _probe_and_save(
     candidates: "list[dict]",
     dry_run: bool,
@@ -167,6 +172,8 @@ def _probe_and_save(
     `peer closed connection without sending complete message body` 这类瞬时断连
     （2026-09-27 一轮里出现 2 页）。不重试的话这些页会被静默跳过：本轮漏、下轮才补，
     若长期不稳定就永远漏掉，且**在报告里完全看不出来**。
+    重试有**两道闸**（失败达半数直接放弃、其余最多 `SERIAL_RETRY_LIMIT` 页），
+    详见函数末尾 —— 大失败＝原站在拦我们，此时重试等于加速被封。
     """
     import threading
 
@@ -260,33 +267,49 @@ def _probe_and_save(
             _commit(name, resp, remote, old)
 
     # 失败页串行礼貌重试（限速 + 退避）。仍失败者保留在 failed 里（报告可见）。
+    #
+    # ⚠️ 两道闸（2026-11-28 用户反馈"每次探太多会被封"）：
+    #   ① **半数以上同时失败 ⇒ 判定为原站已在限流/反爬，本轮完全不重试**。
+    #      实测日志：768 页并行探测全部失败后，又对 768 页逐页"礼貌重试"
+    #      （每页 2–4 秒 + 最多 3 次退避）—— 那不是重试，是把封禁做实。
+    #   ② 其余情况最多重试 SERIAL_RETRY_LIMIT 页，超出的写进失败报告留到下一轮
+    #      （候选页都来自更新履歴窗口，窗口有 9~20 天深，下一轮自然还会被选中）。
     if failed and retry_serial:
         retry_names = list(dict.fromkeys(failed))
-        failed = []
-        by_name = {e["name"]: e for e in candidates}
-        log.info("[%s] %d 页并行探测失败，改用礼貌重试：%s",
-                 tag, len(retry_names), "、".join(retry_names[:5]))
-        with PoliteFetcher() as f:
-            for name in retry_names:
-                try:
-                    resp = f.get(page_url(name))
-                except Exception as err:  # noqa: BLE001
-                    log.warning("[%s] %s 重试仍失败：%s", tag, name, err)
-                    failed.append(name)
-                    continue
-                state, payload = _judge(name, resp)
-                if state == "unknown":
-                    failed.append(name)
-                    continue
-                if state == "unchanged":
-                    continue
-                assert payload is not None
-                if name not in changed:
-                    changed.append(name)
-                _commit(name, payload[1], payload[2], payload[3])
-        if failed:
-            log.warning("[%s] %d 页重试后仍失败（本次未确认状态）：%s",
-                        tag, len(failed), "、".join(failed[:5]))
+        if len(retry_names) >= max(20, len(candidates) // 2):
+            log.warning("[%s] %d/%d 页并行探测失败（≥半数）→ 判定为原站限流/反爬，"
+                        "本轮**不**串行重试（避免把封禁做实）；这些页留到下一轮",
+                        tag, len(retry_names), len(candidates))
+            failed = retry_names
+        else:
+            if len(retry_names) > SERIAL_RETRY_LIMIT:
+                log.warning("[%s] 失败页 %d 个，超过单轮串行重试上限 %d（其余留到下一轮）",
+                            tag, len(retry_names), SERIAL_RETRY_LIMIT)
+                retry_names = retry_names[:SERIAL_RETRY_LIMIT]
+            failed = []
+            log.info("[%s] %d 页并行探测失败，改用礼貌重试：%s",
+                     tag, len(retry_names), "、".join(retry_names[:5]))
+            with PoliteFetcher() as f:
+                for name in retry_names:
+                    try:
+                        resp = f.get(page_url(name))
+                    except Exception as err:  # noqa: BLE001
+                        log.warning("[%s] %s 重试仍失败：%s", tag, name, err)
+                        failed.append(name)
+                        continue
+                    state, payload = _judge(name, resp)
+                    if state == "unknown":
+                        failed.append(name)
+                        continue
+                    if state == "unchanged":
+                        continue
+                    assert payload is not None
+                    if name not in changed:
+                        changed.append(name)
+                    _commit(name, payload[1], payload[2], payload[3])
+            if failed:
+                log.warning("[%s] %d 页重试后仍失败（本次未确认状态）：%s",
+                            tag, len(failed), "、".join(failed[:5]))
 
     if not dry_run:
         manifest.save()
@@ -319,7 +342,29 @@ def _force_hash_names(hist_names: "set[str]", known: "set[str]") -> "set[str]":
     return table_hosts | hist_hit
 
 
-def sync_stale_pages(dry_run: bool = False, workers: int = 13) -> list[str]:
+def _source_hosts(name: str, known: "set[str]") -> "list[str]":
+    """更新履歴里的一个页名 → 它会影响的**已镜像宿主页**。
+
+      · `コメント/X`：pcomment 插件把评论区**渲染进宿主页 X 的正文**（实测 203 个页面带
+        这种区块），所以评论一改，X 的正文就变了 —— 宿主就是 X 本身；
+      · `テーブル/X`（以及被 `#table()` 内嵌的普通内容页，如 `装備リスト`）：一个来源页可能
+        被多个宿主页内嵌（`テーブル/SSR` → `SSR`・`list-ssr`・`characters`…），由 `deps` 反查；
+      · 其余页名（角色页/导航页）不是内容来源，返回空。
+
+    这两类来源的改动都**不动宿主页自己的「最終更新日時」** —— 履歴里的这条记录就是唯一信号，
+    因此也没必要每轮把宿主页再无条件探一遍（2026-11-28 用户反馈的正是这个）。
+    """
+    if name.startswith("コメント/"):
+        host = name[len("コメント/"):]
+        return [host] if host in known else []
+    return [h for h in deps.hosts_of(name) if h in known]
+
+
+def sync_stale_pages(
+    dry_run: bool = False,
+    workers: int = 13,
+    report: "dict | None" = None,
+) -> list[str]:
     """**并行全量**检测原站「最終更新日時」漂移，只对变更页落快照（`update --full` 的快版）。
 
     为什么需要它（2026-09-27 实测）：
@@ -335,6 +380,9 @@ def sync_stale_pages(dry_run: bool = False, workers: int = 13) -> list[str]:
 
     这是**权威通道**（覆盖全站每一页），代价是 675 次请求；日常增量请用
     `sync_recent_pages`（1 次请求），本通道作为每周兜底与交叉校验继续保留。
+
+    `report`（可选）：由 `sync_recent_pages` 的回退分支传入，用来把失败页一并写进它的
+    报告 —— 否则回退轮里"有页没探成"会对外不可见，`last_ok` 也可能被误推进。
     返回：本次落盘的页名列表（dry_run 时只返回"将被落盘"的页）。
     """
     config.ensure_dirs()
@@ -351,7 +399,9 @@ def sync_stale_pages(dry_run: bool = False, workers: int = 13) -> list[str]:
     if force:
         log.info("[sync-stale] %d 页改用内容 sha256 判定（时间戳不可信）："
                  "表格绑定 %d 页 + 更新履歴 %d 页", len(force), len(table_hosts), len(hist_hit))
-    changed, _ = _probe_and_save(registry, dry_run, workers, "sync-stale", force_hash=force)
+    changed, failed = _probe_and_save(registry, dry_run, workers, "sync-stale", force_hash=force)
+    if report is not None:
+        report["failed"] = failed
     return changed
 
 
@@ -401,6 +451,21 @@ def _last_sync_date(manifest: "Manifest") -> "str | None":
     return max(stamps) if stamps else None
 
 
+def _last_ok_date() -> "str | None":
+    """上次**成功枚举完整个更新履歴窗口**的日期（`recent_state.json` 的 `last_ok`）。
+
+    与 `_last_sync_date` 的区别很关键：manifest 那个只有"某页真的变了"才推进，安静期会
+    一直停在几周前 —— 于是窗口余量判定会**误判成窗口不够深**、白白回退一次 675 页全量。
+    `last_ok` 记的是"上次确认过窗口覆盖到哪一天"，才是余量判定的正确基准。
+    """
+    try:
+        state = json.loads(RECENT_STATE_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    day = str(state.get("last_ok") or "")[:10]
+    return day if len(day) == 10 else None
+
+
 def sync_recent_pages(
     dry_run: bool = False,
     workers: int = 13,
@@ -422,11 +487,17 @@ def sync_recent_pages(
          本通道**没发现**的页，说明窗口不够深或解析退化，是可观测的信号；
       ③ **窗口饱和度回退**：更新履历是"最新 100 条"的**截断**列表，条目数触顶是常态
          （实测恒为 True），所以**不能用触顶做判据**；真正要紧的是"窗口最旧的日期是否
-         仍覆盖得上我们上次同步的日期"。若覆盖不上、或整页解析为空/无日期 → 自动升级为
+         仍覆盖得上我们上次成功枚举窗口的日期"。若覆盖不上、或整页解析为空/无日期 → 自动升级为
          全量比对（`fallback=True` 时），宁慢不错；
       ④ 盲区可观测：把"更新履历里出现、但 registry 未登记且未被排除规则排除"的页面名
          单独报出来 —— 这类页若真是可镜像页，说明 `discover` 漏登记了（历史上正是
-         "注册表有记录却没有快照/i18n"那类静默缺口）。
+         "注册表有记录却没有快照/i18n"那类静默缺口）；
+      ⑤ 宿主页**只按履歴连带**，不再每轮全探（2026-11-28）：履歴里的 `テーブル/X` 与
+         `コメント/X` 就是"哪个宿主页的正文会变"的完整信号（见 `_source_hosts`）。
+         之前每轮无条件探 201 个宿主页，叠加回退全量后单轮近千次请求，会招来限流/封禁；
+      ⑥ **通道本身不可用 → 本轮直接跳过**（抓取失败 / 反爬挑战页），绝不回退全量：
+         原站已经在拦我们的时候再发几百个请求，只会把封禁做实。跳过时不推进 `last_ok`，
+         连续失败若干轮后窗口自然覆盖不上，那时才会尝试一次全量。
 
     落盘：变更页快照 + `data/recent_state.json`（状态，随提交入库）。
     返回：本次运行的报告 dict（CI 直接打印，便于事后追查）。
@@ -443,6 +514,9 @@ def sync_recent_pages(
         "window": [None, None],
         "truncated": False,
         "candidates": 0,
+        "sources": 0,            # 命中内容来源页（コメント/…・テーブル/…）且宿主已镜像的条数
+        "from_sources": 0,       # 由内容来源页连带引入的宿主页数
+        "always_probe": 0,       # pages.yaml 手工点名「时间戳冻死」的必探页数
         "hash_forced": 0,        # 按正文 sha256 判定（忽略时间戳）的页数
         "changed": [],
         "failed": [],
@@ -451,34 +525,107 @@ def sync_recent_pages(
         "frozen": [],            # no_auto_update：已镜像但永远读不出更新时刻，不参与自动更新
         "out_of_scope": 0,
         "fell_back": False,
+        "skipped": False,        # 被反爬挑战页拦住 → 本轮整体跳过（不回退全量）
         "reason": "",
     }
 
-    # ---- ① 抓 + 解析（任何异常都视为"通道不可用"→ 交由回退逻辑处理）----
+    def _dump_state() -> None:
+        """写 `data/recent_state.json`（dry_run 不写）。
+
+        `last_ok` 只在"本轮确实把该查的都查干净了"时推进：跳过、被拦、或存在探测失败的页
+        时保持原值 —— 它是下次判断窗口够不够深的基准，往前挪会静默漏检。
+        """
+        if dry_run:
+            return
+        advanced = not report["skipped"] and not report["failed"]
+        state = {
+            "fetched_at": utcnow_iso(),
+            "last_ok": utcnow_iso()[:10] if advanced else _last_ok_date(),
+            "entries": report["entries"],
+            "window": report["window"],
+            "truncated": report["truncated"],
+            "candidates": report["candidates"],
+            "sources": report["sources"],
+            "from_sources": report["from_sources"],
+            "always_probe": report["always_probe"],
+            "hash_forced": report["hash_forced"],
+            "changed": report["changed"],
+            "failed": report["failed"],
+            "fell_back": report["fell_back"],
+            "skipped": report["skipped"],
+            "reason": report["reason"],
+            "unregistered": report["unregistered"],
+            "known_nav": report["known_nav"],
+            "frozen": report["frozen"],
+        }
+        RECENT_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        RECENT_STATE_FILE.write_text(
+            json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+
+    # ---- ① 抓 + 解析 ----
+    # ⚠️ 抓取本身失败（HTTP 403/429/503、SSL、DNS…）时**本轮直接跳过，不回退全量**：
+    #    2026-11-28 实测日志里的一轮 —— 履歴拿不到 → 回退 768 页全量 → 768 页全部失败
+    #    → 又对这 768 页逐页"礼貌重试"（每页 2–4 秒）。那是自己申请封禁。
+    #    不推进 `last_ok` ⇒ 连续失败若干轮后窗口自然覆盖不上，才会尝试一次全量，
+    #    这样"少抓一轮"最多让镜像晚一周，而不会把出口 IP 打死。
     try:
         hist = recent_mod.fetch_recent_history()
     except Exception as err:  # noqa: BLE001 网络/结构异常都不该让同步停摆
         log.warning("[sync-recent] 更新履歴抓取/解析失败：%s", err)
         hist = recent_mod.RecentHistory()
+        report["skipped"] = True
         report["reason"] = f"更新履歴不可用：{err}"
     report["entries"] = len(hist.entries)
     report["window"] = [hist.oldest_date, hist.newest_date]
     report["truncated"] = hist.truncated
 
+    # 反爬挑战页也是 HTTP 200，只是内容全是"请稍候"：这时**立即收工**，连候选都不该算。
+    # 原站既然在拦我们，再按"解析为空 → 回退全量"跑 675 次请求就是自己申请封禁。
+    if hist.challenged:
+        report["skipped"] = True
+        report["reason"] = "更新履歴被反爬挑战页拦截"
+    if report["skipped"]:
+        log.warning("[sync-recent] %s → 本轮跳过（**不回退全量**；下一轮再试，"
+                    "窗口真覆盖不上时才会升级全量）", report["reason"])
+        _dump_state()
+        return report
+
     # ---- ② 页面名 → registry 条目（不在镜像范围内的只统计，供观测）----
     registry = load_registry()
     by_name = {e["name"]: e for e in registry}
+    known = set(by_name)
     candidates: "list[dict]" = []
+    seen: set[str] = set()
+
+    def _add_candidate(name: str) -> bool:
+        """收进候选；`no_auto_update` 的页只记进 frozen，不探测。返回是否真的入列。"""
+        if name in seen:
+            return False
+        seen.add(name)
+        if not is_auto_update(by_name[name]):
+            # no_auto_update（如反爬挑战页「公式ヘルプ」）：内容已镜像完成、站点照常渲染，
+            # 只是永远读不出更新时刻 → 不探测，否则每轮都报一次假失败。
+            report["frozen"].append(name)
+            return False
+        candidates.append(by_name[name])
+        return True
+
+    # 宿主页名 → 命中它的内容来源页（`コメント/…` ・ `テーブル/…` ・被内嵌的普通内容页）
+    source_hits: "dict[str, list[str]]" = {}
     for name in hist.names:
+        # 先看它是不是"给别人供内容"的来源页：这与它自己是否镜像无关
+        # （`テーブル/全ストーリー実装順` 既自己镜像、又被 `メインストーリー` 内嵌）。
+        hosts = _source_hosts(name, known)
+        for host in hosts:
+            source_hits.setdefault(host, []).append(name)
         if name in by_name:
-            if not is_auto_update(by_name[name]):
-                # no_auto_update（如反爬挑战页「公式ヘルプ」）：内容已镜像完成、站点照常渲染，
-                # 只是永远读不出更新时刻 → 不探测，否则每轮都报一次假失败。
-                report["frozen"].append(name)
-                continue
-            candidates.append(by_name[name])
+            _add_candidate(name)
+        elif hosts:
+            # 内容来源页（`コメント/…`・`テーブル/…`）：自己不镜像，只用来连带宿主页。
+            report["sources"] += 1
         elif _is_excluded(name) or _is_namespaced(name):
-            # コメント/ テーブル/ 掲示板（排除规则）；以及带命名空间前缀或事件编号的原站内部页
+            # 掲示板（排除规则）；以及带命名空间前缀或事件编号的原站内部页
             # （イベント一覧/… ・広域戦マップ/… ・SandBox/… ・イベント91_…）——都属镜像范围外。
             report["out_of_scope"] += 1
         elif _is_nav_like(name):
@@ -489,58 +636,37 @@ def sync_recent_pages(
             # 正是允许自动新增的那一类（由 discover Phase 2 从「キャラクター一覧」登记）。
             # 本通道只做**提示**，绝不自行登记。
             report["unregistered"].append(name)
-    # ---- ②b 表格绑定页补入候选 ----
-    # `テーブル/xxx` 由 `#table()` 渲染进宿主页正文，**子页改动不动宿主页的「最終更新日時」**，
-    # 所以宿主页只靠自己的时间戳**永远判 unchanged**（用户反馈的正是这个：list-ssr/sr/r
-    # 的 raw 停在 2026-07-22，而 `テーブル/SSR` 2026-10-07 就改过）。
-    # 精确做法：更新履歴里出现了哪个 `テーブル/xxx`，就把它的宿主页拉进来 ——
-    # 既覆盖到、又不至于每轮无条件多抓 180 个宿主页（角色页各自内嵌「別衣装」表格）。
-    known = set(by_name)
-    seen = {e["name"] for e in candidates}
-    table_hits: "dict[str, list[str]]" = {}
-    owners = deps.owner_pages()
-    for name in hist.names:
-        # 来源页既可能是 `テーブル/xxx`，也可能是被 `#table()` 内嵌的普通内容页
-        # （如 `装備一覧` ← `装備リスト`，2026-11-25 补）。
-        if name not in owners:
-            continue
-        for host in deps.hosts_of(name):
-            if host in known:
-                table_hits.setdefault(host, []).append(name)
-    added = [
-        by_name[h] for h in sorted(table_hits)
-        if h not in seen and is_auto_update(by_name[h])
-    ]
-    candidates.extend(added)
-    if table_hits:
-        log.info("[sync-recent] 更新履歴命中 %d 个内容来源页 → 连带重抓宿主页 %d 个：%s",
-                 len({t for v in table_hits.values() for t in v}), len(added),
-                 "、".join(sorted(table_hits)[:8]))
-    # ---- ②c 表格绑定宿主页**每轮必探**（2026-10-19 补）----
-    # ②b 只在「テーブル/xxx 恰好落进更新履歴窗口」时才连带宿主页，但更新履歴是
-    # **最新 100 条的截断列表**（实测窗口约 21 天）：子页改动若被挤出窗口，
-    # 就再也没有任何信号能把宿主页拉回来 —— 时间戳又永远不动 ⇒ 该变更**永久丢失**
-    # （这正是用户反馈「SR / R 角色列表不更新」的根因：テーブル/SR、テーブル/R
-    #  本周根本没出现在履歴里，于是 SR/R 两页本轮完全没被探测）。
-    # 判据很直接：**时间戳不可信的页，就必须每轮探测**，没有别的选择。
-    # 代价：约 200 个宿主页 = 200 次 GET（十几秒）；而 sha256 判定是免费的
-    # —— 探测本来就要下载正文，多算一次哈希不增加任何请求。相比"静默丢更新"，值得。
+
+    # ---- ②b 内容来源页 → 连带宿主页 ----
+    # `テーブル/xxx` 由 `#table()` 渲染进宿主页正文；`コメント/X` 由 pcomment 插件把评论区
+    # 渲染进 X 的正文（实测 203 个页面带这种区块）。两者的改动**都不动宿主页自己的
+    # 「最終更新日時」**，所以宿主页只靠自己的时间戳永远判 unchanged
+    # （用户反馈的正是这个：list-ssr/sr/r 的 raw 停在 2026-07-22，而 `テーブル/SSR` 10-07 就改过）。
+    # 更新履歴里的这两类记录就是**唯一需要的信号** —— 命中哪个，就连带它的宿主页。
     #
-    # 2026-11-25 补：还有一类页**内容不来自别处、但时间戳本身冻死**（实测 `メインクエスト`
-    # 的「最終更新日時」停在 2026-05-15，而正文在 8 月后还追加过 Area 页）——
-    # 这类页靠 deps 认不出来，只能在注册表里打 `always_probe: true` 手工点名。
-    seen2 = {e["name"] for e in candidates}
-    dep_hosts = deps.table_dep_hosts() & known
-    flagged = {n for n in known if (by_name[n] or {}).get("always_probe")}
-    always = [
-        by_name[h] for h in sorted(dep_hosts | flagged)
-        if h not in seen2 and is_auto_update(by_name[h])
-    ]
+    # ⚠️ 2026-11-28 用户反馈：这里曾一度"表格宿主页每轮无条件全探"（约 201 页/轮），
+    #    理由是"子页改动被挤出 100 条窗口就永久丢失"。但窗口是按时间连续截断的：
+    #    某个改动被挤出窗口，意味着之后有 100 个不同的页被改过，那窗口最旧日期必然晚于
+    #    该改动 —— ③ 的"窗口是否覆盖上次同步"判定会直接回退全量。所以每轮全探纯属冗余，
+    #    单轮 201 页 + 回退 768 页的请求量已经会被原站限流/封禁。
+    added = [h for h in sorted(source_hits) if _add_candidate(h)]
+    report["from_sources"] = len(added)
+    if source_hits:
+        log.info("[sync-recent] 更新履歴命中 %d 个内容来源页（コメント/・テーブル/…）"
+                 " → 连带重抓宿主页 %d 个：%s",
+                 len({s for v in source_hits.values() for s in v}), len(added),
+                 "、".join(sorted(source_hits)[:8]))
+
+    # ---- ②c 时间戳冻死页（注册表手工点名，2026-11-25 补）----
+    # 只剩这一类无法从履歴/依赖索引推导：**内容不来自别处、但自己的「最終更新日時」停更**
+    # （实测 `メインクエスト` 停在 2026-05-15，而正文 8 月后仍在追加 Area 页），
+    # 只能在 `data/registry/pages.yaml` 打 `always_probe: true` 手工点名。
+    flagged = sorted(n for n in known if (by_name[n] or {}).get("always_probe"))
+    always = [n for n in flagged if _add_candidate(n)]
     if always:
-        candidates.extend(always)
-        log.info("[sync-recent] 每轮必探：补入 %d 个（依赖宿主页 %d + 时间戳冻死页 %d）",
-                 len(always), len(dep_hosts), len(flagged))
-    report["table_always"] = len(always)
+        log.info("[sync-recent] 必探（%s: true）%d 页：%s",
+                 "always_probe", len(always), "、".join(always[:8]))
+    report["always_probe"] = len(always)
     # 本轮所有候选一律按正文 sha256 判定（更新履歴里出现的页同样不信时间戳：
     # 实测原站有 114 页共享 2022-12-22 这个冻死的时间戳，装备页/原画別索引都在其中）
     force = {e["name"] for e in candidates}
@@ -557,30 +683,29 @@ def sync_recent_pages(
             len(report["known_nav"]), "、".join(report["known_nav"][:8]))
 
     # ---- ③ 饱和/失效判定 → 决定是否升级为全量 ----
-    # ⚠️ 抓取/解析失败（report["reason"] 已置位）**必须直接升级**：本通道不成立时
-    #    「什么都没发现」不等于「什么都没变」，绝不能就此收工 ✗。
-    #    上一版写成 `if not report["reason"] and not hist.entries:`，把"失败"这一支
-    #    排除在判定之外 —— 于是抓取失败时 need_full 恒为 False，**回退永不触发**
-    #    （实测 2026-09-27：更新履歴 SSL 失败，日志却是「回退=False」，静默漏检）。
-    last_sync = _last_sync_date(manifest)
-    need_full = bool(report["reason"])
-    if not need_full:
-        if not hist.entries:
-            need_full, report["reason"] = True, "更新履歴解析为空（页面结构可能已变）"
-        elif not hist.oldest_date:
-            need_full, report["reason"] = True, "更新履歴无任何精确日期"
-        elif hist.oldest_date and last_sync:
-            floor = _shift_date(last_sync, -max(0, margin_days))
-            if hist.oldest_date > floor:
-                need_full = True
-                report["reason"] = (
-                    f"窗口最旧 {hist.oldest_date} 未覆盖上次同步 {last_sync}"
-                    f"（差 {margin_days} 天余量）"
-                )
+    # ⚠️ 走到这里说明**履歴页本身是好的**（拿到了真页面），只是窗口不够用：
+    #    「什么都没发现」不等于「什么都没变」—— 解析为空/无日期/窗口太浅时必须升级全量 ✗。
+    #    （抓取失败与反爬挑战页已在 ① 直接跳过，不再走到这里。）
+    # 基准用 `last_ok`（上次**成功枚举完窗口**的日期）而不是 manifest 的最晚抓取日：
+    # 后者在安静期会停在几周前，把"窗口够深"误判成"不够深"，白白全量一次 675 页。
+    last_sync = _last_ok_date() or _last_sync_date(manifest)
+    need_full = False
+    if not hist.entries:
+        need_full, report["reason"] = True, "更新履歴解析为空（页面结构可能已变）"
+    elif not hist.oldest_date:
+        need_full, report["reason"] = True, "更新履歴无任何精确日期"
+    elif hist.oldest_date and last_sync:
+        floor = _shift_date(last_sync, -max(0, margin_days))
+        if hist.oldest_date > floor:
+            need_full = True
+            report["reason"] = (
+                f"窗口最旧 {hist.oldest_date} 未覆盖上次同步 {last_sync}"
+                f"（差 {margin_days} 天余量）"
+            )
 
     if need_full and fallback:
         log.warning("[sync-recent] %s → 回退全量比对（sync-stale）", report["reason"])
-        changed = sync_stale_pages(dry_run=dry_run, workers=workers)
+        changed = sync_stale_pages(dry_run=dry_run, workers=workers, report=report)
         report.update(fell_back=True, changed=changed)
     else:
         if need_full and not fallback:
@@ -590,32 +715,18 @@ def sync_recent_pages(
         report.update(changed=changed, failed=failed)
 
     # ---- ④ 状态落盘（供下次算窗口余量；dry_run 不写）----
-    if not dry_run:
-        state = {
-            "fetched_at": utcnow_iso(),
-            "entries": report["entries"],
-            "window": report["window"],
-            "truncated": report["truncated"],
-            "candidates": report["candidates"],
-            "hash_forced": report["hash_forced"],
-            "changed": report["changed"],
-            "fell_back": report["fell_back"],
-            "reason": report["reason"],
-            "unregistered": report["unregistered"],
-            "known_nav": report["known_nav"],
-            "frozen": report["frozen"],
-        }
-        RECENT_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
-        RECENT_STATE_FILE.write_text(
-            json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+    _dump_state()
 
     log.info(
-        "[sync-recent] 窗口 %s→%s（%d 条，触顶=%s）｜候选 %d 页（其中 %d 页按内容哈希判定）｜"
-        "%s %d 页｜回退=%s｜自动更新排除命中 %d 页",
+        "[sync-recent] 窗口 %s→%s（%d 条，触顶=%s）｜候选 %d 页"
+        "（履歴直接命中 %d ＋ 来源页连带 %d ＋ 必探 %d；均按内容哈希判定）｜"
+        "%s %d 页｜回退=%s｜跳过=%s｜自动更新排除命中 %d 页",
         report["window"][0], report["window"][1], report["entries"], report["truncated"],
-        report["candidates"], report["hash_forced"], "将更新" if dry_run else "已更新",
-        len(report["changed"]), report["fell_back"], len(report["frozen"]),
+        report["candidates"],
+        report["candidates"] - report["from_sources"] - report["always_probe"],
+        report["from_sources"], report["always_probe"], "将更新" if dry_run else "已更新",
+        len(report["changed"]), report["fell_back"], report["skipped"],
+        len(report["frozen"]),
     )
     return report
 
@@ -638,9 +749,16 @@ def verify_recent_vs_stale(workers: int = 13) -> dict:
         log.warning("[verify] 更新履歴不可用：%s", err)
         hist = recent_mod.RecentHistory()
     known = set(by_name)
+    if hist.challenged:
+        log.warning("[verify] 更新履歴返回反爬挑战页，本次交叉校验无意义（两边都会是空/全量）")
     force = _force_hash_names(set(hist.names), known)
+    # 候选口径必须与 `sync_recent_pages` **完全一致**（履歴直命中 + 内容来源页连带宿主页），
+    # 否则比对出来的差异是实现差异，而不是真实漏检。
     cand_names = [n for n in hist.names if n in by_name]
-    cand_names += [n for n in sorted(deps.table_dep_hosts() & known) if n not in cand_names]
+    for name in hist.names:
+        for host in _source_hosts(name, known):
+            if host not in cand_names:
+                cand_names.append(host)
     cand = [by_name[n] for n in cand_names]
 
     r1, _ = _probe_and_save(cand, True, workers, "verify-recent", force_hash=force)

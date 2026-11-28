@@ -28,6 +28,9 @@
     · 页面**按页面名去重**（同一页今天改 5 次也只出现一次）——对"是否要重抓"恰好够用。
     · 单区块硬上限 100 条（另有「最新の30件」区块，是其子集），超出需「もっとみる」。
       → 条目数触顶意味着窗口可能被截断，调用方必须据此升级为全量比对（见 updater）。
+    · 条目不只是普通页面：还有 `コメント/宿主页`、`テーブル/宿主页`。这两类才是"宿主页
+      正文会变"的**唯一信号**（pcomment / `#table()` 都把内容渲进宿主页，宿主页自己的
+      `最終更新日時` 不动），由 `updater._source_hosts` 映射到宿主页。
 """
 
 from __future__ import annotations
@@ -36,7 +39,7 @@ import re
 from dataclasses import dataclass, field
 
 from . import config
-from .fetcher import PoliteFetcher, page_url
+from .fetcher import PoliteFetcher, is_challenge_page, page_url
 from .registry import href_to_page_name
 
 # 原站页面名（PukiWiki 中文档名就是它，URL = SOURCE_BASE + "?" + quote(name)）
@@ -71,6 +74,7 @@ class RecentHistory:
     entries: list[RecentEntry] = field(default_factory=list)
     sections: dict[str, int] = field(default_factory=dict)   # 区块名 → 条目数
     truncated: bool = False      # 有条目数触及该区块上限（窗口可能被截断）
+    challenged: bool = False     # 拿到的是反爬挑战页（不是真履歴，条目必然为空）
 
     @property
     def names(self) -> set[str]:
@@ -89,12 +93,21 @@ class RecentHistory:
 
 
 def parse_recent_history(html: str) -> RecentHistory:
-    """解析「更新履歴ページ」HTML。**纯函数**：不联网、不落盘，便于离线核对。"""
+    """解析「更新履歴ページ」HTML。**纯函数**：不联网、不落盘，便于离线核对。
+
+    ⚠️ 反爬挑战页**也是 HTTP 200**、也会返回一段 HTML，但里面没有 `ul.recent_list` ——
+    只按"条目为 0"处理的话，调用方会误判成"页面结构已变"→ 回退全量比对（675 次请求），
+    在原站正在拦我们的时刻硬闯，等于自己申请封禁。所以这里先认挑战页并打 `challenged`。
+    """
     from bs4 import BeautifulSoup
+
+    hist = RecentHistory()
+    if is_challenge_page(html):
+        hist.challenged = True
+        return hist
 
     soup = BeautifulSoup(html, "html.parser")
     body = soup.find("div", id="body") or soup.body
-    hist = RecentHistory()
     if body is None:
         return hist
 
